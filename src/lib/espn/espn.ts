@@ -117,20 +117,23 @@ function parseEvents(data: Json): MatchEvent[] {
   const raw = arr(data.keyEvents).length
     ? arr(data.keyEvents)
     : arr(data.scoringPlays);
-  return raw.map(obj).map((e): MatchEvent => {
-    const type = obj(e.type);
-    const players = arr(e.athletesInvolved).map(obj);
-    return {
-      minute: str(obj(e.clock).displayValue),
-      type: str(type.text) ?? 'Event',
-      team: str(obj(e.team).displayName) ?? str(obj(e.team).abbreviation),
-      player: str(players[0]?.displayName),
-      scoringPlay:
-        typeof e.scoringPlay === 'boolean'
-          ? (e.scoringPlay as boolean)
-          : undefined,
-    };
-  });
+  return raw
+    .map(obj)
+    .map((e): MatchEvent => {
+      const type = obj(e.type);
+      const players = arr(e.athletesInvolved).map(obj);
+      return {
+        minute: str(obj(e.clock).displayValue),
+        type: str(type.text) ?? 'Event',
+        team: str(obj(e.team).displayName) ?? str(obj(e.team).abbreviation),
+        player: str(players[0]?.displayName),
+        scoringPlay:
+          typeof e.scoringPlay === 'boolean'
+            ? (e.scoringPlay as boolean)
+            : undefined,
+      };
+    })
+    .filter((e) => /goal|card|substitution|penalty/i.test(e.type));
 }
 
 const STAT_KEYS = [

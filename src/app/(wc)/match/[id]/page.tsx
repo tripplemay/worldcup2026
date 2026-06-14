@@ -11,18 +11,19 @@ import {
   useMatchMarkets,
 } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
-import { useT, useTn } from 'lib/i18n/context';
+import { useLocale } from 'lib/i18n/context';
+import { eventType, statusText, position } from 'lib/i18n/events';
 
 function eventIcon(type: string, scoringPlay?: boolean): string {
   if (scoringPlay || type.includes('Goal')) return '⚽';
   if (type.includes('Red')) return '🟥';
   if (type.includes('Yellow')) return '🟨';
+  if (type.includes('Substitution')) return '🔄';
   return '•';
 }
 
 export default function MatchDetailPage() {
-  const t = useT();
-  const tn = useTn();
+  const { locale, t, tn } = useLocale();
   const { id } = useParams<{ id: string }>();
   const { summary, isLoading } = useMatchSummary(id);
   const { matches } = useMatchOdds();
@@ -82,7 +83,7 @@ export default function MatchDetailPage() {
                 )}
                 {summary.statusDetail && (
                   <div className="mt-1 text-[11px] text-gray-500 dark:text-gray-400">
-                    {summary.statusDetail}
+                    {statusText(summary.statusDetail, locale)}
                   </div>
                 )}
               </div>
@@ -126,8 +127,11 @@ export default function MatchDetailPage() {
                       {e.minute ?? ''}
                     </span>
                     <span>{eventIcon(e.type, e.scoringPlay)}</span>
-                    <span className="flex-1">{e.player ?? e.type}</span>
-                    <span className="text-gray-400">{e.team}</span>
+                    <span className="text-gray-500 dark:text-gray-400">
+                      {eventType(e.type, locale)}
+                    </span>
+                    <span className="flex-1">{e.player ?? ''}</span>
+                    <span className="text-gray-400">{tn(e.team ?? '')}</span>
                   </div>
                 ))}
               </div>
@@ -157,7 +161,7 @@ export default function MatchDetailPage() {
                         >
                           {p.position && (
                             <span className="mr-1 text-gray-400">
-                              {p.position}
+                              {position(p.position, locale)}
                             </span>
                           )}
                           {p.name}
