@@ -4,12 +4,13 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import { useLocale } from 'lib/i18n/context';
 import type { ScheduleMatch } from 'lib/espn/types';
 import type { MatchOdds } from 'lib/odds/types';
 
-function fmtTime(iso: string): string {
+function fmtTime(iso: string, locale: string): string {
   try {
-    return new Date(iso).toLocaleString('zh-CN', {
+    return new Date(iso).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
       month: 'numeric',
       day: 'numeric',
       hour: '2-digit',
@@ -20,10 +21,10 @@ function fmtTime(iso: string): string {
   }
 }
 
-const STATUS: Record<ScheduleMatch['status'], { label: string; cls: string }> = {
-  pre: { label: '未开赛', cls: 'bg-gray-100 text-gray-600 dark:bg-navy-700 dark:text-gray-300' },
-  in: { label: '● 进行中', cls: 'bg-red-50 text-red-500 dark:bg-red-500/20 dark:text-red-400 animate-pulse' },
-  post: { label: '已结束', cls: 'bg-green-50 text-green-500 dark:bg-green-500/20 dark:text-green-400' },
+const STATUS_CLS: Record<ScheduleMatch['status'], string> = {
+  pre: 'bg-gray-100 text-gray-600 dark:bg-navy-700 dark:text-gray-300',
+  in: 'bg-red-50 text-red-500 dark:bg-red-500/20 dark:text-red-400 animate-pulse',
+  post: 'bg-green-50 text-green-500 dark:bg-green-500/20 dark:text-green-400',
 };
 
 function OddPill({ label, price }: { label: string; price?: number }) {
@@ -37,7 +38,8 @@ function OddPill({ label, price }: { label: string; price?: number }) {
 
 /** 一场比赛卡片(Horizon Card):队徽 + 比分 + 精简赔率;点击进详情页;进行中红环。 */
 export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchOdds }) {
-  const s = STATUS[m.status] ?? STATUS.pre;
+  const { locale, t } = useLocale();
+  const statusLabel = t(`status.${m.status}`);
   const showScore = m.status !== 'pre';
   const live = m.status === 'in';
 
@@ -46,9 +48,9 @@ export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchO
       <Link href={`/match/${m.id}`}>
         <Card extra={`p-4 ${live ? 'ring-2 ring-red-500/50' : ''}`}>
           <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-            <span>{fmtTime(m.commenceTime)}</span>
-            <span className={`rounded-full px-2 py-0.5 ${s.cls}`}>
-              {s.label}
+            <span>{fmtTime(m.commenceTime, locale)}</span>
+            <span className={`rounded-full px-2 py-0.5 ${STATUS_CLS[m.status] ?? STATUS_CLS.pre}`}>
+              {statusLabel}
               {live && m.clock ? ` ${m.clock}` : ''}
             </span>
           </div>
@@ -63,7 +65,7 @@ export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchO
                 {m.homeScore} : {m.awayScore}
               </span>
             ) : (
-              <span className="px-3 text-sm text-gray-400">vs</span>
+              <span className="px-3 text-sm text-gray-400">{t('common.vs')}</span>
             )}
             <TeamBadge
               name={m.awayTeam}
@@ -74,9 +76,9 @@ export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchO
           </div>
           {odds && (
             <div className="mt-2 flex gap-2 text-center text-xs">
-              <OddPill label="主" price={odds.best.home?.price} />
-              <OddPill label="平" price={odds.best.draw?.price} />
-              <OddPill label="客" price={odds.best.away?.price} />
+              <OddPill label={t('odds.home')} price={odds.best.home?.price} />
+              <OddPill label={t('odds.draw')} price={odds.best.draw?.price} />
+              <OddPill label={t('odds.away')} price={odds.best.away?.price} />
             </div>
           )}
           {m.venue && (

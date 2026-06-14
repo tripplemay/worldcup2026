@@ -4,13 +4,15 @@ import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import { useTeamLogos } from 'lib/hooks/useWorldCup';
 import { normalizeTeam } from 'lib/match/normalize';
+import { useT } from 'lib/i18n/context';
 import type { WinnerMarket } from 'lib/odds/types';
 
 /** 夺冠赔率榜(Horizon Card 行):排名 + 队徽 + 隐含概率条 + 赔率。 */
 export default function WinnerList({ winner }: { winner?: WinnerMarket }) {
+  const t = useT();
   const logos = useTeamLogos();
   const list = winner?.outrights ?? [];
-  if (!list.length) return <div className="py-16 text-center text-gray-400">暂无夺冠赔率</div>;
+  if (!list.length) return <div className="py-16 text-center text-gray-400">{t('odds.noWinner')}</div>;
   const max = list[0]?.impliedProbability || 1;
   return (
     <div className="space-y-2">

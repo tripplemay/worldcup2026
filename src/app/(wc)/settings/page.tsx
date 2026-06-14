@@ -2,39 +2,56 @@
 
 import Card from 'components/card';
 import { useMatchOdds } from 'lib/hooks/useWorldCup';
+import { useLocale } from 'lib/i18n/context';
 
 export default function SettingsPage() {
   const { quota } = useMatchOdds();
+  const { locale, setLocale, t } = useLocale();
+
+  const langBtn = (active: boolean) =>
+    `flex-1 rounded-lg py-1.5 text-sm ${active ? 'bg-brand-500 text-white' : 'text-gray-600 dark:text-gray-400'}`;
 
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <h1 className="text-lg font-bold text-navy-700 dark:text-white">⚙️ 设置</h1>
+        <h1 className="text-lg font-bold text-navy-700 dark:text-white">{t('settings.title')}</h1>
       </header>
 
       <div className="space-y-3 text-sm">
         <Card extra="p-4">
-          <div className="mb-1 font-medium text-navy-700 dark:text-white">数据源</div>
-          <div className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
-            赔率:The Odds API
-            <br />
-            赛程 / 比分 / 积分:ESPN
-            <br />
-            赔率配额剩余:{quota?.remaining ?? '—'} / 500
+          <div className="mb-2 font-medium text-navy-700 dark:text-white">{t('settings.language')}</div>
+          <div className="flex gap-1 rounded-xl bg-lightPrimary p-1 dark:bg-navy-700">
+            <button onClick={() => setLocale('zh')} className={langBtn(locale === 'zh')}>
+              中文
+            </button>
+            <button onClick={() => setLocale('en')} className={langBtn(locale === 'en')}>
+              English
+            </button>
           </div>
         </Card>
 
         <Card extra="p-4">
-          <div className="mb-1 font-medium text-navy-700 dark:text-white">刷新间隔</div>
+          <div className="mb-1 font-medium text-navy-700 dark:text-white">{t('settings.dataSource')}</div>
           <div className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
-            比分 25s · 赔率 180s · 积分 300s
+            {t('settings.oddsSource')}
             <br />
-            切到后台自动暂停轮询,回到前台立即刷新
+            {t('settings.espnSource')}
+            <br />
+            {t('settings.quotaRemain')}:{quota?.remaining ?? '—'} / 500
+          </div>
+        </Card>
+
+        <Card extra="p-4">
+          <div className="mb-1 font-medium text-navy-700 dark:text-white">{t('settings.refreshTitle')}</div>
+          <div className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
+            {t('settings.refreshDesc')}
+            <br />
+            {t('settings.refreshDesc2')}
           </div>
         </Card>
 
         <Card extra="p-4 text-center text-xs text-gray-500 dark:text-gray-400">
-          🏆 世界杯 2026 · 实时赔率 · 赛程 · 比分
+          {t('settings.footer')}
         </Card>
       </div>
     </div>

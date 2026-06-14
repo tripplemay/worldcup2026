@@ -4,6 +4,7 @@ import { useState } from 'react';
 import MiniStatistics from 'components/card/MiniStatistics';
 import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
+import { useLocale } from 'lib/i18n/context';
 import MatchCard from 'components/worldcup/MatchCard';
 import PullToRefresh from 'components/worldcup/PullToRefresh';
 import StatusBar from 'components/worldcup/StatusBar';
@@ -19,14 +20,22 @@ function shiftDate(yyyymmdd: string, days: number): string {
   dt.setUTCDate(dt.getUTCDate() + days);
   return dt.toISOString().slice(0, 10).replace(/-/g, '');
 }
-function label(yyyymmdd: string): string {
-  return `${+yyyymmdd.slice(4, 6)} 月 ${+yyyymmdd.slice(6, 8)} 日`;
+function dateLabel(yyyymmdd: string, locale: string): string {
+  const dt = new Date(
+    Date.UTC(+yyyymmdd.slice(0, 4), +yyyymmdd.slice(4, 6) - 1, +yyyymmdd.slice(6, 8)),
+  );
+  return dt.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', {
+    month: 'short',
+    day: 'numeric',
+    timeZone: 'UTC',
+  });
 }
 
 const btn =
   'rounded-lg bg-white px-3 py-1 text-sm shadow-sm active:scale-95 dark:bg-navy-800 dark:text-gray-300';
 
 export default function SchedulePage() {
+  const { locale, t } = useLocale();
   const [dates, setDates] = useState(todayUTC());
   const { matches, error, isLoading, refresh } = useScoreboard(dates);
   const { matches: oddsMatches } = useMatchOdds();
@@ -36,12 +45,12 @@ export default function SchedulePage() {
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold text-navy-700 dark:text-white">🏆 世界杯赛程 · 比分</h1>
+          <h1 className="text-lg font-bold text-navy-700 dark:text-white">{t('schedule.title')}</h1>
           <a
             href="/bracket"
             className="rounded-lg bg-white px-2.5 py-1 text-xs shadow-sm active:scale-95 dark:bg-navy-800 dark:text-gray-300"
           >
-            淘汰赛 ›
+            {t('schedule.bracket')} ›
           </a>
         </div>
         <div className="mt-1">
@@ -49,11 +58,13 @@ export default function SchedulePage() {
         </div>
         <div className="mt-2 flex items-center justify-between">
           <button onClick={() => setDates(shiftDate(dates, -1))} className={btn}>
-            ‹ 前一天
+            {t('schedule.prev')}
           </button>
-          <span className="text-sm font-medium text-navy-700 dark:text-white">{label(dates)}</span>
+          <span className="text-sm font-medium text-navy-700 dark:text-white">
+            {dateLabel(dates, locale)}
+          </span>
           <button onClick={() => setDates(shiftDate(dates, 1))} className={btn}>
-            后一天 ›
+            {t('schedule.next')}
           </button>
         </div>
       </header>
@@ -61,14 +72,14 @@ export default function SchedulePage() {
       <PullToRefresh onRefresh={refresh}>
         <div className="mb-3 grid grid-cols-2 gap-3">
           <MiniStatistics
-            name="当日比赛"
-            value={`${matches.length} 场`}
+            name={t('schedule.todayMatches')}
+            value={`${matches.length} ${t('schedule.unit')}`}
             icon={<span>📅</span>}
             iconBg="bg-lightPrimary dark:!bg-navy-700"
           />
           <MiniStatistics
-            name="进行中"
-            value={`${live} 场`}
+            name={t('schedule.liveNow')}
+            value={`${live} ${t('schedule.unit')}`}
             icon={<span>🔴</span>}
             iconBg="bg-lightPrimary dark:!bg-navy-700"
           />
@@ -76,9 +87,9 @@ export default function SchedulePage() {
 
         {error && (
           <div className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-500 dark:bg-red-500/15 dark:text-red-300">
-            加载失败,
+            {t('common.loadFailed')},
             <button onClick={() => refresh()} className="underline">
-              重试
+              {t('common.retry')}
             </button>
           </div>
         )}
@@ -92,7 +103,7 @@ export default function SchedulePage() {
         )}
 
         {!isLoading && matches.length === 0 && !error && (
-          <div className="py-16 text-center text-gray-400">当日暂无比赛</div>
+          <div className="py-16 text-center text-gray-400">{t('schedule.empty')}</div>
         )}
 
         <div className="space-y-3">

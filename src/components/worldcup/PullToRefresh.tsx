@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useState, type ReactNode, type TouchEvent } from 'react';
+import { useT } from 'lib/i18n/context';
 
 /** 下拉刷新容器(纯触摸手势,移动端核心交互)。 */
 export default function PullToRefresh({
@@ -10,6 +11,7 @@ export default function PullToRefresh({
   onRefresh: () => Promise<unknown>;
   children: ReactNode;
 }) {
+  const t = useT();
   const startY = useRef(0);
   const [pull, setPull] = useState(0);
   const [refreshing, setRefreshing] = useState(false);
@@ -42,7 +44,13 @@ export default function PullToRefresh({
         className="flex items-center justify-center overflow-hidden text-xs text-gray-500 transition-[height] dark:text-gray-400"
         style={{ height: refreshing ? 32 : pull }}
       >
-        {refreshing ? '刷新中…' : pull >= THRESHOLD ? '松开刷新' : pull > 0 ? '下拉刷新' : ''}
+        {refreshing
+          ? t('pull.refreshing')
+          : pull >= THRESHOLD
+            ? t('pull.release')
+            : pull > 0
+              ? t('pull.pull')
+              : ''}
       </div>
       {children}
     </div>

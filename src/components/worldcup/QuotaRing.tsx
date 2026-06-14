@@ -2,10 +2,12 @@
 
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
+import { useT } from 'lib/i18n/context';
 import type { QuotaInfo } from 'lib/odds/types';
 
 /** 赔率配额环(Horizon react-circular-progressbar):剩余/500,低于阈值变色。 */
 export default function QuotaRing({ quota }: { quota?: QuotaInfo }) {
+  const t = useT();
   const remaining = quota?.remaining ?? null;
   if (remaining == null) return null;
   const pct = Math.round((remaining / 500) * 100);
@@ -26,7 +28,8 @@ export default function QuotaRing({ quota }: { quota?: QuotaInfo }) {
         />
       </div>
       <span className="text-[11px] text-gray-500 dark:text-gray-400">
-        配额{low ? ' · 已节流' : ''}
+        {t('quota.label')}
+        {low ? ` · ${t('odds.throttled')}` : ''}
       </span>
     </div>
   );

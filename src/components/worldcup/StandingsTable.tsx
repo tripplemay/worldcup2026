@@ -8,39 +8,41 @@ import {
 } from '@tanstack/react-table';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import { useT } from 'lib/i18n/context';
 import type { GroupStanding, GroupStandingRow } from 'lib/espn/types';
 
 const col = createColumnHelper<GroupStandingRow>();
-const columns = [
-  col.accessor('team', {
-    header: '球队',
-    cell: (c) => (
-      <span className="flex items-center gap-1.5">
-        <span
-          className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
-            c.row.index < 2 ? 'bg-green-400' : 'bg-transparent'
-          }`}
-        />
-        <TeamBadge name={c.getValue()} logo={c.row.original.logo} />
-      </span>
-    ),
-  }),
-  col.accessor('played', { header: '赛' }),
-  col.accessor('win', { header: '胜' }),
-  col.accessor('draw', { header: '平' }),
-  col.accessor('loss', { header: '负' }),
-  col.accessor('goalDiff', {
-    header: '净',
-    cell: (c) => `${c.getValue() > 0 ? '+' : ''}${c.getValue()}`,
-  }),
-  col.accessor('points', {
-    header: '分',
-    cell: (c) => <span className="font-bold text-navy-700 dark:text-white">{c.getValue()}</span>,
-  }),
-];
 
 /** 单个小组积分表(Horizon Card + @tanstack/react-table + 队徽);前 2 名出线标绿点。 */
 export default function StandingsTable({ g }: { g: GroupStanding }) {
+  const t = useT();
+  const columns = [
+    col.accessor('team', {
+      header: t('standings.team'),
+      cell: (c) => (
+        <span className="flex items-center gap-1.5">
+          <span
+            className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
+              c.row.index < 2 ? 'bg-green-400' : 'bg-transparent'
+            }`}
+          />
+          <TeamBadge name={c.getValue()} logo={c.row.original.logo} />
+        </span>
+      ),
+    }),
+    col.accessor('played', { header: t('standings.gp') }),
+    col.accessor('win', { header: t('standings.w') }),
+    col.accessor('draw', { header: t('standings.d') }),
+    col.accessor('loss', { header: t('standings.l') }),
+    col.accessor('goalDiff', {
+      header: t('standings.gd'),
+      cell: (c) => `${c.getValue() > 0 ? '+' : ''}${c.getValue()}`,
+    }),
+    col.accessor('points', {
+      header: t('standings.pts'),
+      cell: (c) => <span className="font-bold text-navy-700 dark:text-white">{c.getValue()}</span>,
+    }),
+  ];
   const table = useReactTable({ data: g.rows, columns, getCoreRowModel: getCoreRowModel() });
 
   return (
