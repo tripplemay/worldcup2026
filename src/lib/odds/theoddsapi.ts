@@ -14,6 +14,8 @@ import type {
   BookmakerOdds,
   WinnerMarket,
   OutrightOdds,
+  MatchMarkets,
+  BookmakerMarkets,
 } from './types';
 import { updateQuota } from './quota';
 
@@ -30,7 +32,10 @@ function requireKey(): string {
   return key;
 }
 
-async function fetchOdds(sport: string, markets: string): Promise<RawOddsEvent[]> {
+async function fetchOdds(
+  sport: string,
+  markets: string,
+): Promise<RawOddsEvent[]> {
   const url =
     `${BASE}/sports/${sport}/odds/` +
     `?apiKey=${requireKey()}&regions=${REGIONS}&markets=${markets}&oddsFormat=${ODDS_FORMAT}`;
@@ -38,7 +43,9 @@ async function fetchOdds(sport: string, markets: string): Promise<RawOddsEvent[]
   updateQuota(res.headers);
   if (!res.ok) {
     const body = await res.text().catch(() => '');
-    throw new Error(`The Odds API ${sport} 请求失败: ${res.status} ${body.slice(0, 200)}`);
+    throw new Error(
+      `The Odds API ${sport} 请求失败: ${res.status} ${body.slice(0, 200)}`,
+    );
   }
   return (await res.json()) as RawOddsEvent[];
 }
@@ -48,7 +55,11 @@ function parseMatch(ev: RawOddsEvent): MatchOdds {
   const bookmakers: BookmakerOdds[] = [];
   const best: MatchOdds['best'] = {};
 
-  const bump = (k: 'home' | 'draw' | 'away', price: number | undefined, bookmaker: string) => {
+  const bump = (
+    k: 'home' | 'draw' | 'away',
+    price: number | undefined,
+    bookmaker: string,
+  ) => {
     if (price == null) return;
     if (!best[k] || price > best[k]!.price) best[k] = { price, bookmaker };
   };
@@ -64,7 +75,14 @@ function parseMatch(ev: RawOddsEvent): MatchOdds {
       else if (oc.name === ev.away_team) away = oc.price;
       else if (oc.name.toLowerCase() === 'draw') draw = oc.price;
     }
-    bookmakers.push({ key: bk.key, title: bk.title, lastUpdate: bk.last_update, home, draw, away });
+    bookmakers.push({
+      key: bk.key,
+      title: bk.title,
+      lastUpdate: bk.last_update,
+      home,
+      draw,
+      away,
+    });
     bump('home', home, bk.key);
     bump('draw', draw, bk.key);
     bump('away', away, bk.key);
@@ -111,6 +129,29 @@ function parseWinner(data: RawOddsEvent[]): WinnerMarket {
   return { lastUpdate, outrights };
 }
 
+/** 解析单场 event 的让球/大小球(event 端点返回单个 event 对象)。 */
+function parseMarkets(ev: RawOddsEvent): MatchMarkets {
+  const bookmakers: BookmakerMarkets[] = [];
+  for (const bk of ev.bookmakers ?? []) {
+    const sp = bk.markets.find((m) => m.key === 'spreads');
+    const to = bk.markets.find((m) => m.key === 'totals');
+    const spreads = sp?.outcomes.map((o) => ({
+      team: o.name,
+      point: o.point ?? 0,
+      price: o.price,
+    }));
+    const totals = to?.outcomes.map((o) => ({
+      type: o.name,
+      point: o.point ?? 0,
+      price: o.price,
+    }));
+    if (spreads?.length || totals?.length) {
+      bookmakers.push({ key: bk.key, title: bk.title, spreads, totals });
+    }
+  }
+  return { homeTeam: ev.home_team, awayTeam: ev.away_team, bookmakers };
+}
+
 export const theOddsApiProvider: OddsProvider = {
   async getMatches() {
     const data = await fetchOdds(SPORT_MATCHES, 'h2h');
@@ -119,5 +160,19 @@ export const theOddsApiProvider: OddsProvider = {
   async getWinnerOdds() {
     const data = await fetchOdds(SPORT_WINNER, 'outrights');
     return parseWinner(data);
+  },
+  async getMatchMarkets(oddsEventId: string) {
+    const url =
+      `${BASE}/sports/${SPORT_MATCHES}/events/${oddsEventId}/odds/` +
+      `?apiKey=${requireKey()}&regions=${REGIONS}&markets=spreads,totals&oddsFormat=${ODDS_FORMAT}`;
+    const res = await fetch(url, { cache: 'no-store' });
+    updateQuota(res.headers);
+    if (!res.ok) {
+      const body = await res.text().catch(() => '');
+      throw new Error(
+        `The Odds API event odds 失败: ${res.status} ${body.slice(0, 200)}`,
+      );
+    }
+    return parseMarkets((await res.json()) as RawOddsEvent);
   },
 };

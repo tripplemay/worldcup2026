@@ -1,18 +1,16 @@
 /**
  * The Odds API — 类型定义
  * 原始响应类型 + 归一化领域类型。
- * 基于实测结构(2026-06-14 验证):
- *   单场 soccer_fifa_world_cup(markets=h2h,3-way:home/away/Draw,outcomes 用队名标识)
- *   夺冠 soccer_fifa_world_cup_winner(markets=outrights,忽略 outrights_lay)
  */
 
 // ── 原始 API 响应(用于解析)──────────────────────────
 export interface RawOutcome {
-  name: string; // 队名 或 "Draw"
+  name: string; // 队名 / "Draw" / "Over" / "Under"
   price: number; // 小数赔率
+  point?: number; // 让分 / 大小球盘口线(spreads/totals)
 }
 export interface RawMarket {
-  key: string; // 'h2h' | 'outrights' | 'outrights_lay' | ...
+  key: string; // 'h2h' | 'spreads' | 'totals' | 'outrights' | ...
   last_update: string;
   outcomes: RawOutcome[];
 }
@@ -32,8 +30,7 @@ export interface RawOddsEvent {
   bookmakers: RawBookmaker[];
 }
 
-// ── 归一化领域类型 ────────────────────────────────────
-/** 单家博彩公司对某场比赛的 h2h 赔率(已归位主胜/平/客胜)。 */
+// ── 归一化领域类型(胜平负 + 夺冠)────────────────────
 export interface BookmakerOdds {
   key: string;
   title: string;
@@ -43,14 +40,12 @@ export interface BookmakerOdds {
   away?: number;
 }
 
-/** 一场比赛的赔率(聚合多家博彩 + 全场最优)。 */
 export interface MatchOdds {
   id: string;
   homeTeam: string;
   awayTeam: string;
-  commenceTime: string; // ISO UTC
+  commenceTime: string;
   bookmakers: BookmakerOdds[];
-  /** 各结果的全场最优(最高)赔率与对应博彩 key。 */
   best: {
     home?: { price: number; bookmaker: string };
     draw?: { price: number; bookmaker: string };
@@ -58,23 +53,47 @@ export interface MatchOdds {
   };
 }
 
-/** 夺冠候选的赔率(取各家最优 back 赔率)。 */
 export interface OutrightOdds {
   team: string;
-  price: number; // 全场最优(最低=最被看好)
+  price: number;
   bookmaker: string;
-  impliedProbability: number; // 1 / price
+  impliedProbability: number;
 }
 
-/** 夺冠赔率榜。 */
 export interface WinnerMarket {
   lastUpdate: string;
-  outrights: OutrightOdds[]; // 按赔率升序(最被看好在前)
+  outrights: OutrightOdds[];
 }
 
-/** API 配额信息(从响应头读取)。 */
 export interface QuotaInfo {
   remaining: number | null;
   used: number | null;
   last: number | null;
+}
+
+// ── 让球 + 大小球(详情页按需多市场)──────────────────
+/** 让球盘一条(队 + 让分 + 赔率)。 */
+export interface SpreadLine {
+  team: string;
+  point: number;
+  price: number;
+}
+/** 大小球一条(Over/Under + 盘口 + 赔率)。 */
+export interface TotalLine {
+  type: string; // 'Over' | 'Under'
+  point: number;
+  price: number;
+}
+/** 单家博彩的让球/大小球。 */
+export interface BookmakerMarkets {
+  key: string;
+  title: string;
+  spreads?: SpreadLine[];
+  totals?: TotalLine[];
+}
+/** 单场让球 + 大小球(详情页按需)。 */
+export interface MatchMarkets {
+  homeTeam: string;
+  awayTeam: string;
+  bookmakers: BookmakerMarkets[];
 }

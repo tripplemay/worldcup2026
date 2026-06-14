@@ -1,65 +1,158 @@
 'use client';
 
-import {
-  createColumnHelper,
-  flexRender,
-  getCoreRowModel,
-  useReactTable,
-} from '@tanstack/react-table';
+import { useState } from 'react';
 import Card from 'components/card';
-import type { BookmakerOdds, MatchOdds } from 'lib/odds/types';
+import type { MatchMarkets, MatchOdds } from 'lib/odds/types';
 
 const fmt = (v?: number) => (v != null ? v.toFixed(2) : '—');
-const col = createColumnHelper<BookmakerOdds>();
-const columns = [
-  col.accessor('title', { header: '博彩' }),
-  col.accessor('home', { header: '主胜', cell: (c) => fmt(c.getValue()) }),
-  col.accessor('draw', { header: '平', cell: (c) => fmt(c.getValue()) }),
-  col.accessor('away', { header: '客胜', cell: (c) => fmt(c.getValue()) }),
-];
+const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
 
-/** 各家博彩公司赔率对比表(@tanstack/react-table)。 */
-export default function OddsTable({ m }: { m: MatchOdds }) {
-  const table = useReactTable({ data: m.bookmakers, columns, getCoreRowModel: getCoreRowModel() });
+function TabBtn({
+  active,
+  onClick,
+  children,
+}: {
+  active: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`rounded-md px-2.5 py-1 ${active ? 'bg-brand-500 text-white' : 'text-gray-600 dark:text-gray-400'}`}
+    >
+      {children}
+    </button>
+  );
+}
+
+function Th({ children, left }: { children: React.ReactNode; left?: boolean }) {
+  return <th className={`py-1 font-normal ${left ? 'text-left' : 'text-center'}`}>{children}</th>;
+}
+
+/** 胜平负:各家 主/平/客。 */
+function H2hTable({ m }: { m: MatchOdds }) {
+  return (
+    <table className="w-full text-sm">
+      <thead>
+        <tr className="text-[11px] text-gray-400">
+          <Th left>博彩</Th>
+          <Th>主胜</Th>
+          <Th>平</Th>
+          <Th>客胜</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {m.bookmakers.map((b) => (
+          <tr key={b.key} className="border-t border-gray-100 dark:border-white/5">
+            <td className="py-1.5 text-gray-600 dark:text-gray-300">{b.title}</td>
+            <td className="text-center tabular-nums text-navy-700 dark:text-white">{fmt(b.home)}</td>
+            <td className="text-center tabular-nums text-navy-700 dark:text-white">{fmt(b.draw)}</td>
+            <td className="text-center tabular-nums text-navy-700 dark:text-white">{fmt(b.away)}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+/** 让球:各家 主队/客队 的让分 @赔率。 */
+function SpreadsTable({ markets }: { markets: MatchMarkets }) {
+  const rows = markets.bookmakers.filter((b) => b.spreads?.length);
+  if (!rows.length) return <div className="py-6 text-center text-xs text-gray-400">暂无让球盘</div>;
+  return (
+    <table className="w-full text-sm">
+      <thead>
+        <tr className="text-[11px] text-gray-400">
+          <Th left>博彩</Th>
+          <Th>{markets.homeTeam}</Th>
+          <Th>{markets.awayTeam}</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((b) => {
+          const h = b.spreads!.find((s) => s.team === markets.homeTeam);
+          const a = b.spreads!.find((s) => s.team === markets.awayTeam);
+          return (
+            <tr key={b.key} className="border-t border-gray-100 dark:border-white/5">
+              <td className="py-1.5 text-gray-600 dark:text-gray-300">{b.title}</td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {h ? `${sign(h.point)} @${fmt(h.price)}` : '—'}
+              </td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {a ? `${sign(a.point)} @${fmt(a.price)}` : '—'}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+/** 大小球:各家 大球/小球 的盘口 @赔率。 */
+function TotalsTable({ markets }: { markets: MatchMarkets }) {
+  const rows = markets.bookmakers.filter((b) => b.totals?.length);
+  if (!rows.length) return <div className="py-6 text-center text-xs text-gray-400">暂无大小球</div>;
+  return (
+    <table className="w-full text-sm">
+      <thead>
+        <tr className="text-[11px] text-gray-400">
+          <Th left>博彩</Th>
+          <Th>大球</Th>
+          <Th>小球</Th>
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((b) => {
+          const ov = b.totals!.find((t) => t.type === 'Over');
+          const un = b.totals!.find((t) => t.type === 'Under');
+          return (
+            <tr key={b.key} className="border-t border-gray-100 dark:border-white/5">
+              <td className="py-1.5 text-gray-600 dark:text-gray-300">{b.title}</td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {ov ? `${ov.point} @${fmt(ov.price)}` : '—'}
+              </td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {un ? `${un.point} @${fmt(un.price)}` : '—'}
+              </td>
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+}
+
+/** 各家博彩多市场赔率表:胜平负 / 让球 / 大小球(标签切换)。 */
+export default function OddsTable({ m, markets }: { m: MatchOdds; markets?: MatchMarkets }) {
+  const [tab, setTab] = useState<'h2h' | 'spreads' | 'totals'>('h2h');
+  const hasSpreads = markets?.bookmakers.some((b) => b.spreads?.length);
+  const hasTotals = markets?.bookmakers.some((b) => b.totals?.length);
+
   return (
     <Card extra="mb-3 p-3">
-      <div className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
-        各家赔率 · 主胜 / 平 / 客胜
+      <div className="mb-2 flex items-center justify-between">
+        <div className="text-sm font-bold text-navy-700 dark:text-white">各家赔率</div>
+        <div className="flex gap-0.5 rounded-lg bg-lightPrimary p-0.5 text-xs dark:bg-navy-700">
+          <TabBtn active={tab === 'h2h'} onClick={() => setTab('h2h')}>
+            胜平负
+          </TabBtn>
+          {hasSpreads && (
+            <TabBtn active={tab === 'spreads'} onClick={() => setTab('spreads')}>
+              让球
+            </TabBtn>
+          )}
+          {hasTotals && (
+            <TabBtn active={tab === 'totals'} onClick={() => setTab('totals')}>
+              大小球
+            </TabBtn>
+          )}
+        </div>
       </div>
-      <table className="w-full text-sm">
-        <thead>
-          {table.getHeaderGroups().map((hg) => (
-            <tr key={hg.id} className="text-[11px] text-gray-400">
-              {hg.headers.map((h) => (
-                <th
-                  key={h.id}
-                  className={`py-1 font-normal ${h.column.id === 'title' ? 'text-left' : 'w-14 text-center'}`}
-                >
-                  {flexRender(h.column.columnDef.header, h.getContext())}
-                </th>
-              ))}
-            </tr>
-          ))}
-        </thead>
-        <tbody>
-          {table.getRowModel().rows.map((row) => (
-            <tr key={row.id} className="border-t border-gray-100 dark:border-white/5">
-              {row.getVisibleCells().map((cell) => (
-                <td
-                  key={cell.id}
-                  className={
-                    cell.column.id === 'title'
-                      ? 'py-1.5 text-gray-600 dark:text-gray-300'
-                      : 'text-center tabular-nums text-navy-700 dark:text-white'
-                  }
-                >
-                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                </td>
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      {tab === 'h2h' && <H2hTable m={m} />}
+      {tab === 'spreads' && markets && <SpreadsTable markets={markets} />}
+      {tab === 'totals' && markets && <TotalsTable markets={markets} />}
     </Card>
   );
 }

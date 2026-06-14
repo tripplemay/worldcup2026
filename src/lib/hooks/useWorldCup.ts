@@ -8,7 +8,12 @@ import useSWR from 'swr';
 import { useEffect, useMemo, useRef } from 'react';
 import { fetcher } from './fetcher';
 import { normalizeTeam } from 'lib/match/normalize';
-import type { MatchOdds, WinnerMarket, QuotaInfo } from 'lib/odds/types';
+import type {
+  MatchOdds,
+  WinnerMarket,
+  QuotaInfo,
+  MatchMarkets,
+} from 'lib/odds/types';
 import type {
   ScheduleMatch,
   GroupStanding,
@@ -36,27 +41,31 @@ const common = {
 /** 赛程 + 实时比分(快刷新)。 */
 export function useScoreboard(dates?: string) {
   const key = `/api/worldcup/scoreboard${dates ? `?dates=${dates}` : ''}`;
-  const { data, error, isLoading, mutate } = useSWR<{ dates: string; matches: ScheduleMatch[] }>(
-    key,
-    fetcher,
-    { refreshInterval: SCORES_MS, ...common },
-  );
+  const { data, error, isLoading, mutate } = useSWR<{
+    dates: string;
+    matches: ScheduleMatch[];
+  }>(key, fetcher, { refreshInterval: SCORES_MS, ...common });
   return { matches: data?.matches ?? [], error, isLoading, refresh: mutate };
 }
 
 /** 12 小组积分榜。 */
 export function useStandings() {
-  const { data, error, isLoading, mutate } = useSWR<{ groups: GroupStanding[] }>(
-    '/api/worldcup/standings',
-    fetcher,
-    { refreshInterval: STANDINGS_MS, ...common },
-  );
+  const { data, error, isLoading, mutate } = useSWR<{
+    groups: GroupStanding[];
+  }>('/api/worldcup/standings', fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
   return { groups: data?.groups ?? [], error, isLoading, refresh: mutate };
 }
 
 /** 48 强球队。 */
 export function useTeams() {
-  const { data } = useSWR<{ teams: Team[] }>('/api/worldcup/teams', fetcher, common);
+  const { data } = useSWR<{ teams: Team[] }>(
+    '/api/worldcup/teams',
+    fetcher,
+    common,
+  );
   return { teams: data?.teams ?? [] };
 }
 
@@ -85,13 +94,14 @@ export interface OddsChange {
 
 /** 单场赔率(低频)+ 配额 + 赔率变动方向(对比上次轮询)。 */
 export function useMatchOdds() {
-  const { data, error, isLoading, mutate } = useSWR<{ matches: MatchOdds[]; quota: QuotaInfo }>(
-    '/api/worldcup/matches',
-    fetcher,
-    { refreshInterval: ODDS_MS, ...common },
-  );
+  const { data, error, isLoading, mutate } = useSWR<{
+    matches: MatchOdds[];
+    quota: QuotaInfo;
+  }>('/api/worldcup/matches', fetcher, { refreshInterval: ODDS_MS, ...common });
   const matches = data?.matches ?? [];
-  const prevRef = useRef<Record<string, { home?: number; draw?: number; away?: number }>>({});
+  const prevRef = useRef<
+    Record<string, { home?: number; draw?: number; away?: number }>
+  >({});
 
   const changes = useMemo(() => {
     const out: Record<string, OddsChange> = {};
@@ -108,34 +118,55 @@ export function useMatchOdds() {
   }, [matches]);
 
   useEffect(() => {
-    const snap: Record<string, { home?: number; draw?: number; away?: number }> = {};
+    const snap: Record<
+      string,
+      { home?: number; draw?: number; away?: number }
+    > = {};
     for (const m of matches) {
-      snap[m.id] = { home: m.best.home?.price, draw: m.best.draw?.price, away: m.best.away?.price };
+      snap[m.id] = {
+        home: m.best.home?.price,
+        draw: m.best.draw?.price,
+        away: m.best.away?.price,
+      };
     }
     prevRef.current = snap;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [matches]);
 
-  return { matches, changes, quota: data?.quota, error, isLoading, refresh: mutate };
+  return {
+    matches,
+    changes,
+    quota: data?.quota,
+    error,
+    isLoading,
+    refresh: mutate,
+  };
 }
 
 /** 夺冠赔率榜(低频)+ 配额。 */
 export function useWinnerOdds() {
-  const { data, error, isLoading, mutate } = useSWR<{ winner: WinnerMarket; quota: QuotaInfo }>(
-    '/api/worldcup/winner',
-    fetcher,
-    { refreshInterval: ODDS_MS, ...common },
-  );
-  return { winner: data?.winner, quota: data?.quota, error, isLoading, refresh: mutate };
+  const { data, error, isLoading, mutate } = useSWR<{
+    winner: WinnerMarket;
+    quota: QuotaInfo;
+  }>('/api/worldcup/winner', fetcher, { refreshInterval: ODDS_MS, ...common });
+  return {
+    winner: data?.winner,
+    quota: data?.quota,
+    error,
+    isLoading,
+    refresh: mutate,
+  };
 }
 
 /** 单场进球/红黄牌时间线(仅在传入 eventId 时请求)。 */
 export function useMatchEvents(eventId?: string) {
-  const { data, error, isLoading } = useSWR<{ eventId: string; events: MatchEvent[] }>(
-    eventId ? `/api/worldcup/events?eventId=${eventId}` : null,
-    fetcher,
-    { refreshInterval: 30_000, ...common },
-  );
+  const { data, error, isLoading } = useSWR<{
+    eventId: string;
+    events: MatchEvent[];
+  }>(eventId ? `/api/worldcup/events?eventId=${eventId}` : null, fetcher, {
+    refreshInterval: 30_000,
+    ...common,
+  });
   return { events: data?.events ?? [], error, isLoading };
 }
 
@@ -159,8 +190,25 @@ export function useMatchSummary(eventId?: string) {
   return { summary: data?.summary, error, isLoading };
 }
 
+/** 单场让球 + 大小球(详情页按需,不自动刷新省配额)。 */
+export function useMatchMarkets(oddsEventId?: string) {
+  const { data, error, isLoading } = useSWR<{
+    markets: MatchMarkets;
+    quota: QuotaInfo;
+  }>(
+    oddsEventId
+      ? `/api/worldcup/match-markets?oddsEventId=${oddsEventId}`
+      : null,
+    fetcher,
+    common,
+  );
+  return { markets: data?.markets, error, isLoading };
+}
+
 /** 配额是否吃紧(前端据此关闭自动刷新)。 */
 export const QUOTA_LOW_THRESHOLD = 50;
 export function isQuotaLow(quota?: QuotaInfo): boolean {
-  return !!quota && quota.remaining != null && quota.remaining < QUOTA_LOW_THRESHOLD;
+  return (
+    !!quota && quota.remaining != null && quota.remaining < QUOTA_LOW_THRESHOLD
+  );
 }
