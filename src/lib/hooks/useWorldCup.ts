@@ -38,6 +38,14 @@ const common = {
   keepPreviousData: true,
 } as const;
 
+// 赔率类:不在窗口聚焦/重连时自动刷新(赔率变化慢,避免每次切回 App 就消耗 The Odds API 配额)。
+const oddsCommon = {
+  revalidateOnFocus: false,
+  revalidateOnReconnect: false,
+  refreshWhenHidden: false,
+  keepPreviousData: true,
+} as const;
+
 /** 赛程 + 实时比分(快刷新)。 */
 export function useScoreboard(dates?: string) {
   const key = `/api/worldcup/scoreboard${dates ? `?dates=${dates}` : ''}`;
@@ -97,7 +105,10 @@ export function useMatchOdds() {
   const { data, error, isLoading, mutate } = useSWR<{
     matches: MatchOdds[];
     quota: QuotaInfo;
-  }>('/api/worldcup/matches', fetcher, { refreshInterval: ODDS_MS, ...common });
+  }>('/api/worldcup/matches', fetcher, {
+    refreshInterval: ODDS_MS,
+    ...oddsCommon,
+  });
   const matches = data?.matches ?? [];
   const prevRef = useRef<
     Record<string, { home?: number; draw?: number; away?: number }>
@@ -143,12 +154,29 @@ export function useMatchOdds() {
   };
 }
 
+/**
+ * 赛程页专用:只复用赔率缓存,不主动刷新、不在 stale 时 revalidate。
+ * 切换日期/停留/切回 App 都不再请求赔率端点(零额外配额消耗);
+ * 一个会话首次无缓存时拉一次,之后全程用缓存。
+ */
+export function useMatchOddsLite() {
+  const { data } = useSWR<{ matches: MatchOdds[]; quota: QuotaInfo }>(
+    '/api/worldcup/matches',
+    fetcher,
+    { ...oddsCommon, refreshInterval: 0, revalidateIfStale: false },
+  );
+  return { matches: data?.matches ?? [] };
+}
+
 /** 夺冠赔率榜(低频)+ 配额。 */
 export function useWinnerOdds() {
   const { data, error, isLoading, mutate } = useSWR<{
     winner: WinnerMarket;
     quota: QuotaInfo;
-  }>('/api/worldcup/winner', fetcher, { refreshInterval: ODDS_MS, ...common });
+  }>('/api/worldcup/winner', fetcher, {
+    refreshInterval: ODDS_MS,
+    ...oddsCommon,
+  });
   return {
     winner: data?.winner,
     quota: data?.quota,

@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import MiniStatistics from 'components/card/MiniStatistics';
-import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
+import { useScoreboard, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import MatchCard from 'components/worldcup/MatchCard';
@@ -22,7 +22,11 @@ function shiftDate(yyyymmdd: string, days: number): string {
 }
 function dateLabel(yyyymmdd: string, locale: string): string {
   const dt = new Date(
-    Date.UTC(+yyyymmdd.slice(0, 4), +yyyymmdd.slice(4, 6) - 1, +yyyymmdd.slice(6, 8)),
+    Date.UTC(
+      +yyyymmdd.slice(0, 4),
+      +yyyymmdd.slice(4, 6) - 1,
+      +yyyymmdd.slice(6, 8),
+    ),
   );
   return dt.toLocaleDateString(locale === 'zh' ? 'zh-CN' : 'en-US', {
     month: 'short',
@@ -38,14 +42,16 @@ export default function SchedulePage() {
   const { locale, t } = useLocale();
   const [dates, setDates] = useState(todayUTC());
   const { matches, error, isLoading, refresh } = useScoreboard(dates);
-  const { matches: oddsMatches } = useMatchOdds();
+  const { matches: oddsMatches } = useMatchOddsLite();
   const live = matches.filter((m) => m.status === 'in').length;
 
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold text-navy-700 dark:text-white">{t('schedule.title')}</h1>
+          <h1 className="text-lg font-bold text-navy-700 dark:text-white">
+            {t('schedule.title')}
+          </h1>
           <a
             href="/bracket"
             className="rounded-lg bg-white px-2.5 py-1 text-xs shadow-sm active:scale-95 dark:bg-navy-800 dark:text-gray-300"
@@ -57,7 +63,10 @@ export default function SchedulePage() {
           <StatusBar signal={matches} liveCount={live} intervalMs={25_000} />
         </div>
         <div className="mt-2 flex items-center justify-between">
-          <button onClick={() => setDates(shiftDate(dates, -1))} className={btn}>
+          <button
+            onClick={() => setDates(shiftDate(dates, -1))}
+            className={btn}
+          >
             {t('schedule.prev')}
           </button>
           <span className="text-sm font-medium text-navy-700 dark:text-white">
@@ -97,13 +106,18 @@ export default function SchedulePage() {
         {isLoading && matches.length === 0 && (
           <div className="space-y-3">
             {[1, 2, 3].map((i) => (
-              <div key={i} className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
+              <div
+                key={i}
+                className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800"
+              />
             ))}
           </div>
         )}
 
         {!isLoading && matches.length === 0 && !error && (
-          <div className="py-16 text-center text-gray-400">{t('schedule.empty')}</div>
+          <div className="py-16 text-center text-gray-400">
+            {t('schedule.empty')}
+          </div>
         )}
 
         <div className="space-y-3">
@@ -111,7 +125,12 @@ export default function SchedulePage() {
             <MatchCard
               key={m.id}
               m={m}
-              odds={findMatch(oddsMatches, m.homeTeam, m.awayTeam, m.commenceTime)}
+              odds={findMatch(
+                oddsMatches,
+                m.homeTeam,
+                m.awayTeam,
+                m.commenceTime,
+              )}
             />
           ))}
         </div>

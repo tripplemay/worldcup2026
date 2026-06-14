@@ -7,7 +7,7 @@ import StatCompare from 'components/worldcup/StatCompare';
 import OddsTable from 'components/worldcup/OddsTable';
 import {
   useMatchSummary,
-  useMatchOdds,
+  useMatchOddsLite,
   useMatchMarkets,
 } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
@@ -26,7 +26,7 @@ export default function MatchDetailPage() {
   const { locale, t, tn } = useLocale();
   const { id } = useParams<{ id: string }>();
   const { summary, isLoading } = useMatchSummary(id);
-  const { matches } = useMatchOdds();
+  const { matches } = useMatchOddsLite();
   const odds = summary
     ? findMatch(
         matches,
