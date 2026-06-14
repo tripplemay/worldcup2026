@@ -1,33 +1,32 @@
 /**
  * ESPN(隐藏 API)— 类型定义
- * 基于实测结构(2026-06-14 验证):
- *   scoreboard?dates=YYYYMMDD  → 赛程 + 实时比分 + 进球事件
- *   apis/v2/.../standings       → 12 小组积分(children[].standings.entries[])
- *   teams                       → 48 强
+ * scoreboard(赛程+比分+logo)/ standings(积分)/ teams(48强)/ summary(统计+阵容)。
  */
 
 export type MatchStatus = 'pre' | 'in' | 'post';
 
-/** 赛程中的一场比赛(可含实时比分)。 */
+/** 赛程中的一场比赛(可含实时比分 + 双方队徽)。 */
 export interface ScheduleMatch {
   id: string;
   homeTeam: string;
   awayTeam: string;
+  homeLogo?: string;
+  awayLogo?: string;
   commenceTime: string; // ISO UTC
-  stage: string; // season.slug,如 'group-stage' / 'round-of-32' …
+  stage: string;
   venue?: string;
-  status: MatchStatus; // pre / in / post
-  statusDetail?: string; // 'FT' / 'HT' / 'Scheduled' …
-  clock?: string; // displayClock,如 "73'"
+  status: MatchStatus;
+  statusDetail?: string;
+  clock?: string;
   homeScore?: number;
   awayScore?: number;
-  group?: string; // 由 standings 关联补充(可选)
+  group?: string;
 }
 
 /** 比赛内事件(进球 / 红黄牌)。 */
 export interface MatchEvent {
-  minute?: string; // "28'"
-  type: string; // 'Goal' / 'Yellow Card' / 'Red Card' / 'Penalty' …
+  minute?: string;
+  type: string;
   team?: string;
   player?: string;
   scoringPlay?: boolean;
@@ -36,6 +35,7 @@ export interface MatchEvent {
 /** 小组积分榜的一行。 */
 export interface GroupStandingRow {
   team: string;
+  logo?: string;
   rank: number;
   played: number;
   win: number;
@@ -49,8 +49,8 @@ export interface GroupStandingRow {
 
 /** 一个小组的积分表。 */
 export interface GroupStanding {
-  group: string; // 'Group A' …
-  rows: GroupStandingRow[]; // 已按排名排序
+  group: string;
+  rows: GroupStandingRow[];
 }
 
 /** 参赛球队。 */
@@ -59,17 +59,60 @@ export interface Team {
   name: string;
   displayName: string;
   abbreviation?: string;
+  logo?: string;
   group?: string;
 }
 
-/** 淘汰赛对阵树节点(由赛段数据构建)。 */
+/** 淘汰赛对阵树节点。 */
 export interface BracketMatch {
   id: string;
-  stage: string; // 'round-of-16' / 'quarterfinal' …
+  stage: string;
   homeTeam?: string;
   awayTeam?: string;
+  homeLogo?: string;
+  awayLogo?: string;
   commenceTime?: string;
   homeScore?: number;
   awayScore?: number;
   status: MatchStatus;
+}
+
+/** 单队比赛统计(ESPN boxscore)。 */
+export interface TeamMatchStats {
+  possessionPct?: string;
+  totalShots?: string;
+  shotsOnTarget?: string;
+  wonCorners?: string;
+  foulsCommitted?: string;
+  yellowCards?: string;
+  redCards?: string;
+  saves?: string;
+  offsides?: string;
+}
+
+/** 阵容球员。 */
+export interface RosterPlayer {
+  name: string;
+  position?: string;
+  starter: boolean;
+}
+
+/** 单场比赛详情(summary 端点聚合)。 */
+export interface MatchSummary {
+  id: string;
+  commenceTime: string;
+  homeTeam: string;
+  awayTeam: string;
+  homeLogo?: string;
+  awayLogo?: string;
+  homeScore?: number;
+  awayScore?: number;
+  status: MatchStatus;
+  statusDetail?: string;
+  venue?: string;
+  homeStats?: TeamMatchStats;
+  awayStats?: TeamMatchStats;
+  events: MatchEvent[];
+  homeRoster: RosterPlayer[];
+  awayRoster: RosterPlayer[];
 }

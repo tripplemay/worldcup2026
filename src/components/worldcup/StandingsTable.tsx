@@ -7,11 +7,24 @@ import {
   useReactTable,
 } from '@tanstack/react-table';
 import Card from 'components/card';
+import TeamBadge from 'components/worldcup/TeamBadge';
 import type { GroupStanding, GroupStandingRow } from 'lib/espn/types';
 
 const col = createColumnHelper<GroupStandingRow>();
 const columns = [
-  col.accessor('team', { header: '球队', cell: (c) => c.getValue() }),
+  col.accessor('team', {
+    header: '球队',
+    cell: (c) => (
+      <span className="flex items-center gap-1.5">
+        <span
+          className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
+            c.row.index < 2 ? 'bg-green-400' : 'bg-transparent'
+          }`}
+        />
+        <TeamBadge name={c.getValue()} logo={c.row.original.logo} />
+      </span>
+    ),
+  }),
   col.accessor('played', { header: '赛' }),
   col.accessor('win', { header: '胜' }),
   col.accessor('draw', { header: '平' }),
@@ -26,13 +39,9 @@ const columns = [
   }),
 ];
 
-/** 单个小组积分表(Horizon Card + @tanstack/react-table);前 2 名出线标绿点。 */
+/** 单个小组积分表(Horizon Card + @tanstack/react-table + 队徽);前 2 名出线标绿点。 */
 export default function StandingsTable({ g }: { g: GroupStanding }) {
-  const table = useReactTable({
-    data: g.rows,
-    columns,
-    getCoreRowModel: getCoreRowModel(),
-  });
+  const table = useReactTable({ data: g.rows, columns, getCoreRowModel: getCoreRowModel() });
 
   return (
     <Card extra="p-3">
@@ -53,33 +62,23 @@ export default function StandingsTable({ g }: { g: GroupStanding }) {
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.map((row) => {
-            const advancing = row.index < 2;
-            return (
-              <tr
-                key={row.id}
-                className={`border-t border-gray-100 dark:border-white/5 ${
-                  advancing ? 'text-navy-700 dark:text-white' : 'text-gray-500 dark:text-gray-400'
-                }`}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <td
-                    key={cell.id}
-                    className={cell.column.id === 'team' ? 'py-1.5' : 'text-center tabular-nums'}
-                  >
-                    {cell.column.id === 'team' && (
-                      <span
-                        className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${
-                          advancing ? 'bg-green-400' : 'bg-transparent'
-                        }`}
-                      />
-                    )}
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                ))}
-              </tr>
-            );
-          })}
+          {table.getRowModel().rows.map((row) => (
+            <tr
+              key={row.id}
+              className={`border-t border-gray-100 dark:border-white/5 ${
+                row.index < 2 ? 'text-navy-700 dark:text-white' : 'text-gray-500 dark:text-gray-400'
+              }`}
+            >
+              {row.getVisibleCells().map((cell) => (
+                <td
+                  key={cell.id}
+                  className={cell.column.id === 'team' ? 'py-1.5' : 'text-center tabular-nums'}
+                >
+                  {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                </td>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </Card>

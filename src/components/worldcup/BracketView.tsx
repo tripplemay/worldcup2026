@@ -1,6 +1,7 @@
 'use client';
 
 import Card from 'components/card';
+import TeamBadge from 'components/worldcup/TeamBadge';
 import type { BracketMatch } from 'lib/espn/types';
 
 const STAGE_ORDER = [
@@ -24,7 +25,7 @@ const STAGE_LABEL: Record<string, string> = {
   '3rd-place-game': '季军赛',
 };
 
-/** 淘汰赛对阵树(Horizon Card):按赛段分组。 */
+/** 淘汰赛对阵树(Horizon Card + 队徽):按赛段分组。 */
 export default function BracketView({ matches }: { matches: BracketMatch[] }) {
   const groups = new Map<string, BracketMatch[]>();
   for (const m of matches) {
@@ -49,7 +50,11 @@ export default function BracketView({ matches }: { matches: BracketMatch[] }) {
             {groups.get(stage)!.map((m) => (
               <Card key={m.id} extra="p-3">
                 <div className="flex items-center justify-between gap-2 text-sm">
-                  <span className="flex-1 text-navy-700 dark:text-white">{m.homeTeam ?? '待定'}</span>
+                  <TeamBadge
+                    name={m.homeTeam ?? '待定'}
+                    logo={m.homeLogo}
+                    className="flex-1 text-navy-700 dark:text-white"
+                  />
                   {m.status !== 'pre' ? (
                     <span className="px-3 font-bold tabular-nums text-navy-700 dark:text-white">
                       {m.homeScore} : {m.awayScore}
@@ -57,9 +62,12 @@ export default function BracketView({ matches }: { matches: BracketMatch[] }) {
                   ) : (
                     <span className="px-3 text-xs text-gray-400">vs</span>
                   )}
-                  <span className="flex-1 text-right text-navy-700 dark:text-white">
-                    {m.awayTeam ?? '待定'}
-                  </span>
+                  <TeamBadge
+                    name={m.awayTeam ?? '待定'}
+                    logo={m.awayLogo}
+                    reverse
+                    className="flex-1 justify-end text-right text-navy-700 dark:text-white"
+                  />
                 </div>
               </Card>
             ))}

@@ -2,9 +2,11 @@
 
 import { useState } from 'react';
 import MiniStatistics from 'components/card/MiniStatistics';
-import { useScoreboard } from 'lib/hooks/useWorldCup';
+import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
+import { findMatch } from 'lib/match/normalize';
 import MatchCard from 'components/worldcup/MatchCard';
 import PullToRefresh from 'components/worldcup/PullToRefresh';
+import StatusBar from 'components/worldcup/StatusBar';
 
 function todayUTC(): string {
   return new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -27,6 +29,7 @@ const btn =
 export default function SchedulePage() {
   const [dates, setDates] = useState(todayUTC());
   const { matches, error, isLoading, refresh } = useScoreboard(dates);
+  const { matches: oddsMatches } = useMatchOdds();
   const live = matches.filter((m) => m.status === 'in').length;
 
   return (
@@ -40,6 +43,9 @@ export default function SchedulePage() {
           >
             淘汰赛 ›
           </a>
+        </div>
+        <div className="mt-1">
+          <StatusBar signal={matches} liveCount={live} intervalMs={25_000} />
         </div>
         <div className="mt-2 flex items-center justify-between">
           <button onClick={() => setDates(shiftDate(dates, -1))} className={btn}>
@@ -91,7 +97,11 @@ export default function SchedulePage() {
 
         <div className="space-y-3">
           {matches.map((m) => (
-            <MatchCard key={m.id} m={m} />
+            <MatchCard
+              key={m.id}
+              m={m}
+              odds={findMatch(oddsMatches, m.homeTeam, m.awayTeam, m.commenceTime)}
+            />
           ))}
         </div>
       </PullToRefresh>
