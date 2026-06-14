@@ -2,14 +2,22 @@
 
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import { messages, type Locale } from './messages';
+import { teamName } from './teams';
 
 interface Ctx {
   locale: Locale;
   setLocale: (l: Locale) => void;
   t: (key: string) => string;
+  /** 本地化国家队名。 */
+  tn: (name: string) => string;
 }
 
-const LocaleContext = createContext<Ctx>({ locale: 'zh', setLocale: () => {}, t: (k) => k });
+const LocaleContext = createContext<Ctx>({
+  locale: 'zh',
+  setLocale: () => {},
+  t: (k) => k,
+  tn: (n) => n,
+});
 
 export function LocaleProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>('zh');
@@ -37,10 +45,16 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
     return typeof cur === 'string' ? cur : key;
   };
 
-  return <LocaleContext.Provider value={{ locale, setLocale, t }}>{children}</LocaleContext.Provider>;
+  const tn = (name: string) => teamName(name, locale);
+
+  return (
+    <LocaleContext.Provider value={{ locale, setLocale, t, tn }}>{children}</LocaleContext.Provider>
+  );
 }
 
-/** 完整 locale 上下文(含 setLocale,设置页用)。 */
+/** 完整 locale 上下文(含 setLocale / tn,设置页与队名翻译用)。 */
 export const useLocale = () => useContext(LocaleContext);
 /** 仅取翻译函数 t。 */
 export const useT = () => useContext(LocaleContext).t;
+/** 仅取队名本地化函数 tn。 */
+export const useTn = () => useContext(LocaleContext).tn;

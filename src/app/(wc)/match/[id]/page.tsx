@@ -5,9 +5,13 @@ import { useParams } from 'next/navigation';
 import Card from 'components/card';
 import StatCompare from 'components/worldcup/StatCompare';
 import OddsTable from 'components/worldcup/OddsTable';
-import { useMatchSummary, useMatchOdds, useMatchMarkets } from 'lib/hooks/useWorldCup';
+import {
+  useMatchSummary,
+  useMatchOdds,
+  useMatchMarkets,
+} from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
-import { useT } from 'lib/i18n/context';
+import { useT, useTn } from 'lib/i18n/context';
 
 function eventIcon(type: string, scoringPlay?: boolean): string {
   if (scoringPlay || type.includes('Goal')) return '⚽';
@@ -18,11 +22,17 @@ function eventIcon(type: string, scoringPlay?: boolean): string {
 
 export default function MatchDetailPage() {
   const t = useT();
+  const tn = useTn();
   const { id } = useParams<{ id: string }>();
   const { summary, isLoading } = useMatchSummary(id);
   const { matches } = useMatchOdds();
   const odds = summary
-    ? findMatch(matches, summary.homeTeam, summary.awayTeam, summary.commenceTime)
+    ? findMatch(
+        matches,
+        summary.homeTeam,
+        summary.awayTeam,
+        summary.commenceTime,
+      )
     : undefined;
   const showScore = summary && summary.status !== 'pre';
   const { markets } = useMatchMarkets(odds?.id);
@@ -30,10 +40,15 @@ export default function MatchDetailPage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 flex items-center gap-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <Link href="/schedule" className="text-sm text-gray-500 dark:text-gray-400">
+        <Link
+          href="/schedule"
+          className="text-sm text-gray-500 dark:text-gray-400"
+        >
           ‹ {t('common.back')}
         </Link>
-        <h1 className="text-lg font-bold text-navy-700 dark:text-white">{t('detail.title')}</h1>
+        <h1 className="text-lg font-bold text-navy-700 dark:text-white">
+          {t('detail.title')}
+        </h1>
       </header>
 
       {isLoading && !summary && (
@@ -47,10 +62,14 @@ export default function MatchDetailPage() {
               <div className="flex flex-1 flex-col items-center gap-1">
                 {summary.homeLogo && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={summary.homeLogo} alt="" className="h-12 w-12 object-contain" />
+                  <img
+                    src={summary.homeLogo}
+                    alt=""
+                    className="h-12 w-12 object-contain"
+                  />
                 )}
                 <span className="text-center text-sm font-medium text-navy-700 dark:text-white">
-                  {summary.homeTeam}
+                  {tn(summary.homeTeam)}
                 </span>
               </div>
               <div className="text-center">
@@ -70,15 +89,21 @@ export default function MatchDetailPage() {
               <div className="flex flex-1 flex-col items-center gap-1">
                 {summary.awayLogo && (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={summary.awayLogo} alt="" className="h-12 w-12 object-contain" />
+                  <img
+                    src={summary.awayLogo}
+                    alt=""
+                    className="h-12 w-12 object-contain"
+                  />
                 )}
                 <span className="text-center text-sm font-medium text-navy-700 dark:text-white">
-                  {summary.awayTeam}
+                  {tn(summary.awayTeam)}
                 </span>
               </div>
             </div>
             {summary.venue && (
-              <div className="mt-2 text-center text-[11px] text-gray-400">{summary.venue}</div>
+              <div className="mt-2 text-center text-[11px] text-gray-400">
+                {summary.venue}
+              </div>
             )}
           </Card>
 
@@ -97,7 +122,9 @@ export default function MatchDetailPage() {
                     key={i}
                     className="flex items-center gap-2 text-xs text-gray-600 dark:text-gray-300"
                   >
-                    <span className="w-9 tabular-nums text-gray-400">{e.minute ?? ''}</span>
+                    <span className="w-9 tabular-nums text-gray-400">
+                      {e.minute ?? ''}
+                    </span>
                     <span>{eventIcon(e.type, e.scoringPlay)}</span>
                     <span className="flex-1">{e.player ?? e.type}</span>
                     <span className="text-gray-400">{e.team}</span>
@@ -119,13 +146,20 @@ export default function MatchDetailPage() {
                 ].map((side, si) => (
                   <div key={si}>
                     <div className="mb-1 font-medium text-brand-500 dark:text-brand-400">
-                      {side.team}
+                      {tn(side.team)}
                     </div>
                     {side.roster
                       .filter((p) => p.starter)
                       .map((p, i) => (
-                        <div key={i} className="text-gray-600 dark:text-gray-300">
-                          {p.position && <span className="mr-1 text-gray-400">{p.position}</span>}
+                        <div
+                          key={i}
+                          className="text-gray-600 dark:text-gray-300"
+                        >
+                          {p.position && (
+                            <span className="mr-1 text-gray-400">
+                              {p.position}
+                            </span>
+                          )}
                           {p.name}
                         </div>
                       ))}
