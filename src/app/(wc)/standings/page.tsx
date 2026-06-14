@@ -8,13 +8,13 @@ export default function StandingsPage() {
 
   return (
     <div>
-      <header className="sticky top-0 z-30 -mx-4 mb-3 bg-[#0b1437]/95 px-4 py-3 backdrop-blur">
-        <h1 className="text-lg font-bold">📊 小组积分榜</h1>
-        <p className="mt-0.5 text-[11px] text-white/40">每组前 2 名出线(绿点)</p>
+      <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
+        <h1 className="text-lg font-bold text-navy-700 dark:text-white">📊 小组积分榜</h1>
+        <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">每组前 2 名出线(绿点)</p>
       </header>
 
       {error && (
-        <div className="mb-3 rounded-xl bg-red-500/15 p-3 text-sm text-red-300">
+        <div className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-500 dark:bg-red-500/15 dark:text-red-300">
           加载失败,
           <button onClick={() => refresh()} className="underline">
             重试
@@ -25,7 +25,7 @@ export default function StandingsPage() {
       {isLoading && groups.length === 0 && (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-40 animate-pulse rounded-[20px] bg-white/5" />
+            <div key={i} className="h-40 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
           ))}
         </div>
       )}

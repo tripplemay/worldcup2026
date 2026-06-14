@@ -1,35 +1,36 @@
 'use client';
 
+import Card from 'components/card';
 import type { MatchOdds } from 'lib/odds/types';
 
 function OddBlock({ label, best }: { label: string; best?: { price: number; bookmaker: string } }) {
   return (
-    <div className="flex-1 rounded-xl bg-white/5 py-2 text-center">
-      <div className="text-[11px] text-white/40">{label}</div>
-      <div className="text-lg font-bold tabular-nums text-[#868CFF]">
+    <div className="flex-1 rounded-xl bg-lightPrimary py-2 text-center dark:bg-navy-700">
+      <div className="text-[11px] text-gray-600 dark:text-gray-400">{label}</div>
+      <div className="text-lg font-bold tabular-nums text-brand-500 dark:text-white">
         {best ? best.price.toFixed(2) : '—'}
       </div>
     </div>
   );
 }
 
-/** 一场比赛的最优胜平负赔率(三块)。 */
+/** 一场比赛的最优胜平负赔率(Horizon Card,三块)。 */
 export default function OddsCard({ m }: { m: MatchOdds }) {
   return (
-    <div className="rounded-[20px] bg-[#111c44] p-4 shadow-lg shadow-black/20">
+    <Card extra="p-4">
       <div className="mb-2 flex items-center justify-between gap-2 text-sm">
-        <span className="flex-1 font-medium">{m.homeTeam}</span>
-        <span className="text-xs text-white/30">vs</span>
-        <span className="flex-1 text-right font-medium">{m.awayTeam}</span>
+        <span className="flex-1 font-medium text-navy-700 dark:text-white">{m.homeTeam}</span>
+        <span className="text-xs text-gray-400">vs</span>
+        <span className="flex-1 text-right font-medium text-navy-700 dark:text-white">{m.awayTeam}</span>
       </div>
       <div className="flex gap-2">
         <OddBlock label="主胜" best={m.best.home} />
         <OddBlock label="平" best={m.best.draw} />
         <OddBlock label="客胜" best={m.best.away} />
       </div>
-      <div className="mt-2 text-center text-[11px] text-white/40">
+      <div className="mt-2 text-center text-[11px] text-gray-500 dark:text-gray-400">
         {m.bookmakers.length} 家博彩 · 最优赔率
       </div>
-    </div>
+    </Card>
   );
 }

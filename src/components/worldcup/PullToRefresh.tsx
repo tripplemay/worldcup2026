@@ -39,7 +39,7 @@ export default function PullToRefresh({
   return (
     <div onTouchStart={onTouchStart} onTouchMove={onTouchMove} onTouchEnd={onTouchEnd}>
       <div
-        className="flex items-center justify-center overflow-hidden text-xs text-white/50 transition-[height]"
+        className="flex items-center justify-center overflow-hidden text-xs text-gray-500 transition-[height] dark:text-gray-400"
         style={{ height: refreshing ? 32 : pull }}
       >
         {refreshing ? '刷新中…' : pull >= THRESHOLD ? '松开刷新' : pull > 0 ? '下拉刷新' : ''}

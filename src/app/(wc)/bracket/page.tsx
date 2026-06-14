@@ -9,27 +9,29 @@ export default function BracketPage() {
 
   return (
     <div>
-      <header className="sticky top-0 z-30 -mx-4 mb-3 flex items-center gap-3 bg-[#0b1437]/95 px-4 py-3 backdrop-blur">
-        <Link href="/schedule" className="text-sm text-white/60">
+      <header className="sticky top-0 z-30 -mx-4 mb-3 flex items-center gap-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
+        <Link href="/schedule" className="text-sm text-gray-500 dark:text-gray-400">
           ‹ 返回
         </Link>
-        <h1 className="text-lg font-bold">🏆 淘汰赛对阵</h1>
+        <h1 className="text-lg font-bold text-navy-700 dark:text-white">🏆 淘汰赛对阵</h1>
       </header>
 
       {error && (
-        <div className="mb-3 rounded-xl bg-red-500/15 p-3 text-sm text-red-300">对阵数据加载失败</div>
+        <div className="mb-3 rounded-xl bg-red-50 p-3 text-sm text-red-500 dark:bg-red-500/15 dark:text-red-300">
+          对阵数据加载失败
+        </div>
       )}
 
       {isLoading && matches.length === 0 && (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-16 animate-pulse rounded-2xl bg-white/5" />
+            <div key={i} className="h-16 animate-pulse rounded-2xl bg-white dark:bg-navy-800" />
           ))}
         </div>
       )}
 
       {!isLoading && matches.length === 0 && !error && (
-        <div className="py-16 text-center text-white/40">淘汰赛尚未开始</div>
+        <div className="py-16 text-center text-gray-400">淘汰赛尚未开始</div>
       )}
 
       <BracketView matches={matches} />

@@ -1,5 +1,6 @@
 'use client';
 
+import Card from 'components/card';
 import type { BracketMatch } from 'lib/espn/types';
 
 const STAGE_ORDER = [
@@ -23,7 +24,7 @@ const STAGE_LABEL: Record<string, string> = {
   '3rd-place-game': '季军赛',
 };
 
-/** 淘汰赛对阵树:按赛段分组展示。 */
+/** 淘汰赛对阵树(Horizon Card):按赛段分组。 */
 export default function BracketView({ matches }: { matches: BracketMatch[] }) {
   const groups = new Map<string, BracketMatch[]>();
   for (const m of matches) {
@@ -41,22 +42,26 @@ export default function BracketView({ matches }: { matches: BracketMatch[] }) {
     <div className="space-y-5">
       {stages.map((stage) => (
         <section key={stage}>
-          <h2 className="mb-2 text-sm font-bold text-[#868CFF]">{STAGE_LABEL[stage] ?? stage}</h2>
+          <h2 className="mb-2 text-sm font-bold text-brand-500 dark:text-brand-400">
+            {STAGE_LABEL[stage] ?? stage}
+          </h2>
           <div className="space-y-2">
             {groups.get(stage)!.map((m) => (
-              <div key={m.id} className="rounded-2xl bg-[#111c44] p-3">
+              <Card key={m.id} extra="p-3">
                 <div className="flex items-center justify-between gap-2 text-sm">
-                  <span className="flex-1">{m.homeTeam ?? '待定'}</span>
+                  <span className="flex-1 text-navy-700 dark:text-white">{m.homeTeam ?? '待定'}</span>
                   {m.status !== 'pre' ? (
-                    <span className="px-3 font-bold tabular-nums">
+                    <span className="px-3 font-bold tabular-nums text-navy-700 dark:text-white">
                       {m.homeScore} : {m.awayScore}
                     </span>
                   ) : (
-                    <span className="px-3 text-xs text-white/30">vs</span>
+                    <span className="px-3 text-xs text-gray-400">vs</span>
                   )}
-                  <span className="flex-1 text-right">{m.awayTeam ?? '待定'}</span>
+                  <span className="flex-1 text-right text-navy-700 dark:text-white">
+                    {m.awayTeam ?? '待定'}
+                  </span>
                 </div>
-              </div>
+              </Card>
             ))}
           </div>
         </section>
