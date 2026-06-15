@@ -120,7 +120,7 @@ jobs:
             # Phase 3 场外情报 LLM(AIGC 网关);未设 AIGC_API_KEY 则情报功能禁用
             export AIGC_API_KEY="${AIGC_API_KEY}"
             export AIGC_BASE="https://aigc.guangai.ai/v1"
-            export INTEL_LLM_MODEL="gpt-4o-mini"
+            export INTEL_LLM_MODEL="qwen3.5-flash"
             export PORT="$PORT"
             export HOSTNAME="127.0.0.1"
             export NODE_ENV="production"

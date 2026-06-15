@@ -6,7 +6,8 @@
 import type { NewsItem, Sentiment } from './types';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
-const MODEL = process.env.INTEL_LLM_MODEL ?? 'gpt-4o-mini';
+// 默认 qwen3.5-flash + 关思考,最便宜(~$0.00002/条);可用 env 覆盖
+const MODEL = process.env.INTEL_LLM_MODEL ?? 'qwen3.5-flash';
 
 const SYSTEM = `你是顶级量化体育分析师。阅读关于足球比赛的新闻,量化它对"指定球队"赛前胜率的影响。
 只输出 JSON,格式:{"event_type":"injury|morale|weather|tactics|other","sentiment_score":-1到1的数,"confidence":0到1的数,"reasoning":"一句话中文理由"}
@@ -25,6 +26,22 @@ export async function analyzeSentiment(
   const key = process.env.AIGC_API_KEY;
   if (!key) return null;
   try {
+    const payload: Record<string, unknown> = {
+      model: MODEL,
+      max_tokens: 300,
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+      messages: [
+        { role: 'system', content: SYSTEM },
+        {
+          role: 'user',
+          content: `目标球队:${team}\n新闻标题:${news.title}\n新闻摘要:${news.summary}`,
+        },
+      ],
+    };
+    // qwen 是推理模型:关闭思考,避免烧大量 reasoning tokens(否则反而更贵)
+    if (/qwen/i.test(MODEL)) payload.enable_thinking = false;
+
     const res = await fetch(`${BASE}/chat/completions`, {
       method: 'POST',
       headers: {
@@ -33,19 +50,7 @@ export async function analyzeSentiment(
       },
       cache: 'no-store',
       signal: AbortSignal.timeout(20_000),
-      body: JSON.stringify({
-        model: MODEL,
-        max_tokens: 300,
-        temperature: 0.2,
-        response_format: { type: 'json_object' },
-        messages: [
-          { role: 'system', content: SYSTEM },
-          {
-            role: 'user',
-            content: `目标球队:${team}\n新闻标题:${news.title}\n新闻摘要:${news.summary}`,
-          },
-        ],
-      }),
+      body: JSON.stringify(payload),
     });
     if (!res.ok) return null;
     const data = (await res.json()) as {
