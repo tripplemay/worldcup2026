@@ -25,6 +25,7 @@ import type {
   MatchSummary,
 } from 'lib/espn/types';
 import type { WeatherInfo } from 'lib/weather/openmeteo';
+import type { MatchWithPredictions } from 'lib/predict/predict';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -229,6 +230,27 @@ export function useMatchSummary(eventId?: string) {
     { refreshInterval: 30_000, ...common },
   );
   return { summary: data?.summary, error, isLoading };
+}
+
+/** 比赛结果预测列表(未来 days 天,各模型;纯计算不耗配额)。 */
+export function usePredictions(days = 10) {
+  const { data, error, isLoading } = useSWR<{
+    matches: MatchWithPredictions[];
+  }>(`/api/worldcup/predictions?days=${days}`, fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
+  return { matches: data?.matches ?? [], error, isLoading };
+}
+
+/** 单场预测(详情页;仅在传入 matchId 时请求)。 */
+export function useMatchPrediction(matchId?: string) {
+  const { data, isLoading } = useSWR<{ match: MatchWithPredictions | null }>(
+    matchId ? `/api/worldcup/predictions?matchId=${matchId}` : null,
+    fetcher,
+    { revalidateOnFocus: false, ...common },
+  );
+  return { prediction: data?.match ?? null, isLoading };
 }
 
 /** 比赛当日天气(Open-Meteo,免费;详情页按需,基本不变化故不自动刷新)。 */

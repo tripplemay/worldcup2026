@@ -11,6 +11,7 @@ import {
 } from 'components/worldcup/MatchBackground';
 import RecentForm from 'components/worldcup/RecentForm';
 import H2HCard from 'components/worldcup/H2HCard';
+import PredictionCard from 'components/worldcup/PredictionCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
@@ -110,6 +111,12 @@ export default function MatchDetailPage() {
           </Card>
 
           <MatchTeamMeta summary={summary} />
+
+          <PredictionCard
+            matchId={id}
+            homeTeam={summary.homeTeam}
+            awayTeam={summary.awayTeam}
+          />
 
           <RecentForm
             homeTeam={summary.homeTeam}

@@ -35,6 +35,7 @@ export interface PredictionContext {
   homeNorm: string; // 归一化队名
   awayNorm: string;
   neutral: boolean; // 中立场地(世界杯多数为是)
+  leagueAvg: number; // 联赛基准:全体球队场均 xG 均值(泊松归一化用)
   /** 取球队评分(EWMA 结果);未收录返回 undefined。 */
   rating: (norm: string) => TeamRating | undefined;
 }

@@ -11,6 +11,7 @@ export default function BottomTabBar() {
   const tabs = [
     { href: '/schedule', label: t('nav.schedule'), icon: '📅' },
     { href: '/odds', label: t('nav.odds'), icon: '🎲' },
+    { href: '/predict', label: t('nav.predict'), icon: '🔮' },
     { href: '/standings', label: t('nav.standings'), icon: '📊' },
     { href: '/settings', label: t('nav.settings'), icon: '⚙️' },
   ];
@@ -24,10 +25,16 @@ export default function BottomTabBar() {
               <Link
                 href={tab.href}
                 className={`flex flex-col items-center gap-0.5 py-2.5 text-[11px] transition-colors ${
-                  active ? 'text-brand-500 dark:text-brand-400' : 'text-gray-400'
+                  active
+                    ? 'text-brand-500 dark:text-brand-400'
+                    : 'text-gray-400'
                 }`}
               >
-                <span className={`text-xl transition-transform ${active ? 'scale-110' : ''}`}>
+                <span
+                  className={`text-xl transition-transform ${
+                    active ? 'scale-110' : ''
+                  }`}
+                >
                   {tab.icon}
                 </span>
                 {tab.label}
