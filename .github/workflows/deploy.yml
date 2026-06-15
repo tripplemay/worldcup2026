@@ -68,12 +68,13 @@ jobs:
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
+            STAGING="${APP_DIR}.new"
             PORT=3100
             SETUP_DONE=/opt/.worldcup_setup_done
 
-            # ── 解包产物(VPS 只跑不构建)──
-            rm -rf "$APP_DIR" && mkdir -p "$APP_DIR"
-            tar xzf /tmp/worldcup-deploy/deploy.tar.gz -C "$APP_DIR"
+            # ── 解包到暂存目录(旧进程继续正常服务旧文件,避免边删边读导致白屏)──
+            rm -rf "$STAGING" && mkdir -p "$STAGING"
+            tar xzf /tmp/worldcup-deploy/deploy.tar.gz -C "$STAGING"
             rm -rf /tmp/worldcup-deploy
 
             # ── 首次:独立 Nginx server block + 证书(幂等,绝不碰 nextpanel)──
@@ -125,11 +126,15 @@ jobs:
             export HOSTNAME="127.0.0.1"
             export NODE_ENV="production"
 
-            # ── pm2 启动(独立进程 worldcup,端口 3100)──
-            cd "$APP_DIR"
+            # ── 原子切换 + 重启(停机仅 = 新进程启动时间;文件替换瞬间完成)──
             pm2 delete worldcup 2>/dev/null || true
+            rm -rf "${APP_DIR}.old"
+            if [ -d "$APP_DIR" ]; then mv "$APP_DIR" "${APP_DIR}.old"; fi
+            mv "$STAGING" "$APP_DIR"
+            cd "$APP_DIR"
             pm2 start server.js --name worldcup --update-env
             pm2 save
+            rm -rf "${APP_DIR}.old"
 
             # ── 预测引擎:首次播种评分 + 每日刷新 cron(纯 ESPN,免费)──
             if [ -n "${ADMIN_TOKEN}" ]; then
