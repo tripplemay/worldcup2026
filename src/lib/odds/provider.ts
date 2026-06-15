@@ -2,7 +2,13 @@
  * OddsProvider 抽象接口。
  * 当前实现:TheOddsApiProvider。保留可插拔能力(日后可接 OddsPapi 等做聚合/备用)。
  */
-import type { MatchOdds, WinnerMarket, MatchMarkets } from './types';
+import type {
+  MatchOdds,
+  WinnerMarket,
+  MatchMarkets,
+  GroupMarkets,
+  MarketGroup,
+} from './types';
 
 export interface OddsProvider {
   /** 世界杯单场胜平负赔率(各家博彩 + 全场最优)。 */
@@ -11,4 +17,9 @@ export interface OddsProvider {
   getWinnerOdds(): Promise<WinnerMarket>;
   /** 单场让球 + 大小球(event 端点,详情页按需)。 */
   getMatchMarkets(oddsEventId: string): Promise<MatchMarkets>;
+  /** 单场富盘口分组(上半场 / 角球 / 红黄牌 / 球员,event 端点,详情页按需)。 */
+  getMatchMarketsGroup(
+    oddsEventId: string,
+    group: Exclude<MarketGroup, 'handicap'>,
+  ): Promise<GroupMarkets>;
 }

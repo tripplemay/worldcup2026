@@ -13,6 +13,8 @@ import type {
   WinnerMarket,
   QuotaInfo,
   MatchMarkets,
+  GroupMarkets,
+  MarketGroup,
 } from 'lib/odds/types';
 import type {
   ScheduleMatch,
@@ -235,7 +237,28 @@ export function useMatchMarkets(oddsEventId?: string) {
     quota: QuotaInfo;
   }>(
     oddsEventId
-      ? `/api/worldcup/match-markets?oddsEventId=${oddsEventId}`
+      ? `/api/worldcup/match-markets?oddsEventId=${oddsEventId}&group=handicap`
+      : null,
+    fetcher,
+    oddsCommon,
+  );
+  return { markets: data?.markets, error, isLoading };
+}
+
+/**
+ * 单场富盘口分组(上半场/角球/红黄牌/球员)。详情页按需:
+ * 只在 group 非空(用户点开该 tab)时才请求,按 (event,group) 分缓存,不刷新省配额。
+ */
+export function useMatchGroup(
+  oddsEventId?: string,
+  group?: Exclude<MarketGroup, 'handicap'>,
+) {
+  const { data, error, isLoading } = useSWR<{
+    markets: GroupMarkets;
+    quota: QuotaInfo;
+  }>(
+    oddsEventId && group
+      ? `/api/worldcup/match-markets?oddsEventId=${oddsEventId}&group=${group}`
       : null,
     fetcher,
     oddsCommon,
