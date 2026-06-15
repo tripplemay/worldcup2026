@@ -1,5 +1,6 @@
 'use client';
 
+import { MdShowChart } from 'react-icons/md';
 import { useLocale } from 'lib/i18n/context';
 
 function fmt(ts: number, locale: string): string {
@@ -21,9 +22,12 @@ export default function OddsRefreshInfo({
   const { locale, t } = useLocale();
   if (!updatedAt) return null;
   return (
-    <div className="text-[11px] text-gray-500 dark:text-gray-400">
-      🎲 {t('odds.refreshAt')} {fmt(updatedAt, locale)}
-      {nextAt ? ` · ${t('odds.nextAt')} ${fmt(nextAt, locale)}` : ''}
+    <div className="flex items-center gap-1 text-[11px] text-gray-500 dark:text-gray-400">
+      <MdShowChart className="shrink-0" />
+      <span>
+        {t('odds.refreshAt')} {fmt(updatedAt, locale)}
+        {nextAt ? ` · ${t('odds.nextAt')} ${fmt(nextAt, locale)}` : ''}
+      </span>
     </div>
   );
 }

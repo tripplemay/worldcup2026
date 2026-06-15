@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import { MdEmojiEvents } from 'react-icons/md';
 import { useBracket } from 'lib/hooks/useWorldCup';
 import { useT } from 'lib/i18n/context';
 import BracketView from 'components/worldcup/BracketView';
+import PageHeading from 'components/worldcup/PageHeading';
 
 export default function BracketPage() {
   const t = useT();
@@ -12,10 +14,13 @@ export default function BracketPage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 flex items-center gap-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <Link href="/schedule" className="text-sm text-gray-500 dark:text-gray-400">
+        <Link
+          href="/schedule"
+          className="text-sm text-gray-500 dark:text-gray-400"
+        >
           ‹ {t('common.back')}
         </Link>
-        <h1 className="text-lg font-bold text-navy-700 dark:text-white">{t('bracket.title')}</h1>
+        <PageHeading Icon={MdEmojiEvents}>{t('bracket.title')}</PageHeading>
       </header>
 
       {error && (
@@ -27,13 +32,18 @@ export default function BracketPage() {
       {isLoading && matches.length === 0 && (
         <div className="space-y-3">
           {[1, 2, 3].map((i) => (
-            <div key={i} className="h-16 animate-pulse rounded-2xl bg-white dark:bg-navy-800" />
+            <div
+              key={i}
+              className="h-16 animate-pulse rounded-2xl bg-white dark:bg-navy-800"
+            />
           ))}
         </div>
       )}
 
       {!isLoading && matches.length === 0 && !error && (
-        <div className="py-16 text-center text-gray-400">{t('bracket.notStarted')}</div>
+        <div className="py-16 text-center text-gray-400">
+          {t('bracket.notStarted')}
+        </div>
       )}
 
       <BracketView matches={matches} />

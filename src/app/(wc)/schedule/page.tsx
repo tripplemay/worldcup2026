@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { MdCalendarMonth, MdCircle } from 'react-icons/md';
 import MiniStatistics from 'components/card/MiniStatistics';
+import PageHeading from 'components/worldcup/PageHeading';
 import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
@@ -73,9 +75,9 @@ export default function SchedulePage() {
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
         <div className="flex items-center justify-between">
-          <h1 className="text-lg font-bold text-navy-700 dark:text-white">
+          <PageHeading Icon={MdCalendarMonth}>
             {t('schedule.title')}
-          </h1>
+          </PageHeading>
           <a
             href="/bracket"
             className="rounded-lg bg-white px-2.5 py-1 text-xs shadow-sm active:scale-95 dark:bg-navy-800 dark:text-gray-300"
@@ -108,13 +110,13 @@ export default function SchedulePage() {
           <MiniStatistics
             name={t('schedule.todayMatches')}
             value={`${matches.length} ${t('schedule.unit')}`}
-            icon={<span>📅</span>}
+            icon={<MdCalendarMonth />}
             iconBg="bg-lightPrimary dark:!bg-navy-700"
           />
           <MiniStatistics
             name={t('schedule.liveNow')}
             value={`${live} ${t('schedule.unit')}`}
-            icon={<span>🔴</span>}
+            icon={<MdCircle className="text-red-500" />}
             iconBg="bg-lightPrimary dark:!bg-navy-700"
           />
         </div>

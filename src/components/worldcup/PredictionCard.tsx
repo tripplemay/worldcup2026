@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  MdInsights,
+  MdNewspaper,
+  MdHistory,
+  MdCheckCircle,
+  MdWarningAmber,
+  MdCenterFocusStrong,
+} from 'react-icons/md';
 import Card from 'components/card';
 import ProbBar from 'components/worldcup/ProbBar';
 import { useMatchPrediction } from 'lib/hooks/useWorldCup';
@@ -54,7 +62,9 @@ function Row({ p, ens }: { p: MatchPrediction; ens?: boolean }) {
             : 'text-gray-600 dark:text-gray-300'
         }`}
       >
-        {ens ? '🎯 ' : ''}
+        {ens && (
+          <MdCenterFocusStrong className="mr-0.5 inline-block align-text-bottom" />
+        )}
         {t(MODEL_KEY[p.modelId] ?? 'predict.model')}
       </td>
       <Cell v={p.homeWin} hi={mx === 'home'} />
@@ -123,8 +133,9 @@ export default function PredictionCard({
   return (
     <Card extra="mb-3 p-4">
       <div className="mb-2 flex items-center justify-between">
-        <span className="text-sm font-bold text-navy-700 dark:text-white">
-          🔮 {t('predict.cardTitle')}
+        <span className="flex items-center gap-1 text-sm font-bold text-navy-700 dark:text-white">
+          <MdInsights className="text-brand-500 dark:text-brand-400" />
+          {t('predict.cardTitle')}
         </span>
         {main && (
           <span
@@ -173,12 +184,12 @@ export default function PredictionCard({
           {base.length >= 2 && (
             <div className="mt-2 flex flex-wrap items-center gap-x-2 text-[11px]">
               {consensus ? (
-                <span className="text-green-600 dark:text-green-400">
-                  ✅ {t('predict.consensusHigh')}
+                <span className="flex items-center gap-1 text-green-600 dark:text-green-400">
+                  <MdCheckCircle /> {t('predict.consensusHigh')}
                 </span>
               ) : (
-                <span className="text-amber-600 dark:text-amber-400">
-                  ⚠️ {t('predict.consensusLow')}
+                <span className="flex items-center gap-1 text-amber-600 dark:text-amber-400">
+                  <MdWarningAmber /> {t('predict.consensusLow')}
                 </span>
               )}
               {(weightMode === 'gap' || weightMode === 'even') && (
@@ -227,8 +238,8 @@ export default function PredictionCard({
 
           {intel.length > 0 && (
             <div className="mt-2 space-y-1.5 border-t border-gray-100 pt-2 dark:border-white/5">
-              <div className="text-[11px] font-semibold text-navy-700 dark:text-white">
-                📰 {t('predict.intelTitle')}
+              <div className="flex items-center gap-1 text-[11px] font-semibold text-navy-700 dark:text-white">
+                <MdNewspaper /> {t('predict.intelTitle')}
               </div>
               {intel.map((it) => (
                 <IntelRow key={it.norm} it={it} />
@@ -250,8 +261,8 @@ export default function PredictionCard({
           {h2h && h2h.played > 0 && (
             <div className="mt-2 space-y-1 border-t border-gray-100 pt-2 dark:border-white/5">
               <div className="flex items-baseline justify-between text-[11px]">
-                <span className="font-semibold text-navy-700 dark:text-white">
-                  📅 {t('predict.h2hTitle')}
+                <span className="flex items-center gap-1 font-semibold text-navy-700 dark:text-white">
+                  <MdHistory /> {t('predict.h2hTitle')}
                 </span>
                 <span className="text-gray-500 dark:text-gray-400">
                   {h2h.played} {t('predict.h2hPlayed')} · {t('odds.home')}{' '}

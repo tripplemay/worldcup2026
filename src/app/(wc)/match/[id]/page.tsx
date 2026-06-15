@@ -1,6 +1,12 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
+import {
+  MdSportsSoccer,
+  MdSquare,
+  MdSwapHoriz,
+  MdFiberManualRecord,
+} from 'react-icons/md';
 import Card from 'components/card';
 import StatCompare from 'components/worldcup/StatCompare';
 import OddsTable from 'components/worldcup/OddsTable';
@@ -15,12 +21,19 @@ import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import { eventType, statusText, position } from 'lib/i18n/events';
 
-function eventIcon(type: string, scoringPlay?: boolean): string {
-  if (scoringPlay || type.includes('Goal')) return '⚽';
-  if (type.includes('Red')) return '🟥';
-  if (type.includes('Yellow')) return '🟨';
-  if (type.includes('Substitution')) return '🔄';
-  return '•';
+function EventIcon({
+  type,
+  scoringPlay,
+}: {
+  type: string;
+  scoringPlay?: boolean;
+}) {
+  if (scoringPlay || type.includes('Goal')) return <MdSportsSoccer />;
+  if (type.includes('Red')) return <MdSquare className="text-red-500" />;
+  if (type.includes('Yellow')) return <MdSquare className="text-yellow-400" />;
+  if (type.includes('Substitution'))
+    return <MdSwapHoriz className="text-green-500" />;
+  return <MdFiberManualRecord className="text-[8px] text-gray-400" />;
 }
 
 export default function MatchDetailPage() {
@@ -150,7 +163,9 @@ export default function MatchDetailPage() {
                     <span className="w-9 tabular-nums text-gray-400">
                       {e.minute ?? ''}
                     </span>
-                    <span>{eventIcon(e.type, e.scoringPlay)}</span>
+                    <span className="text-gray-600 dark:text-gray-300">
+                      <EventIcon type={e.type} scoringPlay={e.scoringPlay} />
+                    </span>
                     <span className="text-gray-500 dark:text-gray-400">
                       {eventType(e.type, locale)}
                     </span>

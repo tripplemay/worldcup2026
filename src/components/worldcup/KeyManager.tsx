@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { MdVpnKey } from 'react-icons/md';
 import Card from 'components/card';
 import { useLocale } from 'lib/i18n/context';
 
@@ -63,7 +64,7 @@ export default function KeyManager() {
     const key = input.trim();
     if (!key || busy) return;
     setBusy(true);
-    setMsg(`⏳ ${t('settings.validating')}`);
+    setMsg(`${t('settings.validating')}`);
     try {
       const res = await fetch('/api/worldcup/keys', {
         method: 'POST',
@@ -74,16 +75,16 @@ export default function KeyManager() {
       if (res.ok) {
         setKeys(json.data.keys ?? []);
         setInput('');
-        setMsg(`✅ ${t('settings.keyAdded')} ${json.data.masked}`);
+        setMsg(`${t('settings.keyAdded')} ${json.data.masked}`);
       } else if (res.status === 409) {
-        setMsg(`⚠️ ${json.error}`);
+        setMsg(`${json.error}`);
       } else if (res.status === 400) {
-        setMsg(`❌ ${t('settings.keyInvalid')}`);
+        setMsg(`${t('settings.keyInvalid')}`);
       } else if (res.status === 401) {
         setUnlocked(false);
         setMsg(t('settings.wrongToken'));
       } else {
-        setMsg(`❌ ${json.error ?? ''}`);
+        setMsg(`${json.error ?? ''}`);
       }
     } catch {
       setMsg(t('common.loadFailed'));
@@ -99,8 +100,9 @@ export default function KeyManager() {
 
   return (
     <Card extra="p-4">
-      <div className="mb-1 font-medium text-navy-700 dark:text-white">
-        🔑 {t('settings.keyMgmt')}
+      <div className="mb-1 flex items-center gap-1 font-medium text-navy-700 dark:text-white">
+        <MdVpnKey className="text-brand-500 dark:text-brand-400" />
+        {t('settings.keyMgmt')}
       </div>
       <div className="mb-2 text-xs leading-relaxed text-gray-500 dark:text-gray-400">
         {t('settings.keyMgmtDesc')}
@@ -164,7 +166,9 @@ export default function KeyManager() {
       )}
 
       {msg && (
-        <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">{msg}</div>
+        <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">
+          {msg}
+        </div>
       )}
     </Card>
   );

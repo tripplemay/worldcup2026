@@ -1,9 +1,11 @@
 'use client';
 
+import { MdSettings } from 'react-icons/md';
 import Card from 'components/card';
 import { useMatchOdds } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import KeyManager from 'components/worldcup/KeyManager';
+import PageHeading from 'components/worldcup/PageHeading';
 
 export default function SettingsPage() {
   const { quota } = useMatchOdds();
@@ -17,9 +19,7 @@ export default function SettingsPage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <h1 className="text-lg font-bold text-navy-700 dark:text-white">
-          {t('settings.title')}
-        </h1>
+        <PageHeading Icon={MdSettings}>{t('settings.title')}</PageHeading>
       </header>
 
       <div className="space-y-3 text-sm">

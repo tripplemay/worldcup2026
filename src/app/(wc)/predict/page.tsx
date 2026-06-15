@@ -2,8 +2,10 @@
 
 import Link from 'next/link';
 import Card from 'components/card';
+import { MdInsights } from 'react-icons/md';
 import ProbBar from 'components/worldcup/ProbBar';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import PageHeading from 'components/worldcup/PageHeading';
 import { usePredictions } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import type { MatchWithPredictions } from 'lib/predict/predict';
@@ -40,9 +42,7 @@ export default function PredictPage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <h1 className="text-lg font-bold text-navy-700 dark:text-white">
-          {t('predict.title')}
-        </h1>
+        <PageHeading Icon={MdInsights}>{t('predict.title')}</PageHeading>
         <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
           {t('predict.subtitle')}
         </p>

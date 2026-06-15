@@ -19,7 +19,7 @@ export const messages = {
     },
     status: { pre: '未开赛', in: '● 进行中', post: '已结束' },
     schedule: {
-      title: '🏆 世界杯赛程 · 比分',
+      title: '世界杯赛程 · 比分',
       bracket: '淘汰赛',
       prev: '‹ 前一天',
       next: '后一天 ›',
@@ -29,7 +29,7 @@ export const messages = {
       empty: '当日暂无比赛',
     },
     odds: {
-      title: '🎲 赔率 · 夺冠',
+      title: '赔率 · 夺冠',
       quotaLeft: '剩余配额',
       throttled: '已节流',
       tabMatch: '单场赔率',
@@ -47,7 +47,7 @@ export const messages = {
       nextAt: '下次',
     },
     standings: {
-      title: '📊 小组积分榜',
+      title: '小组积分榜',
       hint: '每组前 2 名 + 最佳 8 个第三名出线(绿点)',
       team: '球队',
       gp: '赛',
@@ -58,7 +58,7 @@ export const messages = {
       pts: '分',
     },
     settings: {
-      title: '⚙️ 设置',
+      title: '设置',
       language: '语言',
       dataSource: '数据源',
       oddsSource: '赔率:The Odds API',
@@ -83,7 +83,7 @@ export const messages = {
       remainingShort: '剩余',
     },
     bracket: {
-      title: '🏆 淘汰赛对阵',
+      title: '淘汰赛对阵',
       failed: '对阵数据加载失败',
       notStarted: '淘汰赛尚未开始',
     },
@@ -150,7 +150,7 @@ export const messages = {
     },
     country: { USA: '美国', Mexico: '墨西哥', Canada: '加拿大' },
     predict: {
-      title: '🔮 比赛预测',
+      title: '比赛预测',
       subtitle: '基于近期 xG 的泊松模型 · 仅供分析参考',
       cardTitle: '模型预测',
       modelPoisson: 'xG 泊松',
@@ -221,7 +221,7 @@ export const messages = {
     },
     status: { pre: 'Upcoming', in: '● Live', post: 'Finished' },
     schedule: {
-      title: '🏆 Fixtures · Scores',
+      title: 'Fixtures · Scores',
       bracket: 'Knockout',
       prev: '‹ Prev',
       next: 'Next ›',
@@ -231,7 +231,7 @@ export const messages = {
       empty: 'No matches on this day',
     },
     odds: {
-      title: '🎲 Odds · Winner',
+      title: 'Odds · Winner',
       quotaLeft: 'Quota left',
       throttled: 'throttled',
       tabMatch: 'Match odds',
@@ -249,7 +249,7 @@ export const messages = {
       nextAt: 'next',
     },
     standings: {
-      title: '📊 Group Standings',
+      title: 'Group Standings',
       hint: 'Top 2 + best 8 third-placed advance (green)',
       team: 'Team',
       gp: 'P',
@@ -260,7 +260,7 @@ export const messages = {
       pts: 'Pts',
     },
     settings: {
-      title: '⚙️ Settings',
+      title: 'Settings',
       language: 'Language',
       dataSource: 'Data sources',
       oddsSource: 'Odds: The Odds API',
@@ -285,7 +285,7 @@ export const messages = {
       remainingShort: 'left',
     },
     bracket: {
-      title: '🏆 Knockout Bracket',
+      title: 'Knockout Bracket',
       failed: 'Failed to load bracket',
       notStarted: 'Knockout not started yet',
     },
@@ -352,7 +352,7 @@ export const messages = {
     },
     country: { USA: 'USA', Mexico: 'Mexico', Canada: 'Canada' },
     predict: {
-      title: '🔮 Match Predictions',
+      title: 'Match Predictions',
       subtitle: 'Poisson model on recent xG · for analysis only',
       cardTitle: 'Model Prediction',
       modelPoisson: 'xG Poisson',

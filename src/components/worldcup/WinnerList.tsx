@@ -1,5 +1,6 @@
 'use client';
 
+import { MdEmojiEvents } from 'react-icons/md';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import { useTeamLogos } from 'lib/hooks/useWorldCup';
@@ -12,14 +13,23 @@ export default function WinnerList({ winner }: { winner?: WinnerMarket }) {
   const t = useT();
   const logos = useTeamLogos();
   const list = winner?.outrights ?? [];
-  if (!list.length) return <div className="py-16 text-center text-gray-400">{t('odds.noWinner')}</div>;
+  if (!list.length)
+    return (
+      <div className="py-16 text-center text-gray-400">
+        {t('odds.noWinner')}
+      </div>
+    );
   const max = list[0]?.impliedProbability || 1;
   return (
     <div className="space-y-2">
       {list.map((o, i) => (
         <Card key={o.team} extra="!flex-row items-center gap-3 p-3">
-          <span className="w-6 text-center text-sm font-bold text-gray-500 dark:text-gray-400">
-            {i === 0 ? '👑' : i + 1}
+          <span className="flex w-6 justify-center text-sm font-bold text-gray-500 dark:text-gray-400">
+            {i === 0 ? (
+              <MdEmojiEvents className="text-base text-amber-400" />
+            ) : (
+              i + 1
+            )}
           </span>
           <TeamBadge
             name={o.team}
@@ -30,7 +40,12 @@ export default function WinnerList({ winner }: { winner?: WinnerMarket }) {
             <div className="h-1.5 rounded-full bg-gray-200 dark:bg-navy-700">
               <div
                 className="h-full rounded-full bg-gradient-to-r from-brand-400 to-brand-600"
-                style={{ width: `${Math.max(4, Math.round((100 * o.impliedProbability) / max))}%` }}
+                style={{
+                  width: `${Math.max(
+                    4,
+                    Math.round((100 * o.impliedProbability) / max),
+                  )}%`,
+                }}
               />
             </div>
           </div>

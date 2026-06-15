@@ -1,18 +1,43 @@
 'use client';
 
+import type { IconType } from 'react-icons';
+import {
+  MdStadium,
+  MdLocationOn,
+  MdGroups,
+  MdWbSunny,
+  MdCloudQueue,
+  MdCloud,
+  MdFilterDrama,
+  MdWaterDrop,
+  MdAcUnit,
+  MdThunderstorm,
+} from 'react-icons/md';
 import Card from 'components/card';
 import { useStandings, useWinnerOdds, useWeather } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import { getFifaRank } from 'lib/data/fifaRanking';
 import { findVenue } from 'lib/data/venues';
-import { weatherEmoji, weatherCondition } from 'lib/weather/openmeteo';
+import { weatherCondition } from 'lib/weather/openmeteo';
 import { normalizeTeam } from 'lib/match/normalize';
 import type { MatchSummary } from 'lib/espn/types';
 
+// 国旗保留 emoji(Material 无国旗)
 const COUNTRY_FLAG: Record<string, string> = {
   USA: '🇺🇸',
   Mexico: '🇲🇽',
   Canada: '🇨🇦',
+};
+
+/** 天气状况 → Material 图标。 */
+const WEATHER_ICON: Record<string, IconType> = {
+  clear: MdWbSunny,
+  partlyCloudy: MdCloudQueue,
+  cloudy: MdCloud,
+  fog: MdFilterDrama,
+  rain: MdWaterDrop,
+  snow: MdAcUnit,
+  thunder: MdThunderstorm,
 };
 
 /** 在积分榜里找某队的小组 + 排名。 */
@@ -120,13 +145,13 @@ export function MatchVenueWeather({ summary }: { summary: MatchSummary }) {
         </div>
         <div className="space-y-1.5 text-xs">
           <div className="flex items-center justify-between gap-2">
-            <span className="text-gray-400">🏟️</span>
+            <MdStadium className="shrink-0 text-gray-400" />
             <span className="flex-1 text-right font-medium text-navy-700 dark:text-white">
               {summary.venue ?? '—'}
             </span>
           </div>
           <div className="flex items-center justify-between gap-2">
-            <span className="text-gray-400">📍</span>
+            <MdLocationOn className="shrink-0 text-gray-400" />
             <span className="flex-1 text-right text-navy-700 dark:text-white">
               {summary.city ?? venue?.city ?? '—'}
               {venue && (
@@ -139,30 +164,36 @@ export function MatchVenueWeather({ summary }: { summary: MatchSummary }) {
           </div>
           {venue && (
             <div className="flex items-center justify-between gap-2">
-              <span className="text-gray-400">👥 {t('bg.capacity')}</span>
+              <span className="flex items-center gap-1 text-gray-400">
+                <MdGroups /> {t('bg.capacity')}
+              </span>
               <span className="font-medium tabular-nums text-navy-700 dark:text-white">
                 {venue.capacity.toLocaleString()}
               </span>
             </div>
           )}
-          {weather && (
-            <div className="flex items-center justify-between gap-2 border-t border-gray-100 pt-1.5 dark:border-white/5">
-              <span className="text-gray-400">
-                {weatherEmoji(weather.code)}{' '}
-                {t(`weather.${weatherCondition(weather.code)}`)}
-              </span>
-              <span className="font-medium tabular-nums text-navy-700 dark:text-white">
-                {weather.tempMin != null && weather.tempMax != null
-                  ? `${Math.round(weather.tempMin)}–${Math.round(
-                      weather.tempMax,
-                    )}°C`
-                  : ''}
-                {weather.precipProb != null
-                  ? ` · ${t('bg.precip')} ${weather.precipProb}%`
-                  : ''}
-              </span>
-            </div>
-          )}
+          {weather &&
+            (() => {
+              const WIcon =
+                WEATHER_ICON[weatherCondition(weather.code)] ?? MdCloud;
+              return (
+                <div className="flex items-center justify-between gap-2 border-t border-gray-100 pt-1.5 dark:border-white/5">
+                  <span className="flex items-center gap-1 text-gray-400">
+                    <WIcon /> {t(`weather.${weatherCondition(weather.code)}`)}
+                  </span>
+                  <span className="font-medium tabular-nums text-navy-700 dark:text-white">
+                    {weather.tempMin != null && weather.tempMax != null
+                      ? `${Math.round(weather.tempMin)}–${Math.round(
+                          weather.tempMax,
+                        )}°C`
+                      : ''}
+                    {weather.precipProb != null
+                      ? ` · ${t('bg.precip')} ${weather.precipProb}%`
+                      : ''}
+                  </span>
+                </div>
+              );
+            })()}
         </div>
         {!venue && (
           <div className="mt-1 text-[10px] text-gray-400">
