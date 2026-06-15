@@ -6,6 +6,7 @@ function fmt(ts: number, locale: string): string {
   return new Date(ts).toLocaleTimeString(locale === 'zh' ? 'zh-CN' : 'en-US', {
     hour: '2-digit',
     minute: '2-digit',
+    timeZone: 'Asia/Shanghai',
   });
 }
 

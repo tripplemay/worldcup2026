@@ -15,6 +15,7 @@ function fmtTime(iso: string, locale: string): string {
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
+      timeZone: 'Asia/Shanghai',
     });
   } catch {
     return iso;
@@ -31,25 +32,41 @@ function OddPill({ label, price }: { label: string; price?: number }) {
   return (
     <div className="flex-1 rounded-lg bg-lightPrimary py-1 dark:bg-navy-700">
       <span className="text-gray-500 dark:text-gray-400">{label}</span>{' '}
-      <span className="font-bold text-brand-500 dark:text-white">{price?.toFixed(2) ?? '—'}</span>
+      <span className="font-bold text-brand-500 dark:text-white">
+        {price?.toFixed(2) ?? '—'}
+      </span>
     </div>
   );
 }
 
 /** 一场比赛卡片(Horizon Card):队徽 + 比分 + 精简赔率;点击进详情页;进行中红环。 */
-export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchOdds }) {
+export default function MatchCard({
+  m,
+  odds,
+}: {
+  m: ScheduleMatch;
+  odds?: MatchOdds;
+}) {
   const { locale, t } = useLocale();
   const statusLabel = t(`status.${m.status}`);
   const showScore = m.status !== 'pre';
   const live = m.status === 'in';
 
   return (
-    <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.25 }}>
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25 }}
+    >
       <Link href={`/match/${m.id}`}>
         <Card extra={`p-4 ${live ? 'ring-2 ring-red-500/50' : ''}`}>
           <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
             <span>{fmtTime(m.commenceTime, locale)}</span>
-            <span className={`rounded-full px-2 py-0.5 ${STATUS_CLS[m.status] ?? STATUS_CLS.pre}`}>
+            <span
+              className={`rounded-full px-2 py-0.5 ${
+                STATUS_CLS[m.status] ?? STATUS_CLS.pre
+              }`}
+            >
               {statusLabel}
               {live && m.clock ? ` ${m.clock}` : ''}
             </span>
@@ -65,7 +82,9 @@ export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchO
                 {m.homeScore} : {m.awayScore}
               </span>
             ) : (
-              <span className="px-3 text-sm text-gray-400">{t('common.vs')}</span>
+              <span className="px-3 text-sm text-gray-400">
+                {t('common.vs')}
+              </span>
             )}
             <TeamBadge
               name={m.awayTeam}
@@ -82,7 +101,9 @@ export default function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchO
             </div>
           )}
           {m.venue && (
-            <div className="mt-2 text-center text-[11px] text-gray-500 dark:text-gray-400">{m.venue}</div>
+            <div className="mt-2 text-center text-[11px] text-gray-500 dark:text-gray-400">
+              {m.venue}
+            </div>
           )}
         </Card>
       </Link>

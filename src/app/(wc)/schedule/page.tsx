@@ -10,8 +10,12 @@ import PullToRefresh from 'components/worldcup/PullToRefresh';
 import StatusBar from 'components/worldcup/StatusBar';
 import OddsRefreshInfo from 'components/worldcup/OddsRefreshInfo';
 
-function todayUTC(): string {
-  return new Date().toISOString().slice(0, 10).replace(/-/g, '');
+function todayCN(): string {
+  // UTC+8 当前日期
+  return new Date(Date.now() + 8 * 3600_000)
+    .toISOString()
+    .slice(0, 10)
+    .replace(/-/g, '');
 }
 function shiftDate(yyyymmdd: string, days: number): string {
   const y = +yyyymmdd.slice(0, 4);
@@ -41,7 +45,7 @@ const btn =
 
 export default function SchedulePage() {
   const { locale, t } = useLocale();
-  const [dates, setDates] = useState(todayUTC());
+  const [dates, setDates] = useState(todayCN());
   const { matches, error, isLoading, refresh } = useScoreboard(dates);
   const {
     matches: oddsMatches,
