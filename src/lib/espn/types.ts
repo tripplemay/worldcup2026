@@ -97,6 +97,27 @@ export interface RosterPlayer {
   starter: boolean;
 }
 
+/** 近期战绩一场(球队视角)。 */
+export interface RecentGame {
+  date: string; // ISO
+  result: 'W' | 'D' | 'L' | '';
+  score: string; // "2-2"
+  opponent: string;
+  opponentLogo?: string;
+  home: boolean; // 主场?(atVs === 'vs')
+  competition?: string;
+}
+
+/** 历史交锋一场。 */
+export interface H2HGame {
+  date: string; // ISO
+  homeTeam: string;
+  awayTeam: string;
+  homeScore: string;
+  awayScore: string;
+  competition?: string;
+}
+
 /** 单场比赛详情(summary 端点聚合)。 */
 export interface MatchSummary {
   id: string;
@@ -110,9 +131,13 @@ export interface MatchSummary {
   status: MatchStatus;
   statusDetail?: string;
   venue?: string;
+  city?: string; // ESPN venue.address.city(形如 "Atlanta, Georgia")
   homeStats?: TeamMatchStats;
   awayStats?: TeamMatchStats;
   events: MatchEvent[];
   homeRoster: RosterPlayer[];
   awayRoster: RosterPlayer[];
+  homeForm: RecentGame[]; // 近 5 场
+  awayForm: RecentGame[];
+  h2h: H2HGame[]; // 历史交锋(常为空)
 }

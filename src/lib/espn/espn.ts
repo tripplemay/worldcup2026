@@ -21,6 +21,8 @@ import type {
   MatchSummary,
   TeamMatchStats,
   RosterPlayer,
+  RecentGame,
+  H2HGame,
 } from './types';
 
 const BASE = process.env.ESPN_BASE ?? 'https://site.api.espn.com/apis';
@@ -136,6 +138,53 @@ function parseEvents(data: Json): MatchEvent[] {
     .filter((e) => /goal|card|substitution|penalty/i.test(e.type));
 }
 
+// ── 近期战绩(lastFiveGames)→ 按 team id 索引 ──────────
+function parseRecentForm(data: Json): Map<string, RecentGame[]> {
+  const out = new Map<string, RecentGame[]>();
+  for (const block of arr(data.lastFiveGames).map(obj)) {
+    const tid = str(obj(block.team).id);
+    if (!tid) continue;
+    const games = arr(block.events)
+      .map(obj)
+      .map((e): RecentGame => {
+        const r = str(e.gameResult)?.toUpperCase();
+        return {
+          date: str(e.gameDate) ?? '',
+          result: r === 'W' || r === 'D' || r === 'L' ? r : '',
+          score: str(e.score) ?? '',
+          opponent: str(obj(e.opponent).displayName) ?? str(e.opponent) ?? '',
+          opponentLogo: str(e.opponentLogo) ?? str(obj(e.opponent).logo),
+          home: str(e.atVs) === 'vs',
+          competition: str(e.competitionName) ?? str(e.leagueName),
+        };
+      });
+    out.set(tid, games);
+  }
+  return out;
+}
+
+// ── 历史交锋(headToHeadGames,常为空)────────────────
+function parseH2H(data: Json): H2HGame[] {
+  const seen = new Set<string>();
+  const out: H2HGame[] = [];
+  for (const block of arr(data.headToHeadGames).map(obj)) {
+    for (const e of arr(block.events).map(obj)) {
+      const id = str(e.id) ?? `${str(e.gameDate)}-${str(e.score)}`;
+      if (seen.has(id)) continue;
+      seen.add(id);
+      out.push({
+        date: str(e.gameDate) ?? '',
+        homeTeam: str(e.homeTeamName) ?? str(obj(e.homeTeam).displayName) ?? '',
+        awayTeam: str(e.awayTeamName) ?? str(obj(e.awayTeam).displayName) ?? '',
+        homeScore: str(e.homeTeamScore) ?? '',
+        awayScore: str(e.awayTeamScore) ?? '',
+        competition: str(e.competitionName) ?? str(e.leagueName),
+      });
+    }
+  }
+  return out.sort((a, b) => b.date.localeCompare(a.date));
+}
+
 const STAT_KEYS = [
   'possessionPct',
   'totalShots',
@@ -229,6 +278,8 @@ export const espnProvider: EspnProvider = {
     const data = await getJSON(
       `${BASE}/site/v2/sports/${LEAGUE}/summary?event=${eventId}`,
     );
+    const recentForm = parseRecentForm(data);
+    const giVenue = obj(obj(data.gameInfo).venue); // summary 的场馆在 gameInfo.venue
     const header = obj(data.header);
     const comp = obj(arr(header.competitions)[0]);
     const competitors = arr(comp.competitors).map(obj);
@@ -283,12 +334,16 @@ export const espnProvider: EspnProvider = {
       awayScore: score(awayC),
       status: state,
       statusDetail: str(statusType.detail) ?? str(statusType.shortDetail),
-      venue: str(obj(comp.venue).fullName),
+      venue: str(giVenue.fullName) ?? str(obj(comp.venue).fullName),
+      city: str(obj(giVenue.address).city),
       homeStats: statsForTeam(teamId(homeC)),
       awayStats: statsForTeam(teamId(awayC)),
       events: parseEvents(data),
       homeRoster: rosterFor('home'),
       awayRoster: rosterFor('away'),
+      homeForm: recentForm.get(teamId(homeC) ?? '') ?? [],
+      awayForm: recentForm.get(teamId(awayC) ?? '') ?? [],
+      h2h: parseH2H(data),
     };
   },
 };

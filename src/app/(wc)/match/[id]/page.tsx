@@ -5,6 +5,9 @@ import { useParams } from 'next/navigation';
 import Card from 'components/card';
 import StatCompare from 'components/worldcup/StatCompare';
 import OddsTable from 'components/worldcup/OddsTable';
+import MatchBackground from 'components/worldcup/MatchBackground';
+import RecentForm from 'components/worldcup/RecentForm';
+import H2HCard from 'components/worldcup/H2HCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
@@ -103,9 +106,20 @@ export default function MatchDetailPage() {
             )}
           </Card>
 
+          <MatchBackground summary={summary} />
+
           <StatCompare home={summary.homeStats} away={summary.awayStats} />
 
           {odds && <OddsTable m={odds} oddsEventId={odds.id} />}
+
+          <RecentForm
+            homeTeam={summary.homeTeam}
+            awayTeam={summary.awayTeam}
+            homeForm={summary.homeForm}
+            awayForm={summary.awayForm}
+          />
+
+          <H2HCard h2h={summary.h2h} />
 
           {summary.events.length > 0 && (
             <Card extra="mb-3 p-4">

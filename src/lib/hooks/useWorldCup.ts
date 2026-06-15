@@ -24,6 +24,7 @@ import type {
   BracketMatch,
   MatchSummary,
 } from 'lib/espn/types';
+import type { WeatherInfo } from 'lib/weather/openmeteo';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -228,6 +229,21 @@ export function useMatchSummary(eventId?: string) {
     { refreshInterval: 30_000, ...common },
   );
   return { summary: data?.summary, error, isLoading };
+}
+
+/** 比赛当日天气(Open-Meteo,免费;详情页按需,基本不变化故不自动刷新)。 */
+export function useWeather(stadium?: string, city?: string, iso?: string) {
+  const enabled = !!iso && (!!stadium || !!city);
+  const qs = new URLSearchParams();
+  if (stadium) qs.set('stadium', stadium);
+  if (city) qs.set('city', city);
+  if (iso) qs.set('iso', iso);
+  const { data, isLoading } = useSWR<{ weather: WeatherInfo | null }>(
+    enabled ? `/api/worldcup/weather?${qs.toString()}` : null,
+    fetcher,
+    { revalidateOnFocus: false, revalidateIfStale: false },
+  );
+  return { weather: data?.weather ?? null, isLoading };
 }
 
 /** 单场让球 + 大小球(详情页按需,不自动刷新省配额)。 */
