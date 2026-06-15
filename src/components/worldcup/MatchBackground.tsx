@@ -71,16 +71,40 @@ function MetaCol({
   );
 }
 
-/** 比赛背景:球队对比(FIFA排名/小组排名/夺冠赔率)+ 场馆 · 天气。 */
-export default function MatchBackground({
-  summary,
-}: {
-  summary: MatchSummary;
-}) {
-  const { locale, t } = useLocale();
+/** 球队对比:FIFA排名 / 小组排名 / 夺冠赔率。 */
+export function MatchTeamMeta({ summary }: { summary: MatchSummary }) {
+  const { t } = useLocale();
   const { groups } = useStandings();
   const { winner } = useWinnerOdds();
   const outrights = winner?.outrights ?? [];
+
+  return (
+    <Card extra="mb-3 p-4">
+      <div className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
+        {t('bg.teamMeta')}
+      </div>
+      <div className="flex gap-4">
+        <MetaCol
+          team={summary.homeTeam}
+          rank={getFifaRank(summary.homeTeam)}
+          pos={groupPos(groups, summary.homeTeam)}
+          odds={titleOdds(outrights, summary.homeTeam)}
+        />
+        <div className="w-px bg-gray-100 dark:bg-white/10" />
+        <MetaCol
+          team={summary.awayTeam}
+          rank={getFifaRank(summary.awayTeam)}
+          pos={groupPos(groups, summary.awayTeam)}
+          odds={titleOdds(outrights, summary.awayTeam)}
+        />
+      </div>
+    </Card>
+  );
+}
+
+/** 场馆 · 天气:球场 / 城市+承办国 / 容量 / 当日天气。 */
+export function MatchVenueWeather({ summary }: { summary: MatchSummary }) {
+  const { locale, t } = useLocale();
   const { weather } = useWeather(
     summary.venue,
     summary.city,
@@ -90,27 +114,6 @@ export default function MatchBackground({
 
   return (
     <>
-      <Card extra="mb-3 p-4">
-        <div className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
-          {t('bg.teamMeta')}
-        </div>
-        <div className="flex gap-4">
-          <MetaCol
-            team={summary.homeTeam}
-            rank={getFifaRank(summary.homeTeam)}
-            pos={groupPos(groups, summary.homeTeam)}
-            odds={titleOdds(outrights, summary.homeTeam)}
-          />
-          <div className="w-px bg-gray-100 dark:bg-white/10" />
-          <MetaCol
-            team={summary.awayTeam}
-            rank={getFifaRank(summary.awayTeam)}
-            pos={groupPos(groups, summary.awayTeam)}
-            odds={titleOdds(outrights, summary.awayTeam)}
-          />
-        </div>
-      </Card>
-
       <Card extra="mb-3 p-4">
         <div className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
           {t('bg.venueWeather')}
