@@ -5,7 +5,7 @@
  * 公共选项:refreshWhenHidden:false(隐藏暂停)· revalidateOnFocus(回前台刷新)· keepPreviousData(不闪屏)。
  */
 import useSWR from 'swr';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { fetcher } from './fetcher';
 import { normalizeTeam } from 'lib/match/normalize';
 import type {
@@ -105,15 +105,12 @@ export function useMatchOdds() {
   const { data, error, isLoading, mutate } = useSWR<{
     matches: MatchOdds[];
     quota: QuotaInfo;
+    fetchedAt: number;
   }>('/api/worldcup/matches', fetcher, {
     refreshInterval: ODDS_MS,
     ...oddsCommon,
   });
   const matches = data?.matches ?? [];
-  const [oddsUpdatedAt, setOddsUpdatedAt] = useState<number | null>(null);
-  useEffect(() => {
-    if (data) setOddsUpdatedAt(Date.now());
-  }, [data]);
   const prevRef = useRef<
     Record<string, { home?: number; draw?: number; away?: number }>
   >({});
@@ -152,8 +149,8 @@ export function useMatchOdds() {
     matches,
     changes,
     quota: data?.quota,
-    oddsUpdatedAt,
-    nextOddsRefreshAt: oddsUpdatedAt ? oddsUpdatedAt + ODDS_MS : null,
+    oddsUpdatedAt: data?.fetchedAt ?? null,
+    nextOddsRefreshAt: data?.fetchedAt ? data.fetchedAt + ODDS_MS : null,
     error,
     isLoading,
     refresh: mutate,

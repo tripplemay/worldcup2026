@@ -8,7 +8,9 @@ export const dynamic = 'force-dynamic';
 
 export async function GET() {
   try {
-    const winner = await cached('odds:winner', 600_000, () => theOddsApiProvider.getWinnerOdds());
+    const winner = await cached('odds:winner', 1_800_000, () =>
+      theOddsApiProvider.getWinnerOdds(),
+    );
     return ok({ winner, quota: getQuota() });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '夺冠赔率获取失败');
