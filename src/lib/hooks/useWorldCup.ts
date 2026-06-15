@@ -5,7 +5,7 @@
  * 公共选项:refreshWhenHidden:false(隐藏暂停)· revalidateOnFocus(回前台刷新)· keepPreviousData(不闪屏)。
  */
 import useSWR from 'swr';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { fetcher } from './fetcher';
 import { normalizeTeam } from 'lib/match/normalize';
 import type {
@@ -29,7 +29,7 @@ const ms = (v: string | undefined, d: number) => {
 };
 const SCORES_MS = ms(process.env.NEXT_PUBLIC_SCORES_REFRESH_MS, 25_000);
 // 赔率低频:变动无需秒级,拉长间隔省 The Odds API 配额
-const ODDS_MS = ms(process.env.NEXT_PUBLIC_ODDS_REFRESH_MS, 360_000);
+const ODDS_MS = ms(process.env.NEXT_PUBLIC_ODDS_REFRESH_MS, 1_800_000);
 const STANDINGS_MS = ms(process.env.NEXT_PUBLIC_STANDINGS_REFRESH_MS, 300_000);
 
 const common = {
@@ -110,6 +110,10 @@ export function useMatchOdds() {
     ...oddsCommon,
   });
   const matches = data?.matches ?? [];
+  const [oddsUpdatedAt, setOddsUpdatedAt] = useState<number | null>(null);
+  useEffect(() => {
+    if (data) setOddsUpdatedAt(Date.now());
+  }, [data]);
   const prevRef = useRef<
     Record<string, { home?: number; draw?: number; away?: number }>
   >({});
@@ -148,6 +152,8 @@ export function useMatchOdds() {
     matches,
     changes,
     quota: data?.quota,
+    oddsUpdatedAt,
+    nextOddsRefreshAt: oddsUpdatedAt ? oddsUpdatedAt + ODDS_MS : null,
     error,
     isLoading,
     refresh: mutate,

@@ -3,8 +3,19 @@ export type Locale = 'zh' | 'en';
 
 export const messages = {
   zh: {
-    nav: { schedule: '赛程', odds: '赔率', standings: '积分', settings: '设置' },
-    common: { loadFailed: '加载失败', retry: '重试', back: '返回', vs: 'vs', tbd: '待定' },
+    nav: {
+      schedule: '赛程',
+      odds: '赔率',
+      standings: '积分',
+      settings: '设置',
+    },
+    common: {
+      loadFailed: '加载失败',
+      retry: '重试',
+      back: '返回',
+      vs: 'vs',
+      tbd: '待定',
+    },
     status: { pre: '未开赛', in: '● 进行中', post: '已结束' },
     schedule: {
       title: '🏆 世界杯赛程 · 比分',
@@ -31,6 +42,8 @@ export const messages = {
       collapse: '收起',
       noWinner: '暂无夺冠赔率',
       book: '博彩',
+      refreshAt: '赔率更新',
+      nextAt: '下次',
     },
     standings: {
       title: '📊 小组积分榜',
@@ -55,7 +68,11 @@ export const messages = {
       refreshDesc2: '切到后台自动暂停轮询,回到前台立即刷新',
       footer: '🏆 世界杯 2026 · 实时赔率 · 赛程 · 比分',
     },
-    bracket: { title: '🏆 淘汰赛对阵', failed: '对阵数据加载失败', notStarted: '淘汰赛尚未开始' },
+    bracket: {
+      title: '🏆 淘汰赛对阵',
+      failed: '对阵数据加载失败',
+      notStarted: '淘汰赛尚未开始',
+    },
     detail: {
       title: '比赛详情',
       events: '进球 / 红黄牌',
@@ -97,8 +114,19 @@ export const messages = {
     quota: { label: '配额' },
   },
   en: {
-    nav: { schedule: 'Fixtures', odds: 'Odds', standings: 'Tables', settings: 'Settings' },
-    common: { loadFailed: 'Failed to load', retry: 'Retry', back: 'Back', vs: 'vs', tbd: 'TBD' },
+    nav: {
+      schedule: 'Fixtures',
+      odds: 'Odds',
+      standings: 'Tables',
+      settings: 'Settings',
+    },
+    common: {
+      loadFailed: 'Failed to load',
+      retry: 'Retry',
+      back: 'Back',
+      vs: 'vs',
+      tbd: 'TBD',
+    },
     status: { pre: 'Upcoming', in: '● Live', post: 'Finished' },
     schedule: {
       title: '🏆 Fixtures · Scores',
@@ -125,6 +153,8 @@ export const messages = {
       collapse: 'Collapse',
       noWinner: 'No winner odds',
       book: 'Book',
+      refreshAt: 'Odds',
+      nextAt: 'next',
     },
     standings: {
       title: '📊 Group Standings',
@@ -149,7 +179,11 @@ export const messages = {
       refreshDesc2: 'Pauses when backgrounded, refreshes on focus',
       footer: '🏆 World Cup 2026 · Live Odds · Fixtures · Scores',
     },
-    bracket: { title: '🏆 Knockout Bracket', failed: 'Failed to load bracket', notStarted: 'Knockout not started yet' },
+    bracket: {
+      title: '🏆 Knockout Bracket',
+      failed: 'Failed to load bracket',
+      notStarted: 'Knockout not started yet',
+    },
     detail: {
       title: 'Match Detail',
       events: 'Goals / Cards',
@@ -186,7 +220,11 @@ export const messages = {
       final: 'Final',
       '3rd-place-game': '3rd Place',
     },
-    pull: { refreshing: 'Refreshing…', release: 'Release to refresh', pull: 'Pull to refresh' },
+    pull: {
+      refreshing: 'Refreshing…',
+      release: 'Release to refresh',
+      pull: 'Pull to refresh',
+    },
     statusbar: { ago: 'ago', next: 'next', live: 'LIVE' },
     quota: { label: 'quota' },
   },

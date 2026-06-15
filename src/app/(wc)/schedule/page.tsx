@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import MiniStatistics from 'components/card/MiniStatistics';
-import { useScoreboard, useMatchOddsLite } from 'lib/hooks/useWorldCup';
+import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import MatchCard from 'components/worldcup/MatchCard';
 import PullToRefresh from 'components/worldcup/PullToRefresh';
 import StatusBar from 'components/worldcup/StatusBar';
+import OddsRefreshInfo from 'components/worldcup/OddsRefreshInfo';
 
 function todayUTC(): string {
   return new Date().toISOString().slice(0, 10).replace(/-/g, '');
@@ -42,7 +43,11 @@ export default function SchedulePage() {
   const { locale, t } = useLocale();
   const [dates, setDates] = useState(todayUTC());
   const { matches, error, isLoading, refresh } = useScoreboard(dates);
-  const { matches: oddsMatches } = useMatchOddsLite();
+  const {
+    matches: oddsMatches,
+    oddsUpdatedAt,
+    nextOddsRefreshAt,
+  } = useMatchOdds();
   const live = matches.filter((m) => m.status === 'in').length;
 
   return (
@@ -59,8 +64,12 @@ export default function SchedulePage() {
             {t('schedule.bracket')} ›
           </a>
         </div>
-        <div className="mt-1">
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5">
           <StatusBar signal={matches} liveCount={live} intervalMs={25_000} />
+          <OddsRefreshInfo
+            updatedAt={oddsUpdatedAt}
+            nextAt={nextOddsRefreshAt}
+          />
         </div>
         <div className="mt-2 flex items-center justify-between">
           <button
