@@ -1,16 +1,29 @@
 /**
- * 历史比赛摄取:从 ESPN 洗出每场 xG,写入 historical.json。
+ * 历史比赛摄取(数据源:API-Football,付费 Pro)。
  *
- * 来源链:未来 N 天的世界杯赛程 → 每场 summary 的 lastFiveGames(双方近 5 场 event ID)
- *   → 逐场 boxscore 取射正/总射门/进球 → xG = 射正×0.3 + 射偏×0.05。
- * 纯 ESPN,免费,不耗 The Odds API 配额。
+ * 链路:未来 N 天世界杯赛程(ESPN 拿涉及球队)→ 解析各队 API-Football id(缓存)
+ *   → 每队最近 RECENT 场(含赛果,喂 Elo)→ 逐场射门统计(喂 xG)→ historical.json。
+ * xG = 射正×0.3 + 射偏×0.05;HistMatch 结构与原 ESPN 管道一致,下游评分/Elo 不变。
  */
 import { espnProvider } from 'lib/espn/espn';
 import { normalizeTeam } from 'lib/match/normalize';
-import { loadHistorical, saveHistorical } from 'lib/db/store';
+import {
+  loadHistorical,
+  saveHistorical,
+  loadAfTeams,
+  saveAfTeams,
+} from 'lib/db/store';
+import {
+  hasApiFootball,
+  resolveTeamId,
+  getRecentFixtures,
+  getFixtureStats,
+  type AfFixture,
+} from './apifootball';
 
 const CN_OFFSET = 8 * 3600_000;
 const ymd = (d: Date) => d.toISOString().slice(0, 10).replace(/-/g, '');
+const RECENT = 15; // 每队取最近 N 场
 
 /** 单场 xG:射正×0.3 + 射偏×0.05(射偏 = 总射门 − 射正,clamp≥0)。 */
 function xg(sot: number, shots: number): number {
@@ -43,57 +56,74 @@ async function pool<T, R>(
 }
 
 /**
- * 摄取未来 days 天世界杯比赛双方的近期对阵射门数据。
- * @returns 扫描的赛程数 + 入库历史场数
+ * 摄取未来 days 天世界杯比赛各队的近期比赛(赛果 + 射门)。
+ * @returns 涉及球队数 + 入库历史场数
  */
 export async function ingestHistory(
   days = 14,
-): Promise<{ fixtures: number; events: number }> {
+): Promise<{ teams: number; events: number }> {
+  if (!hasApiFootball()) return { teams: 0, events: 0 };
+
+  // 1) 未来窗口的世界杯赛程(ESPN)→ 涉及的球队名
   const today = new Date(Date.now() + CN_OFFSET);
   const end = new Date(today.getTime() + days * 86400_000);
   const fixtures = await espnProvider.getScoreboard(`${ymd(today)}-${ymd(end)}`);
-
-  // 每场 summary → 双方近期对阵 eventId(去重)
-  const summaries = await pool(fixtures, 6, (m) =>
-    espnProvider.getMatchSummary(m.id),
-  );
-  const histIds = new Set<string>();
-  for (const s of summaries) {
-    if (!s) continue;
-    for (const g of [...s.homeForm, ...s.awayForm]) {
-      if (g.eventId) histIds.add(g.eventId);
-    }
+  const names = new Set<string>();
+  for (const f of fixtures) {
+    if (f.homeTeam) names.add(f.homeTeam);
+    if (f.awayTeam) names.add(f.awayTeam);
   }
 
-  // 逐场拉 boxscore → HistMatch
-  const ids = [...histIds];
-  const stats = await pool(ids, 6, (id) => espnProvider.getEventStats(id));
+  // 2) 解析各队 API-Football id(缓存,未知才查)
+  const idMap = loadAfTeams();
+  for (const name of names) {
+    const norm = normalizeTeam(name);
+    if (idMap[norm] == null) {
+      const id = await resolveTeamId(name);
+      if (id) idMap[norm] = id;
+    }
+  }
+  saveAfTeams(idMap);
+
+  // 3) 每队近 RECENT 场 → 收集唯一 fixture
+  const teamIds = [...names]
+    .map((n) => idMap[normalizeTeam(n)])
+    .filter((x): x is number => !!x);
+  const lists = await pool(teamIds, 5, (id) => getRecentFixtures(id, RECENT));
+  const uniq = new Map<number, AfFixture>();
+  for (const list of lists) for (const fx of list ?? []) uniq.set(fx.id, fx);
+
+  // 4) 逐场射门统计 → HistMatch(有射门数据才入库)
+  const ids = [...uniq.keys()];
+  const stats = await pool(ids, 5, (id) => getFixtureStats(id));
   const store = loadHistorical();
   let added = 0;
-  for (const e of stats) {
-    if (!e?.eventId) continue;
-    // boxscore 缺射门数据的场次跳过(无法洗 xG)
-    if (e.homeShots === 0 && e.awayShots === 0 && e.homeSoT === 0 && e.awaySoT === 0) {
-      continue;
-    }
-    store[e.eventId] = {
-      eventId: e.eventId,
-      date: e.date,
-      homeName: e.homeName,
-      awayName: e.awayName,
-      homeNorm: normalizeTeam(e.homeName),
-      awayNorm: normalizeTeam(e.awayName),
-      homeGoals: e.homeGoals,
-      awayGoals: e.awayGoals,
-      homeSoT: e.homeSoT,
-      homeShots: e.homeShots,
-      awaySoT: e.awaySoT,
-      awayShots: e.awayShots,
-      homeXg: xg(e.homeSoT, e.homeShots),
-      awayXg: xg(e.awaySoT, e.awayShots),
+  ids.forEach((fid, i) => {
+    const s = stats[i];
+    const fx = uniq.get(fid);
+    if (!s || !fx) return;
+    const h = s.get(fx.homeId);
+    const a = s.get(fx.awayId);
+    if (!h || !a) return;
+    if (h.shots === 0 && a.shots === 0 && h.sot === 0 && a.sot === 0) return;
+    store[String(fid)] = {
+      eventId: String(fid),
+      date: fx.date,
+      homeName: fx.homeName,
+      awayName: fx.awayName,
+      homeNorm: normalizeTeam(fx.homeName),
+      awayNorm: normalizeTeam(fx.awayName),
+      homeGoals: fx.homeGoals,
+      awayGoals: fx.awayGoals,
+      homeSoT: h.sot,
+      homeShots: h.shots,
+      awaySoT: a.sot,
+      awayShots: a.shots,
+      homeXg: xg(h.sot, h.shots),
+      awayXg: xg(a.sot, a.shots),
     };
     added++;
-  }
+  });
   saveHistorical(store);
-  return { fixtures: fixtures.length, events: added };
+  return { teams: teamIds.length, events: added };
 }

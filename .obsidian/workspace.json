@@ -214,6 +214,8 @@
   },
   "active": "c27c6140e9cf0694",
   "lastOpenFiles": [
+    "src/lib/predict/apifootball.ts",
+    "src/lib/predict/intlresults.ts",
     "src/app/api/worldcup/intel/route.ts",
     "src/app/api/worldcup/intel",
     "src/lib/intel/intel.ts",
@@ -223,8 +225,6 @@
     "src/lib/intel",
     "src/lib/predict/ensemble.ts",
     "src/lib/predict/models/market-implied.ts",
-    "src/lib/predict/models/elo.ts",
-    "src/app/(wc)/predict/page.tsx",
     "docs/需求说明书：LLM 场外情报量化代理 (Phase 3).md",
     "docs/需求说明书：XGBoost 预测引擎与模型融合模块 (Phase 2).md",
     "CHANGELOG.md",

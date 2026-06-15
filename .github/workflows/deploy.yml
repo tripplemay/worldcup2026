@@ -64,7 +64,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ADMIN_TOKEN,AIGC_API_KEY
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -122,6 +122,9 @@ jobs:
             export AIGC_API_KEY="${AIGC_API_KEY}"
             export AIGC_BASE="https://aigc.guangai.ai/v1"
             export INTEL_LLM_MODEL="qwen3.5-flash"
+            # 预测数据源:API-Football(付费 Pro);未设则历史摄取跳过
+            export API_FOOTBALL_KEY="${API_FOOTBALL_KEY}"
+            export API_FOOTBALL_BASE="https://v3.football.api-sports.io"
             export PORT="$PORT"
             export HOSTNAME="127.0.0.1"
             export NODE_ENV="production"
@@ -139,7 +142,7 @@ jobs:
             # ── 预测引擎:首次播种评分 + 每日刷新 cron(纯 ESPN,免费)──
             if [ -n "${ADMIN_TOKEN}" ]; then
               sleep 5
-              curl -s --max-time 200 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
+              curl -s --max-time 280 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
               if command -v crontab >/dev/null 2>&1; then
                 ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel'; \
@@ -160,3 +163,4 @@ jobs:
           ODDS_API_KEYS: ${{ secrets.ODDS_API_KEYS }}
           ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
           AIGC_API_KEY: ${{ secrets.AIGC_API_KEY }}
+          API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}

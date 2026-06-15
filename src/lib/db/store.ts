@@ -50,6 +50,16 @@ export function saveRatings(map: RatingMap): void {
   writeJson('ratings.json', map);
 }
 
+// ── API-Football 队名→id 缓存(避免反复解析)────────────
+type AfTeamMap = Record<string, number>; // 归一化队名 → API-Football team id
+
+export function loadAfTeams(): AfTeamMap {
+  return readJson<AfTeamMap>('af-teams.json', {});
+}
+export function saveAfTeams(map: AfTeamMap): void {
+  writeJson('af-teams.json', map);
+}
+
 // ── 场外情报(按归一化队名)────────────────────────────
 type IntelMap = Record<string, TeamIntel>;
 
