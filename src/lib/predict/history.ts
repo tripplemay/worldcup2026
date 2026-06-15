@@ -10,6 +10,8 @@ import { normalizeTeam } from 'lib/match/normalize';
 import {
   loadHistorical,
   saveHistorical,
+  loadResults,
+  saveResults,
   loadAfTeams,
   saveAfTeams,
 } from 'lib/db/store';
@@ -23,7 +25,8 @@ import {
 
 const CN_OFFSET = 8 * 3600_000;
 const ymd = (d: Date) => d.toISOString().slice(0, 10).replace(/-/g, '');
-const RECENT = 15; // 每队取最近 N 场
+const RECENT_RESULTS = 40; // 每队取最近 N 场赛果(喂 Elo,深度够)
+const RECENT_STATS = 15; // 其中最近 N 场取射门统计(喂 xG,控配额)
 
 /** 单场 xG:射正×0.3 + 射偏×0.05(射偏 = 总射门 − 射正,clamp≥0)。 */
 function xg(sot: number, shots: number): number {
@@ -67,7 +70,9 @@ export async function ingestHistory(
   // 1) 未来窗口的世界杯赛程(ESPN)→ 涉及的球队名
   const today = new Date(Date.now() + CN_OFFSET);
   const end = new Date(today.getTime() + days * 86400_000);
-  const fixtures = await espnProvider.getScoreboard(`${ymd(today)}-${ymd(end)}`);
+  const fixtures = await espnProvider.getScoreboard(
+    `${ymd(today)}-${ymd(end)}`,
+  );
   const names = new Set<string>();
   for (const f of fixtures) {
     if (f.homeTeam) names.add(f.homeTeam);
@@ -85,16 +90,36 @@ export async function ingestHistory(
   }
   saveAfTeams(idMap);
 
-  // 3) 每队近 RECENT 场 → 收集唯一 fixture
+  // 3) 每队近 40 场 → 全部入 results.json(喂 Elo);最近 15 场标记取射门(喂 xG)
   const teamIds = [...names]
     .map((n) => idMap[normalizeTeam(n)])
     .filter((x): x is number => !!x);
-  const lists = await pool(teamIds, 5, (id) => getRecentFixtures(id, RECENT));
+  const lists = await pool(teamIds, 5, (id) =>
+    getRecentFixtures(id, RECENT_RESULTS),
+  );
+  const results = loadResults();
   const uniq = new Map<number, AfFixture>();
-  for (const list of lists) for (const fx of list ?? []) uniq.set(fx.id, fx);
+  const statsTargets = new Set<number>();
+  for (const list of lists) {
+    if (!list) continue;
+    list.forEach((fx, i) => {
+      // 列表按最近优先;全部存赛果,前 15 场取射门统计
+      uniq.set(fx.id, fx);
+      results[String(fx.id)] = {
+        eventId: String(fx.id),
+        date: fx.date,
+        homeNorm: normalizeTeam(fx.homeName),
+        awayNorm: normalizeTeam(fx.awayName),
+        homeGoals: fx.homeGoals,
+        awayGoals: fx.awayGoals,
+      };
+      if (i < RECENT_STATS) statsTargets.add(fx.id);
+    });
+  }
+  saveResults(results);
 
   // 4) 逐场射门统计 → HistMatch(有射门数据才入库)
-  const ids = [...uniq.keys()];
+  const ids = [...statsTargets];
   const stats = await pool(ids, 5, (id) => getFixtureStats(id));
   const store = loadHistorical();
   let added = 0;

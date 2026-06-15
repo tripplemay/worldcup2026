@@ -9,7 +9,6 @@ import {
   MatchVenueWeather,
 } from 'components/worldcup/MatchBackground';
 import RecentForm from 'components/worldcup/RecentForm';
-import H2HCard from 'components/worldcup/H2HCard';
 import PredictionCard from 'components/worldcup/PredictionCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
@@ -136,8 +135,6 @@ export default function MatchDetailPage() {
           <StatCompare home={summary.homeStats} away={summary.awayStats} />
 
           {odds && <OddsTable m={odds} oddsEventId={odds.id} />}
-
-          <H2HCard h2h={summary.h2h} />
 
           {summary.events.length > 0 && (
             <Card extra="mb-3 p-4">

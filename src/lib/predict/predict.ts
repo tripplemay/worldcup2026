@@ -5,11 +5,12 @@
 import { espnProvider } from 'lib/espn/espn';
 import { theOddsApiProvider } from 'lib/odds/theoddsapi';
 import { cached } from 'lib/cache';
-import { loadRatings } from 'lib/db/store';
+import { loadRatings, loadAfTeams } from 'lib/db/store';
 import { normalizeTeam, findMatch } from 'lib/match/normalize';
 import { getModels } from './registry';
 import { ensemble } from './ensemble';
 import { getIntel } from 'lib/intel/intel';
+import { getHeadToHead, type H2HSummary } from './apifootball';
 import './models'; // 副作用:注册所有模型
 import type { MatchPrediction, PredictionContext } from './model';
 import type { TeamRating } from './types';
@@ -34,6 +35,7 @@ export interface MatchWithPredictions {
   homeIntel?: TeamIntel | null; // 主队场外情报(详情页)
   awayIntel?: TeamIntel | null;
   adjusted?: { home: number; draw: number; away: number } | null; // 情报修正后(旁注参考)
+  h2h?: H2HSummary | null; // 历史交锋(API-Football)
 }
 
 /** 把情报修正量叠加到融合概率(Path B),重归一化;无显著修正返回 null。 */
@@ -170,10 +172,16 @@ export async function predictMatch(
   // 附场外情报(旁注;不改主概率)
   const homeIntel = getIntel(normalizeTeam(s.homeTeam)) ?? null;
   const awayIntel = getIntel(normalizeTeam(s.awayTeam)) ?? null;
+  // 历史交锋(API-Football,需两队 id 已缓存)
+  const af = loadAfTeams();
+  const hid = af[normalizeTeam(s.homeTeam)];
+  const aid = af[normalizeTeam(s.awayTeam)];
+  const h2h = hid && aid ? await getHeadToHead(hid, aid) : null;
   return {
     ...base,
     homeIntel,
     awayIntel,
     adjusted: applyIntel(base.ensemble, homeIntel, awayIntel),
+    h2h,
   };
 }

@@ -6,7 +6,7 @@
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
-import type { HistMatch, TeamRating } from 'lib/predict/types';
+import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { TeamIntel } from 'lib/intel/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
@@ -48,6 +48,16 @@ export function loadRatings(): RatingMap {
 }
 export function saveRatings(map: RatingMap): void {
   writeJson('ratings.json', map);
+}
+
+// ── 赛果(供 Elo,比 historical 更深)──────────────────
+type ResultMap = Record<string, ResultMatch>;
+
+export function loadResults(): ResultMap {
+  return readJson<ResultMap>('results.json', {});
+}
+export function saveResults(map: ResultMap): void {
+  writeJson('results.json', map);
 }
 
 // ── API-Football 队名→id 缓存(避免反复解析)────────────

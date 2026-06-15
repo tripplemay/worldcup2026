@@ -105,7 +105,7 @@ export default function PredictionCard({
   homeTeam?: string;
   awayTeam?: string;
 }) {
-  const { t } = useLocale();
+  const { t, tn } = useLocale();
   const { prediction, isLoading } = useMatchPrediction(matchId);
   const base = prediction?.predictions ?? [];
   const ens = prediction?.ensemble ?? null;
@@ -113,6 +113,7 @@ export default function PredictionCard({
     (x): x is TeamIntel => !!x,
   );
   const adjusted = prediction?.adjusted ?? null;
+  const h2h = prediction?.h2h ?? null;
 
   const consensus =
     base.length >= 2 && base.every((p) => argmax(p) === argmax(base[0]));
@@ -237,6 +238,38 @@ export default function PredictionCard({
                   </span>
                 </div>
               )}
+            </div>
+          )}
+
+          {h2h && h2h.played > 0 && (
+            <div className="mt-2 space-y-1 border-t border-gray-100 pt-2 dark:border-white/5">
+              <div className="flex items-baseline justify-between text-[11px]">
+                <span className="font-semibold text-navy-700 dark:text-white">
+                  📅 {t('predict.h2hTitle')}
+                </span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  {h2h.played} {t('predict.h2hPlayed')} · {t('odds.home')}{' '}
+                  {h2h.homeWins} · {t('odds.draw')} {h2h.draws} ·{' '}
+                  {t('odds.away')} {h2h.awayWins}
+                </span>
+              </div>
+              {h2h.recent.map((g, i) => (
+                <div
+                  key={i}
+                  className="flex items-center gap-2 text-[11px] text-gray-500 dark:text-gray-400"
+                >
+                  <span className="w-12 tabular-nums">
+                    {g.date.slice(0, 7)}
+                  </span>
+                  <span className="flex-1 truncate text-right">
+                    {tn(g.home)}
+                  </span>
+                  <span className="tabular-nums font-medium text-navy-700 dark:text-white">
+                    {g.hs}-{g.as}
+                  </span>
+                  <span className="flex-1 truncate">{tn(g.away)}</span>
+                </div>
+              ))}
             </div>
           )}
         </>

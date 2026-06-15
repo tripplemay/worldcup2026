@@ -21,6 +21,16 @@ export interface HistMatch {
   awayXg: number;
 }
 
+/** 一场赛果(无射门,仅供 Elo;比 historical 更深,last=40)。 */
+export interface ResultMatch {
+  eventId: string;
+  date: string; // ISO
+  homeNorm: string;
+  awayNorm: string;
+  homeGoals: number;
+  awayGoals: number;
+}
+
 /** 球队动态评分(近期比赛 EWMA 结果);按归一化队名索引。 */
 export interface TeamRating {
   norm: string; // 归一化队名(key)

@@ -2,11 +2,25 @@
  * 球队动态评分:对每队近期比赛的单场 xG 做指数加权移动平均(EWMA),
  * 得「场均创造 xG」(进攻)和「场均丢失 xG」(防守),写入 ratings.json。
  */
-import { loadHistorical, loadRatings, saveRatings } from 'lib/db/store';
-import type { HistMatch, TeamRating } from './types';
+import {
+  loadHistorical,
+  loadResults,
+  loadRatings,
+  saveRatings,
+} from 'lib/db/store';
+import type { TeamRating } from './types';
 
 const ALPHA = 0.85; // 衰减系数:越近的比赛权重越高
-const MAX_GAMES = 10; // 最多取近 N 场
+const MAX_GAMES = 15; // 最多取近 N 场(xG EWMA)
+
+/** Elo 回放所需的最小赛果字段(HistMatch / ResultMatch 都兼容)。 */
+type GameLike = {
+  date: string;
+  homeNorm: string;
+  awayNorm: string;
+  homeGoals: number;
+  awayGoals: number;
+};
 
 // ── Elo ──────────────────────────────────────────────
 const ELO_START = 1500;
@@ -22,10 +36,10 @@ function marginMult(diff: number): number {
 }
 
 /** 按日期回放所有历史比赛,得到各队 Elo(归一化队名 → 分)。 */
-function computeElo(hist: HistMatch[]): Map<string, number> {
+function computeElo(games: GameLike[]): Map<string, number> {
   const elo = new Map<string, number>();
   const get = (k: string) => elo.get(k) ?? ELO_START;
-  const sorted = [...hist].sort((a, b) => a.date.localeCompare(b.date));
+  const sorted = [...games].sort((a, b) => a.date.localeCompare(b.date));
   for (const m of sorted) {
     const Ra = get(m.homeNorm);
     const Rb = get(m.awayNorm);
@@ -52,7 +66,9 @@ interface Sample {
 /** 重算所有球队评分(基于 historical.json)。返回参与计算的球队数。 */
 export function recomputeRatings(): { teams: number } {
   const hist = Object.values(loadHistorical());
-  const eloMap = computeElo(hist);
+  // Elo 用更深的赛果(results.json,last=40);缺失则退回 historical
+  const results = Object.values(loadResults());
+  const eloMap = computeElo(results.length ? results : hist);
   const byTeam = new Map<string, Sample[]>();
   const add = (norm: string, s: Sample) => {
     if (!byTeam.has(norm)) byTeam.set(norm, []);

@@ -88,6 +88,65 @@ export async function getRecentFixtures(
   return out;
 }
 
+export interface H2HSummary {
+  played: number;
+  homeWins: number; // 以本场主队视角
+  draws: number;
+  awayWins: number;
+  recent: {
+    date: string;
+    home: string;
+    away: string;
+    hs: number;
+    as: number;
+  }[];
+}
+
+/** 两队历史交锋(以本场 homeId 视角统计胜平负);需两队 id,无记录返回 null。 */
+export async function getHeadToHead(
+  homeId: number,
+  awayId: number,
+  last = 10,
+): Promise<H2HSummary | null> {
+  const list = (
+    await af(`/fixtures/headtohead?h2h=${homeId}-${awayId}&last=${last}`)
+  ).map(obj);
+  const fin = list.filter((f) => obj(obj(f.fixture).status).short === 'FT');
+  if (!fin.length) return null;
+  let hw = 0;
+  let d = 0;
+  let aw = 0;
+  const recent: H2HSummary['recent'] = [];
+  for (const f of fin) {
+    const fx = obj(f.fixture);
+    const teams = obj(f.teams);
+    const goals = obj(f.goals);
+    const fhId = num(obj(teams.home).id);
+    const fhg = num(goals.home);
+    const fag = num(goals.away);
+    const hScore = fhId === homeId ? fhg : fag; // 本场主队进球
+    const aScore = fhId === homeId ? fag : fhg;
+    if (hScore > aScore) hw++;
+    else if (hScore === aScore) d++;
+    else aw++;
+    recent.push({
+      date: typeof fx.date === 'string' ? fx.date : '',
+      home: String(obj(teams.home).name ?? ''),
+      away: String(obj(teams.away).name ?? ''),
+      hs: fhg,
+      as: fag,
+    });
+  }
+  recent.sort((a, b) => b.date.localeCompare(a.date));
+  return {
+    played: fin.length,
+    homeWins: hw,
+    draws: d,
+    awayWins: aw,
+    recent: recent.slice(0, 6),
+  };
+}
+
 /** 单场射门统计:teamId → { sot 射正, shots 总射门 };无统计返回 null。 */
 export async function getFixtureStats(
   fixtureId: number,
