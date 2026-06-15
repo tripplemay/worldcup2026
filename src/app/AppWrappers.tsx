@@ -3,16 +3,11 @@ import React, { ReactNode } from 'react';
 import 'styles/App.css';
 import 'styles/index.css';
 
-import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import { ConfiguratorContext } from 'contexts/ConfiguratorContext';
 
-const _NoSSR = ({ children }) => <React.Fragment>{children}</React.Fragment>;
-
-const NoSSR = dynamic(() => Promise.resolve(_NoSSR), {
-  ssr: false,
-});
-
+// H3:去掉原 NoSSR 包裹,恢复 SSR 首屏(骨架/字体/底部 Tab 立即服务端绘制)。
+// 主题写 document 的副作用已在 useEffect 内,仅客户端执行,SSR 安全。
 export default function AppWrappers({ children }: { children: ReactNode }) {
   const [mini, setMini] = useState(false);
   const [contrast, setContrast] = useState(false);
@@ -40,21 +35,19 @@ export default function AppWrappers({ children }: { children: ReactNode }) {
     //eslint-disable-next-line
   }, [theme]);
   return (
-    <NoSSR>
-      <ConfiguratorContext.Provider
-        value={{
-          mini,
-          setMini,
-          theme,
-          setTheme,
-          hovered,
-          setHovered,
-          contrast,
-          setContrast,
-        }}
-      >
-        {children}
-      </ConfiguratorContext.Provider>
-    </NoSSR>
+    <ConfiguratorContext.Provider
+      value={{
+        mini,
+        setMini,
+        theme,
+        setTheme,
+        hovered,
+        setHovered,
+        contrast,
+        setContrast,
+      }}
+    >
+      {children}
+    </ConfiguratorContext.Provider>
   );
 }
