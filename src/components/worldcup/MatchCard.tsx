@@ -1,7 +1,7 @@
 'use client';
 
+import { memo } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import { useLocale } from 'lib/i18n/context';
@@ -40,24 +40,14 @@ function OddPill({ label, price }: { label: string; price?: number }) {
 }
 
 /** 一场比赛卡片(Horizon Card):队徽 + 比分 + 精简赔率;点击进详情页;进行中红环。 */
-export default function MatchCard({
-  m,
-  odds,
-}: {
-  m: ScheduleMatch;
-  odds?: MatchOdds;
-}) {
+function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchOdds }) {
   const { locale, t } = useLocale();
   const statusLabel = t(`status.${m.status}`);
   const showScore = m.status !== 'pre';
   const live = m.status === 'in';
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.25 }}
-    >
+    <div className="fade-in-up">
       <Link href={`/match/${m.id}`}>
         <Card extra={`p-4 ${live ? 'ring-2 ring-red-500/50' : ''}`}>
           <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
@@ -107,6 +97,8 @@ export default function MatchCard({
           )}
         </Card>
       </Link>
-    </motion.div>
+    </div>
   );
 }
+
+export default memo(MatchCard);

@@ -9,6 +9,8 @@
 
 const nextConfig = {
   output: 'standalone',
+  // react-icons 等按需 tree-shake 的保险(只打进用到的图标)
+  experimental: { optimizePackageImports: ['react-icons'] },
   // 模板自带页面存在遗留类型/大小写问题;世界杯 App 代码在 dev 下类型检查已通过,
   // 生产构建跳过全量 tsc / eslint,避免被模板噪音阻断。
   typescript: { ignoreBuildErrors: true },

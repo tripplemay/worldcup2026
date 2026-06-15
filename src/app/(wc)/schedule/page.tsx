@@ -1,11 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { MdCalendarMonth, MdCircle } from 'react-icons/md';
 import MiniStatistics from 'components/card/MiniStatistics';
 import PageHeading from 'components/worldcup/PageHeading';
 import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
-import { findMatch } from 'lib/match/normalize';
+import { matchKey } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import MatchCard from 'components/worldcup/MatchCard';
 import PullToRefresh from 'components/worldcup/PullToRefresh';
@@ -69,6 +69,13 @@ export default function SchedulePage() {
     oddsUpdatedAt,
     nextOddsRefreshAt,
   } = useMatchOdds();
+  // 赔率按对阵键建索引,行内 O(1) 取(避免每行对整数组 find;引用稳定利于行 memo)
+  const oddsMap = useMemo(() => {
+    const map = new Map<string, (typeof oddsMatches)[number]>();
+    for (const o of oddsMatches)
+      map.set(matchKey(o.homeTeam, o.awayTeam, o.commenceTime), o);
+    return map;
+  }, [oddsMatches]);
   const live = matches.filter((m) => m.status === 'in').length;
 
   return (
@@ -152,11 +159,8 @@ export default function SchedulePage() {
             <MatchCard
               key={m.id}
               m={m}
-              odds={findMatch(
-                oddsMatches,
-                m.homeTeam,
-                m.awayTeam,
-                m.commenceTime,
+              odds={oddsMap.get(
+                matchKey(m.homeTeam, m.awayTeam, m.commenceTime),
               )}
             />
           ))}

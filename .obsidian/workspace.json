@@ -242,6 +242,7 @@
   },
   "active": "8a9fead12c69c79d",
   "lastOpenFiles": [
+    "docs/PERF_AUDIT.md",
     "docs/需求说明书：基于 Elo 积分的轻量化宏观预测引擎 (Phase 2 修正版).md",
     "src/components/worldcup/PageHeading.tsx",
     "src/lib/predict/ratings.ts.tmp.66571.2fa961373945",

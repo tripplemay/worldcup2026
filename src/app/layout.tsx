@@ -1,7 +1,16 @@
 import React, { ReactNode } from 'react';
 import type { Metadata, Viewport } from 'next';
+import { DM_Sans } from 'next/font/google';
 import AppWrappers from './AppWrappers';
 import PwaRegister from './pwa-register';
+
+// 自托管 DM Sans(latin),preload + swap;中文沿用系统字体(DM Sans 无中文字形)
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  weight: ['400', '500', '700'],
+  display: 'swap',
+  variable: '--font-dm-sans',
+});
 // import '@asseinfo/react-kanban/dist/styles.css';
 // import '/public/styles/Plugins.css';
 
@@ -34,7 +43,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" className={dmSans.variable}>
       <body className="dark" id={'root'}>
         <AppWrappers>{children}</AppWrappers>
         <PwaRegister />

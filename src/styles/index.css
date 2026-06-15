@@ -1,15 +1,33 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
   html {
-    font-family: 'DM Sans', sans-serif !important;
+    font-family: var(--font-dm-sans), 'DM Sans', sans-serif !important;
     font-feature-settings: 'kern' !important;
     -webkit-font-smoothing: antialiased;
     letter-spacing: -0.2px;
+  }
+}
+
+/* 卡片入场淡入(替代 framer-motion,零 JS 运行时) */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.fade-in-up {
+  animation: fadeInUp 0.25s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .fade-in-up {
+    animation: none;
   }
 }
 input.defaultCheckbox {

@@ -16,10 +16,21 @@ export default function TeamBadge({
 }) {
   const tn = useTn();
   return (
-    <span className={`flex items-center gap-1.5 ${reverse ? 'flex-row-reverse' : ''} ${className}`}>
+    <span
+      className={`flex items-center gap-1.5 ${
+        reverse ? 'flex-row-reverse' : ''
+      } ${className}`}
+    >
       {logo ? (
         // eslint-disable-next-line @next/next/no-img-element
-        <img src={logo} alt="" className="h-5 w-5 shrink-0 object-contain" loading="lazy" />
+        <img
+          src={logo}
+          alt=""
+          width={20}
+          height={20}
+          className="h-5 w-5 shrink-0 object-contain"
+          loading="lazy"
+        />
       ) : (
         <span className="h-5 w-5 shrink-0 rounded-full bg-gray-200 dark:bg-navy-700" />
       )}

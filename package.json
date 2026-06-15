@@ -39,7 +39,6 @@
     "@types/react": "^18.0.15",
     "@types/react-dom": "^18.0.6",
     "apexcharts": "3.35.5",
-    "framer-motion": "^7.10.2",
     "ieee754": "^1.2.1",
     "mapbox-gl": "^2.10.0",
     "next": "^15.1.5",

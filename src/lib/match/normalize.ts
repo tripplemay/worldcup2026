@@ -23,15 +23,22 @@ const ALIASES: Record<string, string> = {
   czechia: 'czech republic',
 };
 
-/** 归一化单个队名:去变音 → 小写 → 标点转空格 → 别名。 */
+// 进程内缓存:队名恒定(48 队 + 对手),命中率≈100%,省掉重复 NFD+正则
+const _normCache = new Map<string, string>();
+
+/** 归一化单个队名:去变音 → 小写 → 标点转空格 → 别名(带缓存)。 */
 export function normalizeTeam(name: string): string {
+  const hit = _normCache.get(name);
+  if (hit !== undefined) return hit;
   const base = name
     .normalize('NFD')
     .replace(/[̀-ͯ]/g, '') // 去除变音符(Curaçao→Curacao, Türkiye→Turkiye)
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, ' ')
     .trim();
-  return ALIASES[base] ?? base;
+  const out = ALIASES[base] ?? base;
+  _normCache.set(name, out);
+  return out;
 }
 
 /** UTC 日期(YYYY-MM-DD),用于对齐同一天的对阵。 */
@@ -43,7 +50,11 @@ function utcDate(iso: string): string {
  * 对阵键:两队归一化名(排序,忽略主客方向)+ UTC 日期。
  * 用于跨源匹配——小组赛同一对阵在同一天唯一。
  */
-export function matchKey(teamA: string, teamB: string, commenceTimeISO: string): string {
+export function matchKey(
+  teamA: string,
+  teamB: string,
+  commenceTimeISO: string,
+): string {
   const pair = [normalizeTeam(teamA), normalizeTeam(teamB)].sort().join(' v ');
   return `${pair}__${utcDate(commenceTimeISO)}`;
 }
@@ -52,12 +63,16 @@ export function matchKey(teamA: string, teamB: string, commenceTimeISO: string):
  * 在候选列表中按对阵键查找匹配项。
  * @returns 匹配到的元素,或 undefined(对齐失败时调用方应降级,不显示错值)。
  */
-export function findMatch<T extends { homeTeam: string; awayTeam: string; commenceTime: string }>(
+export function findMatch<
+  T extends { homeTeam: string; awayTeam: string; commenceTime: string },
+>(
   items: T[],
   home: string,
   away: string,
   commenceTimeISO: string,
 ): T | undefined {
   const key = matchKey(home, away, commenceTimeISO);
-  return items.find((it) => matchKey(it.homeTeam, it.awayTeam, it.commenceTime) === key);
+  return items.find(
+    (it) => matchKey(it.homeTeam, it.awayTeam, it.commenceTime) === key,
+  );
 }
