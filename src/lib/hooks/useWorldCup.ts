@@ -228,7 +228,7 @@ export function useMatchMarkets(oddsEventId?: string) {
       ? `/api/worldcup/match-markets?oddsEventId=${oddsEventId}`
       : null,
     fetcher,
-    common,
+    oddsCommon,
   );
   return { markets: data?.markets, error, isLoading };
 }
