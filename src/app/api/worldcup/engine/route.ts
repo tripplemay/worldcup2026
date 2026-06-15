@@ -5,6 +5,7 @@
  */
 import { ingestHistory } from 'lib/predict/history';
 import { recomputeRatings } from 'lib/predict/ratings';
+import { fetchEloRatings } from 'lib/predict/eloratings';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -23,7 +24,8 @@ export async function POST(req: Request) {
   const days = Number(new URL(req.url).searchParams.get('days') ?? 14);
   try {
     const ingested = await ingestHistory(Number.isFinite(days) ? days : 14);
-    const ratings = recomputeRatings();
+    const authElo = await fetchEloRatings(); // eloratings.net 权威 Elo
+    const ratings = recomputeRatings(authElo);
     return ok({ ingested, ratings });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '引擎计算失败');

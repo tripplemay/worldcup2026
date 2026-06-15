@@ -7,6 +7,7 @@ import {
   loadResults,
   loadRatings,
   saveRatings,
+  saveElo,
 } from 'lib/db/store';
 import type { TeamRating } from './types';
 
@@ -63,12 +64,21 @@ interface Sample {
   ga: number;
 }
 
-/** 重算所有球队评分(基于 historical.json)。返回参与计算的球队数。 */
-export function recomputeRatings(): { teams: number } {
+/** 重算所有球队评分。authElo 为 eloratings.net 权威 Elo(优先);缺失回退自算。 */
+export function recomputeRatings(authElo?: Map<string, number>): {
+  teams: number;
+} {
   const hist = Object.values(loadHistorical());
-  // Elo 用更深的赛果(results.json,last=40);缺失则退回 historical
+  // 自算 Elo(results.json,last=40;缺失退回 historical)作为回退
   const results = Object.values(loadResults());
-  const eloMap = computeElo(results.length ? results : hist);
+  const selfElo = computeElo(results.length ? results : hist);
+
+  // 权威 Elo(eloratings.net)优先存为独立 elo.json,覆盖全部队;
+  // 缺失的队用自算补齐,供 Elo 模型对任意对阵都能查到。
+  const eloOut: Record<string, number> = {};
+  for (const [k, v] of selfElo) eloOut[k] = Math.round(v);
+  if (authElo) for (const [k, v] of authElo) eloOut[k] = v; // 权威覆盖
+  saveElo(eloOut);
   const byTeam = new Map<string, Sample[]>();
   const add = (norm: string, s: Sample) => {
     if (!byTeam.has(norm)) byTeam.set(norm, []);
@@ -120,7 +130,7 @@ export function recomputeRatings(): { teams: number } {
       xgAgainst: +(a / w).toFixed(3),
       goalsFor: +(gf / w).toFixed(3),
       goalsAgainst: +(ga / w).toFixed(3),
-      elo: Math.round(eloMap.get(norm) ?? ELO_START),
+      elo: authElo?.get(norm) ?? Math.round(selfElo.get(norm) ?? ELO_START),
       sample: samples.length,
       updatedAt: now,
     };

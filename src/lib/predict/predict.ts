@@ -5,11 +5,12 @@
 import { espnProvider } from 'lib/espn/espn';
 import { theOddsApiProvider } from 'lib/odds/theoddsapi';
 import { cached } from 'lib/cache';
-import { loadRatings, loadAfTeams } from 'lib/db/store';
+import { loadRatings, loadElo, loadAfTeams } from 'lib/db/store';
 import { normalizeTeam, findMatch } from 'lib/match/normalize';
 import { getModels } from './registry';
 import { ensemble } from './ensemble';
 import { getIntel } from 'lib/intel/intel';
+import { findVenue } from 'lib/data/venues';
 import { getHeadToHead, type H2HSummary } from './apifootball';
 import './models'; // 副作用:注册所有模型
 import type { MatchPrediction, PredictionContext } from './model';
@@ -59,6 +60,27 @@ function applyIntel(
   };
 }
 
+/** 承办国(归一化队名 → 场馆国家),用于主场优势判定。 */
+const HOST: Record<string, 'USA' | 'Canada' | 'Mexico'> = {
+  usa: 'USA',
+  canada: 'Canada',
+  mexico: 'Mexico',
+};
+
+/** Elo 主场优势 H:主队为东道主且在本国比赛 +100;客队为东道主在本国 −100;否则中立 0。 */
+function homeAdvantage(
+  homeNorm: string,
+  awayNorm: string,
+  venue?: string,
+  city?: string,
+): number {
+  const country = findVenue(venue, city)?.country;
+  if (!country) return 0;
+  if (HOST[homeNorm] === country) return 100;
+  if (HOST[awayNorm] === country) return -100;
+  return 0;
+}
+
 /** 联赛基准:全体球队场均创造 xG 的均值(泊松归一化用)。 */
 function leagueAverage(ratings: Record<string, TeamRating>): number {
   const vals = Object.values(ratings).map((r) => r.xgFor);
@@ -89,19 +111,26 @@ function predictFixture(
     | 'awayLogo'
     | 'commenceTime'
     | 'status'
+    | 'venue'
   >,
   ratings: Record<string, TeamRating>,
+  eloMap: Record<string, number>,
   leagueAvg: number,
   oddsMatches: MatchOdds[],
+  city?: string,
 ): MatchWithPredictions {
   const odds = findMatch(oddsMatches, m.homeTeam, m.awayTeam, m.commenceTime);
+  const homeNorm = normalizeTeam(m.homeTeam);
+  const awayNorm = normalizeTeam(m.awayTeam);
+  const H = homeAdvantage(homeNorm, awayNorm, m.venue, city);
   const ctx: PredictionContext = {
     matchId: m.id,
     homeName: m.homeTeam,
     awayName: m.awayTeam,
-    homeNorm: normalizeTeam(m.homeTeam),
-    awayNorm: normalizeTeam(m.awayTeam),
-    neutral: true,
+    homeNorm,
+    awayNorm,
+    neutral: H === 0,
+    homeAdvantage: H,
     leagueAvg,
     marketOdds: odds
       ? {
@@ -111,6 +140,7 @@ function predictFixture(
         }
       : undefined,
     rating: (n) => ratings[n],
+    eloOf: (n) => eloMap[n],
   };
   const predictions = getModels()
     .map((model) => model.predict(ctx))
@@ -139,9 +169,10 @@ export async function predictUpcoming(
     loadOdds(),
   ]);
   const ratings = loadRatings();
+  const eloMap = loadElo();
   const leagueAvg = leagueAverage(ratings);
   return fixtures
-    .map((f) => predictFixture(f, ratings, leagueAvg, oddsMatches))
+    .map((f) => predictFixture(f, ratings, eloMap, leagueAvg, oddsMatches))
     .sort((a, b) => a.commenceTime.localeCompare(b.commenceTime));
 }
 
@@ -155,6 +186,7 @@ export async function predictMatch(
   ]);
   if (!s) return null;
   const ratings = loadRatings();
+  const eloMap = loadElo();
   const base = predictFixture(
     {
       id: matchId,
@@ -164,10 +196,13 @@ export async function predictMatch(
       awayLogo: s.awayLogo,
       commenceTime: s.commenceTime,
       status: s.status,
+      venue: s.venue,
     },
     ratings,
+    eloMap,
     leagueAverage(ratings),
     oddsMatches,
+    s.city,
   );
   // 附场外情报(旁注;不改主概率)
   const homeIntel = getIntel(normalizeTeam(s.homeTeam)) ?? null;

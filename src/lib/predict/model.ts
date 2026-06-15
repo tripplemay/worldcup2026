@@ -36,11 +36,14 @@ export interface PredictionContext {
   homeNorm: string; // 归一化队名
   awayNorm: string;
   neutral: boolean; // 中立场地(世界杯多数为是)
+  homeAdvantage: number; // Elo 主场优势分 H(中立 0;美加墨主场 +100,客方为东道主则 −100)
   leagueAvg: number; // 联赛基准:全体球队场均 xG 均值(泊松归一化用)
   /** 该场各家最优 h2h 赔率(市场隐含模型用;缺失则该模型跳过)。 */
   marketOdds?: { home?: number; draw?: number; away?: number };
-  /** 取球队评分(EWMA xG + Elo);未收录返回 undefined。 */
+  /** 取球队 xG 评分(EWMA);未收录返回 undefined。 */
   rating: (norm: string) => TeamRating | undefined;
+  /** 取球队权威 Elo(eloratings.net,覆盖全部队);未收录返回 undefined。 */
+  eloOf: (norm: string) => number | undefined;
 }
 
 /** 可插拔预测模型。 */

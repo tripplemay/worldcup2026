@@ -50,6 +50,16 @@ export function saveRatings(map: RatingMap): void {
   writeJson('ratings.json', map);
 }
 
+// ── 权威 Elo(eloratings.net,覆盖全部国家队)────────────
+type EloMap = Record<string, number>; // 归一化队名 → Elo
+
+export function loadElo(): EloMap {
+  return readJson<EloMap>('elo.json', {});
+}
+export function saveElo(map: EloMap): void {
+  writeJson('elo.json', map);
+}
+
 // ── 赛果(供 Elo,比 historical 更深)──────────────────
 type ResultMap = Record<string, ResultMatch>;
 

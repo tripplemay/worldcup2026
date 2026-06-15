@@ -53,7 +53,7 @@ export function ensemble(
     homeWin: +(h / s).toFixed(4),
     draw: +(d / s).toFixed(4),
     awayWin: +(a / s).toFixed(4),
-    confidence: poisson?.confidence ?? 'low',
+    confidence: poisson?.confidence ?? 'medium',
     xgHome: poisson?.xgHome,
     xgAway: poisson?.xgAway,
     topScores: poisson?.topScores,
