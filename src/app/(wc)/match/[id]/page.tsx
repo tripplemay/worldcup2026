@@ -5,11 +5,7 @@ import { useParams } from 'next/navigation';
 import Card from 'components/card';
 import StatCompare from 'components/worldcup/StatCompare';
 import OddsTable from 'components/worldcup/OddsTable';
-import {
-  useMatchSummary,
-  useMatchOddsLite,
-  useMatchMarkets,
-} from 'lib/hooks/useWorldCup';
+import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import { eventType, statusText, position } from 'lib/i18n/events';
@@ -36,7 +32,6 @@ export default function MatchDetailPage() {
       )
     : undefined;
   const showScore = summary && summary.status !== 'pre';
-  const { markets } = useMatchMarkets(odds?.id);
 
   return (
     <div>
@@ -110,7 +105,7 @@ export default function MatchDetailPage() {
 
           <StatCompare home={summary.homeStats} away={summary.awayStats} />
 
-          {odds && <OddsTable m={odds} markets={markets} />}
+          {odds && <OddsTable m={odds} oddsEventId={odds.id} />}
 
           {summary.events.length > 0 && (
             <Card extra="mb-3 p-4">

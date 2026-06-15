@@ -88,6 +88,7 @@ export const messages = {
       noTotals: '暂无大小球',
       noEvents: '暂无进球/红黄牌',
       loadingEvents: '加载事件…',
+      loadingOdds: '加载赔率…',
     },
     stats: {
       possessionPct: '控球率',
@@ -199,6 +200,7 @@ export const messages = {
       noTotals: 'No totals',
       noEvents: 'No goals/cards',
       loadingEvents: 'Loading events…',
+      loadingOdds: 'Loading odds…',
     },
     stats: {
       possessionPct: 'Possession',
