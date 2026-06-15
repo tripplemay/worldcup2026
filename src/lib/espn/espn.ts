@@ -148,13 +148,29 @@ function parseRecentForm(data: Json): Map<string, RecentGame[]> {
       .map(obj)
       .map((e): RecentGame => {
         const r = str(e.gameResult)?.toUpperCase();
+        // 主客判断优先用 id 对比(最稳),回退 atVs
+        const isHome =
+          str(e.homeTeamId) === tid
+            ? true
+            : str(e.awayTeamId) === tid
+            ? false
+            : str(e.atVs) === 'vs';
+        // 永远以本队视角:本队得分在前、对手在后
+        const hs = str(e.homeTeamScore);
+        const as = str(e.awayTeamScore);
+        const mine = isHome ? hs : as;
+        const opp = isHome ? as : hs;
+        const score =
+          mine != null || opp != null
+            ? `${mine ?? ''}-${opp ?? ''}`
+            : str(e.score) ?? '';
         return {
           date: str(e.gameDate) ?? '',
           result: r === 'W' || r === 'D' || r === 'L' ? r : '',
-          score: str(e.score) ?? '',
+          score,
           opponent: str(obj(e.opponent).displayName) ?? str(e.opponent) ?? '',
           opponentLogo: str(e.opponentLogo) ?? str(obj(e.opponent).logo),
-          home: str(e.atVs) === 'vs',
+          home: isHome,
           competition: str(e.competitionName) ?? str(e.leagueName),
         };
       });
