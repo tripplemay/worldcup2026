@@ -113,6 +113,8 @@ jobs:
             DATA_DIR=/opt/apps/worldcup-data
             mkdir -p "$DATA_DIR"
             export ODDS_KEYS_FILE="$DATA_DIR/odds-keys.json"
+            # 预测系统数据目录(历史/评分 JSON,部署不丢)
+            export WC_DATA_DIR="$DATA_DIR"
             # 管理员口令(前端 key 管理鉴权;未设则该功能禁用)
             export ADMIN_TOKEN="${ADMIN_TOKEN}"
             export PORT="$PORT"
@@ -124,6 +126,18 @@ jobs:
             pm2 delete worldcup 2>/dev/null || true
             pm2 start server.js --name worldcup --update-env
             pm2 save
+
+            # ── 预测引擎:首次播种评分 + 每日刷新 cron(纯 ESPN,免费)──
+            if [ -n "${ADMIN_TOKEN}" ]; then
+              sleep 5
+              curl -s --max-time 200 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
+                "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
+              if command -v crontab >/dev/null 2>&1; then
+                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine'; \
+                  echo "30 4 * * * curl -s --max-time 200 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=21' >/dev/null 2>&1 # worldcup-predict" \
+                ) | crontab -
+              fi
+            fi
 
             echo ">>> 部署完成 — https://${DOMAIN}"
         env:

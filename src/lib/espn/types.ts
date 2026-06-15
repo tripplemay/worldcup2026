@@ -99,6 +99,7 @@ export interface RosterPlayer {
 
 /** 近期战绩一场(球队视角)。 */
 export interface RecentGame {
+  eventId: string; // ESPN 全局赛事 ID(可据此拉该场 boxscore)
   date: string; // ISO
   result: 'W' | 'D' | 'L' | '';
   score: string; // "2-2"
@@ -106,6 +107,20 @@ export interface RecentGame {
   opponentLogo?: string;
   home: boolean; // 主场?(atVs === 'vs')
   competition?: string;
+}
+
+/** 任意一场比赛的射门/进球统计(预测系统摄取用)。 */
+export interface EventStats {
+  eventId: string;
+  date: string; // ISO
+  homeName: string;
+  awayName: string;
+  homeGoals: number;
+  awayGoals: number;
+  homeSoT: number; // 射正
+  homeShots: number; // 总射门
+  awaySoT: number;
+  awayShots: number;
 }
 
 /** 历史交锋一场。 */

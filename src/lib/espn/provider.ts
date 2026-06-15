@@ -9,6 +9,7 @@ import type {
   MatchEvent,
   BracketMatch,
   MatchSummary,
+  EventStats,
 } from './types';
 
 export interface EspnProvider {
@@ -19,4 +20,6 @@ export interface EspnProvider {
   getBracket(): Promise<BracketMatch[]>;
   /** 单场详情:比分/状态/队徽 + 统计 + 阵容 + 事件。 */
   getMatchSummary(eventId: string): Promise<MatchSummary>;
+  /** 任意一场比赛的射门/进球统计(预测系统摄取历史用)。 */
+  getEventStats(eventId: string): Promise<EventStats>;
 }

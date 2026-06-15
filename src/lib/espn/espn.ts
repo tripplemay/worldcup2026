@@ -23,6 +23,7 @@ import type {
   RosterPlayer,
   RecentGame,
   H2HGame,
+  EventStats,
 } from './types';
 
 const BASE = process.env.ESPN_BASE ?? 'https://site.api.espn.com/apis';
@@ -165,6 +166,7 @@ function parseRecentForm(data: Json): Map<string, RecentGame[]> {
             ? `${mine ?? ''}-${opp ?? ''}`
             : str(e.score) ?? '';
         return {
+          eventId: str(e.id) ?? '',
           date: str(e.gameDate) ?? '',
           result: r === 'W' || r === 'D' || r === 'L' ? r : '',
           score,
@@ -360,6 +362,48 @@ export const espnProvider: EspnProvider = {
       homeForm: recentForm.get(teamId(homeC) ?? '') ?? [],
       awayForm: recentForm.get(teamId(awayC) ?? '') ?? [],
       h2h: parseH2H(data),
+    };
+  },
+
+  async getEventStats(eventId: string): Promise<EventStats> {
+    const data = await getJSON(
+      `${BASE}/site/v2/sports/${LEAGUE}/summary?event=${eventId}`,
+    );
+    const header = obj(data.header);
+    const comp = obj(arr(header.competitions)[0]);
+    const competitors = arr(comp.competitors).map(obj);
+    const homeC =
+      competitors.find((c) => str(c.homeAway) === 'home') ??
+      obj(competitors[0]);
+    const awayC =
+      competitors.find((c) => str(c.homeAway) === 'away') ??
+      obj(competitors[1]);
+    const teamName = (c: Json) =>
+      str(obj(c.team).displayName) ?? str(obj(c.team).name) ?? '';
+    const tid = (c: Json) => str(obj(c.team).id);
+
+    const bsTeams = arr(obj(data.boxscore).teams).map(obj);
+    const stat = (id: string | undefined, name: string): number => {
+      const t = bsTeams.find((x) => str(obj(x.team).id) === id);
+      const s = arr(t?.statistics)
+        .map(obj)
+        .find((x) => str(x.name) === name);
+      return numOr(s?.displayValue ?? s?.value, 0);
+    };
+    const hid = tid(homeC);
+    const aid = tid(awayC);
+
+    return {
+      eventId,
+      date: str(comp.date) ?? str(header.date) ?? '',
+      homeName: teamName(homeC),
+      awayName: teamName(awayC),
+      homeGoals: numOr(homeC.score, 0),
+      awayGoals: numOr(awayC.score, 0),
+      homeSoT: stat(hid, 'shotsOnTarget'),
+      homeShots: stat(hid, 'totalShots'),
+      awaySoT: stat(aid, 'shotsOnTarget'),
+      awayShots: stat(aid, 'totalShots'),
     };
   },
 };
