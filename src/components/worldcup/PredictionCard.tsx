@@ -114,6 +114,7 @@ export default function PredictionCard({
   );
   const adjusted = prediction?.adjusted ?? null;
   const h2h = prediction?.h2h ?? null;
+  const weightMode = prediction?.weightMode;
 
   const consensus =
     base.length >= 2 && base.every((p) => argmax(p) === argmax(base[0]));
@@ -170,7 +171,7 @@ export default function PredictionCard({
           </div>
 
           {base.length >= 2 && (
-            <div className="mt-2 text-[11px]">
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 text-[11px]">
               {consensus ? (
                 <span className="text-green-600 dark:text-green-400">
                   ✅ {t('predict.consensusHigh')}
@@ -178,6 +179,11 @@ export default function PredictionCard({
               ) : (
                 <span className="text-amber-600 dark:text-amber-400">
                   ⚠️ {t('predict.consensusLow')}
+                </span>
+              )}
+              {(weightMode === 'gap' || weightMode === 'even') && (
+                <span className="text-gray-400">
+                  · {t(`predict.wm_${weightMode}`)}
                 </span>
               )}
             </div>

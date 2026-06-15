@@ -33,6 +33,7 @@ export interface MatchWithPredictions {
   status: string;
   predictions: MatchPrediction[]; // 各基础模型
   ensemble: MatchPrediction | null; // 融合共识
+  weightMode?: 'gap' | 'even' | 'normal'; // 动态权重模式(实力悬殊/势均/常规)
   homeIntel?: TeamIntel | null; // 主队场外情报(详情页)
   awayIntel?: TeamIntel | null;
   adjusted?: { home: number; draw: number; away: number } | null; // 情报修正后(旁注参考)
@@ -145,6 +146,19 @@ function predictFixture(
   const predictions = getModels()
     .map((model) => model.predict(ctx))
     .filter((p): p is MatchPrediction => p !== null);
+  // Elo 差(不含主场优势)→ 动态权重模式
+  const eh = eloMap[homeNorm];
+  const ea = eloMap[awayNorm];
+  const eloDiff =
+    Number.isFinite(eh) && Number.isFinite(ea) ? Math.abs(eh - ea) : undefined;
+  const weightMode =
+    eloDiff == null
+      ? undefined
+      : eloDiff > 250
+      ? 'gap'
+      : eloDiff < 50
+      ? 'even'
+      : 'normal';
   return {
     matchId: m.id,
     homeTeam: m.homeTeam,
@@ -154,7 +168,8 @@ function predictFixture(
     commenceTime: m.commenceTime,
     status: m.status,
     predictions,
-    ensemble: ensemble(predictions, m.id),
+    ensemble: ensemble(predictions, m.id, eloDiff),
+    weightMode,
   };
 }
 

@@ -1,38 +1,63 @@
 /**
  * 模型融合(Stacking):对各模型的胜平负做加权平均 → 最终共识概率。
- * 权重默认 泊松0.4 / Elo0.4 / 市场0.2,可用 env PREDICT_WEIGHTS 热覆盖。
- * 只对实际产出预测的模型加权(权重重归一化),进球细节沿用泊松。
+ *
+ * 上下文感知动态权重(Phase 5):市场固定锚定 0.2,其余在泊松↔Elo 间按 Elo 差动态分配——
+ *  · 实力悬殊(|ΔElo|>250):宏观实力主导 → Elo 重(0.8)、泊松轻(0.2)
+ *  · 势均力敌(|ΔElo|<50):近期战术状态主导 → 泊松重(0.7)、Elo 轻(0.3)
+ *  · 常规:0.45/0.55
+ * env PREDICT_WEIGHTS 可作静态逃生舱覆盖。进球细节沿用泊松。
  */
 import type { MatchPrediction } from './model';
 
-const DEFAULT_WEIGHTS: Record<string, number> = {
-  'poisson-xg': 0.4,
-  elo: 0.4,
-  market: 0.2,
-};
+const MARKET_W = 0.2; // 市场隐含锚定权重(纯预测,非 EV 对碰,无循环)
 
-function weights(): Record<string, number> {
-  const raw = process.env.PREDICT_WEIGHTS; // 形如 "poisson-xg:0.4,elo:0.4,market:0.2"
-  if (!raw) return DEFAULT_WEIGHTS;
+/** 解析 env 静态权重覆盖(逃生舱);未设返回 null。 */
+function staticOverride(): Record<string, number> | null {
+  const raw = process.env.PREDICT_WEIGHTS;
+  if (!raw) return null;
   const out: Record<string, number> = {};
   for (const part of raw.split(',')) {
     const [k, v] = part.split(':');
     const n = Number(v);
     if (k && Number.isFinite(n)) out[k.trim()] = n;
   }
-  return Object.keys(out).length ? out : DEFAULT_WEIGHTS;
+  return Object.keys(out).length ? out : null;
+}
+
+/** 按 Elo 差动态权重(market 锚定,poisson↔elo 动态)。 */
+function dynamicWeights(eloDiff?: number): Record<string, number> {
+  const override = staticOverride();
+  if (override) return override;
+  let pPoisson = 0.45;
+  let pElo = 0.55;
+  if (eloDiff != null) {
+    if (eloDiff > 250) {
+      pPoisson = 0.2;
+      pElo = 0.8;
+    } else if (eloDiff < 50) {
+      pPoisson = 0.7;
+      pElo = 0.3;
+    }
+  }
+  const rest = 1 - MARKET_W;
+  return {
+    'poisson-xg': +(rest * pPoisson).toFixed(3),
+    elo: +(rest * pElo).toFixed(3),
+    market: MARKET_W,
+  };
 }
 
 export function ensemble(
   all: MatchPrediction[],
   matchId: string,
+  eloDiff?: number,
 ): MatchPrediction | null {
   // 防御:只纳入概率有限的模型,绝不让 NaN 污染融合
   const preds = all.filter((p) =>
     [p.homeWin, p.draw, p.awayWin].every(Number.isFinite),
   );
   if (!preds.length) return null;
-  const W = weights();
+  const W = dynamicWeights(eloDiff);
   let wsum = 0;
   let h = 0;
   let d = 0;
