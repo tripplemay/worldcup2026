@@ -24,7 +24,10 @@ export const eloModel: PredictionModel = {
   predict(ctx: PredictionContext): MatchPrediction | null {
     const h = ctx.rating(ctx.homeNorm);
     const a = ctx.rating(ctx.awayNorm);
-    if (!h || !a) return null;
+    // 评分缺失或无 elo(如旧版 ratings)→ 干净跳过,绝不输出 NaN 污染融合
+    if (!h || !a || !Number.isFinite(h.elo) || !Number.isFinite(a.elo)) {
+      return null;
+    }
 
     // 中立场地:不加主场优势
     const ea = 1 / (1 + Math.pow(10, (a.elo - h.elo) / 400)); // 主队期望得分 0~1
@@ -33,14 +36,18 @@ export const eloModel: PredictionModel = {
     d = Math.min(d, 2 * Math.min(ea, 1 - ea)); // 保证 P(主)、P(客) ≥ 0
     const home = Math.max(0, ea - 0.5 * d);
     const away = Math.max(0, 1 - ea - 0.5 * d);
-    const sum = home + d + away || 1;
+    const sum = home + d + away;
+    const hw = home / sum;
+    const dr = d / sum;
+    const aw = away / sum;
+    if (![hw, dr, aw].every(Number.isFinite)) return null;
 
     return {
       modelId: this.id,
       matchId: ctx.matchId,
-      homeWin: +(home / sum).toFixed(4),
-      draw: +(d / sum).toFixed(4),
-      awayWin: +(away / sum).toFixed(4),
+      homeWin: +hw.toFixed(4),
+      draw: +dr.toFixed(4),
+      awayWin: +aw.toFixed(4),
       confidence: confidence(Math.min(h.sample, a.sample)),
     };
   },

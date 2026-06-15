@@ -24,9 +24,13 @@ function weights(): Record<string, number> {
 }
 
 export function ensemble(
-  preds: MatchPrediction[],
+  all: MatchPrediction[],
   matchId: string,
 ): MatchPrediction | null {
+  // 防御:只纳入概率有限的模型,绝不让 NaN 污染融合
+  const preds = all.filter((p) =>
+    [p.homeWin, p.draw, p.awayWin].every(Number.isFinite),
+  );
   if (!preds.length) return null;
   const W = weights();
   let wsum = 0;
@@ -40,8 +44,8 @@ export function ensemble(
     d += w * p.draw;
     a += w * p.awayWin;
   }
-  if (wsum <= 0) return null;
-  const s = h + d + a || 1;
+  const s = h + d + a;
+  if (wsum <= 0 || !Number.isFinite(s) || s <= 0) return null;
   const poisson = preds.find((p) => p.modelId === 'poisson-xg');
   return {
     modelId: 'ensemble',

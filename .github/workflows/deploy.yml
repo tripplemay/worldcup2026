@@ -134,7 +134,7 @@ jobs:
                 "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
               if command -v crontab >/dev/null 2>&1; then
                 ( crontab -l 2>/dev/null | grep -v 'worldcup/engine'; \
-                  echo "30 4 * * * curl -s --max-time 200 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=21' >/dev/null 2>&1 # worldcup-predict" \
+                  echo "30 4 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=14' >/dev/null 2>&1 # worldcup-predict" \
                 ) | crontab -
               fi
             fi

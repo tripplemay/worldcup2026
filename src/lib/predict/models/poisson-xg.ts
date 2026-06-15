@@ -41,6 +41,7 @@ export const poissonXgModel: PredictionModel = {
     const L = Math.max(0.6, ctx.leagueAvg);
     const lambda = clamp((h.xgFor * a.xgAgainst) / L); // 主队预期进球
     const mu = clamp((a.xgFor * h.xgAgainst) / L); // 客队预期进球
+    if (!Number.isFinite(lambda) || !Number.isFinite(mu)) return null;
 
     // 进球分布向量
     const ph = Array.from({ length: MAXG + 1 }, (_, i) => pmf(i, lambda));
@@ -65,6 +66,7 @@ export const poissonXgModel: PredictionModel = {
         scores.push({ score: `${i}-${j}`, p });
       }
     }
+    if (!Number.isFinite(total) || total <= 0) return null;
     // 归一化(截断尾部补偿)
     const norm = (x: number) => +(x / total).toFixed(4);
     const topScores = scores
