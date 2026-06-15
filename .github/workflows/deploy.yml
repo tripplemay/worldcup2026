@@ -64,7 +64,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ADMIN_TOKEN
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -109,6 +109,12 @@ jobs:
             export ODDS_API_REGIONS="eu"
             export ODDS_API_ODDS_FORMAT="decimal"
             export ESPN_BASE="https://site.api.espn.com/apis"
+            # 前端添加的 key 持久化到部署目录之外(rm -rf APP_DIR 不会清掉它)
+            DATA_DIR=/opt/apps/worldcup-data
+            mkdir -p "$DATA_DIR"
+            export ODDS_KEYS_FILE="$DATA_DIR/odds-keys.json"
+            # 管理员口令(前端 key 管理鉴权;未设则该功能禁用)
+            export ADMIN_TOKEN="${ADMIN_TOKEN}"
             export PORT="$PORT"
             export HOSTNAME="127.0.0.1"
             export NODE_ENV="production"
@@ -125,3 +131,4 @@ jobs:
           CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           ODDS_API_KEYS: ${{ secrets.ODDS_API_KEYS }}
+          ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}

@@ -40,3 +40,6 @@ yarn-error.log*
 next-env.d.ts
 
 .idea
+
+# 前端添加的 odds key 持久文件(含明文 key,绝不入库)
+.data/

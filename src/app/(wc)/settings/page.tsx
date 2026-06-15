@@ -3,6 +3,7 @@
 import Card from 'components/card';
 import { useMatchOdds } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
+import KeyManager from 'components/worldcup/KeyManager';
 
 export default function SettingsPage() {
   const { quota } = useMatchOdds();
@@ -58,6 +59,8 @@ export default function SettingsPage() {
               : ''}
           </div>
         </Card>
+
+        <KeyManager />
 
         <Card extra="p-4">
           <div className="mb-1 font-medium text-navy-700 dark:text-white">

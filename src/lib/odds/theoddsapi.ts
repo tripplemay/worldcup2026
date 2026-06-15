@@ -39,6 +39,23 @@ const SPORT_WINNER = 'soccer_fifa_world_cup_winner';
 const isQuotaError = (status: number) => status === 401 || status === 429;
 
 /**
+ * 校验一个 key 是否有效:请求 /sports 端点(免费,x-requests-last=0,不消耗配额)。
+ * 200 → 有效;401 → 无效。供前端添加 key 时自动校验。
+ */
+export async function validateKey(key: string): Promise<boolean> {
+  const k = key.trim();
+  if (!k) return false;
+  try {
+    const res = await fetch(`${BASE}/sports?apiKey=${encodeURIComponent(k)}`, {
+      cache: 'no-store',
+    });
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
+/**
  * 多 key 轮换请求:用当前 key 发请求,更新其配额;若该 key 配额耗尽(401/429)
  * 则标记并自动切到下一个有余额的 key 重试,直到成功或所有 key 用尽。
  * @param build 用给定 apiKey 构造完整 URL
