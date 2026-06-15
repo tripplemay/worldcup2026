@@ -52,6 +52,8 @@ export default function SettingsPage() {
             <br />
             {t('settings.espnSource')}
             <br />
+            {t('settings.predictSource')}
+            <br />
             {t('settings.quotaRemain')}:{quota?.remaining ?? '—'} /{' '}
             {quota?.total ?? 500}
             {quota?.keyCount && quota.keyCount > 1

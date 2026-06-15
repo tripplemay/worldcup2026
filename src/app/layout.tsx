@@ -17,7 +17,7 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   applicationName: '世界杯2026',
   title: '世界杯 2026 · 赛程赔率比分',
-  description: '2026 FIFA 世界杯实时赔率、赛程、比分与积分榜',
+  description: '2026 FIFA 世界杯实时赔率、比赛预测、赛程、比分与积分榜',
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,

@@ -1,7 +1,7 @@
 {
   "name": "世界杯 2026 · 赛程赔率比分",
   "short_name": "世界杯2026",
-  "description": "2026 FIFA 世界杯实时赔率、赛程、比分与小组积分榜",
+  "description": "2026 FIFA 世界杯实时赔率、比赛预测、赛程、比分与小组积分榜",
   "lang": "zh-CN",
   "start_url": "/schedule",
   "scope": "/",
