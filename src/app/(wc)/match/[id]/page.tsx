@@ -1,7 +1,6 @@
 'use client';
 
-import Link from 'next/link';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Card from 'components/card';
 import StatCompare from 'components/worldcup/StatCompare';
 import OddsTable from 'components/worldcup/OddsTable';
@@ -27,7 +26,14 @@ function eventIcon(type: string, scoringPlay?: boolean): string {
 
 export default function MatchDetailPage() {
   const { locale, t, tn } = useLocale();
+  const router = useRouter();
   const { id } = useParams<{ id: string }>();
+  // 返回上一页(来时的列表页,连带恢复其日期与滚动);无历史则回赛程
+  const goBack = () => {
+    if (typeof window !== 'undefined' && window.history.length > 1)
+      router.back();
+    else router.push('/schedule');
+  };
   const { summary, isLoading } = useMatchSummary(id);
   const { matches } = useMatchOddsLite();
   const odds = summary
@@ -43,12 +49,12 @@ export default function MatchDetailPage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 flex items-center gap-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <Link
-          href="/schedule"
+        <button
+          onClick={goBack}
           className="text-sm text-gray-500 dark:text-gray-400"
         >
           ‹ {t('common.back')}
-        </Link>
+        </button>
         <h1 className="text-lg font-bold text-navy-700 dark:text-white">
           {t('detail.title')}
         </h1>

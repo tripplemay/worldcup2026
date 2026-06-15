@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import MiniStatistics from 'components/card/MiniStatistics';
 import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
 import { findMatch } from 'lib/match/normalize';
@@ -46,8 +46,18 @@ const btn =
 export default function SchedulePage() {
   const { locale, t } = useLocale();
   // dates 为空 → 走后端「智能默认日期」(今天比赛全部结束时自动跳到下一个比赛日);
-  // 用户翻页后变成具体日期。shown 始终取实际生效日期用于显示与翻页基准。
+  // 用户翻页后变成具体日期,并同步到 URL(?d=),这样从详情页返回能回到原来那天。
   const [dates, setDates] = useState('');
+  // 挂载时从 URL 恢复日期(详情页 router.back() 返回时携带)
+  useEffect(() => {
+    const d = new URLSearchParams(window.location.search).get('d');
+    if (d) setDates(d);
+  }, []);
+  // 切换日期:更新状态 + 同步 URL(replace,不堆历史)
+  const go = (d: string) => {
+    setDates(d);
+    window.history.replaceState(null, '', d ? `/schedule?d=${d}` : '/schedule');
+  };
   const { matches, effectiveDate, error, isLoading, refresh } = useScoreboard(
     dates || undefined,
   );
@@ -81,16 +91,13 @@ export default function SchedulePage() {
           />
         </div>
         <div className="mt-2 flex items-center justify-between">
-          <button
-            onClick={() => setDates(shiftDate(shown, -1))}
-            className={btn}
-          >
+          <button onClick={() => go(shiftDate(shown, -1))} className={btn}>
             {t('schedule.prev')}
           </button>
           <span className="text-sm font-medium text-navy-700 dark:text-white">
             {dateLabel(shown, locale)}
           </span>
-          <button onClick={() => setDates(shiftDate(shown, 1))} className={btn}>
+          <button onClick={() => go(shiftDate(shown, 1))} className={btn}>
             {t('schedule.next')}
           </button>
         </div>
