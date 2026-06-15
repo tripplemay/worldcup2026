@@ -13,8 +13,14 @@ import type { GroupStanding, GroupStandingRow } from 'lib/espn/types';
 
 const col = createColumnHelper<GroupStandingRow>();
 
-/** 单个小组积分表(Horizon Card + @tanstack/react-table + 队徽);前 2 名出线标绿点。 */
-export default function StandingsTable({ g }: { g: GroupStanding }) {
+/** 单个小组积分表(Horizon Card + @tanstack/react-table + 队徽)。出线(前2 或最佳第三名)标绿点。 */
+export default function StandingsTable({
+  g,
+  advancing,
+}: {
+  g: GroupStanding;
+  advancing: Set<string>;
+}) {
   const t = useT();
   const columns = [
     col.accessor('team', {
@@ -23,7 +29,7 @@ export default function StandingsTable({ g }: { g: GroupStanding }) {
         <span className="flex items-center gap-1.5">
           <span
             className={`inline-block h-1.5 w-1.5 shrink-0 rounded-full ${
-              c.row.index < 2 ? 'bg-green-400' : 'bg-transparent'
+              advancing.has(c.getValue()) ? 'bg-green-400' : 'bg-transparent'
             }`}
           />
           <TeamBadge name={c.getValue()} logo={c.row.original.logo} />
@@ -68,7 +74,9 @@ export default function StandingsTable({ g }: { g: GroupStanding }) {
             <tr
               key={row.id}
               className={`border-t border-gray-100 dark:border-white/5 ${
-                row.index < 2 ? 'text-navy-700 dark:text-white' : 'text-gray-500 dark:text-gray-400'
+                advancing.has(row.original.team)
+                  ? 'text-navy-700 dark:text-white'
+                  : 'text-gray-500 dark:text-gray-400'
               }`}
             >
               {row.getVisibleCells().map((cell) => (

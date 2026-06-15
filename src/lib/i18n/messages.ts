@@ -47,7 +47,7 @@ export const messages = {
     },
     standings: {
       title: '📊 小组积分榜',
-      hint: '每组前 2 名出线(绿点)',
+      hint: '每组前 2 名 + 最佳 8 个第三名出线(绿点)',
       team: '球队',
       gp: '赛',
       w: '胜',
@@ -158,7 +158,7 @@ export const messages = {
     },
     standings: {
       title: '📊 Group Standings',
-      hint: 'Top 2 advance (green dot)',
+      hint: 'Top 2 + best 8 third-placed advance (green)',
       team: 'Team',
       gp: 'P',
       w: 'W',

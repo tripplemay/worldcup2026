@@ -1,12 +1,35 @@
 'use client';
 
+import { useMemo } from 'react';
 import { useStandings } from 'lib/hooks/useWorldCup';
 import { useT } from 'lib/i18n/context';
 import StandingsTable from 'components/worldcup/StandingsTable';
+import type { GroupStanding, GroupStandingRow } from 'lib/espn/types';
+
+/**
+ * 2026 赛制出线球队:每组前 2 名直接出线 + 12 个小组里成绩最好的 8 个第三名出线。
+ * 第三名排序:积分 → 净胜球 → 总进球(相互交锋/公平竞赛/FIFA 排名无数据,略)。
+ */
+function computeAdvancing(groups: GroupStanding[]): Set<string> {
+  const adv = new Set<string>();
+  const thirds: GroupStandingRow[] = [];
+  for (const g of groups) {
+    g.rows.forEach((r, i) => {
+      if (i < 2) adv.add(r.team);
+      else if (i === 2) thirds.push(r);
+    });
+  }
+  thirds.sort(
+    (a, b) => b.points - a.points || b.goalDiff - a.goalDiff || b.goalsFor - a.goalsFor,
+  );
+  thirds.slice(0, 8).forEach((r) => adv.add(r.team));
+  return adv;
+}
 
 export default function StandingsPage() {
   const t = useT();
   const { groups, error, isLoading, refresh } = useStandings();
+  const advancing = useMemo(() => computeAdvancing(groups), [groups]);
 
   return (
     <div>
@@ -34,7 +57,7 @@ export default function StandingsPage() {
 
       <div className="space-y-3">
         {groups.map((g) => (
-          <StandingsTable key={g.group} g={g} />
+          <StandingsTable key={g.group} g={g} advancing={advancing} />
         ))}
       </div>
     </div>
