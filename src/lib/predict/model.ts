@@ -11,20 +11,21 @@ export interface ScoreProb {
   p: number;
 }
 
-/** 单模型对一场比赛的预测输出(统一结构)。 */
+/** 单模型对一场比赛的预测输出(统一结构)。
+ * 胜平负 + 置信度为通用必填;进球类细节(xG/比分/大小球)仅泊松等模型产出,可选。 */
 export interface MatchPrediction {
   modelId: string;
   matchId: string;
   homeWin: number; // 概率 0~1
   draw: number;
   awayWin: number;
-  xgHome: number; // 本场预期进球 λ
-  xgAway: number; // μ
-  topScores: ScoreProb[]; // 最可能比分(降序,取前几)
-  over25: number; // 大 2.5 球概率
-  under25: number;
-  btts: number; // 双方进球概率
   confidence: 'low' | 'medium' | 'high'; // 样本充足度
+  xgHome?: number; // 本场预期进球 λ(仅泊松)
+  xgAway?: number; // μ
+  topScores?: ScoreProb[]; // 最可能比分(降序,取前几)
+  over25?: number; // 大 2.5 球概率
+  under25?: number;
+  btts?: number; // 双方进球概率
 }
 
 /** 预测上下文:比赛基本信息 + 数据访问器(模型按需取用)。 */
@@ -36,7 +37,9 @@ export interface PredictionContext {
   awayNorm: string;
   neutral: boolean; // 中立场地(世界杯多数为是)
   leagueAvg: number; // 联赛基准:全体球队场均 xG 均值(泊松归一化用)
-  /** 取球队评分(EWMA 结果);未收录返回 undefined。 */
+  /** 该场各家最优 h2h 赔率(市场隐含模型用;缺失则该模型跳过)。 */
+  marketOdds?: { home?: number; draw?: number; away?: number };
+  /** 取球队评分(EWMA xG + Elo);未收录返回 undefined。 */
   rating: (norm: string) => TeamRating | undefined;
 }
 

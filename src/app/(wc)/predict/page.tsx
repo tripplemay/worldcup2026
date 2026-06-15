@@ -22,13 +22,14 @@ function fmtTime(iso: string, locale: string): string {
   }
 }
 
-/** 取最大概率的赛果作为「预测」。 */
+/** 取融合(或首个模型)最大概率的赛果作为「预测」。 */
 function pick(m: MatchWithPredictions, homeShort: string, awayShort: string) {
-  const p = m.predictions[0];
+  const p = m.ensemble ?? m.predictions[0];
   if (!p) return null;
   const max = Math.max(p.homeWin, p.draw, p.awayWin);
-  const side = max === p.homeWin ? homeShort : max === p.awayWin ? awayShort : '—';
-  return { side, score: p.topScores[0]?.score ?? '', conf: p.confidence };
+  const side =
+    max === p.homeWin ? homeShort : max === p.awayWin ? awayShort : '—';
+  return { side, score: p.topScores?.[0]?.score ?? '', conf: p.confidence };
 }
 
 export default function PredictPage() {
@@ -59,12 +60,14 @@ export default function PredictPage() {
       )}
 
       {!isLoading && withPred.length === 0 && (
-        <div className="py-16 text-center text-gray-400">{t('predict.empty')}</div>
+        <div className="py-16 text-center text-gray-400">
+          {t('predict.empty')}
+        </div>
       )}
 
       <div className="space-y-3">
         {withPred.map((m) => {
-          const p = m.predictions[0];
+          const p = m.ensemble ?? m.predictions[0];
           const pk = pick(m, tn(m.homeTeam), tn(m.awayTeam));
           return (
             <Link key={m.matchId} href={`/match/${m.matchId}`}>
@@ -84,7 +87,9 @@ export default function PredictPage() {
                     className="flex-1 text-sm font-medium text-navy-700 dark:text-white"
                   />
                   <span className="px-2 text-xs text-gray-400">
-                    {p.xgHome.toFixed(1)} - {p.xgAway.toFixed(1)}
+                    {p.xgHome != null
+                      ? `${p.xgHome.toFixed(1)} - ${p.xgAway?.toFixed(1)}`
+                      : ''}
                   </span>
                   <TeamBadge
                     name={m.awayTeam}

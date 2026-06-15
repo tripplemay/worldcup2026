@@ -29,6 +29,7 @@ export interface TeamRating {
   xgAgainst: number; // 场均丢失 xG(防守)
   goalsFor: number; // 场均进球(实际)
   goalsAgainst: number;
+  elo: number; // Elo 实力分(回放历史胜负得出)
   sample: number; // 参与计算的场数
   updatedAt: number;
 }
