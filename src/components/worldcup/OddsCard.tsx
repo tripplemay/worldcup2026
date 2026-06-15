@@ -3,11 +3,9 @@
 import { memo, useState } from 'react';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
-import {
-  useTeamLogos,
-  type OddsChange,
-  type OddsDir,
-} from 'lib/hooks/useWorldCup';
+import OddsArrow from 'components/worldcup/OddsArrow';
+import { useTeamLogos } from 'lib/hooks/useWorldCup';
+import type { MatchChange, OutcomeChange } from 'lib/odds/changes';
 import { normalizeTeam } from 'lib/match/normalize';
 import { useT } from 'lib/i18n/context';
 import type { MatchOdds } from 'lib/odds/types';
@@ -17,17 +15,16 @@ const fmt = (v?: number) => (v != null ? v.toFixed(2) : '—');
 function OddBlock({
   label,
   best,
-  dir,
+  ch,
 }: {
   label: string;
   best?: { price: number; bookmaker: string };
-  dir?: OddsDir;
+  ch?: OutcomeChange;
 }) {
-  const arrow = dir === 'up' ? '↑' : dir === 'down' ? '↓' : '';
   const dcls =
-    dir === 'up'
+    ch?.dir === 'up'
       ? 'text-green-500'
-      : dir === 'down'
+      : ch?.dir === 'down'
       ? 'text-red-500'
       : 'text-brand-500 dark:text-white';
   return (
@@ -35,15 +32,17 @@ function OddBlock({
       <div className="text-[11px] text-gray-600 dark:text-gray-400">
         {label}
       </div>
-      <div className={`text-lg font-bold tabular-nums ${dcls}`}>
+      <div className={`text-lg font-bold leading-tight tabular-nums ${dcls}`}>
         {best ? best.price.toFixed(2) : '—'}
-        {arrow && <span className="ml-0.5 text-xs">{arrow}</span>}
+      </div>
+      <div className="h-3 text-[10px] font-semibold leading-none">
+        <OddsArrow ch={ch} withDelta />
       </div>
     </div>
   );
 }
 
-function AllBooks({ m }: { m: MatchOdds }) {
+function AllBooks({ m, change }: { m: MatchOdds; change?: MatchChange }) {
   const t = useT();
   const cell = (v?: number, best?: number) =>
     `text-center tabular-nums ${
@@ -62,26 +61,38 @@ function AllBooks({ m }: { m: MatchOdds }) {
         </tr>
       </thead>
       <tbody>
-        {m.bookmakers.map((b) => (
-          <tr
-            key={b.key}
-            className="border-t border-gray-50 dark:border-white/5"
-          >
-            <td className="py-1.5 text-gray-600 dark:text-gray-300">
-              {b.title}
-            </td>
-            <td className={cell(b.home, m.best.home?.price)}>{fmt(b.home)}</td>
-            <td className={cell(b.draw, m.best.draw?.price)}>{fmt(b.draw)}</td>
-            <td className={cell(b.away, m.best.away?.price)}>{fmt(b.away)}</td>
-          </tr>
-        ))}
+        {m.bookmakers.map((b) => {
+          const cs = change?.books?.[b.key];
+          return (
+            <tr
+              key={b.key}
+              className="border-t border-gray-50 dark:border-white/5"
+            >
+              <td className="py-1.5 text-gray-600 dark:text-gray-300">
+                {b.title}
+              </td>
+              <td className={cell(b.home, m.best.home?.price)}>
+                {fmt(b.home)}
+                <OddsArrow ch={cs?.home} />
+              </td>
+              <td className={cell(b.draw, m.best.draw?.price)}>
+                {fmt(b.draw)}
+                <OddsArrow ch={cs?.draw} />
+              </td>
+              <td className={cell(b.away, m.best.away?.price)}>
+                {fmt(b.away)}
+                <OddsArrow ch={cs?.away} />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
 }
 
 /** 一场比赛赔率(Horizon Card):默认最优三块,点击展开各家完整赔率。 */
-function OddsCard({ m, change }: { m: MatchOdds; change?: OddsChange }) {
+function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
   const t = useT();
   const [open, setOpen] = useState(false);
   const logos = useTeamLogos();
@@ -102,21 +113,9 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: OddsChange }) {
         />
       </div>
       <div className="flex gap-2">
-        <OddBlock
-          label={t('odds.home')}
-          best={m.best.home}
-          dir={change?.home}
-        />
-        <OddBlock
-          label={t('odds.draw')}
-          best={m.best.draw}
-          dir={change?.draw}
-        />
-        <OddBlock
-          label={t('odds.away')}
-          best={m.best.away}
-          dir={change?.away}
-        />
+        <OddBlock label={t('odds.home')} best={m.best.home} ch={change?.home} />
+        <OddBlock label={t('odds.draw')} best={m.best.draw} ch={change?.draw} />
+        <OddBlock label={t('odds.away')} best={m.best.away} ch={change?.away} />
       </div>
       <button
         onClick={() => setOpen((o) => !o)}
@@ -128,7 +127,7 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: OddsChange }) {
       </button>
       {open && (
         <div className="fade-in-up">
-          <AllBooks m={m} />
+          <AllBooks m={m} change={change} />
         </div>
       )}
     </Card>

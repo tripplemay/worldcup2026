@@ -47,7 +47,7 @@ export default function MatchDetailPage() {
     else router.push('/schedule');
   };
   const { summary, isLoading } = useMatchSummary(id);
-  const { matches } = useMatchOddsLite();
+  const { matches, changes } = useMatchOddsLite();
   const odds = summary
     ? findMatch(
         matches,
@@ -151,7 +151,13 @@ export default function MatchDetailPage() {
 
           <StatCompare home={summary.homeStats} away={summary.awayStats} />
 
-          {odds && <OddsTable m={odds} oddsEventId={odds.id} />}
+          {odds && (
+            <OddsTable
+              m={odds}
+              oddsEventId={odds.id}
+              change={changes[odds.id]}
+            />
+          )}
 
           {summary.events.length > 0 && (
             <Card extra="mb-3 p-4">

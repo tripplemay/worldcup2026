@@ -5,7 +5,7 @@
  * 公共选项:refreshWhenHidden:false(隐藏暂停)· revalidateOnFocus(回前台刷新)· keepPreviousData(不闪屏)。
  */
 import useSWR from 'swr';
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo } from 'react';
 import { fetcher } from './fetcher';
 import { normalizeTeam } from 'lib/match/normalize';
 import type {
@@ -16,6 +16,16 @@ import type {
   GroupMarkets,
   MarketGroup,
 } from 'lib/odds/types';
+import type { OddsChangeMap } from 'lib/odds/changes';
+
+// 赔率变动类型在 lib/odds/changes 定义;此处转出,组件统一从 hooks 取。
+export type {
+  OddsDir,
+  OutcomeChange,
+  OutcomeChangeSet,
+  MatchChange,
+  OddsChangeMap,
+} from 'lib/odds/changes';
 import type {
   ScheduleMatch,
   GroupStanding,
@@ -98,67 +108,20 @@ export function useTeamLogos(): Record<string, string> {
   }, [teams]);
 }
 
-export type OddsDir = 'up' | 'down' | 'flat';
-function dir(prev: number | undefined, cur: number | undefined): OddsDir {
-  if (prev == null || cur == null) return 'flat';
-  if (cur > prev) return 'up';
-  if (cur < prev) return 'down';
-  return 'flat';
-}
-export interface OddsChange {
-  home: OddsDir;
-  draw: OddsDir;
-  away: OddsDir;
-}
-
-/** 单场赔率(低频)+ 配额 + 赔率变动方向(对比上次轮询)。 */
+/** 单场赔率(低频)+ 配额 + 赔率变动(服务端计算,相对上一次刷新)。 */
 export function useMatchOdds() {
   const { data, error, isLoading, mutate } = useSWR<{
     matches: MatchOdds[];
+    changes?: OddsChangeMap;
     quota: QuotaInfo;
     fetchedAt: number;
   }>('/api/worldcup/matches', fetcher, {
     refreshInterval: ODDS_MS,
     ...oddsCommon,
   });
-  const matches = data?.matches ?? [];
-  const prevRef = useRef<
-    Record<string, { home?: number; draw?: number; away?: number }>
-  >({});
-
-  const changes = useMemo(() => {
-    const out: Record<string, OddsChange> = {};
-    for (const m of matches) {
-      const p = prevRef.current[m.id];
-      out[m.id] = {
-        home: dir(p?.home, m.best.home?.price),
-        draw: dir(p?.draw, m.best.draw?.price),
-        away: dir(p?.away, m.best.away?.price),
-      };
-    }
-    return out;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matches]);
-
-  useEffect(() => {
-    const snap: Record<
-      string,
-      { home?: number; draw?: number; away?: number }
-    > = {};
-    for (const m of matches) {
-      snap[m.id] = {
-        home: m.best.home?.price,
-        draw: m.best.draw?.price,
-        away: m.best.away?.price,
-      };
-    }
-    prevRef.current = snap;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matches]);
-
   return {
-    matches,
-    changes,
+    matches: data?.matches ?? [],
+    changes: data?.changes ?? {},
     quota: data?.quota,
     oddsUpdatedAt: data?.fetchedAt ?? null,
     nextOddsRefreshAt: data?.fetchedAt ? data.fetchedAt + ODDS_MS : null,
@@ -174,12 +137,16 @@ export function useMatchOdds() {
  * 一个会话首次无缓存时拉一次,之后全程用缓存。
  */
 export function useMatchOddsLite() {
-  const { data } = useSWR<{ matches: MatchOdds[]; quota: QuotaInfo }>(
-    '/api/worldcup/matches',
-    fetcher,
-    { ...oddsCommon, refreshInterval: 0, revalidateIfStale: false },
-  );
-  return { matches: data?.matches ?? [] };
+  const { data } = useSWR<{
+    matches: MatchOdds[];
+    changes?: OddsChangeMap;
+    quota: QuotaInfo;
+  }>('/api/worldcup/matches', fetcher, {
+    ...oddsCommon,
+    refreshInterval: 0,
+    revalidateIfStale: false,
+  });
+  return { matches: data?.matches ?? [], changes: data?.changes ?? {} };
 }
 
 /** 夺冠赔率榜(低频)+ 配额。 */

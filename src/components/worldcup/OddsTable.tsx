@@ -5,7 +5,9 @@ import Card from 'components/card';
 import { useMatchMarkets, useMatchGroup } from 'lib/hooks/useWorldCup';
 import { useT, useTn } from 'lib/i18n/context';
 import GroupPanel from 'components/worldcup/MarketPanels';
+import OddsArrow from 'components/worldcup/OddsArrow';
 import type { MatchMarkets, MatchOdds, MarketGroup } from 'lib/odds/types';
+import type { MatchChange } from 'lib/odds/changes';
 
 const fmt = (v?: number) => (v != null ? v.toFixed(2) : '—');
 const sign = (n: number) => (n > 0 ? `+${n}` : `${n}`);
@@ -30,7 +32,9 @@ function TabBtn({
   return (
     <button
       onClick={onClick}
-      className={`whitespace-nowrap rounded-md px-2.5 py-1 ${active ? 'bg-brand-500 text-white' : 'text-gray-600 dark:text-gray-400'}`}
+      className={`whitespace-nowrap rounded-md px-2.5 py-1 ${
+        active ? 'bg-brand-500 text-white' : 'text-gray-600 dark:text-gray-400'
+      }`}
     >
       {children}
     </button>
@@ -45,7 +49,7 @@ function Th({ children, left }: { children: React.ReactNode; left?: boolean }) {
   );
 }
 
-function H2hTable({ m }: { m: MatchOdds }) {
+function H2hTable({ m, change }: { m: MatchOdds; change?: MatchChange }) {
   const t = useT();
   return (
     <table className="w-full text-sm">
@@ -58,25 +62,31 @@ function H2hTable({ m }: { m: MatchOdds }) {
         </tr>
       </thead>
       <tbody>
-        {m.bookmakers.map((b) => (
-          <tr
-            key={b.key}
-            className="border-t border-gray-100 dark:border-white/5"
-          >
-            <td className="py-1.5 text-gray-600 dark:text-gray-300">
-              {b.title}
-            </td>
-            <td className="text-center tabular-nums text-navy-700 dark:text-white">
-              {fmt(b.home)}
-            </td>
-            <td className="text-center tabular-nums text-navy-700 dark:text-white">
-              {fmt(b.draw)}
-            </td>
-            <td className="text-center tabular-nums text-navy-700 dark:text-white">
-              {fmt(b.away)}
-            </td>
-          </tr>
-        ))}
+        {m.bookmakers.map((b) => {
+          const cs = change?.books?.[b.key];
+          return (
+            <tr
+              key={b.key}
+              className="border-t border-gray-100 dark:border-white/5"
+            >
+              <td className="py-1.5 text-gray-600 dark:text-gray-300">
+                {b.title}
+              </td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {fmt(b.home)}
+                <OddsArrow ch={cs?.home} />
+              </td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {fmt(b.draw)}
+                <OddsArrow ch={cs?.draw} />
+              </td>
+              <td className="text-center tabular-nums text-navy-700 dark:text-white">
+                {fmt(b.away)}
+                <OddsArrow ch={cs?.away} />
+              </td>
+            </tr>
+          );
+        })}
       </tbody>
     </table>
   );
@@ -188,14 +198,18 @@ function SubHead({ children }: { children: React.ReactNode }) {
 export default function OddsTable({
   m,
   oddsEventId,
+  change,
 }: {
   m: MatchOdds;
   oddsEventId?: string;
+  change?: MatchChange;
 }) {
   const t = useT();
   const [tab, setTab] = useState<Tab>('h2h');
 
-  const handicap = useMatchMarkets(tab === 'handicap' ? oddsEventId : undefined);
+  const handicap = useMatchMarkets(
+    tab === 'handicap' ? oddsEventId : undefined,
+  );
   const groupTab = GROUP_TABS.includes(tab as never)
     ? (tab as Exclude<MarketGroup, 'handicap'>)
     : undefined;
@@ -237,7 +251,7 @@ export default function OddsTable({
         </div>
       </div>
 
-      {tab === 'h2h' && <H2hTable m={m} />}
+      {tab === 'h2h' && <H2hTable m={m} change={change} />}
 
       {loading && (
         <div className="py-6 text-center text-xs text-gray-400">

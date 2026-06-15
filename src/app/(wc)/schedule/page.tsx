@@ -66,6 +66,7 @@ export default function SchedulePage() {
   const shown = dates || effectiveDate || todayCN();
   const {
     matches: oddsMatches,
+    changes,
     oddsUpdatedAt,
     nextOddsRefreshAt,
   } = useMatchOdds();
@@ -76,6 +77,15 @@ export default function SchedulePage() {
       map.set(matchKey(o.homeTeam, o.awayTeam, o.commenceTime), o);
     return map;
   }, [oddsMatches]);
+  // 赔率变动同样按对阵键建索引(服务端按 odds.id 给,映射到赛程行的对阵键)
+  const changeMap = useMemo(() => {
+    const map = new Map<string, (typeof changes)[string]>();
+    for (const o of oddsMatches) {
+      const ch = changes[o.id];
+      if (ch) map.set(matchKey(o.homeTeam, o.awayTeam, o.commenceTime), ch);
+    }
+    return map;
+  }, [oddsMatches, changes]);
   const live = matches.filter((m) => m.status === 'in').length;
 
   return (
@@ -160,6 +170,9 @@ export default function SchedulePage() {
               key={m.id}
               m={m}
               odds={oddsMap.get(
+                matchKey(m.homeTeam, m.awayTeam, m.commenceTime),
+              )}
+              change={changeMap.get(
                 matchKey(m.homeTeam, m.awayTeam, m.commenceTime),
               )}
             />

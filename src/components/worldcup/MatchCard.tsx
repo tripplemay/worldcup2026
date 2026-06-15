@@ -4,9 +4,11 @@ import { memo } from 'react';
 import Link from 'next/link';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import OddsArrow from 'components/worldcup/OddsArrow';
 import { useLocale } from 'lib/i18n/context';
 import type { ScheduleMatch } from 'lib/espn/types';
 import type { MatchOdds } from 'lib/odds/types';
+import type { MatchChange, OutcomeChange } from 'lib/odds/changes';
 
 function fmtTime(iso: string, locale: string): string {
   try {
@@ -28,19 +30,36 @@ const STATUS_CLS: Record<ScheduleMatch['status'], string> = {
   post: 'bg-green-50 text-green-500 dark:bg-green-500/20 dark:text-green-400',
 };
 
-function OddPill({ label, price }: { label: string; price?: number }) {
+function OddPill({
+  label,
+  price,
+  ch,
+}: {
+  label: string;
+  price?: number;
+  ch?: OutcomeChange;
+}) {
   return (
     <div className="flex-1 rounded-lg bg-lightPrimary py-1 dark:bg-navy-700">
       <span className="text-gray-500 dark:text-gray-400">{label}</span>{' '}
       <span className="font-bold text-brand-500 dark:text-white">
         {price?.toFixed(2) ?? '—'}
       </span>
+      <OddsArrow ch={ch} />
     </div>
   );
 }
 
 /** 一场比赛卡片(Horizon Card):队徽 + 比分 + 精简赔率;点击进详情页;进行中红环。 */
-function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchOdds }) {
+function MatchCard({
+  m,
+  odds,
+  change,
+}: {
+  m: ScheduleMatch;
+  odds?: MatchOdds;
+  change?: MatchChange;
+}) {
   const { locale, t } = useLocale();
   const statusLabel = t(`status.${m.status}`);
   const showScore = m.status !== 'pre';
@@ -85,9 +104,21 @@ function MatchCard({ m, odds }: { m: ScheduleMatch; odds?: MatchOdds }) {
           </div>
           {odds && (
             <div className="mt-2 flex gap-2 text-center text-xs">
-              <OddPill label={t('odds.home')} price={odds.best.home?.price} />
-              <OddPill label={t('odds.draw')} price={odds.best.draw?.price} />
-              <OddPill label={t('odds.away')} price={odds.best.away?.price} />
+              <OddPill
+                label={t('odds.home')}
+                price={odds.best.home?.price}
+                ch={change?.home}
+              />
+              <OddPill
+                label={t('odds.draw')}
+                price={odds.best.draw?.price}
+                ch={change?.draw}
+              />
+              <OddPill
+                label={t('odds.away')}
+                price={odds.best.away?.price}
+                ch={change?.away}
+              />
             </div>
           )}
           {m.venue && (

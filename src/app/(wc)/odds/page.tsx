@@ -45,6 +45,11 @@ export default function OddsPage() {
 
       {tab === 'match' ? (
         <div className="space-y-3">
+          {matches.length > 0 && (
+            <div className="text-center text-[11px] text-gray-400">
+              {t('odds.changeLegend')}
+            </div>
+          )}
           {isLoading &&
             matches.length === 0 &&
             [1, 2, 3].map((i) => (

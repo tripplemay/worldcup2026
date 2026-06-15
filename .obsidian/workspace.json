@@ -242,6 +242,11 @@
   },
   "active": "8a9fead12c69c79d",
   "lastOpenFiles": [
+    "src/app/(wc)/odds/page.tsx.tmp.66571.282ee3ab2165",
+    "src/app/(wc)/match/[id]/page.tsx.tmp.66571.5c7a89e6e3b4",
+    "src/components/worldcup/OddsArrow.tsx",
+    "src/lib/odds/snapStore.ts",
+    "src/lib/odds/changes.ts",
     "docs/PERF_AUDIT.md",
     "docs/需求说明书：基于 Elo 积分的轻量化宏观预测引擎 (Phase 2 修正版).md",
     "src/components/worldcup/PageHeading.tsx",
@@ -255,10 +260,6 @@
     "docs/需求说明书：XGBoost 预测引擎与模型融合模块 (Phase 2).md",
     "src/lib/predict/apifootball.ts",
     "src/lib/predict/intlresults.ts",
-    "src/app/api/worldcup/intel/route.ts",
-    "src/app/api/worldcup/intel",
-    "src/lib/intel/intel.ts",
-    "src/lib/intel/llm.ts",
     "CHANGELOG.md",
     "docs/IMPL_PLAN.md"
   ]
