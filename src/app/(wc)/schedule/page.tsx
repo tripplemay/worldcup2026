@@ -45,8 +45,13 @@ const btn =
 
 export default function SchedulePage() {
   const { locale, t } = useLocale();
-  const [dates, setDates] = useState(todayCN());
-  const { matches, error, isLoading, refresh } = useScoreboard(dates);
+  // dates 为空 → 走后端「智能默认日期」(今天比赛全部结束时自动跳到下一个比赛日);
+  // 用户翻页后变成具体日期。shown 始终取实际生效日期用于显示与翻页基准。
+  const [dates, setDates] = useState('');
+  const { matches, effectiveDate, error, isLoading, refresh } = useScoreboard(
+    dates || undefined,
+  );
+  const shown = dates || effectiveDate || todayCN();
   const {
     matches: oddsMatches,
     oddsUpdatedAt,
@@ -77,15 +82,15 @@ export default function SchedulePage() {
         </div>
         <div className="mt-2 flex items-center justify-between">
           <button
-            onClick={() => setDates(shiftDate(dates, -1))}
+            onClick={() => setDates(shiftDate(shown, -1))}
             className={btn}
           >
             {t('schedule.prev')}
           </button>
           <span className="text-sm font-medium text-navy-700 dark:text-white">
-            {dateLabel(dates, locale)}
+            {dateLabel(shown, locale)}
           </span>
-          <button onClick={() => setDates(shiftDate(dates, 1))} className={btn}>
+          <button onClick={() => setDates(shiftDate(shown, 1))} className={btn}>
             {t('schedule.next')}
           </button>
         </div>

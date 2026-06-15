@@ -53,7 +53,14 @@ export function useScoreboard(dates?: string) {
     dates: string;
     matches: ScheduleMatch[];
   }>(key, fetcher, { refreshInterval: SCORES_MS, ...common });
-  return { matches: data?.matches ?? [], error, isLoading, refresh: mutate };
+  // effectiveDate = 后端实际选中的日期(智能默认:今天全部结束时为下一个比赛日)
+  return {
+    matches: data?.matches ?? [],
+    effectiveDate: data?.dates,
+    error,
+    isLoading,
+    refresh: mutate,
+  };
 }
 
 /** 12 小组积分榜。 */
