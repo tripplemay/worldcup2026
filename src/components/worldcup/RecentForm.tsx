@@ -26,7 +26,9 @@ function shortDate(iso: string, locale: string): string {
 function Badge({ r }: { r: string }) {
   return (
     <span
-      className={`flex h-5 w-5 items-center justify-center rounded text-[10px] font-bold ${RES_CLS[r] ?? RES_CLS['']}`}
+      className={`flex h-5 w-5 items-center justify-center rounded text-[10px] font-bold ${
+        RES_CLS[r] ?? RES_CLS['']
+      }`}
     >
       {r || '·'}
     </span>
@@ -34,7 +36,7 @@ function Badge({ r }: { r: string }) {
 }
 
 function TeamForm({ team, form }: { team: string; form: RecentGame[] }) {
-  const { locale, tn } = useLocale();
+  const { locale, t, tn } = useLocale();
   if (!form.length) return null;
   return (
     <div>
@@ -54,8 +56,18 @@ function TeamForm({ team, form }: { team: string; form: RecentGame[] }) {
             key={i}
             className="flex items-center gap-2 text-[11px] text-gray-500 dark:text-gray-400"
           >
-            <span className="w-9 tabular-nums">{shortDate(g.date, locale)}</span>
-            <span className="text-gray-400">{g.home ? 'vs' : '@'}</span>
+            <span className="w-9 tabular-nums">
+              {shortDate(g.date, locale)}
+            </span>
+            <span
+              className={`rounded px-1 text-[9px] font-medium ${
+                g.home
+                  ? 'bg-green-50 text-green-600 dark:bg-green-500/15 dark:text-green-400'
+                  : 'bg-gray-100 text-gray-500 dark:bg-navy-700 dark:text-gray-400'
+              }`}
+            >
+              {g.home ? t('bg.homeMark') : t('bg.awayMark')}
+            </span>
             <span className="flex-1 truncate">{tn(g.opponent)}</span>
             <span className="tabular-nums font-medium text-navy-700 dark:text-white">
               {g.score}

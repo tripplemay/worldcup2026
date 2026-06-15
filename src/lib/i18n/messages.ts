@@ -122,6 +122,8 @@ export const messages = {
       precip: '降水',
       recentForm: '近期战绩(近5场)',
       h2h: '历史交锋',
+      homeMark: '主',
+      awayMark: '客',
     },
     weather: {
       clear: '晴',
@@ -277,6 +279,8 @@ export const messages = {
       precip: 'Precip',
       recentForm: 'Recent Form (last 5)',
       h2h: 'Head-to-Head',
+      homeMark: 'H',
+      awayMark: 'A',
     },
     weather: {
       clear: 'Clear',
