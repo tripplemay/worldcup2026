@@ -9,9 +9,11 @@ import { loadRatings } from 'lib/db/store';
 import { normalizeTeam, findMatch } from 'lib/match/normalize';
 import { getModels } from './registry';
 import { ensemble } from './ensemble';
+import { getIntel } from 'lib/intel/intel';
 import './models'; // 副作用:注册所有模型
 import type { MatchPrediction, PredictionContext } from './model';
 import type { TeamRating } from './types';
+import type { TeamIntel } from 'lib/intel/types';
 import type { MatchOdds } from 'lib/odds/types';
 import type { ScheduleMatch } from 'lib/espn/types';
 
@@ -29,6 +31,30 @@ export interface MatchWithPredictions {
   status: string;
   predictions: MatchPrediction[]; // 各基础模型
   ensemble: MatchPrediction | null; // 融合共识
+  homeIntel?: TeamIntel | null; // 主队场外情报(详情页)
+  awayIntel?: TeamIntel | null;
+  adjusted?: { home: number; draw: number; away: number } | null; // 情报修正后(旁注参考)
+}
+
+/** 把情报修正量叠加到融合概率(Path B),重归一化;无显著修正返回 null。 */
+function applyIntel(
+  ens: MatchPrediction | null,
+  hi?: TeamIntel | null,
+  ai?: TeamIntel | null,
+): { home: number; draw: number; away: number } | null {
+  if (!ens) return null;
+  const mh = hi?.modifier ?? 0;
+  const ma = ai?.modifier ?? 0;
+  if (Math.abs(mh) < 0.005 && Math.abs(ma) < 0.005) return null;
+  const h = Math.max(0.01, ens.homeWin + mh);
+  const a = Math.max(0.01, ens.awayWin + ma);
+  const d = Math.max(0.01, ens.draw);
+  const s = h + d + a;
+  return {
+    home: +(h / s).toFixed(4),
+    draw: +(d / s).toFixed(4),
+    away: +(a / s).toFixed(4),
+  };
 }
 
 /** 联赛基准:全体球队场均创造 xG 的均值(泊松归一化用)。 */
@@ -54,7 +80,13 @@ async function loadOdds(): Promise<MatchOdds[]> {
 function predictFixture(
   m: Pick<
     ScheduleMatch,
-    'id' | 'homeTeam' | 'awayTeam' | 'homeLogo' | 'awayLogo' | 'commenceTime' | 'status'
+    | 'id'
+    | 'homeTeam'
+    | 'awayTeam'
+    | 'homeLogo'
+    | 'awayLogo'
+    | 'commenceTime'
+    | 'status'
   >,
   ratings: Record<string, TeamRating>,
   leagueAvg: number,
@@ -70,7 +102,11 @@ function predictFixture(
     neutral: true,
     leagueAvg,
     marketOdds: odds
-      ? { home: odds.best.home?.price, draw: odds.best.draw?.price, away: odds.best.away?.price }
+      ? {
+          home: odds.best.home?.price,
+          draw: odds.best.draw?.price,
+          away: odds.best.away?.price,
+        }
       : undefined,
     rating: (n) => ratings[n],
   };
@@ -117,7 +153,7 @@ export async function predictMatch(
   ]);
   if (!s) return null;
   const ratings = loadRatings();
-  return predictFixture(
+  const base = predictFixture(
     {
       id: matchId,
       homeTeam: s.homeTeam,
@@ -131,4 +167,13 @@ export async function predictMatch(
     leagueAverage(ratings),
     oddsMatches,
   );
+  // 附场外情报(旁注;不改主概率)
+  const homeIntel = getIntel(normalizeTeam(s.homeTeam)) ?? null;
+  const awayIntel = getIntel(normalizeTeam(s.awayTeam)) ?? null;
+  return {
+    ...base,
+    homeIntel,
+    awayIntel,
+    adjusted: applyIntel(base.ensemble, homeIntel, awayIntel),
+  };
 }

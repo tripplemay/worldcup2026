@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import type { HistMatch, TeamRating } from 'lib/predict/types';
+import type { TeamIntel } from 'lib/intel/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const PREDICT_DIR = join(DATA_DIR, 'predict');
@@ -47,4 +48,14 @@ export function loadRatings(): RatingMap {
 }
 export function saveRatings(map: RatingMap): void {
   writeJson('ratings.json', map);
+}
+
+// ── 场外情报(按归一化队名)────────────────────────────
+type IntelMap = Record<string, TeamIntel>;
+
+export function loadIntel(): IntelMap {
+  return readJson<IntelMap>('intel.json', {});
+}
+export function saveIntel(map: IntelMap): void {
+  writeJson('intel.json', map);
 }

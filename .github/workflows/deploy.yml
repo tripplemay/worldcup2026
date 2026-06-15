@@ -64,7 +64,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ADMIN_TOKEN
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ADMIN_TOKEN,AIGC_API_KEY
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -117,6 +117,10 @@ jobs:
             export WC_DATA_DIR="$DATA_DIR"
             # 管理员口令(前端 key 管理鉴权;未设则该功能禁用)
             export ADMIN_TOKEN="${ADMIN_TOKEN}"
+            # Phase 3 场外情报 LLM(AIGC 网关);未设 AIGC_API_KEY 则情报功能禁用
+            export AIGC_API_KEY="${AIGC_API_KEY}"
+            export AIGC_BASE="https://aigc.guangai.ai/v1"
+            export INTEL_LLM_MODEL="gpt-4o-mini"
             export PORT="$PORT"
             export HOSTNAME="127.0.0.1"
             export NODE_ENV="production"
@@ -133,10 +137,14 @@ jobs:
               curl -s --max-time 200 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
               if command -v crontab >/dev/null 2>&1; then
-                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine'; \
-                  echo "30 4 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=14' >/dev/null 2>&1 # worldcup-predict" \
+                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel'; \
+                  echo "30 4 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=14' >/dev/null 2>&1 # worldcup-predict"; \
+                  echo "0 */2 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/intel?hours=36' >/dev/null 2>&1 # worldcup-intel" \
                 ) | crontab -
               fi
+              # 首次播种情报
+              curl -s --max-time 200 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
+                "http://127.0.0.1:${PORT}/api/worldcup/intel?hours=48" >/dev/null 2>&1 || true
             fi
 
             echo ">>> 部署完成 — https://${DOMAIN}"
@@ -146,3 +154,4 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           ODDS_API_KEYS: ${{ secrets.ODDS_API_KEYS }}
           ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
+          AIGC_API_KEY: ${{ secrets.AIGC_API_KEY }}
