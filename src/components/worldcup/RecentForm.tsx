@@ -2,6 +2,7 @@
 
 import Card from 'components/card';
 import { useLocale } from 'lib/i18n/context';
+import { competitionLabel } from 'lib/espn/competition';
 import type { RecentGame } from 'lib/espn/types';
 
 const RES_CLS: Record<string, string> = {
@@ -16,7 +17,7 @@ function shortDate(iso: string, locale: string): string {
   try {
     return new Date(iso).toLocaleDateString(
       locale === 'zh' ? 'zh-CN' : 'en-US',
-      { month: 'numeric', day: 'numeric' },
+      { year: '2-digit', month: 'numeric', day: 'numeric' },
     );
   } catch {
     return '';
@@ -54,13 +55,13 @@ function TeamForm({ team, form }: { team: string; form: RecentGame[] }) {
         {form.map((g, i) => (
           <div
             key={i}
-            className="flex items-center gap-2 text-[11px] text-gray-500 dark:text-gray-400"
+            className="flex items-center gap-1.5 text-[11px] text-gray-500 dark:text-gray-400"
           >
-            <span className="w-9 tabular-nums">
+            <span className="w-14 shrink-0 tabular-nums">
               {shortDate(g.date, locale)}
             </span>
             <span
-              className={`rounded px-1 text-[9px] font-medium ${
+              className={`shrink-0 rounded px-1 text-[9px] font-medium ${
                 g.home
                   ? 'bg-green-50 text-green-600 dark:bg-green-500/15 dark:text-green-400'
                   : 'bg-gray-100 text-gray-500 dark:bg-navy-700 dark:text-gray-400'
@@ -68,8 +69,15 @@ function TeamForm({ team, form }: { team: string; form: RecentGame[] }) {
             >
               {g.home ? t('bg.homeMark') : t('bg.awayMark')}
             </span>
-            <span className="flex-1 truncate">{tn(g.opponent)}</span>
-            <span className="tabular-nums font-medium text-navy-700 dark:text-white">
+            <span className="flex min-w-0 flex-1 items-center gap-1">
+              <span className="truncate">{tn(g.opponent)}</span>
+              {g.competition && (
+                <span className="shrink-0 rounded bg-gray-100 px-1 text-[9px] text-gray-400 dark:bg-navy-700 dark:text-gray-500">
+                  {competitionLabel(g.competition, locale)}
+                </span>
+              )}
+            </span>
+            <span className="shrink-0 tabular-nums font-medium text-navy-700 dark:text-white">
               {g.score}
             </span>
           </div>

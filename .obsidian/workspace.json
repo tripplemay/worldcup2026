@@ -242,6 +242,7 @@
   },
   "active": "8a9fead12c69c79d",
   "lastOpenFiles": [
+    "src/lib/espn/competition.ts",
     "src/app/(wc)/odds/page.tsx.tmp.66571.282ee3ab2165",
     "src/app/(wc)/match/[id]/page.tsx.tmp.66571.5c7a89e6e3b4",
     "src/components/worldcup/OddsArrow.tsx",
@@ -259,7 +260,6 @@
     "docs/需求说明书：LLM 场外情报量化代理 (Phase 3).md",
     "docs/需求说明书：XGBoost 预测引擎与模型融合模块 (Phase 2).md",
     "src/lib/predict/apifootball.ts",
-    "src/lib/predict/intlresults.ts",
     "CHANGELOG.md",
     "docs/IMPL_PLAN.md"
   ]

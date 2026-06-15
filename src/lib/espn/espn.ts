@@ -173,9 +173,13 @@ function parseRecentForm(data: Json): Map<string, RecentGame[]> {
           opponent: str(obj(e.opponent).displayName) ?? str(e.opponent) ?? '',
           opponentLogo: str(e.opponentLogo) ?? str(obj(e.opponent).logo),
           home: isHome,
-          competition: str(e.competitionName) ?? str(e.leagueName),
+          // 比赛性质优先用 leagueName(如 "International Friendly",干净),
+          // 回退 competitionName(常带年份前缀,如 "2026 International Friendly")
+          competition: str(e.leagueName) ?? str(e.competitionName),
         };
-      });
+      })
+      // ESPN 原始序为最旧→最新且各队不一;统一按日期降序,最新战绩在前
+      .sort((a, b) => b.date.localeCompare(a.date));
     out.set(tid, games);
   }
   return out;
