@@ -64,7 +64,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -102,7 +102,9 @@ jobs:
             fi
 
             # ── 运行时环境(standalone server.js 只读 process.env,不读 .env 文件)──
+            # ODDS_API_KEY / ODDS_API_KEYS 均可逗号分隔多个 key,代码合并去重轮换
             export ODDS_API_KEY="${ODDS_API_KEY}"
+            export ODDS_API_KEYS="${ODDS_API_KEYS}"
             export ODDS_API_BASE="https://api.the-odds-api.com/v4"
             export ODDS_API_REGIONS="eu"
             export ODDS_API_ODDS_FORMAT="decimal"
@@ -122,3 +124,4 @@ jobs:
           DOMAIN: ${{ vars.DOMAIN }}
           CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          ODDS_API_KEYS: ${{ secrets.ODDS_API_KEYS }}

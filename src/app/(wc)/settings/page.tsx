@@ -9,40 +9,60 @@ export default function SettingsPage() {
   const { locale, setLocale, t } = useLocale();
 
   const langBtn = (active: boolean) =>
-    `flex-1 rounded-lg py-1.5 text-sm ${active ? 'bg-brand-500 text-white' : 'text-gray-600 dark:text-gray-400'}`;
+    `flex-1 rounded-lg py-1.5 text-sm ${
+      active ? 'bg-brand-500 text-white' : 'text-gray-600 dark:text-gray-400'
+    }`;
 
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <h1 className="text-lg font-bold text-navy-700 dark:text-white">{t('settings.title')}</h1>
+        <h1 className="text-lg font-bold text-navy-700 dark:text-white">
+          {t('settings.title')}
+        </h1>
       </header>
 
       <div className="space-y-3 text-sm">
         <Card extra="p-4">
-          <div className="mb-2 font-medium text-navy-700 dark:text-white">{t('settings.language')}</div>
+          <div className="mb-2 font-medium text-navy-700 dark:text-white">
+            {t('settings.language')}
+          </div>
           <div className="flex gap-1 rounded-xl bg-lightPrimary p-1 dark:bg-navy-700">
-            <button onClick={() => setLocale('zh')} className={langBtn(locale === 'zh')}>
+            <button
+              onClick={() => setLocale('zh')}
+              className={langBtn(locale === 'zh')}
+            >
               中文
             </button>
-            <button onClick={() => setLocale('en')} className={langBtn(locale === 'en')}>
+            <button
+              onClick={() => setLocale('en')}
+              className={langBtn(locale === 'en')}
+            >
               English
             </button>
           </div>
         </Card>
 
         <Card extra="p-4">
-          <div className="mb-1 font-medium text-navy-700 dark:text-white">{t('settings.dataSource')}</div>
+          <div className="mb-1 font-medium text-navy-700 dark:text-white">
+            {t('settings.dataSource')}
+          </div>
           <div className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
             {t('settings.oddsSource')}
             <br />
             {t('settings.espnSource')}
             <br />
-            {t('settings.quotaRemain')}:{quota?.remaining ?? '—'} / 500
+            {t('settings.quotaRemain')}:{quota?.remaining ?? '—'} /{' '}
+            {quota?.total ?? 500}
+            {quota?.keyCount && quota.keyCount > 1
+              ? ` (${quota.keyCount} key)`
+              : ''}
           </div>
         </Card>
 
         <Card extra="p-4">
-          <div className="mb-1 font-medium text-navy-700 dark:text-white">{t('settings.refreshTitle')}</div>
+          <div className="mb-1 font-medium text-navy-700 dark:text-white">
+            {t('settings.refreshTitle')}
+          </div>
           <div className="text-xs leading-relaxed text-gray-600 dark:text-gray-400">
             {t('settings.refreshDesc')}
             <br />

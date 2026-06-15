@@ -5,7 +5,8 @@
  *  - 单场 soccer_fifa_world_cup,markets=h2h,outcomes 顺序不固定且用「队名/Draw」标识
  *    → 按 name 匹配 home_team / away_team / Draw 归位主胜/平/客胜
  *  - 夺冠 soccer_fifa_world_cup_winner,markets=outrights(忽略 outrights_lay)
- *  - 每次请求消耗 1 credit × regions × markets;响应头带配额 → updateQuota
+ *  - 每次请求消耗 1 credit × regions × markets;响应头带配额 → 逐 key 跟踪(keys.ts)
+ *  - 多 key 轮换:当前 key 配额耗尽自动切下一个,突破单账号 500/月限额
  */
 import type { OddsProvider } from './provider';
 import type {
@@ -25,7 +26,7 @@ import type {
   PlayerPick,
   PlayerOuPick,
 } from './types';
-import { updateQuota } from './quota';
+import { pickKey, reportKeyQuota, markKeyExhausted, hasKeys } from './keys';
 
 const BASE = process.env.ODDS_API_BASE ?? 'https://api.the-odds-api.com/v4';
 const REGIONS = process.env.ODDS_API_REGIONS ?? 'eu';
@@ -34,27 +35,47 @@ const ODDS_FORMAT = process.env.ODDS_API_ODDS_FORMAT ?? 'decimal';
 const SPORT_MATCHES = 'soccer_fifa_world_cup';
 const SPORT_WINNER = 'soccer_fifa_world_cup_winner';
 
-function requireKey(): string {
-  const key = process.env.ODDS_API_KEY;
-  if (!key) throw new Error('ODDS_API_KEY 未配置');
-  return key;
+/** 配额耗尽/鉴权失败 → 换下一个 key 重试。 */
+const isQuotaError = (status: number) => status === 401 || status === 429;
+
+/**
+ * 多 key 轮换请求:用当前 key 发请求,更新其配额;若该 key 配额耗尽(401/429)
+ * 则标记并自动切到下一个有余额的 key 重试,直到成功或所有 key 用尽。
+ * @param build 用给定 apiKey 构造完整 URL
+ */
+async function oddsFetch(build: (apiKey: string) => string): Promise<Response> {
+  if (!hasKeys()) throw new Error('ODDS_API_KEY 未配置');
+  const tried = new Set<string>();
+  let lastErr: Error | null = null;
+  for (;;) {
+    const key = pickKey();
+    if (!key || tried.has(key)) break; // 无可用 key 或已轮完一圈
+    tried.add(key);
+    const res = await fetch(build(key), { cache: 'no-store' });
+    reportKeyQuota(key, res.headers);
+    if (res.ok) return res;
+    if (isQuotaError(res.status)) {
+      markKeyExhausted(key);
+      lastErr = new Error(`The Odds API key 配额耗尽/鉴权失败: ${res.status}`);
+      continue; // 换下一个 key
+    }
+    const body = await res.text().catch(() => '');
+    throw new Error(
+      `The Odds API 请求失败: ${res.status} ${body.slice(0, 200)}`,
+    );
+  }
+  throw lastErr ?? new Error('无可用 The Odds API key(配额可能已全部耗尽)');
 }
 
 async function fetchOdds(
   sport: string,
   markets: string,
 ): Promise<RawOddsEvent[]> {
-  const url =
-    `${BASE}/sports/${sport}/odds/` +
-    `?apiKey=${requireKey()}&regions=${REGIONS}&markets=${markets}&oddsFormat=${ODDS_FORMAT}`;
-  const res = await fetch(url, { cache: 'no-store' });
-  updateQuota(res.headers);
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(
-      `The Odds API ${sport} 请求失败: ${res.status} ${body.slice(0, 200)}`,
-    );
-  }
+  const res = await oddsFetch(
+    (key) =>
+      `${BASE}/sports/${sport}/odds/` +
+      `?apiKey=${key}&regions=${REGIONS}&markets=${markets}&oddsFormat=${ODDS_FORMAT}`,
+  );
   return (await res.json()) as RawOddsEvent[];
 }
 
@@ -142,17 +163,11 @@ async function fetchEventOdds(
   oddsEventId: string,
   markets: string,
 ): Promise<RawOddsEvent> {
-  const url =
-    `${BASE}/sports/${SPORT_MATCHES}/events/${oddsEventId}/odds/` +
-    `?apiKey=${requireKey()}&regions=${REGIONS}&markets=${markets}&oddsFormat=${ODDS_FORMAT}`;
-  const res = await fetch(url, { cache: 'no-store' });
-  updateQuota(res.headers);
-  if (!res.ok) {
-    const body = await res.text().catch(() => '');
-    throw new Error(
-      `The Odds API event odds 失败: ${res.status} ${body.slice(0, 200)}`,
-    );
-  }
+  const res = await oddsFetch(
+    (key) =>
+      `${BASE}/sports/${SPORT_MATCHES}/events/${oddsEventId}/odds/` +
+      `?apiKey=${key}&regions=${REGIONS}&markets=${markets}&oddsFormat=${ODDS_FORMAT}`,
+  );
   return (await res.json()) as RawOddsEvent;
 }
 

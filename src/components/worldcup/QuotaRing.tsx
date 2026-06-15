@@ -5,12 +5,14 @@ import 'react-circular-progressbar/dist/styles.css';
 import { useT } from 'lib/i18n/context';
 import type { QuotaInfo } from 'lib/odds/types';
 
-/** 赔率配额环(Horizon react-circular-progressbar):剩余/500,低于阈值变色。 */
+/** 赔率配额环(Horizon react-circular-progressbar):剩余/总额(跨多 key),低于阈值变色。 */
 export default function QuotaRing({ quota }: { quota?: QuotaInfo }) {
   const t = useT();
   const remaining = quota?.remaining ?? null;
   if (remaining == null) return null;
-  const pct = Math.round((remaining / 500) * 100);
+  const total = quota?.total ?? 500;
+  const keyCount = quota?.keyCount ?? 1;
+  const pct = Math.round((remaining / total) * 100);
   const low = remaining < 50;
   const color = low ? '#f53939' : pct < 30 ? '#f59e0b' : '#4318FF';
   return (
@@ -29,6 +31,7 @@ export default function QuotaRing({ quota }: { quota?: QuotaInfo }) {
       </div>
       <span className="text-[11px] text-gray-500 dark:text-gray-400">
         {t('quota.label')}
+        {keyCount > 1 ? ` · ${keyCount} key` : ''}
         {low ? ` · ${t('odds.throttled')}` : ''}
       </span>
     </div>

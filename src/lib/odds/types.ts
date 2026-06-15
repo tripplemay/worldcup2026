@@ -67,9 +67,11 @@ export interface WinnerMarket {
 }
 
 export interface QuotaInfo {
-  remaining: number | null;
+  remaining: number | null; // 跨所有 key 的总剩余
   used: number | null;
   last: number | null;
+  keyCount?: number; // 配置的 key 数量
+  total?: number; // 总额度(PER_KEY_LIMIT × keyCount)
 }
 
 // ── 让球 + 大小球(详情页按需多市场)──────────────────
