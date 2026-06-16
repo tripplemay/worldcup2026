@@ -9,7 +9,7 @@ import WinnerList from 'components/worldcup/WinnerList';
 import QuotaRing from 'components/worldcup/QuotaRing';
 import PageHeading from 'components/worldcup/PageHeading';
 
-/** 实时状态条:红点 + "实时 · 更新于 HH:MM:SS"。 */
+/** 实时状态条:红点 + "实时 · 更新于 HH:MM:SS"(置于标题栏后)。 */
 function LiveStatus({ updatedAt }: { updatedAt: number | null }) {
   const t = useT();
   const clock =
@@ -21,13 +21,15 @@ function LiveStatus({ updatedAt }: { updatedAt: number | null }) {
         })
       : '—';
   return (
-    <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
+    <div className="mt-1 flex items-center gap-1.5 text-[11px] text-gray-400">
       <span className="relative flex h-2 w-2">
         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
         <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
       </span>
       <span className="font-medium text-red-500">{t('odds.live')}</span>
-      <span>· {t('odds.updatedAt')} {clock}</span>
+      <span>
+        · {t('odds.updatedAt')} {clock}
+      </span>
     </div>
   );
 }
@@ -50,6 +52,7 @@ export default function OddsPage() {
           <PageHeading Icon={MdShowChart}>{t('odds.title')}</PageHeading>
           <QuotaRing quota={quota} />
         </div>
+        {tab === 'match' && <LiveStatus updatedAt={oddsUpdatedAt} />}
         <div className="mt-2 flex rounded-xl bg-white p-1 text-sm shadow-sm dark:bg-navy-800">
           <button
             onClick={() => setTab('match')}
@@ -68,12 +71,6 @@ export default function OddsPage() {
 
       {tab === 'match' ? (
         <div className="space-y-3">
-          <LiveStatus updatedAt={oddsUpdatedAt} />
-          {matches.length > 0 && (
-            <div className="text-center text-[11px] text-gray-400">
-              {t('odds.changeLegend')}
-            </div>
-          )}
           {isLoading &&
             matches.length === 0 &&
             [1, 2, 3].map((i) => (

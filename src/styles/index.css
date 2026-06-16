@@ -25,8 +25,25 @@
 .fade-in-up {
   animation: fadeInUp 0.25s ease-out both;
 }
+/* 实时更新提示:每次更新扩散一圈光晕(一次性,靠 key 变更重放) */
+@keyframes liveFlash {
+  0% {
+    transform: scale(0.6);
+    opacity: 0.85;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+.live-flash {
+  animation: liveFlash 0.9s ease-out;
+}
 @media (prefers-reduced-motion: reduce) {
   .fade-in-up {
+    animation: none;
+  }
+  .live-flash {
     animation: none;
   }
 }

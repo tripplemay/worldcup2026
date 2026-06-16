@@ -86,6 +86,7 @@ const ZH: Record<string, string> = {
   'south africa': '南非',
   mali: '马里',
   'dr congo': '刚果（金）',
+  'congo dr': '刚果（金）', // odds-api.io 用 "Congo DR" 写法
 };
 
 /** 按语言本地化国家队名(非中文或无映射时返回原名)。 */
