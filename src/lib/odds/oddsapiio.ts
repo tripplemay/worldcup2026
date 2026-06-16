@@ -10,7 +10,13 @@
  *  - 返回里有影子键 "Bet365 (no latency)"(只含个别市场)→ 解析时跳过。
  *  - 赔率为字符串小数,需 parseFloat;胜平负市场名为 "ML"(odds[0] = {home,draw,away})。
  */
-import type { MatchOdds, BookmakerOdds, LiveRate } from './types';
+import type {
+  MatchOdds,
+  BookmakerOdds,
+  LiveRate,
+  LiveMarket,
+  LiveOddsRow,
+} from './types';
 
 const BASE = process.env.ODDS_API_IO_BASE ?? 'https://api.odds-api.io/v3';
 const KEY = process.env.ODDS_API_IO_KEY ?? '';
@@ -33,9 +39,16 @@ interface IoEvent {
   status: string; // 'pending' | 'live' | 'settled'
 }
 interface IoOddsRow {
+  label?: string;
+  hdp?: number;
   home?: string;
   draw?: string;
   away?: string;
+  over?: string;
+  under?: string;
+  yes?: string;
+  no?: string;
+  odds?: string;
 }
 interface IoMarket {
   name: string;
@@ -93,47 +106,64 @@ export async function fetchWcEvents(): Promise<{
 
 const isRealBook = (name: string) => !/no latency/i.test(name);
 const num = (v?: string): number | undefined => {
+  if (v == null || v === '') return undefined;
   const n = Number(v);
   return Number.isFinite(n) ? n : undefined;
 };
 
-/** 把单场 event 的 ML(胜平负)市场归位为 MatchOdds(各家 + 最优)。 */
-function parseMlEvent(ev: IoOddsEvent): MatchOdds | null {
-  const bookmakers: BookmakerOdds[] = [];
-  const best: MatchOdds['best'] = {};
-  const bump = (
-    k: 'home' | 'draw' | 'away',
-    price: number | undefined,
-    key: string,
-  ) => {
-    if (price == null) return;
-    if (!best[k] || price > best[k]!.price) best[k] = { price, bookmaker: key };
-  };
-
+/** 取该场第一家"真实"博彩商(跳过 "Bet365 (no latency)" 影子键)的市场列表。 */
+function realBookMarkets(ev: IoOddsEvent): IoMarket[] {
   for (const [name, markets] of Object.entries(ev.bookmakers ?? {})) {
-    if (!isRealBook(name)) continue; // 跳过 "Bet365 (no latency)" 影子键
-    const ml = markets.find((m) => m.name === 'ML');
-    const row = ml?.odds?.[0];
-    if (!row) continue;
-    const home = num(row.home);
-    const draw = num(row.draw);
-    const away = num(row.away);
-    if (home == null && draw == null && away == null) continue;
-    const key = name.toLowerCase().replace(/[^a-z0-9]+/g, '');
-    bookmakers.push({
-      key,
-      title: name,
-      lastUpdate: ml?.updatedAt ?? '',
-      home,
-      draw,
-      away,
-    });
-    bump('home', home, key);
-    bump('draw', draw, key);
-    bump('away', away, key);
+    if (isRealBook(name) && markets?.length) return markets;
   }
+  return [];
+}
 
-  if (!bookmakers.length) return null;
+/** 通用解析单条赔率(价格字符串 → number,保留 label/hdp)。 */
+function parseRow(r: IoOddsRow): LiveOddsRow {
+  return {
+    label: r.label,
+    hdp: typeof r.hdp === 'number' ? r.hdp : undefined,
+    home: num(r.home),
+    draw: num(r.draw),
+    away: num(r.away),
+    over: num(r.over),
+    under: num(r.under),
+    yes: num(r.yes),
+    no: num(r.no),
+    odds: num(r.odds),
+  };
+}
+
+/** 解析该场全部市场为通用 LiveMarket[](剔除空行)。 */
+function parseAllMarkets(markets: IoMarket[]): LiveMarket[] {
+  const out: LiveMarket[] = [];
+  for (const m of markets) {
+    const rows = (m.odds ?? []).map(parseRow).filter((r) => {
+      const { label, hdp, ...prices } = r;
+      void label;
+      void hdp;
+      return Object.values(prices).some((v) => v != null);
+    });
+    if (rows.length) out.push({ name: m.name, rows });
+  }
+  return out;
+}
+
+/** 从全市场里取 ML(胜平负)归位为 MatchOdds(单家 Bet365)。 */
+function toMatchOdds(ev: IoOddsEvent, markets: LiveMarket[]): MatchOdds | null {
+  const ml = markets.find((m) => m.name === 'ML')?.rows?.[0];
+  if (!ml) return null;
+  const { home, draw, away } = ml;
+  if (home == null && draw == null && away == null) return null;
+  const key = 'bet365';
+  const bookmakers: BookmakerOdds[] = [
+    { key, title: 'Bet365', lastUpdate: '', home, draw, away },
+  ];
+  const best: MatchOdds['best'] = {};
+  if (home != null) best.home = { price: home, bookmaker: key };
+  if (draw != null) best.draw = { price: draw, bookmaker: key };
+  if (away != null) best.away = { price: away, bookmaker: key };
   return {
     id: String(ev.id),
     homeTeam: ev.home,
@@ -144,20 +174,33 @@ function parseMlEvent(ev: IoOddsEvent): MatchOdds | null {
   };
 }
 
-/** /odds/multi:最多 10 场,解析胜平负为 MatchOdds[](保持入参顺序=开赛时间序)。 */
-export async function fetchLiveBoard(
-  eventIds: number[],
-): Promise<{ matches: MatchOdds[]; rate: LiveRate }> {
-  if (!eventIds.length) return { matches: [], rate: EMPTY_RATE };
+/**
+ * /odds/multi:最多 10 场。返回:
+ *  - matches:胜平负看板(MatchOdds[],保持入参顺序=开赛时间序)
+ *  - marketsById:每场全部市场(供详情展开按标签分组,服务端内存留存)
+ */
+export async function fetchLiveBoard(eventIds: number[]): Promise<{
+  matches: MatchOdds[];
+  marketsById: Record<string, LiveMarket[]>;
+  rate: LiveRate;
+}> {
+  if (!eventIds.length) {
+    return { matches: [], marketsById: {}, rate: EMPTY_RATE };
+  }
   const ids = eventIds.slice(0, 10).join(',');
   const { json, rate } = await ioFetch(
     `/odds/multi?eventIds=${ids}&bookmakers=${encodeURIComponent(BOOKMAKERS)}`,
   );
   const evs = Array.isArray(json) ? (json as IoOddsEvent[]) : [];
   const order = new Map(eventIds.map((id, i) => [String(id), i]));
-  const matches = evs
-    .map(parseMlEvent)
-    .filter((m): m is MatchOdds => m !== null)
-    .sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
-  return { matches, rate };
+  const matches: MatchOdds[] = [];
+  const marketsById: Record<string, LiveMarket[]> = {};
+  for (const ev of evs) {
+    const markets = parseAllMarkets(realBookMarkets(ev));
+    if (markets.length) marketsById[String(ev.id)] = markets;
+    const mo = toMatchOdds(ev, markets);
+    if (mo) matches.push(mo);
+  }
+  matches.sort((a, b) => (order.get(a.id) ?? 0) - (order.get(b.id) ?? 0));
+  return { matches, marketsById, rate };
 }

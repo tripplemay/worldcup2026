@@ -15,11 +15,19 @@ import { fetchWcEvents, fetchLiveBoard, hasLiveKey } from './oddsapiio';
 import { computeChanges } from './changes';
 import type { OddsChangeMap } from './changes';
 import { loadLiveOddsSnap, saveLiveOddsSnap } from './snapStore';
-import type { MatchOdds, LiveRate } from './types';
+import { groupLiveMarkets } from './liveMarketGroups';
+import type {
+  MatchOdds,
+  LiveRate,
+  LiveMarket,
+  LiveMatchMarkets,
+} from './types';
 
 const LIVE_COUNT = Number(process.env.ODDS_API_IO_LIVE_COUNT ?? 10);
 const EVENTS_TTL_MS = Number(process.env.ODDS_API_IO_EVENTS_TTL_MS ?? 300_000);
-const MIN_INTERVAL_MS = Number(process.env.ODDS_API_IO_MIN_INTERVAL_MS ?? 36_000);
+const MIN_INTERVAL_MS = Number(
+  process.env.ODDS_API_IO_MIN_INTERVAL_MS ?? 36_000,
+);
 const MAX_INTERVAL_MS = 120_000;
 const RESERVE = 5; // 预留额度(详情页按需 + 安全缓冲)
 const HOUR_MS = 3_600_000;
@@ -35,6 +43,8 @@ const EMPTY_RATE: LiveRate = { limit: null, remaining: null, reset: null };
 
 interface PollerState {
   board: LiveBoard | null;
+  // 每场全部市场(服务端内存留存,不随看板下发;供详情展开按需取,0 上游消耗)
+  marketsById: Record<string, LiveMarket[]>;
   eventsCache: { ids: number[]; at: number } | null;
   started: boolean;
   inflight: Promise<void> | null;
@@ -45,6 +55,7 @@ interface PollerState {
 const g = globalThis as unknown as { __wcLivePoller?: PollerState };
 const state: PollerState = (g.__wcLivePoller ??= {
   board: null,
+  marketsById: {},
   eventsCache: null,
   started: false,
   inflight: null,
@@ -54,6 +65,19 @@ const state: PollerState = (g.__wcLivePoller ??= {
 /** 当前看板(未首拉完成前为 null)。 */
 export function getLiveBoard(): LiveBoard | null {
   return state.board;
+}
+
+/** 取某场的全部市场(按标签分组);不在当前看板内则返回 null(0 上游调用)。 */
+export function getLiveMatchMarkets(id: string): LiveMatchMarkets | null {
+  const markets = state.marketsById[id];
+  if (!markets?.length) return null;
+  const m = state.board?.matches.find((x) => x.id === id);
+  return {
+    id,
+    homeTeam: m?.homeTeam ?? '',
+    awayTeam: m?.awayTeam ?? '',
+    groups: groupLiveMarkets(markets),
+  };
 }
 
 /** 取最近 N 场未结束比赛的 id(赛事列表带 TTL 缓存,降低 /events 消耗)。 */
@@ -90,11 +114,16 @@ async function doTick(): Promise<void> {
   try {
     const ev = await nearestIds(now);
     if (ev.rate) rate = ev.rate;
-    const { matches, rate: oddsRate } = await fetchLiveBoard(ev.ids);
+    const {
+      matches,
+      marketsById,
+      rate: oddsRate,
+    } = await fetchLiveBoard(ev.ids);
     rate = oddsRate;
     const { changes, snap } = computeChanges(loadLiveOddsSnap(), matches, now);
     saveLiveOddsSnap(snap);
     state.board = { matches, changes, fetchedAt: now, rate };
+    state.marketsById = marketsById;
   } catch (e) {
     console.error('[live-odds] tick 失败,保留上一份看板', e);
   } finally {

@@ -16,6 +16,7 @@ import type {
   GroupMarkets,
   MarketGroup,
   LiveRate,
+  LiveMatchMarkets,
 } from 'lib/odds/types';
 import type { OddsChangeMap } from 'lib/odds/changes';
 
@@ -160,6 +161,26 @@ export function useLiveOdds() {
     isLoading,
     refresh: mutate,
   };
+}
+
+/**
+ * 单场全部市场(实时赔率页展开按需)。仅在传入 matchId 时请求;
+ * 数据取自服务端内存(0 上游),随看板刷新而更新,故跟随实时间隔轻量刷新。
+ */
+export function useLiveMatchMarkets(matchId?: string) {
+  const { data, error, isLoading } = useSWR<{
+    markets: LiveMatchMarkets | null;
+  }>(
+    matchId ? `/api/worldcup/live-odds/markets?id=${matchId}` : null,
+    fetcher,
+    {
+      refreshInterval: LIVE_ODDS_MS,
+      revalidateOnFocus: true,
+      refreshWhenHidden: false,
+      keepPreviousData: true,
+    },
+  );
+  return { markets: data?.markets ?? null, error, isLoading };
 }
 
 /**

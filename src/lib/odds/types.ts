@@ -81,6 +81,38 @@ export interface LiveRate {
   reset: string | null; // 重置时间(ISO)
 }
 
+// ── 实时全市场(odds-api.io,详情展开按标签分组展示)──────────
+/** 单条赔率(通用形:按字段判断市场类型;价格已转 number)。 */
+export interface LiveOddsRow {
+  label?: string; // 结果标签(球员名/比分/"主或平"等)
+  hdp?: number; // 盘口线
+  home?: number;
+  draw?: number;
+  away?: number;
+  over?: number;
+  under?: number;
+  yes?: number;
+  no?: number;
+  odds?: number; // 单一赔率(波胆/半全场等带 label 的市场)
+}
+/** 单个市场(名称 + 多条赔率)。 */
+export interface LiveMarket {
+  name: string; // 原始市场名(英文,如 "Correct Score")
+  rows: LiveOddsRow[];
+}
+/** 市场分组(对应一个标签页)。 */
+export interface LiveMarketGroup {
+  key: string; // 'main' | 'lines' | 'score' | 'corners' | 'cards' | 'players' | 'other'
+  markets: LiveMarket[];
+}
+/** 单场全市场(按分组,供详情展开的标签页)。 */
+export interface LiveMatchMarkets {
+  id: string;
+  homeTeam: string;
+  awayTeam: string;
+  groups: LiveMarketGroup[];
+}
+
 // ── 让球 + 大小球(详情页按需多市场)──────────────────
 /** 让球盘一条(队 + 让分 + 赔率)。 */
 export interface SpreadLine {
