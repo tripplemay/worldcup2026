@@ -7,23 +7,10 @@ import TeamBadge from 'components/worldcup/TeamBadge';
 import VsBadge from 'components/worldcup/VsBadge';
 import OddsArrow from 'components/worldcup/OddsArrow';
 import { useLocale } from 'lib/i18n/context';
+import { formatMatchTime } from 'lib/format/matchTime';
 import type { ScheduleMatch } from 'lib/espn/types';
 import type { MatchOdds } from 'lib/odds/types';
 import type { MatchChange, OutcomeChange } from 'lib/odds/changes';
-
-function fmtTime(iso: string, locale: string): string {
-  try {
-    return new Date(iso).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'Asia/Shanghai',
-    });
-  } catch {
-    return iso;
-  }
-}
 
 const STATUS_CLS: Record<ScheduleMatch['status'], string> = {
   pre: 'bg-gray-100 text-gray-600 dark:bg-navy-700 dark:text-gray-300',
@@ -71,7 +58,7 @@ function MatchCard({
       <Link href={`/match/${m.id}`}>
         <Card extra={`p-4 ${live ? 'ring-2 ring-red-500/50' : ''}`}>
           <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-            <span>{fmtTime(m.commenceTime, locale)}</span>
+            <span>{formatMatchTime(m.commenceTime, locale)}</span>
             <span
               className={`rounded-full px-2 py-0.5 ${
                 STATUS_CLS[m.status] ?? STATUS_CLS.pre

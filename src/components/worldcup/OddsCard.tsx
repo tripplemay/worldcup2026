@@ -11,22 +11,8 @@ import { useTeamLogos } from 'lib/hooks/useWorldCup';
 import type { MatchChange, OutcomeChange } from 'lib/odds/changes';
 import { normalizeTeam } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
+import { formatMatchTime } from 'lib/format/matchTime';
 import type { MatchOdds } from 'lib/odds/types';
-
-/** 比赛时间(北京时间,月/日 时:分)。 */
-function fmtTime(iso: string, locale: string): string {
-  try {
-    return new Date(iso).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'Asia/Shanghai',
-    });
-  } catch {
-    return iso;
-  }
-}
 
 function OddBlock({
   label,
@@ -67,7 +53,7 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
     <Card extra="p-4">
       <div className="mb-2 flex items-center justify-center gap-1 text-[11px] text-gray-400">
         <MdSchedule className="text-xs" />
-        {fmtTime(m.commenceTime, locale)}
+        {formatMatchTime(m.commenceTime, locale)}
       </div>
       <div className="mb-2 flex items-center justify-between gap-2 text-sm">
         <TeamBadge

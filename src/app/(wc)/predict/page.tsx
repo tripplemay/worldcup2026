@@ -8,21 +8,8 @@ import TeamBadge from 'components/worldcup/TeamBadge';
 import PageHeading from 'components/worldcup/PageHeading';
 import { usePredictions } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
+import { formatMatchTime } from 'lib/format/matchTime';
 import type { MatchWithPredictions } from 'lib/predict/predict';
-
-function fmtTime(iso: string, locale: string): string {
-  try {
-    return new Date(iso).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
-      month: 'numeric',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-      timeZone: 'Asia/Shanghai',
-    });
-  } catch {
-    return iso;
-  }
-}
 
 /** 取融合(或首个模型)最大概率的赛果作为「预测」。 */
 function pick(m: MatchWithPredictions, homeShort: string, awayShort: string) {
@@ -73,7 +60,7 @@ export default function PredictPage() {
             <Link key={m.matchId} href={`/match/${m.matchId}`}>
               <Card extra="p-4">
                 <div className="mb-2 flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400">
-                  <span>{fmtTime(m.commenceTime, locale)}</span>
+                  <span>{formatMatchTime(m.commenceTime, locale)}</span>
                   {pk && (
                     <span className="rounded-full bg-brand-50 px-2 py-0.5 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400">
                       {t('predict.pick')} {pk.side} {pk.score}
