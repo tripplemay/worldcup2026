@@ -17,6 +17,7 @@ import {
 import RecentForm from 'components/worldcup/RecentForm';
 import PredictionCard from 'components/worldcup/PredictionCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
+import type { RosterPlayer } from 'lib/espn/types';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import { eventType, statusText, position } from 'lib/i18n/events';
@@ -194,30 +195,58 @@ export default function MatchDetailPage() {
               </div>
               <div className="grid grid-cols-2 gap-3 text-xs">
                 {[
-                  { team: summary.homeTeam, roster: summary.homeRoster },
-                  { team: summary.awayTeam, roster: summary.awayRoster },
-                ].map((side, si) => (
-                  <div key={si}>
-                    <div className="mb-1 font-medium text-brand-500 dark:text-brand-400">
-                      {tn(side.team)}
+                  {
+                    team: summary.homeTeam,
+                    roster: summary.homeRoster,
+                    formation: summary.homeFormation,
+                  },
+                  {
+                    team: summary.awayTeam,
+                    roster: summary.awayRoster,
+                    formation: summary.awayFormation,
+                  },
+                ].map((side, si) => {
+                  const renderRow = (p: RosterPlayer, i: number) => (
+                    <div
+                      key={i}
+                      className="flex items-baseline gap-1 text-gray-600 dark:text-gray-300"
+                    >
+                      {p.jersey && (
+                        <span className="w-4 shrink-0 text-right tabular-nums text-gray-400">
+                          {p.jersey}
+                        </span>
+                      )}
+                      {p.position && (
+                        <span className="shrink-0 text-gray-400">
+                          {position(p.position, locale)}
+                        </span>
+                      )}
+                      <span className="truncate">{p.name}</span>
                     </div>
-                    {side.roster
-                      .filter((p) => p.starter)
-                      .map((p, i) => (
-                        <div
-                          key={i}
-                          className="text-gray-600 dark:text-gray-300"
-                        >
-                          {p.position && (
-                            <span className="mr-1 text-gray-400">
-                              {position(p.position, locale)}
-                            </span>
-                          )}
-                          {p.name}
-                        </div>
-                      ))}
-                  </div>
-                ))}
+                  );
+                  const subs = side.roster.filter((p) => !p.starter);
+                  return (
+                    <div key={si}>
+                      <div className="mb-1 flex items-baseline gap-1.5 font-medium text-brand-500 dark:text-brand-400">
+                        <span className="truncate">{tn(side.team)}</span>
+                        {side.formation && (
+                          <span className="shrink-0 text-[11px] font-normal text-gray-400">
+                            {side.formation}
+                          </span>
+                        )}
+                      </div>
+                      {side.roster.filter((p) => p.starter).map(renderRow)}
+                      {subs.length > 0 && (
+                        <>
+                          <div className="mb-1 mt-2 text-[11px] text-gray-400">
+                            {t('detail.subs')}
+                          </div>
+                          {subs.map(renderRow)}
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             </Card>
           )}

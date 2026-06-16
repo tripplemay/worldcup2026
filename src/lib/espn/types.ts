@@ -94,6 +94,7 @@ export interface TeamMatchStats {
 export interface RosterPlayer {
   name: string;
   position?: string;
+  jersey?: string; // 球衣号
   starter: boolean;
 }
 
@@ -152,6 +153,8 @@ export interface MatchSummary {
   events: MatchEvent[];
   homeRoster: RosterPlayer[];
   awayRoster: RosterPlayer[];
+  homeFormation?: string; // 阵型(如 4-3-3)
+  awayFormation?: string;
   homeForm: RecentGame[]; // 近 5 场
   awayForm: RecentGame[];
   h2h: H2HGame[]; // 历史交锋(常为空)

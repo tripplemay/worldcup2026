@@ -333,17 +333,20 @@ export const espnProvider: EspnProvider = {
     };
 
     const rosters = arr(data.rosters).map(obj);
-    const rosterFor = (ha: string): RosterPlayer[] => {
-      const r = obj(rosters.find((x) => str(x.homeAway) === ha));
-      return arr(r.roster)
+    const teamRoster = (ha: string): Json =>
+      obj(rosters.find((x) => str(x.homeAway) === ha));
+    const jersey = (v: unknown): string | undefined =>
+      typeof v === 'number' ? String(v) : str(v) || undefined;
+    const rosterFor = (ha: string): RosterPlayer[] =>
+      arr(teamRoster(ha).roster)
         .map(obj)
         .map((p) => ({
           name: str(obj(p.athlete).displayName) ?? '',
           position: str(obj(p.position).abbreviation),
+          jersey: jersey(p.jersey),
           starter: p.starter === true,
         }))
         .filter((p) => p.name);
-    };
 
     return {
       id: eventId,
@@ -363,6 +366,8 @@ export const espnProvider: EspnProvider = {
       events: parseEvents(data),
       homeRoster: rosterFor('home'),
       awayRoster: rosterFor('away'),
+      homeFormation: str(teamRoster('home').formation),
+      awayFormation: str(teamRoster('away').formation),
       homeForm: recentForm.get(teamId(homeC) ?? '') ?? [],
       awayForm: recentForm.get(teamId(awayC) ?? '') ?? [],
       h2h: parseH2H(data),
