@@ -4,7 +4,11 @@ import { useEffect, useMemo, useState } from 'react';
 import { MdCalendarMonth, MdCircle } from 'react-icons/md';
 import MiniStatistics from 'components/card/MiniStatistics';
 import PageHeading from 'components/worldcup/PageHeading';
-import { useScoreboard, useMatchOdds } from 'lib/hooks/useWorldCup';
+import {
+  useScoreboard,
+  useMatchOdds,
+  useLiveOdds,
+} from 'lib/hooks/useWorldCup';
 import { matchKey } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import MatchCard from 'components/worldcup/MatchCard';
@@ -70,6 +74,8 @@ export default function SchedulePage() {
     oddsUpdatedAt,
     nextOddsRefreshAt,
   } = useMatchOdds();
+  // 实时赔率(odds-api.io,最近 10 场,~36s 刷新):优先回填到对应赛程行
+  const { matches: liveMatches, changes: liveChanges } = useLiveOdds();
   // 赔率按对阵键建索引,行内 O(1) 取(避免每行对整数组 find;引用稳定利于行 memo)
   const oddsMap = useMemo(() => {
     const map = new Map<string, (typeof oddsMatches)[number]>();
@@ -86,6 +92,27 @@ export default function SchedulePage() {
     }
     return map;
   }, [oddsMatches, changes]);
+  // 实时赔率/变动按对阵键建索引(同源配对:有实时则用实时的赔率+变动)
+  const liveOddsMap = useMemo(() => {
+    const map = new Map<string, (typeof liveMatches)[number]>();
+    for (const o of liveMatches)
+      map.set(matchKey(o.homeTeam, o.awayTeam, o.commenceTime), o);
+    return map;
+  }, [liveMatches]);
+  const liveChangeMap = useMemo(() => {
+    const map = new Map<string, (typeof liveChanges)[string]>();
+    for (const o of liveMatches) {
+      const ch = liveChanges[o.id];
+      if (ch) map.set(matchKey(o.homeTeam, o.awayTeam, o.commenceTime), ch);
+    }
+    return map;
+  }, [liveMatches, liveChanges]);
+  // 取某行赔率:优先实时(odds-api.io),回退 The Odds API;赔率与变动同源配对
+  const pickOdds = (key: string) => {
+    const live = liveOddsMap.get(key);
+    if (live) return { odds: live, change: liveChangeMap.get(key) };
+    return { odds: oddsMap.get(key), change: changeMap.get(key) };
+  };
   const live = matches.filter((m) => m.status === 'in').length;
 
   return (
@@ -165,18 +192,12 @@ export default function SchedulePage() {
         )}
 
         <div className="space-y-3">
-          {matches.map((m) => (
-            <MatchCard
-              key={m.id}
-              m={m}
-              odds={oddsMap.get(
-                matchKey(m.homeTeam, m.awayTeam, m.commenceTime),
-              )}
-              change={changeMap.get(
-                matchKey(m.homeTeam, m.awayTeam, m.commenceTime),
-              )}
-            />
-          ))}
+          {matches.map((m) => {
+            const { odds, change } = pickOdds(
+              matchKey(m.homeTeam, m.awayTeam, m.commenceTime),
+            );
+            return <MatchCard key={m.id} m={m} odds={odds} change={change} />;
+          })}
         </div>
       </PullToRefresh>
     </div>
