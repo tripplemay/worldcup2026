@@ -59,7 +59,7 @@ export default function PredictPage() {
           return (
             <Link key={m.matchId} href={`/match/${m.matchId}`}>
               <Card extra="p-4">
-                <div className="mb-2 flex items-center justify-between text-[11px] text-gray-500 dark:text-gray-400">
+                <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
                   <span>{formatMatchTime(m.commenceTime, locale)}</span>
                   {pk && (
                     <span className="rounded-full bg-brand-50 px-2 py-0.5 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400">

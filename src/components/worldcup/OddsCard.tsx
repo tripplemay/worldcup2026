@@ -1,7 +1,6 @@
 'use client';
 
 import { memo, useState } from 'react';
-import { MdSchedule } from 'react-icons/md';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import OddsArrow from 'components/worldcup/OddsArrow';
@@ -51,8 +50,7 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
   const logos = useTeamLogos();
   return (
     <Card extra="p-4">
-      <div className="mb-2 flex items-center justify-center gap-1 text-[11px] text-gray-400">
-        <MdSchedule className="text-xs" />
+      <div className="mb-2 text-xs text-gray-600 dark:text-gray-400">
         {formatMatchTime(m.commenceTime, locale)}
       </div>
       <div className="mb-2 flex items-center justify-between gap-2 text-sm">
