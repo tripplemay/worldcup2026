@@ -4,6 +4,7 @@ import { memo } from 'react';
 import Link from 'next/link';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import VsBadge from 'components/worldcup/VsBadge';
 import OddsArrow from 'components/worldcup/OddsArrow';
 import { useLocale } from 'lib/i18n/context';
 import type { ScheduleMatch } from 'lib/espn/types';
@@ -92,9 +93,7 @@ function MatchCard({
                 {m.homeScore} : {m.awayScore}
               </span>
             ) : (
-              <span className="px-3 text-sm text-gray-400">
-                {t('common.vs')}
-              </span>
+              <VsBadge />
             )}
             <TeamBadge
               name={m.awayTeam}

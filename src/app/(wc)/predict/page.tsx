@@ -84,9 +84,10 @@ export default function PredictPage() {
                   <TeamBadge
                     name={m.homeTeam}
                     logo={m.homeLogo}
-                    className="flex-1 text-sm font-medium text-navy-700 dark:text-white"
+                    nameFirst
+                    className="min-w-0 flex-1 text-sm font-medium text-navy-700 dark:text-white"
                   />
-                  <span className="px-2 text-xs text-gray-400">
+                  <span className="shrink-0 px-2 text-xs text-gray-400">
                     {p.xgHome != null
                       ? `${p.xgHome.toFixed(1)} - ${p.xgAway?.toFixed(1)}`
                       : ''}
@@ -94,8 +95,7 @@ export default function PredictPage() {
                   <TeamBadge
                     name={m.awayTeam}
                     logo={m.awayLogo}
-                    reverse
-                    className="flex-1 justify-end text-right text-sm font-medium text-navy-700 dark:text-white"
+                    className="min-w-0 flex-1 justify-end text-right text-sm font-medium text-navy-700 dark:text-white"
                   />
                 </div>
                 <ProbBar home={p.homeWin} draw={p.draw} away={p.awayWin} />

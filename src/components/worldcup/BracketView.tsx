@@ -2,6 +2,7 @@
 
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import VsBadge from 'components/worldcup/VsBadge';
 import { useT } from 'lib/i18n/context';
 import type { BracketMatch } from 'lib/espn/types';
 
@@ -52,7 +53,7 @@ export default function BracketView({ matches }: { matches: BracketMatch[] }) {
                       {m.homeScore} : {m.awayScore}
                     </span>
                   ) : (
-                    <span className="px-3 text-xs text-gray-400">{t('common.vs')}</span>
+                    <VsBadge />
                   )}
                   <TeamBadge
                     name={m.awayTeam ?? t('common.tbd')}

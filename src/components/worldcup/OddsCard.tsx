@@ -1,15 +1,32 @@
 'use client';
 
 import { memo, useState } from 'react';
+import { MdSchedule } from 'react-icons/md';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import OddsArrow from 'components/worldcup/OddsArrow';
+import VsBadge from 'components/worldcup/VsBadge';
 import LiveMarketsPanel from 'components/worldcup/LiveMarketsPanel';
 import { useTeamLogos } from 'lib/hooks/useWorldCup';
 import type { MatchChange, OutcomeChange } from 'lib/odds/changes';
 import { normalizeTeam } from 'lib/match/normalize';
-import { useT } from 'lib/i18n/context';
+import { useLocale } from 'lib/i18n/context';
 import type { MatchOdds } from 'lib/odds/types';
+
+/** 比赛时间(北京时间,月/日 时:分)。 */
+function fmtTime(iso: string, locale: string): string {
+  try {
+    return new Date(iso).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
+      month: 'numeric',
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      timeZone: 'Asia/Shanghai',
+    });
+  } catch {
+    return iso;
+  }
+}
 
 function OddBlock({
   label,
@@ -43,11 +60,15 @@ function OddBlock({
 
 /** 一场比赛赔率(Horizon Card):默认胜平负三块,点击展开全部市场(按标签分组,按需加载)。 */
 function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
-  const t = useT();
+  const { t, locale } = useLocale();
   const [open, setOpen] = useState(false);
   const logos = useTeamLogos();
   return (
     <Card extra="p-4">
+      <div className="mb-2 flex items-center justify-center gap-1 text-[11px] text-gray-400">
+        <MdSchedule className="text-xs" />
+        {fmtTime(m.commenceTime, locale)}
+      </div>
       <div className="mb-2 flex items-center justify-between gap-2 text-sm">
         <TeamBadge
           name={m.homeTeam}
@@ -55,9 +76,7 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
           nameFirst
           className="min-w-0 flex-1 font-medium text-navy-700 dark:text-white"
         />
-        <span className="shrink-0 px-1 text-xs text-gray-400">
-          {t('common.vs')}
-        </span>
+        <VsBadge />
         <TeamBadge
           name={m.awayTeam}
           logo={logos[normalizeTeam(m.awayTeam)]}
