@@ -74,6 +74,13 @@ export interface QuotaInfo {
   total?: number; // 总额度(PER_KEY_LIMIT × keyCount)
 }
 
+/** odds-api.io 限流状态(实时看板;来自响应头 x-ratelimit-*)。 */
+export interface LiveRate {
+  limit: number | null; // 每小时上限(100)
+  remaining: number | null; // 本小时剩余
+  reset: string | null; // 重置时间(ISO)
+}
+
 // ── 让球 + 大小球(详情页按需多市场)──────────────────
 /** 让球盘一条(队 + 让分 + 赔率)。 */
 export interface SpreadLine {

@@ -9,21 +9,29 @@ import type { OddsSnap } from './changes';
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const ODDS_DIR = join(DATA_DIR, 'odds');
 const FILE = join(ODDS_DIR, 'snap.json');
+// 实时看板(odds-api.io)用独立快照文件:其 event id 空间与 the-odds-api 不同,分开存避免串号。
+const LIVE_FILE = join(ODDS_DIR, 'live-snap.json');
 
-export function loadOddsSnap(): OddsSnap {
+function loadSnap(file: string): OddsSnap {
   try {
-    return JSON.parse(readFileSync(FILE, 'utf8')) as OddsSnap;
+    return JSON.parse(readFileSync(file, 'utf8')) as OddsSnap;
   } catch {
     return {};
   }
 }
 
-export function saveOddsSnap(snap: OddsSnap): void {
+function saveSnap(file: string, snap: OddsSnap): void {
   try {
     mkdirSync(ODDS_DIR, { recursive: true });
-    writeFileSync(FILE, JSON.stringify(snap));
+    writeFileSync(file, JSON.stringify(snap));
   } catch (e) {
     // 写失败不抛(不阻断请求)
     console.error('[odds] 快照写入失败', e);
   }
 }
+
+export const loadOddsSnap = (): OddsSnap => loadSnap(FILE);
+export const saveOddsSnap = (snap: OddsSnap): void => saveSnap(FILE, snap);
+export const loadLiveOddsSnap = (): OddsSnap => loadSnap(LIVE_FILE);
+export const saveLiveOddsSnap = (snap: OddsSnap): void =>
+  saveSnap(LIVE_FILE, snap);

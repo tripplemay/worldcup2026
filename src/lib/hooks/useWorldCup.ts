@@ -15,6 +15,7 @@ import type {
   MatchMarkets,
   GroupMarkets,
   MarketGroup,
+  LiveRate,
 } from 'lib/odds/types';
 import type { OddsChangeMap } from 'lib/odds/changes';
 
@@ -45,6 +46,8 @@ const SCORES_MS = ms(process.env.NEXT_PUBLIC_SCORES_REFRESH_MS, 25_000);
 // 赔率低频:变动无需秒级,拉长间隔省 The Odds API 配额
 const ODDS_MS = ms(process.env.NEXT_PUBLIC_ODDS_REFRESH_MS, 1_800_000);
 const STANDINGS_MS = ms(process.env.NEXT_PUBLIC_STANDINGS_REFRESH_MS, 300_000);
+// 实时看板:读服务端内存缓存(上游由后台 ~36s 轮询),客户端默认 20s 取一次,几乎零上游消耗
+const LIVE_ODDS_MS = ms(process.env.NEXT_PUBLIC_LIVE_ODDS_REFRESH_MS, 20_000);
 
 const common = {
   revalidateOnFocus: true,
@@ -125,6 +128,34 @@ export function useMatchOdds() {
     quota: data?.quota,
     oddsUpdatedAt: data?.fetchedAt ?? null,
     nextOddsRefreshAt: data?.fetchedAt ? data.fetchedAt + ODDS_MS : null,
+    error,
+    isLoading,
+    refresh: mutate,
+  };
+}
+
+/**
+ * 实时赔率看板(odds-api.io)。最近 N 场比赛胜平负 + 涨跌 + 拉取时间 + 限流。
+ * 上游由后台单例 ~36s 轮询;前端读服务端缓存(默认 20s),回前台/重连刷新(读缓存,不耗上游)。
+ */
+export function useLiveOdds() {
+  const { data, error, isLoading, mutate } = useSWR<{
+    matches: MatchOdds[];
+    changes?: OddsChangeMap;
+    fetchedAt: number | null;
+    rate: LiveRate;
+  }>('/api/worldcup/live-odds', fetcher, {
+    refreshInterval: LIVE_ODDS_MS,
+    revalidateOnFocus: true,
+    revalidateOnReconnect: true,
+    refreshWhenHidden: false,
+    keepPreviousData: true,
+  });
+  return {
+    matches: data?.matches ?? [],
+    changes: data?.changes ?? {},
+    oddsUpdatedAt: data?.fetchedAt ?? null,
+    rate: data?.rate,
     error,
     isLoading,
     refresh: mutate,

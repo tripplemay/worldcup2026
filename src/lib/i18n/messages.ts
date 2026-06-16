@@ -5,7 +5,7 @@ export const messages = {
   zh: {
     nav: {
       schedule: '赛程',
-      odds: '赔率',
+      odds: '实时赔率',
       predict: '预测',
       standings: '积分',
       settings: '设置',
@@ -29,11 +29,15 @@ export const messages = {
       empty: '当日暂无比赛',
     },
     odds: {
-      title: '赔率 · 夺冠',
+      title: '实时赔率',
       quotaLeft: '剩余配额',
       throttled: '已节流',
-      tabMatch: '单场赔率',
+      tabMatch: '实时赔率',
       tabWinner: '夺冠榜',
+      live: '实时',
+      liveDesc: '后台每 36 秒自动刷新',
+      updatedAt: '更新于',
+      noLive: '暂无实时赔率',
       home: '主胜',
       draw: '平',
       away: '客胜',
@@ -210,7 +214,7 @@ export const messages = {
   en: {
     nav: {
       schedule: 'Fixtures',
-      odds: 'Odds',
+      odds: 'Live Odds',
       predict: 'Predict',
       standings: 'Tables',
       settings: 'Settings',
@@ -234,11 +238,15 @@ export const messages = {
       empty: 'No matches on this day',
     },
     odds: {
-      title: 'Odds · Winner',
+      title: 'Live Odds',
       quotaLeft: 'Quota left',
       throttled: 'throttled',
-      tabMatch: 'Match odds',
+      tabMatch: 'Live odds',
       tabWinner: 'Winner',
+      live: 'Live',
+      liveDesc: 'Auto-refresh every 36s',
+      updatedAt: 'Updated',
+      noLive: 'No live odds',
       home: 'Home',
       draw: 'Draw',
       away: 'Away',

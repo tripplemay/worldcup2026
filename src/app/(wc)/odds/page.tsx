@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { useMatchOdds, useWinnerOdds } from 'lib/hooks/useWorldCup';
+import { useLiveOdds, useWinnerOdds } from 'lib/hooks/useWorldCup';
 import { MdShowChart } from 'react-icons/md';
 import { useT } from 'lib/i18n/context';
 import OddsCard from 'components/worldcup/OddsCard';
@@ -9,11 +9,34 @@ import WinnerList from 'components/worldcup/WinnerList';
 import QuotaRing from 'components/worldcup/QuotaRing';
 import PageHeading from 'components/worldcup/PageHeading';
 
+/** 实时状态条:红点 + "实时 · 更新于 HH:MM:SS"。 */
+function LiveStatus({ updatedAt }: { updatedAt: number | null }) {
+  const t = useT();
+  const clock =
+    updatedAt != null
+      ? new Date(updatedAt).toLocaleTimeString([], {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+        })
+      : '—';
+  return (
+    <div className="flex items-center justify-center gap-1.5 text-[11px] text-gray-400">
+      <span className="relative flex h-2 w-2">
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+        <span className="relative inline-flex h-2 w-2 rounded-full bg-red-500" />
+      </span>
+      <span className="font-medium text-red-500">{t('odds.live')}</span>
+      <span>· {t('odds.updatedAt')} {clock}</span>
+    </div>
+  );
+}
+
 export default function OddsPage() {
   const t = useT();
   const [tab, setTab] = useState<'match' | 'winner'>('match');
-  const { matches, quota, changes, isLoading } = useMatchOdds();
-  const { winner } = useWinnerOdds();
+  const { matches, changes, oddsUpdatedAt, isLoading } = useLiveOdds();
+  const { winner, quota } = useWinnerOdds();
 
   const tabCls = (active: boolean) =>
     `flex-1 rounded-lg py-1.5 ${
@@ -45,6 +68,7 @@ export default function OddsPage() {
 
       {tab === 'match' ? (
         <div className="space-y-3">
+          <LiveStatus updatedAt={oddsUpdatedAt} />
           {matches.length > 0 && (
             <div className="text-center text-[11px] text-gray-400">
               {t('odds.changeLegend')}
@@ -58,6 +82,11 @@ export default function OddsPage() {
                 className="h-28 animate-pulse rounded-[20px] bg-white dark:bg-navy-800"
               />
             ))}
+          {!isLoading && matches.length === 0 && (
+            <div className="py-10 text-center text-sm text-gray-400">
+              {t('odds.noLive')}
+            </div>
+          )}
           {matches.map((m) => (
             <OddsCard key={m.id} m={m} change={changes[m.id]} />
           ))}
