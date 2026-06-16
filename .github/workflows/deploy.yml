@@ -64,7 +64,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -109,6 +109,9 @@ jobs:
             export ODDS_API_BASE="https://api.the-odds-api.com/v4"
             export ODDS_API_REGIONS="eu"
             export ODDS_API_ODDS_FORMAT="decimal"
+            # 实时赔率第二数据源 odds-api.io(100次/小时,后台轮询动态配速);未设则实时看板优雅留空
+            # 其余 BASE/LEAGUE/BOOKMAKERS(=Bet365)/LIVE_COUNT 等用代码默认,无需在此设
+            export ODDS_API_IO_KEY="${ODDS_API_IO_KEY}"
             export ESPN_BASE="https://site.api.espn.com/apis"
             # 前端添加的 key 持久化到部署目录之外(rm -rf APP_DIR 不会清掉它)
             DATA_DIR=/opt/apps/worldcup-data
@@ -161,6 +164,7 @@ jobs:
           CERTBOT_EMAIL: ${{ secrets.CERTBOT_EMAIL }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           ODDS_API_KEYS: ${{ secrets.ODDS_API_KEYS }}
+          ODDS_API_IO_KEY: ${{ secrets.ODDS_API_IO_KEY }}
           ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
           AIGC_API_KEY: ${{ secrets.AIGC_API_KEY }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
