@@ -84,7 +84,8 @@ function MatchCard({
             <TeamBadge
               name={m.homeTeam}
               logo={m.homeLogo}
-              className="flex-1 font-medium text-navy-700 dark:text-white"
+              nameFirst
+              className="min-w-0 flex-1 font-medium text-navy-700 dark:text-white"
             />
             {showScore ? (
               <span className="px-3 text-xl font-bold tabular-nums text-navy-700 dark:text-white">
@@ -98,8 +99,7 @@ function MatchCard({
             <TeamBadge
               name={m.awayTeam}
               logo={m.awayLogo}
-              reverse
-              className="flex-1 justify-end text-right font-medium text-navy-700 dark:text-white"
+              className="min-w-0 flex-1 justify-end text-right font-medium text-navy-700 dark:text-white"
             />
           </div>
           {odds && (

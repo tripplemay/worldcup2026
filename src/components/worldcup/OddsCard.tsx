@@ -52,14 +52,16 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
         <TeamBadge
           name={m.homeTeam}
           logo={logos[normalizeTeam(m.homeTeam)]}
-          className="flex-1 font-medium text-navy-700 dark:text-white"
+          nameFirst
+          className="min-w-0 flex-1 font-medium text-navy-700 dark:text-white"
         />
-        <span className="text-xs text-gray-400">{t('common.vs')}</span>
+        <span className="shrink-0 px-1 text-xs text-gray-400">
+          {t('common.vs')}
+        </span>
         <TeamBadge
           name={m.awayTeam}
           logo={logos[normalizeTeam(m.awayTeam)]}
-          reverse
-          className="flex-1 justify-end text-right font-medium text-navy-700 dark:text-white"
+          className="min-w-0 flex-1 justify-end text-right font-medium text-navy-700 dark:text-white"
         />
       </div>
       <div className="flex gap-2">
@@ -71,9 +73,7 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
         onClick={() => setOpen((o) => !o)}
         className="mt-2 w-full text-center text-[11px] text-gray-500 active:opacity-70 dark:text-gray-400"
       >
-        {open
-          ? `${t('odds.collapse')} ⌃`
-          : `${t('odds.allMarkets')} ⌄`}
+        {open ? `${t('odds.collapse')} ⌃` : `${t('odds.allMarkets')} ⌄`}
       </button>
       {open && (
         <div className="fade-in-up">
