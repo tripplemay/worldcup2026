@@ -178,15 +178,20 @@ export async function predictUpcoming(
   days = 10,
 ): Promise<MatchWithPredictions[]> {
   const today = new Date(Date.now() + CN_OFFSET);
+  // ESPN scoreboard 按「美东日期」分桶,与北京日期最多差 ~12h:北京跨过午夜进入次日后,
+  // 美东仍是当天,直接用北京日期作 range 起点会漏掉"美东今日尚未开打"的早场。
+  // 故起点往前推 1 天兜底,再用 status 过滤掉已结束的场次(预测只面向未开打/进行中)。
+  const start = new Date(today.getTime() - 86400_000);
   const end = new Date(today.getTime() + days * 86400_000);
   const [fixtures, oddsMatches] = await Promise.all([
-    espnProvider.getScoreboard(`${ymd(today)}-${ymd(end)}`),
+    espnProvider.getScoreboard(`${ymd(start)}-${ymd(end)}`),
     loadOdds(),
   ]);
   const ratings = loadRatings();
   const eloMap = loadElo();
   const leagueAvg = leagueAverage(ratings);
   return fixtures
+    .filter((f) => f.status !== 'post')
     .map((f) => predictFixture(f, ratings, eloMap, leagueAvg, oddsMatches))
     .sort((a, b) => a.commenceTime.localeCompare(b.commenceTime));
 }
