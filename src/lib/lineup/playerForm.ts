@@ -23,11 +23,15 @@ import type { RosterPlayer, PlayerForm } from 'lib/espn/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const SQUAD_FILE = join(DATA_DIR, 'af-squads.json');
-const FORM_FILE = join(DATA_DIR, 'player-form.json');
+const FORM_FILE = join(DATA_DIR, 'player-form-v2.json'); // v2:换名重建(旧缓存曾被限流写空)
 const SEASON = Number(process.env.AF_FORM_SEASON ?? 2025); // 俱乐部当前赛季(2025-26)
 const SQUAD_TTL = 7 * 86400_000; // 名单 7 天
-const FORM_TTL = 86400_000; // 状态 1 天
+const FORM_TTL = 86400_000; // 有数据状态 1 天
+const EMPTY_TTL = 3 * 3600_000; // 无数据/拉取失败 3 小时后重试(避免长期空白)
 const CONCURRENCY = 5;
+const BATCH_GAP_MS = 700; // 批次间隔,控速避免 API-Football 限流(~4 req/s)
+
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 interface SquadEntry {
   at: number;
@@ -107,31 +111,34 @@ async function ensureSquad(afTeamId: number): Promise<SquadPlayer[]> {
   }
 }
 
-/** 拉取并缓存给定球员的近期状态(可 await;限并发;去重;未返回的记空避免反复调用)。 */
+/** 有数据的状态用 FORM_TTL;无数据/失败记空的用更短 EMPTY_TTL,便于尽快重试。 */
+function staleForm(e: FormEntry | undefined): boolean {
+  if (!e) return true;
+  return !fresh(e.at, e.form.apps > 0 ? FORM_TTL : EMPTY_TTL);
+}
+
+/**
+ * 拉取并缓存给定球员的近期状态(可 await;限并发 + 批次间隔控速,避免限流)。
+ * 失败/无数据返回 null:**不覆盖已有有效数据**(防限流写空);仅在无旧数据时记空占位。
+ */
 async function fillForms(ids: number[]): Promise<void> {
   const fs = formStore();
-  // 旧缓存(无 leagueId 字段)视为过期重拉一次,以补上联赛信息(一次性迁移)
-  const stale = (id: number) => {
-    const e = fs[id];
-    if (!e || !fresh(e.at, FORM_TTL)) return true;
-    return e.form.apps > 0 && e.form.leagueId === undefined;
-  };
   const missing = [...new Set(ids)].filter(
-    (id) => stale(id) && !formInflight.has(id),
+    (id) => staleForm(fs[id]) && !formInflight.has(id),
   );
   if (!missing.length) return;
   missing.forEach((id) => formInflight.add(id));
   try {
     for (let i = 0; i < missing.length; i += CONCURRENCY) {
+      if (i > 0) await sleep(BATCH_GAP_MS); // 控速
       const batch = missing.slice(i, i + CONCURRENCY);
       const res = await Promise.all(
         batch.map((id) => getPlayerSeason(id, SEASON).then((f) => ({ id, f }))),
       );
       for (const { id, f } of res) {
-        fs[id] = {
-          at: Date.now(),
-          form: f ?? { goals: 0, assists: 0, apps: 0 },
-        };
+        if (f) fs[id] = { at: Date.now(), form: f };
+        else if (fs[id]?.form.apps) continue; // 失败:保留已有有效数据,不写空
+        else fs[id] = { at: Date.now(), form: { goals: 0, assists: 0, apps: 0 } };
       }
       save(FORM_FILE, fs);
     }
