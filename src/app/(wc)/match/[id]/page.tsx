@@ -233,9 +233,19 @@ export default function MatchDetailPage() {
                                 {position(p.position, locale)}
                               </span>
                             )}
-                            <span className="truncate">
+                            <span className="min-w-0 flex-1 truncate">
                               {locale === 'zh' && p.zh ? p.zh : p.name}
                             </span>
+                            {p.form?.rating != null && (
+                              <span className="shrink-0 tabular-nums text-gray-400">
+                                ⭐{p.form.rating.toFixed(1)}
+                              </span>
+                            )}
+                            {p.form != null && p.form.goals > 0 && (
+                              <span className="shrink-0 tabular-nums text-gray-400">
+                                ⚽{p.form.goals}
+                              </span>
+                            )}
                           </div>
                         ))}
                       </div>

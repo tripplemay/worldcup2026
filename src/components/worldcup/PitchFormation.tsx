@@ -21,17 +21,27 @@ function shortZh(zh: string): string {
   return parts[parts.length - 1];
 }
 
+/** 评分配色:≥7.5 绿 / ≥7.0 品牌蓝 / ≥6.5 灰 / 其余 红。 */
+function ratingCls(r: number): string {
+  if (r >= 7.5) return 'bg-green-500';
+  if (r >= 7.0) return 'bg-brand-500';
+  if (r >= 6.5) return 'bg-gray-400';
+  return 'bg-red-400';
+}
+
 function Spot({
   top,
   left,
   jersey,
   name,
+  rating,
   disc,
 }: {
   top: number;
   left: number;
   jersey?: string;
   name: string;
+  rating?: number;
   disc: string;
 }) {
   return (
@@ -47,6 +57,15 @@ function Spot({
       <span className="mt-0.5 max-w-[56px] truncate text-[9px] font-medium leading-tight text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
         {name}
       </span>
+      {rating != null && (
+        <span
+          className={`mt-px rounded px-1 text-[8px] font-bold leading-none text-white ${ratingCls(
+            rating,
+          )}`}
+        >
+          {rating.toFixed(1)}
+        </span>
+      )}
     </div>
   );
 }
@@ -108,6 +127,7 @@ export default function PitchFormation({
             left={s.x}
             jersey={s.jersey}
             name={disp(s)}
+            rating={s.form?.rating}
             disc="bg-brand-500"
           />
         ))}
@@ -119,6 +139,7 @@ export default function PitchFormation({
             left={100 - s.x}
             jersey={s.jersey}
             name={disp(s)}
+            rating={s.form?.rating}
             disc="bg-red-500"
           />
         ))}

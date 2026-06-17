@@ -1,7 +1,10 @@
-/** GET /api/worldcup/summary?eventId=... — 单场详情(ESPN summary + 球员中文名,缓存 25s)。 */
+/** GET /api/worldcup/summary?eventId=... — 单场详情(ESPN + 球员中文名 + 近期状态,缓存 25s)。 */
 import { cached } from 'lib/cache';
 import { espnProvider } from 'lib/espn/espn';
 import { cachedNames, ensureNames } from 'lib/lineup/playerNames';
+import { attachPlayerForm } from 'lib/lineup/playerForm';
+import { loadAfTeams } from 'lib/db/store';
+import { normalizeTeam } from 'lib/match/normalize';
 import { ok, fail } from 'lib/api/respond';
 import type { RosterPlayer } from 'lib/espn/types';
 
@@ -23,10 +26,14 @@ export async function GET(req: Request) {
         const zh = cachedNames(names);
         const withZh = (arr: RosterPlayer[]) =>
           arr.map((p) => (zh[p.name] ? { ...p, zh: zh[p.name] } : p));
+        // 球员近期状态(API-Football,按球衣号匹配;非阻塞,下次轮询即出)
+        const af = loadAfTeams();
+        const enrich = (arr: RosterPlayer[], team: string) =>
+          attachPlayerForm(af[normalizeTeam(team)], withZh(arr));
         return {
           ...s,
-          homeRoster: withZh(s.homeRoster),
-          awayRoster: withZh(s.awayRoster),
+          homeRoster: enrich(s.homeRoster, s.homeTeam),
+          awayRoster: enrich(s.awayRoster, s.awayTeam),
         };
       },
     );

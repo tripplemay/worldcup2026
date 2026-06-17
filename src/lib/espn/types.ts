@@ -91,12 +91,21 @@ export interface TeamMatchStats {
 }
 
 /** 阵容球员。 */
+/** 球员近期状态(API-Football 赛季聚合,详情页按需填充)。 */
+export interface PlayerForm {
+  rating?: number; // 赛季出场加权平均评分
+  goals: number;
+  assists: number;
+  apps: number;
+}
+
 export interface RosterPlayer {
   name: string;
   zh?: string; // 中文名(LLM 翻译,详情页按需填充)
   position?: string;
   jersey?: string; // 球衣号
   starter: boolean;
+  form?: PlayerForm; // 近期状态(API-Football)
 }
 
 /** 近期战绩一场(球队视角)。 */

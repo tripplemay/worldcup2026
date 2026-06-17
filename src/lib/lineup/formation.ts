@@ -2,13 +2,14 @@
  * 首发阵型布局(纯计算):把 ESPN 的有序首发 + 阵型串排到球场坐标。
  * 数据全部来自 ESPN summary(formation + 带左右的 position + jersey),无需额外数据源。
  */
-import type { RosterPlayer } from 'lib/espn/types';
+import type { RosterPlayer, PlayerForm } from 'lib/espn/types';
 
 export interface PitchSpot {
   jersey?: string;
   name: string;
   zh?: string; // 中文名(有则优先展示)
   pos?: string;
+  form?: PlayerForm; // 近期状态(评分等)
   x: number; // 0..100,观众视角从左到右
   adv: number; // 0..1,0=门将线,1=最靠前(进攻方向)
 }
@@ -81,6 +82,7 @@ export function layoutXI(
         name: p.name,
         zh: p.zh,
         pos: p.position,
+        form: p.form,
         x: ((ci + 1) / (sorted.length + 1)) * 100,
         adv,
       });

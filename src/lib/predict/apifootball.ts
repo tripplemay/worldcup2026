@@ -166,3 +166,71 @@ export async function getFixtureStats(
   }
   return map;
 }
+
+const flt = (v: unknown): number => {
+  const n =
+    typeof v === 'number' ? v : typeof v === 'string' ? parseFloat(v) : NaN;
+  return Number.isFinite(n) ? n : NaN;
+};
+
+export interface SquadPlayer {
+  id: number;
+  number: number;
+  name: string;
+}
+
+/** 球队名单(player id + 号码 + 名);供按球衣号匹配 ESPN 名单解析球员 id。 */
+export async function getSquad(teamId: number): Promise<SquadPlayer[]> {
+  const list = (await af(`/players/squads?team=${teamId}`)).map(obj);
+  const players = arr(list[0]?.players).map(obj);
+  return players
+    .map((p) => ({
+      id: num(p.id),
+      number: num(p.number),
+      name: String(p.name ?? ''),
+    }))
+    .filter((p) => p.id > 0);
+}
+
+export interface PlayerSeasonForm {
+  rating?: number; // 出场加权平均评分
+  goals: number;
+  assists: number;
+  apps: number;
+}
+
+/**
+ * 球员某赛季近期状态:汇总各赛事统计行(出场加权平均评分 + 进球/助攻/出场合计)。
+ * season 用俱乐部当前赛季(如 2025 = 2025-26)。无数据返回 null。
+ */
+export async function getPlayerSeason(
+  playerId: number,
+  season: number,
+): Promise<PlayerSeasonForm | null> {
+  const resp = (await af(`/players?id=${playerId}&season=${season}`)).map(obj);
+  const stats = arr(resp[0]?.statistics).map(obj);
+  if (!stats.length) return null;
+  let apps = 0;
+  let goals = 0;
+  let assists = 0;
+  let wRating = 0;
+  let wApps = 0;
+  for (const s of stats) {
+    const g = obj(s.games);
+    const a = num(g.appearences);
+    apps += a;
+    goals += num(obj(s.goals).total);
+    assists += num(obj(s.goals).assists);
+    const r = flt(g.rating);
+    if (Number.isFinite(r) && a > 0) {
+      wRating += r * a;
+      wApps += a;
+    }
+  }
+  return {
+    rating: wApps > 0 ? +(wRating / wApps).toFixed(2) : undefined,
+    goals,
+    assists,
+    apps,
+  };
+}
