@@ -35,6 +35,7 @@ function Spot({
   jersey,
   name,
   rating,
+  goals,
   disc,
 }: {
   top: number;
@@ -42,8 +43,10 @@ function Spot({
   jersey?: string;
   name: string;
   rating?: number;
+  goals?: number;
   disc: string;
 }) {
+  const showGoals = goals != null && goals > 0;
   return (
     <div
       className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
@@ -57,13 +60,22 @@ function Spot({
       <span className="mt-0.5 max-w-[56px] truncate text-[9px] font-medium leading-tight text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
         {name}
       </span>
-      {rating != null && (
-        <span
-          className={`mt-px rounded px-1 text-[8px] font-bold leading-none text-white ${ratingCls(
-            rating,
-          )}`}
-        >
-          {rating.toFixed(1)}
+      {(rating != null || showGoals) && (
+        <span className="mt-px flex items-center gap-0.5 leading-none">
+          {rating != null && (
+            <span
+              className={`rounded px-1 text-[8px] font-bold text-white ${ratingCls(
+                rating,
+              )}`}
+            >
+              {rating.toFixed(1)}
+            </span>
+          )}
+          {showGoals && (
+            <span className="text-[8px] font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
+              ⚽{goals}
+            </span>
+          )}
         </span>
       )}
     </div>
@@ -128,6 +140,7 @@ export default function PitchFormation({
             jersey={s.jersey}
             name={disp(s)}
             rating={s.form?.rating}
+            goals={s.form?.goals}
             disc="bg-brand-500"
           />
         ))}
@@ -140,6 +153,7 @@ export default function PitchFormation({
             jersey={s.jersey}
             name={disp(s)}
             rating={s.form?.rating}
+            goals={s.form?.goals}
             disc="bg-red-500"
           />
         ))}
