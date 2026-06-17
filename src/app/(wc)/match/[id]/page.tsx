@@ -18,6 +18,7 @@ import RecentForm from 'components/worldcup/RecentForm';
 import PredictionCard from 'components/worldcup/PredictionCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import PitchFormation from 'components/worldcup/PitchFormation';
+import LeagueBadge from 'components/worldcup/LeagueBadge';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import { eventType, statusText, position } from 'lib/i18n/events';
@@ -236,6 +237,12 @@ export default function MatchDetailPage() {
                             <span className="min-w-0 flex-1 truncate">
                               {locale === 'zh' && p.zh ? p.zh : p.name}
                             </span>
+                            {p.form?.leagueId != null && (
+                              <LeagueBadge
+                                leagueId={p.form.leagueId}
+                                className="text-[9px]"
+                              />
+                            )}
                             {p.form?.rating != null && (
                               <span className="shrink-0 tabular-nums text-gray-400">
                                 ⭐{p.form.rating.toFixed(1)}

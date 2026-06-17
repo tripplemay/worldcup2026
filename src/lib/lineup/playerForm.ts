@@ -110,8 +110,14 @@ async function ensureSquad(afTeamId: number): Promise<SquadPlayer[]> {
 /** 拉取并缓存给定球员的近期状态(可 await;限并发;去重;未返回的记空避免反复调用)。 */
 async function fillForms(ids: number[]): Promise<void> {
   const fs = formStore();
+  // 旧缓存(无 leagueId 字段)视为过期重拉一次,以补上联赛信息(一次性迁移)
+  const stale = (id: number) => {
+    const e = fs[id];
+    if (!e || !fresh(e.at, FORM_TTL)) return true;
+    return e.form.apps > 0 && e.form.leagueId === undefined;
+  };
   const missing = [...new Set(ids)].filter(
-    (id) => (!fs[id] || !fresh(fs[id].at, FORM_TTL)) && !formInflight.has(id),
+    (id) => stale(id) && !formInflight.has(id),
   );
   if (!missing.length) return;
   missing.forEach((id) => formInflight.add(id));
@@ -122,7 +128,10 @@ async function fillForms(ids: number[]): Promise<void> {
         batch.map((id) => getPlayerSeason(id, SEASON).then((f) => ({ id, f }))),
       );
       for (const { id, f } of res) {
-        fs[id] = { at: Date.now(), form: f ?? { goals: 0, assists: 0, apps: 0 } };
+        fs[id] = {
+          at: Date.now(),
+          form: f ?? { goals: 0, assists: 0, apps: 0 },
+        };
       }
       save(FORM_FILE, fs);
     }

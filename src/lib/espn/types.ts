@@ -97,6 +97,8 @@ export interface PlayerForm {
   goals: number;
   assists: number;
   apps: number;
+  leagueId?: number; // 主战联赛(出场最多)id,用于联赛水平标注
+  leagueName?: string;
 }
 
 export interface RosterPlayer {

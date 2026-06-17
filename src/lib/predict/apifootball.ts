@@ -197,10 +197,13 @@ export interface PlayerSeasonForm {
   goals: number;
   assists: number;
   apps: number;
+  leagueId?: number; // 主战联赛(出场最多)id
+  leagueName?: string;
 }
 
 /**
- * 球员某赛季近期状态:汇总各赛事统计行(出场加权平均评分 + 进球/助攻/出场合计)。
+ * 球员某赛季近期状态:汇总各赛事统计行(出场加权平均评分 + 进球/助攻/出场合计),
+ * 并取出场最多的联赛作为主战联赛(用于联赛水平标注)。
  * season 用俱乐部当前赛季(如 2025 = 2025-26)。无数据返回 null。
  */
 export async function getPlayerSeason(
@@ -215,6 +218,9 @@ export async function getPlayerSeason(
   let assists = 0;
   let wRating = 0;
   let wApps = 0;
+  let topApps = -1;
+  let leagueId: number | undefined;
+  let leagueName: string | undefined;
   for (const s of stats) {
     const g = obj(s.games);
     const a = num(g.appearences);
@@ -226,11 +232,20 @@ export async function getPlayerSeason(
       wRating += r * a;
       wApps += a;
     }
+    const lg = obj(s.league);
+    const lid = num(lg.id);
+    if (a > topApps && lid > 0) {
+      topApps = a;
+      leagueId = lid;
+      leagueName = typeof lg.name === 'string' ? lg.name : undefined;
+    }
   }
   return {
     rating: wApps > 0 ? +(wRating / wApps).toFixed(2) : undefined,
     goals,
     assists,
     apps,
+    leagueId,
+    leagueName,
   };
 }

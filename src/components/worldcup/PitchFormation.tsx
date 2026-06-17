@@ -2,6 +2,7 @@
 
 import { useLocale } from 'lib/i18n/context';
 import { layoutXI } from 'lib/lineup/formation';
+import LeagueBadge from 'components/worldcup/LeagueBadge';
 import type { RosterPlayer } from 'lib/espn/types';
 
 export interface PitchSide {
@@ -36,6 +37,7 @@ function Spot({
   name,
   rating,
   goals,
+  leagueId,
   disc,
 }: {
   top: number;
@@ -44,6 +46,7 @@ function Spot({
   name: string;
   rating?: number;
   goals?: number;
+  leagueId?: number;
   disc: string;
 }) {
   const showGoals = goals != null && goals > 0;
@@ -77,6 +80,9 @@ function Spot({
             </span>
           )}
         </span>
+      )}
+      {leagueId != null && (
+        <LeagueBadge leagueId={leagueId} className="mt-px text-[8px]" />
       )}
     </div>
   );
@@ -141,6 +147,7 @@ export default function PitchFormation({
             name={disp(s)}
             rating={s.form?.rating}
             goals={s.form?.goals}
+            leagueId={s.form?.leagueId}
             disc="bg-brand-500"
           />
         ))}
@@ -154,6 +161,7 @@ export default function PitchFormation({
             name={disp(s)}
             rating={s.form?.rating}
             goals={s.form?.goals}
+            leagueId={s.form?.leagueId}
             disc="bg-red-500"
           />
         ))}
