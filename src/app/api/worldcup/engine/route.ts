@@ -6,6 +6,7 @@
 import { ingestHistory } from 'lib/predict/history';
 import { recomputeRatings } from 'lib/predict/ratings';
 import { fetchEloRatings } from 'lib/predict/eloratings';
+import { prewarmUpcoming } from 'lib/lineup/playerForm';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -26,6 +27,10 @@ export async function POST(req: Request) {
     const ingested = await ingestHistory(Number.isFinite(days) ? days : 14);
     const authElo = await fetchEloRatings(); // eloratings.net 权威 Elo
     const ratings = recomputeRatings(authElo);
+    // 后台预热未来比赛球队的球员评分(不阻塞响应;持久进程内完成,缓存新鲜则近乎零调用)
+    void prewarmUpcoming(days).catch((e) =>
+      console.error('[engine] prewarm 失败', e),
+    );
     return ok({ ingested, ratings });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '引擎计算失败');
