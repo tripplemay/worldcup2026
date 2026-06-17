@@ -31,6 +31,7 @@ const CONF_CLS: Record<string, string> = {
 
 const MODEL_KEY: Record<string, string> = {
   'poisson-xg': 'predict.modelPoisson',
+  'poisson-goals': 'predict.modelPoissonGoals',
   elo: 'predict.modelElo',
   market: 'predict.modelMarket',
   ensemble: 'predict.ensemble',

@@ -4,9 +4,11 @@
  */
 import { registerModel } from '../registry';
 import { poissonXgModel } from './poisson-xg';
+import { poissonGoalsModel } from './poisson-goals';
 import { eloModel } from './elo';
 import { marketImpliedModel } from './market-implied';
 
 registerModel(poissonXgModel);
+registerModel(poissonGoalsModel);
 registerModel(eloModel);
 registerModel(marketImpliedModel);

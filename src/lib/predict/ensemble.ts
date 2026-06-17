@@ -40,8 +40,10 @@ function dynamicWeights(eloDiff?: number): Record<string, number> {
     }
   }
   const rest = 1 - MARKET_W;
+  // 泊松总权重在 xG 与 实际进球 间 6:4 拆分(xG 一般更稳),保持泊松总影响不变
   return {
-    'poisson-xg': +(rest * pPoisson).toFixed(3),
+    'poisson-xg': +(rest * pPoisson * 0.6).toFixed(3),
+    'poisson-goals': +(rest * pPoisson * 0.4).toFixed(3),
     elo: +(rest * pElo).toFixed(3),
     market: MARKET_W,
   };

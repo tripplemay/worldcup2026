@@ -89,6 +89,13 @@ function leagueAverage(ratings: Record<string, TeamRating>): number {
   return Math.max(0.6, vals.reduce((a, b) => a + b, 0) / vals.length);
 }
 
+/** 联赛基准:全体球队场均实际进球均值(进球泊松归一化用)。 */
+function leagueAverageGoals(ratings: Record<string, TeamRating>): number {
+  const vals = Object.values(ratings).map((r) => r.goalsFor);
+  if (!vals.length) return 1.35;
+  return Math.max(0.6, vals.reduce((a, b) => a + b, 0) / vals.length);
+}
+
 /** 取赔率快照(与赔率页共享缓存,通常已热;失败降级为空)。 */
 async function loadOdds(): Promise<MatchOdds[]> {
   try {
@@ -117,6 +124,7 @@ function predictFixture(
   ratings: Record<string, TeamRating>,
   eloMap: Record<string, number>,
   leagueAvg: number,
+  leagueAvgGoals: number,
   oddsMatches: MatchOdds[],
   city?: string,
 ): MatchWithPredictions {
@@ -133,6 +141,7 @@ function predictFixture(
     neutral: H === 0,
     homeAdvantage: H,
     leagueAvg,
+    leagueAvgGoals,
     marketOdds: odds
       ? {
           home: odds.best.home?.price,
@@ -190,9 +199,19 @@ export async function predictUpcoming(
   const ratings = loadRatings();
   const eloMap = loadElo();
   const leagueAvg = leagueAverage(ratings);
+  const leagueAvgGoals = leagueAverageGoals(ratings);
   return fixtures
     .filter((f) => f.status !== 'post')
-    .map((f) => predictFixture(f, ratings, eloMap, leagueAvg, oddsMatches))
+    .map((f) =>
+      predictFixture(
+        f,
+        ratings,
+        eloMap,
+        leagueAvg,
+        leagueAvgGoals,
+        oddsMatches,
+      ),
+    )
     .sort((a, b) => a.commenceTime.localeCompare(b.commenceTime));
 }
 
@@ -221,6 +240,7 @@ export async function predictMatch(
     ratings,
     eloMap,
     leagueAverage(ratings),
+    leagueAverageGoals(ratings),
     oddsMatches,
     s.city,
   );
