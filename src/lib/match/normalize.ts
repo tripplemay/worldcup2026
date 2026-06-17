@@ -21,6 +21,7 @@ const ALIASES: Record<string, string> = {
   'united states of america': 'usa',
   'bosnia and herzegovina': 'bosnia herzegovina',
   czechia: 'czech republic',
+  'congo dr': 'dr congo', // ESPN "Congo DR" ↔ The Odds API "DR Congo"
 };
 
 // 进程内缓存:队名恒定(48 队 + 对手),命中率≈100%,省掉重复 NFD+正则
