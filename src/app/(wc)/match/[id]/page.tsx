@@ -17,7 +17,7 @@ import {
 import RecentForm from 'components/worldcup/RecentForm';
 import PredictionCard from 'components/worldcup/PredictionCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
-import type { RosterPlayer } from 'lib/espn/types';
+import PitchFormation from 'components/worldcup/PitchFormation';
 import { findMatch } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import { eventType, statusText, position } from 'lib/i18n/events';
@@ -193,61 +193,54 @@ export default function MatchDetailPage() {
               <div className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
                 {t('detail.lineup')}
               </div>
-              <div className="grid grid-cols-2 gap-3 text-xs">
-                {[
-                  {
-                    team: summary.homeTeam,
-                    roster: summary.homeRoster,
-                    formation: summary.homeFormation,
-                  },
-                  {
-                    team: summary.awayTeam,
-                    roster: summary.awayRoster,
-                    formation: summary.awayFormation,
-                  },
-                ].map((side, si) => {
-                  const renderRow = (p: RosterPlayer, i: number) => (
-                    <div
-                      key={i}
-                      className="flex items-baseline gap-1 text-gray-600 dark:text-gray-300"
-                    >
-                      {p.jersey && (
-                        <span className="w-4 shrink-0 text-right tabular-nums text-gray-400">
-                          {p.jersey}
-                        </span>
-                      )}
-                      {p.position && (
-                        <span className="shrink-0 text-gray-400">
-                          {position(p.position, locale)}
-                        </span>
-                      )}
-                      <span className="truncate">{p.name}</span>
-                    </div>
-                  );
-                  const subs = side.roster.filter((p) => !p.starter);
-                  return (
-                    <div key={si}>
-                      <div className="mb-1 flex items-baseline gap-1.5 font-medium text-brand-500 dark:text-brand-400">
-                        <span className="truncate">{tn(side.team)}</span>
-                        {side.formation && (
-                          <span className="shrink-0 text-[11px] font-normal text-gray-400">
-                            {side.formation}
-                          </span>
-                        )}
-                      </div>
-                      {side.roster.filter((p) => p.starter).map(renderRow)}
-                      {subs.length > 0 && (
-                        <>
-                          <div className="mb-1 mt-2 text-[11px] text-gray-400">
-                            {t('detail.subs')}
+              <PitchFormation
+                home={{
+                  team: summary.homeTeam,
+                  formation: summary.homeFormation,
+                  starters: summary.homeRoster.filter((p) => p.starter),
+                }}
+                away={{
+                  team: summary.awayTeam,
+                  formation: summary.awayFormation,
+                  starters: summary.awayRoster.filter((p) => p.starter),
+                }}
+              />
+              {(summary.homeRoster.some((p) => !p.starter) ||
+                summary.awayRoster.some((p) => !p.starter)) && (
+                <div className="mt-3 grid grid-cols-2 gap-3 text-xs">
+                  {[
+                    { team: summary.homeTeam, roster: summary.homeRoster },
+                    { team: summary.awayTeam, roster: summary.awayRoster },
+                  ].map((side, si) => {
+                    const subs = side.roster.filter((p) => !p.starter);
+                    return (
+                      <div key={si}>
+                        <div className="mb-1 text-[11px] text-gray-400">
+                          {t('detail.subs')}
+                        </div>
+                        {subs.map((p, i) => (
+                          <div
+                            key={i}
+                            className="flex items-baseline gap-1 text-gray-600 dark:text-gray-300"
+                          >
+                            {p.jersey && (
+                              <span className="w-4 shrink-0 text-right tabular-nums text-gray-400">
+                                {p.jersey}
+                              </span>
+                            )}
+                            {p.position && (
+                              <span className="shrink-0 text-gray-400">
+                                {position(p.position, locale)}
+                              </span>
+                            )}
+                            <span className="truncate">{p.name}</span>
                           </div>
-                          {subs.map(renderRow)}
-                        </>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
+                        ))}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
             </Card>
           )}
         </>
