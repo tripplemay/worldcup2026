@@ -9,6 +9,7 @@ import {
   saveRatings,
   saveElo,
 } from 'lib/db/store';
+import { normalizeTeam } from 'lib/match/normalize';
 import type { TeamRating } from './types';
 
 const ALPHA = 0.85; // 衰减系数:越近的比赛权重越高
@@ -84,8 +85,10 @@ export function recomputeRatings(authElo?: Map<string, number>): {
     if (!byTeam.has(norm)) byTeam.set(norm, []);
     byTeam.get(norm)!.push(s);
   };
+  // 按「当前归一化(从原始队名重算)」聚合,而非沿用入库时存的 homeNorm/awayNorm:
+  // 否则别名等归一化规则更新后,旧数据的键不会跟着变,导致查不到(如 Congo DR)。
   for (const m of hist) {
-    add(m.homeNorm, {
+    add(normalizeTeam(m.homeName), {
       date: m.date,
       name: m.homeName,
       xgFor: m.homeXg,
@@ -93,7 +96,7 @@ export function recomputeRatings(authElo?: Map<string, number>): {
       gf: m.homeGoals,
       ga: m.awayGoals,
     });
-    add(m.awayNorm, {
+    add(normalizeTeam(m.awayName), {
       date: m.date,
       name: m.awayName,
       xgFor: m.awayXg,
