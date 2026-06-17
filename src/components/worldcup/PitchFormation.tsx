@@ -10,10 +10,15 @@ export interface PitchSide {
   starters: RosterPlayer[];
 }
 
-/** 取末单词作球员简称(球场上空间有限;球员名属 API 数据不翻译)。 */
+/** 拉丁名取末单词作简称。 */
 function shortName(name: string): string {
   const parts = name.trim().split(/\s+/);
   return parts.length > 1 ? parts[parts.length - 1] : name;
+}
+/** 中文名取「·」后末段(姓);无分隔则整名。 */
+function shortZh(zh: string): string {
+  const parts = zh.split('·');
+  return parts[parts.length - 1];
 }
 
 function Spot({
@@ -54,16 +59,22 @@ export default function PitchFormation({
   home: PitchSide;
   away: PitchSide;
 }) {
-  const { tn } = useLocale();
+  const { tn, locale } = useLocale();
   const homeSpots = layoutXI(home.formation, home.starters);
   const awaySpots = layoutXI(away.formation, away.starters);
   if (!homeSpots.length && !awaySpots.length) return null;
+
+  // 中文模式优先显示中文名(取姓),否则拉丁名末单词
+  const disp = (s: { name: string; zh?: string }) =>
+    locale === 'zh' && s.zh ? shortZh(s.zh) : shortName(s.name);
 
   const teamLabel = (s: PitchSide) => (
     <span className="flex items-center gap-1.5 truncate font-medium text-navy-700 dark:text-white">
       <span className="truncate">{tn(s.team)}</span>
       {s.formation && (
-        <span className="shrink-0 font-normal text-gray-400">{s.formation}</span>
+        <span className="shrink-0 font-normal text-gray-400">
+          {s.formation}
+        </span>
       )}
     </span>
   );
@@ -96,7 +107,7 @@ export default function PitchFormation({
             top={95 - s.adv * 42}
             left={s.x}
             jersey={s.jersey}
-            name={shortName(s.name)}
+            name={disp(s)}
             disc="bg-brand-500"
           />
         ))}
@@ -107,7 +118,7 @@ export default function PitchFormation({
             top={5 + s.adv * 42}
             left={100 - s.x}
             jersey={s.jersey}
-            name={shortName(s.name)}
+            name={disp(s)}
             disc="bg-red-500"
           />
         ))}

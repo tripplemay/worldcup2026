@@ -7,6 +7,7 @@ import type { RosterPlayer } from 'lib/espn/types';
 export interface PitchSpot {
   jersey?: string;
   name: string;
+  zh?: string; // 中文名(有则优先展示)
   pos?: string;
   x: number; // 0..100,观众视角从左到右
   adv: number; // 0..1,0=门将线,1=最靠前(进攻方向)
@@ -78,6 +79,7 @@ export function layoutXI(
       spots.push({
         jersey: p.jersey,
         name: p.name,
+        zh: p.zh,
         pos: p.position,
         x: ((ci + 1) / (sorted.length + 1)) * 100,
         adv,

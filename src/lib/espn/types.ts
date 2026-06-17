@@ -93,6 +93,7 @@ export interface TeamMatchStats {
 /** 阵容球员。 */
 export interface RosterPlayer {
   name: string;
+  zh?: string; // 中文名(LLM 翻译,详情页按需填充)
   position?: string;
   jersey?: string; // 球衣号
   starter: boolean;

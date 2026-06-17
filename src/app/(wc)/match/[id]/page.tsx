@@ -233,7 +233,9 @@ export default function MatchDetailPage() {
                                 {position(p.position, locale)}
                               </span>
                             )}
-                            <span className="truncate">{p.name}</span>
+                            <span className="truncate">
+                              {locale === 'zh' && p.zh ? p.zh : p.name}
+                            </span>
                           </div>
                         ))}
                       </div>
