@@ -3,120 +3,107 @@
 import Link from 'next/link';
 import { MdBolt } from 'react-icons/md';
 import Card from 'components/card';
-import { useTmi } from 'lib/hooks/useWorldCup';
+import { useTeamProfile } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
-import { normalizeTeam } from 'lib/match/normalize';
-import { WEIGHT_ELO, WEIGHT_XG } from 'lib/tmi/constants';
-import type { TeamTmi } from 'lib/tmi/types';
+import { gradeLetter } from 'lib/team/score';
+import type { TeamProfile } from 'lib/team/types';
 
-const signed = (n: number, d = 2) => `${n >= 0 ? '+' : ''}${n.toFixed(d)}`;
-
-const totalCls = (total: number) =>
-  total > 0.5
+const gradeCls = (g: number) =>
+  g >= 80
     ? 'text-emerald-600 dark:text-emerald-400'
-    : total < 0
-    ? 'text-red-500 dark:text-red-400'
-    : 'text-navy-700 dark:text-white';
+    : g >= 65
+    ? 'text-brand-500 dark:text-brand-400'
+    : g >= 50
+    ? 'text-amber-500'
+    : 'text-red-500 dark:text-red-400';
 
-/** 单因子贡献行(加权后,负值标红)。 */
-function FactorLine({ label, value }: { label: string; value: number }) {
+/** 状态分项条(0–100)。 */
+function Bar({
+  label,
+  value,
+  color,
+}: {
+  label: string;
+  value: number;
+  color: string;
+}) {
   return (
-    <div className="flex items-center justify-between gap-2">
-      <span className="text-gray-400">{label}</span>
-      <span
-        className={`font-mono tabular-nums ${
-          value < 0
-            ? 'text-red-500 dark:text-red-400'
-            : 'text-navy-700 dark:text-white'
-        }`}
-      >
-        {signed(value)}
+    <div className="flex items-center gap-1.5">
+      <span className="w-7 shrink-0 text-[10px] text-gray-500 dark:text-gray-400">
+        {label}
+      </span>
+      <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
+        <div className={`h-full rounded-full ${color}`} style={{ width: `${value}%` }} />
+      </div>
+      <span className="w-6 shrink-0 text-right font-mono text-[10px] tabular-nums text-gray-600 dark:text-gray-300">
+        {Math.round(value)}
       </span>
     </div>
   );
 }
 
-function TmiCol({ team, data }: { team: string; data?: TeamTmi }) {
+function TeamCol({ team, profile }: { team: string; profile: TeamProfile | null }) {
   const { t, tn } = useLocale();
   return (
-    <div className="flex-1 space-y-1 text-xs">
-      <div className="mb-1 truncate font-semibold text-brand-500 dark:text-brand-400">
+    <div className="flex-1 space-y-1.5">
+      <div className="truncate text-xs font-semibold text-brand-500 dark:text-brand-400">
         {tn(team)}
       </div>
-      {data ? (
+      {profile ? (
         <>
-          <div className="flex items-center justify-between gap-2">
-            <span className="text-gray-400">{t('tmi.total')}</span>
-            <span
-              className={`font-mono text-base font-bold tabular-nums ${totalCls(
-                data.total,
-              )}`}
-            >
-              {signed(data.total)}
+          <div className="flex items-baseline gap-1">
+            <span className={`font-mono text-2xl font-extrabold leading-none ${gradeCls(profile.grade)}`}>
+              {profile.grade}
+            </span>
+            <span className={`text-[11px] font-bold ${gradeCls(profile.grade)}`}>
+              {gradeLetter(profile.grade)}
             </span>
           </div>
-          <FactorLine
-            label={t('tmi.mental')}
-            value={+(WEIGHT_ELO * data.normalized.mentalScore).toFixed(3)}
-          />
-          <FactorLine
-            label={t('tmi.tactical')}
-            value={+(WEIGHT_XG * data.normalized.tacticalScore).toFixed(3)}
-          />
-          <FactorLine
-            label={t('tmi.fatigue')}
-            value={data.normalized.fatiguePenalty}
-          />
-          <div className="pt-0.5 font-mono text-[10px] leading-snug text-gray-400">
-            {t('tmi.deltaElo')} {signed(data.raw.shadowEloDiff, 1)} ·{' '}
-            {t('tmi.xgPerMatch')} {signed(data.raw.xgMomentumPerMatch)}
-            {data.xgSource === 'season' ? ` (${t('tmi.sourceSeason')})` : ''}
-            {data.raw.restDays != null
-              ? ` · ${t('tmi.restDays')} ${data.raw.restDays}${t('tmi.daysUnit')}`
-              : ''}
+          <div className="space-y-1 pt-0.5">
+            <Bar label={t('team.momentum')} value={profile.state.momentum} color="bg-brand-500" />
+            <Bar label={t('team.recentForm')} value={profile.state.recentForm} color="bg-emerald-500" />
+            <Bar label={t('team.fitness')} value={profile.state.fitness} color="bg-amber-500" />
           </div>
         </>
       ) : (
-        <div className="py-2 text-gray-400">{t('tmi.na')}</div>
+        <div className="py-2 text-xs text-gray-400">{t('tmi.na')}</div>
       )}
     </div>
   );
 }
 
-/** 比赛详情页:两队「状态动能(TMI)」对比;固定权重观测,不进胜率。 */
+/** 比赛详情页:两队「状态评分」(0–100,偏当前状态)+ 动能/近期/体能拆解。点标题进完整球队页。 */
 export default function MatchTmiPanel({
   homeTeam,
   awayTeam,
+  homeId,
+  awayId,
 }: {
   homeTeam: string;
   awayTeam: string;
+  homeId?: string;
+  awayId?: string;
 }) {
   const { t } = useLocale();
-  const { teams } = useTmi();
-  const find = (name: string) =>
-    teams.find((x) => x.teamId === normalizeTeam(name));
-  const home = find(homeTeam);
-  const away = find(awayTeam);
-  if (!home && !away) return null; // 两队都还没登场则不渲染
+  const { profile: home } = useTeamProfile(homeId);
+  const { profile: away } = useTeamProfile(awayId);
+  if (!home && !away) return null;
 
   return (
     <Card extra="mb-3 p-4">
       <div className="mb-2 flex items-center justify-between gap-2">
         <span className="flex items-center gap-1 text-sm font-bold text-navy-700 dark:text-white">
           <MdBolt className="text-brand-500 dark:text-brand-400" />
-          {t('tmi.detailTitle')}
+          {t('team.stateScore')}
         </span>
-        <Link
-          href="/tmi"
-          className="flex shrink-0 items-center gap-0.5 rounded-full bg-gray-200/70 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-navy-700 dark:text-gray-300"
-        >
-          {t('tmi.tag')} ›
-        </Link>
+        <span className="shrink-0 rounded-full bg-gray-200/70 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-navy-700 dark:text-gray-300">
+          {t('tmi.tag')}
+        </span>
       </div>
       <div className="flex gap-4">
-        <TmiCol team={homeTeam} data={home} />
+        <TeamCol team={homeTeam} profile={home} />
         <div className="w-px bg-gray-100 dark:bg-white/10" />
-        <TmiCol team={awayTeam} data={away} />
+        <TeamCol team={awayTeam} profile={away} />
       </div>
     </Card>
   );

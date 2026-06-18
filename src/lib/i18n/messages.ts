@@ -227,6 +227,7 @@ export const messages = {
     team: {
       title: '球队评测',
       grade: '状态评级',
+      stateScore: '状态评分',
       strengthRating: '实力档案均分',
       state: '当前状态',
       strengthProfile: '实力档案',
@@ -502,6 +503,7 @@ export const messages = {
     team: {
       title: 'Team Report',
       grade: 'Form Grade',
+      stateScore: 'Form Score',
       strengthRating: 'Ability avg',
       state: 'Current State',
       strengthProfile: 'Ability Profile',

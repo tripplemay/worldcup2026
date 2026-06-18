@@ -173,6 +173,8 @@ export default function MatchDetailPage() {
           <MatchTmiPanel
             homeTeam={summary.homeTeam}
             awayTeam={summary.awayTeam}
+            homeId={homeId}
+            awayId={awayId}
           />
 
           <PredictionCard
