@@ -6,9 +6,9 @@
  * ρ 取小负值(默认 -0.10);λ 已 clamp≤5,保证 τ>0(λ|ρ|<1)。
  */
 import type { MatchPrediction, ScoreProb } from '../model';
+import { DC_RHO } from '../tuning';
 
 const MAXG = 8; // 进球矩阵上限(0..8,尾部概率极小)
-const RHO = Number(process.env.PREDICT_DC_RHO ?? -0.1); // Dixon-Coles 低分相关参数
 
 /** 泊松概率质量 P(X=k) = e^-λ λ^k / k!。 */
 function pmf(k: number, lambda: number): number {
@@ -17,12 +17,18 @@ function pmf(k: number, lambda: number): number {
   return (Math.exp(-lambda) * Math.pow(lambda, k)) / fact;
 }
 
-/** Dixon-Coles 低分修正因子 τ(只影响 0-0/1-0/0-1/1-1)。 */
-function tau(i: number, j: number, lambda: number, mu: number): number {
-  if (i === 0 && j === 0) return 1 - lambda * mu * RHO;
-  if (i === 0 && j === 1) return 1 + lambda * RHO;
-  if (i === 1 && j === 0) return 1 + mu * RHO;
-  if (i === 1 && j === 1) return 1 - RHO;
+/** Dixon-Coles 低分修正因子 τ(只影响 0-0/1-0/0-1/1-1);rho 更负=更多平局/低分。 */
+function tau(
+  i: number,
+  j: number,
+  lambda: number,
+  mu: number,
+  rho: number,
+): number {
+  if (i === 0 && j === 0) return 1 - lambda * mu * rho;
+  if (i === 0 && j === 1) return 1 + lambda * rho;
+  if (i === 1 && j === 0) return 1 + mu * rho;
+  if (i === 1 && j === 1) return 1 - rho;
   return 1;
 }
 
@@ -36,7 +42,11 @@ function confidence(n: number): MatchPrediction['confidence'] {
  * 由 λ/μ 构建归一化比分矩阵 m[i][j]=P(主 i 球, 客 j 球)(含 Dixon-Coles 修正)。
  * 供盘口投影(projectMarkets)降维求和。i,j ∈ [0, MAXG]。
  */
-export function buildMatrix(lambda: number, mu: number): number[][] {
+export function buildMatrix(
+  lambda: number,
+  mu: number,
+  rho: number = DC_RHO,
+): number[][] {
   const ph = Array.from({ length: MAXG + 1 }, (_, i) => pmf(i, lambda));
   const pa = Array.from({ length: MAXG + 1 }, (_, j) => pmf(j, mu));
   const m: number[][] = [];
@@ -44,7 +54,7 @@ export function buildMatrix(lambda: number, mu: number): number[][] {
   for (let i = 0; i <= MAXG; i++) {
     m[i] = [];
     for (let j = 0; j <= MAXG; j++) {
-      const p = ph[i] * pa[j] * tau(i, j, lambda, mu);
+      const p = ph[i] * pa[j] * tau(i, j, lambda, mu, rho);
       m[i][j] = p;
       total += p;
     }
@@ -65,8 +75,10 @@ export function dcPoisson(opts: {
   lambda: number;
   mu: number;
   sample: number;
+  rho?: number;
 }): MatchPrediction {
   const { modelId, matchId, lambda, mu, sample } = opts;
+  const rho = opts.rho ?? DC_RHO;
   const ph = Array.from({ length: MAXG + 1 }, (_, i) => pmf(i, lambda));
   const pa = Array.from({ length: MAXG + 1 }, (_, j) => pmf(j, mu));
 
@@ -79,7 +91,7 @@ export function dcPoisson(opts: {
   const scores: ScoreProb[] = [];
   for (let i = 0; i <= MAXG; i++) {
     for (let j = 0; j <= MAXG; j++) {
-      const p = ph[i] * pa[j] * tau(i, j, lambda, mu);
+      const p = ph[i] * pa[j] * tau(i, j, lambda, mu, rho);
       total += p;
       if (i > j) homeWin += p;
       else if (i === j) draw += p;

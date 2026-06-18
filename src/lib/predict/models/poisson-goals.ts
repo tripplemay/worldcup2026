@@ -7,8 +7,11 @@
  */
 import type { PredictionModel, PredictionContext } from '../model';
 import { dcPoisson } from './poissonCore';
+import { GOAL_SHRINK, DC_RHO } from '../tuning';
 
 const clamp = (x: number) => Math.min(5, Math.max(0.15, x));
+const damp = (raw: number, L: number, shrink: number) =>
+  clamp(L + shrink * (raw - L));
 
 export const poissonGoalsModel: PredictionModel = {
   id: 'poisson-goals',
@@ -18,8 +21,9 @@ export const poissonGoalsModel: PredictionModel = {
     const a = ctx.rating(ctx.awayNorm);
     if (!h || !a) return null;
     const L = Math.max(0.6, ctx.leagueAvgGoals);
-    const lambda = clamp((h.goalsFor * a.goalsAgainst) / L);
-    const mu = clamp((a.goalsFor * h.goalsAgainst) / L);
+    const shrink = ctx.tuning?.goalShrink ?? GOAL_SHRINK;
+    const lambda = damp((h.goalsFor * a.goalsAgainst) / L, L, shrink);
+    const mu = damp((a.goalsFor * h.goalsAgainst) / L, L, shrink);
     if (!Number.isFinite(lambda) || !Number.isFinite(mu)) return null;
     return dcPoisson({
       modelId: this.id,
@@ -27,6 +31,7 @@ export const poissonGoalsModel: PredictionModel = {
       lambda,
       mu,
       sample: Math.min(h.sample, a.sample),
+      rho: ctx.tuning?.dcRho ?? DC_RHO,
     });
   },
 };

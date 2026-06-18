@@ -4,6 +4,7 @@
  * 多模型时自动得到交叉对比 + 共识。统一输出 MatchPrediction。
  */
 import type { TeamRating } from './types';
+import type { Tuning } from './tuning';
 
 /** 一个赛果比分及其概率(如 "2-1" → 0.10)。 */
 export interface ScoreProb {
@@ -45,6 +46,8 @@ export interface PredictionContext {
   rating: (norm: string) => TeamRating | undefined;
   /** 取球队权威 Elo(eloratings.net,覆盖全部队);未收录返回 undefined。 */
   eloOf: (norm: string) => number | undefined;
+  /** 可选调参覆盖(回测扫描用;生产留空走默认)。 */
+  tuning?: Tuning;
 }
 
 /** 可插拔预测模型。 */

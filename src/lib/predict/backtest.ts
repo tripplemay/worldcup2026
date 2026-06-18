@@ -44,9 +44,24 @@ export interface BacktestResult {
   rows: BacktestRow[];
 }
 
-export function runBacktest(opts?: { wcStart?: string }): BacktestResult {
+export function runBacktest(opts?: {
+  wcStart?: string;
+  goalShrink?: number;
+  dcRho?: number;
+  eloDrawScale?: number;
+}): BacktestResult {
   const wcStart =
     opts?.wcStart || process.env.WC_START?.trim() || DEFAULT_WC_START;
+  const tuning =
+    opts?.goalShrink != null ||
+    opts?.dcRho != null ||
+    opts?.eloDrawScale != null
+      ? {
+          goalShrink: opts?.goalShrink,
+          dcRho: opts?.dcRho,
+          eloDrawScale: opts?.eloDrawScale,
+        }
+      : undefined;
   const allHist = Object.values(loadHistorical());
   const allRes = Object.values(loadResults());
   const wcMatches = allRes
@@ -99,14 +114,14 @@ export function runBacktest(opts?: { wcStart?: string }): BacktestResult {
       marketOdds: undefined,
       rating: (nm) => ratings[nm],
       eloOf: (nm) => selfElo.get(nm),
+      tuning,
     };
     const preds = getModels()
       .map((md) => md.predict(ctx))
       .filter((p): p is NonNullable<typeof p> => p !== null);
     const eh = selfElo.get(m.homeNorm);
     const ea = selfElo.get(m.awayNorm);
-    const eloDiff =
-      eh != null && ea != null ? Math.abs(eh - ea) : undefined;
+    const eloDiff = eh != null && ea != null ? Math.abs(eh - ea) : undefined;
     const ens = ensemble(preds, m.eventId, eloDiff);
     if (!ens) {
       skipped += 1;

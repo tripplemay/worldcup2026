@@ -9,11 +9,24 @@ import { ok, fail } from 'lib/api/respond';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 120;
 
-export async function GET() {
+export async function GET(req: Request) {
+  const sp = new URL(req.url).searchParams;
+  const numParam = (k: string) => {
+    const v = Number(sp.get(k));
+    return sp.get(k) != null && Number.isFinite(v) ? v : undefined;
+  };
+  const opts = {
+    goalShrink: numParam('shrink'),
+    dcRho: numParam('rho'),
+    eloDrawScale: numParam('drawscale'),
+  };
+  const hasTune =
+    opts.goalShrink != null || opts.dcRho != null || opts.eloDrawScale != null;
   try {
-    const result = await cached('predict:backtest', 3_600_000, async () =>
-      runBacktest(),
-    );
+    // 带调参的扫描不缓存(便于即时比较);默认配置缓存 1h
+    const result = hasTune
+      ? runBacktest(opts)
+      : await cached('predict:backtest', 3_600_000, async () => runBacktest());
     return ok(result);
   } catch (e) {
     return fail(e instanceof Error ? e.message : '回测失败');

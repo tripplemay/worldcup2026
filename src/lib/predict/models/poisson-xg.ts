@@ -7,8 +7,12 @@
  */
 import type { PredictionModel, PredictionContext } from '../model';
 import { dcPoisson } from './poissonCore';
+import { GOAL_SHRINK, DC_RHO } from '../tuning';
 
 const clamp = (x: number) => Math.min(5, Math.max(0.15, x));
+/** 向联赛均值 L 收缩(shrink<1 抑制大比分高估;1=不变)。 */
+const damp = (raw: number, L: number, shrink: number) =>
+  clamp(L + shrink * (raw - L));
 
 export const poissonXgModel: PredictionModel = {
   id: 'poisson-xg',
@@ -18,8 +22,9 @@ export const poissonXgModel: PredictionModel = {
     const a = ctx.rating(ctx.awayNorm);
     if (!h || !a) return null;
     const L = Math.max(0.6, ctx.leagueAvg);
-    const lambda = clamp((h.xgFor * a.xgAgainst) / L);
-    const mu = clamp((a.xgFor * h.xgAgainst) / L);
+    const shrink = ctx.tuning?.goalShrink ?? GOAL_SHRINK;
+    const lambda = damp((h.xgFor * a.xgAgainst) / L, L, shrink);
+    const mu = damp((a.xgFor * h.xgAgainst) / L, L, shrink);
     if (!Number.isFinite(lambda) || !Number.isFinite(mu)) return null;
     return dcPoisson({
       modelId: this.id,
@@ -27,6 +32,7 @@ export const poissonXgModel: PredictionModel = {
       lambda,
       mu,
       sample: Math.min(h.sample, a.sample),
+      rho: ctx.tuning?.dcRho ?? DC_RHO,
     });
   },
 };

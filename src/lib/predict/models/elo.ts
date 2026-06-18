@@ -9,8 +9,9 @@ import type {
   PredictionContext,
   MatchPrediction,
 } from '../model';
+import { ELO_DRAW_SCALE } from '../tuning';
 
-const DRAW_MAX = 0.32; // 势均力敌时的平局基准概率
+const DRAW_MAX = 0.32; // 势均力敌时的平局基准概率(可经 eloDrawScale 放大)
 
 export const eloModel: PredictionModel = {
   id: 'elo',
@@ -26,7 +27,8 @@ export const eloModel: PredictionModel = {
     const ea =
       1 / (1 + Math.pow(10, ((ea_ as number) - (eh as number) - H) / 400)); // 0~1
     // 平局模型:越接近 0.5(势均力敌)平局概率越高,悬殊时趋近 0
-    let d = DRAW_MAX * (1 - Math.abs(2 * ea - 1));
+    const drawMax = DRAW_MAX * (ctx.tuning?.eloDrawScale ?? ELO_DRAW_SCALE);
+    let d = drawMax * (1 - Math.abs(2 * ea - 1));
     d = Math.min(d, 2 * Math.min(ea, 1 - ea)); // 保证 P(主)、P(客) ≥ 0
     const home = Math.max(0, ea - 0.5 * d);
     const away = Math.max(0, 1 - ea - 0.5 * d);
