@@ -17,6 +17,12 @@ import type { Tuning } from './tuning';
 
 const dateKey = (iso: string) => iso.slice(0, 10);
 
+export interface ModelProb {
+  id: string;
+  home: number;
+  draw: number;
+  away: number;
+}
 export interface PointPrediction {
   pHome: number;
   pDraw: number;
@@ -24,6 +30,7 @@ export interface PointPrediction {
   predGoals: number;
   over25?: number;
   btts?: number;
+  models: ModelProb[]; // 各基础模型(诊断/规律分析用)
 }
 
 /**
@@ -84,6 +91,12 @@ export function predictPointInTime(
     predGoals: (ens.xgHome ?? 0) + (ens.xgAway ?? 0),
     over25: ens.over25,
     btts: ens.btts,
+    models: preds.map((p) => ({
+      id: p.modelId,
+      home: p.homeWin,
+      draw: p.draw,
+      away: p.awayWin,
+    })),
   };
 }
 
@@ -101,6 +114,7 @@ export interface BacktestRow {
   hit: boolean;
   predGoals: number;
   actualGoals: number;
+  models?: ModelProb[]; // detail 模式:各基础模型概率
 }
 
 export interface BacktestResult {
@@ -121,6 +135,7 @@ export function runBacktest(opts?: {
   goalShrink?: number;
   dcRho?: number;
   eloDrawScale?: number;
+  detail?: boolean;
 }): BacktestResult {
   const wcStart =
     opts?.wcStart || process.env.WC_START?.trim() || DEFAULT_WC_START;
@@ -200,6 +215,7 @@ export function runBacktest(opts?: {
       hit,
       predGoals: +predGoals.toFixed(2),
       actualGoals,
+      ...(opts?.detail ? { models: pp.models } : {}),
     });
   }
 
