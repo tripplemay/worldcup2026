@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
 import {
   MdSportsSoccer,
@@ -17,10 +18,14 @@ import {
 import RecentForm from 'components/worldcup/RecentForm';
 import MatchTmiPanel from 'components/worldcup/MatchTmiPanel';
 import PredictionCard from 'components/worldcup/PredictionCard';
-import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
+import {
+  useMatchSummary,
+  useMatchOddsLite,
+  useTeamIdMap,
+} from 'lib/hooks/useWorldCup';
 import PitchFormation from 'components/worldcup/PitchFormation';
 import LeagueBadge from 'components/worldcup/LeagueBadge';
-import { findMatch } from 'lib/match/normalize';
+import { findMatch, normalizeTeam } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import { eventType, statusText, position } from 'lib/i18n/events';
 
@@ -39,6 +44,25 @@ function EventIcon({
   return <MdFiberManualRecord className="text-[8px] text-gray-400" />;
 }
 
+/** 球队块:解析到球队 id 时跳转球队页,否则普通容器。 */
+function TeamLink({
+  teamId,
+  className,
+  children,
+}: {
+  teamId?: string;
+  className: string;
+  children: React.ReactNode;
+}) {
+  return teamId ? (
+    <Link href={`/team/${teamId}`} className={`${className} hover:opacity-80`}>
+      {children}
+    </Link>
+  ) : (
+    <div className={className}>{children}</div>
+  );
+}
+
 export default function MatchDetailPage() {
   const { locale, t, tn } = useLocale();
   const router = useRouter();
@@ -51,6 +75,9 @@ export default function MatchDetailPage() {
   };
   const { summary, isLoading } = useMatchSummary(id);
   const { matches, changes } = useMatchOddsLite();
+  const idMap = useTeamIdMap();
+  const homeId = summary ? idMap[normalizeTeam(summary.homeTeam)] : undefined;
+  const awayId = summary ? idMap[normalizeTeam(summary.awayTeam)] : undefined;
   const odds = summary
     ? findMatch(
         matches,
@@ -83,7 +110,10 @@ export default function MatchDetailPage() {
         <>
           <Card extra="mb-3 p-4">
             <div className="flex items-center justify-around gap-2">
-              <div className="flex flex-1 flex-col items-center gap-1">
+              <TeamLink
+                teamId={homeId}
+                className="flex flex-1 flex-col items-center gap-1"
+              >
                 {summary.homeLogo && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -97,7 +127,7 @@ export default function MatchDetailPage() {
                 <span className="text-center text-sm font-medium text-navy-700 dark:text-white">
                   {tn(summary.homeTeam)}
                 </span>
-              </div>
+              </TeamLink>
               <div className="text-center">
                 {showScore ? (
                   <div className="text-3xl font-bold tabular-nums text-navy-700 dark:text-white">
@@ -112,7 +142,10 @@ export default function MatchDetailPage() {
                   </div>
                 )}
               </div>
-              <div className="flex flex-1 flex-col items-center gap-1">
+              <TeamLink
+                teamId={awayId}
+                className="flex flex-1 flex-col items-center gap-1"
+              >
                 {summary.awayLogo && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -126,7 +159,7 @@ export default function MatchDetailPage() {
                 <span className="text-center text-sm font-medium text-navy-700 dark:text-white">
                   {tn(summary.awayTeam)}
                 </span>
-              </div>
+              </TeamLink>
             </div>
             {summary.venue && (
               <div className="mt-2 text-center text-[11px] text-gray-400">

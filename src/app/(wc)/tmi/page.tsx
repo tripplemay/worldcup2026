@@ -1,10 +1,11 @@
 'use client';
 
+import Link from 'next/link';
 import { MdBolt, MdLocalFireDepartment } from 'react-icons/md';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import PageHeading from 'components/worldcup/PageHeading';
-import { useTmi, useTeamLogos } from 'lib/hooks/useWorldCup';
+import { useTmi, useTeamLogos, useTeamIdMap } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import { WEIGHT_ELO, WEIGHT_XG } from 'lib/tmi/constants';
 import type { TeamTmi } from 'lib/tmi/types';
@@ -128,6 +129,7 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
 export default function TmiPage() {
   const { t } = useLocale();
   const { teams, isLoading } = useTmi();
+  const idMap = useTeamIdMap();
 
   return (
     <div>
@@ -159,9 +161,17 @@ export default function TmiPage() {
       )}
 
       <div className="space-y-3">
-        {teams.map((team, i) => (
-          <TmiRow key={team.teamId} team={team} rank={i + 1} />
-        ))}
+        {teams.map((team, i) => {
+          const teamId = idMap[team.teamId];
+          const row = <TmiRow team={team} rank={i + 1} />;
+          return teamId ? (
+            <Link key={team.teamId} href={`/team/${teamId}`} className="block">
+              {row}
+            </Link>
+          ) : (
+            <div key={team.teamId}>{row}</div>
+          );
+        })}
       </div>
     </div>
   );

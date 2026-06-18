@@ -80,6 +80,39 @@ export function saveAfTeams(map: AfTeamMap): void {
   writeJson('af-teams.json', map);
 }
 
+// ── 球队杯赛 box-score 聚合(增量:仅累计新结束的场次)──────
+/** 单队杯赛累计裸数据(各项为「跨场求和」,展示时除以 games 取均值)。 */
+export interface TeamStatAgg {
+  games: number;
+  possession: number; // 控球率求和(%)
+  shots: number;
+  sot: number; // 射正
+  corners: number;
+  fouls: number;
+  yellow: number;
+  red: number;
+  saves: number;
+  offsides: number;
+}
+export interface TeamStatsStore {
+  updatedAt: number;
+  events: Record<string, true>; // 已处理的赛事 id(已结束场次不变,避免重复抓取)
+  teams: Record<string, TeamStatAgg>; // 归一化队名 → 累计
+}
+
+const EMPTY_TEAM_STATS: TeamStatsStore = {
+  updatedAt: 0,
+  events: {},
+  teams: {},
+};
+
+export function loadTeamStats(): TeamStatsStore {
+  return readJson<TeamStatsStore>('team-stats.json', EMPTY_TEAM_STATS);
+}
+export function saveTeamStats(s: TeamStatsStore): void {
+  writeJson('team-stats.json', s);
+}
+
 // ── 场外情报(按归一化队名)────────────────────────────
 type IntelMap = Record<string, TeamIntel>;
 

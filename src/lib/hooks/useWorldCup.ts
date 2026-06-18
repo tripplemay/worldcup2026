@@ -39,6 +39,7 @@ import type {
 import type { WeatherInfo } from 'lib/weather/openmeteo';
 import type { MatchWithPredictions } from 'lib/predict/predict';
 import type { TmiSnapshot } from 'lib/tmi/types';
+import type { TeamProfile } from 'lib/team/types';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -109,6 +110,16 @@ export function useTeamLogos(): Record<string, string> {
   return useMemo(() => {
     const m: Record<string, string> = {};
     for (const t of teams) if (t.logo) m[normalizeTeam(t.displayName)] = t.logo;
+    return m;
+  }, [teams]);
+}
+
+/** 队名(归一化)→ ESPN 队 id 映射(用于跳转球队页 /team/[id])。 */
+export function useTeamIdMap(): Record<string, string> {
+  const { teams } = useTeams();
+  return useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const t of teams) if (t.id) m[normalizeTeam(t.displayName)] = t.id;
     return m;
   }, [teams]);
 }
@@ -277,6 +288,16 @@ export function useTmi() {
     error,
     isLoading,
   };
+}
+
+/** 单支球队杯赛档案 + 状态评测(仅在传入 teamId 时请求)。 */
+export function useTeamProfile(teamId?: string) {
+  const { data, error, isLoading } = useSWR<{ profile: TeamProfile | null }>(
+    teamId ? `/api/worldcup/team?id=${teamId}` : null,
+    fetcher,
+    { refreshInterval: STANDINGS_MS, ...common },
+  );
+  return { profile: data?.profile ?? null, error, isLoading };
 }
 
 /** 单场预测(详情页;仅在传入 matchId 时请求)。 */
