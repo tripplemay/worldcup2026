@@ -33,6 +33,29 @@ function confidence(n: number): MatchPrediction['confidence'] {
 }
 
 /**
+ * 由 λ/μ 构建归一化比分矩阵 m[i][j]=P(主 i 球, 客 j 球)(含 Dixon-Coles 修正)。
+ * 供盘口投影(projectMarkets)降维求和。i,j ∈ [0, MAXG]。
+ */
+export function buildMatrix(lambda: number, mu: number): number[][] {
+  const ph = Array.from({ length: MAXG + 1 }, (_, i) => pmf(i, lambda));
+  const pa = Array.from({ length: MAXG + 1 }, (_, j) => pmf(j, mu));
+  const m: number[][] = [];
+  let total = 0;
+  for (let i = 0; i <= MAXG; i++) {
+    m[i] = [];
+    for (let j = 0; j <= MAXG; j++) {
+      const p = ph[i] * pa[j] * tau(i, j, lambda, mu);
+      m[i][j] = p;
+      total += p;
+    }
+  }
+  if (total > 0)
+    for (let i = 0; i <= MAXG; i++)
+      for (let j = 0; j <= MAXG; j++) m[i][j] /= total;
+  return m;
+}
+
+/**
  * 由主客预期进球 λ/μ 构建进球矩阵(Dixon-Coles 修正)→ 胜平负/最可能比分/大小球/双方进球。
  * 调用方需保证 λ/μ 为有限正数(已 clamp)。
  */

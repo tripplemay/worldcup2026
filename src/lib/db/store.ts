@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { TeamIntel } from 'lib/intel/types';
+import type { Wallet, Trade } from 'lib/trade/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const PREDICT_DIR = join(DATA_DIR, 'predict');
@@ -111,6 +112,20 @@ export function loadTeamStats(): TeamStatsStore {
 }
 export function saveTeamStats(s: TeamStatsStore): void {
   writeJson('team-stats.json', s);
+}
+
+// ── 模拟交易账本(虚拟资金 + 流水)──────────────────────
+export function loadWallet(): Wallet | null {
+  return readJson<Wallet | null>('wallet.json', null);
+}
+export function saveWallet(w: Wallet): void {
+  writeJson('wallet.json', w);
+}
+export function loadTrades(): Trade[] {
+  return readJson<Trade[]>('trade_logs.json', []);
+}
+export function saveTrades(list: Trade[]): void {
+  writeJson('trade_logs.json', list);
 }
 
 // ── 场外情报(按归一化队名)────────────────────────────

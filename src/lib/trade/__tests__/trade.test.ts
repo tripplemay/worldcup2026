@@ -1,0 +1,170 @@
+import {
+  projectMatchWinner,
+  projectOverUnder,
+  projectBtts,
+  projectAsianHandicap,
+} from '../projection';
+import { expectedValue, kelly, stakeFor } from '../ev';
+import { scoreCandidate, selectBest } from '../router';
+import { outcome, pnlFor, regulationScore } from '../settle';
+import type { BetCandidate, Trade } from '../types';
+import type { MatchEvent } from 'lib/espn/types';
+
+// 手工 3×3 矩阵(和为 1):m[主][客]
+const M = [
+  [0.1, 0.1, 0.0],
+  [0.2, 0.3, 0.0],
+  [0.3, 0.0, 0.0],
+];
+
+describe('泊松投影', () => {
+  it('胜平负边际', () => {
+    const r = projectMatchWinner(M);
+    expect(r.home).toBeCloseTo(0.5); // (1,0)+(2,0)
+    expect(r.draw).toBeCloseTo(0.4); // (0,0)+(1,1)
+    expect(r.away).toBeCloseTo(0.1); // (0,1)
+  });
+  it('大小球半盘(无走盘)与整数盘(有走盘)', () => {
+    const half = projectOverUnder(M, 1.5);
+    expect(half.over).toBeCloseTo(0.6); // 总进球≥2
+    expect(half.under).toBeCloseTo(0.4);
+    expect(half.push).toBeCloseTo(0);
+    const whole = projectOverUnder(M, 2);
+    expect(whole.push).toBeCloseTo(0.6); // 总进球==2
+    expect(whole.over).toBeCloseTo(0);
+    expect(whole.under).toBeCloseTo(0.4);
+  });
+  it('双方进球', () => {
+    expect(projectBtts(M).yes).toBeCloseTo(0.3); // (1,1)
+  });
+  it('亚盘:主-1.5 与 平手盘走盘', () => {
+    const minus15 = projectAsianHandicap(M, -1.5);
+    expect(minus15.homeCover).toBeCloseTo(0.3); // 净胜≥2 → (2,0)
+    expect(minus15.awayCover).toBeCloseTo(0.7);
+    const level = projectAsianHandicap(M, 0);
+    expect(level.homeCover).toBeCloseTo(0.5);
+    expect(level.push).toBeCloseTo(0.4);
+    expect(level.awayCover).toBeCloseTo(0.1);
+  });
+});
+
+describe('EV / Kelly / 注金', () => {
+  it('EV 与 Kelly(含走盘)', () => {
+    expect(expectedValue(0.6, 2.0)).toBeCloseTo(0.2);
+    expect(kelly(0.6, 2.0)).toBeCloseTo(0.2);
+    expect(expectedValue(0.5, 2.0)).toBeCloseTo(0); // 公平盘无优势
+    expect(expectedValue(0.5, 2.0, 0.2)).toBeCloseTo(0.2); // 走盘 0.2
+  });
+  it('四分之一凯利 + 上限 + 最低额', () => {
+    const opt = { fraction: 0.25, maxPct: 0.05, minStake: 10 };
+    expect(stakeFor(0.2, 1000, opt)).toBe(50); // min(50, cap50)
+    expect(stakeFor(0.02, 1000, opt)).toBe(0); // 低于最低额
+    expect(stakeFor(0, 1000, opt)).toBe(0); // 无优势
+  });
+});
+
+describe('智能路由', () => {
+  const mk = (selection: string, pWin: number, odds: number): BetCandidate =>
+    scoreCandidate({
+      market: '1X2',
+      selection,
+      odds,
+      book: 'x',
+      pWin,
+      pPush: 0,
+    });
+
+  it('过滤低胜率/非正EV,按凯利取最优', () => {
+    const cands = [
+      mk('a', 0.6, 2.0), // ev0.2 kelly0.2 ✓
+      mk('b', 0.25, 5.0), // pWin<0.3 ✗
+      mk('c', 0.5, 2.0), // ev0 ✗
+      mk('d', 0.55, 2.0), // ev0.1 kelly0.1 ✓
+    ];
+    const best = selectBest(cands);
+    expect(best?.selection).toBe('a');
+  });
+  it('无合格候选返回 null', () => {
+    expect(selectBest([mk('c', 0.5, 2.0)])).toBeNull();
+  });
+});
+
+describe('结算判定', () => {
+  const T = (
+    market: Trade['market'],
+    selection: string,
+    line?: number,
+  ): Trade => ({
+    tradeId: 't',
+    matchId: 'm',
+    homeTeam: 'H',
+    awayTeam: 'A',
+    date: '2026-06-12T00:00:00Z',
+    market,
+    selection,
+    line,
+    odds: 2,
+    modelProb: 0.5,
+    ev: 0.1,
+    stake: 100,
+    status: 'pending',
+    result: null,
+    pnl: null,
+    placedAt: 0,
+  });
+
+  it('1X2', () => {
+    expect(outcome(T('1X2', 'home'), 2, 1)).toBe('won');
+    expect(outcome(T('1X2', 'home'), 1, 1)).toBe('lost');
+    expect(outcome(T('1X2', 'draw'), 1, 1)).toBe('won');
+  });
+  it('大小球(含整数走盘)', () => {
+    expect(outcome(T('OU', 'Over', 2.5), 2, 1)).toBe('won'); // 3>2.5
+    expect(outcome(T('OU', 'Over', 2.5), 1, 1)).toBe('lost'); // 2<2.5
+    expect(outcome(T('OU', 'Over', 2), 1, 1)).toBe('void'); // 2==2
+  });
+  it('亚盘(含走盘)', () => {
+    expect(outcome(T('AH', 'home', -1.5), 2, 0)).toBe('won'); // 2-0-1.5>0
+    expect(outcome(T('AH', 'home', -1.5), 1, 0)).toBe('lost');
+    expect(outcome(T('AH', 'home', -1), 1, 0)).toBe('void'); // 1-0-1==0
+    expect(outcome(T('AH', 'away', 0.5), 0, 0)).toBe('won'); // 0-0+0.5>0
+  });
+  it('盈亏', () => {
+    const t = T('1X2', 'home');
+    expect(pnlFor(t, 'won')).toBeCloseTo(100); // 100*(2-1)
+    expect(pnlFor(t, 'lost')).toBeCloseTo(-100);
+    expect(pnlFor(t, 'void')).toBe(0);
+  });
+});
+
+describe('90 分钟结算口径(加时/点球不计)', () => {
+  const goal = (minute: string, team: string): MatchEvent => ({
+    minute,
+    type: 'Goal',
+    team,
+    scoringPlay: true,
+  });
+
+  it('未进加时:直接取终分(不依赖事件完整性)', () => {
+    const ev = [goal("23'", 'H'), goal("67'", 'A')];
+    expect(regulationScore(ev, 'H', 'A', 2, 1)).toEqual({ home: 2, away: 1 });
+  });
+
+  it('进加时:剔除 >90 分钟进球,只算 90 分钟比分', () => {
+    // 常规 1-1(40\'主、80\'客),加时 105\' 主再入 → 终分 2-1,但 90\' 为 1-1
+    const ev = [goal("40'", 'H'), goal("80'", 'A'), goal("105'", 'H')];
+    expect(regulationScore(ev, 'H', 'A', 2, 1)).toEqual({ home: 1, away: 1 });
+  });
+
+  it("含补时(90'+X)仍计入 90 分钟", () => {
+    const ev = [goal("45'+2'", 'H'), goal("90'+4'", 'H'), goal("113'", 'A')];
+    // 终分 2-1;90\' 应为 2-0(补时算,加时不算)
+    expect(regulationScore(ev, 'H', 'A', 2, 1)).toEqual({ home: 2, away: 0 });
+  });
+
+  it('点球大战(无分钟)不计入', () => {
+    // 常规 1-1 + 加时无进球(检测不到加时进球)→ 走终分回退路径,终分即 1-1
+    const ev = [goal("30'", 'H'), goal("88'", 'A')];
+    expect(regulationScore(ev, 'H', 'A', 1, 1)).toEqual({ home: 1, away: 1 });
+  });
+});

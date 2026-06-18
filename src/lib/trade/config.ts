@@ -1,0 +1,20 @@
+/**
+ * 模拟交易策略参数(可经 env 覆盖,集中便于调参)。
+ */
+const num = (v: string | undefined, d: number) => {
+  const n = Number(v);
+  return Number.isFinite(n) ? n : d;
+};
+const bool = (v: string | undefined, d: boolean) =>
+  v == null ? d : v === '1' || v.toLowerCase() === 'true';
+
+export const INITIAL_BALANCE = num(process.env.PAPER_INITIAL_BALANCE, 10000);
+export const MIN_EV = num(process.env.PAPER_MIN_EV, 0.03); // 正 EV 门槛
+export const MIN_PROB = num(process.env.PAPER_MIN_PROB, 0.3); // 方差过滤:剔除低胜率高赔率
+export const KELLY_FRACTION = num(process.env.PAPER_KELLY_FRACTION, 0.25); // 四分之一凯利
+export const MAX_STAKE_PCT = num(process.env.PAPER_MAX_STAKE_PCT, 0.05); // 单注上限(占当前余额),防早期梭哈
+export const MIN_STAKE = num(process.env.PAPER_MIN_STAKE, 10); // 低于此不下注
+export const BET_WINDOW_MIN = num(process.env.PAPER_BET_WINDOW_MIN, 75); // 开赛前多少分钟内下注
+// 赛前轻量拉取:为进入下注窗口的比赛拉一次让球/大小球盘口(解锁 O/U/亚盘候选);耗 The Odds API 配额。
+export const PREMATCH_FETCH = bool(process.env.PAPER_PREMATCH_FETCH, true);
+export const ODDS_TTL_MS = num(process.env.PAPER_ODDS_TTL_MS, 1_800_000); // 盘口快照 TTL(窗口内去重,默认 30min)

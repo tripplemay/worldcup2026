@@ -40,6 +40,7 @@ import type { WeatherInfo } from 'lib/weather/openmeteo';
 import type { MatchWithPredictions } from 'lib/predict/predict';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
+import type { Wallet, Trade } from 'lib/trade/types';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -285,6 +286,25 @@ export function useTmi() {
     teams: data?.teams ?? [],
     lastUpdated: data?.lastUpdated,
     wcStart: data?.wcStart,
+    error,
+    isLoading,
+  };
+}
+
+/** 模拟盘:账户总览 + 交易流水。 */
+export function useTrade() {
+  const { data, error, isLoading } = useSWR<{
+    wallet: Wallet;
+    stats: { equity: number; roi: number; winRate: number };
+    trades: Trade[];
+  }>('/api/worldcup/trade', fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
+  return {
+    wallet: data?.wallet,
+    stats: data?.stats,
+    trades: data?.trades ?? [],
     error,
     isLoading,
   };
