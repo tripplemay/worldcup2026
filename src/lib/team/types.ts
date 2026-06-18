@@ -49,6 +49,16 @@ export interface CupStats {
   redTotal?: number;
 }
 
+/**
+ * 球队画像:xG 与实际进球的交叉偏离(均为场均口径)。
+ * 衡量「过程 vs 结果」的差,用于判断战绩是否可持续。
+ */
+export interface TeamStyle {
+  finishing: number; // 进球 − 创造xG:进攻终结超额(正=终结好/运气好)
+  keeping: number; // 被创造xG − 失球:防守·门将超额(正=门将神勇/对手浪费)
+  regression: number; // = finishing + keeping = 实际净胜 − xG净胜(正=结果跑赢 xG,有回归风险)
+}
+
 /** 阵容深度(最近一场首发聚合)。 */
 export interface SquadDepth {
   avgRating: number; // 首发赛季均评分
@@ -83,6 +93,7 @@ export interface TeamProfile {
     tmi: TeamTmi | null; // 原始三因子拆解
   };
   grade: number; // 0–100,偏当前状态
+  style: TeamStyle; // 画像:xG 与实际进球的交叉偏离
   squad: SquadDepth | null;
   roster: RosterPlayer[]; // 最近一场首发(含 form)
   rosterFormation?: string;

@@ -9,6 +9,8 @@ import {
   formScore,
   grade,
   gradeLetter,
+  teamStyle,
+  regressionVerdict,
 } from '../score';
 
 describe('mapRange', () => {
@@ -41,7 +43,9 @@ describe('实力档案四轴', () => {
     expect(squadScore(null)).toBeNull();
     expect(squadScore({ avgRating: 7, top5Share: 0.5, count: 0 })).toBeNull();
     // 6.8 → mapRange(6.2,7.4)=50;+12*0.5=6 → 56
-    expect(squadScore({ avgRating: 6.8, top5Share: 0.5, count: 11 })).toBeCloseTo(56);
+    expect(
+      squadScore({ avgRating: 6.8, top5Share: 0.5, count: 11 }),
+    ).toBeCloseTo(56);
   });
 });
 
@@ -76,5 +80,32 @@ describe('总评级(偏当前状态)', () => {
     expect(gradeLetter(65)).toBe('B');
     expect(gradeLetter(50)).toBe('C');
     expect(gradeLetter(49)).toBe('D');
+  });
+});
+
+describe('球队画像(xG × 进球交叉)', () => {
+  it('终结=进球−创造xG;门将=被创造xG−失球;回归=二者之和', () => {
+    // 进球 1.5 / 创造xG 1.1 / 失球 0.8 / 被创造xG 1.2
+    const s = teamStyle(1.1, 1.2, 1.5, 0.8);
+    expect(s.finishing).toBeCloseTo(0.4); // 1.5 - 1.1
+    expect(s.keeping).toBeCloseTo(0.4); // 1.2 - 0.8
+    expect(s.regression).toBeCloseTo(0.8); // = 实际净胜(0.7) − xG净胜(-0.1)
+  });
+
+  it('回归 = 实际净胜 − xG净胜(恒等)', () => {
+    const xgF = 1.4,
+      xgA = 0.9,
+      gf = 1.0,
+      ga = 1.3;
+    const s = teamStyle(xgF, xgA, gf, ga);
+    expect(s.regression).toBeCloseTo(gf - ga - (xgF - xgA));
+  });
+
+  it('回归判定:跑赢=over / 落后=under / 名副其实=fair', () => {
+    expect(regressionVerdict(0.8)).toBe('over');
+    expect(regressionVerdict(0.4)).toBe('over');
+    expect(regressionVerdict(-0.8)).toBe('under');
+    expect(regressionVerdict(0.2)).toBe('fair');
+    expect(regressionVerdict(-0.39)).toBe('fair');
   });
 });

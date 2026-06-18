@@ -9,7 +9,7 @@ import RadarChart from 'components/worldcup/RadarChart';
 import { useTeamProfile } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import { formatMatchTime } from 'lib/format/matchTime';
-import { gradeLetter } from 'lib/team/score';
+import { gradeLetter, regressionVerdict } from 'lib/team/score';
 import type { TeamProfile, TeamFixture } from 'lib/team/types';
 import type { RosterPlayer } from 'lib/espn/types';
 
@@ -29,6 +29,14 @@ const gradeColor = (g: number) =>
     ? 'text-amber-500'
     : 'text-red-500 dark:text-red-400';
 
+const signed2 = (x: number) => `${x >= 0 ? '+' : ''}${x.toFixed(2)}`;
+const diffCls = (x: number) =>
+  x > 0.05
+    ? 'text-emerald-600 dark:text-emerald-400'
+    : x < -0.05
+    ? 'text-red-500 dark:text-red-400'
+    : 'text-gray-500 dark:text-gray-400';
+
 function Bar({
   label,
   value,
@@ -44,7 +52,10 @@ function Bar({
         {label}
       </span>
       <div className="h-2 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
-        <div className={`h-full rounded-full ${color}`} style={{ width: `${value}%` }} />
+        <div
+          className={`h-full rounded-full ${color}`}
+          style={{ width: `${value}%` }}
+        />
       </div>
       <span className="w-7 shrink-0 text-right font-mono text-[11px] tabular-nums text-navy-700 dark:text-white">
         {Math.round(value)}
@@ -71,7 +82,11 @@ function GradeHero({ p }: { p: TeamProfile }) {
       <div className="flex items-center gap-3">
         {p.logo && (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={p.logo} alt="" className="h-12 w-12 shrink-0 object-contain" />
+          <img
+            src={p.logo}
+            alt=""
+            className="h-12 w-12 shrink-0 object-contain"
+          />
         )}
         <div className="min-w-0 flex-1">
           <div className="truncate text-lg font-bold text-navy-700 dark:text-white">
@@ -90,7 +105,11 @@ function GradeHero({ p }: { p: TeamProfile }) {
           )}
         </div>
         <div className="shrink-0 text-right">
-          <div className={`font-mono text-3xl font-extrabold leading-none ${gradeColor(p.grade)}`}>
+          <div
+            className={`font-mono text-3xl font-extrabold leading-none ${gradeColor(
+              p.grade,
+            )}`}
+          >
             {p.grade}
           </div>
           <div className={`text-[11px] font-bold ${gradeColor(p.grade)}`}>
@@ -120,12 +139,18 @@ function StateBlock({ p }: { p: TeamProfile }) {
       </div>
       <div className="space-y-1.5">
         <Bar label={t('team.momentum')} value={s.momentum} />
-        <Bar label={t('team.recentForm')} value={s.recentForm} color="bg-emerald-500" />
+        <Bar
+          label={t('team.recentForm')}
+          value={s.recentForm}
+          color="bg-emerald-500"
+        />
         <Bar label={t('team.fitness')} value={s.fitness} color="bg-amber-500" />
       </div>
       {s.formStreak.length > 0 && (
         <div className="mt-2.5 flex items-center gap-1">
-          <span className="mr-1 text-[11px] text-gray-400">{t('team.recent')}</span>
+          <span className="mr-1 text-[11px] text-gray-400">
+            {t('team.recent')}
+          </span>
           {s.formStreak.map((r, i) => (
             <span
               key={i}
@@ -164,6 +189,92 @@ function StrengthBlock({ p }: { p: TeamProfile }) {
   );
 }
 
+function StyleRow({
+  label,
+  value,
+  actualLabel,
+  actual,
+  xg,
+}: {
+  label: string;
+  value: number;
+  actualLabel: string;
+  actual?: number;
+  xg: number;
+}) {
+  return (
+    <div className="flex items-center justify-between gap-2 text-xs">
+      <span className="text-gray-500 dark:text-gray-400">{label}</span>
+      <span className="flex items-center gap-2">
+        <span className="font-mono text-[10px] tabular-nums text-gray-400">
+          {actualLabel} {actual != null ? actual.toFixed(1) : '—'} / xG{' '}
+          {xg.toFixed(1)}
+        </span>
+        <span
+          className={`w-11 text-right font-mono font-bold tabular-nums ${diffCls(
+            value,
+          )}`}
+        >
+          {signed2(value)}
+        </span>
+      </span>
+    </div>
+  );
+}
+
+function StyleBlock({ p }: { p: TeamProfile }) {
+  const { t } = useLocale();
+  const s = p.style;
+  const c = p.cup;
+  const v = regressionVerdict(s.regression);
+  const verdictCls =
+    v === 'over'
+      ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400'
+      : v === 'under'
+      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400'
+      : 'bg-gray-200/70 text-gray-600 dark:bg-navy-700 dark:text-gray-300';
+  const verdictKey =
+    v === 'over'
+      ? 'team.regOver'
+      : v === 'under'
+      ? 'team.regUnder'
+      : 'team.regFair';
+  return (
+    <Card extra="mb-3 p-4">
+      <div className="mb-2 flex items-center justify-between gap-2">
+        <span className="text-sm font-bold text-navy-700 dark:text-white">
+          {t('team.style')}
+        </span>
+        <span
+          className={`shrink-0 rounded-full px-2 py-0.5 text-[11px] font-medium ${verdictCls}`}
+        >
+          {t(verdictKey)}
+        </span>
+      </div>
+      <div className="space-y-2">
+        <StyleRow
+          label={t('team.finishing')}
+          value={s.finishing}
+          actualLabel={t('team.gf')}
+          actual={c.goalsForPerMatch}
+          xg={c.xgForPerMatch}
+        />
+        <StyleRow
+          label={t('team.keeping')}
+          value={s.keeping}
+          actualLabel={t('team.ga')}
+          actual={c.goalsAgainstPerMatch}
+          xg={c.xgAgainstPerMatch}
+        />
+      </div>
+      <div className="mt-2 text-[10px] text-gray-400">
+        {t('team.styleHint')}
+        {c.xgSource === 'season' ? ` · ${t('team.seasonNote')}` : ''}
+      </div>
+    </Card>
+  );
+}
+
 function CupData({ p }: { p: TeamProfile }) {
   const { t } = useLocale();
   const c = p.cup;
@@ -193,26 +304,43 @@ function CupData({ p }: { p: TeamProfile }) {
           value={c.xgAgainstPerMatch.toFixed(2)}
         />
         {c.possessionPct != null && (
-          <StatRow label={t('stats.possessionPct')} value={`${one(c.possessionPct)}%`} />
+          <StatRow
+            label={t('stats.possessionPct')}
+            value={`${one(c.possessionPct)}%`}
+          />
         )}
         {c.shotsPerMatch != null && (
           <StatRow label={t('stats.totalShots')} value={one(c.shotsPerMatch)} />
         )}
         {c.sotPerMatch != null && (
-          <StatRow label={t('stats.shotsOnTarget')} value={one(c.sotPerMatch)} />
+          <StatRow
+            label={t('stats.shotsOnTarget')}
+            value={one(c.sotPerMatch)}
+          />
         )}
         {c.cornersPerMatch != null && (
-          <StatRow label={t('stats.wonCorners')} value={one(c.cornersPerMatch)} />
+          <StatRow
+            label={t('stats.wonCorners')}
+            value={one(c.cornersPerMatch)}
+          />
         )}
         {c.foulsPerMatch != null && (
-          <StatRow label={t('stats.foulsCommitted')} value={one(c.foulsPerMatch)} />
+          <StatRow
+            label={t('stats.foulsCommitted')}
+            value={one(c.foulsPerMatch)}
+          />
         )}
         {c.yellowPerMatch != null && (
-          <StatRow label={t('stats.yellowCards')} value={one(c.yellowPerMatch)} />
+          <StatRow
+            label={t('stats.yellowCards')}
+            value={one(c.yellowPerMatch)}
+          />
         )}
       </div>
       {c.xgSource === 'season' && (
-        <div className="mt-2 text-[10px] text-gray-400">{t('team.seasonNote')}</div>
+        <div className="mt-2 text-[10px] text-gray-400">
+          {t('team.seasonNote')}
+        </div>
       )}
     </Card>
   );
@@ -220,8 +348,7 @@ function CupData({ p }: { p: TeamProfile }) {
 
 function FixtureRow({ f }: { f: TeamFixture }) {
   const { locale, tn } = useLocale();
-  const score =
-    f.gf != null && f.ga != null ? `${f.gf}-${f.ga}` : '';
+  const score = f.gf != null && f.ga != null ? `${f.gf}-${f.ga}` : '';
   return (
     <Link
       href={`/match/${f.eventId}`}
@@ -279,14 +406,18 @@ export default function TeamPage() {
   const { id } = useParams<{ id: string }>();
   const { profile: p, isLoading } = useTeamProfile(id);
   const goBack = () => {
-    if (typeof window !== 'undefined' && window.history.length > 1) router.back();
+    if (typeof window !== 'undefined' && window.history.length > 1)
+      router.back();
     else router.push('/standings');
   };
 
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 flex items-center gap-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <button onClick={goBack} className="text-sm text-gray-500 dark:text-gray-400">
+        <button
+          onClick={goBack}
+          className="text-sm text-gray-500 dark:text-gray-400"
+        >
           ‹ {t('common.back')}
         </button>
         <h1 className="text-lg font-bold text-navy-700 dark:text-white">
@@ -308,6 +439,7 @@ export default function TeamPage() {
           <StateBlock p={p} />
           <StrengthBlock p={p} />
           <CupData p={p} />
+          <StyleBlock p={p} />
 
           {p.fixtures.length > 0 && (
             <Card extra="mb-3 p-4">
@@ -327,7 +459,9 @@ export default function TeamPage() {
               <div className="mb-2 flex items-center justify-between text-sm font-bold text-navy-700 dark:text-white">
                 <span>{t('team.lineup')}</span>
                 {p.rosterFormation && (
-                  <span className="font-normal text-gray-400">{p.rosterFormation}</span>
+                  <span className="font-normal text-gray-400">
+                    {p.rosterFormation}
+                  </span>
                 )}
               </div>
               <div className="grid grid-cols-2 gap-x-4 gap-y-1">

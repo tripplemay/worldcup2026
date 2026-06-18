@@ -26,6 +26,7 @@ import {
   fitnessScore,
   formScore,
   grade,
+  teamStyle,
 } from './score';
 import type {
   TeamProfile,
@@ -43,7 +44,9 @@ const wcStart = () => process.env.WC_START?.trim() || DEFAULT_WC_START;
 const dateKey = (iso: string) => iso.slice(0, 10);
 
 const scoreboardWC = () =>
-  cached('espn:scoreboard:wc', 300_000, () => espnProvider.getScoreboard(WC_RANGE));
+  cached('espn:scoreboard:wc', 300_000, () =>
+    espnProvider.getScoreboard(WC_RANGE),
+  );
 const teamsList = () =>
   cached('espn:teams', 21_600_000, () => espnProvider.getTeams());
 const standingsList = () =>
@@ -132,7 +135,14 @@ function cupXgGoals(norm: string): {
     }
   }
   if (n >= 2)
-    return { xgF: xgF / n, xgA: xgA / n, gf: gf / n, ga: ga / n, n, source: 'cup' };
+    return {
+      xgF: xgF / n,
+      xgA: xgA / n,
+      gf: gf / n,
+      ga: ga / n,
+      n,
+      source: 'cup',
+    };
   const r = loadRatings()[norm];
   return {
     xgF: r?.xgFor ?? 0,
@@ -197,14 +207,15 @@ export async function buildTeamProfile(
   // 杯赛数据
   const xg = cupXgGoals(norm);
   const stats = loadTeamStats().teams[norm];
-  const per = (v: number, g: number) => (g > 0 ? +(v / g).toFixed(1) : undefined);
+  const per = (v: number, g: number) =>
+    g > 0 ? +(v / g).toFixed(1) : undefined;
   const cup: CupStats = {
     matchesPlayed: standing?.played ?? xg.n,
     xgForPerMatch: +xg.xgF.toFixed(2),
     xgAgainstPerMatch: +xg.xgA.toFixed(2),
     xgSource: xg.source,
-    goalsForPerMatch: xg.n ? +xg.gf.toFixed(2) : undefined,
-    goalsAgainstPerMatch: xg.n ? +xg.ga.toFixed(2) : undefined,
+    goalsForPerMatch: +xg.gf.toFixed(2),
+    goalsAgainstPerMatch: +xg.ga.toFixed(2),
     shotsPerMatch: stats ? per(stats.shots, stats.games) : undefined,
     sotPerMatch: stats ? per(stats.sot, stats.games) : undefined,
     possessionPct: stats ? per(stats.possession, stats.games) : undefined,
@@ -230,7 +241,11 @@ export async function buildTeamProfile(
   const sq = squadScore(depth);
   const strengthRadar: RadarAxis[] = [
     { key: 'attack', value: +attackScore(xg.xgF).toFixed(0), available: true },
-    { key: 'defense', value: +defenseScore(xg.xgA).toFixed(0), available: true },
+    {
+      key: 'defense',
+      value: +defenseScore(xg.xgA).toFixed(0),
+      available: true,
+    },
     { key: 'strength', value: +strengthScore(elo).toFixed(0), available: true },
     { key: 'squad', value: +(sq ?? 50).toFixed(0), available: sq != null },
   ];
@@ -251,6 +266,7 @@ export async function buildTeamProfile(
     strengthAvg,
     state: { momentum, fitness, recentForm, formStreak, tmi },
     grade: grade({ momentum, recentForm, fitness }),
+    style: teamStyle(xg.xgF, xg.xgA, xg.gf, xg.ga),
     squad: depth,
     roster,
     rosterFormation: formation,

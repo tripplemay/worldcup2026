@@ -2,7 +2,7 @@
  * 球队评测打分(纯函数,可测)。各轴归一化到 0–100;总评级偏「当前状态」。
  * 标尺为经验值,集中在此便于调参。
  */
-import type { SquadDepth } from './types';
+import type { SquadDepth, TeamStyle } from './types';
 
 export const clamp100 = (x: number) => Math.max(0, Math.min(100, x));
 
@@ -65,4 +65,29 @@ export function gradeLetter(score: number): string {
   if (score >= 65) return 'B';
   if (score >= 50) return 'C';
   return 'D';
+}
+
+// ── 球队画像:xG 与实际进球的交叉偏离(场均) ────────────
+/**
+ * 进攻终结 = 进球 − 创造xG;防守门将 = 被创造xG − 失球;
+ * 回归 = 二者之和 = 实际净胜 − xG净胜。
+ */
+export function teamStyle(
+  xgFor: number,
+  xgAgainst: number,
+  goalsFor: number,
+  goalsAgainst: number,
+): TeamStyle {
+  const finishing = +(goalsFor - xgFor).toFixed(2);
+  const keeping = +(xgAgainst - goalsAgainst).toFixed(2);
+  return { finishing, keeping, regression: +(finishing + keeping).toFixed(2) };
+}
+
+export type RegressionVerdict = 'over' | 'under' | 'fair';
+
+/** 回归判定:结果显著跑赢 xG=over(有下行回归风险),显著落后=under(有上行潜力),否则名副其实。 */
+export function regressionVerdict(regression: number): RegressionVerdict {
+  if (regression >= 0.4) return 'over';
+  if (regression <= -0.4) return 'under';
+  return 'fair';
 }
