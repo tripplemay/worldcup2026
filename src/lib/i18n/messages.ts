@@ -206,6 +206,8 @@ export const messages = {
       subtitle:
         '杯赛短期动能:Elo 士气 + xG 战术 − 体能 · 固定权重观测,不进胜率',
       tag: '状态观测',
+      detailTitle: '状态动能',
+      na: '暂无数据',
       entry: '状态动能榜',
       total: '动能',
       mental: '士气',
@@ -450,6 +452,8 @@ export const messages = {
       subtitle:
         'Short-term cup momentum: Elo morale + xG tactics − fatigue · fixed-weight observation, not win-prob',
       tag: 'Observation',
+      detailTitle: 'Momentum',
+      na: 'N/A',
       entry: 'Momentum Board',
       total: 'TMI',
       mental: 'Morale',

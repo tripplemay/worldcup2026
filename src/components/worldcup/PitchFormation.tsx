@@ -39,6 +39,7 @@ function Spot({
   goals,
   leagueId,
   disc,
+  textAbove = false,
 }: {
   top: number;
   left: number;
@@ -48,11 +49,15 @@ function Spot({
   goals?: number;
   leagueId?: number;
   disc: string;
+  textAbove?: boolean; // 文字置于圆点上方(客队用,避免与主队前锋在中线处重合)
 }) {
   const showGoals = goals != null && goals > 0;
+  const hasMeta = rating != null || showGoals || leagueId != null;
   return (
     <div
-      className="absolute flex -translate-x-1/2 -translate-y-1/2 flex-col items-center"
+      className={`absolute flex w-[68px] -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-0.5 ${
+        textAbove ? 'flex-col-reverse' : ''
+      }`}
       style={{ top: `${top}%`, left: `${left}%` }}
     >
       <span
@@ -60,14 +65,15 @@ function Spot({
       >
         {jersey ?? ''}
       </span>
-      <span className="mt-0.5 max-w-[56px] truncate text-[9px] font-medium leading-tight text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
+      <span className="max-w-full truncate text-[9px] font-medium leading-none text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.75)]">
         {name}
       </span>
-      {(rating != null || showGoals) && (
-        <span className="mt-px flex items-center gap-0.5 leading-none">
+      {/* 评分 · 进球 · 联赛合并为一行,压缩竖向高度避免同队前后排文字重合 */}
+      {hasMeta && (
+        <span className="flex max-w-full items-center justify-center gap-0.5 leading-none">
           {rating != null && (
             <span
-              className={`rounded px-1 text-[8px] font-bold text-white ${ratingCls(
+              className={`shrink-0 rounded px-1 text-[8px] font-bold text-white ${ratingCls(
                 rating,
               )}`}
             >
@@ -75,14 +81,12 @@ function Spot({
             </span>
           )}
           {showGoals && (
-            <span className="text-[8px] font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.6)]">
+            <span className="shrink-0 text-[8px] font-bold text-white drop-shadow-[0_1px_1px_rgba(0,0,0,0.75)]">
               ⚽{goals}
             </span>
           )}
+          {leagueId != null && <LeagueBadge leagueId={leagueId} />}
         </span>
-      )}
-      {leagueId != null && (
-        <LeagueBadge leagueId={leagueId} className="mt-px text-[8px]" />
       )}
     </div>
   );
@@ -163,6 +167,7 @@ export default function PitchFormation({
             goals={s.form?.goals}
             leagueId={s.form?.leagueId}
             disc="bg-red-500"
+            textAbove={s.adv > 0}
           />
         ))}
       </div>

@@ -15,6 +15,7 @@ import {
   MatchVenueWeather,
 } from 'components/worldcup/MatchBackground';
 import RecentForm from 'components/worldcup/RecentForm';
+import MatchTmiPanel from 'components/worldcup/MatchTmiPanel';
 import PredictionCard from 'components/worldcup/PredictionCard';
 import { useMatchSummary, useMatchOddsLite } from 'lib/hooks/useWorldCup';
 import PitchFormation from 'components/worldcup/PitchFormation';
@@ -135,6 +136,11 @@ export default function MatchDetailPage() {
           </Card>
 
           <MatchTeamMeta summary={summary} />
+
+          <MatchTmiPanel
+            homeTeam={summary.homeTeam}
+            awayTeam={summary.awayTeam}
+          />
 
           <PredictionCard
             matchId={id}

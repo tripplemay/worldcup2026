@@ -28,6 +28,23 @@ function lr(pos = ''): number {
   return 0;
 }
 
+/**
+ * 位置纵深档(越大越靠前):门将 0 / 后卫 1 / 后腰 2 / 中场 3 / 前腰 4 / 前锋 5。
+ * ESPN 的 roster 数组顺序并非「门将→后卫→中场→前锋」(更像按球衣号排),
+ * 直接按数组顺序分行会错位;故先按位置缩写(已含 G/CD/DM/CM/AM/F 与边路标记)
+ * 推断纵深档,排序后再按阵型分行,贴合真实站位。
+ */
+function posRank(pos = ''): number {
+  let c = pos.toUpperCase().replace(/[^A-Z]/g, ''); // 去掉 '-' 等
+  if (c === 'G' || c === 'GK') return 0;
+  c = c.replace(/^[LR]/, '').replace(/[LRC]$/, ''); // 去左右边路标记 → 取核心角色
+  if (/^(F|FW|CF|W|ST|SS|S)$/.test(c)) return 5; // 前锋 / 边锋
+  if (c === 'AM' || c === 'CAM') return 4; // 前腰
+  if (c === 'DM' || c === 'CDM') return 2; // 后腰
+  if (c.includes('M')) return 3; // 中场
+  return 1; // 其余按后卫
+}
+
 /** 阵型缺失/不匹配时,按位置缩写粗分 后卫/中场/前锋 行数。 */
 function groupLines(rest: RosterPlayer[]): number[] {
   let d = 0,
@@ -51,7 +68,11 @@ export function layoutXI(
   formation: string | undefined,
   starters: RosterPlayer[],
 ): PitchSpot[] {
-  const xi = starters.slice(0, 11);
+  // 先按位置纵深排序(GK→后卫→后腰→中场→前腰→前锋),修正 ESPN 数组的乱序;
+  // 同档保持原序(行内左右由 lr 再排)。
+  const xi = starters
+    .slice(0, 11)
+    .sort((a, b) => posRank(a.position) - posRank(b.position));
   if (!xi.length) return [];
 
   let lines = (formation || '')
