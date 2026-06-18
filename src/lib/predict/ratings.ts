@@ -10,7 +10,7 @@ import {
   saveElo,
 } from 'lib/db/store';
 import { normalizeTeam } from 'lib/match/normalize';
-import type { TeamRating } from './types';
+import type { TeamRating, HistMatch } from './types';
 
 const ALPHA = 0.85; // 衰减系数:越近的比赛权重越高
 const MAX_GAMES = 15; // 最多取近 N 场(xG EWMA)
@@ -65,21 +65,14 @@ interface Sample {
   ga: number;
 }
 
-/** 重算所有球队评分。authElo 为 eloratings.net 权威 Elo(优先);缺失回退自算。 */
-export function recomputeRatings(authElo?: Map<string, number>): {
-  teams: number;
-} {
-  const hist = Object.values(loadHistorical());
-  // 自算 Elo(results.json,last=40;缺失退回 historical)作为回退
-  const results = Object.values(loadResults());
-  const selfElo = computeElo(results.length ? results : hist);
-
-  // 权威 Elo(eloratings.net)优先存为独立 elo.json,覆盖全部队;
-  // 缺失的队用自算补齐,供 Elo 模型对任意对阵都能查到。
-  const eloOut: Record<string, number> = {};
-  for (const [k, v] of selfElo) eloOut[k] = Math.round(v);
-  if (authElo) for (const [k, v] of authElo) eloOut[k] = v; // 权威覆盖
-  saveElo(eloOut);
+/**
+ * 由一组历史比赛(EWMA)得出球队评分(纯函数,不落盘)。
+ * elo 字段由 eloOf 注入(缺省 ELO_START);供 recompute 与回测(传入「赛前」子集)复用。
+ */
+export function ratingsFromHistorical(
+  hist: HistMatch[],
+  eloOf?: (norm: string) => number | undefined,
+): Record<string, TeamRating> {
   const byTeam = new Map<string, Sample[]>();
   const add = (norm: string, s: Sample) => {
     if (!byTeam.has(norm)) byTeam.set(norm, []);
@@ -133,11 +126,34 @@ export function recomputeRatings(authElo?: Map<string, number>): {
       xgAgainst: +(a / w).toFixed(3),
       goalsFor: +(gf / w).toFixed(3),
       goalsAgainst: +(ga / w).toFixed(3),
-      elo: authElo?.get(norm) ?? Math.round(selfElo.get(norm) ?? ELO_START),
+      elo: eloOf?.(norm) ?? ELO_START,
       sample: samples.length,
       updatedAt: now,
     };
   }
+  return ratings;
+}
+
+/** 重算所有球队评分。authElo 为 eloratings.net 权威 Elo(优先);缺失回退自算。 */
+export function recomputeRatings(authElo?: Map<string, number>): {
+  teams: number;
+} {
+  const hist = Object.values(loadHistorical());
+  // 自算 Elo(results.json,last=40;缺失退回 historical)作为回退
+  const results = Object.values(loadResults());
+  const selfElo = computeElo(results.length ? results : hist);
+
+  // 权威 Elo(eloratings.net)优先存为独立 elo.json,覆盖全部队;
+  // 缺失的队用自算补齐,供 Elo 模型对任意对阵都能查到。
+  const eloOut: Record<string, number> = {};
+  for (const [k, v] of selfElo) eloOut[k] = Math.round(v);
+  if (authElo) for (const [k, v] of authElo) eloOut[k] = v; // 权威覆盖
+  saveElo(eloOut);
+
+  const ratings = ratingsFromHistorical(
+    hist,
+    (norm) => authElo?.get(norm) ?? Math.round(selfElo.get(norm) ?? ELO_START),
+  );
   saveRatings(ratings);
   return { teams: Object.keys(ratings).length };
 }
