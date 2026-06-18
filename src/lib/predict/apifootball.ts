@@ -259,8 +259,12 @@ export async function getFixtureOdds(
         } else if (bet.name === 'Asian Handicap') {
           const m = val.match(/^(Home|Away)\s+([+-]?[\d.]+)$/i);
           if (!m) continue;
-          const side = /^h/i.test(m[1]) ? 'home' : 'away';
-          const point = parseFloat(m[2]);
+          // AF 的数字是「主队让分线」,Home/Away 只表示下注哪一边。
+          // 统一成「该队自身让分」:Home 用 n,Away 取相反线 −n。
+          const isHome = /^h/i.test(m[1]);
+          const n = parseFloat(m[2]);
+          const side: 'home' | 'away' = isHome ? 'home' : 'away';
+          const point = isHome ? n : -n;
           const k = `${side}|${point}`;
           const cur = spreads.get(k);
           if (!cur || price > cur.pick.price)

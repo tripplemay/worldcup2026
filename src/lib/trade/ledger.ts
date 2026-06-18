@@ -2,12 +2,7 @@
  * 虚拟账本:下注扣款/锁定、赛后结算解冻回款。
  * 下单与结算来自不同 cron 请求,用进程内互斥锁序列化对 wallet/trades 的读-改-写,防并发竞争。
  */
-import {
-  loadWallet,
-  saveWallet,
-  loadTrades,
-  saveTrades,
-} from 'lib/db/store';
+import { loadWallet, saveWallet, loadTrades, saveTrades } from 'lib/db/store';
 import { INITIAL_BALANCE } from './config';
 import type { Wallet, Trade, BetCandidate } from './types';
 
@@ -36,6 +31,14 @@ function freshWallet(): Wallet {
 
 export function getWallet(): Wallet {
   return loadWallet() ?? freshWallet();
+}
+
+/** 重置账本:清空流水 + 钱包归零到初始本金(管理用)。 */
+export function resetLedger(): Promise<void> {
+  return withLock(() => {
+    saveWallet(freshWallet());
+    saveTrades([]);
+  });
 }
 
 let seq = 0;

@@ -117,6 +117,15 @@ describe('智能路由', () => {
   it('无合格候选返回 null', () => {
     expect(selectBest([mk('c', 0.5, 2.0)])).toBeNull();
   });
+
+  it('EV 高得离谱(赔率/口径错配)被上限剔除', () => {
+    // pWin 0.96 @ 28.0 → EV≈25.9,真实市场不可能,应弃用
+    const absurd = mk('x', 0.96, 28);
+    expect(absurd.ev).toBeGreaterThan(1);
+    expect(selectBest([absurd])).toBeNull();
+    // 正常 +EV 与离谱项并存时,只取正常项
+    expect(selectBest([absurd, mk('a', 0.6, 2.0)])?.selection).toBe('a');
+  });
 });
 
 describe('结算判定', () => {
