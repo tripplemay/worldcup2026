@@ -20,10 +20,11 @@ import {
   MIN_STAKE,
 } from './config';
 
-export async function runPreMatchBetting(): Promise<{
-  scanned: number;
-  placed: number;
-}> {
+export async function runPreMatchBetting(opts?: {
+  windowMin?: number;
+}): Promise<{ scanned: number; placed: number }> {
+  const windowMin =
+    opts?.windowMin && opts.windowMin > 0 ? opts.windowMin : BET_WINDOW_MIN;
   const matches = await predictUpcoming(2);
   const eloMap = loadElo();
   const now = Date.now();
@@ -33,7 +34,7 @@ export async function runPreMatchBetting(): Promise<{
   for (const m of matches) {
     if (m.status !== 'pre') continue;
     const mins = (Date.parse(m.commenceTime) - now) / 60_000;
-    if (!(mins > 0 && mins <= BET_WINDOW_MIN)) continue;
+    if (!(mins > 0 && mins <= windowMin)) continue;
     if (hasBet(m.matchId)) continue;
     const lambda = m.ensemble?.xgHome;
     const mu = m.ensemble?.xgAway;
