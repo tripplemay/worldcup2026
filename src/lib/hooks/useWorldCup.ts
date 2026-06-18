@@ -38,6 +38,7 @@ import type {
 } from 'lib/espn/types';
 import type { WeatherInfo } from 'lib/weather/openmeteo';
 import type { MatchWithPredictions } from 'lib/predict/predict';
+import type { TmiSnapshot } from 'lib/tmi/types';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -260,6 +261,22 @@ export function usePredictions(days = 10) {
     ...common,
   });
   return { matches: data?.matches ?? [], error, isLoading };
+}
+
+/** TMI 杯赛状态动能榜(纯计算,不耗配额;低频刷新)。 */
+export function useTmi() {
+  const { data, error, isLoading } = useSWR<TmiSnapshot>(
+    '/api/worldcup/tmi',
+    fetcher,
+    { refreshInterval: STANDINGS_MS, ...common },
+  );
+  return {
+    teams: data?.teams ?? [],
+    lastUpdated: data?.lastUpdated,
+    wcStart: data?.wcStart,
+    error,
+    isLoading,
+  };
 }
 
 /** 单场预测(详情页;仅在传入 matchId 时请求)。 */

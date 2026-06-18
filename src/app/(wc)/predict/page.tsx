@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Card from 'components/card';
-import { MdInsights } from 'react-icons/md';
+import { MdInsights, MdBolt } from 'react-icons/md';
 import ProbBar from 'components/worldcup/ProbBar';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import PageHeading from 'components/worldcup/PageHeading';
@@ -29,7 +29,16 @@ export default function PredictPage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <PageHeading Icon={MdInsights}>{t('predict.title')}</PageHeading>
+        <div className="flex items-center justify-between gap-2">
+          <PageHeading Icon={MdInsights}>{t('predict.title')}</PageHeading>
+          <Link
+            href="/tmi"
+            className="flex shrink-0 items-center gap-0.5 rounded-full bg-brand-50 px-2.5 py-1 text-[11px] font-medium text-brand-600 dark:bg-brand-500/15 dark:text-brand-400"
+          >
+            <MdBolt className="text-sm" />
+            {t('tmi.entry')}
+          </Link>
+        </div>
         <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
           {t('predict.subtitle')}
         </p>

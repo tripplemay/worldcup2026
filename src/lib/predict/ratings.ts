@@ -16,7 +16,7 @@ const ALPHA = 0.85; // 衰减系数:越近的比赛权重越高
 const MAX_GAMES = 15; // 最多取近 N 场(xG EWMA)
 
 /** Elo 回放所需的最小赛果字段(HistMatch / ResultMatch 都兼容)。 */
-type GameLike = {
+export type GameLike = {
   date: string;
   homeNorm: string;
   awayNorm: string;
@@ -38,7 +38,7 @@ function marginMult(diff: number): number {
 }
 
 /** 按日期回放所有历史比赛,得到各队 Elo(归一化队名 → 分)。 */
-function computeElo(games: GameLike[]): Map<string, number> {
+export function computeElo(games: GameLike[]): Map<string, number> {
   const elo = new Map<string, number>();
   const get = (k: string) => elo.get(k) ?? ELO_START;
   const sorted = [...games].sort((a, b) => a.date.localeCompare(b.date));
