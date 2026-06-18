@@ -5,6 +5,7 @@ import { MdLeaderboard } from 'react-icons/md';
 import { useStandings } from 'lib/hooks/useWorldCup';
 import { useT } from 'lib/i18n/context';
 import StandingsTable from 'components/worldcup/StandingsTable';
+import TopScorers from 'components/worldcup/TopScorers';
 import PageHeading from 'components/worldcup/PageHeading';
 import type { GroupStanding, GroupStandingRow } from 'lib/espn/types';
 
@@ -62,6 +63,8 @@ export default function StandingsPage() {
           ))}
         </div>
       )}
+
+      <TopScorers />
 
       <div className="space-y-3">
         {groups.map((g) => (

@@ -262,7 +262,21 @@ export const messages = {
       styleHint: '进球/失球 与 xG 的偏离;长期会向 xG 回归',
       gf: '进',
       ga: '失',
+      coach: '主教练',
+      seasonTitle: '赛季趋势',
+      cleanSheet: '零封',
+      goalsByMin: '进球时段',
       empty: '暂无该队数据',
+    },
+    leaders: {
+      title: '射手榜',
+      goals: '球',
+      assists: '助',
+      empty: '暂无数据',
+    },
+    afp: {
+      title: 'AF 模型',
+      note: '第三方参考',
     },
     trade: {
       title: '模拟盘',
@@ -573,7 +587,21 @@ export const messages = {
       styleHint: 'Gap between goals and xG; regresses toward xG over time',
       gf: 'GF',
       ga: 'GA',
+      coach: 'Coach',
+      seasonTitle: 'Season trend',
+      cleanSheet: 'Clean sheets',
+      goalsByMin: 'Goals by min',
       empty: 'No data for this team',
+    },
+    leaders: {
+      title: 'Top Scorers',
+      goals: 'G',
+      assists: 'A',
+      empty: 'No data',
+    },
+    afp: {
+      title: 'AF model',
+      note: '3rd-party ref',
     },
     trade: {
       title: 'Paper Trade',

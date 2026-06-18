@@ -103,6 +103,11 @@ function GradeHero({ p }: { p: TeamProfile }) {
               {t('team.l')}
             </div>
           )}
+          {p.coach && (
+            <div className="truncate text-[11px] text-gray-400">
+              {t('team.coach')}: {p.coach}
+            </div>
+          )}
         </div>
         <div className="shrink-0 text-right">
           <div
@@ -275,6 +280,53 @@ function StyleBlock({ p }: { p: TeamProfile }) {
   );
 }
 
+function SeasonBlock({ p }: { p: TeamProfile }) {
+  const { t } = useLocale();
+  const s = p.season;
+  if (!s) return null;
+  const buckets = s.goalsByMinute.filter((b) => {
+    const start = Number(b.range.split('-')[0]);
+    return Number.isFinite(start) && start < 90; // 仅常规时段
+  });
+  const max = Math.max(1, ...buckets.map((b) => b.goals));
+  const hasGoals = buckets.some((b) => b.goals > 0);
+  return (
+    <Card extra="mb-3 p-4">
+      <div className="mb-2 flex items-center justify-between text-sm font-bold text-navy-700 dark:text-white">
+        <span>{t('team.seasonTitle')}</span>
+        <span className="text-[11px] font-normal text-gray-400">
+          {t('team.cleanSheet')} {s.cleanSheets}
+        </span>
+      </div>
+      <div className="mb-1 text-[11px] text-gray-500 dark:text-gray-400">
+        {t('team.goalsByMin')}
+      </div>
+      {hasGoals ? (
+        <div className="flex h-16 items-end gap-1">
+          {buckets.map((b) => (
+            <div
+              key={b.range}
+              className="flex flex-1 flex-col items-center gap-0.5"
+            >
+              <div className="flex h-12 w-full items-end">
+                <div
+                  className="w-full rounded-t bg-brand-500/70"
+                  style={{ height: `${(b.goals / max) * 100}%` }}
+                />
+              </div>
+              <span className="text-[8px] text-gray-400">
+                {b.range.split('-')[0]}
+              </span>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="text-[11px] text-gray-400">—</div>
+      )}
+    </Card>
+  );
+}
+
 function CupData({ p }: { p: TeamProfile }) {
   const { t } = useLocale();
   const c = p.cup;
@@ -440,6 +492,7 @@ export default function TeamPage() {
           <StrengthBlock p={p} />
           <CupData p={p} />
           <StyleBlock p={p} />
+          <SeasonBlock p={p} />
 
           {p.fixtures.length > 0 && (
             <Card extra="mb-3 p-4">

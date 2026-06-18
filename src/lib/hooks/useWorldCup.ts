@@ -41,6 +41,8 @@ import type { MatchWithPredictions } from 'lib/predict/predict';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
+import type { LeadersStore } from 'lib/db/store';
+import type { AfPrediction } from 'lib/predict/apifootball';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -289,6 +291,31 @@ export function useTmi() {
     error,
     isLoading,
   };
+}
+
+/** 世界杯射手榜。 */
+export function useLeaders() {
+  const { data, isLoading } = useSWR<LeadersStore>(
+    '/api/worldcup/leaders',
+    fetcher,
+    { refreshInterval: STANDINGS_MS, ...common },
+  );
+  return { scorers: data?.scorers ?? [], isLoading };
+}
+
+/** API-Football 现成预测(第三方参考;仅在三参齐全时请求)。 */
+export function useAfPredict(home?: string, away?: string, date?: string) {
+  const key =
+    home && away && date
+      ? `/api/worldcup/af-predict?home=${encodeURIComponent(
+          home,
+        )}&away=${encodeURIComponent(away)}&date=${date}`
+      : null;
+  const { data } = useSWR<{ prediction: AfPrediction | null }>(key, fetcher, {
+    revalidateOnFocus: false,
+    ...common,
+  });
+  return { prediction: data?.prediction ?? null };
 }
 
 /** 模拟盘:账户总览 + 交易流水。 */

@@ -114,6 +114,18 @@ export function saveTeamStats(s: TeamStatsStore): void {
   writeJson('team-stats.json', s);
 }
 
+// ── 射手榜(API-Football topscorers,engine cron 刷新)──────
+export interface LeadersStore {
+  updatedAt: number;
+  scorers: { name: string; team: string; goals: number; assists: number }[];
+}
+export function loadLeaders(): LeadersStore {
+  return readJson<LeadersStore>('leaders.json', { updatedAt: 0, scorers: [] });
+}
+export function saveLeaders(s: LeadersStore): void {
+  writeJson('leaders.json', s);
+}
+
 // ── 球员出场分钟(体能:核心球员近期累计分钟)──────────
 export interface PlayerMinutesStore {
   updatedAt: number;

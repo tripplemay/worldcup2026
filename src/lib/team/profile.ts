@@ -15,6 +15,7 @@ import {
 import { loadTmiSnapshot } from 'lib/tmi/engine';
 import { DEFAULT_WC_START } from 'lib/tmi/constants';
 import { attachPlayerForm } from 'lib/lineup/playerForm';
+import { getTeamStatistics, getCoach } from 'lib/predict/apifootball';
 import { leagueLevel } from 'lib/data/leagues';
 import { normalizeTeam } from 'lib/match/normalize';
 import {
@@ -209,6 +210,15 @@ export async function buildTeamProfile(
   ]);
   const { roster, formation } = await latestRoster(norm, fixtures);
 
+  // 赛季统计 + 主教练(API-Football,懒加载缓存;无 key/无 id 则跳过)
+  const afId = loadAfTeams()[norm];
+  const extras = afId
+    ? await cached(`af:team-extras:${afId}`, 21_600_000, async () => ({
+        season: await getTeamStatistics(afId),
+        coach: await getCoach(afId),
+      }))
+    : null;
+
   // 杯赛数据
   const xg = cupXgGoals(norm);
   const stats = loadTeamStats().teams[norm];
@@ -275,5 +285,7 @@ export async function buildTeamProfile(
     squad: depth,
     roster,
     rosterFormation: formation,
+    coach: extras?.coach ?? undefined,
+    season: extras?.season ?? undefined,
   };
 }

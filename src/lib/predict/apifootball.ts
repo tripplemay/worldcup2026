@@ -27,22 +27,26 @@ const num = (v: unknown): number => {
   return Number.isFinite(n) ? n : 0;
 };
 
-/** 调 API-Football,返回 response 数组(失败返回 [])。 */
-async function af(path: string): Promise<unknown[]> {
+/** 调 API-Football,返回原始 response(对象或数组;失败返回 null)。 */
+async function afResponse(path: string): Promise<unknown> {
   const k = key();
-  if (!k) return [];
+  if (!k) return null;
   try {
     const res = await fetch(`${BASE}${path}`, {
       headers: { 'x-apisports-key': k },
       cache: 'no-store',
       signal: AbortSignal.timeout(20_000),
     });
-    if (!res.ok) return [];
-    const data = obj(await res.json());
-    return arr(data.response);
+    if (!res.ok) return null;
+    return obj(await res.json()).response;
   } catch {
-    return [];
+    return null;
   }
+}
+
+/** 调 API-Football,返回 response 数组(失败返回 [])。 */
+async function af(path: string): Promise<unknown[]> {
+  return arr(await afResponse(path));
 }
 
 /** 解析国家队 id(优先 national 队);找不到返回 undefined。 */
@@ -390,5 +394,93 @@ export async function getPlayerSeason(
     apps,
     leagueId,
     leagueName,
+  };
+}
+
+// ── 其余增值数据:射手榜 / 球队赛季统计 / 教练 / 现成预测 ──────
+const fpct = (s: unknown): number | null => {
+  const n = parseFloat(String(s).replace('%', ''));
+  return Number.isFinite(n) ? +(n / 100).toFixed(4) : null;
+};
+
+export interface TopScorer {
+  name: string;
+  team: string;
+  goals: number;
+  assists: number;
+}
+/** 世界杯射手榜(含助攻)。 */
+export async function getTopScorers(): Promise<TopScorer[]> {
+  const resp = (
+    await af(`/players/topscorers?league=${WC_LEAGUE}&season=${WC_SEASON}`)
+  ).map(obj);
+  return resp
+    .map((p) => {
+      const st = obj(arr(p.statistics).map(obj)[0]);
+      const g = obj(st.goals);
+      return {
+        name: String(obj(p.player).name ?? ''),
+        team: String(obj(st.team).name ?? ''),
+        goals: num(g.total),
+        assists: num(g.assists),
+      };
+    })
+    .filter((x) => x.name);
+}
+
+export interface TeamSeasonStats {
+  form: string;
+  cleanSheets: number;
+  failedToScore: number;
+  goalsByMinute: { range: string; goals: number }[];
+}
+/** 球队赛季统计(form / 零封 / 零进球 / 进球分时段)。 */
+export async function getTeamStatistics(
+  teamId: number,
+): Promise<TeamSeasonStats | null> {
+  const r = obj(
+    await afResponse(
+      `/teams/statistics?league=${WC_LEAGUE}&season=${WC_SEASON}&team=${teamId}`,
+    ),
+  );
+  if (!Object.keys(r).length) return null;
+  const byMin = obj(obj(obj(r.goals).for).minute);
+  return {
+    form: String(r.form ?? ''),
+    cleanSheets: num(obj(r.clean_sheet).total),
+    failedToScore: num(obj(r.failed_to_score).total),
+    goalsByMinute: Object.entries(byMin).map(([range, v]) => ({
+      range,
+      goals: num(obj(v).total),
+    })),
+  };
+}
+
+/** 球队现任主教练名(/coachs 取最近一位)。 */
+export async function getCoach(teamId: number): Promise<string | null> {
+  const resp = (await af(`/coachs?team=${teamId}`)).map(obj);
+  const name = resp[0] ? String(obj(resp[0]).name ?? '') : '';
+  return name || null;
+}
+
+export interface AfPrediction {
+  advice: string;
+  home: number | null;
+  draw: number | null;
+  away: number | null;
+}
+/** 单场现成预测(advice + 胜平负百分比 → 概率)。 */
+export async function getPrediction(
+  fixtureId: number,
+): Promise<AfPrediction | null> {
+  const resp = (await af(`/predictions?fixture=${fixtureId}`)).map(obj);
+  const p = obj(obj(resp[0]).predictions);
+  if (!Object.keys(p).length) return null;
+  const pc = obj(p.percent);
+  return {
+    advice: String(p.advice ?? ''),
+    home: fpct(pc.home),
+    draw: fpct(pc.draw),
+    away: fpct(pc.away),
   };
 }

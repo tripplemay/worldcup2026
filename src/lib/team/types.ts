@@ -4,6 +4,7 @@
  */
 import type { RosterPlayer } from 'lib/espn/types';
 import type { TeamTmi } from 'lib/tmi/types';
+import type { TeamSeasonStats } from 'lib/predict/apifootball';
 
 /** 逐场赛果(球队视角)。 */
 export interface TeamFixture {
@@ -97,4 +98,6 @@ export interface TeamProfile {
   squad: SquadDepth | null;
   roster: RosterPlayer[]; // 最近一场首发(含 form)
   rosterFormation?: string;
+  coach?: string; // 主教练(API-Football)
+  season?: TeamSeasonStats; // 赛季统计:form / 零封 / 进球分时段
 }

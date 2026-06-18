@@ -17,6 +17,7 @@ import {
 } from 'components/worldcup/MatchBackground';
 import RecentForm from 'components/worldcup/RecentForm';
 import MatchTmiPanel from 'components/worldcup/MatchTmiPanel';
+import MatchAfPredict from 'components/worldcup/MatchAfPredict';
 import PredictionCard from 'components/worldcup/PredictionCard';
 import {
   useMatchSummary,
@@ -181,6 +182,12 @@ export default function MatchDetailPage() {
             matchId={id}
             homeTeam={summary.homeTeam}
             awayTeam={summary.awayTeam}
+          />
+
+          <MatchAfPredict
+            homeTeam={summary.homeTeam}
+            awayTeam={summary.awayTeam}
+            commenceTime={summary.commenceTime}
           />
 
           <RecentForm
