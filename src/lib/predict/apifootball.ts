@@ -476,9 +476,14 @@ export async function getPrediction(
   const resp = (await af(`/predictions?fixture=${fixtureId}`)).map(obj);
   const p = obj(obj(resp[0]).predictions);
   if (!Object.keys(p).length) return null;
+  const advice = String(p.advice ?? '');
+  const winner = String(obj(p.winner).name ?? '');
+  // AF 对国家队/样本不足的比赛常无可用预测,返回 winner=null + "No predictions available"
+  // + 占位 33/33/33;此类一律视为无数据(面板不渲染)。
+  if (!winner || /no predictions/i.test(advice)) return null;
   const pc = obj(p.percent);
   return {
-    advice: String(p.advice ?? ''),
+    advice,
     home: fpct(pc.home),
     draw: fpct(pc.draw),
     away: fpct(pc.away),
