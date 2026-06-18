@@ -148,20 +148,36 @@ export async function getHeadToHead(
 }
 
 /** 单场射门统计:teamId → { sot 射正, shots 总射门 };无统计返回 null。 */
+export interface FixtureTeamStats {
+  sot: number; // 射正
+  shots: number; // 总射门
+  xg: number; // 真实 expected_goals(缺失 NaN)
+  gp: number; // goals_prevented 门将扑救价值(缺失 NaN)
+}
+
 export async function getFixtureStats(
   fixtureId: number,
-): Promise<Map<number, { sot: number; shots: number }> | null> {
+): Promise<Map<number, FixtureTeamStats> | null> {
   const list = (await af(`/fixtures/statistics?fixture=${fixtureId}`)).map(obj);
   if (list.length < 2) return null;
-  const map = new Map<number, { sot: number; shots: number }>();
+  const map = new Map<number, FixtureTeamStats>();
   for (const t of list) {
     const tid = num(obj(t.team).id);
     const stats = arr(t.statistics).map(obj);
-    const pick = (type: string) =>
-      num(stats.find((s) => s.type === type)?.value);
+    const find = (type: string) => stats.find((s) => s.type === type)?.value;
+    const pickF = (type: string) => {
+      const v = find(type);
+      return typeof v === 'number'
+        ? v
+        : typeof v === 'string'
+        ? parseFloat(v)
+        : NaN; // 缺失 → NaN
+    };
     map.set(tid, {
-      sot: pick('Shots on Goal'),
-      shots: pick('Total Shots'),
+      sot: num(find('Shots on Goal')),
+      shots: num(find('Total Shots')),
+      xg: pickF('expected_goals'),
+      gp: pickF('goals_prevented'),
     });
   }
   return map;

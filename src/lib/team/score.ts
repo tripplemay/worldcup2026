@@ -69,17 +69,20 @@ export function gradeLetter(score: number): string {
 
 // ── 球队画像:xG 与实际进球的交叉偏离(场均) ────────────
 /**
- * 进攻终结 = 进球 − 创造xG;防守门将 = 被创造xG − 失球;
- * 回归 = 二者之和 = 实际净胜 − xG净胜。
+ * 进攻终结 = 进球 − 创造xG;
+ * 防守门将 = 真实 goals_prevented(若有)否则 被创造xG − 失球;
+ * 回归 = 二者之和(≈ 实际净胜 − xG净胜)。
+ * @param gp 场均 goals_prevented(真实门将扑救价值);未提供则用 xGA−失球近似。
  */
 export function teamStyle(
   xgFor: number,
   xgAgainst: number,
   goalsFor: number,
   goalsAgainst: number,
+  gp?: number | null,
 ): TeamStyle {
   const finishing = +(goalsFor - xgFor).toFixed(2);
-  const keeping = +(xgAgainst - goalsAgainst).toFixed(2);
+  const keeping = +(gp != null ? gp : xgAgainst - goalsAgainst).toFixed(2);
   return { finishing, keeping, regression: +(finishing + keeping).toFixed(2) };
 }
 

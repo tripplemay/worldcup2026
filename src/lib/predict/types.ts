@@ -17,8 +17,10 @@ export interface HistMatch {
   homeShots: number; // 总射门
   awaySoT: number;
   awayShots: number;
-  homeXg: number; // 该队本场创造 xG = SoT×0.3 + (总射门−SoT)×0.05
+  homeXg: number; // 该队本场创造 xG:优先 API-Football 真实 expected_goals,缺失回退 SoT×0.3+(总射门−SoT)×0.05
   awayXg: number;
+  homeGp?: number; // goals_prevented 门将扑救价值(真实数据;缺失为空)
+  awayGp?: number;
 }
 
 /** 一场赛果(无射门,仅供 Elo;比 historical 更深,last=40)。 */

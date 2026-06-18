@@ -103,12 +103,13 @@ async function teamFixtures(norm: string): Promise<TeamFixture[]> {
     .sort((a, b) => a.date.localeCompare(b.date));
 }
 
-/** 杯赛 xG 攻防 + 进失球(historical 杯赛场次;样本<2 回退近期 EWMA)。 */
+/** 杯赛 xG 攻防 + 进失球 + 门将扑救价值(historical 杯赛场次;样本<2 回退近期 EWMA)。 */
 function cupXgGoals(norm: string): {
   xgF: number;
   xgA: number;
   gf: number;
   ga: number;
+  gp: number | null; // 场均 goals_prevented(真实;无则 null)
   n: number;
   source: 'cup' | 'season';
 } {
@@ -117,21 +118,23 @@ function cupXgGoals(norm: string): {
     xgA = 0,
     gf = 0,
     ga = 0,
-    n = 0;
+    n = 0,
+    gpSum = 0,
+    gpN = 0;
   for (const h of Object.values(loadHistorical())) {
     if (dateKey(h.date) < start) continue;
-    if (normalizeTeam(h.homeName) === norm) {
-      xgF += h.homeXg;
-      xgA += h.awayXg;
-      gf += h.homeGoals;
-      ga += h.awayGoals;
-      n += 1;
-    } else if (normalizeTeam(h.awayName) === norm) {
-      xgF += h.awayXg;
-      xgA += h.homeXg;
-      gf += h.awayGoals;
-      ga += h.homeGoals;
-      n += 1;
+    const home = normalizeTeam(h.homeName) === norm;
+    const away = normalizeTeam(h.awayName) === norm;
+    if (!home && !away) continue;
+    xgF += home ? h.homeXg : h.awayXg;
+    xgA += home ? h.awayXg : h.homeXg;
+    gf += home ? h.homeGoals : h.awayGoals;
+    ga += home ? h.awayGoals : h.homeGoals;
+    n += 1;
+    const gp = home ? h.homeGp : h.awayGp;
+    if (gp != null) {
+      gpSum += gp;
+      gpN += 1;
     }
   }
   if (n >= 2)
@@ -140,6 +143,7 @@ function cupXgGoals(norm: string): {
       xgA: xgA / n,
       gf: gf / n,
       ga: ga / n,
+      gp: gpN ? gpSum / gpN : null,
       n,
       source: 'cup',
     };
@@ -149,6 +153,7 @@ function cupXgGoals(norm: string): {
     xgA: r?.xgAgainst ?? 0,
     gf: r?.goalsFor ?? 0,
     ga: r?.goalsAgainst ?? 0,
+    gp: null,
     n,
     source: 'season',
   };
@@ -266,7 +271,7 @@ export async function buildTeamProfile(
     strengthAvg,
     state: { momentum, fitness, recentForm, formStreak, tmi },
     grade: grade({ momentum, recentForm, fitness }),
-    style: teamStyle(xg.xgF, xg.xgA, xg.gf, xg.ga),
+    style: teamStyle(xg.xgF, xg.xgA, xg.gf, xg.ga, xg.gp),
     squad: depth,
     roster,
     rosterFormation: formation,

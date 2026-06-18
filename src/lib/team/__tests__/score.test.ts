@@ -108,4 +108,14 @@ describe('球队画像(xG × 进球交叉)', () => {
     expect(regressionVerdict(0.2)).toBe('fair');
     expect(regressionVerdict(-0.39)).toBe('fair');
   });
+
+  it('门将:有真实 goals_prevented 时优先用它,否则回退 被创造xG−失球', () => {
+    // 有 gp:keeping 直接取 gp(+0.6),不用 xGA−失球(=0.4)
+    const withGp = teamStyle(1.1, 1.2, 1.5, 0.8, 0.6);
+    expect(withGp.keeping).toBeCloseTo(0.6);
+    expect(withGp.regression).toBeCloseTo(0.4 + 0.6);
+    // 无 gp(null/undefined):回退
+    expect(teamStyle(1.1, 1.2, 1.5, 0.8, null).keeping).toBeCloseTo(0.4);
+    expect(teamStyle(1.1, 1.2, 1.5, 0.8).keeping).toBeCloseTo(0.4);
+  });
 });

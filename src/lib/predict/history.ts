@@ -3,7 +3,8 @@
  *
  * 链路:未来 N 天世界杯赛程(ESPN 拿涉及球队)→ 解析各队 API-Football id(缓存)
  *   → 每队最近 RECENT 场(含赛果,喂 Elo)→ 逐场射门统计(喂 xG)→ historical.json。
- * xG = 射正×0.3 + 射偏×0.05;HistMatch 结构与原 ESPN 管道一致,下游评分/Elo 不变。
+ * xG 优先取 API-Football 真实 expected_goals,缺失才回退射门代理(射正×0.3+射偏×0.05);
+ * 另存 goals_prevented(门将扑救价值)。HistMatch 结构与原管道兼容,下游评分/Elo 不变。
  */
 import { espnProvider } from 'lib/espn/espn';
 import { normalizeTeam } from 'lib/match/normalize';
@@ -144,8 +145,11 @@ export async function ingestHistory(
       homeShots: h.shots,
       awaySoT: a.sot,
       awayShots: a.shots,
-      homeXg: xg(h.sot, h.shots),
-      awayXg: xg(a.sot, a.shots),
+      // 优先真实 xG,缺失回退射门代理
+      homeXg: Number.isFinite(h.xg) ? +h.xg.toFixed(3) : xg(h.sot, h.shots),
+      awayXg: Number.isFinite(a.xg) ? +a.xg.toFixed(3) : xg(a.sot, a.shots),
+      homeGp: Number.isFinite(h.gp) ? +h.gp.toFixed(3) : undefined,
+      awayGp: Number.isFinite(a.gp) ? +a.gp.toFixed(3) : undefined,
     };
     added++;
   });
