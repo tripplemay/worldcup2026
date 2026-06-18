@@ -127,6 +127,9 @@ export interface BacktestResult {
   drawPicked: number;
   meanPredGoals: number;
   meanActualGoals: number;
+  ouHitRate: number; // 大小球 2.5 命中率
+  ouOverPicked: number; // 预测大球场次
+  ouOverActual: number; // 实际大球场次
   rows: BacktestRow[];
 }
 
@@ -163,6 +166,9 @@ export function runBacktest(opts?: {
     drawPicked = 0,
     sumPred = 0,
     sumActual = 0,
+    ouHits = 0,
+    ouOverPicked = 0,
+    ouOverActual = 0,
     n = 0,
     skipped = 0;
 
@@ -200,6 +206,14 @@ export function runBacktest(opts?: {
     drawPicked += pick === 'D' ? 1 : 0;
     sumPred += predGoals;
     sumActual += actualGoals;
+    // 大小球 2.5(over25>=0.5 → 押大;实际总进球>2.5 → 大)
+    if (pp.over25 != null) {
+      const ouPredOver = pp.over25 >= 0.5;
+      const ouActualOver = actualGoals > 2.5;
+      if (ouPredOver === ouActualOver) ouHits += 1;
+      if (ouPredOver) ouOverPicked += 1;
+      if (ouActualOver) ouOverActual += 1;
+    }
     n += 1;
     rows.push({
       date: D,
@@ -229,6 +243,9 @@ export function runBacktest(opts?: {
     drawPicked,
     meanPredGoals: n ? +(sumPred / n).toFixed(2) : 0,
     meanActualGoals: n ? +(sumActual / n).toFixed(2) : 0,
+    ouHitRate: n ? +(ouHits / n).toFixed(3) : 0,
+    ouOverPicked,
+    ouOverActual,
     rows,
   };
 }
