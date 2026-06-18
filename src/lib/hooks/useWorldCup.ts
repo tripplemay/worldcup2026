@@ -41,8 +41,9 @@ import type { MatchWithPredictions } from 'lib/predict/predict';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
-import type { LeadersStore } from 'lib/db/store';
+import type { LeadersStore, PredictionSnapshot } from 'lib/db/store';
 import type { AfPrediction } from 'lib/predict/apifootball';
+import type { ModelStats } from 'lib/predict/predictionLog';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -347,14 +348,30 @@ export function useTeamProfile(teamId?: string) {
   return { profile: data?.profile ?? null, error, isLoading };
 }
 
-/** 单场预测(详情页;仅在传入 matchId 时请求)。 */
+/** 单场预测(详情页;仅在传入 matchId 时请求)+ 当时的预测存档(对照用)。 */
 export function useMatchPrediction(matchId?: string) {
-  const { data, isLoading } = useSWR<{ match: MatchWithPredictions | null }>(
-    matchId ? `/api/worldcup/predictions?matchId=${matchId}` : null,
+  const { data, isLoading } = useSWR<{
+    match: MatchWithPredictions | null;
+    logged: PredictionSnapshot | null;
+  }>(matchId ? `/api/worldcup/predictions?matchId=${matchId}` : null, fetcher, {
+    revalidateOnFocus: false,
+    ...common,
+  });
+  return {
+    prediction: data?.match ?? null,
+    logged: data?.logged ?? null,
+    isLoading,
+  };
+}
+
+/** 模型战绩(预测存档聚合)。 */
+export function useModelStats() {
+  const { data, isLoading } = useSWR<ModelStats>(
+    '/api/worldcup/model-stats',
     fetcher,
-    { revalidateOnFocus: false, ...common },
+    { refreshInterval: STANDINGS_MS, ...common },
   );
-  return { prediction: data?.match ?? null, isLoading };
+  return { stats: data, isLoading };
 }
 
 /** 比赛当日天气(Open-Meteo,免费;详情页按需,基本不变化故不自动刷新)。 */

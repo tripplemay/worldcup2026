@@ -6,6 +6,7 @@
  */
 import { cached } from 'lib/cache';
 import { predictUpcoming, predictMatch } from 'lib/predict/predict';
+import { loadPredictionLog } from 'lib/db/store';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +19,9 @@ export async function GET(req: Request) {
       const match = await cached(`predict:m:${matchId}`, 600_000, () =>
         predictMatch(matchId),
       );
-      return ok({ match });
+      // 当时的预测存档(若有):用于「预测 vs 实际」对照(非现算)
+      const logged = loadPredictionLog()[matchId] ?? null;
+      return ok({ match, logged });
     }
     const days = Number(sp.get('days') ?? 10);
     const matches = await cached(`predict:up:${days}`, 600_000, () =>

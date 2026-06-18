@@ -12,8 +12,80 @@ import { getModels } from './registry';
 import './models'; // 副作用:注册模型
 import { DEFAULT_WC_START } from 'lib/tmi/constants';
 import type { PredictionContext } from './model';
+import type { HistMatch, ResultMatch } from './types';
+import type { Tuning } from './tuning';
 
 const dateKey = (iso: string) => iso.slice(0, 10);
+
+export interface PointPrediction {
+  pHome: number;
+  pDraw: number;
+  pAway: number;
+  predGoals: number;
+  over25?: number;
+  btts?: number;
+}
+
+/**
+ * 点位重建预测:只用 beforeISO 之前的数据重算评分/自算 Elo → 融合预测(市场无关)。
+ * 回测与回填共用。评分样本不足返回 null。
+ */
+export function predictPointInTime(
+  allHist: HistMatch[],
+  allRes: ResultMatch[],
+  homeNorm: string,
+  awayNorm: string,
+  beforeISO: string,
+  tuning?: Tuning,
+): PointPrediction | null {
+  const D = dateKey(beforeISO);
+  const selfElo = computeElo(allRes.filter((r) => dateKey(r.date) < D));
+  const ratings = ratingsFromHistorical(
+    allHist.filter((h) => dateKey(h.date) < D),
+    (norm) => selfElo.get(norm),
+  );
+  if (!ratings[homeNorm] || !ratings[awayNorm]) return null;
+  const vals = Object.values(ratings);
+  const leagueAvg = Math.max(
+    0.6,
+    vals.reduce((s, r) => s + r.xgFor, 0) / vals.length,
+  );
+  const leagueAvgGoals = Math.max(
+    0.6,
+    vals.reduce((s, r) => s + r.goalsFor, 0) / vals.length,
+  );
+  const ctx: PredictionContext = {
+    matchId: 'pit',
+    homeName: homeNorm,
+    awayName: awayNorm,
+    homeNorm,
+    awayNorm,
+    neutral: true,
+    homeAdvantage: 0,
+    leagueAvg,
+    leagueAvgGoals,
+    marketOdds: undefined,
+    rating: (nm) => ratings[nm],
+    eloOf: (nm) => selfElo.get(nm),
+    tuning,
+  };
+  const preds = getModels()
+    .map((md) => md.predict(ctx))
+    .filter((p): p is NonNullable<typeof p> => p !== null);
+  const eh = selfElo.get(homeNorm);
+  const ea = selfElo.get(awayNorm);
+  const eloDiff = eh != null && ea != null ? Math.abs(eh - ea) : undefined;
+  const ens = ensemble(preds, 'pit', eloDiff);
+  if (!ens) return null;
+  return {
+    pHome: ens.homeWin,
+    pDraw: ens.draw,
+    pAway: ens.awayWin,
+    predGoals: (ens.xgHome ?? 0) + (ens.xgAway ?? 0),
+    over25: ens.over25,
+    btts: ens.btts,
+  };
+}
 
 export interface BacktestRow {
   date: string;
@@ -80,61 +152,26 @@ export function runBacktest(opts?: {
     skipped = 0;
 
   for (const m of wcMatches) {
-    const D = dateKey(m.date);
-    const selfElo = computeElo(allRes.filter((r) => dateKey(r.date) < D));
-    const ratings = ratingsFromHistorical(
-      allHist.filter((h) => dateKey(h.date) < D),
-      (norm) => selfElo.get(norm),
-    );
-    const rh = ratings[m.homeNorm];
-    const ra = ratings[m.awayNorm];
-    if (!rh || !ra) {
-      skipped += 1;
-      continue;
-    }
-    const vals = Object.values(ratings);
-    const leagueAvg = Math.max(
-      0.6,
-      vals.reduce((s, r) => s + r.xgFor, 0) / vals.length,
-    );
-    const leagueAvgGoals = Math.max(
-      0.6,
-      vals.reduce((s, r) => s + r.goalsFor, 0) / vals.length,
-    );
-    const ctx: PredictionContext = {
-      matchId: m.eventId,
-      homeName: m.homeNorm,
-      awayName: m.awayNorm,
-      homeNorm: m.homeNorm,
-      awayNorm: m.awayNorm,
-      neutral: true,
-      homeAdvantage: 0,
-      leagueAvg,
-      leagueAvgGoals,
-      marketOdds: undefined,
-      rating: (nm) => ratings[nm],
-      eloOf: (nm) => selfElo.get(nm),
+    const pp = predictPointInTime(
+      allHist,
+      allRes,
+      m.homeNorm,
+      m.awayNorm,
+      m.date,
       tuning,
-    };
-    const preds = getModels()
-      .map((md) => md.predict(ctx))
-      .filter((p): p is NonNullable<typeof p> => p !== null);
-    const eh = selfElo.get(m.homeNorm);
-    const ea = selfElo.get(m.awayNorm);
-    const eloDiff = eh != null && ea != null ? Math.abs(eh - ea) : undefined;
-    const ens = ensemble(preds, m.eventId, eloDiff);
-    if (!ens) {
+    );
+    if (!pp) {
       skipped += 1;
       continue;
     }
-
-    const { homeWin: pH, draw: pD, awayWin: pA } = ens;
+    const D = dateKey(m.date);
+    const { pHome: pH, pDraw: pD, pAway: pA } = pp;
     const result: 'H' | 'D' | 'A' =
       m.homeGoals > m.awayGoals ? 'H' : m.homeGoals < m.awayGoals ? 'A' : 'D';
     const pick: 'H' | 'D' | 'A' =
       pH >= pD && pH >= pA ? 'H' : pA >= pD && pA >= pH ? 'A' : 'D';
     const hit = pick === result;
-    const predGoals = (ens.xgHome ?? 0) + (ens.xgAway ?? 0);
+    const predGoals = pp.predGoals;
     const actualGoals = m.homeGoals + m.awayGoals;
 
     const bH = (result === 'H' ? 1 : 0) - pH;

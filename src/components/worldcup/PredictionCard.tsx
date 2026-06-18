@@ -117,7 +117,9 @@ export default function PredictionCard({
   awayTeam?: string;
 }) {
   const { t, tn } = useLocale();
-  const { prediction, isLoading } = useMatchPrediction(matchId);
+  const { prediction, logged, isLoading } = useMatchPrediction(matchId);
+  const sideLabel = (s: 'H' | 'D' | 'A') =>
+    s === 'H' ? t('odds.home') : s === 'D' ? t('odds.draw') : t('odds.away');
   const base = prediction?.predictions ?? [];
   const ens = prediction?.ensemble ?? null;
   const intel = [prediction?.homeIntel, prediction?.awayIntel].filter(
@@ -181,6 +183,37 @@ export default function PredictionCard({
           <div className="mt-2">
             <ProbBar home={main.homeWin} draw={main.draw} away={main.awayWin} />
           </div>
+
+          {logged?.settled && logged.result && (
+            <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-0.5 border-t border-gray-100 pt-2 text-[11px] dark:border-white/5">
+              <span className="font-semibold text-navy-700 dark:text-white">
+                {t('predict.logged')}
+              </span>
+              <span className="text-gray-500 dark:text-gray-400">
+                {sideLabel(logged.pick)}{' '}
+                {pct(
+                  logged.pick === 'H'
+                    ? logged.pHome
+                    : logged.pick === 'A'
+                    ? logged.pAway
+                    : logged.pDraw,
+                )}{' '}
+                → {t('predict.vsActual')} {sideLabel(logged.result)}
+              </span>
+              <span
+                className={
+                  logged.hit
+                    ? 'text-green-600 dark:text-green-400'
+                    : 'text-red-500 dark:text-red-400'
+                }
+              >
+                {logged.hit ? '✓' : '✗'}
+              </span>
+              {logged.source === 'reconstructed' && (
+                <span className="text-gray-400">({t('predict.recon')})</span>
+              )}
+            </div>
+          )}
 
           {base.length >= 2 && (
             <div className="mt-2 flex flex-wrap items-center gap-x-2 text-[11px]">

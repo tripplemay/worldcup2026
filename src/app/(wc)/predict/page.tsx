@@ -5,6 +5,7 @@ import Card from 'components/card';
 import { MdInsights, MdBolt } from 'react-icons/md';
 import ProbBar from 'components/worldcup/ProbBar';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import ModelRecord from 'components/worldcup/ModelRecord';
 import PageHeading from 'components/worldcup/PageHeading';
 import { usePredictions } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
@@ -43,6 +44,8 @@ export default function PredictPage() {
           {t('predict.subtitle')}
         </p>
       </header>
+
+      <ModelRecord />
 
       {isLoading && withPred.length === 0 && (
         <div className="space-y-3">

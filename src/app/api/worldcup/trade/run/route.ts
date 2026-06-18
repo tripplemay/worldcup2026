@@ -5,6 +5,11 @@
  */
 import { runSettlement } from 'lib/trade/settle';
 import { runPreMatchBetting } from 'lib/trade/prematch';
+import {
+  snapshotPredictions,
+  settlePredictionLog,
+  backfillReconstructed,
+} from 'lib/predict/predictionLog';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -26,7 +31,15 @@ export async function POST(req: Request) {
     const betting = await runPreMatchBetting(
       Number.isFinite(w) && w > 0 ? { windowMin: w } : undefined,
     );
-    return ok({ settled, betting });
+    // 预测存档:回填已踢(幂等)→ 结算 → 为未开赛比赛存/刷新快照
+    const backfilled = await backfillReconstructed();
+    const logSettled = await settlePredictionLog();
+    const snapped = await snapshotPredictions();
+    return ok({
+      settled,
+      betting,
+      predictionLog: { backfilled, logSettled, snapped },
+    });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '模拟交易运行失败');
   }

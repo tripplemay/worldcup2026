@@ -114,6 +114,36 @@ export function saveTeamStats(s: TeamStatsStore): void {
   writeJson('team-stats.json', s);
 }
 
+// ── 预测存档(赛前快照 + 赛后结果,供战绩追踪/对照)──────
+export interface PredictionSnapshot {
+  matchId: string; // ESPN 比赛 id
+  homeTeam: string;
+  awayTeam: string;
+  commenceTime: string;
+  snapshotAt: number; // 快照时刻(ms)
+  source: 'live' | 'reconstructed'; // 生产实时快照 / walk-forward 回填
+  pHome: number;
+  pDraw: number;
+  pAway: number;
+  predGoals: number; // 预期总进球 λ+μ
+  over25?: number;
+  btts?: number;
+  pick: 'H' | 'D' | 'A'; // 预测最大项
+  // 赛后回填:
+  settled: boolean;
+  homeGoals?: number;
+  awayGoals?: number;
+  result?: 'H' | 'D' | 'A';
+  hit?: boolean;
+}
+export type PredictionLog = Record<string, PredictionSnapshot>;
+export function loadPredictionLog(): PredictionLog {
+  return readJson<PredictionLog>('predictions-log.json', {});
+}
+export function savePredictionLog(log: PredictionLog): void {
+  writeJson('predictions-log.json', log);
+}
+
 // ── 射手榜(API-Football topscorers,engine cron 刷新)──────
 export interface LeadersStore {
   updatedAt: number;
