@@ -114,6 +114,23 @@ export function saveTeamStats(s: TeamStatsStore): void {
   writeJson('team-stats.json', s);
 }
 
+// ── 球员出场分钟(体能:核心球员近期累计分钟)──────────
+export interface PlayerMinutesStore {
+  updatedAt: number;
+  events: Record<string, true>; // 已处理赛事 id
+  teams: Record<
+    string, // 归一化队名
+    { matches: { date: string; mins: Record<string, number> }[] } // 逐场 playerId→分钟
+  >;
+}
+const EMPTY_PM: PlayerMinutesStore = { updatedAt: 0, events: {}, teams: {} };
+export function loadPlayerMinutes(): PlayerMinutesStore {
+  return readJson<PlayerMinutesStore>('player-minutes.json', EMPTY_PM);
+}
+export function savePlayerMinutes(s: PlayerMinutesStore): void {
+  writeJson('player-minutes.json', s);
+}
+
 // ── 模拟交易账本(虚拟资金 + 流水)──────────────────────
 export function loadWallet(): Wallet | null {
   return readJson<Wallet | null>('wallet.json', null);

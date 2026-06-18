@@ -1,39 +1,17 @@
 /**
- * 把市场赔率快照 + 模型投影 → 评分后的下注候选。
- *  · 1X2:odds:matches(h2h,通常已热)
- *  · 大小球 / 亚盘:odds:markets:{id}:handicap(由 ensureMatchMarkets 赛前轻量拉一次)
+ * 盘口快照 → 评分后的下注候选。
+ * 赔率源:apifootball(主)→ 缺失回退 The Odds API 缓存快照。两源都归一成 MarketSnapshot,
+ * 再由 candidatesFromSnapshot 用泊松投影(市场无关)算 pWin/EV/Kelly。
  */
 import { getCached, cached } from 'lib/cache';
 import { findMatch, normalizeTeam } from 'lib/match/normalize';
 import { theOddsApiProvider } from 'lib/odds/theoddsapi';
 import { projectOverUnder, projectAsianHandicap } from './projection';
 import { scoreCandidate } from './router';
-import { ODDS_TTL_MS } from './config';
-import type { BetCandidate } from './types';
+import { afMarketSnapshot } from './afOdds';
+import { ODDS_SOURCE, ODDS_TTL_MS, PREMATCH_FETCH } from './config';
+import type { BetCandidate, MarketSnapshot } from './types';
 import type { MatchOdds, MatchMarkets } from 'lib/odds/types';
-
-/**
- * 赛前轻量拉取:把该场让球/大小球盘口拉进共享缓存(与详情页同键复用);
- * 复用 cached() 的 TTL 做窗口内去重;失败静默(降级到只用已有 1X2)。
- */
-export async function ensureMatchMarkets(
-  home: string,
-  away: string,
-  commenceTime: string,
-): Promise<void> {
-  const snap = getCached<{ matches: MatchOdds[] }>('odds:matches');
-  const mo = snap
-    ? findMatch(snap.matches, home, away, commenceTime)
-    : undefined;
-  if (!mo) return;
-  try {
-    await cached(`odds:markets:${mo.id}:handicap`, ODDS_TTL_MS, () =>
-      theOddsApiProvider.getMatchMarkets(mo.id),
-    );
-  } catch (e) {
-    console.error('[paper] 赛前拉取盘口失败', mo.id, e);
-  }
-}
 
 interface BuildParams {
   home: string;
@@ -43,119 +21,106 @@ interface BuildParams {
   mw: { home: number; draw: number; away: number }; // 市场无关 1X2
 }
 
-export function buildCandidates(params: BuildParams): BetCandidate[] {
-  const { home, away, commenceTime, matrix, mw } = params;
+/** 快照 + 矩阵 → 候选(纯投影 + 评分)。 */
+export function candidatesFromSnapshot(
+  matrix: number[][],
+  mw: { home: number; draw: number; away: number },
+  snap: MarketSnapshot,
+): BetCandidate[] {
   const out: Omit<BetCandidate, 'ev' | 'kelly'>[] = [];
 
-  const snap = getCached<{ matches: MatchOdds[] }>('odds:matches');
-  const mo = snap
-    ? findMatch(snap.matches, home, away, commenceTime)
-    : undefined;
-  if (!mo) return [];
+  const h = snap.h2h;
+  if (h?.home)
+    out.push({ market: '1X2', selection: 'home', odds: h.home.price, book: h.home.book, pWin: mw.home, pPush: 0 });
+  if (h?.draw)
+    out.push({ market: '1X2', selection: 'draw', odds: h.draw.price, book: h.draw.book, pWin: mw.draw, pPush: 0 });
+  if (h?.away)
+    out.push({ market: '1X2', selection: 'away', odds: h.away.price, book: h.away.book, pWin: mw.away, pPush: 0 });
 
-  // ── 1X2(市场无关概率 vs 市场最优价)──
-  if (mo.best.home)
-    out.push({
-      market: '1X2',
-      selection: 'home',
-      odds: mo.best.home.price,
-      book: mo.best.home.bookmaker,
-      pWin: mw.home,
-      pPush: 0,
-    });
-  if (mo.best.draw)
-    out.push({
-      market: '1X2',
-      selection: 'draw',
-      odds: mo.best.draw.price,
-      book: mo.best.draw.bookmaker,
-      pWin: mw.draw,
-      pPush: 0,
-    });
-  if (mo.best.away)
-    out.push({
-      market: '1X2',
-      selection: 'away',
-      odds: mo.best.away.price,
-      book: mo.best.away.bookmaker,
-      pWin: mw.away,
-      pPush: 0,
-    });
+  for (const tl of snap.totals) {
+    const pr = projectOverUnder(matrix, tl.point);
+    if (tl.over)
+      out.push({ market: 'OU', selection: 'Over', line: tl.point, odds: tl.over.price, book: tl.over.book, pWin: pr.over, pPush: pr.push });
+    if (tl.under)
+      out.push({ market: 'OU', selection: 'Under', line: tl.point, odds: tl.under.price, book: tl.under.book, pWin: pr.under, pPush: pr.push });
+  }
 
-  // ── 大小球 / 亚盘(仅当该场盘口快照已缓存)──
-  const mm = getCached<MatchMarkets>(`odds:markets:${mo.id}:handicap`);
-  if (mm) {
-    const homeNorm = normalizeTeam(mm.homeTeam);
-    // 聚合各家最优价
-    const ou = new Map<
-      number,
-      { over?: { p: number; b: string }; under?: { p: number; b: string } }
-    >();
-    const ah = new Map<
-      string,
-      { team: string; point: number; p: number; b: string }
-    >();
-    for (const bk of mm.bookmakers) {
-      for (const tl of bk.totals ?? []) {
-        const e = ou.get(tl.point) ?? {};
-        const side = tl.type.toLowerCase().startsWith('o') ? 'over' : 'under';
-        const cur = e[side];
-        if (!cur || tl.price > cur.p) e[side] = { p: tl.price, b: bk.title };
-        ou.set(tl.point, e);
-      }
-      for (const sp of bk.spreads ?? []) {
-        const key = `${normalizeTeam(sp.team)}|${sp.point}`;
-        const cur = ah.get(key);
-        if (!cur || sp.price > cur.p)
-          ah.set(key, {
-            team: sp.team,
-            point: sp.point,
-            p: sp.price,
-            b: bk.title,
-          });
-      }
-    }
-    // 大小球候选
-    for (const [point, e] of ou) {
-      const pr = projectOverUnder(matrix, point);
-      if (e.over)
-        out.push({
-          market: 'OU',
-          selection: 'Over',
-          line: point,
-          odds: e.over.p,
-          book: e.over.b,
-          pWin: pr.over,
-          pPush: pr.push,
-        });
-      if (e.under)
-        out.push({
-          market: 'OU',
-          selection: 'Under',
-          line: point,
-          odds: e.under.p,
-          book: e.under.b,
-          pWin: pr.under,
-          pPush: pr.push,
-        });
-    }
-    // 亚盘候选(让分施加于该队)
-    for (const { team, point, p, b } of ah.values()) {
-      const isHome = normalizeTeam(team) === homeNorm;
-      const pr = isHome
-        ? projectAsianHandicap(matrix, point)
-        : projectAsianHandicap(matrix, -point);
-      out.push({
-        market: 'AH',
-        selection: isHome ? 'home' : 'away',
-        line: point,
-        odds: p,
-        book: b,
-        pWin: isHome ? pr.homeCover : pr.awayCover,
-        pPush: pr.push,
-      });
-    }
+  for (const sp of snap.spreads) {
+    const pr =
+      sp.side === 'home'
+        ? projectAsianHandicap(matrix, sp.point)
+        : projectAsianHandicap(matrix, -sp.point);
+    out.push({
+      market: 'AH',
+      selection: sp.side,
+      line: sp.point,
+      odds: sp.pick.price,
+      book: sp.pick.book,
+      pWin: sp.side === 'home' ? pr.homeCover : pr.awayCover,
+      pPush: pr.push,
+    });
   }
 
   return out.map(scoreCandidate);
+}
+
+/** The Odds API 快照(h2h 读 odds:matches;让球/大小球读已缓存,缺失且开启赛前拉取则拉一次)。 */
+async function theOddsApiSnapshot(
+  home: string,
+  away: string,
+  commenceTime: string,
+): Promise<MarketSnapshot | null> {
+  const snap = getCached<{ matches: MatchOdds[] }>('odds:matches');
+  const mo = snap ? findMatch(snap.matches, home, away, commenceTime) : undefined;
+  if (!mo) return null;
+
+  const result: MarketSnapshot = { totals: [], spreads: [] };
+  result.h2h = {};
+  if (mo.best.home) result.h2h.home = { price: mo.best.home.price, book: mo.best.home.bookmaker };
+  if (mo.best.draw) result.h2h.draw = { price: mo.best.draw.price, book: mo.best.draw.bookmaker };
+  if (mo.best.away) result.h2h.away = { price: mo.best.away.price, book: mo.best.away.bookmaker };
+
+  let mm = getCached<MatchMarkets>(`odds:markets:${mo.id}:handicap`);
+  if (!mm && PREMATCH_FETCH) {
+    try {
+      mm = await cached(`odds:markets:${mo.id}:handicap`, ODDS_TTL_MS, () =>
+        theOddsApiProvider.getMatchMarkets(mo.id),
+      );
+    } catch (e) {
+      console.error('[paper] The Odds API 盘口拉取失败', mo.id, e);
+    }
+  }
+  if (mm) {
+    const homeNorm = normalizeTeam(mm.homeTeam);
+    const tot = new Map<number, { over?: { price: number; book: string }; under?: { price: number; book: string } }>();
+    const sp = new Map<string, { side: 'home' | 'away'; point: number; pick: { price: number; book: string } }>();
+    for (const bk of mm.bookmakers) {
+      for (const tl of bk.totals ?? []) {
+        const e = tot.get(tl.point) ?? {};
+        const side = tl.type.toLowerCase().startsWith('o') ? 'over' : 'under';
+        const cur = e[side];
+        if (!cur || tl.price > cur.price) e[side] = { price: tl.price, book: bk.title };
+        tot.set(tl.point, e);
+      }
+      for (const s of bk.spreads ?? []) {
+        const side = normalizeTeam(s.team) === homeNorm ? 'home' : 'away';
+        const k = `${side}|${s.point}`;
+        const cur = sp.get(k);
+        if (!cur || s.price > cur.pick.price) sp.set(k, { side, point: s.point, pick: { price: s.price, book: bk.title } });
+      }
+    }
+    result.totals = [...tot.entries()].map(([point, e]) => ({ point, ...e }));
+    result.spreads = [...sp.values()];
+  }
+  return result;
+}
+
+/** 取盘口快照(AF 主源 → The Odds API 兜底)→ 投影成候选。 */
+export async function buildCandidates(params: BuildParams): Promise<BetCandidate[]> {
+  const { home, away, commenceTime, matrix, mw } = params;
+  let snap: MarketSnapshot | null = null;
+  if (ODDS_SOURCE === 'apifootball') snap = await afMarketSnapshot(home, away, commenceTime);
+  if (!snap) snap = await theOddsApiSnapshot(home, away, commenceTime);
+  if (!snap) return [];
+  return candidatesFromSnapshot(matrix, mw, snap);
 }

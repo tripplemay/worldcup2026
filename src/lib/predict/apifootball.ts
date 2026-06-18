@@ -14,6 +14,9 @@ export function hasApiFootball(): boolean {
   return !!key();
 }
 
+const WC_LEAGUE = Number(process.env.WC_LEAGUE ?? 1); // API-Football「世界杯」联赛 id
+const WC_SEASON = process.env.WC_SEASON ?? '2026';
+
 type Json = Record<string, unknown>;
 const obj = (v: unknown): Json =>
   v && typeof v === 'object' ? (v as Json) : {};
@@ -181,6 +184,130 @@ export async function getFixtureStats(
     });
   }
   return map;
+}
+
+// ── 赔率(模拟盘用;Pro 套餐自带,胜平负/亚盘/大小球全)──────
+export interface AfOddPick {
+  price: number;
+  book: string;
+}
+export interface AfMatchOdds {
+  h2h: { home?: AfOddPick; draw?: AfOddPick; away?: AfOddPick };
+  totals: { point: number; over?: AfOddPick; under?: AfOddPick }[];
+  spreads: { side: 'home' | 'away'; point: number; pick: AfOddPick }[];
+}
+
+const fnum = (v: unknown): number =>
+  typeof v === 'number' ? v : typeof v === 'string' ? parseFloat(v) : NaN;
+
+/** 某日期的世界杯赛程(id + 队名),供按对阵解析 AF fixtureId。 */
+export async function getWcFixtures(
+  date: string,
+): Promise<{ id: number; home: string; away: string }[]> {
+  const resp = (
+    await af(`/fixtures?league=${WC_LEAGUE}&season=${WC_SEASON}&date=${date}`)
+  ).map(obj);
+  return resp
+    .map((f) => ({
+      id: num(obj(f.fixture).id),
+      home: String(obj(obj(f.teams).home).name ?? ''),
+      away: String(obj(obj(f.teams).away).name ?? ''),
+    }))
+    .filter((x) => x.id && x.home && x.away);
+}
+
+/** 单场各家赔率 → 取各家最优(最高)价的归一化盘口;无数据返回 null。 */
+export async function getFixtureOdds(
+  fixtureId: number,
+): Promise<AfMatchOdds | null> {
+  const resp = (await af(`/odds?fixture=${fixtureId}`)).map(obj);
+  const books = arr(obj(resp[0]).bookmakers).map(obj);
+  if (!books.length) return null;
+  const better = (cur: AfOddPick | undefined, price: number, book: string) =>
+    !cur || price > cur.price ? { price, book } : cur;
+  const h2h: AfMatchOdds['h2h'] = {};
+  const totals = new Map<number, { over?: AfOddPick; under?: AfOddPick }>();
+  const spreads = new Map<
+    string,
+    { side: 'home' | 'away'; point: number; pick: AfOddPick }
+  >();
+  for (const b of books) {
+    const book = String(b.name ?? '');
+    for (const bet of arr(b.bets).map(obj)) {
+      const values = arr(bet.values).map(obj);
+      for (const v of values) {
+        const price = fnum(v.odd);
+        if (!Number.isFinite(price)) continue;
+        const val = String(v.value);
+        if (bet.name === 'Match Winner') {
+          const k = val.toLowerCase();
+          if (k === 'home') h2h.home = better(h2h.home, price, book);
+          else if (k === 'draw') h2h.draw = better(h2h.draw, price, book);
+          else if (k === 'away') h2h.away = better(h2h.away, price, book);
+        } else if (bet.name === 'Goals Over/Under') {
+          const m = val.match(/^(Over|Under)\s+([\d.]+)$/i);
+          if (!m) continue;
+          const point = parseFloat(m[2]);
+          const e = totals.get(point) ?? {};
+          if (/^o/i.test(m[1])) e.over = better(e.over, price, book);
+          else e.under = better(e.under, price, book);
+          totals.set(point, e);
+        } else if (bet.name === 'Asian Handicap') {
+          const m = val.match(/^(Home|Away)\s+([+-]?[\d.]+)$/i);
+          if (!m) continue;
+          const side = /^h/i.test(m[1]) ? 'home' : 'away';
+          const point = parseFloat(m[2]);
+          const k = `${side}|${point}`;
+          const cur = spreads.get(k);
+          if (!cur || price > cur.pick.price)
+            spreads.set(k, { side, point, pick: { price, book } });
+        }
+      }
+    }
+  }
+  return {
+    h2h,
+    totals: [...totals.entries()].map(([point, e]) => ({ point, ...e })),
+    spreads: [...spreads.values()],
+  };
+}
+
+// ── 球员出场分钟(体能用)────────────────────────────────
+/** 已结束的世界杯比赛(id + 日期 + 队名)。 */
+export async function getWcFinished(): Promise<
+  { id: number; date: string; home: string; away: string }[]
+> {
+  const resp = (
+    await af(`/fixtures?league=${WC_LEAGUE}&season=${WC_SEASON}`)
+  ).map(obj);
+  return resp
+    .filter((f) =>
+      /^(FT|AET|PEN)$/.test(String(obj(obj(f.fixture).status).short ?? '')),
+    )
+    .map((f) => ({
+      id: num(obj(f.fixture).id),
+      date: String(obj(f.fixture).date ?? ''),
+      home: String(obj(obj(f.teams).home).name ?? ''),
+      away: String(obj(obj(f.teams).away).name ?? ''),
+    }))
+    .filter((x) => x.id);
+}
+
+/** 单场各队球员出场分钟(未上场记 0)。 */
+export async function getFixturePlayerMinutes(
+  fixtureId: number,
+): Promise<{ teamName: string; players: { id: number; minutes: number }[] }[]> {
+  const resp = (await af(`/fixtures/players?fixture=${fixtureId}`)).map(obj);
+  return resp.map((t) => ({
+    teamName: String(obj(t.team).name ?? ''),
+    players: arr(t.players)
+      .map(obj)
+      .map((p) => {
+        const g = obj(obj(arr(p.statistics).map(obj)[0]).games);
+        return { id: num(obj(p.player).id), minutes: num(g.minutes) };
+      })
+      .filter((p) => p.id),
+  }));
 }
 
 const flt = (v: unknown): number => {

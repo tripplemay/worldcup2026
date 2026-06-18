@@ -9,7 +9,14 @@
  * 该分数独立于胜率预测(ensemble),仅供观测/看盘参考。
  */
 import { computeElo, type GameLike } from 'lib/predict/ratings';
-import { loadResults, loadHistorical, loadRatings } from 'lib/db/store';
+import {
+  loadResults,
+  loadHistorical,
+  loadRatings,
+  loadPlayerMinutes,
+  type PlayerMinutesStore,
+} from 'lib/db/store';
+import { coreLoadPenalty } from 'lib/predict/playerMinutes';
 import type { HistMatch, ResultMatch, TeamRating } from 'lib/predict/types';
 import type { TeamTmi, TmiSnapshot } from './types';
 import {
@@ -26,11 +33,18 @@ import {
 const clamp1 = (x: number) => Math.max(-1, Math.min(1, x));
 const dateKey = (iso: string) => iso.slice(0, 10); // ISO → YYYY-MM-DD
 
-/** 三因子归一化 + 加权合成总分(纯函数,供前后端/测试复用)。 */
+/** 休息天数 → 体能惩罚(回退口径:无真实分钟数据时用)。 */
+export function restDaysFatigue(restDays: number | null): number {
+  return restDays != null && restDays <= REST_THRESHOLD
+    ? -((REST_THRESHOLD + 1 - restDays) * FATIGUE_STEP)
+    : 0;
+}
+
+/** 三因子归一化 + 加权合成总分(纯函数;fatiguePenalty 由调用方决定来源)。 */
 export function normalizeScores(
   shadowEloDiff: number,
   xgMomentumPerMatch: number,
-  restDays: number | null,
+  fatiguePenalty: number,
 ): {
   mentalScore: number;
   tacticalScore: number;
@@ -39,10 +53,6 @@ export function normalizeScores(
 } {
   const mentalScore = clamp1(shadowEloDiff / ELO_FULL_SCALE);
   const tacticalScore = clamp1(xgMomentumPerMatch / XG_FULL_SCALE);
-  const fatiguePenalty =
-    restDays != null && restDays <= REST_THRESHOLD
-      ? -((REST_THRESHOLD + 1 - restDays) * FATIGUE_STEP)
-      : 0;
   const total = clamp1(
     WEIGHT_ELO * mentalScore + WEIGHT_XG * tacticalScore + fatiguePenalty,
   );
@@ -53,6 +63,7 @@ interface TmiInput {
   results: Record<string, ResultMatch>;
   historical: Record<string, HistMatch>;
   ratings: Record<string, TeamRating>;
+  playerMinutes?: PlayerMinutesStore; // 真实分钟(体能);缺省回退休息天数
 }
 
 interface TmiOpts {
@@ -67,7 +78,7 @@ const DAY = 86_400_000;
  * 参赛队 = 在开赛日后赛果中出现过的球队(已登场才有动能);按总分降序。
  */
 export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
-  const { results, historical, ratings } = input;
+  const { results, historical, ratings, playerMinutes } = input;
   const { wcStart, now } = opts;
   const allGames: GameLike[] = Object.values(results);
 
@@ -134,8 +145,14 @@ export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
       ? Math.max(0, Math.floor((now - Date.parse(last)) / DAY))
       : null;
 
+    // 体能:优先真实「核心 13 人近期累计分钟」负荷,缺失回退休息天数
+    const pm = playerMinutes?.teams[t];
+    const minutesPenalty = pm ? coreLoadPenalty(pm.matches, now) : null;
+    const fatigue =
+      minutesPenalty != null ? minutesPenalty : restDaysFatigue(restDays);
+
     const { mentalScore, tacticalScore, fatiguePenalty, total } =
-      normalizeScores(shadowEloDiff, xgMomentum, restDays);
+      normalizeScores(shadowEloDiff, xgMomentum, fatigue);
 
     teams.push({
       teamId: t,
@@ -168,6 +185,7 @@ export function loadTmiSnapshot(): TmiSnapshot {
       results: loadResults(),
       historical: loadHistorical(),
       ratings: loadRatings(),
+      playerMinutes: loadPlayerMinutes(),
     },
     { wcStart, now: Date.now() },
   );

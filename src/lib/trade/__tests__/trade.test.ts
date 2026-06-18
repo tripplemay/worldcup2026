@@ -6,8 +6,9 @@ import {
 } from '../projection';
 import { expectedValue, kelly, stakeFor } from '../ev';
 import { scoreCandidate, selectBest } from '../router';
+import { candidatesFromSnapshot } from '../odds';
 import { outcome, pnlFor, regulationScore } from '../settle';
-import type { BetCandidate, Trade } from '../types';
+import type { BetCandidate, Trade, MarketSnapshot } from '../types';
 import type { MatchEvent } from 'lib/espn/types';
 
 // 手工 3×3 矩阵(和为 1):m[主][客]
@@ -45,6 +46,35 @@ describe('泊松投影', () => {
     expect(level.homeCover).toBeCloseTo(0.5);
     expect(level.push).toBeCloseTo(0.4);
     expect(level.awayCover).toBeCloseTo(0.1);
+  });
+});
+
+describe('快照 → 候选(投影映射)', () => {
+  it('1X2/大小球/亚盘 候选的 pWin 取自矩阵投影', () => {
+    const snap: MarketSnapshot = {
+      h2h: { home: { price: 2, book: 'x' }, away: { price: 3, book: 'x' } },
+      totals: [
+        {
+          point: 1.5,
+          over: { price: 1.9, book: 'x' },
+          under: { price: 1.9, book: 'x' },
+        },
+      ],
+      spreads: [{ side: 'home', point: -1.5, pick: { price: 2.4, book: 'x' } }],
+    };
+    const cs = candidatesFromSnapshot(
+      M,
+      { home: 0.5, draw: 0.4, away: 0.1 },
+      snap,
+    );
+    const get = (m: string, sel: string) =>
+      cs.find((c) => c.market === m && c.selection === sel);
+    expect(get('1X2', 'home')?.pWin).toBeCloseTo(0.5);
+    expect(get('1X2', 'away')?.pWin).toBeCloseTo(0.1);
+    expect(get('1X2', 'draw')).toBeUndefined(); // h2h 无 draw 报价
+    expect(get('OU', 'Over')?.pWin).toBeCloseTo(0.6); // 总进球≥2
+    expect(get('OU', 'Under')?.pWin).toBeCloseTo(0.4);
+    expect(get('AH', 'home')?.pWin).toBeCloseTo(0.3); // 净胜≥2
   });
 });
 

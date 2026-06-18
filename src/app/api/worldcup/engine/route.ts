@@ -8,6 +8,7 @@ import { recomputeRatings } from 'lib/predict/ratings';
 import { fetchEloRatings } from 'lib/predict/eloratings';
 import { prewarmUpcoming } from 'lib/lineup/playerForm';
 import { ingestTeamStats } from 'lib/espn/teamStats';
+import { ingestPlayerMinutes } from 'lib/predict/playerMinutes';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -35,6 +36,10 @@ export async function POST(req: Request) {
     // 后台增量聚合已结束场次的队级 box-score(球队页用;ESPN 免费,只抓新结束的场次)
     void ingestTeamStats().catch((e) =>
       console.error('[engine] team-stats 聚合失败', e),
+    );
+    // 后台增量摄取球员出场分钟(TMI 体能用;只抓新结束的场次)
+    void ingestPlayerMinutes().catch((e) =>
+      console.error('[engine] player-minutes 摄取失败', e),
     );
     return ok({ ingested, ratings });
   } catch (e) {

@@ -9,7 +9,7 @@ import { buildMatrix } from 'lib/predict/models/poissonCore';
 import { loadElo } from 'lib/db/store';
 import { normalizeTeam } from 'lib/match/normalize';
 import { projectMatchWinner } from './projection';
-import { buildCandidates, ensureMatchMarkets } from './odds';
+import { buildCandidates } from './odds';
 import { selectBest } from './router';
 import { stakeFor } from './ev';
 import { getWallet, hasBet, placeBet } from './ledger';
@@ -18,7 +18,6 @@ import {
   KELLY_FRACTION,
   MAX_STAKE_PCT,
   MIN_STAKE,
-  PREMATCH_FETCH,
 } from './config';
 
 export async function runPreMatchBetting(): Promise<{
@@ -58,11 +57,8 @@ export async function runPreMatchBetting(): Promise<{
       ? { home: mf.homeWin, draw: mf.draw, away: mf.awayWin }
       : projectMatchWinner(matrix);
 
-    // 赛前轻量拉一次让球/大小球盘口(解锁 O/U/亚盘候选;窗口内 TTL 去重)
-    if (PREMATCH_FETCH)
-      await ensureMatchMarkets(m.homeTeam, m.awayTeam, m.commenceTime);
-
-    const candidates = buildCandidates({
+    // 取盘口(AF 主源→The Odds API 兜底,内部按需赛前拉一次)→ 投影候选
+    const candidates = await buildCandidates({
       home: m.homeTeam,
       away: m.awayTeam,
       commenceTime: m.commenceTime,
