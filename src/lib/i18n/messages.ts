@@ -294,7 +294,7 @@ export const messages = {
       initial: '初始本金',
       roi: '回报率',
       winRate: '胜率',
-      pending: '进行中',
+      pending: '待结算',
       won: '赢',
       lost: '输',
       void: '走盘',

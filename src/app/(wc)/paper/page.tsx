@@ -92,31 +92,43 @@ function EquityCurve({
 
 const STATUS: Record<
   Trade['status'],
-  { accent: string; tint: string; Icon: typeof MdCheckCircle; cls: string }
+  {
+    accent: string;
+    tint: string;
+    Icon: typeof MdCheckCircle;
+    cls: string;
+    badge: string;
+  }
 > = {
   won: {
     accent: 'border-l-emerald-500',
     tint: 'bg-emerald-50/60 dark:bg-emerald-500/10',
     Icon: MdCheckCircle,
     cls: 'text-emerald-600 dark:text-emerald-400',
+    badge:
+      'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
   },
   lost: {
     accent: 'border-l-red-500',
     tint: 'bg-red-50/60 dark:bg-red-500/10',
     Icon: MdCancel,
     cls: 'text-red-500 dark:text-red-400',
+    badge: 'bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-300',
   },
   pending: {
     accent: 'border-l-brand-400',
     tint: '',
     Icon: MdSchedule,
     cls: 'text-brand-500 dark:text-brand-400',
+    badge:
+      'bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400',
   },
   void: {
     accent: 'border-l-gray-300 dark:border-l-navy-600',
     tint: '',
     Icon: MdRemoveCircleOutline,
     cls: 'text-gray-400',
+    badge: 'bg-gray-200 text-gray-500 dark:bg-navy-700 dark:text-gray-400',
   },
 };
 
@@ -140,9 +152,9 @@ function TradeCard({ tr }: { tr: Trade }) {
             {tn(tr.awayTeam)}
           </span>
           <span
-            className={`flex shrink-0 items-center gap-0.5 font-medium ${s.cls}`}
+            className={`flex shrink-0 items-center gap-0.5 rounded-full px-2 py-0.5 text-[10px] font-medium ${s.badge}`}
           >
-            <s.Icon className="text-sm" />
+            <s.Icon className="text-xs" />
             {label}
           </span>
         </div>
