@@ -246,7 +246,7 @@ export default function PredictionCard({
                 <div className="flex justify-between">
                   <span>{t('predict.topScores')}</span>
                   <span className="flex gap-1">
-                    {main.topScores.map((s) => (
+                    {main.topScores.slice(0, 3).map((s) => (
                       <span
                         key={s.score}
                         className="tabular-nums text-navy-700 dark:text-white"

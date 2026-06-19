@@ -12,14 +12,28 @@ import { useLocale } from 'lib/i18n/context';
 import { formatMatchTime } from 'lib/format/matchTime';
 import type { MatchWithPredictions } from 'lib/predict/predict';
 
-/** 取融合(或首个模型)最大概率的赛果作为「预测」。 */
+/**
+ * 取融合(或首个模型)最大概率的赛果作为「预测」,并选取**与该赛果一致**的最可能比分。
+ * (泊松下单一最可能比分常是 1-1,会与"主胜/客胜"矛盾;故按预测方筛选,回退到最可能比分。)
+ */
 function pick(m: MatchWithPredictions, homeShort: string, awayShort: string) {
   const p = m.ensemble ?? m.predictions[0];
   if (!p) return null;
-  const max = Math.max(p.homeWin, p.draw, p.awayWin);
+  const outcome =
+    p.homeWin >= p.draw && p.homeWin >= p.awayWin
+      ? 'home'
+      : p.awayWin >= p.draw && p.awayWin >= p.homeWin
+      ? 'away'
+      : 'draw';
   const side =
-    max === p.homeWin ? homeShort : max === p.awayWin ? awayShort : '—';
-  return { side, score: p.topScores?.[0]?.score ?? '', conf: p.confidence };
+    outcome === 'home' ? homeShort : outcome === 'away' ? awayShort : '—';
+  const consistent = (sc: string) => {
+    const [h, a] = sc.split('-').map(Number);
+    return outcome === 'home' ? h > a : outcome === 'away' ? h < a : h === a;
+  };
+  const ts = p.topScores ?? [];
+  const score = (ts.find((s) => consistent(s.score)) ?? ts[0])?.score ?? '';
+  return { side, score, conf: p.confidence };
 }
 
 export default function PredictPage() {

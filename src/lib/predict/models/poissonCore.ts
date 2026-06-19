@@ -105,7 +105,7 @@ export function dcPoisson(opts: {
   const topScores = scores
     .map((s) => ({ score: s.score, p: norm(s.p) }))
     .sort((x, y) => y.p - x.p)
-    .slice(0, 3);
+    .slice(0, 8); // 多留候选,供「与预测方一致的最可能比分」筛选(展示层再截断)
 
   return {
     modelId,
