@@ -9,6 +9,7 @@ import {
   MdInsights,
   MdLeaderboard,
   MdAccountBalanceWallet,
+  MdBolt,
   MdSettings,
 } from 'react-icons/md';
 import type { IconType } from 'react-icons';
@@ -57,6 +58,7 @@ export default function BottomTabBar() {
     { href: '/predict', label: t('nav.predict'), Icon: MdInsights },
     { href: '/standings', label: t('nav.standings'), Icon: MdLeaderboard },
     { href: '/paper', label: t('nav.paper'), Icon: MdAccountBalanceWallet },
+    { href: '/radar', label: t('nav.radar'), Icon: MdBolt },
     { href: '/settings', label: t('nav.settings'), Icon: MdSettings },
   ];
   return (

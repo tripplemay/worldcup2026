@@ -17,6 +17,7 @@ import type { OddsChangeMap } from './changes';
 import { loadLiveOddsSnap, saveLiveOddsSnap } from './snapStore';
 import { loadOpeningOdds, saveOpeningOdds } from 'lib/db/store';
 import { recordTick, startSeriesFlush } from './oddsSeries';
+import { detectAnomalies } from './radar';
 import { groupLiveMarkets } from './liveMarketGroups';
 import type {
   MatchOdds,
@@ -170,6 +171,7 @@ async function doTick(): Promise<void> {
     saveLiveOddsSnap(snap);
     captureOpening(matches, now);
     recordTick(matches, marketsById, now); // 时序底座:快照 + 闭盘捕获
+    detectAnomalies(matches, now); // 雷达:steam / 关键线击穿 / RLM
     state.board = { matches, changes, fetchedAt: now, rate };
     state.marketsById = marketsById;
   } catch (e) {

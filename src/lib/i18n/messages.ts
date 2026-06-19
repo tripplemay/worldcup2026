@@ -9,7 +9,19 @@ export const messages = {
       predict: '预测',
       standings: '积分',
       paper: '模拟盘',
+      radar: '异动',
       settings: '设置',
+    },
+    radar: {
+      title: '盘口异动雷达',
+      subtitle: '去水真实概率的资金面信号:闪崩 / 关键线击穿 / 市场拒绝',
+      empty: '暂无异动(临近开赛/进行中的比赛才有信号)',
+      steam: '闪崩',
+      breakout: '关键线击穿',
+      rlm: '市场拒绝',
+      justNow: '刚刚',
+      minAgo: '分钟前',
+      hrAgo: '小时前',
     },
     common: {
       loadFailed: '加载失败',
@@ -355,7 +367,21 @@ export const messages = {
       predict: 'Predict',
       standings: 'Tables',
       paper: 'Paper',
+      radar: 'Radar',
       settings: 'Settings',
+    },
+    radar: {
+      title: 'Market Radar',
+      subtitle:
+        'Order-flow signals on de-margined true probability: steam / line breakout / rejection',
+      empty:
+        'No anomalies yet (signals appear for near-kickoff / in-play matches)',
+      steam: 'Steam',
+      breakout: 'Line breakout',
+      rlm: 'Rejection',
+      justNow: 'just now',
+      minAgo: 'm ago',
+      hrAgo: 'h ago',
     },
     common: {
       loadFailed: 'Failed to load',

@@ -44,6 +44,7 @@ import type { Wallet, Trade } from 'lib/trade/types';
 import type { LeadersStore, PredictionSnapshot } from 'lib/db/store';
 import type { AfPrediction } from 'lib/predict/apifootball';
 import type { ModelStats } from 'lib/predict/predictionLog';
+import type { RadarAlert } from 'lib/odds/radar';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -177,6 +178,16 @@ export function useLiveOdds() {
     isLoading,
     refresh: mutate,
   };
+}
+
+/** 微观异动雷达信息流(steam / 关键线击穿 / RLM)。 */
+export function useRadar() {
+  const { data, isLoading } = useSWR<{ alerts: RadarAlert[] }>(
+    '/api/worldcup/radar',
+    fetcher,
+    { refreshInterval: LIVE_ODDS_MS, ...common },
+  );
+  return { alerts: data?.alerts ?? [], isLoading };
 }
 
 /**
