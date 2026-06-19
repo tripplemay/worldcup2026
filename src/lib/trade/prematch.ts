@@ -15,7 +15,10 @@ import { stakeFor } from './ev';
 import { getWallet, hasBet, placeBet } from './ledger';
 import { hasActiveRlm } from 'lib/odds/radar';
 import { emitSignal } from './signals';
-import { modelsFromPredictions } from 'lib/predict/divergence';
+import {
+  modelsFromPredictions,
+  classifyDivergence,
+} from 'lib/predict/divergence';
 import {
   BET_WINDOW_MIN,
   KELLY_FRACTION,
@@ -72,6 +75,7 @@ export async function runPreMatchBetting(opts?: {
     const best = selectBest(candidates);
     if (!best) continue;
 
+    const sigModels = modelsFromPredictions(m.predictions, m.ensemble);
     // 指令合成(Copilot;含 L3 风控否决 + 分歧分类);不自动扣款,供人工跟单
     emitSignal({
       matchId: m.matchId,
@@ -79,12 +83,32 @@ export async function runPreMatchBetting(opts?: {
       best,
       balance: getWallet().currentBalance,
       now,
-      models: modelsFromPredictions(m.predictions, m.ensemble),
+      models: sigModels,
     });
     // 自动模拟盘:RLM 市场拒绝 → 拦截下注(避免负 CLV)
     if (hasActiveRlm(m.matchId, now)) {
       console.log('[paper] RLM 风控拦截 auto-bet,跳过', m.matchId);
       continue;
+    }
+    // G1:R1 伪差(错配场泊松对热门欠自信)+ 押市场非热门方(弱方"价值"多为 artifact)→ 否决自动下注
+    if (
+      best.market === '1X2' &&
+      classifyDivergence(sigModels) === 'R1_UNDERCONF'
+    ) {
+      const mk = sigModels.market;
+      const favSide = mk
+        ? (['h', 'd', 'a'] as const).reduce((b, k) => (mk[k] > mk[b] ? k : b))
+        : null;
+      const pickSide =
+        best.selection === 'home' ? 'h' : best.selection === 'away' ? 'a' : 'd';
+      if (favSide && pickSide !== favSide) {
+        console.log(
+          '[paper] R1 伪差弱方注,否决自动下注',
+          m.matchId,
+          best.selection,
+        );
+        continue;
+      }
     }
 
     const stake = stakeFor(best.kelly, getWallet().currentBalance, {

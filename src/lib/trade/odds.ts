@@ -31,18 +31,47 @@ export function candidatesFromSnapshot(
 
   const h = snap.h2h;
   if (h?.home)
-    out.push({ market: '1X2', selection: 'home', odds: h.home.price, book: h.home.book, pWin: mw.home, pPush: 0 });
+    out.push({
+      market: '1X2',
+      selection: 'home',
+      odds: h.home.price,
+      book: h.home.book,
+      pWin: mw.home,
+      pPush: 0,
+    });
   if (h?.draw)
-    out.push({ market: '1X2', selection: 'draw', odds: h.draw.price, book: h.draw.book, pWin: mw.draw, pPush: 0 });
+    out.push({
+      market: '1X2',
+      selection: 'draw',
+      odds: h.draw.price,
+      book: h.draw.book,
+      pWin: mw.draw,
+      pPush: 0,
+    });
   if (h?.away)
-    out.push({ market: '1X2', selection: 'away', odds: h.away.price, book: h.away.book, pWin: mw.away, pPush: 0 });
+    out.push({
+      market: '1X2',
+      selection: 'away',
+      odds: h.away.price,
+      book: h.away.book,
+      pWin: mw.away,
+      pPush: 0,
+    });
 
   for (const tl of snap.totals) {
     const pr = projectOverUnder(matrix, tl.point);
-    if (tl.over)
-      out.push({ market: 'OU', selection: 'Over', line: tl.point, odds: tl.over.price, book: tl.over.book, pWin: pr.over, pPush: pr.push });
+    // G2:不押「大球」——over25 已实测系统性高估(~62% vs 实际 ~50%、且非单调,O3 校准已证伪),
+    // Over 候选 EV 被灌水 → 系统性 -EV。仅保留 Under(其概率被低估、偏保守,安全)。
     if (tl.under)
-      out.push({ market: 'OU', selection: 'Under', line: tl.point, odds: tl.under.price, book: tl.under.book, pWin: pr.under, pPush: pr.push });
+      out.push({
+        market: 'OU',
+        selection: 'Under',
+        line: tl.point,
+        odds: tl.under.price,
+        book: tl.under.book,
+        pWin: pr.under,
+        pPush: pr.push,
+      });
   }
 
   for (const sp of snap.spreads) {
@@ -71,14 +100,28 @@ async function theOddsApiSnapshot(
   commenceTime: string,
 ): Promise<MarketSnapshot | null> {
   const snap = getCached<{ matches: MatchOdds[] }>('odds:matches');
-  const mo = snap ? findMatch(snap.matches, home, away, commenceTime) : undefined;
+  const mo = snap
+    ? findMatch(snap.matches, home, away, commenceTime)
+    : undefined;
   if (!mo) return null;
 
   const result: MarketSnapshot = { totals: [], spreads: [] };
   result.h2h = {};
-  if (mo.best.home) result.h2h.home = { price: mo.best.home.price, book: mo.best.home.bookmaker };
-  if (mo.best.draw) result.h2h.draw = { price: mo.best.draw.price, book: mo.best.draw.bookmaker };
-  if (mo.best.away) result.h2h.away = { price: mo.best.away.price, book: mo.best.away.bookmaker };
+  if (mo.best.home)
+    result.h2h.home = {
+      price: mo.best.home.price,
+      book: mo.best.home.bookmaker,
+    };
+  if (mo.best.draw)
+    result.h2h.draw = {
+      price: mo.best.draw.price,
+      book: mo.best.draw.bookmaker,
+    };
+  if (mo.best.away)
+    result.h2h.away = {
+      price: mo.best.away.price,
+      book: mo.best.away.bookmaker,
+    };
 
   let mm = getCached<MatchMarkets>(`odds:markets:${mo.id}:handicap`);
   if (!mm && PREMATCH_FETCH) {
@@ -92,21 +135,40 @@ async function theOddsApiSnapshot(
   }
   if (mm) {
     const homeNorm = normalizeTeam(mm.homeTeam);
-    const tot = new Map<number, { over?: { price: number; book: string }; under?: { price: number; book: string } }>();
-    const sp = new Map<string, { side: 'home' | 'away'; point: number; pick: { price: number; book: string } }>();
+    const tot = new Map<
+      number,
+      {
+        over?: { price: number; book: string };
+        under?: { price: number; book: string };
+      }
+    >();
+    const sp = new Map<
+      string,
+      {
+        side: 'home' | 'away';
+        point: number;
+        pick: { price: number; book: string };
+      }
+    >();
     for (const bk of mm.bookmakers) {
       for (const tl of bk.totals ?? []) {
         const e = tot.get(tl.point) ?? {};
         const side = tl.type.toLowerCase().startsWith('o') ? 'over' : 'under';
         const cur = e[side];
-        if (!cur || tl.price > cur.price) e[side] = { price: tl.price, book: bk.title };
+        if (!cur || tl.price > cur.price)
+          e[side] = { price: tl.price, book: bk.title };
         tot.set(tl.point, e);
       }
       for (const s of bk.spreads ?? []) {
         const side = normalizeTeam(s.team) === homeNorm ? 'home' : 'away';
         const k = `${side}|${s.point}`;
         const cur = sp.get(k);
-        if (!cur || s.price > cur.pick.price) sp.set(k, { side, point: s.point, pick: { price: s.price, book: bk.title } });
+        if (!cur || s.price > cur.pick.price)
+          sp.set(k, {
+            side,
+            point: s.point,
+            pick: { price: s.price, book: bk.title },
+          });
       }
     }
     result.totals = [...tot.entries()].map(([point, e]) => ({ point, ...e }));
@@ -116,10 +178,13 @@ async function theOddsApiSnapshot(
 }
 
 /** 取盘口快照(AF 主源 → The Odds API 兜底)→ 投影成候选。 */
-export async function buildCandidates(params: BuildParams): Promise<BetCandidate[]> {
+export async function buildCandidates(
+  params: BuildParams,
+): Promise<BetCandidate[]> {
   const { home, away, commenceTime, matrix, mw } = params;
   let snap: MarketSnapshot | null = null;
-  if (ODDS_SOURCE === 'apifootball') snap = await afMarketSnapshot(home, away, commenceTime);
+  if (ODDS_SOURCE === 'apifootball')
+    snap = await afMarketSnapshot(home, away, commenceTime);
   if (!snap) snap = await theOddsApiSnapshot(home, away, commenceTime);
   if (!snap) return [];
   return candidatesFromSnapshot(matrix, mw, snap);
