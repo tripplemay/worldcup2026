@@ -44,6 +44,12 @@ export async function snapshotPredictions(): Promise<{ snapped: number }> {
       predGoals: +((e.xgHome ?? 0) + (e.xgAway ?? 0)).toFixed(2),
       over25: e.over25,
       btts: e.btts,
+      models: Object.fromEntries(
+        (m.predictions ?? []).map((p) => [
+          p.modelId,
+          { h: p.homeWin, d: p.draw, a: p.awayWin },
+        ]),
+      ),
       pick: pickOf(e.homeWin, e.draw, e.awayWin),
       settled: false,
     };

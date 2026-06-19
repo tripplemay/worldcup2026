@@ -128,6 +128,8 @@ export interface PredictionSnapshot {
   predGoals: number; // 预期总进球 λ+μ
   over25?: number;
   btts?: number;
+  // 各基础模型当时 1X2(CLV 校准:市场无关的泊松 vs 闭盘才是干净对比)
+  models?: Record<string, { h: number; d: number; a: number }>;
   pick: 'H' | 'D' | 'A'; // 预测最大项
   // 赛后回填:
   settled: boolean;
