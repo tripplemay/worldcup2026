@@ -5,9 +5,15 @@ export async function fetcher<T>(url: string, timeoutMs = 10_000): Promise<T> {
   const ctrl = new AbortController();
   const id = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
-    // no-store:每次走网络,绝不命中浏览器/代理的 HTTP 缓存(实时比分/赔率必须最新);
-    // SWR 自己控制刷新节流与去重,无需 HTTP 缓存层。
-    const res = await fetch(url, { signal: ctrl.signal, cache: 'no-store' });
+    // no-store + 唯一 URL buster:实时比分/赔率必须最新。
+    // 仅 no-store 在 iOS Safari/PWA 上可能被忽略;附唯一 _ts 让每次请求 URL 唯一 →
+    // 任何缓存层(浏览器/SW/nginx)都必然 miss、回源取最新。SWR 仍按原 key 去重/节流,
+    // buster 只作用于真正发出的那次 fetch。
+    const sep = url.includes('?') ? '&' : '?';
+    const res = await fetch(`${url}${sep}_ts=${Date.now()}`, {
+      signal: ctrl.signal,
+      cache: 'no-store',
+    });
     const json = (await res.json()) as ApiResponse<T>;
     if (!json.success || json.data == null) {
       throw new Error(json.error || `请求失败: ${res.status}`);

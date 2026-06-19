@@ -9,7 +9,7 @@
  *    (Next 给 /_next/static 打了 immutable 长缓存,既高效又不会残留跨版本旧文件)
  *  - 导航请求:network-first(在线永远拿最新 HTML),成功时刷新离线壳;断网才回退缓存壳
  */
-const CACHE = 'wc2026-shell-v2';
+const CACHE = 'wc2026-shell-v3';
 const SHELL = ['/', '/manifest.json', '/icons/icon.svg'];
 
 self.addEventListener('install', (event) => {
@@ -26,7 +26,9 @@ self.addEventListener('activate', (event) => {
     caches
       .keys()
       .then((keys) =>
-        Promise.all(keys.filter((k) => k !== CACHE).map((k) => caches.delete(k))),
+        Promise.all(
+          keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)),
+        ),
       )
       .then(() => self.clients.claim()),
   );
