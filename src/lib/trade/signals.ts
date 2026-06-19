@@ -17,6 +17,7 @@ import {
 import { getRadarAlerts, hasActiveRlm, type RadarAlert } from 'lib/odds/radar';
 import { stakeFor } from './ev';
 import { KELLY_FRACTION, MAX_STAKE_PCT, MIN_STAKE } from './config';
+import { classifyDivergence, type ModelSet } from 'lib/predict/divergence';
 import type { BetCandidate } from './types';
 
 const RESONANCE_MS = 2 * 3_600_000; // 共振判定:近 2 小时的异动
@@ -39,8 +40,9 @@ export function emitSignal(input: {
   best: BetCandidate;
   balance: number;
   now: number;
+  models?: ModelSet; // 各模型 1X2,用于分歧分类
 }): void {
-  const { matchId, match, best, balance, now } = input;
+  const { matchId, match, best, balance, now, models } = input;
   const signals = loadSignals();
   if (signals.some((s) => s.matchId === matchId && s.status === 'UNREAD'))
     return;
@@ -48,7 +50,8 @@ export function emitSignal(input: {
   const recent = getRadarAlerts().filter(
     (a) => a.matchId === matchId && now - a.ts < RESONANCE_MS,
   );
-  const rlm = recent.some((a) => a.type === 'RLM') || hasActiveRlm(matchId, now);
+  const rlm =
+    recent.some((a) => a.type === 'RLM') || hasActiveRlm(matchId, now);
   const reson = !rlm && resonates(best, recent);
   const level: SignalLevel = rlm ? 'L3' : reson ? 'L1' : 'L2';
   const fraction = level === 'L1' ? KELLY_FRACTION : KELLY_FRACTION / 2;
@@ -76,6 +79,7 @@ export function emitSignal(input: {
     kelly: +best.kelly.toFixed(4),
     suggestedStake,
     resonance: reson,
+    divergence: models ? classifyDivergence(models) : undefined,
     status: 'UNREAD',
   };
   signals.unshift(sig);

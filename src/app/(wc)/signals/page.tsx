@@ -103,6 +103,12 @@ function SignalCard({
       <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
         {reason}
       </div>
+      {s.divergence && DIVK[s.divergence] && s.divergence !== 'CONSENSUS' && (
+        <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+          {t(`divergence.${DIVK[s.divergence]}.label`)} —{' '}
+          {t(`divergence.${DIVK[s.divergence]}.hint`)}
+        </div>
+      )}
       {s.level !== 'L3' && (
         <div className="mt-1 font-mono text-xs text-gray-500 dark:text-gray-400">
           {t('signals.stake')} {money(s.suggestedStake)}
@@ -125,6 +131,13 @@ function SignalCard({
     </Card>
   );
 }
+
+const DIVK: Record<string, string> = {
+  R1_UNDERCONF: 'r1',
+  GOALS_FORM: 'goalsForm',
+  SPLIT: 'split',
+  CONSENSUS: 'consensus',
+};
 
 const LEVEL_RANK: Record<SignalLevel, number> = { L3: 0, L1: 1, L2: 2, L4: 3 };
 

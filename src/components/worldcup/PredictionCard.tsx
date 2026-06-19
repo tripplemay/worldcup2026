@@ -7,13 +7,32 @@ import {
   MdCheckCircle,
   MdWarningAmber,
   MdCenterFocusStrong,
+  MdTipsAndUpdates,
 } from 'react-icons/md';
 import Card from 'components/card';
 import ProbBar from 'components/worldcup/ProbBar';
 import { useMatchPrediction } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
+import {
+  classifyDivergence,
+  modelsFromPredictions,
+  type Divergence,
+} from 'lib/predict/divergence';
 import type { MatchPrediction } from 'lib/predict/model';
 import type { TeamIntel } from 'lib/intel/types';
+
+const DIV_KEY: Record<Divergence, string> = {
+  CONSENSUS: 'consensus',
+  R1_UNDERCONF: 'r1',
+  GOALS_FORM: 'goalsForm',
+  SPLIT: 'split',
+};
+const DIV_CLS: Record<Divergence, string> = {
+  CONSENSUS: 'text-green-600 dark:text-green-400',
+  R1_UNDERCONF: 'text-red-500 dark:text-red-400',
+  GOALS_FORM: 'text-amber-600 dark:text-amber-400',
+  SPLIT: 'text-gray-500 dark:text-gray-400',
+};
 
 const pct = (p: number) => `${Math.round(p * 100)}%`;
 const argmax = (p: MatchPrediction) =>
@@ -132,6 +151,11 @@ export default function PredictionCard({
   const consensus =
     base.length >= 2 && base.every((p) => argmax(p) === argmax(base[0]));
   const main = ens ?? base[0];
+  // 决策提示:模型分歧分类 → 该如何分析(框架固化)
+  const divergence =
+    base.length >= 2
+      ? classifyDivergence(modelsFromPredictions(base, ens))
+      : null;
 
   return (
     <Card extra="mb-3 p-4">
@@ -183,6 +207,21 @@ export default function PredictionCard({
           <div className="mt-2">
             <ProbBar home={main.homeWin} draw={main.draw} away={main.awayWin} />
           </div>
+
+          {divergence && (
+            <div className="mt-2 flex items-start gap-1.5 rounded-lg bg-lightPrimary/60 px-2.5 py-1.5 text-[11px] dark:bg-navy-700/40">
+              <MdTipsAndUpdates
+                className={`mt-0.5 shrink-0 ${DIV_CLS[divergence]}`}
+              />
+              <span className="text-gray-600 dark:text-gray-300">
+                <span className={`font-semibold ${DIV_CLS[divergence]}`}>
+                  {t(`divergence.${DIV_KEY[divergence]}.label`)}
+                </span>
+                {' — '}
+                {t(`divergence.${DIV_KEY[divergence]}.hint`)}
+              </span>
+            </div>
+          )}
 
           {logged?.settled && logged.result && (
             <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-0.5 border-t border-gray-100 pt-2 text-[11px] dark:border-white/5">

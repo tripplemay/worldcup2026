@@ -179,6 +179,7 @@ export interface TradingSignal {
   kelly: number;
   suggestedStake: number;
   resonance: boolean; // 雷达是否同向共振(L1)
+  divergence?: string; // 模型分歧类型(CONSENSUS/R1_UNDERCONF/GOALS_FORM/SPLIT)
   status: SignalStatus;
 }
 export function loadSignals(): TradingSignal[] {

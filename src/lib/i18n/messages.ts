@@ -33,6 +33,18 @@ export const messages = {
       calm: '市场平静',
       reject: '市场临场拒绝,建议放弃',
     },
+    divergence: {
+      consensus: { label: '✅ 四模型一致', hint: '高置信,可跟随融合' },
+      r1: {
+        label: '⚠️ 错配·泊松欠自信',
+        hint: '泊松对热门低估(R1 伪差)→ 信 Elo/市场,勿买弱方"价值"',
+      },
+      goalsForm: {
+        label: '📊 进球泊松离群',
+        hint: '进球偏离市场(近期状态/终结)→ 以 xG/市场为准,进球作参考',
+      },
+      split: { label: '❓ 模型分歧', hint: '归因不明,降低置信、谨慎对待' },
+    },
     radar: {
       title: '盘口异动雷达',
       subtitle: '去水真实概率的资金面信号:闪崩 / 关键线击穿 / 市场拒绝',
@@ -413,6 +425,24 @@ export const messages = {
       resonate: 'radar resonance',
       calm: 'market calm',
       reject: 'Market rejects near kickoff — pass',
+    },
+    divergence: {
+      consensus: {
+        label: '✅ Consensus',
+        hint: 'High confidence — follow the ensemble',
+      },
+      r1: {
+        label: '⚠️ Mismatch · Poisson under-confident',
+        hint: 'Poisson under-rates the favorite (R1 artifact) → trust Elo/market, avoid the underdog value',
+      },
+      goalsForm: {
+        label: '📊 Goals model outlier',
+        hint: 'Goals diverges from market (recent form/finishing) → defer to xG/market',
+      },
+      split: {
+        label: '❓ Models split',
+        hint: 'No clear cause — lower confidence, be cautious',
+      },
     },
     radar: {
       title: 'Market Radar',

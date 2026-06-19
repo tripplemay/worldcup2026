@@ -15,6 +15,7 @@ import { stakeFor } from './ev';
 import { getWallet, hasBet, placeBet } from './ledger';
 import { hasActiveRlm } from 'lib/odds/radar';
 import { emitSignal } from './signals';
+import { modelsFromPredictions } from 'lib/predict/divergence';
 import {
   BET_WINDOW_MIN,
   KELLY_FRACTION,
@@ -71,13 +72,14 @@ export async function runPreMatchBetting(opts?: {
     const best = selectBest(candidates);
     if (!best) continue;
 
-    // 指令合成(Copilot;含 L3 风控否决);不自动扣款,供人工跟单
+    // 指令合成(Copilot;含 L3 风控否决 + 分歧分类);不自动扣款,供人工跟单
     emitSignal({
       matchId: m.matchId,
       match: `${m.homeTeam} vs ${m.awayTeam}`,
       best,
       balance: getWallet().currentBalance,
       now,
+      models: modelsFromPredictions(m.predictions, m.ensemble),
     });
     // 自动模拟盘:RLM 市场拒绝 → 拦截下注(避免负 CLV)
     if (hasActiveRlm(m.matchId, now)) {
