@@ -148,10 +148,11 @@ jobs:
               curl -s --max-time 280 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
               if command -v crontab >/dev/null 2>&1; then
-                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel' | grep -v 'worldcup/trade'; \
+                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel' | grep -v 'worldcup/trade' | grep -v 'worldcup/odds'; \
                   echo "30 4 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=14' >/dev/null 2>&1 # worldcup-predict"; \
                   echo "0 */2 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/intel?hours=36' >/dev/null 2>&1 # worldcup-intel"; \
-                  echo "*/15 * * * * curl -s --max-time 110 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/trade/run' >/dev/null 2>&1 # worldcup-trade" \
+                  echo "*/15 * * * * curl -s --max-time 110 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/trade/run' >/dev/null 2>&1 # worldcup-trade"; \
+                  echo "10 4 * * * curl -s --max-time 120 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/odds/capture-openings' >/dev/null 2>&1 # worldcup-openings" \
                 ) | crontab -
               fi
               # 首次播种情报
