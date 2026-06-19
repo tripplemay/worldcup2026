@@ -139,14 +139,37 @@ export default function PredictionCard({
   const { prediction, logged, isLoading } = useMatchPrediction(matchId);
   const sideLabel = (s: 'H' | 'D' | 'A') =>
     s === 'H' ? t('odds.home') : s === 'D' ? t('odds.draw') : t('odds.away');
-  const base = prediction?.predictions ?? [];
-  const ens = prediction?.ensemble ?? null;
-  const intel = [prediction?.homeIntel, prediction?.awayIntel].filter(
-    (x): x is TeamIntel => !!x,
-  );
-  const adjusted = prediction?.adjusted ?? null;
+  // 已结束比赛:用冻结的赛前存档(防赛后评分污染:现算会用含赛果的当前评分);未结束:现算
+  const frozen = logged?.settled && logged.result ? logged : null;
+  const base: MatchPrediction[] = frozen
+    ? Object.entries(frozen.models ?? {}).map(
+        ([id, v]) =>
+          ({
+            modelId: id,
+            homeWin: v.h,
+            draw: v.d,
+            awayWin: v.a,
+          } as MatchPrediction),
+      )
+    : prediction?.predictions ?? [];
+  const ens: MatchPrediction | null = frozen
+    ? ({
+        modelId: 'ensemble',
+        homeWin: frozen.pHome,
+        draw: frozen.pDraw,
+        awayWin: frozen.pAway,
+        over25: frozen.over25,
+        btts: frozen.btts,
+      } as MatchPrediction)
+    : prediction?.ensemble ?? null;
+  const intel = frozen
+    ? []
+    : [prediction?.homeIntel, prediction?.awayIntel].filter(
+        (x): x is TeamIntel => !!x,
+      );
+  const adjusted = frozen ? null : prediction?.adjusted ?? null;
   const h2h = prediction?.h2h ?? null;
-  const weightMode = prediction?.weightMode;
+  const weightMode = frozen ? undefined : prediction?.weightMode;
 
   const consensus =
     base.length >= 2 && base.every((p) => argmax(p) === argmax(base[0]));
@@ -164,7 +187,11 @@ export default function PredictionCard({
           <MdInsights className="text-brand-500 dark:text-brand-400" />
           {t('predict.cardTitle')}
         </span>
-        {main && (
+        {frozen ? (
+          <span className="rounded px-1.5 py-0.5 text-[10px] bg-gray-100 text-gray-500 dark:bg-navy-700 dark:text-gray-400">
+            {t('predict.frozen')}
+          </span>
+        ) : main?.confidence ? (
           <span
             className={`rounded px-1.5 py-0.5 text-[10px] ${
               CONF_CLS[main.confidence]
@@ -172,7 +199,7 @@ export default function PredictionCard({
           >
             {t(`predict.conf_${main.confidence}`)}
           </span>
-        )}
+        ) : null}
       </div>
 
       {isLoading && base.length === 0 ? (
