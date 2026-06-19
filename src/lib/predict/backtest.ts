@@ -5,7 +5,7 @@
  * 口径:用自算 Elo(可点位重建;权威 eloratings.net 无法回溯);市场模型缺席(无赛前赔率快照),
  * 故评估的是「市场无关的 泊松+Elo 融合」。这与生产对已结束场次的现算结果在结构上一致。
  */
-import { loadHistorical, loadResults } from 'lib/db/store';
+import { loadHistorical, loadResults, loadElo } from 'lib/db/store';
 import { computeElo, ratingsFromHistorical } from './ratings';
 import { ensemble } from './ensemble';
 import { getModels } from './registry';
@@ -45,6 +45,7 @@ export function predictPointInTime(
   awayNorm: string,
   beforeISO: string,
   tuning?: Tuning,
+  sosEloOf?: (norm: string) => number | undefined, // SoS 对手强度(回测传权威 Elo)
 ): PointPrediction | null {
   const D = dateKey(beforeISO);
   const selfElo = computeElo(allRes.filter((r) => dateKey(r.date) < D));
@@ -54,6 +55,7 @@ export function predictPointInTime(
     tuning?.kSos != null
       ? { k: tuning.kSos, eloScale: tuning.sosEloScale ?? 300 }
       : undefined,
+    sosEloOf,
   );
   if (!ratings[homeNorm] || !ratings[awayNorm]) return null;
   const vals = Object.values(ratings);
@@ -168,6 +170,9 @@ export function runBacktest(opts?: {
       : undefined;
   const allHist = Object.values(loadHistorical());
   const allRes = Object.values(loadResults());
+  // 权威 Elo(覆盖非 WC 对手)供 SoS 对手强度查询;自算 Elo 不认识非 WC 对手
+  const authElo = loadElo();
+  const sosEloOf = (norm: string) => authElo[norm];
   const wcMatches = allRes
     .filter((r) => dateKey(r.date) >= wcStart)
     .sort((a, b) => a.date.localeCompare(b.date));
@@ -194,6 +199,7 @@ export function runBacktest(opts?: {
       m.awayNorm,
       m.date,
       tuning,
+      sosEloOf,
     );
     if (!pp) {
       skipped += 1;

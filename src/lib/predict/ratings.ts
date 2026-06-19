@@ -75,6 +75,7 @@ export function ratingsFromHistorical(
   hist: HistMatch[],
   eloOf?: (norm: string) => number | undefined,
   sos?: { k: number; eloScale: number }, // R1 对手强度校正(k>0 启用)
+  sosEloOf?: (norm: string) => number | undefined, // SoS 对手强度专用 Elo(缺省=eloOf;回测传权威以覆盖非WC对手)
 ): Record<string, TeamRating> {
   const byTeam = new Map<string, Sample[]>();
   const add = (norm: string, s: Sample) => {
@@ -107,11 +108,13 @@ export function ratingsFromHistorical(
   }
 
   // SoS 池均值 Elo(校正以「相对联赛均值」为基准,差值式,对 Elo 零点平移不变)
-  const sosOn = !!sos && sos.k > 0 && !!eloOf;
+  // 对手强度查询用 sosEloOf(回测传权威 Elo 以覆盖非 WC 对手),缺省回退 eloOf
+  const sosLookup = sosEloOf ?? eloOf;
+  const sosOn = !!sos && sos.k > 0 && !!sosLookup;
   let meanElo = ELO_START;
   if (sosOn) {
     const es = [...byTeam.keys()]
-      .map((n) => eloOf!(n))
+      .map((n) => sosLookup!(n))
       .filter((x): x is number => x != null);
     if (es.length) meanElo = es.reduce((p, c) => p + c, 0) / es.length;
   }
@@ -135,7 +138,7 @@ export function ratingsFromHistorical(
       let fAdj = 1;
       let aAdj = 1;
       if (sosOn) {
-        const oppElo = eloOf!(s.opp);
+        const oppElo = sosLookup!(s.opp);
         if (oppElo != null) {
           const rel = clamp1((oppElo - meanElo) / sos!.eloScale);
           fAdj = 1 + sos!.k * rel;
