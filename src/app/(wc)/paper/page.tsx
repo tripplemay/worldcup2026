@@ -36,6 +36,10 @@ function selectionLabel(t: (k: string) => string, tr: Trade): string {
     return `${tr.selection === 'Over' ? t('trade.over') : t('trade.under')} ${
       tr.line
     }`;
+  if (tr.market === 'BTTS')
+    return `${t('trade.btts')} ${
+      tr.selection === 'Yes' ? t('trade.yes') : t('trade.no')
+    }`;
   const side = tr.selection === 'home' ? t('trade.ahHome') : t('trade.ahAway');
   const p = tr.line ?? 0;
   return `${side} ${p > 0 ? '+' : ''}${p}`;
@@ -249,7 +253,7 @@ export default function PaperPage() {
     .sort((a, b) => (b.settledAt ?? b.placedAt) - (a.settledAt ?? a.placedAt))
     .slice(0, 10);
   // 分盘口
-  const markets = (['1X2', 'OU', 'AH'] as MarketType[])
+  const markets = (['1X2', 'OU', 'AH', 'BTTS'] as MarketType[])
     .map((m) => {
       const ms = trades.filter((x) => x.market === m);
       return {
@@ -266,6 +270,7 @@ export default function PaperPage() {
     '1X2': t('trade.mkt1x2'),
     OU: t('trade.mktOU'),
     AH: t('trade.mktAH'),
+    BTTS: t('trade.btts'),
   };
 
   const shown = trades.filter((x) =>
@@ -363,6 +368,31 @@ export default function PaperPage() {
               </span>
             </div>
           )}
+          {stats?.tiers &&
+            (stats.tiers.value.n > 0 || stats.tiers.coverage.n > 0) && (
+              <div className="mt-2 flex items-center justify-center gap-4 border-t border-gray-100 pt-2 text-xs dark:border-white/5">
+                {(['value', 'coverage'] as const).map((k) => {
+                  const ti = stats.tiers![k];
+                  return (
+                    <span key={k} className="flex items-center gap-1">
+                      <span className="text-gray-400">
+                        {t(
+                          k === 'value'
+                            ? 'trade.tierValue'
+                            : 'trade.tierCoverage',
+                        )}
+                      </span>
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {ti.wins}-{ti.losses}
+                      </span>
+                      <span className={`font-mono font-bold ${posCls(ti.pnl)}`}>
+                        {signMoney(ti.pnl)}
+                      </span>
+                    </span>
+                  );
+                })}
+              </div>
+            )}
           {recent.length > 0 && (
             <div className="mt-2 flex items-center gap-1 border-t border-gray-100 pt-2 dark:border-white/5">
               <span className="mr-1 text-[10px] text-gray-400">

@@ -45,6 +45,7 @@ export function clvKpi(): ClvKpi {
   let pos = 0;
   let sum = 0;
   for (const t of loadTrades()) {
+    if ((t.tier ?? 'value') !== 'value') continue; // CLV 只衡量精选策略,不含 coverage
     const c = closing[t.matchId];
     if (!c) continue;
     let closeOdds: number | null | undefined;

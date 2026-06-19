@@ -41,6 +41,15 @@ import type { MatchWithPredictions } from 'lib/predict/predict';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
+
+interface TierStat {
+  n: number;
+  settled: number;
+  wins: number;
+  losses: number;
+  pnl: number;
+  winRate: number;
+}
 import type {
   LeadersStore,
   PredictionSnapshot,
@@ -360,6 +369,10 @@ export function useTrade() {
       roi: number;
       winRate: number;
       clv?: { n: number; posRate: number; avgClv: number };
+      tiers?: {
+        value: TierStat;
+        coverage: TierStat;
+      };
     };
     trades: Trade[];
   }>('/api/worldcup/trade', fetcher, {

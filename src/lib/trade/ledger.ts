@@ -4,7 +4,7 @@
  */
 import { loadWallet, saveWallet, loadTrades, saveTrades } from 'lib/db/store';
 import { INITIAL_BALANCE } from './config';
-import type { Wallet, Trade, BetCandidate } from './types';
+import type { Wallet, Trade, BetCandidate, TradeTier } from './types';
 
 // ── 进程内互斥(单实例 PM2)──────────────────────────────
 let chain: Promise<unknown> = Promise.resolve();
@@ -56,6 +56,7 @@ export interface PlaceInput {
   date: string;
   candidate: BetCandidate;
   stake: number;
+  tier?: TradeTier;
 }
 
 /** 下注:扣余额→锁定 + 写 pending 流水(加锁;已下注/余额不足返回 null)。 */
@@ -83,6 +84,7 @@ export function placeBet(input: PlaceInput): Promise<Trade | null> {
       result: null,
       pnl: null,
       placedAt: Date.now(),
+      tier: input.tier ?? 'value',
     };
     w.currentBalance = +(w.currentBalance - input.stake).toFixed(2);
     w.lockedBalance = +(w.lockedBalance + input.stake).toFixed(2);

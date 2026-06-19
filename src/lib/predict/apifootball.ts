@@ -199,6 +199,7 @@ export interface AfMatchOdds {
   h2h: { home?: AfOddPick; draw?: AfOddPick; away?: AfOddPick };
   totals: { point: number; over?: AfOddPick; under?: AfOddPick }[];
   spreads: { side: 'home' | 'away'; point: number; pick: AfOddPick }[];
+  btts?: { yes?: AfOddPick; no?: AfOddPick };
 }
 
 const fnum = (v: unknown): number =>
@@ -235,6 +236,7 @@ export async function getFixtureOdds(
     string,
     { side: 'home' | 'away'; point: number; pick: AfOddPick }
   >();
+  const btts: { yes?: AfOddPick; no?: AfOddPick } = {};
   for (const b of books) {
     const book = String(b.name ?? '');
     for (const bet of arr(b.bets).map(obj)) {
@@ -269,6 +271,10 @@ export async function getFixtureOdds(
           const cur = spreads.get(k);
           if (!cur || price > cur.pick.price)
             spreads.set(k, { side, point, pick: { price, book } });
+        } else if (bet.name === 'Both Teams Score') {
+          const k = val.toLowerCase();
+          if (k === 'yes') btts.yes = better(btts.yes, price, book);
+          else if (k === 'no') btts.no = better(btts.no, price, book);
         }
       }
     }
@@ -277,6 +283,7 @@ export async function getFixtureOdds(
     h2h,
     totals: [...totals.entries()].map(([point, e]) => ({ point, ...e })),
     spreads: [...spreads.values()],
+    btts: btts.yes || btts.no ? btts : undefined,
   };
 }
 

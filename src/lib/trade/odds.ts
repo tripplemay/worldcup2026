@@ -6,7 +6,11 @@
 import { getCached, cached } from 'lib/cache';
 import { findMatch, normalizeTeam } from 'lib/match/normalize';
 import { theOddsApiProvider } from 'lib/odds/theoddsapi';
-import { projectOverUnder, projectAsianHandicap } from './projection';
+import {
+  projectOverUnder,
+  projectAsianHandicap,
+  projectBtts,
+} from './projection';
 import { scoreCandidate } from './router';
 import { afMarketSnapshot } from './afOdds';
 import { ODDS_SOURCE, ODDS_TTL_MS, PREMATCH_FETCH } from './config';
@@ -88,6 +92,29 @@ export function candidatesFromSnapshot(
       pWin: sp.side === 'home' ? pr.homeCover : pr.awayCover,
       pPush: pr.push,
     });
+  }
+
+  // BTTS 双方进球(Direction 2)
+  if (snap.btts) {
+    const pr = projectBtts(matrix);
+    if (snap.btts.yes)
+      out.push({
+        market: 'BTTS',
+        selection: 'Yes',
+        odds: snap.btts.yes.price,
+        book: snap.btts.yes.book,
+        pWin: pr.yes,
+        pPush: 0,
+      });
+    if (snap.btts.no)
+      out.push({
+        market: 'BTTS',
+        selection: 'No',
+        odds: snap.btts.no.price,
+        book: snap.btts.no.book,
+        pWin: pr.no,
+        pPush: 0,
+      });
   }
 
   return out.map(scoreCandidate);

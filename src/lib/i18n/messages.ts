@@ -371,6 +371,11 @@ export const messages = {
       mktAH: '亚盘',
       clv: 'CLV',
       posClv: '正CLV',
+      btts: '双方进球',
+      yes: '是',
+      no: '否',
+      tierValue: '精选',
+      tierCoverage: '覆盖',
     },
     stats: {
       possessionPct: '控球率',
@@ -774,6 +779,11 @@ export const messages = {
       mktAH: 'AH',
       clv: 'CLV',
       posClv: 'Pos CLV',
+      btts: 'BTTS',
+      yes: 'Yes',
+      no: 'No',
+      tierValue: 'Value',
+      tierCoverage: 'Coverage',
     },
     stats: {
       possessionPct: 'Possession',

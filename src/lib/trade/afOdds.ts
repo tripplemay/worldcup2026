@@ -43,5 +43,10 @@ export async function afMarketSnapshot(
     getFixtureOdds(fid),
   );
   if (!odds) return null;
-  return { h2h: odds.h2h, totals: odds.totals, spreads: odds.spreads };
+  return {
+    h2h: odds.h2h,
+    totals: odds.totals,
+    spreads: odds.spreads,
+    btts: odds.btts,
+  };
 }

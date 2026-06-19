@@ -3,8 +3,9 @@
  * 纯虚拟资金,验证「市场无关模型概率 vs 市场赔率」的 +EV 策略,不接真钱。
  */
 
-export type MarketType = '1X2' | 'OU' | 'AH';
+export type MarketType = '1X2' | 'OU' | 'AH' | 'BTTS';
 export type TradeStatus = 'pending' | 'won' | 'lost' | 'void';
+export type TradeTier = 'value' | 'coverage'; // value=+EV 精选;coverage=每场覆盖小注
 
 /** 归一化盘口快照(各家取最优价);AF 与 The Odds API 两源统一成此形,再投影成候选。 */
 export interface OddsPick {
@@ -15,6 +16,7 @@ export interface MarketSnapshot {
   h2h?: { home?: OddsPick; draw?: OddsPick; away?: OddsPick };
   totals: { point: number; over?: OddsPick; under?: OddsPick }[];
   spreads: { side: 'home' | 'away'; point: number; pick: OddsPick }[];
+  btts?: { yes?: OddsPick; no?: OddsPick }; // 双方进球
 }
 
 /** 一个候选下注(某盘口某选项 + 市场赔率 + 模型概率)。 */
@@ -60,4 +62,5 @@ export interface Trade {
   pnl: number | null;
   placedAt: number;
   settledAt?: number;
+  tier?: TradeTier; // 缺省视为 value(旧数据)
 }

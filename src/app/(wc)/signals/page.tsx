@@ -51,6 +51,10 @@ function selLabel(t: (k: string) => string, s: TradingSignal): string {
     return `${s.selection === 'Over' ? t('trade.over') : t('trade.under')} ${
       s.line
     }`;
+  if (s.market === 'BTTS')
+    return `${t('trade.btts')} ${
+      s.selection === 'Yes' ? t('trade.yes') : t('trade.no')
+    }`;
   const side = s.selection === 'home' ? t('trade.ahHome') : t('trade.ahAway');
   const p = s.line ?? 0;
   return `${side} ${p > 0 ? '+' : ''}${p}`;

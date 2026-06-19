@@ -24,11 +24,12 @@ import {
   KELLY_FRACTION,
   MAX_STAKE_PCT,
   MIN_STAKE,
+  COVERAGE_STAKE_PCT,
 } from './config';
 
 export async function runPreMatchBetting(opts?: {
   windowMin?: number;
-}): Promise<{ scanned: number; placed: number }> {
+}): Promise<{ scanned: number; placed: number; coverage: number }> {
   const windowMin =
     opts?.windowMin && opts.windowMin > 0 ? opts.windowMin : BET_WINDOW_MIN;
   const matches = await predictUpcoming(2);
@@ -36,6 +37,7 @@ export async function runPreMatchBetting(opts?: {
   const now = Date.now();
   let scanned = 0;
   let placed = 0;
+  let coverage = 0;
 
   for (const m of matches) {
     if (m.status !== 'pre') continue;
@@ -73,64 +75,93 @@ export async function runPreMatchBetting(opts?: {
       mw,
     });
     const best = selectBest(candidates);
-    if (!best) continue;
-
     const sigModels = modelsFromPredictions(m.predictions, m.ensemble);
-    // 指令合成(Copilot;含 L3 风控否决 + 分歧分类);不自动扣款,供人工跟单
-    emitSignal({
-      matchId: m.matchId,
-      match: `${m.homeTeam} vs ${m.awayTeam}`,
-      best,
-      balance: getWallet().currentBalance,
-      now,
-      models: sigModels,
-    });
-    // 自动模拟盘:RLM 市场拒绝 → 拦截下注(避免负 CLV)
-    if (hasActiveRlm(m.matchId, now)) {
-      console.log('[paper] RLM 风控拦截 auto-bet,跳过', m.matchId);
-      continue;
-    }
-    // G1:R1 伪差(错配场泊松对热门欠自信)+ 押市场非热门方(弱方"价值"多为 artifact)→ 否决自动下注
-    if (
+    // 指令合成(仅在有 +EV 选项时;含 L3 风控否决 + 分歧分类);不自动扣款
+    if (best)
+      emitSignal({
+        matchId: m.matchId,
+        match: `${m.homeTeam} vs ${m.awayTeam}`,
+        best,
+        balance: getWallet().currentBalance,
+        now,
+        models: sigModels,
+      });
+
+    // ── value 注(+EV 精选);RLM / G1(R1 伪差弱方)否决则跳过,落入 coverage ──
+    const mk = sigModels.market;
+    const favSide = mk
+      ? (['h', 'd', 'a'] as const).reduce((b, k) => (mk[k] > mk[b] ? k : b))
+      : null;
+    const r1Veto =
+      !!best &&
       best.market === '1X2' &&
-      classifyDivergence(sigModels) === 'R1_UNDERCONF'
-    ) {
-      const mk = sigModels.market;
-      const favSide = mk
-        ? (['h', 'd', 'a'] as const).reduce((b, k) => (mk[k] > mk[b] ? k : b))
-        : null;
-      const pickSide =
-        best.selection === 'home' ? 'h' : best.selection === 'away' ? 'a' : 'd';
-      if (favSide && pickSide !== favSide) {
-        console.log(
-          '[paper] R1 伪差弱方注,否决自动下注',
-          m.matchId,
-          best.selection,
-        );
-        continue;
+      classifyDivergence(sigModels) === 'R1_UNDERCONF' &&
+      !!favSide &&
+      (best.selection === 'home'
+        ? 'h'
+        : best.selection === 'away'
+        ? 'a'
+        : 'd') !== favSide;
+    let placedValue = false;
+    if (best && !hasActiveRlm(m.matchId, now) && !r1Veto) {
+      const stake = stakeFor(best.kelly, getWallet().currentBalance, {
+        fraction: KELLY_FRACTION,
+        maxPct: MAX_STAKE_PCT,
+        minStake: MIN_STAKE,
+      });
+      if (stake > 0) {
+        try {
+          const trade = await placeBet({
+            matchId: m.matchId,
+            homeTeam: m.homeTeam,
+            awayTeam: m.awayTeam,
+            date: m.commenceTime,
+            candidate: best,
+            stake,
+            tier: 'value',
+          });
+          if (trade) {
+            placed += 1;
+            placedValue = true;
+          }
+        } catch (e) {
+          console.error('[paper] value 下注失败', m.matchId, e);
+        }
       }
     }
 
-    const stake = stakeFor(best.kelly, getWallet().currentBalance, {
-      fraction: KELLY_FRACTION,
-      maxPct: MAX_STAKE_PCT,
-      minStake: MIN_STAKE,
-    });
-    if (stake <= 0) continue;
-
-    try {
-      const trade = await placeBet({
-        matchId: m.matchId,
-        homeTeam: m.homeTeam,
-        awayTeam: m.awayTeam,
-        date: m.commenceTime,
-        candidate: best,
-        stake,
-      });
-      if (trade) placed += 1;
-    } catch (e) {
-      console.error('[paper] 下注失败', m.matchId, e);
+    // ── Direction 1:每场覆盖 — 无 value 注则对融合热门方下固定小注 ──
+    if (!placedValue && m.ensemble) {
+      const e = m.ensemble;
+      const fav =
+        e.homeWin >= e.draw && e.homeWin >= e.awayWin
+          ? 'home'
+          : e.awayWin >= e.draw && e.awayWin >= e.homeWin
+          ? 'away'
+          : 'draw';
+      const cov = candidates.find(
+        (c) => c.market === '1X2' && c.selection === fav,
+      );
+      const cstake = +(getWallet().currentBalance * COVERAGE_STAKE_PCT).toFixed(
+        2,
+      );
+      if (cov && cstake > 0) {
+        try {
+          const trade = await placeBet({
+            matchId: m.matchId,
+            homeTeam: m.homeTeam,
+            awayTeam: m.awayTeam,
+            date: m.commenceTime,
+            candidate: cov,
+            stake: cstake,
+            tier: 'coverage',
+          });
+          if (trade) coverage += 1;
+        } catch (e2) {
+          console.error('[paper] coverage 下注失败', m.matchId, e2);
+        }
+      }
     }
   }
-  return { scanned, placed };
+  return { scanned, placed, coverage };
 }

@@ -64,6 +64,10 @@ export function outcome(
     const over = tot > line;
     return (t.selection === 'Over') === over ? 'won' : 'lost';
   }
+  if (t.market === 'BTTS') {
+    const both = gf >= 1 && ga >= 1;
+    return (t.selection === 'Yes') === both ? 'won' : 'lost';
+  }
   // AH:让分施加于所选队
   const point = t.line ?? 0;
   const margin = t.selection === 'home' ? gf - ga + point : ga - gf + point;
