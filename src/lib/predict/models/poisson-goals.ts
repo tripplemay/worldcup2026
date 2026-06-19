@@ -7,7 +7,7 @@
  */
 import type { PredictionModel, PredictionContext } from '../model';
 import { dcPoisson } from './poissonCore';
-import { GOAL_SHRINK, DC_RHO } from '../tuning';
+import { GOAL_SHRINK, DC_RHO, SHRINK_ELO_SCALE, effShrink } from '../tuning';
 
 const clamp = (x: number) => Math.min(5, Math.max(0.15, x));
 const damp = (raw: number, L: number, shrink: number) =>
@@ -21,7 +21,15 @@ export const poissonGoalsModel: PredictionModel = {
     const a = ctx.rating(ctx.awayNorm);
     if (!h || !a) return null;
     const L = Math.max(0.6, ctx.leagueAvgGoals);
-    const shrink = ctx.tuning?.goalShrink ?? GOAL_SHRINK;
+    const base = ctx.tuning?.goalShrink ?? GOAL_SHRINK;
+    const eh = ctx.eloOf?.(ctx.homeNorm);
+    const ea = ctx.eloOf?.(ctx.awayNorm);
+    const eloDiff = eh != null && ea != null ? Math.abs(eh - ea) : undefined;
+    const shrink = effShrink(
+      base,
+      eloDiff,
+      ctx.tuning?.shrinkEloScale ?? SHRINK_ELO_SCALE,
+    );
     const lambda = damp((h.goalsFor * a.goalsAgainst) / L, L, shrink);
     const mu = damp((a.goalsFor * h.goalsAgainst) / L, L, shrink);
     if (!Number.isFinite(lambda) || !Number.isFinite(mu)) return null;

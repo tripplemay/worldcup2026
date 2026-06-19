@@ -10,6 +10,7 @@ import {
   saveElo,
 } from 'lib/db/store';
 import { normalizeTeam } from 'lib/match/normalize';
+import { K_SOS, SOS_ELO_SCALE } from './tuning';
 import type { TeamRating, HistMatch } from './types';
 
 const ALPHA = 0.85; // 衰减系数:越近的比赛权重越高
@@ -57,6 +58,7 @@ export function computeElo(games: GameLike[]): Map<string, number> {
 }
 
 interface Sample {
+  opp: string; // 对手归一化名(SoS 校正查对手 Elo 用)
   date: string;
   name: string;
   xgFor: number;
@@ -72,6 +74,7 @@ interface Sample {
 export function ratingsFromHistorical(
   hist: HistMatch[],
   eloOf?: (norm: string) => number | undefined,
+  sos?: { k: number; eloScale: number }, // R1 对手强度校正(k>0 启用)
 ): Record<string, TeamRating> {
   const byTeam = new Map<string, Sample[]>();
   const add = (norm: string, s: Sample) => {
@@ -81,7 +84,10 @@ export function ratingsFromHistorical(
   // 按「当前归一化(从原始队名重算)」聚合,而非沿用入库时存的 homeNorm/awayNorm:
   // 否则别名等归一化规则更新后,旧数据的键不会跟着变,导致查不到(如 Congo DR)。
   for (const m of hist) {
-    add(normalizeTeam(m.homeName), {
+    const hn = normalizeTeam(m.homeName);
+    const an = normalizeTeam(m.awayName);
+    add(hn, {
+      opp: an,
       date: m.date,
       name: m.homeName,
       xgFor: m.homeXg,
@@ -89,7 +95,8 @@ export function ratingsFromHistorical(
       gf: m.homeGoals,
       ga: m.awayGoals,
     });
-    add(normalizeTeam(m.awayName), {
+    add(an, {
+      opp: hn,
       date: m.date,
       name: m.awayName,
       xgFor: m.awayXg,
@@ -98,6 +105,17 @@ export function ratingsFromHistorical(
       ga: m.homeGoals,
     });
   }
+
+  // SoS 池均值 Elo(校正以「相对联赛均值」为基准,差值式,对 Elo 零点平移不变)
+  const sosOn = !!sos && sos.k > 0 && !!eloOf;
+  let meanElo = ELO_START;
+  if (sosOn) {
+    const es = [...byTeam.keys()]
+      .map((n) => eloOf!(n))
+      .filter((x): x is number => x != null);
+    if (es.length) meanElo = es.reduce((p, c) => p + c, 0) / es.length;
+  }
+  const clamp1 = (x: number) => Math.max(-1, Math.min(1, x));
 
   const ratings: Record<string, TeamRating> = {};
   const now = Date.now();
@@ -113,11 +131,22 @@ export function ratingsFromHistorical(
     let ga = 0;
     samples.forEach((s, i) => {
       const weight = Math.pow(ALPHA, i);
+      // SoS:按对手相对强度中和——打/失球 vs 强队上调进攻、宽恕失球;vs 弱队反之
+      let fAdj = 1;
+      let aAdj = 1;
+      if (sosOn) {
+        const oppElo = eloOf!(s.opp);
+        if (oppElo != null) {
+          const rel = clamp1((oppElo - meanElo) / sos!.eloScale);
+          fAdj = 1 + sos!.k * rel;
+          aAdj = 1 - sos!.k * rel;
+        }
+      }
       w += weight;
-      f += weight * s.xgFor;
-      a += weight * s.xgAgainst;
-      gf += weight * s.gf;
-      ga += weight * s.ga;
+      f += weight * s.xgFor * fAdj;
+      a += weight * s.xgAgainst * aAdj;
+      gf += weight * s.gf * fAdj;
+      ga += weight * s.ga * aAdj;
     });
     ratings[norm] = {
       norm,
@@ -153,6 +182,7 @@ export function recomputeRatings(authElo?: Map<string, number>): {
   const ratings = ratingsFromHistorical(
     hist,
     (norm) => authElo?.get(norm) ?? Math.round(selfElo.get(norm) ?? ELO_START),
+    { k: K_SOS, eloScale: SOS_ELO_SCALE }, // 默认 K_SOS=0 → 无 SoS;env 可启用
   );
   saveRatings(ratings);
   return { teams: Object.keys(ratings).length };

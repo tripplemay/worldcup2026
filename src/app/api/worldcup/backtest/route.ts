@@ -20,10 +20,17 @@ export async function GET(req: Request) {
     goalShrink: numParam('shrink'),
     dcRho: numParam('rho'),
     eloDrawScale: numParam('drawscale'),
+    kSos: numParam('ksos'),
+    sosEloScale: numParam('soscale'),
+    shrinkEloScale: numParam('shrinkscale'),
     detail,
   };
   const hasTune =
-    opts.goalShrink != null || opts.dcRho != null || opts.eloDrawScale != null;
+    opts.goalShrink != null ||
+    opts.dcRho != null ||
+    opts.eloDrawScale != null ||
+    opts.kSos != null ||
+    opts.shrinkEloScale != null;
   try {
     // 带调参/明细的请求不缓存;默认配置缓存 1h
     const result =

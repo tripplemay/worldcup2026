@@ -30,6 +30,7 @@ export interface PointPrediction {
   predGoals: number;
   over25?: number;
   btts?: number;
+  eloDiff?: number; // |自算Elo 差|(分层:错配 vs 均势)
   models: ModelProb[]; // 各基础模型(诊断/规律分析用)
 }
 
@@ -50,6 +51,9 @@ export function predictPointInTime(
   const ratings = ratingsFromHistorical(
     allHist.filter((h) => dateKey(h.date) < D),
     (norm) => selfElo.get(norm),
+    tuning?.kSos != null
+      ? { k: tuning.kSos, eloScale: tuning.sosEloScale ?? 300 }
+      : undefined,
   );
   if (!ratings[homeNorm] || !ratings[awayNorm]) return null;
   const vals = Object.values(ratings);
@@ -91,6 +95,7 @@ export function predictPointInTime(
     predGoals: (ens.xgHome ?? 0) + (ens.xgAway ?? 0),
     over25: ens.over25,
     btts: ens.btts,
+    eloDiff,
     models: preds.map((p) => ({
       id: p.modelId,
       home: p.homeWin,
@@ -114,6 +119,7 @@ export interface BacktestRow {
   hit: boolean;
   predGoals: number;
   actualGoals: number;
+  eloDiff?: number; // detail 模式:|自算Elo 差|,供错配/均势分层
   models?: ModelProb[]; // detail 模式:各基础模型概率
 }
 
@@ -138,6 +144,9 @@ export function runBacktest(opts?: {
   goalShrink?: number;
   dcRho?: number;
   eloDrawScale?: number;
+  kSos?: number;
+  sosEloScale?: number;
+  shrinkEloScale?: number;
   detail?: boolean;
 }): BacktestResult {
   const wcStart =
@@ -145,11 +154,16 @@ export function runBacktest(opts?: {
   const tuning =
     opts?.goalShrink != null ||
     opts?.dcRho != null ||
-    opts?.eloDrawScale != null
+    opts?.eloDrawScale != null ||
+    opts?.kSos != null ||
+    opts?.shrinkEloScale != null
       ? {
           goalShrink: opts?.goalShrink,
           dcRho: opts?.dcRho,
           eloDrawScale: opts?.eloDrawScale,
+          kSos: opts?.kSos,
+          sosEloScale: opts?.sosEloScale,
+          shrinkEloScale: opts?.shrinkEloScale,
         }
       : undefined;
   const allHist = Object.values(loadHistorical());
@@ -229,7 +243,7 @@ export function runBacktest(opts?: {
       hit,
       predGoals: +predGoals.toFixed(2),
       actualGoals,
-      ...(opts?.detail ? { models: pp.models } : {}),
+      ...(opts?.detail ? { models: pp.models, eloDiff: pp.eloDiff } : {}),
     });
   }
 
