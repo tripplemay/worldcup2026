@@ -19,6 +19,7 @@ export interface RadarAlert {
   type: RadarType;
   severity: 'high' | 'medium';
   message: string;
+  side?: 'home' | 'draw' | 'away'; // 异动方向(供信号合成判同向共振)
   spark: number[]; // 最近 True_IP 走势(相关项),供 sparkline
 }
 
@@ -74,7 +75,8 @@ export function getRadarAlerts(): RadarAlert[] {
 /** 模拟盘风控:该场是否有近 30min 内的 RLM 警报(有则拦截下注)。 */
 export function hasActiveRlm(matchId: string, now = Date.now()): boolean {
   return rs.alerts.some(
-    (a) => a.type === 'RLM' && a.matchId === matchId && now - a.ts < RLM_COOLDOWN,
+    (a) =>
+      a.type === 'RLM' && a.matchId === matchId && now - a.ts < RLM_COOLDOWN,
   );
 }
 
@@ -98,7 +100,10 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
           ['away', '客胜', ipCur.away - ipPast.away, 3],
         ];
         const top = sides.sort((a, b) => b[2] - a[2])[0];
-        if (top[2] >= STEAM_DELTA && cooled(`${m.id}:STEAM`, now, STEAM_COOLDOWN)) {
+        if (
+          top[2] >= STEAM_DELTA &&
+          cooled(`${m.id}:STEAM`, now, STEAM_COOLDOWN)
+        ) {
           push({
             id: `${m.id}-STEAM-${now}`,
             matchId: m.id,
@@ -106,7 +111,10 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
             ts: now,
             type: 'STEAM',
             severity: top[2] >= 0.04 ? 'high' : 'medium',
-            message: `${top[1]}去水概率 3 分钟内 +${(top[2] * 100).toFixed(1)}%(赔率 ${past[top[3]]}→${cur[top[3]]})`,
+            message: `${top[1]}去水概率 3 分钟内 +${(top[2] * 100).toFixed(
+              1,
+            )}%(赔率 ${past[top[3]]}→${cur[top[3]]})`,
+            side: top[0],
             spark: sparkFor(series, top[0]),
           });
         }
@@ -137,7 +145,10 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
             ts: now,
             type: 'BREAKOUT',
             severity: 'medium',
-            message: `让球线击穿关键线 ${pastLine}→${curLine}(去水 ${(Math.max(ah.a, ah.b) * 100).toFixed(0)}%)`,
+            message: `让球线击穿关键线 ${pastLine}→${curLine}(去水 ${(
+              Math.max(ah.a, ah.b) * 100
+            ).toFixed(0)}%)`,
+            side: curLine < pastLine ? 'home' : 'away',
             spark: [],
           });
         }
@@ -162,8 +173,14 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
         const drift = ens[favKey] - ipCur[favKey];
         const pastHr = snapBefore(series, now - RLM_WINDOW) ?? series[0];
         const ipPastHr = trueIP3(pastHr[1], pastHr[2], pastHr[3]);
-        const falling = ipPastHr ? ipCur[favKey] < ipPastHr[favKey] - 0.005 : false;
-        if (drift >= 0.1 && falling && cooled(`${m.id}:RLM`, now, RLM_COOLDOWN)) {
+        const falling = ipPastHr
+          ? ipCur[favKey] < ipPastHr[favKey] - 0.005
+          : false;
+        if (
+          drift >= 0.1 &&
+          falling &&
+          cooled(`${m.id}:RLM`, now, RLM_COOLDOWN)
+        ) {
           const label =
             favKey === 'home' ? '主' : favKey === 'away' ? '客' : '平';
           push({
@@ -173,7 +190,12 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
             ts: now,
             type: 'RLM',
             severity: 'high',
-            message: `头条看好${label}胜 ${(ens[favKey] * 100).toFixed(0)}%,但临场真实仅 ${(ipCur[favKey] * 100).toFixed(0)}% 且在下滑——市场拒绝,建议放弃`,
+            message: `头条看好${label}胜 ${(ens[favKey] * 100).toFixed(
+              0,
+            )}%,但临场真实仅 ${(ipCur[favKey] * 100).toFixed(
+              0,
+            )}% 且在下滑——市场拒绝,建议放弃`,
+            side: favKey,
             spark: sparkFor(series, favKey),
           });
         }

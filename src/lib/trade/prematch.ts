@@ -14,6 +14,7 @@ import { selectBest } from './router';
 import { stakeFor } from './ev';
 import { getWallet, hasBet, placeBet } from './ledger';
 import { hasActiveRlm } from 'lib/odds/radar';
+import { emitSignal } from './signals';
 import {
   BET_WINDOW_MIN,
   KELLY_FRACTION,
@@ -37,11 +38,6 @@ export async function runPreMatchBetting(opts?: {
     const mins = (Date.parse(m.commenceTime) - now) / 60_000;
     if (!(mins > 0 && mins <= windowMin)) continue;
     if (hasBet(m.matchId)) continue;
-    // RLM 风控:市场强烈拒绝我方头条 → 拦截下注(避免负 CLV)
-    if (hasActiveRlm(m.matchId, now)) {
-      console.log('[paper] RLM 风控拦截,跳过', m.matchId);
-      continue;
-    }
     const lambda = m.ensemble?.xgHome;
     const mu = m.ensemble?.xgAway;
     if (lambda == null || mu == null) continue;
@@ -74,6 +70,20 @@ export async function runPreMatchBetting(opts?: {
     });
     const best = selectBest(candidates);
     if (!best) continue;
+
+    // 指令合成(Copilot;含 L3 风控否决);不自动扣款,供人工跟单
+    emitSignal({
+      matchId: m.matchId,
+      match: `${m.homeTeam} vs ${m.awayTeam}`,
+      best,
+      balance: getWallet().currentBalance,
+      now,
+    });
+    // 自动模拟盘:RLM 市场拒绝 → 拦截下注(避免负 CLV)
+    if (hasActiveRlm(m.matchId, now)) {
+      console.log('[paper] RLM 风控拦截 auto-bet,跳过', m.matchId);
+      continue;
+    }
 
     const stake = stakeFor(best.kelly, getWallet().currentBalance, {
       fraction: KELLY_FRACTION,

@@ -7,7 +7,7 @@
  * 干净对比 = 市场无关的 poisson 对闭盘;ensemble 含市场锚 0.2,自比偏循环,仅供参考。
  * 数据为前向积累:仅覆盖 Phase A 上线后开赛、且有预测存档的比赛。
  */
-import { loadClosingOdds, loadPredictionLog } from 'lib/db/store';
+import { loadClosingOdds, loadPredictionLog, loadTrades } from 'lib/db/store';
 import { trueIP3 } from 'lib/odds/trueIP';
 
 const MISMATCH = 0.7; // 闭盘隐含热门方 ≥70% 视为强错配
@@ -33,12 +33,52 @@ export interface ClvReport {
   }[];
 }
 
+/** 模拟盘 CLV KPI:每笔注的下注赔率 vs 闭盘赔率(正=打败闭盘,edge 领先指标)。 */
+export interface ClvKpi {
+  n: number; // 可对比的注数(有闭盘 + 1X2/亚盘主线)
+  posRate: number; // 正 CLV 占比
+  avgClv: number; // 平均 CLV(下注赔率/闭盘赔率 − 1)
+}
+export function clvKpi(): ClvKpi {
+  const closing = loadClosingOdds();
+  let n = 0;
+  let pos = 0;
+  let sum = 0;
+  for (const t of loadTrades()) {
+    const c = closing[t.matchId];
+    if (!c) continue;
+    let closeOdds: number | null | undefined;
+    if (t.market === '1X2') {
+      closeOdds =
+        t.selection === 'home' ? c.h : t.selection === 'away' ? c.a : c.d;
+    } else if (t.market === 'AH' && t.line === c.ahLine) {
+      closeOdds = t.selection === 'home' ? c.ahH : c.ahA;
+    } // OU:闭盘未抓任意线,跳过
+    if (closeOdds == null || closeOdds <= 1) continue;
+    const clv = t.odds / closeOdds - 1;
+    n += 1;
+    sum += clv;
+    if (clv > 0) pos += 1;
+  }
+  return {
+    n,
+    posRate: n ? +(pos / n).toFixed(3) : 0,
+    avgClv: n ? +(sum / n).toFixed(4) : 0,
+  };
+}
+
 export function clvReport(): ClvReport {
   const closing = loadClosingOdds();
   const log = loadPredictionLog();
   const acc: Record<
     string,
-    { n: number; nMis: number; absSum: number; favSum: number; favMisSum: number }
+    {
+      n: number;
+      nMis: number;
+      absSum: number;
+      favSum: number;
+      favMisSum: number;
+    }
   > = {};
   const rows: ClvReport['rows'] = [];
   let nMismatch = 0;

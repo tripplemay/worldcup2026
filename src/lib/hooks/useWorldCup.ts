@@ -41,7 +41,11 @@ import type { MatchWithPredictions } from 'lib/predict/predict';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
-import type { LeadersStore, PredictionSnapshot } from 'lib/db/store';
+import type {
+  LeadersStore,
+  PredictionSnapshot,
+  TradingSignal,
+} from 'lib/db/store';
 import type { AfPrediction } from 'lib/predict/apifootball';
 import type { ModelStats } from 'lib/predict/predictionLog';
 import type { RadarAlert } from 'lib/odds/radar';
@@ -190,6 +194,23 @@ export function useRadar() {
   return { alerts: data?.alerts ?? [], isLoading };
 }
 
+/** 交易指令流(Copilot 指令台)。 */
+export function useSignals() {
+  const { data, isLoading, mutate } = useSWR<{
+    signals: TradingSignal[];
+    unread: number;
+  }>('/api/worldcup/signals', fetcher, {
+    refreshInterval: LIVE_ODDS_MS,
+    ...common,
+  });
+  return {
+    signals: data?.signals ?? [],
+    unread: data?.unread ?? 0,
+    isLoading,
+    mutate,
+  };
+}
+
 /**
  * 单场全部市场(实时赔率页展开按需)。仅在传入 matchId 时请求;
  * 数据取自服务端内存(0 上游),随看板刷新而更新,故跟随实时间隔轻量刷新。
@@ -334,7 +355,12 @@ export function useAfPredict(home?: string, away?: string, date?: string) {
 export function useTrade() {
   const { data, error, isLoading } = useSWR<{
     wallet: Wallet;
-    stats: { equity: number; roi: number; winRate: number };
+    stats: {
+      equity: number;
+      roi: number;
+      winRate: number;
+      clv?: { n: number; posRate: number; avgClv: number };
+    };
     trades: Trade[];
   }>('/api/worldcup/trade', fetcher, {
     refreshInterval: STANDINGS_MS,

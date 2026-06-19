@@ -161,6 +161,33 @@ export function saveOpeningOdds(s: OpeningOddsStore): void {
   writeJson('opening-odds.json', s);
 }
 
+// ── 交易指令(Copilot:EV路由 + 雷达合成的 4 级人工跟单指令)──────
+export type SignalLevel = 'L1' | 'L2' | 'L3' | 'L4';
+export type SignalStatus = 'UNREAD' | 'EXECUTED' | 'DISMISSED';
+export interface TradingSignal {
+  id: string;
+  ts: number;
+  matchId: string;
+  match: string; // "Home vs Away"(展示名)
+  level: SignalLevel;
+  market: string;
+  selection: string;
+  line?: number;
+  odds: number;
+  ev: number;
+  pWin: number;
+  kelly: number;
+  suggestedStake: number;
+  resonance: boolean; // 雷达是否同向共振(L1)
+  status: SignalStatus;
+}
+export function loadSignals(): TradingSignal[] {
+  return readJson<TradingSignal[]>('trading-signals.json', []);
+}
+export function saveSignals(list: TradingSignal[]): void {
+  writeJson('trading-signals.json', list);
+}
+
 // ── 闭盘价(开赛前最后一拍,write-once;CLV 真值靶用)──────
 export interface ClosingOdds {
   capturedAt: number;

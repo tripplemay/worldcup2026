@@ -9,18 +9,29 @@ import {
   MdInsights,
   MdLeaderboard,
   MdAccountBalanceWallet,
-  MdBolt,
-  MdSettings,
+  MdGpsFixed,
 } from 'react-icons/md';
 import type { IconType } from 'react-icons';
 import { useT } from 'lib/i18n/context';
-import { useLiveOdds } from 'lib/hooks/useWorldCup';
+import { useLiveOdds, useSignals } from 'lib/hooks/useWorldCup';
 
 interface Tab {
   href: string;
   label: string;
   Icon: IconType;
   live?: boolean;
+  badge?: boolean;
+}
+
+/** 未读交易指令红点徽章。 */
+function SignalBadge() {
+  const { unread } = useSignals();
+  if (!unread) return null;
+  return (
+    <span className="pointer-events-none absolute -right-2.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-red-500 px-0.5 text-[9px] font-bold text-white">
+      {unread > 9 ? '9+' : unread}
+    </span>
+  );
 }
 
 /** 实时更新小圆点:常驻低调绿点,每次实时赔率更新扩散一圈光晕。 */
@@ -58,8 +69,12 @@ export default function BottomTabBar() {
     { href: '/predict', label: t('nav.predict'), Icon: MdInsights },
     { href: '/standings', label: t('nav.standings'), Icon: MdLeaderboard },
     { href: '/paper', label: t('nav.paper'), Icon: MdAccountBalanceWallet },
-    { href: '/radar', label: t('nav.radar'), Icon: MdBolt },
-    { href: '/settings', label: t('nav.settings'), Icon: MdSettings },
+    {
+      href: '/signals',
+      label: t('nav.signals'),
+      Icon: MdGpsFixed,
+      badge: true,
+    },
   ];
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur dark:border-white/10 dark:bg-navy-800/95">
@@ -83,6 +98,7 @@ export default function BottomTabBar() {
                     }`}
                   />
                   {tab.live && <LiveDot />}
+                  {tab.badge && <SignalBadge />}
                 </span>
                 {tab.label}
               </Link>

@@ -349,6 +349,20 @@ export default function PaperPage() {
               value={`${(avgEv * 100).toFixed(0)}%`}
             />
           </div>
+          {stats?.clv && stats.clv.n > 0 && (
+            <div className="mt-2 flex items-center justify-center gap-3 border-t border-gray-100 pt-2 text-xs dark:border-white/5">
+              <span className="text-gray-400">{t('trade.clv')}</span>
+              <span
+                className={`font-mono font-bold ${posCls(stats.clv.avgClv)}`}
+              >
+                {stats.clv.avgClv >= 0 ? '+' : ''}
+                {(stats.clv.avgClv * 100).toFixed(1)}%
+              </span>
+              <span className="text-gray-400">
+                {t('trade.posClv')} {pct(stats.clv.posRate)} ({stats.clv.n})
+              </span>
+            </div>
+          )}
           {recent.length > 0 && (
             <div className="mt-2 flex items-center gap-1 border-t border-gray-100 pt-2 dark:border-white/5">
               <span className="mr-1 text-[10px] text-gray-400">

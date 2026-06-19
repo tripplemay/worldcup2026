@@ -3,6 +3,7 @@
  */
 import { getWallet } from 'lib/trade/ledger';
 import { loadTrades } from 'lib/db/store';
+import { clvKpi } from 'lib/predict/clv';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -15,8 +16,11 @@ export async function GET() {
     const settled = wallet.wins + wallet.losses;
     const stats = {
       equity,
-      roi: +((equity - wallet.initialBalance) / wallet.initialBalance).toFixed(4),
+      roi: +((equity - wallet.initialBalance) / wallet.initialBalance).toFixed(
+        4,
+      ),
       winRate: settled ? +(wallet.wins / settled).toFixed(4) : 0,
+      clv: clvKpi(), // CLV edge 指标(下注价 vs 闭盘价)
     };
     return ok({ wallet, stats, trades });
   } catch (e) {
