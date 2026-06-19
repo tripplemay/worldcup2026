@@ -5,7 +5,7 @@
  */
 import { cached } from 'lib/cache';
 import { espnProvider } from 'lib/espn/espn';
-import { ok, fail } from 'lib/api/respond';
+import { okLive, fail } from 'lib/api/respond';
 import type { ScheduleMatch } from 'lib/espn/types';
 
 export const dynamic = 'force-dynamic';
@@ -73,7 +73,7 @@ export async function GET(req: Request) {
     const matches = (byDate.get(date) ?? []).sort((a, b) =>
       a.commenceTime.localeCompare(b.commenceTime),
     );
-    return ok({ dates: date, matches });
+    return okLive({ dates: date, matches });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '赛程/比分获取失败');
   }

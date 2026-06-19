@@ -5,7 +5,7 @@
  */
 import { ensureLiveBoard } from 'lib/odds/livePoller';
 import { loadOpeningOdds } from 'lib/db/store';
-import { ok, fail } from 'lib/api/respond';
+import { okLive, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +16,7 @@ export async function GET() {
     const matches = (board?.matches ?? []).map((m) =>
       opening[m.id] ? { ...m, opening: opening[m.id] } : m,
     );
-    return ok({
+    return okLive({
       matches,
       changes: board?.changes ?? {},
       fetchedAt: board?.fetchedAt ?? null,
