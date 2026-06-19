@@ -221,8 +221,10 @@ const STAT_KEYS = [
 
 export const espnProvider: EspnProvider = {
   async getScoreboard(dates: string) {
+    // 加旋转 cache-buster:绕过 ESPN site API 的 CDN 边缘缓存(实测对进行中比赛会滞后数分钟),
+    // 配合我方 fetch no-store + 路由短缓存,使比分/状态尽量贴近实时。
     const data = await getJSON(
-      `${BASE}/site/v2/sports/${LEAGUE}/scoreboard?dates=${dates}&limit=400`,
+      `${BASE}/site/v2/sports/${LEAGUE}/scoreboard?dates=${dates}&limit=400&_=${Date.now()}`,
     );
     return arr(data.events)
       .map((e) => parseEvent(obj(e)))

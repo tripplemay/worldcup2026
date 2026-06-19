@@ -12,15 +12,23 @@ export const dynamic = 'force-dynamic';
 const CN_OFFSET = 8 * 3600_000;
 
 function todayCN(): string {
-  return new Date(Date.now() + CN_OFFSET).toISOString().slice(0, 10).replace(/-/g, '');
+  return new Date(Date.now() + CN_OFFSET)
+    .toISOString()
+    .slice(0, 10)
+    .replace(/-/g, '');
 }
 function shiftYmd(ymd: string, days: number): string {
-  const dt = new Date(Date.UTC(+ymd.slice(0, 4), +ymd.slice(4, 6) - 1, +ymd.slice(6, 8)));
+  const dt = new Date(
+    Date.UTC(+ymd.slice(0, 4), +ymd.slice(4, 6) - 1, +ymd.slice(6, 8)),
+  );
   dt.setUTCDate(dt.getUTCDate() + days);
   return dt.toISOString().slice(0, 10).replace(/-/g, '');
 }
 function utc8Date(iso: string): string {
-  return new Date(new Date(iso).getTime() + CN_OFFSET).toISOString().slice(0, 10).replace(/-/g, '');
+  return new Date(new Date(iso).getTime() + CN_OFFSET)
+    .toISOString()
+    .slice(0, 10)
+    .replace(/-/g, '');
 }
 
 function groupByDate(all: ScheduleMatch[]): Map<string, ScheduleMatch[]> {
@@ -34,7 +42,10 @@ function groupByDate(all: ScheduleMatch[]): Map<string, ScheduleMatch[]> {
 }
 
 /** 智能默认:今天有未结束比赛→今天;今天比赛全部结束→下一个比赛日;今天无比赛→今天。 */
-function pickDefaultDate(byDate: Map<string, ScheduleMatch[]>, today: string): string {
+function pickDefaultDate(
+  byDate: Map<string, ScheduleMatch[]>,
+  today: string,
+): string {
   const todayM = byDate.get(today) ?? [];
   if (todayM.some((m) => m.status !== 'post')) return today;
   if (todayM.length > 0) {
@@ -53,7 +64,10 @@ export async function GET(req: Request) {
       ? `${shiftYmd(base, -1)}-${shiftYmd(base, 1)}`
       : `${shiftYmd(base, -1)}-${shiftYmd(base, 10)}`;
     const cacheKey = param ? `espn:sb:${base}` : `espn:sb:auto:${base}`;
-    const all = await cached(cacheKey, 25_000, () => espnProvider.getScoreboard(range));
+    // 短缓存(进行中比分需贴近实时;ESPN CDN 滞后已由 getScoreboard 的 cache-buster 绕过)
+    const all = await cached(cacheKey, 12_000, () =>
+      espnProvider.getScoreboard(range),
+    );
     const byDate = groupByDate(all);
     const date = param ? base : pickDefaultDate(byDate, base);
     const matches = (byDate.get(date) ?? []).sort((a, b) =>

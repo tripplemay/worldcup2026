@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { MdGpsFixed, MdCheck, MdClose } from 'react-icons/md';
 import Card from 'components/card';
@@ -13,28 +13,32 @@ import type { TradingSignal, SignalLevel } from 'lib/db/store';
 const money = (x: number) => Math.round(x).toLocaleString();
 const pct = (x: number) => `${Math.round(x * 100)}%`;
 
-const LEVEL: Record<SignalLevel, { key: string; bar: string; badge: string }> = {
-  L1: {
-    key: 'signals.l1',
-    bar: 'border-l-green-500',
-    badge: 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300',
-  },
-  L2: {
-    key: 'signals.l2',
-    bar: 'border-l-amber-400',
-    badge: 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
-  },
-  L3: {
-    key: 'signals.l3',
-    bar: 'border-l-red-500',
-    badge: 'bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-300',
-  },
-  L4: {
-    key: 'signals.l4',
-    bar: 'border-l-brand-400',
-    badge: 'bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400',
-  },
-};
+const LEVEL: Record<SignalLevel, { key: string; bar: string; badge: string }> =
+  {
+    L1: {
+      key: 'signals.l1',
+      bar: 'border-l-green-500',
+      badge:
+        'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300',
+    },
+    L2: {
+      key: 'signals.l2',
+      bar: 'border-l-amber-400',
+      badge:
+        'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300',
+    },
+    L3: {
+      key: 'signals.l3',
+      bar: 'border-l-red-500',
+      badge: 'bg-red-100 text-red-600 dark:bg-red-500/20 dark:text-red-300',
+    },
+    L4: {
+      key: 'signals.l4',
+      bar: 'border-l-brand-400',
+      badge:
+        'bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400',
+    },
+  };
 
 function selLabel(t: (k: string) => string, s: TradingSignal): string {
   if (s.market === '1X2')
@@ -44,7 +48,9 @@ function selLabel(t: (k: string) => string, s: TradingSignal): string {
       ? t('odds.draw')
       : t('odds.away');
   if (s.market === 'OU')
-    return `${s.selection === 'Over' ? t('trade.over') : t('trade.under')} ${s.line}`;
+    return `${s.selection === 'Over' ? t('trade.over') : t('trade.under')} ${
+      s.line
+    }`;
   const side = s.selection === 'home' ? t('trade.ahHome') : t('trade.ahAway');
   const p = s.line ?? 0;
   return `${side} ${p > 0 ? '+' : ''}${p}`;
@@ -67,9 +73,9 @@ function SignalCard({
   const reason =
     s.level === 'L3'
       ? t('signals.reject')
-      : `EV ${(s.ev * 100).toFixed(0)}% · ${t('signals.winrate')} ${pct(s.pWin)} · ${
-          s.resonance ? t('signals.resonate') : t('signals.calm')
-        }`;
+      : `EV ${(s.ev * 100).toFixed(0)}% · ${t('signals.winrate')} ${pct(
+          s.pWin,
+        )} · ${s.resonance ? t('signals.resonate') : t('signals.calm')}`;
   return (
     <Card extra={`border-l-4 ${lv.bar} p-4`}>
       <div className="mb-1 flex items-center justify-between gap-2">
@@ -86,7 +92,11 @@ function SignalCard({
         </Link>
       </div>
       <div
-        className={`text-lg font-extrabold ${s.level === 'L3' ? 'text-red-500 line-through dark:text-red-400' : 'text-navy-700 dark:text-white'}`}
+        className={`text-lg font-extrabold ${
+          s.level === 'L3'
+            ? 'text-red-500 line-through dark:text-red-400'
+            : 'text-navy-700 dark:text-white'
+        }`}
       >
         {action}
       </div>
@@ -122,6 +132,13 @@ export default function SignalsPage() {
   const { t } = useLocale();
   const [tab, setTab] = useState<'signals' | 'radar'>('signals');
   const { signals, isLoading, mutate } = useSignals();
+  // 进入指令台即标记「已查看」→ 清底栏红点(localStorage + 同标签事件)
+  useEffect(() => {
+    if (signals.length) {
+      localStorage.setItem('wc:signalsSeenAt', String(Date.now()));
+      window.dispatchEvent(new Event('wc-signals-seen'));
+    }
+  }, [signals]);
   const unread = signals
     .filter((s) => s.status === 'UNREAD')
     .sort((a, b) =>
@@ -174,7 +191,9 @@ export default function SignalsPage() {
               }`}
             >
               {t(k === 'signals' ? 'signals.tabSignals' : 'signals.tabRadar')}
-              {k === 'signals' && unread.length > 0 ? ` (${unread.length})` : ''}
+              {k === 'signals' && unread.length > 0
+                ? ` (${unread.length})`
+                : ''}
             </button>
           ))}
         </div>

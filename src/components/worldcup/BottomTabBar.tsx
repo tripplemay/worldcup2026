@@ -23,14 +23,21 @@ interface Tab {
   badge?: boolean;
 }
 
-/** 未读交易指令红点徽章。 */
-function SignalBadge() {
-  const { unread } = useSignals();
-  if (!unread) return null;
+/** 新指令红点:有比「上次查看」更新的指令时显示,进入指令台后清除(localStorage + 同标签事件)。 */
+function SignalDot() {
+  const { signals } = useSignals();
+  const maxTs = signals.reduce((m, s) => Math.max(m, s.ts), 0);
+  const [seenAt, setSeenAt] = useState(0);
+  useEffect(() => {
+    const read = () =>
+      setSeenAt(Number(localStorage.getItem('wc:signalsSeenAt') || 0));
+    read();
+    window.addEventListener('wc-signals-seen', read);
+    return () => window.removeEventListener('wc-signals-seen', read);
+  }, []);
+  if (!(maxTs > 0 && maxTs > seenAt)) return null;
   return (
-    <span className="pointer-events-none absolute -right-2.5 -top-1 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-red-500 px-0.5 text-[9px] font-bold text-white">
-      {unread > 9 ? '9+' : unread}
-    </span>
+    <span className="pointer-events-none absolute -right-1.5 -top-0.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-navy-800" />
   );
 }
 
@@ -98,7 +105,7 @@ export default function BottomTabBar() {
                     }`}
                   />
                   {tab.live && <LiveDot />}
-                  {tab.badge && <SignalBadge />}
+                  {tab.badge && <SignalDot />}
                 </span>
                 {tab.label}
               </Link>
