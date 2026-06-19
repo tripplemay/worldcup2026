@@ -16,6 +16,7 @@ import { computeChanges } from './changes';
 import type { OddsChangeMap } from './changes';
 import { loadLiveOddsSnap, saveLiveOddsSnap } from './snapStore';
 import { loadOpeningOdds, saveOpeningOdds } from 'lib/db/store';
+import { recordTick, startSeriesFlush } from './oddsSeries';
 import { groupLiveMarkets } from './liveMarketGroups';
 import type {
   MatchOdds,
@@ -168,6 +169,7 @@ async function doTick(): Promise<void> {
     const { changes, snap } = computeChanges(loadLiveOddsSnap(), matches, now);
     saveLiveOddsSnap(snap);
     captureOpening(matches, now);
+    recordTick(matches, marketsById, now); // 时序底座:快照 + 闭盘捕获
     state.board = { matches, changes, fetchedAt: now, rate };
     state.marketsById = marketsById;
   } catch (e) {
@@ -192,6 +194,7 @@ function tick(): Promise<void> {
 export function startLivePoller(): void {
   if (state.started || !hasLiveKey()) return;
   state.started = true;
+  startSeriesFlush(); // 5min 时序落盘定时器
   void tick();
 }
 

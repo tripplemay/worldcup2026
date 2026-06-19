@@ -159,6 +159,39 @@ export function saveOpeningOdds(s: OpeningOddsStore): void {
   writeJson('opening-odds.json', s);
 }
 
+// ── 闭盘价(开赛前最后一拍,write-once;CLV 真值靶用)──────
+export interface ClosingOdds {
+  capturedAt: number;
+  h: number | null;
+  d: number | null;
+  a: number | null;
+  ahLine?: number | null;
+  ahH?: number | null;
+  ahA?: number | null;
+}
+export type ClosingOddsStore = Record<string, ClosingOdds>; // key = 比赛 id
+export function loadClosingOdds(): ClosingOddsStore {
+  return readJson<ClosingOddsStore>('closing-odds.json', {});
+}
+export function saveClosingOdds(s: ClosingOddsStore): void {
+  writeJson('closing-odds.json', s);
+}
+
+// ── 赔率时序快照(雷达;内存为权威,5min 异步落盘)──────
+export interface OddsSnapshotsFile {
+  lastFlushed: number;
+  matches: Record<string, { snapshots: (number | null)[][] }>;
+}
+export function loadOddsSnapshots(): OddsSnapshotsFile {
+  return readJson<OddsSnapshotsFile>('odds-snapshots.json', {
+    lastFlushed: 0,
+    matches: {},
+  });
+}
+export function saveOddsSnapshots(data: OddsSnapshotsFile): void {
+  writeJson('odds-snapshots.json', data);
+}
+
 // ── 射手榜(API-Football topscorers,engine cron 刷新)──────
 export interface LeadersStore {
   updatedAt: number;
