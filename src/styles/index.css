@@ -49,10 +49,13 @@
 }
 /* 修复:fixed/sticky + backdrop-blur 元素(页头/底栏/设置齿轮)在快速滚动时
    会留下一条灰色等宽重绘残影"飞过"(浏览器 backdrop-filter 合成 bug)。
-   强制其提升到独立 GPU 合成层即可消除。当前这些元素均未使用 transform 工具类,无冲突。 */
+   仅提升 GPU 层(translateZ)在重绘繁忙的页(赔率/积分/详情)仍不足以根除。
+   这些元素背景本就 ~95% 不透明,毛玻璃视觉收益极小 → 直接关闭 backdrop-filter 从源头根除。 */
 .backdrop-blur {
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
 }
 
 input.defaultCheckbox {
