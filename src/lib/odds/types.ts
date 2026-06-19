@@ -52,6 +52,8 @@ export interface MatchOdds {
     draw?: { price: number; bookmaker: string };
     away?: { price: number; bookmaker: string };
   };
+  // 初盘(自捕获首见,1X2;由 live-odds 路由从 opening-odds.json 合入)
+  opening?: { capturedAt: number; home: number; draw: number; away: number };
 }
 
 export interface OutrightOdds {

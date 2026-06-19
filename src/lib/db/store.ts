@@ -144,6 +144,21 @@ export function savePredictionLog(log: PredictionLog): void {
   writeJson('predictions-log.json', log);
 }
 
+// ── 初盘(1X2 自捕获:轮询器首见某场赔率时写一次,永不覆盖)──────
+export interface OpeningOdds {
+  capturedAt: number; // 首见时刻(ms)
+  home: number;
+  draw: number;
+  away: number;
+}
+export type OpeningOddsStore = Record<string, OpeningOdds>; // key = 比赛 id
+export function loadOpeningOdds(): OpeningOddsStore {
+  return readJson<OpeningOddsStore>('opening-odds.json', {});
+}
+export function saveOpeningOdds(s: OpeningOddsStore): void {
+  writeJson('opening-odds.json', s);
+}
+
 // ── 射手榜(API-Football topscorers,engine cron 刷新)──────
 export interface LeadersStore {
   updatedAt: number;

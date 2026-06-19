@@ -15,6 +15,7 @@ import { fetchWcEvents, fetchLiveBoard, hasLiveKey } from './oddsapiio';
 import { computeChanges } from './changes';
 import type { OddsChangeMap } from './changes';
 import { loadLiveOddsSnap, saveLiveOddsSnap } from './snapStore';
+import { loadOpeningOdds, saveOpeningOdds } from 'lib/db/store';
 import { groupLiveMarkets } from './liveMarketGroups';
 import type {
   MatchOdds,
@@ -108,6 +109,23 @@ function nextDelay(rate: LiveRate): number {
   return Math.max(MIN_INTERVAL_MS, Math.min(spread, MAX_INTERVAL_MS));
 }
 
+/** 初盘自捕获:某场首次出现完整 1X2 最优价时写一次(永不覆盖)。 */
+function captureOpening(matches: MatchOdds[], now: number): void {
+  const store = loadOpeningOdds();
+  let added = false;
+  for (const m of matches) {
+    if (store[m.id]) continue;
+    const h = m.best.home?.price;
+    const d = m.best.draw?.price;
+    const a = m.best.away?.price;
+    if (h != null && d != null && a != null) {
+      store[m.id] = { capturedAt: now, home: h, draw: d, away: a };
+      added = true;
+    }
+  }
+  if (added) saveOpeningOdds(store);
+}
+
 async function doTick(): Promise<void> {
   const now = Date.now();
   let rate: LiveRate = state.board?.rate ?? EMPTY_RATE;
@@ -122,6 +140,7 @@ async function doTick(): Promise<void> {
     rate = oddsRate;
     const { changes, snap } = computeChanges(loadLiveOddsSnap(), matches, now);
     saveLiveOddsSnap(snap);
+    captureOpening(matches, now);
     state.board = { matches, changes, fetchedAt: now, rate };
     state.marketsById = marketsById;
   } catch (e) {

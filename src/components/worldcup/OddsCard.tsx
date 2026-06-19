@@ -43,6 +43,31 @@ function OddBlock({
   );
 }
 
+/** 初盘单格:显示首见价 + 相对现价的总线移(▲价升 / ▼价降)。 */
+function OpenCell({ open, cur }: { open: number; cur?: number }) {
+  const dir =
+    cur == null ? 'flat' : cur > open ? 'up' : cur < open ? 'down' : 'flat';
+  const cls =
+    dir === 'up'
+      ? 'text-green-500'
+      : dir === 'down'
+      ? 'text-red-500'
+      : 'text-gray-400';
+  return (
+    <div className="flex-1 rounded-lg bg-lightPrimary/60 py-1 text-center dark:bg-navy-700/40">
+      <span className="text-sm font-semibold tabular-nums text-gray-600 dark:text-gray-300">
+        {open.toFixed(2)}
+      </span>
+      {cur != null && dir !== 'flat' && (
+        <span className={`ml-1 text-[10px] tabular-nums ${cls}`}>
+          {dir === 'up' ? '▲' : '▼'}
+          {Math.abs(cur - open).toFixed(2)}
+        </span>
+      )}
+    </div>
+  );
+}
+
 /** 一场比赛赔率(Horizon Card):默认胜平负三块,点击展开全部市场(按标签分组,按需加载)。 */
 function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
   const { t, locale } = useLocale();
@@ -72,6 +97,18 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
         <OddBlock label={t('odds.draw')} best={m.best.draw} ch={change?.draw} />
         <OddBlock label={t('odds.away')} best={m.best.away} ch={change?.away} />
       </div>
+      {m.opening && (
+        <div className="mt-2">
+          <div className="mb-1 text-center text-[10px] text-gray-400">
+            {t('odds.opening')}
+          </div>
+          <div className="flex gap-2">
+            <OpenCell open={m.opening.home} cur={m.best.home?.price} />
+            <OpenCell open={m.opening.draw} cur={m.best.draw?.price} />
+            <OpenCell open={m.opening.away} cur={m.best.away?.price} />
+          </div>
+        </div>
+      )}
       <button
         onClick={() => setOpen((o) => !o)}
         className="mt-2 w-full text-center text-[11px] text-gray-500 active:opacity-70 dark:text-gray-400"

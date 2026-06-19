@@ -4,6 +4,7 @@
  * 数据由后台单例轮询器维护(~36s/次);本路由只读内存看板,几乎零上游消耗。
  */
 import { ensureLiveBoard } from 'lib/odds/livePoller';
+import { loadOpeningOdds } from 'lib/db/store';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -11,8 +12,12 @@ export const dynamic = 'force-dynamic';
 export async function GET() {
   try {
     const board = await ensureLiveBoard();
+    const opening = loadOpeningOdds();
+    const matches = (board?.matches ?? []).map((m) =>
+      opening[m.id] ? { ...m, opening: opening[m.id] } : m,
+    );
     return ok({
-      matches: board?.matches ?? [],
+      matches,
       changes: board?.changes ?? {},
       fetchedAt: board?.fetchedAt ?? null,
       rate: board?.rate ?? { limit: null, remaining: null, reset: null },
