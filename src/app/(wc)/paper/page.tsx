@@ -20,7 +20,7 @@ const signMoney = (x: number) => `${x >= 0 ? '+' : '−'}${money(Math.abs(x))}`;
 const pct = (x: number) => `${(x * 100).toFixed(1)}%`;
 const posCls = (x: number) =>
   x > 0
-    ? 'text-emerald-600 dark:text-emerald-400'
+    ? 'text-green-600 dark:text-green-400'
     : x < 0
     ? 'text-red-500 dark:text-red-400'
     : 'text-gray-400';
@@ -80,7 +80,7 @@ function EquityCurve({
       <path
         d={path}
         fill="none"
-        className={up ? 'stroke-emerald-500' : 'stroke-red-400'}
+        className={up ? 'stroke-green-500' : 'stroke-red-400'}
         strokeWidth={2}
         strokeLinejoin="round"
         strokeLinecap="round"
@@ -101,12 +101,12 @@ const STATUS: Record<
   }
 > = {
   won: {
-    accent: 'border-l-emerald-500',
-    tint: 'bg-emerald-50/60 dark:bg-emerald-500/10',
+    accent: 'border-l-green-500',
+    tint: 'bg-green-50/60 dark:bg-green-500/10',
     Icon: MdCheckCircle,
-    cls: 'text-emerald-600 dark:text-emerald-400',
+    cls: 'text-green-600 dark:text-green-400',
     badge:
-      'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
+      'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300',
   },
   lost: {
     accent: 'border-l-red-500',
@@ -358,7 +358,7 @@ export default function PaperPage() {
                 <span
                   key={x.tradeId}
                   className={`h-2.5 w-2.5 rounded-full ${
-                    x.status === 'won' ? 'bg-emerald-500' : 'bg-red-400'
+                    x.status === 'won' ? 'bg-green-500' : 'bg-red-400'
                   }`}
                 />
               ))}

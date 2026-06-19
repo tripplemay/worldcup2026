@@ -22,7 +22,7 @@ const RES_CLS: Record<string, string> = {
 
 const gradeColor = (g: number) =>
   g >= 80
-    ? 'text-emerald-600 dark:text-emerald-400'
+    ? 'text-green-600 dark:text-green-400'
     : g >= 65
     ? 'text-brand-500 dark:text-brand-400'
     : g >= 50
@@ -32,7 +32,7 @@ const gradeColor = (g: number) =>
 const signed2 = (x: number) => `${x >= 0 ? '+' : ''}${x.toFixed(2)}`;
 const diffCls = (x: number) =>
   x > 0.05
-    ? 'text-emerald-600 dark:text-emerald-400'
+    ? 'text-green-600 dark:text-green-400'
     : x < -0.05
     ? 'text-red-500 dark:text-red-400'
     : 'text-gray-500 dark:text-gray-400';
@@ -147,7 +147,7 @@ function StateBlock({ p }: { p: TeamProfile }) {
         <Bar
           label={t('team.recentForm')}
           value={s.recentForm}
-          color="bg-emerald-500"
+          color="bg-green-500"
         />
         <Bar label={t('team.fitness')} value={s.fitness} color="bg-amber-500" />
       </div>
@@ -236,7 +236,7 @@ function StyleBlock({ p }: { p: TeamProfile }) {
     v === 'over'
       ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/15 dark:text-amber-400'
       : v === 'under'
-      ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/15 dark:text-emerald-400'
+      ? 'bg-green-100 text-green-700 dark:bg-green-500/15 dark:text-green-400'
       : 'bg-gray-200/70 text-gray-600 dark:bg-navy-700 dark:text-gray-300';
   const verdictKey =
     v === 'over'

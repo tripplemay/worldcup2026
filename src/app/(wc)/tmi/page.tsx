@@ -56,13 +56,13 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
   const { raw, normalized: nz, total } = team;
   const hot = total > 0.5;
   const totalColor = hot
-    ? 'text-emerald-600 dark:text-emerald-400'
+    ? 'text-green-600 dark:text-green-400'
     : total < 0
     ? 'text-red-500 dark:text-red-400'
     : 'text-navy-700 dark:text-white';
 
   return (
-    <Card extra={`p-3.5 ${hot ? 'ring-1 ring-emerald-400/40' : ''}`}>
+    <Card extra={`p-3.5 ${hot ? 'ring-1 ring-green-400/40' : ''}`}>
       <div className="flex items-center gap-3">
         <span className="w-5 shrink-0 text-center font-mono text-sm font-semibold text-gray-400">
           {rank}
@@ -73,7 +73,7 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
           className="min-w-0 flex-1 text-sm font-semibold text-navy-700 dark:text-white"
         />
         <div className="flex shrink-0 items-center gap-1">
-          {hot && <MdLocalFireDepartment className="text-emerald-500" />}
+          {hot && <MdLocalFireDepartment className="text-green-500" />}
           <span
             className={`font-mono text-lg font-bold tabular-nums ${totalColor}`}
           >
@@ -92,7 +92,7 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
         <FactorBar
           label={t('tmi.tactical')}
           value={+(WEIGHT_XG * nz.tacticalScore).toFixed(3)}
-          posColor="bg-emerald-500"
+          posColor="bg-green-500"
         />
         <FactorBar
           label={t('tmi.fatigue')}

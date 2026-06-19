@@ -10,7 +10,7 @@ import type { TeamProfile } from 'lib/team/types';
 
 const gradeCls = (g: number) =>
   g >= 80
-    ? 'text-emerald-600 dark:text-emerald-400'
+    ? 'text-green-600 dark:text-green-400'
     : g >= 65
     ? 'text-brand-500 dark:text-brand-400'
     : g >= 50
@@ -61,7 +61,7 @@ function TeamCol({ team, profile }: { team: string; profile: TeamProfile | null 
           </div>
           <div className="space-y-1 pt-0.5">
             <Bar label={t('team.momentum')} value={profile.state.momentum} color="bg-brand-500" />
-            <Bar label={t('team.recentForm')} value={profile.state.recentForm} color="bg-emerald-500" />
+            <Bar label={t('team.recentForm')} value={profile.state.recentForm} color="bg-green-500" />
             <Bar label={t('team.fitness')} value={profile.state.fitness} color="bg-amber-500" />
           </div>
         </>
