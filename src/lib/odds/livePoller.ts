@@ -126,6 +126,33 @@ function captureOpening(matches: MatchOdds[], now: number): void {
   if (added) saveOpeningOdds(store);
 }
 
+/**
+ * 一次性拉取所有未开赛比赛的当前赔率,写入初盘(write-once)。
+ * 为远期比赛(超出轮询器最近 N 场窗口的)尽早建立初盘基准。
+ * /odds/multi 每次最多 10 场扣 1 次;按 10 分块,剩余额度 <5 时停手(留给轮询器)。
+ */
+export async function captureAllOpenings(): Promise<{
+  pending: number;
+  captured: number;
+  requests: number;
+}> {
+  if (!hasLiveKey()) return { pending: 0, captured: 0, requests: 0 };
+  const before = Object.keys(loadOpeningOdds()).length;
+  const { events } = await fetchWcEvents();
+  let requests = 1;
+  const pending = events.filter((e) => e.status === 'pending');
+  for (let i = 0; i < pending.length; i += 10) {
+    const chunk = pending.slice(i, i + 10).map((e) => e.id);
+    if (!chunk.length) break;
+    const { matches, rate } = await fetchLiveBoard(chunk);
+    requests += 1;
+    captureOpening(matches, Date.now());
+    if (rate.remaining != null && rate.remaining < 5) break; // 留额度给轮询器
+  }
+  const captured = Object.keys(loadOpeningOdds()).length - before;
+  return { pending: pending.length, captured, requests };
+}
+
 async function doTick(): Promise<void> {
   const now = Date.now();
   let rate: LiveRate = state.board?.rate ?? EMPTY_RATE;
