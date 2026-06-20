@@ -8,6 +8,7 @@
  * 数据为前向积累:仅覆盖 Phase A 上线后开赛、且有预测存档的比赛。
  */
 import { loadClosingOdds, loadPredictionLog, loadTrades } from 'lib/db/store';
+import { matchKey } from 'lib/match/normalize';
 import { trueIP3 } from 'lib/odds/trueIP';
 
 const MISMATCH = 0.7; // 闭盘隐含热门方 ≥70% 视为强错配
@@ -46,7 +47,8 @@ export function clvKpi(): ClvKpi {
   let sum = 0;
   for (const t of loadTrades()) {
     if ((t.tier ?? 'value') !== 'value') continue; // CLV 只衡量精选策略,不含 coverage
-    const c = closing[t.matchId];
+    // 闭盘价按 matchKey 入键(跨源对齐);trade 用 ESPN id,这里按队名对+日期重建键
+    const c = closing[matchKey(t.homeTeam, t.awayTeam, t.date)];
     if (!c) continue;
     let closeOdds: number | null | undefined;
     if (t.market === '1X2') {
@@ -84,9 +86,11 @@ export function clvReport(): ClvReport {
   const rows: ClvReport['rows'] = [];
   let nMismatch = 0;
 
-  for (const [id, c] of Object.entries(closing)) {
-    const snap = log[id];
-    if (!snap) continue;
+  for (const [id, snap] of Object.entries(log)) {
+    // 预测存档(ESPN id)→ 按队名对+日期重建 matchKey,join 跨源闭盘价
+    const c =
+      closing[matchKey(snap.homeTeam, snap.awayTeam, snap.commenceTime)];
+    if (!c) continue;
     const close = trueIP3(c.h, c.d, c.a);
     if (!close) continue;
     const closeArr = { h: close.home, d: close.draw, a: close.away };

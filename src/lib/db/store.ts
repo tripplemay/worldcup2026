@@ -198,8 +198,10 @@ export interface ClosingOdds {
   ahLine?: number | null;
   ahH?: number | null;
   ahA?: number | null;
+  home?: string;
+  away?: string;
 }
-export type ClosingOddsStore = Record<string, ClosingOdds>; // key = 比赛 id
+export type ClosingOddsStore = Record<string, ClosingOdds>; // key = matchKey(队名对+UTC日),跨源对齐
 export function loadClosingOdds(): ClosingOddsStore {
   return readJson<ClosingOddsStore>('closing-odds.json', {});
 }

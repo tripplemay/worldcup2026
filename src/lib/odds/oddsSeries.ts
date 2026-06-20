@@ -4,6 +4,7 @@
  * 状态挂 globalThis(与 livePoller 同模式,避免双实例分叉)。几乎零新增上游配额(只保留每拍已拉数据)。
  */
 import type { MatchOdds, LiveMarket } from './types';
+import { matchKey } from 'lib/match/normalize';
 import {
   loadClosingOdds,
   saveClosingOdds,
@@ -29,7 +30,7 @@ interface SeriesState {
   series: Record<string, OddsSnapshot[]>;
   lastPre: Record<
     string,
-    { snap: OddsSnapshot; commenceTime: number }
+    { snap: OddsSnapshot; commenceTime: number; home: string; away: string }
   >; // 各场最新「赛前」快照,开赛冻结为闭盘
   flushTimer: ReturnType<typeof setInterval> | null;
   loaded: boolean;
@@ -84,16 +85,37 @@ export function recordTick(
     if (arr.length > MAX_POINTS) arr.splice(0, arr.length - MAX_POINTS);
     const ct = Date.parse(m.commenceTime);
     if (Number.isFinite(ct) && now < ct) {
-      st.lastPre[m.id] = { snap, commenceTime: ct };
+      st.lastPre[m.id] = {
+        snap,
+        commenceTime: ct,
+        home: m.homeTeam,
+        away: m.awayTeam,
+      };
     }
   }
-  // 闭盘 write-once:已开赛且尚未记录 → 把最后一拍赛前快照定为闭盘
+  // 闭盘 write-once:已开赛且尚未记录 → 把最后一拍赛前快照定为闭盘。
+  // 关键:按 matchKey(队名对+UTC日)入键,与 trades/预测存档的 ESPN id 跨源对齐(CLV 用)。
   const closing = loadClosingOdds();
   let added = false;
   for (const [id, lp] of Object.entries(st.lastPre)) {
-    if (now >= lp.commenceTime && !closing[id]) {
+    const key = matchKey(
+      lp.home,
+      lp.away,
+      new Date(lp.commenceTime).toISOString(),
+    );
+    if (now >= lp.commenceTime && !closing[key]) {
       const [ts, h, d, a, ahLine, ahH, ahA] = lp.snap;
-      closing[id] = { capturedAt: ts, h, d, a, ahLine, ahH, ahA };
+      closing[key] = {
+        capturedAt: ts,
+        h,
+        d,
+        a,
+        ahLine,
+        ahH,
+        ahA,
+        home: lp.home,
+        away: lp.away,
+      };
       added = true;
       delete st.lastPre[id];
     }
