@@ -376,6 +376,11 @@ export const messages = {
       no: '否',
       tierValue: '精选',
       tierCoverage: '覆盖',
+      dc: '双重机会',
+      dnb: '去平',
+      dc1x: '主或平',
+      dc12: '主或客',
+      dcx2: '平或客',
     },
     stats: {
       possessionPct: '控球率',
@@ -784,6 +789,11 @@ export const messages = {
       no: 'No',
       tierValue: 'Value',
       tierCoverage: 'Coverage',
+      dc: 'Double Chance',
+      dnb: 'DNB',
+      dc1x: '1X',
+      dc12: '12',
+      dcx2: 'X2',
     },
     stats: {
       possessionPct: 'Possession',

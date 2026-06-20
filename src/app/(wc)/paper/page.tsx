@@ -40,6 +40,18 @@ function selectionLabel(t: (k: string) => string, tr: Trade): string {
     return `${t('trade.btts')} ${
       tr.selection === 'Yes' ? t('trade.yes') : t('trade.no')
     }`;
+  if (tr.market === 'DC')
+    return `${t('trade.dc')} ${
+      tr.selection === '1X'
+        ? t('trade.dc1x')
+        : tr.selection === '12'
+        ? t('trade.dc12')
+        : t('trade.dcx2')
+    }`;
+  if (tr.market === 'DNB')
+    return `${t('trade.dnb')} ${
+      tr.selection === 'home' ? t('odds.home') : t('odds.away')
+    }`;
   const side = tr.selection === 'home' ? t('trade.ahHome') : t('trade.ahAway');
   const p = tr.line ?? 0;
   return `${side} ${p > 0 ? '+' : ''}${p}`;
@@ -253,7 +265,7 @@ export default function PaperPage() {
     .sort((a, b) => (b.settledAt ?? b.placedAt) - (a.settledAt ?? a.placedAt))
     .slice(0, 10);
   // 分盘口
-  const markets = (['1X2', 'OU', 'AH', 'BTTS'] as MarketType[])
+  const markets = (['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'] as MarketType[])
     .map((m) => {
       const ms = trades.filter((x) => x.market === m);
       return {
@@ -271,6 +283,8 @@ export default function PaperPage() {
     OU: t('trade.mktOU'),
     AH: t('trade.mktAH'),
     BTTS: t('trade.btts'),
+    DC: t('trade.dc'),
+    DNB: t('trade.dnb'),
   };
 
   const shown = trades.filter((x) =>

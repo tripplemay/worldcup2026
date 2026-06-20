@@ -41,12 +41,35 @@ export function projectOverUnder(
   return { over, under, push };
 }
 
+/** 双重机会:1X(主或平)/ 12(主或客)/ X2(平或客)。 */
+export function projectDoubleChance(m: number[][]): {
+  homeDraw: number;
+  homeAway: number;
+  drawAway: number;
+} {
+  const { home, draw, away } = projectMatchWinner(m);
+  return {
+    homeDraw: home + draw,
+    homeAway: home + away,
+    drawAway: draw + away,
+  };
+}
+
+/** 胜平负去平(DNB):平局退款 → 平为 push;主/客胜各为 pWin。 */
+export function projectDrawNoBet(m: number[][]): {
+  home: number;
+  away: number;
+  push: number;
+} {
+  const { home, draw, away } = projectMatchWinner(m);
+  return { home, away, push: draw };
+}
+
 /** 双方进球(BTTS)。 */
 export function projectBtts(m: number[][]): { yes: number; no: number } {
   let yes = 0;
   for (let i = 0; i < m.length; i++)
-    for (let j = 0; j < m[i].length; j++)
-      if (i >= 1 && j >= 1) yes += m[i][j];
+    for (let j = 0; j < m[i].length; j++) if (i >= 1 && j >= 1) yes += m[i][j];
   return { yes, no: 1 - yes };
 }
 

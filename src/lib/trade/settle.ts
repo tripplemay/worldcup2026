@@ -68,6 +68,23 @@ export function outcome(
     const both = gf >= 1 && ga >= 1;
     return (t.selection === 'Yes') === both ? 'won' : 'lost';
   }
+  if (t.market === 'DC') {
+    // 1X=非客胜;12=非平;X2=非主胜
+    const r = gf > ga ? 'home' : gf < ga ? 'away' : 'draw';
+    const win =
+      t.selection === '1X'
+        ? r !== 'away'
+        : t.selection === '12'
+        ? r !== 'draw'
+        : r !== 'home';
+    return win ? 'won' : 'lost';
+  }
+  if (t.market === 'DNB') {
+    // 平局退款(void);否则按所选主/客胜判定
+    if (gf === ga) return 'void';
+    const r = gf > ga ? 'home' : 'away';
+    return t.selection === r ? 'won' : 'lost';
+  }
   // AH:让分施加于所选队
   const point = t.line ?? 0;
   const margin = t.selection === 'home' ? gf - ga + point : ga - gf + point;

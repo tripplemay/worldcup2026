@@ -200,6 +200,8 @@ export interface AfMatchOdds {
   totals: { point: number; over?: AfOddPick; under?: AfOddPick }[];
   spreads: { side: 'home' | 'away'; point: number; pick: AfOddPick }[];
   btts?: { yes?: AfOddPick; no?: AfOddPick };
+  dc?: { homeDraw?: AfOddPick; homeAway?: AfOddPick; drawAway?: AfOddPick };
+  dnb?: { home?: AfOddPick; away?: AfOddPick };
 }
 
 const fnum = (v: unknown): number =>
@@ -237,6 +239,8 @@ export async function getFixtureOdds(
     { side: 'home' | 'away'; point: number; pick: AfOddPick }
   >();
   const btts: { yes?: AfOddPick; no?: AfOddPick } = {};
+  const dc: AfMatchOdds['dc'] = {};
+  const dnb: AfMatchOdds['dnb'] = {};
   for (const b of books) {
     const book = String(b.name ?? '');
     for (const bet of arr(b.bets).map(obj)) {
@@ -275,6 +279,19 @@ export async function getFixtureOdds(
           const k = val.toLowerCase();
           if (k === 'yes') btts.yes = better(btts.yes, price, book);
           else if (k === 'no') btts.no = better(btts.no, price, book);
+        } else if (bet.name === 'Double Chance') {
+          // value: Home/Draw | Home/Away | Draw/Away
+          if (val === 'Home/Draw')
+            dc.homeDraw = better(dc.homeDraw, price, book);
+          else if (val === 'Home/Away')
+            dc.homeAway = better(dc.homeAway, price, book);
+          else if (val === 'Draw/Away')
+            dc.drawAway = better(dc.drawAway, price, book);
+        } else if (bet.name === 'Home/Away') {
+          // 全场胜平负去平(平局退款):value Home | Away
+          const k = val.toLowerCase();
+          if (k === 'home') dnb.home = better(dnb.home, price, book);
+          else if (k === 'away') dnb.away = better(dnb.away, price, book);
         }
       }
     }
@@ -284,6 +301,8 @@ export async function getFixtureOdds(
     totals: [...totals.entries()].map(([point, e]) => ({ point, ...e })),
     spreads: [...spreads.values()],
     btts: btts.yes || btts.no ? btts : undefined,
+    dc: dc.homeDraw || dc.homeAway || dc.drawAway ? dc : undefined,
+    dnb: dnb.home || dnb.away ? dnb : undefined,
   };
 }
 

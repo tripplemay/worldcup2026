@@ -48,5 +48,7 @@ export async function afMarketSnapshot(
     totals: odds.totals,
     spreads: odds.spreads,
     btts: odds.btts,
+    dc: odds.dc,
+    dnb: odds.dnb,
   };
 }

@@ -55,6 +55,18 @@ function selLabel(t: (k: string) => string, s: TradingSignal): string {
     return `${t('trade.btts')} ${
       s.selection === 'Yes' ? t('trade.yes') : t('trade.no')
     }`;
+  if (s.market === 'DC')
+    return `${t('trade.dc')} ${
+      s.selection === '1X'
+        ? t('trade.dc1x')
+        : s.selection === '12'
+        ? t('trade.dc12')
+        : t('trade.dcx2')
+    }`;
+  if (s.market === 'DNB')
+    return `${t('trade.dnb')} ${
+      s.selection === 'home' ? t('odds.home') : t('odds.away')
+    }`;
   const side = s.selection === 'home' ? t('trade.ahHome') : t('trade.ahAway');
   const p = s.line ?? 0;
   return `${side} ${p > 0 ? '+' : ''}${p}`;

@@ -10,6 +10,8 @@ import {
   projectOverUnder,
   projectAsianHandicap,
   projectBtts,
+  projectDoubleChance,
+  projectDrawNoBet,
 } from './projection';
 import { scoreCandidate } from './router';
 import { afMarketSnapshot } from './afOdds';
@@ -114,6 +116,51 @@ export function candidatesFromSnapshot(
         book: snap.btts.no.book,
         pWin: pr.no,
         pPush: 0,
+      });
+  }
+
+  // 双重机会(纯 1X2 空间,无大球偏差)
+  if (snap.dc) {
+    const pr = projectDoubleChance(matrix);
+    const dcMap: [keyof typeof snap.dc, string, number][] = [
+      ['homeDraw', '1X', pr.homeDraw],
+      ['homeAway', '12', pr.homeAway],
+      ['drawAway', 'X2', pr.drawAway],
+    ];
+    for (const [k, sel, pWin] of dcMap) {
+      const o = snap.dc[k];
+      if (o)
+        out.push({
+          market: 'DC',
+          selection: sel,
+          odds: o.price,
+          book: o.book,
+          pWin,
+          pPush: 0,
+        });
+    }
+  }
+
+  // 胜平负去平(平局退款 → pPush=平局概率)
+  if (snap.dnb) {
+    const pr = projectDrawNoBet(matrix);
+    if (snap.dnb.home)
+      out.push({
+        market: 'DNB',
+        selection: 'home',
+        odds: snap.dnb.home.price,
+        book: snap.dnb.home.book,
+        pWin: pr.home,
+        pPush: pr.push,
+      });
+    if (snap.dnb.away)
+      out.push({
+        market: 'DNB',
+        selection: 'away',
+        odds: snap.dnb.away.price,
+        book: snap.dnb.away.book,
+        pWin: pr.away,
+        pPush: pr.push,
       });
   }
 

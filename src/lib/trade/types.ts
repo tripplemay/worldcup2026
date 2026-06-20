@@ -3,7 +3,7 @@
  * 纯虚拟资金,验证「市场无关模型概率 vs 市场赔率」的 +EV 策略,不接真钱。
  */
 
-export type MarketType = '1X2' | 'OU' | 'AH' | 'BTTS';
+export type MarketType = '1X2' | 'OU' | 'AH' | 'BTTS' | 'DC' | 'DNB';
 export type TradeStatus = 'pending' | 'won' | 'lost' | 'void';
 export type TradeTier = 'value' | 'coverage'; // value=+EV 精选;coverage=每场覆盖小注
 
@@ -17,6 +17,8 @@ export interface MarketSnapshot {
   totals: { point: number; over?: OddsPick; under?: OddsPick }[];
   spreads: { side: 'home' | 'away'; point: number; pick: OddsPick }[];
   btts?: { yes?: OddsPick; no?: OddsPick }; // 双方进球
+  dc?: { homeDraw?: OddsPick; homeAway?: OddsPick; drawAway?: OddsPick }; // 双重机会
+  dnb?: { home?: OddsPick; away?: OddsPick }; // 胜平负去平(平局退款)
 }
 
 /** 一个候选下注(某盘口某选项 + 市场赔率 + 模型概率)。 */

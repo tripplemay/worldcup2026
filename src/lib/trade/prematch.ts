@@ -94,7 +94,7 @@ export async function runPreMatchBetting(opts?: {
       : null;
     const r1Veto =
       !!best &&
-      best.market === '1X2' &&
+      (best.market === '1X2' || best.market === 'DNB') &&
       classifyDivergence(sigModels) === 'R1_UNDERCONF' &&
       !!favSide &&
       (best.selection === 'home'
