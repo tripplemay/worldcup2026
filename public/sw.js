@@ -1,51 +1,26 @@
-/* 世界杯 2026 PWA Service Worker v2 — 部署安全
+/* 世界杯 2026 PWA Service Worker v4 — 极简、零拦截(修复白屏)
  *
- * 关键修复(v1 → v2):不再用 cache-first 缓存 /_next 等不可变静态资源。
- * 原因:cache-first + 固定缓存名会让旧 chunk 永驻缓存;新版本上线后引用新 chunk,
- *       一旦回退到旧缓存壳就会请求已被删除的旧 chunk → 404 → 白屏。
- *
- * 现策略:
- *  - /api/* 与静态资源(/_next、icons):**不拦截**,交给网络 + 浏览器原生 HTTP 缓存
- *    (Next 给 /_next/static 打了 immutable 长缓存,既高效又不会残留跨版本旧文件)
- *  - 导航请求:network-first(在线永远拿最新 HTML),成功时刷新离线壳;断网才回退缓存壳
+ * v3→v4:彻底移除对请求的 fetch 拦截。
+ * 根因:根路径 `/` 会 307 跳转到 `/schedule`;旧 SW 用 respondWith 接管导航并返回
+ *   「重定向后的响应」(redirected=true)。浏览器规范禁止把 redirected response 用于
+ *   navigation 请求 → 导航失败 → 白屏。
+ * 解法:SW 完全不拦截 fetch,导航 / 重定向 / HTTP 缓存全部交还浏览器原生处理。
+ *   仅保留:安装即接管(skipWaiting)+ 激活时清掉所有旧版本缓存(含可能缓存了
+ *   重定向响应的旧 shell)+ 立即 claim 现有页面。
  */
-const CACHE = 'wc2026-shell-v3';
-const SHELL = ['/', '/manifest.json', '/icons/icon.svg'];
+const CACHE = 'wc2026-v4';
 
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE)
-      .then((c) => c.addAll(SHELL))
-      .then(() => self.skipWaiting()),
-  );
+  event.waitUntil(self.skipWaiting());
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches
       .keys()
-      .then((keys) =>
-        Promise.all(
-          keys.filter((k) => k !== CACHE).map((k) => caches.delete(k)),
-        ),
-      )
+      .then((keys) => Promise.all(keys.map((k) => caches.delete(k))))
       .then(() => self.clients.claim()),
   );
 });
 
-self.addEventListener('fetch', (event) => {
-  const { request } = event;
-  // 只接管导航;其余(/_next chunk、/api、icons)一律放行给网络/浏览器缓存
-  if (request.method !== 'GET' || request.mode !== 'navigate') return;
-  event.respondWith(
-    fetch(request)
-      .then((resp) => {
-        // 在线:更新离线壳为最新 HTML(引用当前版本 chunk)
-        const copy = resp.clone();
-        caches.open(CACHE).then((c) => c.put('/', copy));
-        return resp;
-      })
-      .catch(() => caches.match('/')),
-  );
-});
+// 注意:不注册 'fetch' 监听器 —— 不拦截任何请求,避免再次破坏导航/重定向。
