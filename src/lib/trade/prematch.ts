@@ -92,16 +92,25 @@ export async function runPreMatchBetting(opts?: {
     const favSide = mk
       ? (['h', 'd', 'a'] as const).reduce((b, k) => (mk[k] > mk[b] ? k : b))
       : null;
+    // 押方(home/draw/away → h/d/a;其它玩法不参与方向判定)
+    const pickSide =
+      best?.selection === 'home'
+        ? 'h'
+        : best?.selection === 'away'
+        ? 'a'
+        : best?.selection === 'draw'
+        ? 'd'
+        : null;
+    // G1:R1 错配场,押「市场非热门方」(弱方)的 1X2 / DNB / 亚盘 → 否决(弱方"价值"多为 artifact)
     const r1Veto =
       !!best &&
-      (best.market === '1X2' || best.market === 'DNB') &&
+      (best.market === '1X2' ||
+        best.market === 'DNB' ||
+        best.market === 'AH') &&
       classifyDivergence(sigModels) === 'R1_UNDERCONF' &&
       !!favSide &&
-      (best.selection === 'home'
-        ? 'h'
-        : best.selection === 'away'
-        ? 'a'
-        : 'd') !== favSide;
+      !!pickSide &&
+      pickSide !== favSide;
     let placedValue = false;
     if (best && !hasActiveRlm(m.matchId, now) && !r1Veto) {
       const stake = stakeFor(best.kelly, getWallet().currentBalance, {

@@ -10,7 +10,8 @@ const bool = (v: string | undefined, d: boolean) =>
 
 export const INITIAL_BALANCE = num(process.env.PAPER_INITIAL_BALANCE, 10000);
 export const MIN_EV = num(process.env.PAPER_MIN_EV, 0.03); // 正 EV 门槛
-export const MAX_EV = num(process.env.PAPER_MAX_EV, 1.0); // EV 上限:真实优势极少 >100%,超出视为赔率/口径错配,弃用
+// EV 上限:高效市场真实边际极少 >15–20%,>30% 几乎必是模型错(R1 弱方幻觉等),非市场错 → 弃用,落 coverage
+export const MAX_EV = num(process.env.PAPER_MAX_EV, 0.3);
 export const MIN_PROB = num(process.env.PAPER_MIN_PROB, 0.3); // 方差过滤:剔除低胜率高赔率
 export const KELLY_FRACTION = num(process.env.PAPER_KELLY_FRACTION, 0.25); // 四分之一凯利
 export const MAX_STAKE_PCT = num(process.env.PAPER_MAX_STAKE_PCT, 0.05); // 单注上限(占当前余额),防早期梭哈
