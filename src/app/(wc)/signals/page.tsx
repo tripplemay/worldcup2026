@@ -12,6 +12,14 @@ import type { TradingSignal, SignalLevel } from 'lib/db/store';
 
 const money = (x: number) => Math.round(x).toLocaleString();
 const pct = (x: number) => `${Math.round(x * 100)}%`;
+const fmtTs = (ts: number, locale: string) =>
+  new Date(ts).toLocaleString(locale === 'zh' ? 'zh-CN' : 'en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
 
 const LEVEL: Record<SignalLevel, { key: string; bar: string; badge: string }> =
   {
@@ -79,8 +87,9 @@ function SignalCard({
   s: TradingSignal;
   onMark: (id: string, status: 'EXECUTED' | 'DISMISSED') => void;
 }) {
-  const { t, tn } = useLocale();
+  const { t, tn, locale } = useLocale();
   const lv = LEVEL[s.level];
+  const done = s.status !== 'UNREAD';
   const [home, away] = s.match.split(' vs ');
   const action =
     s.level === 'L3'
@@ -93,13 +102,18 @@ function SignalCard({
           s.pWin,
         )} · ${s.resonance ? t('signals.resonate') : t('signals.calm')}`;
   return (
-    <Card extra={`border-l-4 ${lv.bar} p-4`}>
+    <Card extra={`border-l-4 ${lv.bar} p-4 ${done ? 'opacity-60' : ''}`}>
       <div className="mb-1 flex items-center justify-between gap-2">
-        <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${lv.badge}`}
-        >
-          {t(lv.key)}
-        </span>
+        <div className="flex items-center gap-2">
+          <span
+            className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${lv.badge}`}
+          >
+            {t(lv.key)}
+          </span>
+          <span className="text-[10px] text-gray-400 dark:text-gray-500">
+            {fmtTs(s.ts, locale)}
+          </span>
+        </div>
         <Link
           href={`/match/${s.matchId}`}
           className="truncate text-xs text-gray-500 dark:text-gray-400"
@@ -130,20 +144,42 @@ function SignalCard({
           {t('signals.stake')} {money(s.suggestedStake)}
         </div>
       )}
-      <div className="mt-3 flex gap-2">
-        <button
-          onClick={() => onMark(s.id, 'EXECUTED')}
-          className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-green-500 py-2 text-sm font-medium text-white active:opacity-80"
-        >
-          <MdCheck /> {t('signals.follow')}
-        </button>
-        <button
-          onClick={() => onMark(s.id, 'DISMISSED')}
-          className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-gray-200 py-2 text-sm font-medium text-gray-600 active:opacity-80 dark:bg-navy-700 dark:text-gray-300"
-        >
-          <MdClose /> {t('signals.dismiss')}
-        </button>
-      </div>
+      {done ? (
+        <div className="mt-3 flex items-center gap-1.5">
+          <span
+            className={`inline-flex items-center gap-1 rounded-lg px-2.5 py-1 text-xs font-medium ${
+              s.status === 'EXECUTED'
+                ? 'bg-green-100 text-green-700 dark:bg-green-500/20 dark:text-green-300'
+                : 'bg-gray-100 text-gray-500 dark:bg-navy-700 dark:text-gray-400'
+            }`}
+          >
+            {s.status === 'EXECUTED' ? (
+              <>
+                <MdCheck /> {t('signals.statusExecuted')}
+              </>
+            ) : (
+              <>
+                <MdClose /> {t('signals.statusDismissed')}
+              </>
+            )}
+          </span>
+        </div>
+      ) : (
+        <div className="mt-3 flex gap-2">
+          <button
+            onClick={() => onMark(s.id, 'EXECUTED')}
+            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-green-500 py-2 text-sm font-medium text-white active:opacity-80"
+          >
+            <MdCheck /> {t('signals.follow')}
+          </button>
+          <button
+            onClick={() => onMark(s.id, 'DISMISSED')}
+            className="flex flex-1 items-center justify-center gap-1 rounded-xl bg-gray-200 py-2 text-sm font-medium text-gray-600 active:opacity-80 dark:bg-navy-700 dark:text-gray-300"
+          >
+            <MdClose /> {t('signals.dismiss')}
+          </button>
+        </div>
+      )}
     </Card>
   );
 }
@@ -168,13 +204,16 @@ export default function SignalsPage() {
       window.dispatchEvent(new Event('wc-signals-seen'));
     }
   }, [signals]);
-  const unread = signals
-    .filter((s) => s.status === 'UNREAD')
-    .sort((a, b) =>
-      LEVEL_RANK[a.level] !== LEVEL_RANK[b.level]
-        ? LEVEL_RANK[a.level] - LEVEL_RANK[b.level]
-        : b.ts - a.ts,
-    );
+  const unreadCount = signals.filter((s) => s.status === 'UNREAD').length;
+  // 全部保留:待处理(按级别→时间)在前,已处理(按时间)在后
+  const sorted = signals.slice().sort((a, b) => {
+    const ad = a.status === 'UNREAD' ? 0 : 1;
+    const bd = b.status === 'UNREAD' ? 0 : 1;
+    if (ad !== bd) return ad - bd;
+    if (ad === 0 && LEVEL_RANK[a.level] !== LEVEL_RANK[b.level])
+      return LEVEL_RANK[a.level] - LEVEL_RANK[b.level];
+    return b.ts - a.ts;
+  });
 
   const mark = async (id: string, status: 'EXECUTED' | 'DISMISSED') => {
     // 乐观更新:本地移除,后台提交
@@ -220,9 +259,7 @@ export default function SignalsPage() {
               }`}
             >
               {t(k === 'signals' ? 'signals.tabSignals' : 'signals.tabRadar')}
-              {k === 'signals' && unread.length > 0
-                ? ` (${unread.length})`
-                : ''}
+              {k === 'signals' && unreadCount > 0 ? ` (${unreadCount})` : ''}
             </button>
           ))}
         </div>
@@ -230,15 +267,15 @@ export default function SignalsPage() {
 
       {tab === 'radar' ? (
         <RadarFeed />
-      ) : isLoading && unread.length === 0 ? (
+      ) : isLoading && sorted.length === 0 ? (
         <div className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
-      ) : unread.length === 0 ? (
+      ) : sorted.length === 0 ? (
         <div className="py-16 text-center text-sm text-gray-400">
           {t('signals.empty')}
         </div>
       ) : (
         <div className="space-y-3">
-          {unread.map((s) => (
+          {sorted.map((s) => (
             <SignalCard key={s.id} s={s} onMark={mark} />
           ))}
         </div>
