@@ -20,6 +20,7 @@ export interface LeagueBacktestResult {
   key: string;
   from?: string;
   hfa: { elo: number; mult: number };
+  tuning?: { goalShrink?: number; shrinkEloScale?: number; dcRho?: number };
   n: number;
   skipped: number;
   ensemble: { brier: number; logLoss: number; hitRate: number };
@@ -42,9 +43,20 @@ export function runLeagueBacktest(opts: {
   from?: string;
   hfaElo?: number;
   hfaMult?: number;
+  goalShrink?: number;
+  shrinkEloScale?: number; // R1 修复:>0 时错配场放开 λ 压缩(favBias 应趋 0)
+  dcRho?: number;
 }): LeagueBacktestResult {
   const hfaElo = opts.hfaElo ?? 65; // 联赛主场优势(Elo 分);0=中立
   const hfaMult = opts.hfaMult ?? 1.12; // 泊松主场进球乘子;1=中立
+  const tuning =
+    opts.goalShrink != null || opts.shrinkEloScale != null || opts.dcRho != null
+      ? {
+          goalShrink: opts.goalShrink,
+          shrinkEloScale: opts.shrinkEloScale,
+          dcRho: opts.dcRho,
+        }
+      : undefined;
   const allHist = Object.values(loadLeagueHistorical(opts.key));
   const allRes = Object.values(loadLeagueResults(opts.key));
   const oddsMap = loadLeagueOdds(opts.key);
@@ -94,7 +106,7 @@ export function runLeagueBacktest(opts: {
       m.homeNorm,
       m.awayNorm,
       m.date,
-      undefined,
+      tuning,
       undefined,
       hfaElo || hfaMult !== 1
         ? { eloBonus: hfaElo, goalMult: hfaMult }
@@ -195,6 +207,7 @@ export function runLeagueBacktest(opts: {
     key: opts.key,
     from: opts.from,
     hfa: { elo: hfaElo, mult: hfaMult },
+    tuning,
     n,
     skipped,
     ensemble: {

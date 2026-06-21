@@ -12,14 +12,19 @@ export async function GET(req: Request) {
     const u = new URL(req.url);
     const key = u.searchParams.get('key') ?? 'epl-2025';
     const from = u.searchParams.get('from') ?? undefined;
-    const he = u.searchParams.get('hfaElo');
-    const hm = u.searchParams.get('hfaMult');
+    const numOpt = (k: string) => {
+      const v = u.searchParams.get(k);
+      return v != null ? Number(v) : undefined;
+    };
     return ok(
       runLeagueBacktest({
         key,
         from,
-        hfaElo: he != null ? Number(he) : undefined,
-        hfaMult: hm != null ? Number(hm) : undefined,
+        hfaElo: numOpt('hfaElo'),
+        hfaMult: numOpt('hfaMult'),
+        goalShrink: numOpt('goalShrink'),
+        shrinkEloScale: numOpt('shrinkEloScale'),
+        dcRho: numOpt('dcRho'),
       }),
     );
   } catch (e) {
