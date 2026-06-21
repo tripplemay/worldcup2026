@@ -72,8 +72,10 @@ describe('快照 → 候选(投影映射)', () => {
     expect(get('1X2', 'home')?.pWin).toBeCloseTo(0.5);
     expect(get('1X2', 'away')?.pWin).toBeCloseTo(0.1);
     expect(get('1X2', 'draw')).toBeUndefined(); // h2h 无 draw 报价
-    expect(get('OU', 'Over')?.pWin).toBeCloseTo(0.6); // 总进球≥2
-    expect(get('OU', 'Under')?.pWin).toBeCloseTo(0.4);
+    // G2:不押「大球」——Over 候选被 candidatesFromSnapshot 刻意剔除(over25 系统性高估,见 odds.ts);
+    // 只保留 Under(偏保守、安全)。
+    expect(get('OU', 'Over')).toBeUndefined();
+    expect(get('OU', 'Under')?.pWin).toBeCloseTo(0.4); // 总进球≤1
     expect(get('AH', 'home')?.pWin).toBeCloseTo(0.3); // 净胜≥2
   });
 });
