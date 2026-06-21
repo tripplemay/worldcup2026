@@ -9,7 +9,7 @@
  */
 import type { MatchPrediction } from './model';
 
-const MARKET_W = 0.2; // 市场隐含锚定权重(纯预测,非 EV 对碰,无循环)
+const MARKET_W = 0.2; // 市场隐含锚定权重默认(WC;联赛经 sweep 提高,见 leagues.ts calib)
 
 /** 解析 env 静态权重覆盖(逃生舱);未设返回 null。 */
 function staticOverride(): Record<string, number> | null {
@@ -24,8 +24,11 @@ function staticOverride(): Record<string, number> | null {
   return Object.keys(out).length ? out : null;
 }
 
-/** 按 Elo 差动态权重(market 锚定,poisson↔elo 动态)。 */
-function dynamicWeights(eloDiff?: number): Record<string, number> {
+/** 按 Elo 差动态权重(market 锚定 marketW,其余在 poisson↔elo 间按 |ΔElo| 动态)。 */
+function dynamicWeights(
+  eloDiff?: number,
+  marketW = MARKET_W,
+): Record<string, number> {
   const override = staticOverride();
   if (override) return override;
   let pPoisson = 0.45;
@@ -39,13 +42,13 @@ function dynamicWeights(eloDiff?: number): Record<string, number> {
       pElo = 0.3;
     }
   }
-  const rest = 1 - MARKET_W;
+  const rest = 1 - marketW;
   // 泊松总权重在 xG 与 实际进球 间 6:4 拆分(xG 一般更稳),保持泊松总影响不变
   return {
     'poisson-xg': +(rest * pPoisson * 0.6).toFixed(3),
     'poisson-goals': +(rest * pPoisson * 0.4).toFixed(3),
     elo: +(rest * pElo).toFixed(3),
-    market: MARKET_W,
+    market: marketW,
   };
 }
 
@@ -53,13 +56,14 @@ export function ensemble(
   all: MatchPrediction[],
   matchId: string,
   eloDiff?: number,
+  marketWeight = MARKET_W, // 竞赛市场锚定权重(WC 0.2;联赛见 calib)
 ): MatchPrediction | null {
   // 防御:只纳入概率有限的模型,绝不让 NaN 污染融合
   const preds = all.filter((p) =>
     [p.homeWin, p.draw, p.awayWin].every(Number.isFinite),
   );
   if (!preds.length) return null;
-  const W = dynamicWeights(eloDiff);
+  const W = dynamicWeights(eloDiff, marketWeight);
   let wsum = 0;
   let h = 0;
   let d = 0;

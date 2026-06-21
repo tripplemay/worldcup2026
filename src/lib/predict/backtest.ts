@@ -48,6 +48,7 @@ export function predictPointInTime(
   sosEloOf?: (norm: string) => number | undefined, // SoS 对手强度(回测传权威 Elo)
   home?: { eloBonus: number; goalMult: number }, // 主场优势(联赛回测传;WC 留空=中立)
   marketOdds?: { home?: number; draw?: number; away?: number }, // 市场赔率(传则市场模型入融合)
+  marketWeight?: number, // ensemble 市场锚定权重(联赛按 calib;WC 留空=默认 0.2)
 ): PointPrediction | null {
   const D = dateKey(beforeISO);
   const selfElo = computeElo(allRes.filter((r) => dateKey(r.date) < D));
@@ -91,7 +92,7 @@ export function predictPointInTime(
   const eh = selfElo.get(homeNorm);
   const ea = selfElo.get(awayNorm);
   const eloDiff = eh != null && ea != null ? Math.abs(eh - ea) : undefined;
-  const ens = ensemble(preds, 'pit', eloDiff);
+  const ens = ensemble(preds, 'pit', eloDiff, marketWeight);
   if (!ens) return null;
   return {
     pHome: ens.homeWin,

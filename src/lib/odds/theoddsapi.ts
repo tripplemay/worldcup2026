@@ -375,6 +375,21 @@ function parseMarkets(ev: RawOddsEvent): MatchMarkets {
   return { homeTeam: ev.home_team, awayTeam: ev.away_team, bookmakers };
 }
 
+/**
+ * 任意联赛的盘前 h2h 赔率(Phase 2:联赛市场模型用)。sportKey 见 leagues.ts oddsKey
+ * (soccer_epl 等)。复用 WC 同套轮换/解析;in-season 调用,off-season 返回空。失败降级空。
+ */
+export async function getLeagueOddsMatches(
+  sportKey: string,
+): Promise<MatchOdds[]> {
+  try {
+    const data = await fetchOdds(sportKey, 'h2h');
+    return data.map(parseMatch);
+  } catch {
+    return [];
+  }
+}
+
 export const theOddsApiProvider: OddsProvider = {
   async getMatches() {
     const data = await fetchOdds(SPORT_MATCHES, 'h2h');

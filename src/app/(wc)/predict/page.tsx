@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import Card from 'components/card';
 import { MdInsights, MdBolt } from 'react-icons/md';
@@ -7,7 +8,11 @@ import ProbBar from 'components/worldcup/ProbBar';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import ModelRecord from 'components/worldcup/ModelRecord';
 import PageHeading from 'components/worldcup/PageHeading';
-import { usePredictions } from 'lib/hooks/useWorldCup';
+import {
+  usePredictions,
+  useLeaguePredictions,
+  useCompetitions,
+} from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import { formatMatchTime } from 'lib/format/matchTime';
 import type { MatchWithPredictions } from 'lib/predict/predict';
@@ -38,8 +43,19 @@ function pick(m: MatchWithPredictions, homeShort: string, awayShort: string) {
 
 export default function PredictPage() {
   const { locale, t, tn } = useLocale();
-  const { matches, isLoading } = usePredictions(14);
+  const [comp, setComp] = useState('wc');
+  const isWc = comp === 'wc';
+  const { competitions } = useCompetitions();
+  const wc = usePredictions(14);
+  const league = useLeaguePredictions(isWc ? null : comp, 14);
+  const matches = isWc ? wc.matches : league.matches;
+  const isLoading = isWc ? wc.isLoading : league.isLoading;
   const withPred = matches.filter((m) => m.predictions.length > 0);
+
+  // 切换器选项:接口未就绪时退回内置默认
+  const tabs = competitions.length
+    ? competitions
+    : [{ comp: 'wc', name: 'World Cup 2026', kind: 'wc' as const }];
 
   return (
     <div>
@@ -57,9 +73,25 @@ export default function PredictPage() {
         <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
           {t('predict.subtitle')}
         </p>
+        {/* 竞赛切换器(WC + 联赛) */}
+        <div className="-mx-4 mt-2 flex gap-1.5 overflow-x-auto px-4 pb-0.5 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {tabs.map((c) => (
+            <button
+              key={c.comp}
+              onClick={() => setComp(c.comp)}
+              className={`shrink-0 rounded-full px-3 py-1 text-[11px] font-medium transition ${
+                comp === c.comp
+                  ? 'bg-brand-500 text-white'
+                  : 'bg-white text-gray-600 dark:bg-navy-800 dark:text-gray-300'
+              }`}
+            >
+              {c.name}
+            </button>
+          ))}
+        </div>
       </header>
 
-      <ModelRecord />
+      {isWc && <ModelRecord />}
 
       {isLoading && withPred.length === 0 && (
         <div className="space-y-3">
@@ -73,8 +105,8 @@ export default function PredictPage() {
       )}
 
       {!isLoading && withPred.length === 0 && (
-        <div className="py-16 text-center text-gray-400">
-          {t('predict.empty')}
+        <div className="py-16 text-center text-sm text-gray-400">
+          {isWc ? t('predict.empty') : t('predict.leagueEmpty')}
         </div>
       )}
 
@@ -82,38 +114,44 @@ export default function PredictPage() {
         {withPred.map((m) => {
           const p = m.ensemble ?? m.predictions[0];
           const pk = pick(m, tn(m.homeTeam), tn(m.awayTeam));
-          return (
-            <Link key={m.matchId} href={`/match/${m.matchId}`}>
-              <Card extra="p-4">
-                <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                  <span>{formatMatchTime(m.commenceTime, locale)}</span>
-                  {pk && (
-                    <span className="rounded-full bg-brand-50 px-2 py-0.5 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400">
-                      {t('predict.pick')} {pk.side} {pk.score}
-                    </span>
-                  )}
-                </div>
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <TeamBadge
-                    name={m.homeTeam}
-                    logo={m.homeLogo}
-                    nameFirst
-                    className="min-w-0 flex-1 text-sm font-medium text-navy-700 dark:text-white"
-                  />
-                  <span className="shrink-0 px-2 text-xs text-gray-400">
-                    {p.xgHome != null
-                      ? `${p.xgHome.toFixed(1)} - ${p.xgAway?.toFixed(1)}`
-                      : ''}
+          const body = (
+            <Card extra="p-4">
+              <div className="mb-2 flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+                <span>{formatMatchTime(m.commenceTime, locale)}</span>
+                {pk && (
+                  <span className="rounded-full bg-brand-50 px-2 py-0.5 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400">
+                    {t('predict.pick')} {pk.side} {pk.score}
                   </span>
-                  <TeamBadge
-                    name={m.awayTeam}
-                    logo={m.awayLogo}
-                    className="min-w-0 flex-1 justify-end text-right text-sm font-medium text-navy-700 dark:text-white"
-                  />
-                </div>
-                <ProbBar home={p.homeWin} draw={p.draw} away={p.awayWin} />
-              </Card>
+                )}
+              </div>
+              <div className="mb-2 flex items-center justify-between gap-2">
+                <TeamBadge
+                  name={m.homeTeam}
+                  logo={m.homeLogo}
+                  nameFirst
+                  className="min-w-0 flex-1 text-sm font-medium text-navy-700 dark:text-white"
+                />
+                <span className="shrink-0 px-2 text-xs text-gray-400">
+                  {p.xgHome != null
+                    ? `${p.xgHome.toFixed(1)} - ${p.xgAway?.toFixed(1)}`
+                    : ''}
+                </span>
+                <TeamBadge
+                  name={m.awayTeam}
+                  logo={m.awayLogo}
+                  className="min-w-0 flex-1 justify-end text-right text-sm font-medium text-navy-700 dark:text-white"
+                />
+              </div>
+              <ProbBar home={p.homeWin} draw={p.draw} away={p.awayWin} />
+            </Card>
+          );
+          // WC 比赛有详情页(/match/[id] 走 WC ESPN);联赛详情页暂未做,卡片不跳转
+          return isWc ? (
+            <Link key={m.matchId} href={`/match/${m.matchId}`}>
+              {body}
             </Link>
+          ) : (
+            <div key={m.matchId}>{body}</div>
           );
         })}
       </div>

@@ -319,6 +319,29 @@ export function usePredictions(days = 10) {
   return { matches: data?.matches ?? [], error, isLoading };
 }
 
+/** 可选竞赛列表(WC + 联赛;供预测页切换器)。 */
+export function useCompetitions() {
+  const { data } = useSWR<{
+    competitions: { comp: string; name: string; kind: 'wc' | 'league' }[];
+  }>('/api/worldcup/league/list', fetcher, common);
+  return { competitions: data?.competitions ?? [] };
+}
+
+/** 某联赛预测列表(comp 为 null/wc 时不请求;走 WC 用 usePredictions)。纯计算不耗 AF 配额。 */
+export function useLeaguePredictions(comp: string | null, days = 10) {
+  const { data, error, isLoading } = useSWR<{
+    comp: string;
+    matches: MatchWithPredictions[];
+  }>(
+    comp && comp !== 'wc'
+      ? `/api/worldcup/league/predictions?comp=${comp}&days=${days}`
+      : null,
+    fetcher,
+    { refreshInterval: STANDINGS_MS, ...common },
+  );
+  return { matches: data?.matches ?? [], error, isLoading };
+}
+
 /** TMI 杯赛状态动能榜(纯计算,不耗配额;低频刷新)。 */
 export function useTmi() {
   const { data, error, isLoading } = useSWR<TmiSnapshot>(

@@ -27,6 +27,7 @@ export async function GET(req: Request) {
         goalShrink: numOpt('goalShrink'),
         shrinkEloScale: numOpt('shrinkEloScale'),
         dcRho: numOpt('dcRho'),
+        marketWeight: numOpt('marketWeight'),
       }),
     );
   } catch (e) {

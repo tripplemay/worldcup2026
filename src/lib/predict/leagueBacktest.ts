@@ -12,6 +12,7 @@ import {
 } from 'lib/db/store';
 import { matchKey } from 'lib/match/normalize';
 import { trueIP3 } from 'lib/odds/trueIP';
+import { getCompetitionConfigByKey } from './leagues';
 
 const dateKey = (iso: string) => iso.slice(0, 10);
 const MISMATCH = 0.6; // 闭盘隐含热门方 ≥60% 视为错配(R1 子集)
@@ -21,6 +22,7 @@ export interface LeagueBacktestResult {
   from?: string;
   to?: string;
   hfa: { elo: number; mult: number };
+  marketWeight: number;
   tuning?: { goalShrink?: number; shrinkEloScale?: number; dcRho?: number };
   n: number;
   skipped: number;
@@ -48,17 +50,18 @@ export function runLeagueBacktest(opts: {
   goalShrink?: number;
   shrinkEloScale?: number; // R1 修复:>0 时错配场放开 λ 压缩(favBias 应趋 0)
   dcRho?: number;
+  marketWeight?: number; // ensemble 市场锚定权重
 }): LeagueBacktestResult {
-  const hfaElo = opts.hfaElo ?? 65; // 联赛主场优势(Elo 分);0=中立
-  const hfaMult = opts.hfaMult ?? 1.12; // 泊松主场进球乘子;1=中立
-  const tuning =
-    opts.goalShrink != null || opts.shrinkEloScale != null || opts.dcRho != null
-      ? {
-          goalShrink: opts.goalShrink,
-          shrinkEloScale: opts.shrinkEloScale,
-          dcRho: opts.dcRho,
-        }
-      : undefined;
+  // 默认从该联赛验证后 calib 取(Phase 2);opts 显式值优先(供 sweep 覆盖)
+  const cfg = getCompetitionConfigByKey(opts.key);
+  const hfaElo = opts.hfaElo ?? cfg.hfaElo; // 联赛主场优势(Elo 分);0=中立
+  const hfaMult = opts.hfaMult ?? cfg.hfaMult; // 泊松主场进球乘子;1=中立
+  const marketWeight = opts.marketWeight ?? cfg.marketWeight;
+  const tuning = {
+    goalShrink: opts.goalShrink ?? cfg.goalShrink,
+    shrinkEloScale: opts.shrinkEloScale ?? cfg.shrinkEloScale,
+    dcRho: opts.dcRho ?? cfg.dcRho,
+  };
   const allHist = Object.values(loadLeagueHistorical(opts.key));
   const allRes = Object.values(loadLeagueResults(opts.key));
   const oddsMap = loadLeagueOdds(opts.key);
@@ -118,6 +121,7 @@ export function runLeagueBacktest(opts: {
         ? { eloBonus: hfaElo, goalMult: hfaMult }
         : undefined,
       o ? { home: o.h, draw: o.d, away: o.a } : undefined,
+      marketWeight,
     );
     if (!pp) {
       skipped++;
@@ -214,6 +218,7 @@ export function runLeagueBacktest(opts: {
     from: opts.from,
     to: opts.to,
     hfa: { elo: hfaElo, mult: hfaMult },
+    marketWeight,
     tuning,
     n,
     skipped,

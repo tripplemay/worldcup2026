@@ -245,6 +245,7 @@ export const messages = {
       btts: '双方进球',
       pick: '预测',
       empty: '暂无预测(评分样本不足)',
+      leagueEmpty: '该联赛暂无即将开始的比赛(休赛期 / 赛程未出)',
       disclaimer: '模型估算,仅供分析参考,非投注建议',
       conf_low: '低置信',
       conf_medium: '中置信',
@@ -659,6 +660,8 @@ export const messages = {
       btts: 'BTTS',
       pick: 'Pick',
       empty: 'No prediction (insufficient samples)',
+      leagueEmpty:
+        'No upcoming matches for this league (off-season / fixtures TBD)',
       disclaimer: 'Model estimate, for analysis only — not betting advice',
       conf_low: 'Low conf.',
       conf_medium: 'Med conf.',

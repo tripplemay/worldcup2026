@@ -3,6 +3,9 @@ import {
   listLeagues,
   fdSeasonCode,
   fdCsvUrl,
+  getCompetitionConfig,
+  getCompetitionConfigByKey,
+  WC_CONFIG,
 } from '../leagues';
 
 describe('leagues registry', () => {
@@ -37,5 +40,34 @@ describe('leagues registry', () => {
     expect(fdCsvUrl('E0', 2025)).toBe(
       'https://www.football-data.co.uk/mmz4281/2526/E0.csv',
     );
+  });
+});
+
+describe('竞赛配置(Phase 2)', () => {
+  it('WC 配置中立(R1 关、HFA 0、market 0.2)——保证 WC 行为不变', () => {
+    expect(WC_CONFIG.shrinkEloScale).toBe(0);
+    expect(WC_CONFIG.hfaElo).toBe(0);
+    expect(WC_CONFIG.hfaMult).toBe(1);
+    expect(WC_CONFIG.marketWeight).toBe(0.2);
+  });
+
+  it('未知 comp 回退 WC 配置', () => {
+    expect(getCompetitionConfig('wc')).toEqual(WC_CONFIG);
+    expect(getCompetitionConfig('nope')).toEqual(WC_CONFIG);
+  });
+
+  it('联赛 calib:R1 开、market 抬高;意甲无主场、西甲主场最强', () => {
+    const la = getCompetitionConfig('laliga');
+    expect(la.shrinkEloScale).toBeGreaterThan(0);
+    expect(la.marketWeight).toBeGreaterThan(0.2);
+    expect(la.hfaElo).toBe(85); // 西甲主场最强
+    expect(getCompetitionConfig('seriea').hfaElo).toBe(0); // 意甲无主场 edge(2 季确认)
+    expect(getCompetitionConfig('seriea').hfaMult).toBe(1.0);
+  });
+
+  it('按存储 key 解析(epl-2025 → epl calib;未知 → WC)', () => {
+    expect(getCompetitionConfigByKey('epl-2025').hfaElo).toBe(65);
+    expect(getCompetitionConfigByKey('laliga').hfaElo).toBe(85);
+    expect(getCompetitionConfigByKey('unknown-key')).toEqual(WC_CONFIG);
   });
 });

@@ -23,6 +23,10 @@ export interface LeagueDef {
   fdCode: string;
   /** football-data 简称 → AF 规范名(其余已一致;经实摄取 name-diff 校正)。 */
   fdAlias: Record<string, string>;
+  /** ESPN soccer 联赛 slug(eng.1/esp.1/ger.1/ita.1/fra.1)——实时赛程/比分/详情。 */
+  espnSlug: string;
+  /** The Odds API 联赛 key(soccer_epl 等)——实时盘前赔率(市场模型,联赛 in-season 用)。 */
+  oddsKey: string;
 }
 
 const LEAGUES: Record<string, LeagueDef> = {
@@ -32,6 +36,8 @@ const LEAGUES: Record<string, LeagueDef> = {
     name: 'Premier League',
     afId: 39,
     fdCode: 'E0',
+    espnSlug: 'eng.1',
+    oddsKey: 'soccer_epl',
     fdAlias: {
       'Man City': 'Manchester City',
       'Man United': 'Manchester United',
@@ -44,6 +50,8 @@ const LEAGUES: Record<string, LeagueDef> = {
     name: 'La Liga',
     afId: 140,
     fdCode: 'SP1',
+    espnSlug: 'esp.1',
+    oddsKey: 'soccer_spain_la_liga',
     fdAlias: {
       'Ath Madrid': 'Atletico Madrid',
       'Ath Bilbao': 'Athletic Club',
@@ -61,6 +69,8 @@ const LEAGUES: Record<string, LeagueDef> = {
     name: 'Bundesliga',
     afId: 78,
     fdCode: 'D1',
+    espnSlug: 'ger.1',
+    oddsKey: 'soccer_germany_bundesliga',
     fdAlias: {
       Dortmund: 'Borussia Dortmund',
       Leverkusen: 'Bayer Leverkusen',
@@ -86,6 +96,8 @@ const LEAGUES: Record<string, LeagueDef> = {
     name: 'Serie A',
     afId: 135,
     fdCode: 'I1',
+    espnSlug: 'ita.1',
+    oddsKey: 'soccer_italy_serie_a',
     fdAlias: {
       Milan: 'AC Milan',
       Verona: 'Hellas Verona',
@@ -98,6 +110,8 @@ const LEAGUES: Record<string, LeagueDef> = {
     name: 'Ligue 1',
     afId: 61,
     fdCode: 'F1',
+    espnSlug: 'fra.1',
+    oddsKey: 'soccer_france_ligue_one',
     fdAlias: {
       'Paris SG': 'Paris Saint Germain',
       'St Etienne': 'Saint Etienne',
@@ -132,4 +146,98 @@ export function fdCsvUrl(fdCode: string, season: number): string {
   return `https://www.football-data.co.uk/mmz4281/${fdSeasonCode(
     season,
   )}/${fdCode}.csv`;
+}
+
+// ── 竞赛(WC / 联赛)预测引擎配置 ────────────────────────────
+/**
+ * 按竞赛分流的预测引擎参数(Phase 2:去 WC 硬编码,WC 一套/联赛各一套)。
+ * 联赛值来自 Phase 1.5 多联赛泛化验证(经对抗验证),见
+ * `docs/分析报告:多联赛校准泛化验证...md` §5。
+ */
+export interface CompetitionConfig {
+  /** R1 修复:错配场放开 λ 压缩(0=关,联赛 ~100-150;WC 必须 0)。 */
+  shrinkEloScale: number;
+  /** O1 进球阻尼:λ/μ 向联赛均值收缩(<1 抑制大比分高估)。 */
+  goalShrink: number;
+  /** Dixon-Coles ρ(平局/低分校准)。 */
+  dcRho: number;
+  /** 主场 Elo 加成(联赛 flat、每个主场;WC 这里=0,改走 predict 的承办国 per-match 逻辑)。 */
+  hfaElo: number;
+  /** 主场进球乘子(主 λ×、客 μ÷;1=中立)。 */
+  hfaMult: number;
+  /** ensemble 市场隐含锚定权重(其余在 poisson↔elo 间按 |ΔElo| 动态分配)。 */
+  marketWeight: number;
+}
+
+/**
+ * 世界杯配置 = 现状默认(中立 + WC 安全):shrinkEloScale 0、HFA flat 0
+ * (WC 主场走 predict.ts 承办国 per-match 逻辑)、market 锚定 0.2。改动 Phase 2 前后 WC 行为一致。
+ */
+export const WC_CONFIG: CompetitionConfig = {
+  shrinkEloScale: 0,
+  goalShrink: 0.6,
+  dcRho: -0.14,
+  hfaElo: 0,
+  hfaMult: 1,
+  marketWeight: 0.2,
+};
+
+/**
+ * 各联赛验证后校准(comp → 配置)。goalShrink/dcRho 与 WC 默认同(联赛无需改);
+ * 差异在 shrinkEloScale(R1)、hfaElo/hfaMult(主场)、marketWeight(市场最强)。
+ * marketWeight 由 ensemble 权重 sweep 定(见报告 §5 专项 sweep)。
+ */
+const CALIB: Record<string, CompetitionConfig> = {
+  epl: {
+    shrinkEloScale: 100,
+    goalShrink: 0.6,
+    dcRho: -0.14,
+    hfaElo: 65,
+    hfaMult: 1.12,
+    marketWeight: 0.4,
+  },
+  laliga: {
+    shrinkEloScale: 150,
+    goalShrink: 0.6,
+    dcRho: -0.14,
+    hfaElo: 85,
+    hfaMult: 1.12,
+    marketWeight: 0.4,
+  },
+  bundesliga: {
+    shrinkEloScale: 120,
+    goalShrink: 0.6,
+    dcRho: -0.14,
+    hfaElo: 65,
+    hfaMult: 1.12,
+    marketWeight: 0.4,
+  },
+  // 意甲:2 季确认无主场 edge → hfaElo 0 / mult 1.0
+  seriea: {
+    shrinkEloScale: 100,
+    goalShrink: 0.6,
+    dcRho: -0.14,
+    hfaElo: 0,
+    hfaMult: 1.0,
+    marketWeight: 0.4,
+  },
+  ligue1: {
+    shrinkEloScale: 100,
+    goalShrink: 0.6,
+    dcRho: -0.14,
+    hfaElo: 65,
+    hfaMult: 1.12,
+    marketWeight: 0.4,
+  },
+};
+
+/** 取竞赛配置:comp 命中联赛取其 calib,否则(WC/未知)取 WC 配置。 */
+export function getCompetitionConfig(comp: string): CompetitionConfig {
+  return CALIB[comp] ?? WC_CONFIG;
+}
+
+/** 按存储 key(如 'laliga' / 'epl-2025')取竞赛配置;无匹配回退 WC。 */
+export function getCompetitionConfigByKey(key: string): CompetitionConfig {
+  const lg = listLeagues().find((l) => l.key === key);
+  return lg ? getCompetitionConfig(lg.comp) : WC_CONFIG;
 }
