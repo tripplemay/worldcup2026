@@ -196,6 +196,7 @@ const LEVEL_RANK: Record<SignalLevel, number> = { L3: 0, L1: 1, L2: 2, L4: 3 };
 export default function SignalsPage() {
   const { t } = useLocale();
   const [tab, setTab] = useState<'signals' | 'radar'>('signals');
+  const [onlyUnread, setOnlyUnread] = useState(true); // 默认仅看未读,聚焦待办指令
   const { signals, isLoading, mutate } = useSignals();
   // 进入指令台即标记「已查看」→ 清底栏红点(localStorage + 同标签事件)
   useEffect(() => {
@@ -214,6 +215,10 @@ export default function SignalsPage() {
       return LEVEL_RANK[a.level] - LEVEL_RANK[b.level];
     return b.ts - a.ts;
   });
+  const processedCount = signals.length - unreadCount;
+  const display = onlyUnread
+    ? sorted.filter((s) => s.status === 'UNREAD')
+    : sorted;
 
   const mark = async (id: string, status: 'EXECUTED' | 'DISMISSED') => {
     // 乐观更新:本地移除,后台提交
@@ -267,18 +272,44 @@ export default function SignalsPage() {
 
       {tab === 'radar' ? (
         <RadarFeed />
-      ) : isLoading && sorted.length === 0 ? (
-        <div className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
-      ) : sorted.length === 0 ? (
-        <div className="py-16 text-center text-sm text-gray-400">
-          {t('signals.empty')}
-        </div>
       ) : (
-        <div className="space-y-3">
-          {sorted.map((s) => (
-            <SignalCard key={s.id} s={s} onMark={mark} />
-          ))}
-        </div>
+        <>
+          {/* 仅看未读 ↔ 展开全部(有已处理项时才显示) */}
+          {processedCount > 0 && (
+            <button
+              onClick={() => setOnlyUnread((v) => !v)}
+              className="mb-2 text-[11px] font-medium text-brand-500 dark:text-brand-400"
+            >
+              {onlyUnread
+                ? `${t('signals.showAll')} (${processedCount})`
+                : t('signals.onlyUnread')}
+            </button>
+          )}
+          {isLoading && signals.length === 0 ? (
+            <div className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
+          ) : signals.length === 0 ? (
+            <div className="py-16 text-center text-sm text-gray-400">
+              {t('signals.empty')}
+            </div>
+          ) : display.length === 0 ? (
+            // 仅看未读且待办已清空
+            <div className="py-16 text-center text-sm text-gray-400">
+              {t('signals.allHandled')}{' '}
+              <button
+                onClick={() => setOnlyUnread(false)}
+                className="text-brand-500 dark:text-brand-400"
+              >
+                {t('signals.showAll')}
+              </button>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {display.map((s) => (
+                <SignalCard key={s.id} s={s} onMark={mark} />
+              ))}
+            </div>
+          )}
+        </>
       )}
     </div>
   );
