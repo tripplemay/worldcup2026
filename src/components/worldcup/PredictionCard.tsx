@@ -180,6 +180,11 @@ export default function PredictionCard({
   const consensus =
     base.length >= 2 && base.every((p) => argmax(p) === argmax(base[0]));
   const main = ens ?? base[0];
+  // Pivot:市场去水共识为头条「真相」,模型降为参考。无盘口时回退模型估计。
+  const market = base.find((p) => p.modelId === 'market');
+  const headline = market ?? main;
+  const probOf = (p: MatchPrediction, s: 'home' | 'draw' | 'away') =>
+    s === 'home' ? p.homeWin : s === 'away' ? p.awayWin : p.draw;
   // 决策提示:模型分歧分类 → 该如何分析(框架固化)
   const divergence =
     base.length >= 2
@@ -218,6 +223,43 @@ export default function PredictionCard({
         </div>
       ) : (
         <>
+          {/* 头条:市场去水共识 = 真相代理(无盘口则模型估计) */}
+          <div className="mb-3">
+            <div className="mb-1 flex items-baseline justify-between text-[11px]">
+              <span className="font-semibold text-navy-700 dark:text-white">
+                {market ? t('predict.marketConsensus') : t('predict.noMarket')}
+              </span>
+              {market &&
+                ens &&
+                (() => {
+                  const s = argmax(market);
+                  const gap = probOf(market, s) - probOf(ens, s);
+                  if (Math.abs(gap) < 0.05) return null;
+                  const lbl =
+                    s === 'home'
+                      ? t('odds.home')
+                      : s === 'away'
+                      ? t('odds.away')
+                      : t('odds.draw');
+                  return (
+                    <span className="text-gray-500 dark:text-gray-400">
+                      {lbl} {t('predict.market')} {pct(probOf(market, s))} ·{' '}
+                      {t('predict.ourModel')} {pct(probOf(ens, s))}
+                    </span>
+                  );
+                })()}
+            </div>
+            <ProbBar
+              home={headline.homeWin}
+              draw={headline.draw}
+              away={headline.awayWin}
+            />
+          </div>
+
+          {/* 我们的模型(参考对比,不构成下注建议) */}
+          <div className="mb-1 text-[11px] text-gray-400">
+            {t('predict.ourModels')}
+          </div>
           <table className="w-full text-xs">
             <thead>
               <tr className="text-[11px] text-gray-400">
@@ -236,10 +278,6 @@ export default function PredictionCard({
               {ens && <Row p={ens} ens />}
             </tbody>
           </table>
-
-          <div className="mt-2">
-            <ProbBar home={main.homeWin} draw={main.draw} away={main.awayWin} />
-          </div>
 
           {divergence && (
             <div className="mt-2 flex items-start gap-1.5 rounded-lg bg-lightPrimary/60 px-2.5 py-1.5 text-[11px] dark:bg-navy-700/40">

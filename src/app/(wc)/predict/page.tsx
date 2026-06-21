@@ -113,6 +113,9 @@ export default function PredictPage() {
       <div className="space-y-3">
         {withPred.map((m) => {
           const p = m.ensemble ?? m.predictions[0];
+          // Pivot:头条概率条用市场去水共识(无盘口回退模型);xG/比分仍取模型作上下文
+          const headline =
+            m.predictions.find((x) => x.modelId === 'market') ?? p;
           const pk = pick(m, tn(m.homeTeam), tn(m.awayTeam));
           const body = (
             <Card extra="p-4">
@@ -142,7 +145,11 @@ export default function PredictPage() {
                   className="min-w-0 flex-1 justify-end text-right text-sm font-medium text-navy-700 dark:text-white"
                 />
               </div>
-              <ProbBar home={p.homeWin} draw={p.draw} away={p.awayWin} />
+              <ProbBar
+                home={headline.homeWin}
+                draw={headline.draw}
+                away={headline.awayWin}
+              />
             </Card>
           );
           // WC → /match/[id](WC ESPN);联赛 → /league/[comp]/[id](联赛 ESPN + calib 预测)
