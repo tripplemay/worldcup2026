@@ -11,7 +11,7 @@ import { ensemble } from './ensemble';
 import { getModels } from './registry';
 import './models'; // 副作用:注册模型
 import { DEFAULT_WC_START } from 'lib/tmi/constants';
-import type { PredictionContext } from './model';
+import type { PredictionContext, MatchPrediction } from './model';
 import type { HistMatch, ResultMatch } from './types';
 import type { Tuning } from './tuning';
 
@@ -32,6 +32,8 @@ export interface PointPrediction {
   btts?: number;
   eloDiff?: number; // |自算Elo 差|(分层:错配 vs 均势)
   models: ModelProb[]; // 各基础模型(诊断/规律分析用)
+  preds?: MatchPrediction[]; // 各基础模型完整预测(含 λ/μ;模拟盘回测用)
+  ens?: MatchPrediction; // 融合预测完整对象(模拟盘回测用)
 }
 
 /**
@@ -108,6 +110,8 @@ export function predictPointInTime(
       draw: p.draw,
       away: p.awayWin,
     })),
+    preds,
+    ens,
   };
 }
 
