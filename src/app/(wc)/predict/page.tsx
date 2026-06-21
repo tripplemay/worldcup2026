@@ -145,13 +145,16 @@ export default function PredictPage() {
               <ProbBar home={p.homeWin} draw={p.draw} away={p.awayWin} />
             </Card>
           );
-          // WC 比赛有详情页(/match/[id] 走 WC ESPN);联赛详情页暂未做,卡片不跳转
-          return isWc ? (
-            <Link key={m.matchId} href={`/match/${m.matchId}`}>
+          // WC → /match/[id](WC ESPN);联赛 → /league/[comp]/[id](联赛 ESPN + calib 预测)
+          return (
+            <Link
+              key={m.matchId}
+              href={
+                isWc ? `/match/${m.matchId}` : `/league/${comp}/${m.matchId}`
+              }
+            >
               {body}
             </Link>
-          ) : (
-            <div key={m.matchId}>{body}</div>
           );
         })}
       </div>

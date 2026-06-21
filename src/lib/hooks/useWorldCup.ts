@@ -342,6 +342,31 @@ export function useLeaguePredictions(comp: string | null, days = 10) {
   return { matches: data?.matches ?? [], error, isLoading };
 }
 
+/** 单场联赛预测(详情页;comp+matchId 齐全时请求)。 */
+export function useLeagueMatchPrediction(comp?: string, matchId?: string) {
+  const { data, isLoading } = useSWR<{
+    comp: string;
+    match: MatchWithPredictions | null;
+  }>(
+    comp && matchId
+      ? `/api/worldcup/league/predictions?comp=${comp}&matchId=${matchId}`
+      : null,
+    fetcher,
+    { revalidateOnFocus: false, ...common },
+  );
+  return { prediction: data?.match ?? null, isLoading };
+}
+
+/** 单场联赛 ESPN 详情(比分/统计/阵容/近期战绩;comp+id 齐全时请求)。 */
+export function useLeagueMatchSummary(comp?: string, id?: string) {
+  const { data, error, isLoading } = useSWR<{ summary: MatchSummary }>(
+    comp && id ? `/api/worldcup/league/summary?comp=${comp}&id=${id}` : null,
+    fetcher,
+    { refreshInterval: 30_000, ...common },
+  );
+  return { summary: data?.summary, error, isLoading };
+}
+
 /** TMI 杯赛状态动能榜(纯计算,不耗配额;低频刷新)。 */
 export function useTmi() {
   const { data, error, isLoading } = useSWR<TmiSnapshot>(

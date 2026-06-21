@@ -130,13 +130,19 @@ function IntelRow({ it }: { it: TeamIntel }) {
 
 export default function PredictionCard({
   matchId,
+  data,
 }: {
   matchId: string;
   homeTeam?: string;
   awayTeam?: string;
+  /** 直接传入预测(联赛详情页用);传入则不走 WC 取数、无赛前存档对照。 */
+  data?: import('lib/predict/predict').MatchWithPredictions | null;
 }) {
   const { t, tn } = useLocale();
-  const { prediction, logged, isLoading } = useMatchPrediction(matchId);
+  const fetched = useMatchPrediction(data !== undefined ? undefined : matchId);
+  const prediction = data !== undefined ? data : fetched.prediction;
+  const logged = data !== undefined ? null : fetched.logged;
+  const isLoading = data !== undefined ? false : fetched.isLoading;
   const sideLabel = (s: 'H' | 'D' | 'A') =>
     s === 'H' ? t('odds.home') : s === 'D' ? t('odds.draw') : t('odds.away');
   // 已结束比赛:用冻结的赛前存档(防赛后评分污染:现算会用含赛果的当前评分);未结束:现算
