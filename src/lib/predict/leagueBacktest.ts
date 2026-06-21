@@ -19,6 +19,7 @@ const MISMATCH = 0.6; // 闭盘隐含热门方 ≥60% 视为错配(R1 子集)
 export interface LeagueBacktestResult {
   key: string;
   from?: string;
+  to?: string;
   hfa: { elo: number; mult: number };
   tuning?: { goalShrink?: number; shrinkEloScale?: number; dcRho?: number };
   n: number;
@@ -41,6 +42,7 @@ export interface LeagueBacktestResult {
 export function runLeagueBacktest(opts: {
   key: string;
   from?: string;
+  to?: string;
   hfaElo?: number;
   hfaMult?: number;
   goalShrink?: number;
@@ -61,7 +63,11 @@ export function runLeagueBacktest(opts: {
   const allRes = Object.values(loadLeagueResults(opts.key));
   const oddsMap = loadLeagueOdds(opts.key);
   const matches = allRes
-    .filter((r) => !opts.from || dateKey(r.date) >= opts.from)
+    .filter(
+      (r) =>
+        (!opts.from || dateKey(r.date) >= opts.from) &&
+        (!opts.to || dateKey(r.date) <= opts.to),
+    )
     .sort((a, b) => a.date.localeCompare(b.date));
 
   // R1 favBias 累加(各模型 + ensemble)
@@ -206,6 +212,7 @@ export function runLeagueBacktest(opts: {
   return {
     key: opts.key,
     from: opts.from,
+    to: opts.to,
     hfa: { elo: hfaElo, mult: hfaMult },
     tuning,
     n,

@@ -9,6 +9,7 @@ import {
   saveLeagueHistorical,
   loadLeagueResults,
   saveLeagueResults,
+  loadLeagueOdds,
   saveLeagueOdds,
   type LeagueClosing,
 } from 'lib/db/store';
@@ -59,7 +60,7 @@ export async function ingestFootballDataOdds(
     ['B365CH', 'B365CD', 'B365CA'],
   ].map((s) => s.map(col));
   const norm = (n: string) => normalizeTeam(FD_ALIAS[n] ?? n);
-  const out: Record<string, LeagueClosing> = {};
+  const out: Record<string, LeagueClosing> = loadLeagueOdds(key); // 合并(多季叠加,勿覆盖)
   let stored = 0;
   for (const line of lines.slice(1)) {
     const f = line.split(',');

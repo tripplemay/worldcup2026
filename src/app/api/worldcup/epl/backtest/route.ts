@@ -12,6 +12,7 @@ export async function GET(req: Request) {
     const u = new URL(req.url);
     const key = u.searchParams.get('key') ?? 'epl-2025';
     const from = u.searchParams.get('from') ?? undefined;
+    const to = u.searchParams.get('to') ?? undefined;
     const numOpt = (k: string) => {
       const v = u.searchParams.get(k);
       return v != null ? Number(v) : undefined;
@@ -20,6 +21,7 @@ export async function GET(req: Request) {
       runLeagueBacktest({
         key,
         from,
+        to,
         hfaElo: numOpt('hfaElo'),
         hfaMult: numOpt('hfaMult'),
         goalShrink: numOpt('goalShrink'),
