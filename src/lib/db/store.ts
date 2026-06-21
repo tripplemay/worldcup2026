@@ -60,6 +60,21 @@ export function saveLeagueResults(
 ): void {
   writeJson(`league-${key}-results.json`, map);
 }
+// 联赛历史赔率(football-data.co.uk 闭盘 1X2;按 matchKey 入键,跨源对齐)
+export interface LeagueClosing {
+  h: number;
+  d: number;
+  a: number;
+}
+export function loadLeagueOdds(key: string): Record<string, LeagueClosing> {
+  return readJson<Record<string, LeagueClosing>>(`league-${key}-odds.json`, {});
+}
+export function saveLeagueOdds(
+  key: string,
+  map: Record<string, LeagueClosing>,
+): void {
+  writeJson(`league-${key}-odds.json`, map);
+}
 
 // ── 球队评分(按归一化队名)──────────────────────────────
 type RatingMap = Record<string, TeamRating>;

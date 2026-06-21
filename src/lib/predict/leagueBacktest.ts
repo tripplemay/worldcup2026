@@ -5,9 +5,16 @@
  * 仅用比赛结果(无需赔率);市场模型因无 marketOdds 自动不参与融合(同 WC 回测)。
  */
 import { predictPointInTime } from './backtest';
-import { loadLeagueHistorical, loadLeagueResults } from 'lib/db/store';
+import {
+  loadLeagueHistorical,
+  loadLeagueResults,
+  loadLeagueOdds,
+} from 'lib/db/store';
+import { matchKey } from 'lib/match/normalize';
+import { trueIP3 } from 'lib/odds/trueIP';
 
 const dateKey = (iso: string) => iso.slice(0, 10);
+const MISMATCH = 0.6; // 闭盘隐含热门方 ≥60% 视为错配(R1 子集)
 
 export interface LeagueBacktestResult {
   key: string;
@@ -25,6 +32,9 @@ export interface LeagueBacktestResult {
     meanPredicted: number;
   };
   goals: { meanPred: number; meanActual: number };
+  // R1:各模型在「闭盘热门方」上的概率 − 闭盘该项(<0=比市场欠自信)。mismatch=错配子集。
+  oddsCoverage: { withOdds: number; mismatch: number };
+  r1: Record<string, { favBias: number; favBiasMismatch: number }>;
 }
 
 export function runLeagueBacktest(opts: {
@@ -37,9 +47,27 @@ export function runLeagueBacktest(opts: {
   const hfaMult = opts.hfaMult ?? 1.12; // 泊松主场进球乘子;1=中立
   const allHist = Object.values(loadLeagueHistorical(opts.key));
   const allRes = Object.values(loadLeagueResults(opts.key));
+  const oddsMap = loadLeagueOdds(opts.key);
   const matches = allRes
     .filter((r) => !opts.from || dateKey(r.date) >= opts.from)
     .sort((a, b) => a.date.localeCompare(b.date));
+
+  // R1 favBias 累加(各模型 + ensemble)
+  const r1acc: Record<
+    string,
+    { sum: number; n: number; sumMis: number; nMis: number }
+  > = {};
+  let withOdds = 0,
+    mismatchN = 0;
+  const accR1 = (id: string, bias: number, mis: boolean) => {
+    const a = (r1acc[id] ??= { sum: 0, n: 0, sumMis: 0, nMis: 0 });
+    a.sum += bias;
+    a.n++;
+    if (mis) {
+      a.sumMis += bias;
+      a.nMis++;
+    }
+  };
 
   let brier = 0,
     ll = 0,
@@ -59,6 +87,7 @@ export function runLeagueBacktest(opts: {
   const mm: Record<string, { brier: number; hits: number; n: number }> = {};
 
   for (const m of matches) {
+    const o = oddsMap[matchKey(m.homeNorm, m.awayNorm, m.date)];
     const pp = predictPointInTime(
       allHist,
       allRes,
@@ -70,6 +99,7 @@ export function runLeagueBacktest(opts: {
       hfaElo || hfaMult !== 1
         ? { eloBonus: hfaElo, goalMult: hfaMult }
         : undefined,
+      o ? { home: o.h, draw: o.d, away: o.a } : undefined,
     );
     if (!pp) {
       skipped++;
@@ -118,8 +148,40 @@ export function runLeagueBacktest(opts: {
       a.hits += mp === result ? 1 : 0;
       a.n++;
     }
+    // R1:各模型/融合在「闭盘热门方」上 vs 市场去水概率的偏差
+    if (o) {
+      const ip = trueIP3(o.h, o.d, o.a);
+      if (ip) {
+        withOdds++;
+        const mk: Record<'home' | 'draw' | 'away', number> = {
+          home: ip.home,
+          draw: ip.draw,
+          away: ip.away,
+        };
+        const favKey = (['home', 'draw', 'away'] as const).reduce((b, k) =>
+          mk[k] > mk[b] ? k : b,
+        );
+        const favP = mk[favKey];
+        const mis = favP >= MISMATCH;
+        if (mis) mismatchN++;
+        const ensFav = favKey === 'home' ? pH : favKey === 'away' ? pA : pD;
+        accR1('ensemble', ensFav - favP, mis);
+        for (const md of pp.models ?? []) {
+          const mFav =
+            favKey === 'home' ? md.home : favKey === 'away' ? md.away : md.draw;
+          accR1(md.id, mFav - favP, mis);
+        }
+      }
+    }
     n++;
   }
+
+  const r1: LeagueBacktestResult['r1'] = {};
+  for (const [id, a] of Object.entries(r1acc))
+    r1[id] = {
+      favBias: a.n ? +(a.sum / a.n).toFixed(3) : 0,
+      favBiasMismatch: a.nMis ? +(a.sumMis / a.nMis).toFixed(3) : 0,
+    };
 
   const perModel: LeagueBacktestResult['perModel'] = {};
   for (const [id, a] of Object.entries(mm))
@@ -156,5 +218,7 @@ export function runLeagueBacktest(opts: {
       meanPred: n ? +(sumPred / n).toFixed(2) : 0,
       meanActual: n ? +(sumActual / n).toFixed(2) : 0,
     },
+    oddsCoverage: { withOdds, mismatch: mismatchN },
+    r1,
   };
 }

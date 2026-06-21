@@ -3,18 +3,87 @@
  * 数据源 API-Football:某联赛某赛季全部 FT 比赛 → 赛果(喂 Elo)+ 逐场射门/真 xG(喂评分)。
  * 存到独立的 league-<key>-*.json,完全不碰世界杯数据。下游复用同一套 HistMatch/ResultMatch。
  */
-import { normalizeTeam } from 'lib/match/normalize';
+import { normalizeTeam, matchKey } from 'lib/match/normalize';
 import {
   loadLeagueHistorical,
   saveLeagueHistorical,
   loadLeagueResults,
   saveLeagueResults,
+  saveLeagueOdds,
+  type LeagueClosing,
 } from 'lib/db/store';
 import {
   hasApiFootball,
   getLeagueFixtures,
   getFixtureStats,
 } from './apifootball';
+
+/** football-data.co.uk 简称 → AF 规范名(其余 17 队已一致)。 */
+const FD_ALIAS: Record<string, string> = {
+  'Man City': 'Manchester City',
+  'Man United': 'Manchester United',
+  "Nott'm Forest": 'Nottingham Forest',
+};
+
+/** DD/MM/YYYY → 当日正午 UTC 的 ISO(供 matchKey 取 UTC 日;避开日界)。 */
+function fdDateToISO(d: string): string | null {
+  const m = d.match(/^(\d{2})\/(\d{2})\/(\d{4})$/);
+  if (!m) return null;
+  return `${m[3]}-${m[2]}-${m[1]}T12:00:00Z`;
+}
+
+/**
+ * 摄取 football-data.co.uk 某联赛某赛季 CSV 的闭盘 1X2(优先 Pinnacle PSC*,回退 Avg/B365)
+ * → 按 matchKey(队名对+UTC日)入键,与我们 AF 赛果跨源对齐。AF 不保留历史赔率,故走此源。
+ */
+export async function ingestFootballDataOdds(
+  key: string,
+  csvUrl: string,
+): Promise<{ rows: number; stored: number }> {
+  const res = await fetch(csvUrl, {
+    headers: { 'user-agent': 'Mozilla/5.0' },
+  });
+  if (!res.ok) throw new Error(`football-data HTTP ${res.status}`);
+  const text = await res.text();
+  const lines = text.split(/\r?\n/).filter((l) => l.trim());
+  if (!lines.length) return { rows: 0, stored: 0 };
+  const head = lines[0].split(',');
+  const col = (name: string) => head.indexOf(name);
+  const iDate = col('Date'),
+    iH = col('HomeTeam'),
+    iA = col('AwayTeam');
+  // 闭盘优先级:Pinnacle 闭盘 → 平均闭盘 → Bet365 闭盘
+  const sets = [
+    ['PSCH', 'PSCD', 'PSCA'],
+    ['AvgCH', 'AvgCD', 'AvgCA'],
+    ['B365CH', 'B365CD', 'B365CA'],
+  ].map((s) => s.map(col));
+  const norm = (n: string) => normalizeTeam(FD_ALIAS[n] ?? n);
+  const out: Record<string, LeagueClosing> = {};
+  let stored = 0;
+  for (const line of lines.slice(1)) {
+    const f = line.split(',');
+    const iso = fdDateToISO(f[iDate]);
+    const home = f[iH],
+      away = f[iA];
+    if (!iso || !home || !away) continue;
+    let odds: LeagueClosing | null = null;
+    for (const [h, d, a] of sets) {
+      const oh = parseFloat(f[h]),
+        od = parseFloat(f[d]),
+        oa = parseFloat(f[a]);
+      if (oh > 1 && od > 1 && oa > 1) {
+        odds = { h: oh, d: od, a: oa };
+        break;
+      }
+    }
+    if (!odds) continue;
+    out[matchKey(norm(home), norm(away), iso)] = odds;
+    stored++;
+  }
+  saveLeagueOdds(key, out);
+  return { rows: lines.length - 1, stored };
+}
 
 /** 射门代理 xG(真 expected_goals 缺失时回退):射正×0.3 + 射偏×0.05。 */
 function xgProxy(sot: number, shots: number): number {
