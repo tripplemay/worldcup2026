@@ -109,6 +109,34 @@ export interface H2HSummary {
   }[];
 }
 
+/** 某联赛某赛季全部已结束(FT)比赛;供联赛历史回测一次性摄取。 */
+export async function getLeagueFixtures(
+  league: number,
+  season: number,
+): Promise<AfFixture[]> {
+  const list = (await af(`/fixtures?league=${league}&season=${season}`)).map(
+    obj,
+  );
+  const out: AfFixture[] = [];
+  for (const f of list) {
+    const fx = obj(f.fixture);
+    if (obj(fx.status).short !== 'FT') continue;
+    const teams = obj(f.teams);
+    const goals = obj(f.goals);
+    out.push({
+      id: num(fx.id),
+      date: typeof fx.date === 'string' ? fx.date : '',
+      homeId: num(obj(teams.home).id),
+      awayId: num(obj(teams.away).id),
+      homeName: String(obj(teams.home).name ?? ''),
+      awayName: String(obj(teams.away).name ?? ''),
+      homeGoals: num(goals.home),
+      awayGoals: num(goals.away),
+    });
+  }
+  return out;
+}
+
 /** 两队历史交锋(以本场 homeId 视角统计胜平负);需两队 id,无记录返回 null。 */
 export async function getHeadToHead(
   homeId: number,

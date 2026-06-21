@@ -38,6 +38,7 @@ export interface PredictionContext {
   awayNorm: string;
   neutral: boolean; // 中立场地(世界杯多数为是)
   homeAdvantage: number; // Elo 主场优势分 H(中立 0;美加墨主场 +100,客方为东道主则 −100)
+  homeGoalMult?: number; // 泊松主场进球乘子(联赛主场优势;主队 λ×mult、客队 μ÷mult;缺省/1=中立)
   leagueAvg: number; // 联赛基准:全体球队场均 xG 均值(xG 泊松归一化用)
   leagueAvgGoals: number; // 联赛基准:全体球队场均实际进球均值(进球泊松归一化用)
   /** 该场各家最优 h2h 赔率(市场隐含模型用;缺失则该模型跳过)。 */

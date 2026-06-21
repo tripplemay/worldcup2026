@@ -31,8 +31,9 @@ export const poissonXgModel: PredictionModel = {
       eloDiff,
       ctx.tuning?.shrinkEloScale ?? SHRINK_ELO_SCALE,
     );
-    const lambda = damp((h.xgFor * a.xgAgainst) / L, L, shrink);
-    const mu = damp((a.xgFor * h.xgAgainst) / L, L, shrink);
+    const hfa = ctx.homeGoalMult ?? 1; // 主场优势:主 λ×hfa、客 μ÷hfa(中立=1)
+    const lambda = damp(((h.xgFor * a.xgAgainst) / L) * hfa, L, shrink);
+    const mu = damp((a.xgFor * h.xgAgainst) / L / hfa, L, shrink);
     if (!Number.isFinite(lambda) || !Number.isFinite(mu)) return null;
     return dcPoisson({
       modelId: this.id,

@@ -41,6 +41,26 @@ export function saveHistorical(map: HistMap): void {
   writeJson('historical.json', map);
 }
 
+// ── 联赛历史(Phase 1:英超等俱乐部联赛回测,独立于 WC 数据)──────
+export function loadLeagueHistorical(key: string): HistMap {
+  return readJson<HistMap>(`league-${key}-historical.json`, {});
+}
+export function saveLeagueHistorical(key: string, map: HistMap): void {
+  writeJson(`league-${key}-historical.json`, map);
+}
+export function loadLeagueResults(key: string): Record<string, ResultMatch> {
+  return readJson<Record<string, ResultMatch>>(
+    `league-${key}-results.json`,
+    {},
+  );
+}
+export function saveLeagueResults(
+  key: string,
+  map: Record<string, ResultMatch>,
+): void {
+  writeJson(`league-${key}-results.json`, map);
+}
+
 // ── 球队评分(按归一化队名)──────────────────────────────
 type RatingMap = Record<string, TeamRating>;
 
