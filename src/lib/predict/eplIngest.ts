@@ -56,6 +56,7 @@ export async function ingestLeagueSeason(
   key: string,
   league: number,
   season: number,
+  resultsOnly = false, // 仅取赛果(喂 Elo 热启动),跳过逐场 xG/stats 调用
 ): Promise<{ fixtures: number; withStats: number }> {
   if (!hasApiFootball()) return { fixtures: 0, withStats: 0 };
 
@@ -74,6 +75,7 @@ export async function ingestLeagueSeason(
     };
   }
   saveLeagueResults(key, results);
+  if (resultsOnly) return { fixtures: fixtures.length, withStats: 0 };
 
   // 2) 逐场射门/真 xG → HistMatch(喂评分)
   const stats = await pool(
@@ -103,8 +105,12 @@ export async function ingestLeagueSeason(
       homeShots: h.shots,
       awaySoT: a.sot,
       awayShots: a.shots,
-      homeXg: Number.isFinite(h.xg) ? +h.xg.toFixed(3) : xgProxy(h.sot, h.shots),
-      awayXg: Number.isFinite(a.xg) ? +a.xg.toFixed(3) : xgProxy(a.sot, a.shots),
+      homeXg: Number.isFinite(h.xg)
+        ? +h.xg.toFixed(3)
+        : xgProxy(h.sot, h.shots),
+      awayXg: Number.isFinite(a.xg)
+        ? +a.xg.toFixed(3)
+        : xgProxy(a.sot, a.shots),
       homeGp: Number.isFinite(h.gp) ? +h.gp.toFixed(3) : undefined,
       awayGp: Number.isFinite(a.gp) ? +a.gp.toFixed(3) : undefined,
     };

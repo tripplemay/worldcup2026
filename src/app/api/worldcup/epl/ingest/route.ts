@@ -23,7 +23,8 @@ export async function POST(req: Request) {
     const league = Number(u.searchParams.get('league') ?? 39);
     const season = Number(u.searchParams.get('season') ?? 2025);
     const key = u.searchParams.get('key') ?? `epl-${season}`;
-    const r = await ingestLeagueSeason(key, league, season);
+    const resultsOnly = u.searchParams.get('resultsOnly') === '1';
+    const r = await ingestLeagueSeason(key, league, season, resultsOnly);
     return ok({ key, league, season, ...r });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '联赛摄取失败');
