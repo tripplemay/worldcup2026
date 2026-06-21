@@ -9,6 +9,7 @@ import { loadRatings, loadElo, loadAfTeams } from 'lib/db/store';
 import { normalizeTeam, findMatch } from 'lib/match/normalize';
 import { getModels } from './registry';
 import { ensemble } from './ensemble';
+import { tiltEnsembleScores } from './models/poissonCore';
 import { getIntel } from 'lib/intel/intel';
 import { findVenue } from 'lib/data/venues';
 import { getHeadToHead, type H2HSummary } from './apifootball';
@@ -168,6 +169,7 @@ function predictFixture(
       : eloDiff < 50
       ? 'even'
       : 'normal';
+  const ens = ensemble(predictions, m.id, eloDiff);
   return {
     matchId: m.id,
     homeTeam: m.homeTeam,
@@ -177,7 +179,8 @@ function predictFixture(
     commenceTime: m.commenceTime,
     status: m.status,
     predictions,
-    ensemble: ensemble(predictions, m.id, eloDiff),
+    // 展示层后验倾斜:比分/大小球向 ensemble 头条对齐(Phase 8.1 Q5)
+    ensemble: ens ? tiltEnsembleScores(ens, predictions) : null,
     weightMode,
   };
 }

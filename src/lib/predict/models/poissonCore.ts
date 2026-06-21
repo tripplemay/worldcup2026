@@ -65,6 +65,94 @@ export function buildMatrix(
   return m;
 }
 
+/** 从(归一化)比分矩阵汇总盘口:大/小 2.5、双方进球、最可能比分(降序前 8)。 */
+export function scoreStatsFromMatrix(m: number[][]): {
+  over25: number;
+  under25: number;
+  btts: number;
+  topScores: ScoreProb[];
+} {
+  let over25 = 0;
+  let btts = 0;
+  let total = 0;
+  const scores: ScoreProb[] = [];
+  for (let i = 0; i < m.length; i++) {
+    for (let j = 0; j < m[i].length; j++) {
+      const p = m[i][j];
+      total += p;
+      if (i + j >= 3) over25 += p;
+      if (i >= 1 && j >= 1) btts += p;
+      scores.push({ score: `${i}-${j}`, p });
+    }
+  }
+  const t = total || 1;
+  const norm = (x: number) => +(x / t).toFixed(4);
+  return {
+    over25: norm(over25),
+    under25: +(1 - over25 / t).toFixed(4),
+    btts: norm(btts),
+    topScores: scores
+      .map((s) => ({ score: s.score, p: norm(s.p) }))
+      .sort((x, y) => y.p - x.p)
+      .slice(0, 8),
+  };
+}
+
+/**
+ * 后验矩阵倾斜(Phase 8.1 Q5,展示层):把原始泊松比分矩阵按「ensemble 头条 / 泊松 1X2」
+ * 分区(主胜 i>j / 平 i=j / 客胜 i<j)整体缩放后重归一化 → 倾斜矩阵的胜平负严格等于 ensemble
+ * 头条,使展示的比分/大小球与头条数学自洽(解决"84% 胜率却首推 1-1")。pois/ens 一致时为恒等。
+ */
+export function tiltMatrix(
+  m: number[][],
+  pois: { h: number; d: number; a: number },
+  ens: { h: number; d: number; a: number },
+): number[][] {
+  const eps = 1e-6;
+  const sH = ens.h / Math.max(eps, pois.h);
+  const sD = ens.d / Math.max(eps, pois.d);
+  const sA = ens.a / Math.max(eps, pois.a);
+  let total = 0;
+  const out = m.map((row, i) =>
+    row.map((p, j) => {
+      const v = p * (i > j ? sH : i === j ? sD : sA);
+      total += v;
+      return v;
+    }),
+  );
+  if (total > 0)
+    for (let i = 0; i < out.length; i++)
+      for (let j = 0; j < out[i].length; j++) out[i][j] /= total;
+  return out;
+}
+
+/**
+ * 对 ensemble 预测做展示层后验倾斜:用 poisson-xg 的 λ/μ 重建矩阵,按(泊松 1X2 → ensemble 头条)
+ * 倾斜,重算比分/大小球/双方进球挂回 ensemble(头条 1X2 不变)。无 poisson 腿则原样返回。
+ * 仅用于实时展示路径;回测/交易决策仍走原始分布。
+ */
+export function tiltEnsembleScores(
+  ens: MatchPrediction,
+  models: MatchPrediction[],
+): MatchPrediction {
+  const pois = models.find((p) => p.modelId === 'poisson-xg');
+  if (
+    !pois ||
+    pois.xgHome == null ||
+    pois.xgAway == null ||
+    !Number.isFinite(pois.homeWin)
+  )
+    return ens;
+  const raw = buildMatrix(pois.xgHome, pois.xgAway, DC_RHO);
+  const tilted = tiltMatrix(
+    raw,
+    { h: pois.homeWin, d: pois.draw, a: pois.awayWin },
+    { h: ens.homeWin, d: ens.draw, a: ens.awayWin },
+  );
+  const s = scoreStatsFromMatrix(tilted);
+  return { ...ens, ...s };
+}
+
 /**
  * 由主客预期进球 λ/μ 构建进球矩阵(Dixon-Coles 修正)→ 胜平负/最可能比分/大小球/双方进球。
  * 调用方需保证 λ/μ 为有限正数(已 clamp)。

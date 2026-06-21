@@ -16,6 +16,7 @@ import { normalizeTeam, findMatch } from 'lib/match/normalize';
 import { computeElo, ratingsFromHistorical } from './ratings';
 import { getModels } from './registry';
 import { ensemble } from './ensemble';
+import { tiltEnsembleScores } from './models/poissonCore';
 import { getLeague, getCompetitionConfig } from './leagues';
 import type { CompetitionConfig } from './leagues';
 import './models'; // 副作用:注册模型
@@ -39,7 +40,9 @@ interface LeagueRatings {
 }
 
 const avg = (xs: number[], floor = 0.6, fallback = 1.35) =>
-  xs.length ? Math.max(floor, xs.reduce((a, b) => a + b, 0) / xs.length) : fallback;
+  xs.length
+    ? Math.max(floor, xs.reduce((a, b) => a + b, 0) / xs.length)
+    : fallback;
 
 /** 由该联赛已摄取数据即时算评分(EWMA + 自算 Elo);静态数据,带缓存。 */
 function buildLeagueRatings(key: string): LeagueRatings {
@@ -67,7 +70,13 @@ async function leagueRatings(key: string): Promise<LeagueRatings> {
 function predictLeagueFixture(
   m: Pick<
     ScheduleMatch,
-    'id' | 'homeTeam' | 'awayTeam' | 'homeLogo' | 'awayLogo' | 'commenceTime' | 'status'
+    | 'id'
+    | 'homeTeam'
+    | 'awayTeam'
+    | 'homeLogo'
+    | 'awayLogo'
+    | 'commenceTime'
+    | 'status'
   >,
   data: LeagueRatings,
   cfg: CompetitionConfig,
@@ -107,8 +116,7 @@ function predictLeagueFixture(
     .filter((p): p is MatchPrediction => p !== null);
   const eh = data.elo.get(homeNorm);
   const ea = data.elo.get(awayNorm);
-  const eloDiff =
-    eh != null && ea != null ? Math.abs(eh - ea) : undefined;
+  const eloDiff = eh != null && ea != null ? Math.abs(eh - ea) : undefined;
   const weightMode =
     eloDiff == null
       ? undefined
@@ -117,6 +125,8 @@ function predictLeagueFixture(
       : eloDiff < 50
       ? 'even'
       : 'normal';
+  const ens = ensemble(predictions, m.id, eloDiff, cfg.marketWeight);
+  const ensTilted = ens ? tiltEnsembleScores(ens, predictions) : null;
   return {
     matchId: m.id,
     homeTeam: m.homeTeam,
@@ -126,7 +136,8 @@ function predictLeagueFixture(
     commenceTime: m.commenceTime,
     status: m.status,
     predictions,
-    ensemble: ensemble(predictions, m.id, eloDiff, cfg.marketWeight),
+    // 展示层后验倾斜:比分/大小球向 ensemble 头条对齐(Phase 8.1 Q5)
+    ensemble: ensTilted,
     weightMode,
   };
 }
@@ -190,9 +201,12 @@ export async function predictLeagueMatch(
 }
 
 /** 联赛当前评分概览(供刷新端点/诊断)。 */
-export async function leagueRatingsSummary(
-  comp: string,
-): Promise<{ comp: string; key: string; teams: number; leagueAvg: number } | null> {
+export async function leagueRatingsSummary(comp: string): Promise<{
+  comp: string;
+  key: string;
+  teams: number;
+  leagueAvg: number;
+} | null> {
   const league = getLeague(comp);
   if (!league) return null;
   const d = await leagueRatings(league.key);
