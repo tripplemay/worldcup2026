@@ -22,6 +22,11 @@ const ALIASES: Record<string, string> = {
   'bosnia and herzegovina': 'bosnia herzegovina',
   czechia: 'czech republic',
   'congo dr': 'dr congo', // ESPN "Congo DR" ↔ The Odds API "DR Congo"
+  // ── 俱乐部联赛(Phase 1 多联赛校准):折叠 API-Football 跨赛季同队异名 →
+  //    与 football-data 闭盘价对齐(键已归一化;均为俱乐部名,与世界杯国家队零冲突)。
+  'bayern munchen': 'bayern munich', // AF 部分赛季用 München/Munich 两种拼写
+  'fc heidenheim': 'heidenheim', // AF 在 "FC Heidenheim" / "1. FC Heidenheim" 间摇摆
+  '1 fc heidenheim': 'heidenheim',
 };
 
 // 进程内缓存:队名恒定(48 队 + 对手),命中率≈100%,省掉重复 NFD+正则
