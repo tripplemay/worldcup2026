@@ -1,0 +1,5702 @@
+{
+  "almeria v rayo vallecano__2023-08-11": {
+    "h": 2.66,
+    "d": 3.25,
+    "a": 2.96
+  },
+  "sevilla v valencia__2023-08-11": {
+    "h": 1.94,
+    "d": 3.46,
+    "a": 4.58
+  },
+  "girona v real sociedad__2023-08-12": {
+    "h": 1.85,
+    "d": 3.6,
+    "a": 4.91
+  },
+  "las palmas v mallorca__2023-08-12": {
+    "h": 2.64,
+    "d": 2.93,
+    "a": 3.32
+  },
+  "athletic club v real madrid__2023-08-12": {
+    "h": 3.44,
+    "d": 3.5,
+    "a": 2.24
+  },
+  "celta vigo v osasuna__2023-08-13": {
+    "h": 2.16,
+    "d": 3.22,
+    "a": 4.02
+  },
+  "real betis v villarreal__2023-08-13": {
+    "h": 1.75,
+    "d": 4.1,
+    "a": 4.79
+  },
+  "barcelona v getafe__2023-08-13": {
+    "h": 7.46,
+    "d": 4.04,
+    "a": 1.55
+  },
+  "alaves v cadiz__2023-08-14": {
+    "h": 2.33,
+    "d": 2.96,
+    "a": 3.91
+  },
+  "atletico madrid v granada cf__2023-08-14": {
+    "h": 1.31,
+    "d": 5.9,
+    "a": 10.5
+  },
+  "mallorca v villarreal__2023-08-18": {
+    "h": 2.82,
+    "d": 3.19,
+    "a": 2.82
+  },
+  "las palmas v valencia__2023-08-18": {
+    "h": 1.63,
+    "d": 3.95,
+    "a": 6.33
+  },
+  "celta vigo v real sociedad__2023-08-19": {
+    "h": 1.69,
+    "d": 3.62,
+    "a": 6.38
+  },
+  "almeria v real madrid__2023-08-19": {
+    "h": 6.87,
+    "d": 5.24,
+    "a": 1.44
+  },
+  "athletic club v osasuna__2023-08-19": {
+    "h": 2.96,
+    "d": 3.01,
+    "a": 2.85
+  },
+  "getafe v girona__2023-08-20": {
+    "h": 1.98,
+    "d": 3.21,
+    "a": 4.84
+  },
+  "barcelona v cadiz__2023-08-20": {
+    "h": 1.26,
+    "d": 6.32,
+    "a": 12.21
+  },
+  "atletico madrid v real betis__2023-08-20": {
+    "h": 3.86,
+    "d": 3.53,
+    "a": 2.08
+  },
+  "alaves v sevilla__2023-08-21": {
+    "h": 3.4,
+    "d": 3.08,
+    "a": 2.48
+  },
+  "granada cf v rayo vallecano__2023-08-21": {
+    "h": 2.94,
+    "d": 3.15,
+    "a": 2.74
+  },
+  "las palmas v real sociedad__2023-08-25": {
+    "h": 4.74,
+    "d": 3.34,
+    "a": 1.95
+  },
+  "celta vigo v real madrid__2023-08-25": {
+    "h": 4.41,
+    "d": 3.72,
+    "a": 1.89
+  },
+  "almeria v cadiz__2023-08-26": {
+    "h": 2.15,
+    "d": 3.49,
+    "a": 3.68
+  },
+  "granada cf v mallorca__2023-08-26": {
+    "h": 2.81,
+    "d": 3.01,
+    "a": 3.03
+  },
+  "girona v sevilla__2023-08-26": {
+    "h": 1.98,
+    "d": 3.6,
+    "a": 4.17
+  },
+  "barcelona v villarreal__2023-08-27": {
+    "h": 3.57,
+    "d": 3.75,
+    "a": 2.1
+  },
+  "osasuna v valencia__2023-08-27": {
+    "h": 1.76,
+    "d": 3.52,
+    "a": 5.51
+  },
+  "athletic club v real betis__2023-08-27": {
+    "h": 2,
+    "d": 3.43,
+    "a": 4.3
+  },
+  "alaves v getafe__2023-08-28": {
+    "h": 2.62,
+    "d": 2.71,
+    "a": 3.68
+  },
+  "atletico madrid v rayo vallecano__2023-08-28": {
+    "h": 4.05,
+    "d": 3.38,
+    "a": 2.08
+  },
+  "cadiz v villarreal__2023-09-01": {
+    "h": 3.27,
+    "d": 3.66,
+    "a": 2.25
+  },
+  "almeria v celta vigo__2023-09-01": {
+    "h": 2.95,
+    "d": 3.38,
+    "a": 2.58
+  },
+  "granada cf v real sociedad__2023-09-02": {
+    "h": 1.47,
+    "d": 4.54,
+    "a": 7.92
+  },
+  "getafe v real madrid__2023-09-02": {
+    "h": 1.37,
+    "d": 4.91,
+    "a": 10.26
+  },
+  "alaves v valencia__2023-09-02": {
+    "h": 3.33,
+    "d": 2.98,
+    "a": 2.59
+  },
+  "rayo vallecano v real betis__2023-09-02": {
+    "h": 2.09,
+    "d": 3.35,
+    "a": 4.07
+  },
+  "girona v las palmas__2023-09-03": {
+    "h": 1.74,
+    "d": 3.88,
+    "a": 5.15
+  },
+  "athletic club v mallorca__2023-09-03": {
+    "h": 3.24,
+    "d": 3.02,
+    "a": 2.63
+  },
+  "barcelona v osasuna__2023-09-03": {
+    "h": 6.77,
+    "d": 4.67,
+    "a": 1.5
+  },
+  "alaves v rayo vallecano__2023-09-15": {
+    "h": 2.04,
+    "d": 3.27,
+    "a": 4.41
+  },
+  "athletic club v cadiz__2023-09-16": {
+    "h": 1.61,
+    "d": 4.01,
+    "a": 6.42
+  },
+  "atletico madrid v valencia__2023-09-16": {
+    "h": 3.53,
+    "d": 3.22,
+    "a": 2.33
+  },
+  "celta vigo v mallorca__2023-09-16": {
+    "h": 2.13,
+    "d": 3.14,
+    "a": 4.29
+  },
+  "barcelona v real betis__2023-09-16": {
+    "h": 1.32,
+    "d": 6.05,
+    "a": 9.44
+  },
+  "getafe v osasuna__2023-09-17": {
+    "h": 2.69,
+    "d": 2.95,
+    "a": 3.21
+  },
+  "almeria v villarreal__2023-09-17": {
+    "h": 1.53,
+    "d": 4.98,
+    "a": 5.73
+  },
+  "las palmas v sevilla__2023-09-17": {
+    "h": 1.6,
+    "d": 4.15,
+    "a": 6.24
+  },
+  "real madrid v real sociedad__2023-09-17": {
+    "h": 1.75,
+    "d": 3.77,
+    "a": 5.23
+  },
+  "girona v granada cf__2023-09-18": {
+    "h": 3.01,
+    "d": 3.58,
+    "a": 2.43
+  },
+  "alaves v athletic club__2023-09-22": {
+    "h": 4.25,
+    "d": 3.1,
+    "a": 2.16
+  },
+  "girona v mallorca__2023-09-23": {
+    "h": 1.91,
+    "d": 3.4,
+    "a": 4.88
+  },
+  "osasuna v sevilla__2023-09-23": {
+    "h": 2.45,
+    "d": 3.24,
+    "a": 3.28
+  },
+  "barcelona v celta vigo__2023-09-23": {
+    "h": 1.26,
+    "d": 6.77,
+    "a": 12.3
+  },
+  "almeria v valencia__2023-09-23": {
+    "h": 2.72,
+    "d": 3.43,
+    "a": 2.76
+  },
+  "getafe v real sociedad__2023-09-24": {
+    "h": 1.71,
+    "d": 3.43,
+    "a": 6.71
+  },
+  "rayo vallecano v villarreal__2023-09-24": {
+    "h": 2.64,
+    "d": 3.53,
+    "a": 2.78
+  },
+  "cadiz v real betis__2023-09-24": {
+    "h": 1.81,
+    "d": 3.66,
+    "a": 5.07
+  },
+  "granada cf v las palmas__2023-09-24": {
+    "h": 1.95,
+    "d": 3.73,
+    "a": 4.1
+  },
+  "atletico madrid v real madrid__2023-09-24": {
+    "h": 2.87,
+    "d": 3.38,
+    "a": 2.65
+  },
+  "almeria v sevilla__2023-09-26": {
+    "h": 1.71,
+    "d": 3.97,
+    "a": 5.18
+  },
+  "barcelona v mallorca__2023-09-26": {
+    "h": 7.5,
+    "d": 4.4,
+    "a": 1.5
+  },
+  "athletic club v getafe__2023-09-27": {
+    "h": 1.53,
+    "d": 4.06,
+    "a": 7.73
+  },
+  "las palmas v real madrid__2023-09-27": {
+    "h": 1.18,
+    "d": 8,
+    "a": 16.5
+  },
+  "girona v villarreal__2023-09-27": {
+    "h": 2.17,
+    "d": 3.72,
+    "a": 3.42
+  },
+  "cadiz v rayo vallecano__2023-09-27": {
+    "h": 2.72,
+    "d": 3.11,
+    "a": 3
+  },
+  "real sociedad v valencia__2023-09-27": {
+    "h": 2.57,
+    "d": 3.02,
+    "a": 3.31
+  },
+  "alaves v celta vigo__2023-09-28": {
+    "h": 1.59,
+    "d": 3.99,
+    "a": 6.84
+  },
+  "granada cf v real betis__2023-09-28": {
+    "h": 2.79,
+    "d": 3.46,
+    "a": 2.68
+  },
+  "atletico madrid v osasuna__2023-09-28": {
+    "h": 4.21,
+    "d": 3.48,
+    "a": 2.01
+  },
+  "barcelona v sevilla__2023-09-29": {
+    "h": 1.35,
+    "d": 5.74,
+    "a": 8.7
+  },
+  "getafe v villarreal__2023-09-30": {
+    "h": 2.79,
+    "d": 3.14,
+    "a": 2.86
+  },
+  "mallorca v rayo vallecano__2023-09-30": {
+    "h": 2.03,
+    "d": 3.26,
+    "a": 4.46
+  },
+  "girona v real madrid__2023-09-30": {
+    "h": 4.08,
+    "d": 4.06,
+    "a": 1.88
+  },
+  "athletic club v real sociedad__2023-09-30": {
+    "h": 2.32,
+    "d": 3.14,
+    "a": 3.66
+  },
+  "almeria v granada cf__2023-10-01": {
+    "h": 1.98,
+    "d": 3.73,
+    "a": 3.99
+  },
+  "alaves v osasuna__2023-10-01": {
+    "h": 2.59,
+    "d": 3.02,
+    "a": 3.32
+  },
+  "atletico madrid v cadiz__2023-10-01": {
+    "h": 1.34,
+    "d": 5.31,
+    "a": 10.48
+  },
+  "real betis v valencia__2023-10-01": {
+    "h": 2.07,
+    "d": 3.41,
+    "a": 4.04
+  },
+  "celta vigo v las palmas__2023-10-02": {
+    "h": 3.02,
+    "d": 3.09,
+    "a": 2.72
+  },
+  "almeria v athletic club__2023-10-06": {
+    "h": 1.32,
+    "d": 5.66,
+    "a": 9.41
+  },
+  "cadiz v girona__2023-10-07": {
+    "h": 3.39,
+    "d": 3.43,
+    "a": 2.22
+  },
+  "osasuna v real madrid__2023-10-07": {
+    "h": 1.27,
+    "d": 6.43,
+    "a": 11.77
+  },
+  "mallorca v valencia__2023-10-07": {
+    "h": 2.57,
+    "d": 3,
+    "a": 3.35
+  },
+  "rayo vallecano v sevilla__2023-10-07": {
+    "h": 1.83,
+    "d": 3.79,
+    "a": 4.65
+  },
+  "las palmas v villarreal__2023-10-08": {
+    "h": 1.65,
+    "d": 4.12,
+    "a": 5.59
+  },
+  "atletico madrid v real sociedad__2023-10-08": {
+    "h": 2.04,
+    "d": 3.4,
+    "a": 4.39
+  },
+  "alaves v real betis__2023-10-08": {
+    "h": 2.57,
+    "d": 3.25,
+    "a": 3.06
+  },
+  "celta vigo v getafe__2023-10-08": {
+    "h": 2.04,
+    "d": 3.29,
+    "a": 4.38
+  },
+  "barcelona v granada cf__2023-10-08": {
+    "h": 6.83,
+    "d": 5.19,
+    "a": 1.45
+  },
+  "granada cf v osasuna__2023-10-20": {
+    "h": 1.69,
+    "d": 3.89,
+    "a": 5.67
+  },
+  "mallorca v real sociedad__2023-10-21": {
+    "h": 1.69,
+    "d": 3.59,
+    "a": 6.36
+  },
+  "getafe v real betis__2023-10-21": {
+    "h": 2.49,
+    "d": 3.15,
+    "a": 3.29
+  },
+  "real madrid v sevilla__2023-10-21": {
+    "h": 4.8,
+    "d": 4.13,
+    "a": 1.74
+  },
+  "atletico madrid v celta vigo__2023-10-21": {
+    "h": 3.43,
+    "d": 3.55,
+    "a": 2.23
+  },
+  "las palmas v rayo vallecano__2023-10-22": {
+    "h": 2.66,
+    "d": 3.04,
+    "a": 3.15
+  },
+  "almeria v girona__2023-10-22": {
+    "h": 1.39,
+    "d": 5.33,
+    "a": 8.24
+  },
+  "alaves v villarreal__2023-10-22": {
+    "h": 2.09,
+    "d": 3.36,
+    "a": 4.05
+  },
+  "athletic club v barcelona__2023-10-22": {
+    "h": 1.86,
+    "d": 3.79,
+    "a": 4.49
+  },
+  "cadiz v valencia__2023-10-23": {
+    "h": 1.68,
+    "d": 3.67,
+    "a": 6.07
+  },
+  "celta vigo v girona__2023-10-27": {
+    "h": 1.75,
+    "d": 4.12,
+    "a": 4.63
+  },
+  "almeria v las palmas__2023-10-28": {
+    "h": 2.31,
+    "d": 3.3,
+    "a": 3.42
+  },
+  "barcelona v real madrid__2023-10-28": {
+    "h": 2.58,
+    "d": 3.49,
+    "a": 2.83
+  },
+  "getafe v mallorca__2023-10-28": {
+    "h": 2.33,
+    "d": 2.96,
+    "a": 3.9
+  },
+  "cadiz v sevilla__2023-10-28": {
+    "h": 3.9,
+    "d": 3.49,
+    "a": 2.08
+  },
+  "osasuna v real betis__2023-10-29": {
+    "h": 1.99,
+    "d": 3.47,
+    "a": 4.21
+  },
+  "rayo vallecano v real sociedad__2023-10-29": {
+    "h": 3.38,
+    "d": 3.16,
+    "a": 2.42
+  },
+  "athletic club v valencia__2023-10-29": {
+    "h": 1.65,
+    "d": 3.97,
+    "a": 5.83
+  },
+  "alaves v atletico madrid__2023-10-29": {
+    "h": 1.45,
+    "d": 4.57,
+    "a": 8.2
+  },
+  "granada cf v villarreal__2023-10-30": {
+    "h": 2.99,
+    "d": 3.64,
+    "a": 2.39
+  },
+  "atletico madrid v las palmas__2023-11-03": {
+    "h": 5.56,
+    "d": 3.69,
+    "a": 1.72
+  },
+  "girona v osasuna__2023-11-04": {
+    "h": 2.99,
+    "d": 3.31,
+    "a": 2.56
+  },
+  "mallorca v real betis__2023-11-04": {
+    "h": 1.9,
+    "d": 3.45,
+    "a": 4.68
+  },
+  "celta vigo v sevilla__2023-11-04": {
+    "h": 2.41,
+    "d": 3.41,
+    "a": 3.13
+  },
+  "barcelona v real sociedad__2023-11-04": {
+    "h": 3.38,
+    "d": 3.29,
+    "a": 2.33
+  },
+  "alaves v almeria__2023-11-05": {
+    "h": 1.77,
+    "d": 3.77,
+    "a": 4.99
+  },
+  "granada cf v valencia__2023-11-05": {
+    "h": 1.67,
+    "d": 4.15,
+    "a": 5.29
+  },
+  "athletic club v villarreal__2023-11-05": {
+    "h": 3.82,
+    "d": 3.94,
+    "a": 1.95
+  },
+  "rayo vallecano v real madrid__2023-11-05": {
+    "h": 1.22,
+    "d": 6.9,
+    "a": 13.8
+  },
+  "cadiz v getafe__2023-11-06": {
+    "h": 2.08,
+    "d": 3.1,
+    "a": 4.41
+  },
+  "athletic club v celta vigo__2023-11-10": {
+    "h": 1.71,
+    "d": 4.04,
+    "a": 5.04
+  },
+  "girona v rayo vallecano__2023-11-11": {
+    "h": 2.99,
+    "d": 3.5,
+    "a": 2.46
+  },
+  "almeria v real sociedad__2023-11-11": {
+    "h": 4.38,
+    "d": 3.8,
+    "a": 1.85
+  },
+  "getafe v granada cf__2023-11-11": {
+    "h": 2.49,
+    "d": 3.19,
+    "a": 3.19
+  },
+  "las palmas v osasuna__2023-11-11": {
+    "h": 1.97,
+    "d": 3.36,
+    "a": 4.47
+  },
+  "real madrid v valencia__2023-11-11": {
+    "h": 1.32,
+    "d": 5.79,
+    "a": 10.11
+  },
+  "alaves v barcelona__2023-11-12": {
+    "h": 1.25,
+    "d": 6.51,
+    "a": 12.09
+  },
+  "real betis v sevilla__2023-11-12": {
+    "h": 2.24,
+    "d": 3.46,
+    "a": 3.42
+  },
+  "atletico madrid v villarreal__2023-11-12": {
+    "h": 1.34,
+    "d": 5.81,
+    "a": 8.91
+  },
+  "alaves v granada cf__2023-11-24": {
+    "h": 1.74,
+    "d": 3.67,
+    "a": 5.45
+  },
+  "barcelona v rayo vallecano__2023-11-25": {
+    "h": 5,
+    "d": 4.25,
+    "a": 1.68
+  },
+  "celta vigo v valencia__2023-11-25": {
+    "h": 2.3,
+    "d": 3.32,
+    "a": 3.44
+  },
+  "almeria v getafe__2023-11-25": {
+    "h": 1.78,
+    "d": 3.68,
+    "a": 5.06
+  },
+  "atletico madrid v mallorca__2023-11-25": {
+    "h": 1.36,
+    "d": 5.1,
+    "a": 9.85
+  },
+  "osasuna v villarreal__2023-11-26": {
+    "h": 2.2,
+    "d": 3.46,
+    "a": 3.52
+  },
+  "real sociedad v sevilla__2023-11-26": {
+    "h": 1.63,
+    "d": 3.95,
+    "a": 6.09
+  },
+  "cadiz v real madrid__2023-11-26": {
+    "h": 6.9,
+    "d": 4.7,
+    "a": 1.48
+  },
+  "las palmas v real betis__2023-11-26": {
+    "h": 1.72,
+    "d": 3.74,
+    "a": 5.55
+  },
+  "athletic club v girona__2023-11-27": {
+    "h": 2.27,
+    "d": 3.66,
+    "a": 3.17
+  },
+  "cadiz v mallorca__2023-11-29": {
+    "h": 1.87,
+    "d": 3.33,
+    "a": 5.15
+  },
+  "getafe v las palmas__2023-12-01": {
+    "h": 2.41,
+    "d": 2.98,
+    "a": 3.62
+  },
+  "girona v valencia__2023-12-02": {
+    "h": 1.67,
+    "d": 4.02,
+    "a": 5.48
+  },
+  "athletic club v rayo vallecano__2023-12-02": {
+    "h": 1.48,
+    "d": 4.77,
+    "a": 6.9
+  },
+  "granada cf v real madrid__2023-12-02": {
+    "h": 1.19,
+    "d": 7.75,
+    "a": 15
+  },
+  "osasuna v real sociedad__2023-12-02": {
+    "h": 4,
+    "d": 3.17,
+    "a": 2.16
+  },
+  "alaves v mallorca__2023-12-03": {
+    "h": 2.75,
+    "d": 2.9,
+    "a": 3.13
+  },
+  "almeria v real betis__2023-12-03": {
+    "h": 3.53,
+    "d": 3.78,
+    "a": 2.06
+  },
+  "sevilla v villarreal__2023-12-03": {
+    "h": 1.9,
+    "d": 3.95,
+    "a": 4.01
+  },
+  "atletico madrid v barcelona__2023-12-03": {
+    "h": 1.95,
+    "d": 3.92,
+    "a": 3.83
+  },
+  "cadiz v celta vigo__2023-12-04": {
+    "h": 1.55,
+    "d": 4.28,
+    "a": 6.64
+  },
+  "getafe v valencia__2023-12-08": {
+    "h": 2.67,
+    "d": 2.94,
+    "a": 3.19
+  },
+  "alaves v las palmas__2023-12-09": {
+    "h": 2.01,
+    "d": 3.24,
+    "a": 4.4
+  },
+  "real betis v real madrid__2023-12-09": {
+    "h": 4.75,
+    "d": 4.19,
+    "a": 1.72
+  },
+  "real sociedad v villarreal__2023-12-09": {
+    "h": 3.52,
+    "d": 3.48,
+    "a": 2.19
+  },
+  "mallorca v sevilla__2023-12-09": {
+    "h": 2.61,
+    "d": 3.07,
+    "a": 3.15
+  },
+  "almeria v atletico madrid__2023-12-10": {
+    "h": 1.2,
+    "d": 7.9,
+    "a": 12.92
+  },
+  "cadiz v osasuna__2023-12-10": {
+    "h": 2.84,
+    "d": 3.07,
+    "a": 2.87
+  },
+  "barcelona v girona__2023-12-10": {
+    "h": 1.46,
+    "d": 5.35,
+    "a": 6.27
+  },
+  "athletic club v granada cf__2023-12-11": {
+    "h": 4.17,
+    "d": 3.69,
+    "a": 1.93
+  },
+  "celta vigo v rayo vallecano__2023-12-11": {
+    "h": 2.75,
+    "d": 3.19,
+    "a": 2.86
+  },
+  "osasuna v rayo vallecano__2023-12-15": {
+    "h": 2.29,
+    "d": 3.18,
+    "a": 3.63
+  },
+  "celta vigo v granada cf__2023-12-16": {
+    "h": 1.71,
+    "d": 3.82,
+    "a": 5.39
+  },
+  "athletic club v atletico madrid__2023-12-16": {
+    "h": 2.63,
+    "d": 3.34,
+    "a": 2.88
+  },
+  "getafe v sevilla__2023-12-16": {
+    "h": 1.82,
+    "d": 3.45,
+    "a": 5.24
+  },
+  "barcelona v valencia__2023-12-16": {
+    "h": 6.04,
+    "d": 4.56,
+    "a": 1.55
+  },
+  "almeria v mallorca__2023-12-17": {
+    "h": 2.4,
+    "d": 3.1,
+    "a": 3.47
+  },
+  "real betis v real sociedad__2023-12-17": {
+    "h": 1.59,
+    "d": 4.18,
+    "a": 6.12
+  },
+  "cadiz v las palmas__2023-12-17": {
+    "h": 2.01,
+    "d": 3.3,
+    "a": 4.38
+  },
+  "real madrid v villarreal__2023-12-17": {
+    "h": 1.22,
+    "d": 7.29,
+    "a": 12.24
+  },
+  "alaves v girona__2023-12-18": {
+    "h": 1.62,
+    "d": 4.12,
+    "a": 5.75
+  },
+  "rayo vallecano v valencia__2023-12-19": {
+    "h": 2.28,
+    "d": 3.17,
+    "a": 3.66
+  },
+  "atletico madrid v getafe__2023-12-19": {
+    "h": 1.48,
+    "d": 4.54,
+    "a": 7.35
+  },
+  "granada cf v sevilla__2023-12-19": {
+    "h": 3.12,
+    "d": 3.17,
+    "a": 2.55
+  },
+  "almeria v barcelona__2023-12-20": {
+    "h": 1.14,
+    "d": 9,
+    "a": 19
+  },
+  "athletic club v las palmas__2023-12-20": {
+    "h": 1.38,
+    "d": 5.19,
+    "a": 8.59
+  },
+  "celta vigo v villarreal__2023-12-20": {
+    "h": 2.45,
+    "d": 3.38,
+    "a": 3.09
+  },
+  "girona v real betis__2023-12-21": {
+    "h": 2.67,
+    "d": 3.55,
+    "a": 2.69
+  },
+  "cadiz v real sociedad__2023-12-21": {
+    "h": 6.27,
+    "d": 3.59,
+    "a": 1.69
+  },
+  "alaves v real madrid__2023-12-21": {
+    "h": 6.04,
+    "d": 4.13,
+    "a": 1.6
+  },
+  "mallorca v osasuna__2023-12-21": {
+    "h": 2.26,
+    "d": 2.92,
+    "a": 4.11
+  },
+  "atletico madrid v sevilla__2023-12-23": {
+    "h": 1.59,
+    "d": 4.27,
+    "a": 5.99
+  },
+  "getafe v rayo vallecano__2024-01-02": {
+    "h": 2.4,
+    "d": 2.95,
+    "a": 3.57
+  },
+  "alaves v real sociedad__2024-01-02": {
+    "h": 1.53,
+    "d": 3.87,
+    "a": 8.34
+  },
+  "valencia v villarreal__2024-01-02": {
+    "h": 2.23,
+    "d": 3.43,
+    "a": 3.49
+  },
+  "cadiz v granada cf__2024-01-03": {
+    "h": 2.25,
+    "d": 3.12,
+    "a": 3.82
+  },
+  "celta vigo v real betis__2024-01-03": {
+    "h": 2.21,
+    "d": 3.31,
+    "a": 3.67
+  },
+  "mallorca v real madrid__2024-01-03": {
+    "h": 1.22,
+    "d": 6.75,
+    "a": 13.93
+  },
+  "atletico madrid v girona__2024-01-03": {
+    "h": 2.7,
+    "d": 3.71,
+    "a": 2.6
+  },
+  "almeria v osasuna__2024-01-04": {
+    "h": 1.74,
+    "d": 3.82,
+    "a": 5.21
+  },
+  "athletic club v sevilla__2024-01-04": {
+    "h": 3.09,
+    "d": 3.26,
+    "a": 2.52
+  },
+  "barcelona v las palmas__2024-01-04": {
+    "h": 6.35,
+    "d": 4.68,
+    "a": 1.51
+  },
+  "alaves v sevilla__2024-01-12": {
+    "h": 2.07,
+    "d": 3.23,
+    "a": 4.23
+  },
+  "las palmas v villarreal__2024-01-13": {
+    "h": 2.69,
+    "d": 3.51,
+    "a": 2.72
+  },
+  "celta vigo v mallorca__2024-01-13": {
+    "h": 2.41,
+    "d": 2.95,
+    "a": 3.66
+  },
+  "athletic club v real sociedad__2024-01-13": {
+    "h": 2.14,
+    "d": 3.08,
+    "a": 4.17
+  },
+  "granada cf v real betis__2024-01-13": {
+    "h": 1.76,
+    "d": 3.8,
+    "a": 5.04
+  },
+  "almeria v girona__2024-01-14": {
+    "h": 3.84,
+    "d": 3.76,
+    "a": 1.99
+  },
+  "cadiz v valencia__2024-01-14": {
+    "h": 3.15,
+    "d": 2.85,
+    "a": 2.78
+  },
+  "alaves v cadiz__2024-01-19": {
+    "h": 1.68,
+    "d": 3.57,
+    "a": 6.43
+  },
+  "las palmas v rayo vallecano__2024-01-20": {
+    "h": 1.72,
+    "d": 3.7,
+    "a": 5.49
+  },
+  "mallorca v villarreal__2024-01-20": {
+    "h": 2.12,
+    "d": 3.41,
+    "a": 3.79
+  },
+  "athletic club v valencia__2024-01-20": {
+    "h": 3.55,
+    "d": 3.22,
+    "a": 2.29
+  },
+  "celta vigo v real sociedad__2024-01-20": {
+    "h": 2.52,
+    "d": 2.97,
+    "a": 3.4
+  },
+  "getafe v osasuna__2024-01-21": {
+    "h": 2.5,
+    "d": 2.93,
+    "a": 3.59
+  },
+  "almeria v real madrid__2024-01-21": {
+    "h": 1.13,
+    "d": 9.75,
+    "a": 23
+  },
+  "barcelona v real betis__2024-01-21": {
+    "h": 4.1,
+    "d": 4.12,
+    "a": 1.84
+  },
+  "girona v sevilla__2024-01-21": {
+    "h": 1.83,
+    "d": 3.99,
+    "a": 4.29
+  },
+  "atletico madrid v granada cf__2024-01-22": {
+    "h": 5.3,
+    "d": 4,
+    "a": 1.7
+  },
+  "alaves v almeria__2024-01-26": {
+    "h": 2.87,
+    "d": 3.1,
+    "a": 2.8
+  },
+  "rayo vallecano v real sociedad__2024-01-27": {
+    "h": 1.82,
+    "d": 3.3,
+    "a": 5.63
+  },
+  "las palmas v real madrid__2024-01-27": {
+    "h": 6.81,
+    "d": 4.86,
+    "a": 1.47
+  },
+  "barcelona v villarreal__2024-01-27": {
+    "h": 1.36,
+    "d": 6.03,
+    "a": 7.62
+  },
+  "mallorca v real betis__2024-01-27": {
+    "h": 2.27,
+    "d": 3.14,
+    "a": 3.71
+  },
+  "celta vigo v girona__2024-01-28": {
+    "h": 2.77,
+    "d": 3.55,
+    "a": 2.6
+  },
+  "athletic club v cadiz__2024-01-28": {
+    "h": 5.13,
+    "d": 3.36,
+    "a": 1.86
+  },
+  "osasuna v sevilla__2024-01-28": {
+    "h": 2.13,
+    "d": 3.23,
+    "a": 4.03
+  },
+  "atletico madrid v valencia__2024-01-28": {
+    "h": 1.6,
+    "d": 4.04,
+    "a": 6.33
+  },
+  "getafe v granada cf__2024-01-29": {
+    "h": 1.87,
+    "d": 3.44,
+    "a": 4.92
+  },
+  "barcelona v osasuna__2024-01-31": {
+    "h": 1.34,
+    "d": 5.77,
+    "a": 8.84
+  },
+  "atletico madrid v rayo vallecano__2024-01-31": {
+    "h": 1.64,
+    "d": 3.83,
+    "a": 6.3
+  },
+  "getafe v real madrid__2024-02-01": {
+    "h": 6.62,
+    "d": 3.81,
+    "a": 1.62
+  },
+  "athletic club v mallorca__2024-02-02": {
+    "h": 1.53,
+    "d": 3.9,
+    "a": 8.32
+  },
+  "almeria v valencia__2024-02-03": {
+    "h": 1.74,
+    "d": 3.82,
+    "a": 5.23
+  },
+  "granada cf v las palmas__2024-02-03": {
+    "h": 2.21,
+    "d": 3.32,
+    "a": 3.64
+  },
+  "alaves v barcelona__2024-02-03": {
+    "h": 4.3,
+    "d": 3.6,
+    "a": 1.93
+  },
+  "girona v real sociedad__2024-02-03": {
+    "h": 2.06,
+    "d": 3.48,
+    "a": 3.91
+  },
+  "cadiz v villarreal__2024-02-04": {
+    "h": 1.61,
+    "d": 4.15,
+    "a": 5.84
+  },
+  "celta vigo v osasuna__2024-02-04": {
+    "h": 2.18,
+    "d": 3.12,
+    "a": 4.02
+  },
+  "getafe v real betis__2024-02-04": {
+    "h": 2.11,
+    "d": 3.2,
+    "a": 4.13
+  },
+  "atletico madrid v real madrid__2024-02-04": {
+    "h": 1.72,
+    "d": 4.15,
+    "a": 4.81
+  },
+  "rayo vallecano v sevilla__2024-02-05": {
+    "h": 2.15,
+    "d": 3.26,
+    "a": 3.91
+  },
+  "cadiz v real betis__2024-02-09": {
+    "h": 3.06,
+    "d": 3.03,
+    "a": 2.71
+  },
+  "alaves v villarreal__2024-02-10": {
+    "h": 2.22,
+    "d": 3.48,
+    "a": 3.44
+  },
+  "osasuna v real sociedad__2024-02-10": {
+    "h": 1.76,
+    "d": 3.33,
+    "a": 6.18
+  },
+  "girona v real madrid__2024-02-10": {
+    "h": 1.43,
+    "d": 5.48,
+    "a": 6.55
+  },
+  "las palmas v valencia__2024-02-10": {
+    "h": 2.6,
+    "d": 3,
+    "a": 3.23
+  },
+  "celta vigo v getafe__2024-02-11": {
+    "h": 2.22,
+    "d": 3.08,
+    "a": 3.97
+  },
+  "mallorca v rayo vallecano__2024-02-11": {
+    "h": 2.51,
+    "d": 2.81,
+    "a": 3.65
+  },
+  "atletico madrid v sevilla__2024-02-11": {
+    "h": 3.78,
+    "d": 3.62,
+    "a": 2.05
+  },
+  "barcelona v granada cf__2024-02-11": {
+    "h": 1.19,
+    "d": 8.06,
+    "a": 14.16
+  },
+  "almeria v athletic club__2024-02-12": {
+    "h": 4.72,
+    "d": 3.65,
+    "a": 1.84
+  },
+  "getafe v villarreal__2024-02-16": {
+    "h": 2.08,
+    "d": 3.6,
+    "a": 3.71
+  },
+  "atletico madrid v las palmas__2024-02-17": {
+    "h": 1.48,
+    "d": 4.45,
+    "a": 7.75
+  },
+  "cadiz v osasuna__2024-02-17": {
+    "h": 1.81,
+    "d": 3.42,
+    "a": 5.43
+  },
+  "barcelona v celta vigo__2024-02-17": {
+    "h": 3.93,
+    "d": 3.75,
+    "a": 1.93
+  },
+  "sevilla v valencia__2024-02-17": {
+    "h": 2.31,
+    "d": 3.17,
+    "a": 3.58
+  },
+  "rayo vallecano v real madrid__2024-02-18": {
+    "h": 5.37,
+    "d": 3.92,
+    "a": 1.69
+  },
+  "almeria v granada cf__2024-02-18": {
+    "h": 2.29,
+    "d": 3.42,
+    "a": 3.35
+  },
+  "mallorca v real sociedad__2024-02-18": {
+    "h": 3.89,
+    "d": 2.81,
+    "a": 2.41
+  },
+  "alaves v real betis__2024-02-18": {
+    "h": 2.45,
+    "d": 3.09,
+    "a": 3.37
+  },
+  "athletic club v girona__2024-02-19": {
+    "h": 1.87,
+    "d": 3.66,
+    "a": 4.5
+  },
+  "real sociedad v villarreal__2024-02-23": {
+    "h": 1.65,
+    "d": 4.05,
+    "a": 5.57
+  },
+  "barcelona v getafe__2024-02-24": {
+    "h": 1.42,
+    "d": 5.06,
+    "a": 7.76
+  },
+  "alaves v mallorca__2024-02-24": {
+    "h": 1.88,
+    "d": 3.09,
+    "a": 5.36
+  },
+  "almeria v atletico madrid__2024-02-24": {
+    "h": 5.46,
+    "d": 3.99,
+    "a": 1.71
+  },
+  "cadiz v celta vigo__2024-02-25": {
+    "h": 3.41,
+    "d": 3.02,
+    "a": 2.48
+  },
+  "athletic club v real betis__2024-02-25": {
+    "h": 4.03,
+    "d": 3.32,
+    "a": 2.09
+  },
+  "las palmas v osasuna__2024-02-25": {
+    "h": 2.47,
+    "d": 3.11,
+    "a": 3.32
+  },
+  "real madrid v sevilla__2024-02-25": {
+    "h": 1.29,
+    "d": 6.17,
+    "a": 10.02
+  },
+  "girona v rayo vallecano__2024-02-26": {
+    "h": 1.66,
+    "d": 4.08,
+    "a": 5.42
+  },
+  "almeria v celta vigo__2024-03-01": {
+    "h": 1.83,
+    "d": 3.85,
+    "a": 4.51
+  },
+  "real sociedad v sevilla__2024-03-02": {
+    "h": 2.82,
+    "d": 2.84,
+    "a": 3.07
+  },
+  "cadiz v rayo vallecano__2024-03-02": {
+    "h": 1.76,
+    "d": 3.51,
+    "a": 5.63
+  },
+  "getafe v las palmas__2024-03-02": {
+    "h": 2.07,
+    "d": 3.26,
+    "a": 4.18
+  },
+  "real madrid v valencia__2024-03-02": {
+    "h": 5.72,
+    "d": 4.01,
+    "a": 1.65
+  },
+  "granada cf v villarreal__2024-03-03": {
+    "h": 1.78,
+    "d": 3.96,
+    "a": 4.62
+  },
+  "atletico madrid v real betis__2024-03-03": {
+    "h": 1.53,
+    "d": 4.35,
+    "a": 6.72
+  },
+  "girona v mallorca__2024-03-03": {
+    "h": 3.74,
+    "d": 3.32,
+    "a": 2.17
+  },
+  "athletic club v barcelona__2024-03-03": {
+    "h": 3.31,
+    "d": 3.57,
+    "a": 2.28
+  },
+  "alaves v osasuna__2024-03-04": {
+    "h": 2.46,
+    "d": 3.07,
+    "a": 3.38
+  },
+  "barcelona v mallorca__2024-03-08": {
+    "h": 1.45,
+    "d": 4.67,
+    "a": 7.71
+  },
+  "getafe v valencia__2024-03-09": {
+    "h": 1.88,
+    "d": 3.25,
+    "a": 5.26
+  },
+  "atletico madrid v cadiz__2024-03-09": {
+    "h": 4.97,
+    "d": 3.69,
+    "a": 1.79
+  },
+  "granada cf v real sociedad__2024-03-09": {
+    "h": 4.75,
+    "d": 3.35,
+    "a": 1.93
+  },
+  "girona v osasuna__2024-03-09": {
+    "h": 1.53,
+    "d": 4.49,
+    "a": 6.43
+  },
+  "alaves v rayo vallecano__2024-03-10": {
+    "h": 2.11,
+    "d": 3.12,
+    "a": 4.26
+  },
+  "athletic club v las palmas__2024-03-10": {
+    "h": 4.83,
+    "d": 3.49,
+    "a": 1.86
+  },
+  "celta vigo v real madrid__2024-03-10": {
+    "h": 1.3,
+    "d": 6.04,
+    "a": 10.24
+  },
+  "real betis v villarreal__2024-03-10": {
+    "h": 2.15,
+    "d": 3.6,
+    "a": 3.45
+  },
+  "almeria v sevilla__2024-03-11": {
+    "h": 3.51,
+    "d": 3.45,
+    "a": 2.21
+  },
+  "cadiz v real sociedad__2024-03-15": {
+    "h": 1.44,
+    "d": 4.28,
+    "a": 9.45
+  },
+  "granada cf v mallorca__2024-03-16": {
+    "h": 1.86,
+    "d": 3.35,
+    "a": 5.16
+  },
+  "osasuna v real madrid__2024-03-16": {
+    "h": 7.29,
+    "d": 4.46,
+    "a": 1.49
+  },
+  "getafe v girona__2024-03-16": {
+    "h": 3.73,
+    "d": 3.43,
+    "a": 2.13
+  },
+  "alaves v athletic club__2024-03-16": {
+    "h": 1.61,
+    "d": 3.77,
+    "a": 6.95
+  },
+  "celta vigo v sevilla__2024-03-17": {
+    "h": 2.01,
+    "d": 3.57,
+    "a": 3.99
+  },
+  "almeria v las palmas__2024-03-17": {
+    "h": 1.76,
+    "d": 3.95,
+    "a": 4.75
+  },
+  "valencia v villarreal__2024-03-17": {
+    "h": 2.24,
+    "d": 3.42,
+    "a": 3.41
+  },
+  "rayo vallecano v real betis__2024-03-17": {
+    "h": 2.59,
+    "d": 3.12,
+    "a": 3.11
+  },
+  "atletico madrid v barcelona__2024-03-17": {
+    "h": 2.28,
+    "d": 3.59,
+    "a": 3.3
+  },
+  "cadiz v granada cf__2024-03-29": {
+    "h": 1.86,
+    "d": 3.36,
+    "a": 5.12
+  },
+  "getafe v sevilla__2024-03-30": {
+    "h": 2.71,
+    "d": 3,
+    "a": 3.08
+  },
+  "almeria v osasuna__2024-03-30": {
+    "h": 2.53,
+    "d": 3.27,
+    "a": 3.07
+  },
+  "mallorca v valencia__2024-03-30": {
+    "h": 2.17,
+    "d": 3.02,
+    "a": 4.23
+  },
+  "barcelona v las palmas__2024-03-30": {
+    "h": 1.26,
+    "d": 6.67,
+    "a": 10.65
+  },
+  "celta vigo v rayo vallecano__2024-03-31": {
+    "h": 1.92,
+    "d": 3.56,
+    "a": 4.42
+  },
+  "girona v real betis__2024-03-31": {
+    "h": 1.73,
+    "d": 4.07,
+    "a": 4.84
+  },
+  "alaves v real sociedad__2024-03-31": {
+    "h": 4.16,
+    "d": 3.03,
+    "a": 2.22
+  },
+  "athletic club v real madrid__2024-03-31": {
+    "h": 1.58,
+    "d": 4.29,
+    "a": 6.08
+  },
+  "atletico madrid v villarreal__2024-04-01": {
+    "h": 3.36,
+    "d": 3.63,
+    "a": 2.21
+  },
+  "granada cf v valencia__2024-04-04": {
+    "h": 3.13,
+    "d": 3.15,
+    "a": 2.52
+  },
+  "celta vigo v real betis__2024-04-12": {
+    "h": 1.88,
+    "d": 3.65,
+    "a": 4.47
+  },
+  "atletico madrid v girona__2024-04-13": {
+    "h": 1.9,
+    "d": 3.9,
+    "a": 4.06
+  },
+  "getafe v rayo vallecano__2024-04-13": {
+    "h": 2.55,
+    "d": 2.99,
+    "a": 3.32
+  },
+  "mallorca v real madrid__2024-04-13": {
+    "h": 5.2,
+    "d": 3.56,
+    "a": 1.79
+  },
+  "barcelona v cadiz__2024-04-13": {
+    "h": 3.76,
+    "d": 3.44,
+    "a": 2.12
+  },
+  "las palmas v sevilla__2024-04-14": {
+    "h": 2.82,
+    "d": 3.23,
+    "a": 2.75
+  },
+  "alaves v granada cf__2024-04-14": {
+    "h": 2.71,
+    "d": 3.04,
+    "a": 3.03
+  },
+  "athletic club v villarreal__2024-04-14": {
+    "h": 1.62,
+    "d": 4.27,
+    "a": 5.58
+  },
+  "almeria v real sociedad__2024-04-14": {
+    "h": 1.3,
+    "d": 5.64,
+    "a": 12.57
+  },
+  "osasuna v valencia__2024-04-15": {
+    "h": 2.44,
+    "d": 3.04,
+    "a": 3.46
+  },
+  "athletic club v granada cf__2024-04-19": {
+    "h": 1.28,
+    "d": 6,
+    "a": 11.82
+  },
+  "celta vigo v las palmas__2024-04-20": {
+    "h": 1.69,
+    "d": 3.93,
+    "a": 5.42
+  },
+  "osasuna v rayo vallecano__2024-04-20": {
+    "h": 2.13,
+    "d": 3.07,
+    "a": 4.27
+  },
+  "real betis v valencia__2024-04-20": {
+    "h": 2.82,
+    "d": 3.15,
+    "a": 2.87
+  },
+  "cadiz v girona__2024-04-20": {
+    "h": 1.4,
+    "d": 5,
+    "a": 8.54
+  },
+  "getafe v real sociedad__2024-04-21": {
+    "h": 3.91,
+    "d": 3.08,
+    "a": 2.24
+  },
+  "almeria v villarreal__2024-04-21": {
+    "h": 3.56,
+    "d": 4.06,
+    "a": 1.99
+  },
+  "alaves v atletico madrid__2024-04-21": {
+    "h": 5.39,
+    "d": 3.45,
+    "a": 1.8
+  },
+  "barcelona v real madrid__2024-04-21": {
+    "h": 1.73,
+    "d": 4.4,
+    "a": 4.51
+  },
+  "mallorca v sevilla__2024-04-22": {
+    "h": 2.12,
+    "d": 3.14,
+    "a": 4.18
+  },
+  "real madrid v real sociedad__2024-04-26": {
+    "h": 2.37,
+    "d": 3.21,
+    "a": 3.4
+  },
+  "girona v las palmas__2024-04-27": {
+    "h": 5.27,
+    "d": 4.1,
+    "a": 1.68
+  },
+  "almeria v getafe__2024-04-27": {
+    "h": 2.59,
+    "d": 3.24,
+    "a": 3
+  },
+  "alaves v celta vigo__2024-04-27": {
+    "h": 2.66,
+    "d": 3.1,
+    "a": 3.02
+  },
+  "athletic club v atletico madrid__2024-04-27": {
+    "h": 1.97,
+    "d": 3.49,
+    "a": 4.25
+  },
+  "cadiz v mallorca__2024-04-28": {
+    "h": 2.86,
+    "d": 2.78,
+    "a": 3.14
+  },
+  "granada cf v osasuna__2024-04-28": {
+    "h": 2.39,
+    "d": 3.12,
+    "a": 3.46
+  },
+  "rayo vallecano v villarreal__2024-04-28": {
+    "h": 1.79,
+    "d": 3.79,
+    "a": 4.82
+  },
+  "real betis v sevilla__2024-04-28": {
+    "h": 1.98,
+    "d": 3.51,
+    "a": 4.19
+  },
+  "barcelona v valencia__2024-04-29": {
+    "h": 1.33,
+    "d": 5.86,
+    "a": 9.06
+  },
+  "athletic club v getafe__2024-05-03": {
+    "h": 3.93,
+    "d": 3.12,
+    "a": 2.2
+  },
+  "las palmas v real sociedad__2024-05-04": {
+    "h": 1.35,
+    "d": 5.09,
+    "a": 10.7
+  },
+  "cadiz v real madrid__2024-05-04": {
+    "h": 1.36,
+    "d": 5.03,
+    "a": 9.97
+  },
+  "barcelona v girona__2024-05-04": {
+    "h": 2.93,
+    "d": 3.89,
+    "a": 2.33
+  },
+  "atletico madrid v mallorca__2024-05-04": {
+    "h": 3.9,
+    "d": 3.06,
+    "a": 2.25
+  },
+  "osasuna v real betis__2024-05-05": {
+    "h": 3.42,
+    "d": 3.24,
+    "a": 2.34
+  },
+  "celta vigo v villarreal__2024-05-05": {
+    "h": 2.84,
+    "d": 3.65,
+    "a": 2.49
+  },
+  "alaves v valencia__2024-05-05": {
+    "h": 2.23,
+    "d": 3.11,
+    "a": 3.87
+  },
+  "granada cf v sevilla__2024-05-05": {
+    "h": 1.72,
+    "d": 3.94,
+    "a": 5.1
+  },
+  "almeria v rayo vallecano__2024-05-05": {
+    "h": 1.67,
+    "d": 3.97,
+    "a": 5.6
+  },
+  "alaves v girona__2024-05-10": {
+    "h": 3.19,
+    "d": 3.65,
+    "a": 2.27
+  },
+  "las palmas v mallorca__2024-05-11": {
+    "h": 1.64,
+    "d": 3.53,
+    "a": 7.2
+  },
+  "sevilla v villarreal__2024-05-11": {
+    "h": 2.02,
+    "d": 3.88,
+    "a": 3.64
+  },
+  "granada cf v real madrid__2024-05-11": {
+    "h": 5.77,
+    "d": 4.6,
+    "a": 1.56
+  },
+  "athletic club v osasuna__2024-05-11": {
+    "h": 1.41,
+    "d": 4.57,
+    "a": 9.39
+  },
+  "cadiz v getafe__2024-05-12": {
+    "h": 2.13,
+    "d": 3.22,
+    "a": 4.03
+  },
+  "atletico madrid v celta vigo__2024-05-12": {
+    "h": 1.39,
+    "d": 5.09,
+    "a": 8.63
+  },
+  "rayo vallecano v valencia__2024-05-12": {
+    "h": 2.28,
+    "d": 3.11,
+    "a": 3.73
+  },
+  "almeria v real betis__2024-05-12": {
+    "h": 1.37,
+    "d": 5.5,
+    "a": 8.25
+  },
+  "barcelona v real sociedad__2024-05-13": {
+    "h": 1.73,
+    "d": 3.97,
+    "a": 4.98
+  },
+  "mallorca v osasuna__2024-05-14": {
+    "h": 2.77,
+    "d": 2.9,
+    "a": 3.12
+  },
+  "alaves v real madrid__2024-05-14": {
+    "h": 1.2,
+    "d": 7.43,
+    "a": 14.07
+  },
+  "girona v villarreal__2024-05-14": {
+    "h": 1.72,
+    "d": 4.48,
+    "a": 4.41
+  },
+  "cadiz v sevilla__2024-05-15": {
+    "h": 2.19,
+    "d": 3.42,
+    "a": 3.58
+  },
+  "granada cf v rayo vallecano__2024-05-15": {
+    "h": 1.55,
+    "d": 4.21,
+    "a": 6.65
+  },
+  "athletic club v celta vigo__2024-05-15": {
+    "h": 2.3,
+    "d": 3.24,
+    "a": 3.53
+  },
+  "atletico madrid v getafe__2024-05-15": {
+    "h": 5.1,
+    "d": 3.75,
+    "a": 1.76
+  },
+  "las palmas v real betis__2024-05-16": {
+    "h": 3.24,
+    "d": 3.24,
+    "a": 2.44
+  },
+  "almeria v barcelona__2024-05-16": {
+    "h": 7.15,
+    "d": 5.47,
+    "a": 1.41
+  },
+  "real sociedad v valencia__2024-05-16": {
+    "h": 1.47,
+    "d": 4.29,
+    "a": 8.43
+  },
+  "alaves v getafe__2024-05-18": {
+    "h": 1.99,
+    "d": 3.39,
+    "a": 4.31
+  },
+  "athletic club v sevilla__2024-05-19": {
+    "h": 1.56,
+    "d": 4.31,
+    "a": 6.26
+  },
+  "atletico madrid v osasuna__2024-05-19": {
+    "h": 1.31,
+    "d": 5.76,
+    "a": 10.56
+  },
+  "barcelona v rayo vallecano__2024-05-19": {
+    "h": 1.3,
+    "d": 6.06,
+    "a": 9.93
+  },
+  "real betis v real sociedad__2024-05-19": {
+    "h": 3.47,
+    "d": 3.05,
+    "a": 2.43
+  },
+  "cadiz v las palmas__2024-05-19": {
+    "h": 1.93,
+    "d": 3.43,
+    "a": 4.57
+  },
+  "celta vigo v granada cf__2024-05-19": {
+    "h": 4.03,
+    "d": 3.32,
+    "a": 2.09
+  },
+  "almeria v mallorca__2024-05-19": {
+    "h": 1.39,
+    "d": 4.73,
+    "a": 10.06
+  },
+  "girona v valencia__2024-05-19": {
+    "h": 3.98,
+    "d": 3.76,
+    "a": 1.95
+  },
+  "real madrid v villarreal__2024-05-19": {
+    "h": 3.02,
+    "d": 3.96,
+    "a": 2.25
+  },
+  "girona v granada cf__2024-05-24": {
+    "h": 1.22,
+    "d": 7.58,
+    "a": 11.77
+  },
+  "osasuna v villarreal__2024-05-25": {
+    "h": 2.58,
+    "d": 3.85,
+    "a": 2.63
+  },
+  "atletico madrid v real sociedad__2024-05-25": {
+    "h": 2.69,
+    "d": 3.35,
+    "a": 2.8
+  },
+  "almeria v cadiz__2024-05-25": {
+    "h": 2.22,
+    "d": 3.75,
+    "a": 3.21
+  },
+  "athletic club v rayo vallecano__2024-05-25": {
+    "h": 3.29,
+    "d": 3.24,
+    "a": 2.41
+  },
+  "real betis v real madrid__2024-05-25": {
+    "h": 1.2,
+    "d": 8.04,
+    "a": 12.13
+  },
+  "getafe v mallorca__2024-05-26": {
+    "h": 2.41,
+    "d": 3.13,
+    "a": 3.41
+  },
+  "celta vigo v valencia__2024-05-26": {
+    "h": 1.91,
+    "d": 3.78,
+    "a": 4.15
+  },
+  "alaves v las palmas__2024-05-26": {
+    "h": 2.38,
+    "d": 3.5,
+    "a": 3.12
+  },
+  "barcelona v sevilla__2024-05-26": {
+    "h": 4.73,
+    "d": 4.39,
+    "a": 1.69
+  },
+  "athletic club v getafe__2024-08-15": {
+    "h": 1.61,
+    "d": 3.71,
+    "a": 7.18
+  },
+  "girona v real betis__2024-08-15": {
+    "h": 2.35,
+    "d": 3.43,
+    "a": 3.21
+  },
+  "alaves v celta vigo__2024-08-16": {
+    "h": 2.15,
+    "d": 3.27,
+    "a": 3.89
+  },
+  "las palmas v sevilla__2024-08-16": {
+    "h": 2.65,
+    "d": 3.25,
+    "a": 2.93
+  },
+  "leganes v osasuna__2024-08-17": {
+    "h": 1.88,
+    "d": 3.28,
+    "a": 5.19
+  },
+  "barcelona v valencia__2024-08-17": {
+    "h": 4.26,
+    "d": 3.72,
+    "a": 1.9
+  },
+  "rayo vallecano v real sociedad__2024-08-18": {
+    "h": 1.79,
+    "d": 3.36,
+    "a": 5.68
+  },
+  "mallorca v real madrid__2024-08-18": {
+    "h": 9.35,
+    "d": 4.7,
+    "a": 1.4
+  },
+  "espanyol v valladolid__2024-08-19": {
+    "h": 2.33,
+    "d": 2.96,
+    "a": 3.83
+  },
+  "atletico madrid v villarreal__2024-08-19": {
+    "h": 3.52,
+    "d": 3.57,
+    "a": 2.16
+  },
+  "celta vigo v valencia__2024-08-23": {
+    "h": 2.18,
+    "d": 3.41,
+    "a": 3.63
+  },
+  "sevilla v villarreal__2024-08-23": {
+    "h": 2.21,
+    "d": 3.63,
+    "a": 3.32
+  },
+  "mallorca v osasuna__2024-08-24": {
+    "h": 2.43,
+    "d": 3.04,
+    "a": 3.49
+  },
+  "athletic club v barcelona__2024-08-24": {
+    "h": 1.6,
+    "d": 4.38,
+    "a": 5.6
+  },
+  "espanyol v real sociedad__2024-08-24": {
+    "h": 3.9,
+    "d": 3.11,
+    "a": 2.22
+  },
+  "getafe v rayo vallecano__2024-08-24": {
+    "h": 2.74,
+    "d": 2.77,
+    "a": 3.32
+  },
+  "real madrid v valladolid__2024-08-25": {
+    "h": 1.14,
+    "d": 9.66,
+    "a": 20.13
+  },
+  "las palmas v leganes__2024-08-25": {
+    "h": 2.41,
+    "d": 3.02,
+    "a": 3.56
+  },
+  "alaves v real betis__2024-08-25": {
+    "h": 2.51,
+    "d": 2.97,
+    "a": 3.42
+  },
+  "atletico madrid v girona__2024-08-25": {
+    "h": 1.5,
+    "d": 4.62,
+    "a": 6.79
+  },
+  "celta vigo v villarreal__2024-08-26": {
+    "h": 1.68,
+    "d": 4.18,
+    "a": 5.07
+  },
+  "mallorca v sevilla__2024-08-27": {
+    "h": 2.37,
+    "d": 3.2,
+    "a": 3.41
+  },
+  "barcelona v rayo vallecano__2024-08-27": {
+    "h": 5.29,
+    "d": 3.99,
+    "a": 1.69
+  },
+  "athletic club v valencia__2024-08-28": {
+    "h": 1.75,
+    "d": 3.72,
+    "a": 5.23
+  },
+  "leganes v valladolid__2024-08-28": {
+    "h": 2.22,
+    "d": 3.03,
+    "a": 4.07
+  },
+  "atletico madrid v espanyol__2024-08-28": {
+    "h": 1.27,
+    "d": 5.72,
+    "a": 14.09
+  },
+  "alaves v real sociedad__2024-08-28": {
+    "h": 1.64,
+    "d": 3.75,
+    "a": 6.47
+  },
+  "girona v osasuna__2024-08-29": {
+    "h": 1.68,
+    "d": 4.01,
+    "a": 5.41
+  },
+  "las palmas v real madrid__2024-08-29": {
+    "h": 9.94,
+    "d": 5.58,
+    "a": 1.33
+  },
+  "barcelona v valladolid__2024-08-31": {
+    "h": 1.19,
+    "d": 7.76,
+    "a": 14.87
+  },
+  "athletic club v atletico madrid__2024-08-31": {
+    "h": 2.82,
+    "d": 3.24,
+    "a": 2.75
+  },
+  "espanyol v rayo vallecano__2024-08-31": {
+    "h": 2.89,
+    "d": 2.9,
+    "a": 2.97
+  },
+  "leganes v mallorca__2024-08-31": {
+    "h": 2.85,
+    "d": 2.76,
+    "a": 3.19
+  },
+  "valencia v villarreal__2024-08-31": {
+    "h": 2.67,
+    "d": 3.18,
+    "a": 2.95
+  },
+  "alaves v las palmas__2024-09-01": {
+    "h": 1.74,
+    "d": 3.64,
+    "a": 5.6
+  },
+  "celta vigo v osasuna__2024-09-01": {
+    "h": 2.49,
+    "d": 3.3,
+    "a": 3.09
+  },
+  "girona v sevilla__2024-09-01": {
+    "h": 2.98,
+    "d": 3.64,
+    "a": 2.39
+  },
+  "getafe v real sociedad__2024-09-01": {
+    "h": 3.19,
+    "d": 2.74,
+    "a": 2.86
+  },
+  "real betis v real madrid__2024-09-01": {
+    "h": 1.26,
+    "d": 6.16,
+    "a": 11.96
+  },
+  "leganes v real betis__2024-09-13": {
+    "h": 1.68,
+    "d": 3.59,
+    "a": 6.19
+  },
+  "mallorca v villarreal__2024-09-14": {
+    "h": 2.42,
+    "d": 3.23,
+    "a": 3.3
+  },
+  "alaves v espanyol__2024-09-14": {
+    "h": 3.01,
+    "d": 3.02,
+    "a": 2.75
+  },
+  "getafe v sevilla__2024-09-14": {
+    "h": 2.3,
+    "d": 3.07,
+    "a": 3.75
+  },
+  "real madrid v real sociedad__2024-09-14": {
+    "h": 5.03,
+    "d": 3.77,
+    "a": 1.77
+  },
+  "celta vigo v valladolid__2024-09-15": {
+    "h": 1.65,
+    "d": 4.03,
+    "a": 5.7
+  },
+  "barcelona v girona__2024-09-15": {
+    "h": 4.4,
+    "d": 4.23,
+    "a": 1.76
+  },
+  "athletic club v las palmas__2024-09-15": {
+    "h": 3.89,
+    "d": 3.4,
+    "a": 2.1
+  },
+  "atletico madrid v valencia__2024-09-15": {
+    "h": 1.39,
+    "d": 4.87,
+    "a": 9.17
+  },
+  "osasuna v rayo vallecano__2024-09-16": {
+    "h": 2.16,
+    "d": 3.12,
+    "a": 4.1
+  },
+  "mallorca v real sociedad__2024-09-17": {
+    "h": 3.08,
+    "d": 2.67,
+    "a": 3.06
+  },
+  "getafe v real betis__2024-09-18": {
+    "h": 1.93,
+    "d": 3.14,
+    "a": 5.2
+  },
+  "athletic club v leganes__2024-09-19": {
+    "h": 4.2,
+    "d": 3,
+    "a": 2.19
+  },
+  "alaves v sevilla__2024-09-20": {
+    "h": 2.19,
+    "d": 3.31,
+    "a": 3.72
+  },
+  "real sociedad v valladolid__2024-09-21": {
+    "h": 4.04,
+    "d": 3.06,
+    "a": 2.2
+  },
+  "las palmas v osasuna__2024-09-21": {
+    "h": 1.85,
+    "d": 3.64,
+    "a": 4.68
+  },
+  "girona v valencia__2024-09-21": {
+    "h": 2.54,
+    "d": 3.16,
+    "a": 3.15
+  },
+  "espanyol v real madrid__2024-09-21": {
+    "h": 1.13,
+    "d": 9.75,
+    "a": 21.31
+  },
+  "getafe v leganes__2024-09-22": {
+    "h": 2.06,
+    "d": 2.82,
+    "a": 5.27
+  },
+  "athletic club v celta vigo__2024-09-22": {
+    "h": 1.83,
+    "d": 3.66,
+    "a": 4.82
+  },
+  "barcelona v villarreal__2024-09-22": {
+    "h": 3.87,
+    "d": 4.15,
+    "a": 1.88
+  },
+  "atletico madrid v rayo vallecano__2024-09-22": {
+    "h": 5.9,
+    "d": 3.54,
+    "a": 1.73
+  },
+  "mallorca v real betis__2024-09-23": {
+    "h": 1.88,
+    "d": 3.17,
+    "a": 5.5
+  },
+  "sevilla v valladolid__2024-09-24": {
+    "h": 1.61,
+    "d": 4.01,
+    "a": 6.2
+  },
+  "osasuna v valencia__2024-09-24": {
+    "h": 2,
+    "d": 3.21,
+    "a": 4.61
+  },
+  "alaves v real madrid__2024-09-24": {
+    "h": 1.16,
+    "d": 8.11,
+    "a": 21.11
+  },
+  "girona v rayo vallecano__2024-09-25": {
+    "h": 1.7,
+    "d": 3.84,
+    "a": 5.44
+  },
+  "barcelona v getafe__2024-09-25": {
+    "h": 1.28,
+    "d": 6.02,
+    "a": 11.99
+  },
+  "espanyol v villarreal__2024-09-26": {
+    "h": 3.63,
+    "d": 3.56,
+    "a": 2.12
+  },
+  "las palmas v real betis__2024-09-26": {
+    "h": 3.69,
+    "d": 3.36,
+    "a": 2.18
+  },
+  "atletico madrid v celta vigo__2024-09-26": {
+    "h": 4.22,
+    "d": 3.57,
+    "a": 1.95
+  },
+  "mallorca v valladolid__2024-09-27": {
+    "h": 3.37,
+    "d": 2.93,
+    "a": 2.56
+  },
+  "alaves v getafe__2024-09-28": {
+    "h": 2.58,
+    "d": 2.71,
+    "a": 3.69
+  },
+  "leganes v rayo vallecano__2024-09-28": {
+    "h": 1.9,
+    "d": 3.13,
+    "a": 5.45
+  },
+  "real sociedad v valencia__2024-09-28": {
+    "h": 1.86,
+    "d": 3.31,
+    "a": 5.23
+  },
+  "barcelona v osasuna__2024-09-28": {
+    "h": 4.47,
+    "d": 3.99,
+    "a": 1.8
+  },
+  "celta vigo v girona__2024-09-29": {
+    "h": 2.6,
+    "d": 3.41,
+    "a": 2.86
+  },
+  "athletic club v sevilla__2024-09-29": {
+    "h": 1.72,
+    "d": 3.77,
+    "a": 5.17
+  },
+  "espanyol v real betis__2024-09-29": {
+    "h": 1.51,
+    "d": 4.23,
+    "a": 7.78
+  },
+  "atletico madrid v real madrid__2024-09-29": {
+    "h": 2.84,
+    "d": 3.2,
+    "a": 2.75
+  },
+  "las palmas v villarreal__2024-09-30": {
+    "h": 1.52,
+    "d": 4.84,
+    "a": 6.38
+  },
+  "leganes v valencia__2024-10-04": {
+    "h": 3,
+    "d": 2.78,
+    "a": 3
+  },
+  "espanyol v mallorca__2024-10-05": {
+    "h": 3.79,
+    "d": 2.93,
+    "a": 2.37
+  },
+  "getafe v osasuna__2024-10-05": {
+    "h": 2.21,
+    "d": 3.05,
+    "a": 4.05
+  },
+  "celta vigo v las palmas__2024-10-05": {
+    "h": 3.81,
+    "d": 3.56,
+    "a": 2.06
+  },
+  "rayo vallecano v valladolid__2024-10-05": {
+    "h": 3.56,
+    "d": 2.99,
+    "a": 2.51
+  },
+  "real madrid v villarreal__2024-10-05": {
+    "h": 1.27,
+    "d": 6.56,
+    "a": 10.25
+  },
+  "athletic club v girona__2024-10-06": {
+    "h": 2.42,
+    "d": 3.32,
+    "a": 3.19
+  },
+  "alaves v barcelona__2024-10-06": {
+    "h": 4.89,
+    "d": 4.16,
+    "a": 1.71
+  },
+  "real betis v sevilla__2024-10-06": {
+    "h": 2.77,
+    "d": 3.23,
+    "a": 2.8
+  },
+  "atletico madrid v real sociedad__2024-10-06": {
+    "h": 2.89,
+    "d": 3.11,
+    "a": 2.79
+  },
+  "alaves v valladolid__2024-10-18": {
+    "h": 1.62,
+    "d": 3.95,
+    "a": 6.25
+  },
+  "athletic club v espanyol__2024-10-19": {
+    "h": 1.41,
+    "d": 4.61,
+    "a": 9.4
+  },
+  "osasuna v real betis__2024-10-19": {
+    "h": 2.44,
+    "d": 3.14,
+    "a": 3.35
+  },
+  "girona v real sociedad__2024-10-19": {
+    "h": 2.8,
+    "d": 3.2,
+    "a": 2.79
+  },
+  "celta vigo v real madrid__2024-10-19": {
+    "h": 5.95,
+    "d": 4.52,
+    "a": 1.56
+  },
+  "mallorca v rayo vallecano__2024-10-20": {
+    "h": 2.06,
+    "d": 3.16,
+    "a": 4.43
+  },
+  "atletico madrid v leganes__2024-10-20": {
+    "h": 1.41,
+    "d": 4.6,
+    "a": 9.53
+  },
+  "getafe v villarreal__2024-10-20": {
+    "h": 1.86,
+    "d": 3.49,
+    "a": 4.85
+  },
+  "barcelona v sevilla__2024-10-20": {
+    "h": 1.29,
+    "d": 6.13,
+    "a": 10.2
+  },
+  "las palmas v valencia__2024-10-21": {
+    "h": 1.93,
+    "d": 3.39,
+    "a": 4.65
+  },
+  "espanyol v sevilla__2024-10-25": {
+    "h": 3.09,
+    "d": 3.21,
+    "a": 2.55
+  },
+  "valladolid v villarreal__2024-10-26": {
+    "h": 4.01,
+    "d": 3.58,
+    "a": 2
+  },
+  "alaves v rayo vallecano__2024-10-26": {
+    "h": 2.09,
+    "d": 3.1,
+    "a": 4.41
+  },
+  "girona v las palmas__2024-10-26": {
+    "h": 2.68,
+    "d": 3.24,
+    "a": 2.93
+  },
+  "barcelona v real madrid__2024-10-26": {
+    "h": 2.02,
+    "d": 4.1,
+    "a": 3.63
+  },
+  "celta vigo v leganes__2024-10-27": {
+    "h": 3.87,
+    "d": 3.25,
+    "a": 2.16
+  },
+  "getafe v valencia__2024-10-27": {
+    "h": 2.14,
+    "d": 2.89,
+    "a": 4.66
+  },
+  "atletico madrid v real betis__2024-10-27": {
+    "h": 3.64,
+    "d": 3.27,
+    "a": 2.26
+  },
+  "osasuna v real sociedad__2024-10-27": {
+    "h": 1.64,
+    "d": 3.81,
+    "a": 6.3
+  },
+  "athletic club v mallorca__2024-10-28": {
+    "h": 2.52,
+    "d": 3,
+    "a": 3.27
+  },
+  "alaves v mallorca__2024-11-01": {
+    "h": 2.39,
+    "d": 2.93,
+    "a": 3.74
+  },
+  "osasuna v valladolid__2024-11-02": {
+    "h": 1.72,
+    "d": 3.67,
+    "a": 5.68
+  },
+  "girona v leganes__2024-11-02": {
+    "h": 1.72,
+    "d": 3.58,
+    "a": 5.86
+  },
+  "atletico madrid v las palmas__2024-11-03": {
+    "h": 1.34,
+    "d": 5.45,
+    "a": 9.57
+  },
+  "barcelona v espanyol__2024-11-03": {
+    "h": 1.16,
+    "d": 8.5,
+    "a": 18
+  },
+  "real sociedad v sevilla__2024-11-03": {
+    "h": 3.44,
+    "d": 3.16,
+    "a": 2.38
+  },
+  "athletic club v real betis__2024-11-03": {
+    "h": 1.93,
+    "d": 3.52,
+    "a": 4.38
+  },
+  "celta vigo v getafe__2024-11-04": {
+    "h": 2.16,
+    "d": 3,
+    "a": 4.35
+  },
+  "las palmas v rayo vallecano__2024-11-08": {
+    "h": 1.89,
+    "d": 3.41,
+    "a": 4.8
+  },
+  "osasuna v real madrid__2024-11-09": {
+    "h": 1.26,
+    "d": 6.5,
+    "a": 12
+  },
+  "alaves v villarreal__2024-11-09": {
+    "h": 1.58,
+    "d": 4.14,
+    "a": 6.4
+  },
+  "leganes v sevilla__2024-11-09": {
+    "h": 3.19,
+    "d": 3.01,
+    "a": 2.62
+  },
+  "celta vigo v real betis__2024-11-10": {
+    "h": 2.28,
+    "d": 3.26,
+    "a": 3.63
+  },
+  "atletico madrid v mallorca__2024-11-10": {
+    "h": 3.57,
+    "d": 2.93,
+    "a": 2.46
+  },
+  "getafe v girona__2024-11-10": {
+    "h": 2.6,
+    "d": 2.88,
+    "a": 3.37
+  },
+  "athletic club v valladolid__2024-11-10": {
+    "h": 4.68,
+    "d": 3.35,
+    "a": 1.93
+  },
+  "barcelona v real sociedad__2024-11-10": {
+    "h": 4.08,
+    "d": 3.79,
+    "a": 1.93
+  },
+  "getafe v valladolid__2024-11-22": {
+    "h": 1.67,
+    "d": 3.5,
+    "a": 6.82
+  },
+  "real betis v valencia__2024-11-23": {
+    "h": 2.57,
+    "d": 3.04,
+    "a": 3.23
+  },
+  "alaves v atletico madrid__2024-11-23": {
+    "h": 1.46,
+    "d": 4.41,
+    "a": 8.32
+  },
+  "espanyol v girona__2024-11-23": {
+    "h": 1.79,
+    "d": 3.65,
+    "a": 5.03
+  },
+  "las palmas v mallorca__2024-11-23": {
+    "h": 2.87,
+    "d": 3,
+    "a": 2.89
+  },
+  "barcelona v celta vigo__2024-11-23": {
+    "h": 4.43,
+    "d": 4.3,
+    "a": 1.75
+  },
+  "osasuna v villarreal__2024-11-24": {
+    "h": 2.66,
+    "d": 3.33,
+    "a": 2.85
+  },
+  "rayo vallecano v sevilla__2024-11-24": {
+    "h": 2.04,
+    "d": 3.3,
+    "a": 4.24
+  },
+  "leganes v real madrid__2024-11-24": {
+    "h": 10.12,
+    "d": 5.18,
+    "a": 1.35
+  },
+  "athletic club v real sociedad__2024-11-24": {
+    "h": 2.43,
+    "d": 2.91,
+    "a": 3.67
+  },
+  "mallorca v valencia__2024-11-29": {
+    "h": 2.19,
+    "d": 2.83,
+    "a": 4.46
+  },
+  "barcelona v las palmas__2024-11-30": {
+    "h": 1.13,
+    "d": 9.5,
+    "a": 23
+  },
+  "alaves v leganes__2024-11-30": {
+    "h": 1.85,
+    "d": 3.16,
+    "a": 5.77
+  },
+  "celta vigo v espanyol__2024-11-30": {
+    "h": 3.83,
+    "d": 3.09,
+    "a": 2.26
+  },
+  "atletico madrid v valladolid__2024-11-30": {
+    "h": 7.94,
+    "d": 4.57,
+    "a": 1.45
+  },
+  "girona v villarreal__2024-12-01": {
+    "h": 1.81,
+    "d": 3.92,
+    "a": 4.5
+  },
+  "getafe v real madrid__2024-12-01": {
+    "h": 1.32,
+    "d": 5.03,
+    "a": 11.5
+  },
+  "athletic club v rayo vallecano__2024-12-01": {
+    "h": 3.41,
+    "d": 3.01,
+    "a": 2.49
+  },
+  "real betis v real sociedad__2024-12-01": {
+    "h": 1.68,
+    "d": 3.77,
+    "a": 5.89
+  },
+  "osasuna v sevilla__2024-12-02": {
+    "h": 1.97,
+    "d": 3.47,
+    "a": 4.27
+  },
+  "barcelona v mallorca__2024-12-03": {
+    "h": 5.79,
+    "d": 4.14,
+    "a": 1.62
+  },
+  "athletic club v real madrid__2024-12-04": {
+    "h": 3.38,
+    "d": 3.47,
+    "a": 2.25
+  },
+  "celta vigo v mallorca__2024-12-06": {
+    "h": 1.9,
+    "d": 3.29,
+    "a": 5
+  },
+  "las palmas v valladolid__2024-12-07": {
+    "h": 1.68,
+    "d": 3.88,
+    "a": 6.33
+  },
+  "barcelona v real betis__2024-12-07": {
+    "h": 5.98,
+    "d": 4.82,
+    "a": 1.52
+  },
+  "rayo vallecano v valencia__2024-12-07": {
+    "h": 2.2,
+    "d": 3.07,
+    "a": 4.03
+  },
+  "girona v real madrid__2024-12-07": {
+    "h": 4.28,
+    "d": 4.02,
+    "a": 1.83
+  },
+  "leganes v real sociedad__2024-12-08": {
+    "h": 6.27,
+    "d": 3.12,
+    "a": 1.83
+  },
+  "athletic club v villarreal__2024-12-08": {
+    "h": 1.87,
+    "d": 3.55,
+    "a": 4.7
+  },
+  "alaves v osasuna__2024-12-08": {
+    "h": 2.26,
+    "d": 3.08,
+    "a": 3.82
+  },
+  "atletico madrid v sevilla__2024-12-08": {
+    "h": 1.38,
+    "d": 4.91,
+    "a": 9.73
+  },
+  "espanyol v getafe__2024-12-09": {
+    "h": 1.85,
+    "d": 3.08,
+    "a": 6.09
+  },
+  "valencia v valladolid__2024-12-13": {
+    "h": 3.35,
+    "d": 3.16,
+    "a": 2.42
+  },
+  "espanyol v osasuna__2024-12-14": {
+    "h": 2.78,
+    "d": 3.16,
+    "a": 2.85
+  },
+  "girona v mallorca__2024-12-14": {
+    "h": 2.79,
+    "d": 2.99,
+    "a": 2.99
+  },
+  "celta vigo v sevilla__2024-12-14": {
+    "h": 2.58,
+    "d": 3.25,
+    "a": 3.01
+  },
+  "rayo vallecano v real madrid__2024-12-14": {
+    "h": 6.52,
+    "d": 4.3,
+    "a": 1.55
+  },
+  "atletico madrid v getafe__2024-12-15": {
+    "h": 1.3,
+    "d": 4.9,
+    "a": 14
+  },
+  "alaves v athletic club__2024-12-15": {
+    "h": 4.07,
+    "d": 2.99,
+    "a": 2.24
+  },
+  "las palmas v real sociedad__2024-12-15": {
+    "h": 1.34,
+    "d": 5.04,
+    "a": 11.27
+  },
+  "real betis v villarreal__2024-12-15": {
+    "h": 1.93,
+    "d": 3.69,
+    "a": 4.13
+  },
+  "barcelona v leganes__2024-12-15": {
+    "h": 1.11,
+    "d": 11.2,
+    "a": 22.93
+  },
+  "espanyol v valencia__2024-12-18": {
+    "h": 2.61,
+    "d": 2.88,
+    "a": 3.37
+  },
+  "rayo vallecano v villarreal__2024-12-18": {
+    "h": 1.76,
+    "d": 3.85,
+    "a": 4.9
+  },
+  "girona v valladolid__2024-12-20": {
+    "h": 1.37,
+    "d": 5.02,
+    "a": 9.71
+  },
+  "getafe v mallorca__2024-12-21": {
+    "h": 2.42,
+    "d": 2.62,
+    "a": 4.29
+  },
+  "celta vigo v real sociedad__2024-12-21": {
+    "h": 2.76,
+    "d": 2.99,
+    "a": 3.02
+  },
+  "athletic club v osasuna__2024-12-21": {
+    "h": 4.59,
+    "d": 3.07,
+    "a": 2.06
+  },
+  "atletico madrid v barcelona__2024-12-21": {
+    "h": 2.05,
+    "d": 3.63,
+    "a": 3.77
+  },
+  "alaves v valencia__2024-12-22": {
+    "h": 2.11,
+    "d": 3.14,
+    "a": 4.16
+  },
+  "real madrid v sevilla__2024-12-22": {
+    "h": 1.25,
+    "d": 6.66,
+    "a": 11.61
+  },
+  "espanyol v las palmas__2024-12-22": {
+    "h": 2.12,
+    "d": 3.29,
+    "a": 3.89
+  },
+  "leganes v villarreal__2024-12-22": {
+    "h": 4.37,
+    "d": 3.58,
+    "a": 1.92
+  },
+  "rayo vallecano v real betis__2024-12-22": {
+    "h": 1.74,
+    "d": 3.63,
+    "a": 5.32
+  },
+  "real madrid v valencia__2025-01-03": {
+    "h": 7.47,
+    "d": 4.89,
+    "a": 1.44
+  },
+  "celta vigo v rayo vallecano__2025-01-10": {
+    "h": 2.91,
+    "d": 3.17,
+    "a": 2.71
+  },
+  "alaves v girona__2025-01-11": {
+    "h": 3.25,
+    "d": 3.15,
+    "a": 2.49
+  },
+  "real betis v valladolid__2025-01-11": {
+    "h": 5.1,
+    "d": 3.64,
+    "a": 1.79
+  },
+  "espanyol v leganes__2025-01-11": {
+    "h": 2.15,
+    "d": 3,
+    "a": 4.32
+  },
+  "sevilla v valencia__2025-01-11": {
+    "h": 2.14,
+    "d": 3.19,
+    "a": 4.03
+  },
+  "getafe v las palmas__2025-01-12": {
+    "h": 2.57,
+    "d": 2.8,
+    "a": 3.56
+  },
+  "atletico madrid v osasuna__2025-01-12": {
+    "h": 1.33,
+    "d": 5.32,
+    "a": 10.75
+  },
+  "real sociedad v villarreal__2025-01-13": {
+    "h": 2.01,
+    "d": 3.43,
+    "a": 4.16
+  },
+  "espanyol v valladolid__2025-01-17": {
+    "h": 1.82,
+    "d": 3.44,
+    "a": 5.25
+  },
+  "girona v sevilla__2025-01-18": {
+    "h": 1.92,
+    "d": 3.56,
+    "a": 4.39
+  },
+  "atletico madrid v leganes__2025-01-18": {
+    "h": 7.32,
+    "d": 4.12,
+    "a": 1.53
+  },
+  "alaves v real betis__2025-01-18": {
+    "h": 1.86,
+    "d": 3.51,
+    "a": 4.82
+  },
+  "barcelona v getafe__2025-01-18": {
+    "h": 7.26,
+    "d": 4.57,
+    "a": 1.48
+  },
+  "athletic club v celta vigo__2025-01-19": {
+    "h": 3.49,
+    "d": 3.22,
+    "a": 2.32
+  },
+  "las palmas v real madrid__2025-01-19": {
+    "h": 1.15,
+    "d": 8.77,
+    "a": 18.38
+  },
+  "osasuna v rayo vallecano__2025-01-19": {
+    "h": 2.33,
+    "d": 3.17,
+    "a": 3.52
+  },
+  "real sociedad v valencia__2025-01-19": {
+    "h": 3.24,
+    "d": 2.88,
+    "a": 2.69
+  },
+  "mallorca v villarreal__2025-01-20": {
+    "h": 1.74,
+    "d": 3.71,
+    "a": 5.4
+  },
+  "las palmas v osasuna__2025-01-24": {
+    "h": 2.51,
+    "d": 3.24,
+    "a": 3.11
+  },
+  "mallorca v real betis__2025-01-25": {
+    "h": 2.12,
+    "d": 3.02,
+    "a": 4.44
+  },
+  "atletico madrid v villarreal__2025-01-25": {
+    "h": 2.04,
+    "d": 3.48,
+    "a": 3.96
+  },
+  "espanyol v sevilla__2025-01-25": {
+    "h": 1.79,
+    "d": 3.64,
+    "a": 5.13
+  },
+  "real madrid v valladolid__2025-01-25": {
+    "h": 13.37,
+    "d": 6.8,
+    "a": 1.23
+  },
+  "girona v rayo vallecano__2025-01-26": {
+    "h": 2.53,
+    "d": 3.07,
+    "a": 3.27
+  },
+  "getafe v real sociedad__2025-01-26": {
+    "h": 1.96,
+    "d": 2.97,
+    "a": 5.44
+  },
+  "athletic club v leganes__2025-01-26": {
+    "h": 1.37,
+    "d": 4.75,
+    "a": 11.02
+  },
+  "barcelona v valencia__2025-01-26": {
+    "h": 1.23,
+    "d": 6.68,
+    "a": 12.98
+  },
+  "alaves v celta vigo__2025-01-27": {
+    "h": 2.32,
+    "d": 3.13,
+    "a": 3.6
+  },
+  "leganes v rayo vallecano__2025-01-31": {
+    "h": 3.44,
+    "d": 3.04,
+    "a": 2.45
+  },
+  "getafe v sevilla__2025-02-01": {
+    "h": 2.79,
+    "d": 2.88,
+    "a": 3.1
+  },
+  "valladolid v villarreal__2025-02-01": {
+    "h": 1.2,
+    "d": 7.39,
+    "a": 15.47
+  },
+  "atletico madrid v mallorca__2025-02-01": {
+    "h": 1.49,
+    "d": 4.21,
+    "a": 8.18
+  },
+  "espanyol v real madrid__2025-02-01": {
+    "h": 10.35,
+    "d": 5.96,
+    "a": 1.3
+  },
+  "alaves v barcelona__2025-02-02": {
+    "h": 1.16,
+    "d": 8.75,
+    "a": 18
+  },
+  "celta vigo v valencia__2025-02-02": {
+    "h": 2.29,
+    "d": 3.15,
+    "a": 3.66
+  },
+  "osasuna v real sociedad__2025-02-02": {
+    "h": 3.3,
+    "d": 3.07,
+    "a": 2.51
+  },
+  "athletic club v real betis__2025-02-02": {
+    "h": 3.21,
+    "d": 3.27,
+    "a": 2.44
+  },
+  "girona v las palmas__2025-02-03": {
+    "h": 1.5,
+    "d": 4.58,
+    "a": 6.91
+  },
+  "rayo vallecano v valladolid__2025-02-07": {
+    "h": 1.43,
+    "d": 4.45,
+    "a": 9.25
+  },
+  "celta vigo v real betis__2025-02-08": {
+    "h": 2.18,
+    "d": 3.38,
+    "a": 3.65
+  },
+  "athletic club v girona__2025-02-08": {
+    "h": 1.77,
+    "d": 3.69,
+    "a": 5.18
+  },
+  "las palmas v villarreal__2025-02-08": {
+    "h": 5.65,
+    "d": 4.18,
+    "a": 1.63
+  },
+  "atletico madrid v real madrid__2025-02-08": {
+    "h": 1.98,
+    "d": 3.8,
+    "a": 3.86
+  },
+  "alaves v getafe__2025-02-09": {
+    "h": 2.35,
+    "d": 2.79,
+    "a": 4.04
+  },
+  "leganes v valencia__2025-02-09": {
+    "h": 1.78,
+    "d": 3.42,
+    "a": 5.69
+  },
+  "espanyol v real sociedad__2025-02-09": {
+    "h": 1.63,
+    "d": 3.69,
+    "a": 6.83
+  },
+  "barcelona v sevilla__2025-02-09": {
+    "h": 6.5,
+    "d": 4.99,
+    "a": 1.48
+  },
+  "mallorca v osasuna__2025-02-10": {
+    "h": 2.3,
+    "d": 3.08,
+    "a": 3.71
+  },
+  "getafe v girona__2025-02-14": {
+    "h": 1.94,
+    "d": 3.18,
+    "a": 4.98
+  },
+  "alaves v leganes__2025-02-15": {
+    "h": 3.94,
+    "d": 2.92,
+    "a": 2.32
+  },
+  "osasuna v real madrid__2025-02-15": {
+    "h": 6.72,
+    "d": 4.91,
+    "a": 1.47
+  },
+  "atletico madrid v celta vigo__2025-02-15": {
+    "h": 1.4,
+    "d": 4.89,
+    "a": 9.02
+  },
+  "valencia v villarreal__2025-02-15": {
+    "h": 1.73,
+    "d": 3.95,
+    "a": 5.04
+  },
+  "athletic club v espanyol__2025-02-16": {
+    "h": 5.53,
+    "d": 3.49,
+    "a": 1.78
+  },
+  "sevilla v valladolid__2025-02-16": {
+    "h": 4.3,
+    "d": 3.39,
+    "a": 2
+  },
+  "las palmas v mallorca__2025-02-16": {
+    "h": 1.85,
+    "d": 3.4,
+    "a": 5.18
+  },
+  "real betis v real sociedad__2025-02-16": {
+    "h": 2.42,
+    "d": 3.15,
+    "a": 3.36
+  },
+  "barcelona v rayo vallecano__2025-02-17": {
+    "h": 1.21,
+    "d": 7.46,
+    "a": 13.02
+  },
+  "celta vigo v osasuna__2025-02-21": {
+    "h": 1.72,
+    "d": 3.8,
+    "a": 5.38
+  },
+  "alaves v espanyol__2025-02-22": {
+    "h": 1.88,
+    "d": 3.14,
+    "a": 5.51
+  },
+  "rayo vallecano v villarreal__2025-02-22": {
+    "h": 2.82,
+    "d": 3.32,
+    "a": 2.69
+  },
+  "atletico madrid v valencia__2025-02-22": {
+    "h": 4.14,
+    "d": 3.2,
+    "a": 2.11
+  },
+  "barcelona v las palmas__2025-02-22": {
+    "h": 11.32,
+    "d": 6.98,
+    "a": 1.24
+  },
+  "athletic club v valladolid__2025-02-23": {
+    "h": 1.18,
+    "d": 7.5,
+    "a": 18
+  },
+  "girona v real madrid__2025-02-23": {
+    "h": 1.28,
+    "d": 6.41,
+    "a": 9.87
+  },
+  "getafe v real betis__2025-02-23": {
+    "h": 3.05,
+    "d": 2.88,
+    "a": 2.84
+  },
+  "leganes v real sociedad__2025-02-23": {
+    "h": 1.64,
+    "d": 3.75,
+    "a": 6.47
+  },
+  "mallorca v sevilla__2025-02-24": {
+    "h": 1.98,
+    "d": 3.35,
+    "a": 4.46
+  },
+  "las palmas v valladolid__2025-02-28": {
+    "h": 3.06,
+    "d": 3.11,
+    "a": 2.64
+  },
+  "celta vigo v girona__2025-03-01": {
+    "h": 2.18,
+    "d": 3.41,
+    "a": 3.63
+  },
+  "rayo vallecano v sevilla__2025-03-01": {
+    "h": 2.66,
+    "d": 3.02,
+    "a": 3.12
+  },
+  "real betis v real madrid__2025-03-01": {
+    "h": 3.84,
+    "d": 3.76,
+    "a": 1.99
+  },
+  "athletic club v atletico madrid__2025-03-01": {
+    "h": 2.2,
+    "d": 3.31,
+    "a": 3.82
+  },
+  "getafe v leganes__2025-03-02": {
+    "h": 3.16,
+    "d": 2.73,
+    "a": 2.91
+  },
+  "barcelona v real sociedad__2025-03-02": {
+    "h": 1.26,
+    "d": 6.22,
+    "a": 12.05
+  },
+  "alaves v mallorca__2025-03-02": {
+    "h": 2.57,
+    "d": 2.86,
+    "a": 3.47
+  },
+  "osasuna v valencia__2025-03-02": {
+    "h": 2.23,
+    "d": 3.17,
+    "a": 3.77
+  },
+  "celta vigo v leganes__2025-03-08": {
+    "h": 1.57,
+    "d": 4.06,
+    "a": 6.69
+  },
+  "alaves v villarreal__2025-03-08": {
+    "h": 3.12,
+    "d": 3.16,
+    "a": 2.56
+  },
+  "valencia v valladolid__2025-03-08": {
+    "h": 1.42,
+    "d": 4.67,
+    "a": 8.93
+  },
+  "atletico madrid v getafe__2025-03-09": {
+    "h": 5.08,
+    "d": 3.23,
+    "a": 1.92
+  },
+  "rayo vallecano v real madrid__2025-03-09": {
+    "h": 1.3,
+    "d": 5.92,
+    "a": 10.56
+  },
+  "athletic club v mallorca__2025-03-09": {
+    "h": 1.74,
+    "d": 3.55,
+    "a": 5.76
+  },
+  "las palmas v real betis__2025-03-09": {
+    "h": 1.34,
+    "d": 5.33,
+    "a": 10.26
+  },
+  "real sociedad v sevilla__2025-03-09": {
+    "h": 2.51,
+    "d": 3.04,
+    "a": 3.32
+  },
+  "espanyol v girona__2025-03-10": {
+    "h": 3.61,
+    "d": 3.15,
+    "a": 2.31
+  },
+  "alaves v las palmas__2025-03-14": {
+    "h": 2.9,
+    "d": 3.04,
+    "a": 2.83
+  },
+  "celta vigo v valladolid__2025-03-15": {
+    "h": 4.82,
+    "d": 3.85,
+    "a": 1.78
+  },
+  "espanyol v mallorca__2025-03-15": {
+    "h": 1.86,
+    "d": 3.33,
+    "a": 5.19
+  },
+  "real madrid v villarreal__2025-03-15": {
+    "h": 3.2,
+    "d": 3.71,
+    "a": 2.24
+  },
+  "girona v valencia__2025-03-15": {
+    "h": 1.96,
+    "d": 3.58,
+    "a": 4.18
+  },
+  "leganes v real betis__2025-03-16": {
+    "h": 4.05,
+    "d": 3.35,
+    "a": 2.07
+  },
+  "athletic club v sevilla__2025-03-16": {
+    "h": 2.65,
+    "d": 3.02,
+    "a": 3.14
+  },
+  "getafe v osasuna__2025-03-16": {
+    "h": 2.45,
+    "d": 2.91,
+    "a": 3.62
+  },
+  "rayo vallecano v real sociedad__2025-03-16": {
+    "h": 2.43,
+    "d": 2.89,
+    "a": 3.62
+  },
+  "atletico madrid v barcelona__2025-03-16": {
+    "h": 3.11,
+    "d": 3.76,
+    "a": 2.27
+  },
+  "barcelona v osasuna__2025-03-27": {
+    "h": 1.18,
+    "d": 7.75,
+    "a": 16.5
+  },
+  "real sociedad v valladolid__2025-03-29": {
+    "h": 1.38,
+    "d": 4.88,
+    "a": 9.94
+  },
+  "atletico madrid v espanyol__2025-03-29": {
+    "h": 5.86,
+    "d": 3.72,
+    "a": 1.69
+  },
+  "alaves v rayo vallecano__2025-03-29": {
+    "h": 2.13,
+    "d": 3.1,
+    "a": 4.24
+  },
+  "leganes v real madrid__2025-03-29": {
+    "h": 1.2,
+    "d": 7.43,
+    "a": 14.16
+  },
+  "getafe v villarreal__2025-03-30": {
+    "h": 3.35,
+    "d": 3.16,
+    "a": 2.43
+  },
+  "barcelona v girona__2025-03-30": {
+    "h": 1.29,
+    "d": 6.33,
+    "a": 9.3
+  },
+  "athletic club v osasuna__2025-03-30": {
+    "h": 1.5,
+    "d": 4.31,
+    "a": 7.31
+  },
+  "mallorca v valencia__2025-03-30": {
+    "h": 2.01,
+    "d": 3.23,
+    "a": 4.52
+  },
+  "real betis v sevilla__2025-03-30": {
+    "h": 1.78,
+    "d": 3.58,
+    "a": 5.27
+  },
+  "celta vigo v las palmas__2025-03-31": {
+    "h": 1.61,
+    "d": 4.09,
+    "a": 6.05
+  },
+  "espanyol v rayo vallecano__2025-04-04": {
+    "h": 1.68,
+    "d": 3.66,
+    "a": 6.22
+  },
+  "alaves v girona__2025-04-05": {
+    "h": 2.09,
+    "d": 3.31,
+    "a": 4.02
+  },
+  "real madrid v valencia__2025-04-05": {
+    "h": 1.27,
+    "d": 6.35,
+    "a": 10.46
+  },
+  "celta vigo v mallorca__2025-04-05": {
+    "h": 2.93,
+    "d": 3.17,
+    "a": 2.7
+  },
+  "barcelona v real betis__2025-04-05": {
+    "h": 1.37,
+    "d": 5.64,
+    "a": 7.53
+  },
+  "las palmas v real sociedad__2025-04-06": {
+    "h": 3.32,
+    "d": 3.28,
+    "a": 2.37
+  },
+  "atletico madrid v sevilla__2025-04-06": {
+    "h": 3.66,
+    "d": 3.23,
+    "a": 2.24
+  },
+  "getafe v valladolid__2025-04-06": {
+    "h": 4.66,
+    "d": 3.08,
+    "a": 2.04
+  },
+  "athletic club v villarreal__2025-04-06": {
+    "h": 2.34,
+    "d": 3.34,
+    "a": 3.33
+  },
+  "leganes v osasuna__2025-04-07": {
+    "h": 2.76,
+    "d": 2.98,
+    "a": 3.03
+  },
+  "sevilla v valencia__2025-04-11": {
+    "h": 2.43,
+    "d": 3.06,
+    "a": 3.47
+  },
+  "mallorca v real sociedad__2025-04-12": {
+    "h": 2.04,
+    "d": 3.05,
+    "a": 4.51
+  },
+  "getafe v las palmas__2025-04-12": {
+    "h": 1.71,
+    "d": 3.63,
+    "a": 5.81
+  },
+  "celta vigo v espanyol__2025-04-12": {
+    "h": 1.66,
+    "d": 3.84,
+    "a": 5.98
+  },
+  "barcelona v leganes__2025-04-12": {
+    "h": 10.58,
+    "d": 6.56,
+    "a": 1.26
+  },
+  "girona v osasuna__2025-04-13": {
+    "h": 2.6,
+    "d": 3.13,
+    "a": 3.1
+  },
+  "alaves v real madrid__2025-04-13": {
+    "h": 5.21,
+    "d": 3.85,
+    "a": 1.72
+  },
+  "real betis v villarreal__2025-04-13": {
+    "h": 2.2,
+    "d": 3.49,
+    "a": 3.48
+  },
+  "athletic club v rayo vallecano__2025-04-13": {
+    "h": 1.85,
+    "d": 3.29,
+    "a": 5.44
+  },
+  "atletico madrid v valladolid__2025-04-14": {
+    "h": 1.11,
+    "d": 9.5,
+    "a": 26
+  },
+  "espanyol v getafe__2025-04-18": {
+    "h": 2.88,
+    "d": 2.67,
+    "a": 3.28
+  },
+  "rayo vallecano v valencia__2025-04-19": {
+    "h": 2.46,
+    "d": 3.11,
+    "a": 3.35
+  },
+  "barcelona v celta vigo__2025-04-19": {
+    "h": 1.25,
+    "d": 7.02,
+    "a": 10.35
+  },
+  "leganes v mallorca__2025-04-19": {
+    "h": 1.84,
+    "d": 3.16,
+    "a": 5.84
+  },
+  "atletico madrid v las palmas__2025-04-19": {
+    "h": 5.84,
+    "d": 3.89,
+    "a": 1.66
+  },
+  "osasuna v valladolid__2025-04-20": {
+    "h": 5.11,
+    "d": 3.74,
+    "a": 1.76
+  },
+  "real sociedad v villarreal__2025-04-20": {
+    "h": 1.66,
+    "d": 4.11,
+    "a": 5.45
+  },
+  "alaves v sevilla__2025-04-20": {
+    "h": 2.17,
+    "d": 2.96,
+    "a": 4.37
+  },
+  "athletic club v real madrid__2025-04-20": {
+    "h": 1.44,
+    "d": 4.67,
+    "a": 8.01
+  },
+  "girona v real betis__2025-04-21": {
+    "h": 2.61,
+    "d": 3.44,
+    "a": 2.83
+  },
+  "espanyol v valencia__2025-04-22": {
+    "h": 2.06,
+    "d": 3.22,
+    "a": 4.3
+  },
+  "barcelona v mallorca__2025-04-22": {
+    "h": 1.3,
+    "d": 5.9,
+    "a": 11
+  },
+  "athletic club v las palmas__2025-04-23": {
+    "h": 1.38,
+    "d": 5.02,
+    "a": 8.77
+  },
+  "celta vigo v villarreal__2025-04-23": {
+    "h": 2.41,
+    "d": 3.58,
+    "a": 3
+  },
+  "alaves v real sociedad__2025-04-23": {
+    "h": 2.39,
+    "d": 3.02,
+    "a": 3.61
+  },
+  "getafe v real madrid__2025-04-23": {
+    "h": 6.16,
+    "d": 3.86,
+    "a": 1.64
+  },
+  "girona v leganes__2025-04-24": {
+    "h": 3.25,
+    "d": 3.17,
+    "a": 2.47
+  },
+  "osasuna v sevilla__2025-04-24": {
+    "h": 2.36,
+    "d": 3.01,
+    "a": 3.68
+  },
+  "atletico madrid v rayo vallecano__2025-04-24": {
+    "h": 1.51,
+    "d": 4.39,
+    "a": 6.83
+  },
+  "real betis v valladolid__2025-04-24": {
+    "h": 1.17,
+    "d": 8.22,
+    "a": 17.22
+  },
+  "espanyol v villarreal__2025-04-27": {
+    "h": 1.4,
+    "d": 5.34,
+    "a": 8.02
+  },
+  "getafe v rayo vallecano__2025-05-02": {
+    "h": 2.44,
+    "d": 2.96,
+    "a": 3.56
+  },
+  "alaves v atletico madrid__2025-05-03": {
+    "h": 4.07,
+    "d": 3.19,
+    "a": 2.13
+  },
+  "osasuna v villarreal__2025-05-03": {
+    "h": 1.43,
+    "d": 4.92,
+    "a": 7.62
+  },
+  "las palmas v valencia__2025-05-03": {
+    "h": 2.67,
+    "d": 3.18,
+    "a": 2.96
+  },
+  "barcelona v valladolid__2025-05-03": {
+    "h": 8.12,
+    "d": 6,
+    "a": 1.34
+  },
+  "celta vigo v real madrid__2025-05-04": {
+    "h": 1.35,
+    "d": 5.75,
+    "a": 8.2
+  },
+  "leganes v sevilla__2025-05-04": {
+    "h": 1.66,
+    "d": 3.76,
+    "a": 5.99
+  },
+  "espanyol v real betis__2025-05-04": {
+    "h": 3.43,
+    "d": 3.11,
+    "a": 2.4
+  },
+  "athletic club v real sociedad__2025-05-04": {
+    "h": 2.59,
+    "d": 2.9,
+    "a": 3.38
+  },
+  "girona v mallorca__2025-05-05": {
+    "h": 2.05,
+    "d": 3.3,
+    "a": 4.23
+  },
+  "las palmas v rayo vallecano__2025-05-09": {
+    "h": 2.68,
+    "d": 3.22,
+    "a": 2.92
+  },
+  "getafe v valencia__2025-05-10": {
+    "h": 2.02,
+    "d": 3.15,
+    "a": 4.62
+  },
+  "celta vigo v sevilla__2025-05-10": {
+    "h": 1.9,
+    "d": 3.61,
+    "a": 4.41
+  },
+  "girona v villarreal__2025-05-10": {
+    "h": 3.14,
+    "d": 3.58,
+    "a": 2.33
+  },
+  "mallorca v valladolid__2025-05-10": {
+    "h": 1.36,
+    "d": 5.26,
+    "a": 9.42
+  },
+  "atletico madrid v real sociedad__2025-05-10": {
+    "h": 1.83,
+    "d": 3.52,
+    "a": 5.03
+  },
+  "espanyol v leganes__2025-05-11": {
+    "h": 2.34,
+    "d": 3.24,
+    "a": 3.43
+  },
+  "barcelona v real madrid__2025-05-11": {
+    "h": 1.88,
+    "d": 4.47,
+    "a": 3.76
+  },
+  "alaves v athletic club__2025-05-11": {
+    "h": 2.07,
+    "d": 2.86,
+    "a": 4.95
+  },
+  "osasuna v real betis__2025-05-11": {
+    "h": 1.65,
+    "d": 4.01,
+    "a": 5.57
+  },
+  "girona v valladolid__2025-05-13": {
+    "h": 5.05,
+    "d": 3.99,
+    "a": 1.72
+  },
+  "celta vigo v real sociedad__2025-05-13": {
+    "h": 2.29,
+    "d": 3.4,
+    "a": 3.36
+  },
+  "las palmas v sevilla__2025-05-13": {
+    "h": 1.72,
+    "d": 3.87,
+    "a": 5.25
+  },
+  "alaves v valencia__2025-05-14": {
+    "h": 2.37,
+    "d": 2.86,
+    "a": 4.01
+  },
+  "leganes v villarreal__2025-05-14": {
+    "h": 1.31,
+    "d": 5.93,
+    "a": 9.99
+  },
+  "mallorca v real madrid__2025-05-14": {
+    "h": 1.43,
+    "d": 4.97,
+    "a": 7.11
+  },
+  "rayo vallecano v real betis__2025-05-15": {
+    "h": 3.29,
+    "d": 3.37,
+    "a": 2.34
+  },
+  "atletico madrid v osasuna__2025-05-15": {
+    "h": 3.63,
+    "d": 3.43,
+    "a": 2.17
+  },
+  "barcelona v espanyol__2025-05-15": {
+    "h": 7.85,
+    "d": 5.85,
+    "a": 1.36
+  },
+  "athletic club v getafe__2025-05-15": {
+    "h": 3.34,
+    "d": 2.53,
+    "a": 3
+  },
+  "atletico madrid v real betis__2025-05-18": {
+    "h": 1.56,
+    "d": 4.41,
+    "a": 6.2
+  },
+  "barcelona v villarreal__2025-05-18": {
+    "h": 1.71,
+    "d": 4.55,
+    "a": 4.31
+  },
+  "celta vigo v rayo vallecano__2025-05-18": {
+    "h": 1.93,
+    "d": 3.52,
+    "a": 4.4
+  },
+  "las palmas v leganes__2025-05-18": {
+    "h": 3.36,
+    "d": 3.45,
+    "a": 2.21
+  },
+  "getafe v mallorca__2025-05-18": {
+    "h": 2.56,
+    "d": 2.82,
+    "a": 3.56
+  },
+  "espanyol v osasuna__2025-05-18": {
+    "h": 2.04,
+    "d": 3.41,
+    "a": 4.07
+  },
+  "real madrid v sevilla__2025-05-18": {
+    "h": 3.17,
+    "d": 3.73,
+    "a": 2.25
+  },
+  "girona v real sociedad__2025-05-18": {
+    "h": 1.72,
+    "d": 3.88,
+    "a": 5.25
+  },
+  "athletic club v valencia__2025-05-18": {
+    "h": 2.54,
+    "d": 3.02,
+    "a": 3.3
+  },
+  "alaves v valladolid__2025-05-18": {
+    "h": 5.44,
+    "d": 3.67,
+    "a": 1.72
+  },
+  "real betis v valencia__2025-05-23": {
+    "h": 1.94,
+    "d": 3.93,
+    "a": 3.85
+  },
+  "real madrid v real sociedad__2025-05-24": {
+    "h": 1.38,
+    "d": 5.59,
+    "a": 7.46
+  },
+  "espanyol v las palmas__2025-05-24": {
+    "h": 1.38,
+    "d": 5.3,
+    "a": 8.5
+  },
+  "leganes v valladolid__2025-05-24": {
+    "h": 1.34,
+    "d": 5.7,
+    "a": 9
+  },
+  "alaves v osasuna__2025-05-24": {
+    "h": 3.34,
+    "d": 3.25,
+    "a": 2.38
+  },
+  "celta vigo v getafe__2025-05-24": {
+    "h": 4.95,
+    "d": 3.85,
+    "a": 1.76
+  },
+  "mallorca v rayo vallecano__2025-05-24": {
+    "h": 1.5,
+    "d": 4.34,
+    "a": 7.25
+  },
+  "atletico madrid v girona__2025-05-25": {
+    "h": 3.33,
+    "d": 3.57,
+    "a": 2.23
+  },
+  "sevilla v villarreal__2025-05-25": {
+    "h": 1.78,
+    "d": 4.08,
+    "a": 4.45
+  },
+  "athletic club v barcelona__2025-05-25": {
+    "h": 3.34,
+    "d": 3.95,
+    "a": 2.1
+  },
+  "girona v rayo vallecano__2025-08-15": {
+    "h": 2.29,
+    "d": 3.32,
+    "a": 3.45
+  },
+  "oviedo v villarreal__2025-08-15": {
+    "h": 1.4,
+    "d": 4.87,
+    "a": 8.96
+  },
+  "barcelona v mallorca__2025-08-16": {
+    "h": 8.06,
+    "d": 5.31,
+    "a": 1.39
+  },
+  "alaves v levante__2025-08-16": {
+    "h": 2.19,
+    "d": 3.14,
+    "a": 3.93
+  },
+  "real sociedad v valencia__2025-08-16": {
+    "h": 2.53,
+    "d": 3.04,
+    "a": 3.3
+  },
+  "celta vigo v getafe__2025-08-17": {
+    "h": 1.61,
+    "d": 3.73,
+    "a": 7.04
+  },
+  "athletic club v sevilla__2025-08-17": {
+    "h": 1.67,
+    "d": 3.69,
+    "a": 6.24
+  },
+  "atletico madrid v espanyol__2025-08-17": {
+    "h": 5.8,
+    "d": 3.89,
+    "a": 1.66
+  },
+  "elche v real betis__2025-08-18": {
+    "h": 3.34,
+    "d": 3.22,
+    "a": 2.4
+  },
+  "osasuna v real madrid__2025-08-19": {
+    "h": 1.22,
+    "d": 7.32,
+    "a": 12.82
+  },
+  "alaves v real betis__2025-08-22": {
+    "h": 1.97,
+    "d": 3.38,
+    "a": 4.43
+  },
+  "celta vigo v mallorca__2025-08-23": {
+    "h": 3.26,
+    "d": 3.16,
+    "a": 2.48
+  },
+  "atletico madrid v elche__2025-08-23": {
+    "h": 1.27,
+    "d": 5.97,
+    "a": 13.1
+  },
+  "barcelona v levante__2025-08-23": {
+    "h": 11.01,
+    "d": 7.39,
+    "a": 1.23
+  },
+  "osasuna v valencia__2025-08-24": {
+    "h": 2.48,
+    "d": 3.18,
+    "a": 3.22
+  },
+  "espanyol v real sociedad__2025-08-24": {
+    "h": 1.78,
+    "d": 3.59,
+    "a": 5.24
+  },
+  "girona v villarreal__2025-08-24": {
+    "h": 1.54,
+    "d": 4.55,
+    "a": 6.17
+  },
+  "oviedo v real madrid__2025-08-24": {
+    "h": 9.98,
+    "d": 5.53,
+    "a": 1.33
+  },
+  "athletic club v rayo vallecano__2025-08-25": {
+    "h": 1.71,
+    "d": 3.71,
+    "a": 5.7
+  },
+  "getafe v sevilla__2025-08-25": {
+    "h": 2.12,
+    "d": 3.14,
+    "a": 4.2
+  },
+  "celta vigo v real betis__2025-08-27": {
+    "h": 2.4,
+    "d": 3.4,
+    "a": 3.15
+  },
+  "elche v levante__2025-08-29": {
+    "h": 2.24,
+    "d": 3.24,
+    "a": 3.66
+  },
+  "getafe v valencia__2025-08-29": {
+    "h": 2.38,
+    "d": 3.01,
+    "a": 3.64
+  },
+  "alaves v atletico madrid__2025-08-30": {
+    "h": 5.72,
+    "d": 3.6,
+    "a": 1.73
+  },
+  "oviedo v real sociedad__2025-08-30": {
+    "h": 3.46,
+    "d": 3.12,
+    "a": 2.39
+  },
+  "girona v sevilla__2025-08-30": {
+    "h": 2.54,
+    "d": 3.19,
+    "a": 3.13
+  },
+  "mallorca v real madrid__2025-08-30": {
+    "h": 1.19,
+    "d": 7.51,
+    "a": 15.22
+  },
+  "celta vigo v villarreal__2025-08-31": {
+    "h": 2.95,
+    "d": 3.4,
+    "a": 2.53
+  },
+  "athletic club v real betis__2025-08-31": {
+    "h": 3.16,
+    "d": 3.28,
+    "a": 2.46
+  },
+  "espanyol v osasuna__2025-08-31": {
+    "h": 2.39,
+    "d": 3.22,
+    "a": 3.35
+  },
+  "barcelona v rayo vallecano__2025-08-31": {
+    "h": 6.76,
+    "d": 5.37,
+    "a": 1.42
+  },
+  "elche v sevilla__2025-09-12": {
+    "h": 1.93,
+    "d": 3.38,
+    "a": 4.63
+  },
+  "getafe v oviedo__2025-09-13": {
+    "h": 1.95,
+    "d": 3.11,
+    "a": 4.95
+  },
+  "real madrid v real sociedad__2025-09-13": {
+    "h": 5.6,
+    "d": 4.2,
+    "a": 1.62
+  },
+  "alaves v athletic club__2025-09-13": {
+    "h": 1.61,
+    "d": 3.83,
+    "a": 6.6
+  },
+  "atletico madrid v villarreal__2025-09-13": {
+    "h": 1.79,
+    "d": 3.86,
+    "a": 4.7
+  },
+  "celta vigo v girona__2025-09-14": {
+    "h": 1.77,
+    "d": 3.73,
+    "a": 5
+  },
+  "levante v real betis__2025-09-14": {
+    "h": 3.52,
+    "d": 3.62,
+    "a": 2.14
+  },
+  "osasuna v rayo vallecano__2025-09-14": {
+    "h": 2.66,
+    "d": 3.08,
+    "a": 3.06
+  },
+  "barcelona v valencia__2025-09-14": {
+    "h": 1.29,
+    "d": 6,
+    "a": 10.22
+  },
+  "espanyol v mallorca__2025-09-15": {
+    "h": 2.28,
+    "d": 3.23,
+    "a": 3.57
+  },
+  "real betis v real sociedad__2025-09-19": {
+    "h": 1.93,
+    "d": 3.83,
+    "a": 4.04
+  },
+  "girona v levante__2025-09-20": {
+    "h": 1.79,
+    "d": 3.92,
+    "a": 4.64
+  },
+  "espanyol v real madrid__2025-09-20": {
+    "h": 1.21,
+    "d": 6.99,
+    "a": 14.2
+  },
+  "alaves v sevilla__2025-09-20": {
+    "h": 2.53,
+    "d": 3.05,
+    "a": 3.29
+  },
+  "osasuna v villarreal__2025-09-20": {
+    "h": 1.68,
+    "d": 3.89,
+    "a": 5.54
+  },
+  "athletic club v valencia__2025-09-20": {
+    "h": 3.6,
+    "d": 3.18,
+    "a": 2.29
+  },
+  "celta vigo v rayo vallecano__2025-09-21": {
+    "h": 2.23,
+    "d": 3.4,
+    "a": 3.51
+  },
+  "atletico madrid v mallorca__2025-09-21": {
+    "h": 5.1,
+    "d": 3.68,
+    "a": 1.78
+  },
+  "elche v oviedo__2025-09-21": {
+    "h": 2.01,
+    "d": 3.28,
+    "a": 4.43
+  },
+  "barcelona v getafe__2025-09-21": {
+    "h": 1.27,
+    "d": 6.06,
+    "a": 12.3
+  },
+  "athletic club v girona__2025-09-23": {
+    "h": 1.46,
+    "d": 4.49,
+    "a": 7.97
+  },
+  "espanyol v valencia__2025-09-23": {
+    "h": 2.32,
+    "d": 3.27,
+    "a": 3.44
+  },
+  "levante v real madrid__2025-09-23": {
+    "h": 8.63,
+    "d": 6.01,
+    "a": 1.33
+  },
+  "sevilla v villarreal__2025-09-23": {
+    "h": 3.22,
+    "d": 3.41,
+    "a": 2.36
+  },
+  "alaves v getafe__2025-09-24": {
+    "h": 2.4,
+    "d": 2.81,
+    "a": 3.92
+  },
+  "atletico madrid v rayo vallecano__2025-09-24": {
+    "h": 1.49,
+    "d": 4.37,
+    "a": 7.55
+  },
+  "mallorca v real sociedad__2025-09-24": {
+    "h": 1.78,
+    "d": 3.6,
+    "a": 5.16
+  },
+  "elche v osasuna__2025-09-25": {
+    "h": 1.98,
+    "d": 3.22,
+    "a": 4.67
+  },
+  "barcelona v oviedo__2025-09-25": {
+    "h": 12.62,
+    "d": 7.12,
+    "a": 1.22
+  },
+  "espanyol v girona__2025-09-26": {
+    "h": 2.59,
+    "d": 3.3,
+    "a": 2.95
+  },
+  "getafe v levante__2025-09-27": {
+    "h": 2.15,
+    "d": 3.18,
+    "a": 4.04
+  },
+  "atletico madrid v real madrid__2025-09-27": {
+    "h": 3.09,
+    "d": 3.58,
+    "a": 2.36
+  },
+  "alaves v mallorca__2025-09-27": {
+    "h": 2.57,
+    "d": 2.91,
+    "a": 3.39
+  },
+  "athletic club v villarreal__2025-09-27": {
+    "h": 2.1,
+    "d": 3.34,
+    "a": 3.92
+  },
+  "rayo vallecano v sevilla__2025-09-28": {
+    "h": 2.03,
+    "d": 3.4,
+    "a": 4.11
+  },
+  "celta vigo v elche__2025-09-28": {
+    "h": 2.94,
+    "d": 3.18,
+    "a": 2.69
+  },
+  "barcelona v real sociedad__2025-09-28": {
+    "h": 1.29,
+    "d": 6,
+    "a": 10.32
+  },
+  "osasuna v real betis__2025-09-28": {
+    "h": 1.91,
+    "d": 3.55,
+    "a": 4.49
+  },
+  "oviedo v valencia__2025-09-30": {
+    "h": 1.77,
+    "d": 3.5,
+    "a": 5.49
+  },
+  "getafe v osasuna__2025-10-03": {
+    "h": 2.2,
+    "d": 2.95,
+    "a": 4.26
+  },
+  "levante v oviedo__2025-10-04": {
+    "h": 2.47,
+    "d": 3.25,
+    "a": 3.17
+  },
+  "girona v valencia__2025-10-04": {
+    "h": 2.34,
+    "d": 3.35,
+    "a": 3.32
+  },
+  "athletic club v mallorca__2025-10-04": {
+    "h": 1.64,
+    "d": 3.72,
+    "a": 6.44
+  },
+  "real madrid v villarreal__2025-10-04": {
+    "h": 1.4,
+    "d": 5.38,
+    "a": 7.35
+  },
+  "alaves v elche__2025-10-05": {
+    "h": 2.39,
+    "d": 3.04,
+    "a": 3.56
+  },
+  "barcelona v sevilla__2025-10-05": {
+    "h": 5.91,
+    "d": 5.04,
+    "a": 1.5
+  },
+  "espanyol v real betis__2025-10-05": {
+    "h": 2.67,
+    "d": 3.44,
+    "a": 2.76
+  },
+  "rayo vallecano v real sociedad__2025-10-05": {
+    "h": 2.16,
+    "d": 3.43,
+    "a": 3.65
+  },
+  "atletico madrid v celta vigo__2025-10-05": {
+    "h": 4.77,
+    "d": 3.9,
+    "a": 1.78
+  },
+  "espanyol v oviedo__2025-10-17": {
+    "h": 2.97,
+    "d": 3.12,
+    "a": 2.7
+  },
+  "mallorca v sevilla__2025-10-18": {
+    "h": 1.87,
+    "d": 3.49,
+    "a": 4.81
+  },
+  "barcelona v girona__2025-10-18": {
+    "h": 1.21,
+    "d": 7.51,
+    "a": 12.72
+  },
+  "real betis v villarreal__2025-10-18": {
+    "h": 2.09,
+    "d": 3.65,
+    "a": 3.63
+  },
+  "atletico madrid v osasuna__2025-10-18": {
+    "h": 1.35,
+    "d": 5.17,
+    "a": 10.24
+  },
+  "athletic club v elche__2025-10-19": {
+    "h": 3.98,
+    "d": 3.35,
+    "a": 2.06
+  },
+  "celta vigo v real sociedad__2025-10-19": {
+    "h": 2.18,
+    "d": 3.5,
+    "a": 3.53
+  },
+  "levante v rayo vallecano__2025-10-19": {
+    "h": 2.86,
+    "d": 3.37,
+    "a": 2.62
+  },
+  "getafe v real madrid__2025-10-19": {
+    "h": 7.35,
+    "d": 4.57,
+    "a": 1.46
+  },
+  "alaves v valencia__2025-10-20": {
+    "h": 2.23,
+    "d": 3.23,
+    "a": 3.7
+  },
+  "real sociedad v sevilla__2025-10-24": {
+    "h": 1.98,
+    "d": 3.62,
+    "a": 4.05
+  },
+  "girona v oviedo__2025-10-25": {
+    "h": 1.76,
+    "d": 3.74,
+    "a": 5.08
+  },
+  "elche v espanyol__2025-10-25": {
+    "h": 2.03,
+    "d": 3.29,
+    "a": 4.31
+  },
+  "athletic club v getafe__2025-10-25": {
+    "h": 1.65,
+    "d": 3.6,
+    "a": 6.65
+  },
+  "valencia v villarreal__2025-10-25": {
+    "h": 3.83,
+    "d": 3.46,
+    "a": 2.09
+  },
+  "levante v mallorca__2025-10-26": {
+    "h": 1.98,
+    "d": 3.4,
+    "a": 4.35
+  },
+  "barcelona v real madrid__2025-10-26": {
+    "h": 1.87,
+    "d": 4.47,
+    "a": 3.69
+  },
+  "celta vigo v osasuna__2025-10-26": {
+    "h": 2.4,
+    "d": 3.25,
+    "a": 3.29
+  },
+  "alaves v rayo vallecano__2025-10-26": {
+    "h": 2.23,
+    "d": 3.08,
+    "a": 3.93
+  },
+  "atletico madrid v real betis__2025-10-27": {
+    "h": 3.44,
+    "d": 3.57,
+    "a": 2.19
+  },
+  "getafe v girona__2025-10-31": {
+    "h": 2.2,
+    "d": 3.04,
+    "a": 3.99
+  },
+  "rayo vallecano v villarreal__2025-11-01": {
+    "h": 1.75,
+    "d": 3.9,
+    "a": 4.9
+  },
+  "atletico madrid v sevilla__2025-11-01": {
+    "h": 1.34,
+    "d": 5.44,
+    "a": 9.46
+  },
+  "athletic club v real sociedad__2025-11-01": {
+    "h": 2.7,
+    "d": 2.98,
+    "a": 3.11
+  },
+  "real madrid v valencia__2025-11-01": {
+    "h": 1.17,
+    "d": 8.08,
+    "a": 17.23
+  },
+  "celta vigo v levante__2025-11-02": {
+    "h": 3.15,
+    "d": 3.45,
+    "a": 2.38
+  },
+  "alaves v espanyol__2025-11-02": {
+    "h": 2.5,
+    "d": 3.13,
+    "a": 3.25
+  },
+  "barcelona v elche__2025-11-02": {
+    "h": 1.19,
+    "d": 7.78,
+    "a": 14.02
+  },
+  "mallorca v real betis__2025-11-02": {
+    "h": 1.56,
+    "d": 4.43,
+    "a": 5.88
+  },
+  "osasuna v oviedo__2025-11-03": {
+    "h": 3.23,
+    "d": 3.2,
+    "a": 2.46
+  },
+  "elche v real sociedad__2025-11-07": {
+    "h": 3.15,
+    "d": 3.17,
+    "a": 2.53
+  },
+  "alaves v girona__2025-11-08": {
+    "h": 2.18,
+    "d": 3.34,
+    "a": 3.7
+  },
+  "osasuna v sevilla__2025-11-08": {
+    "h": 2.34,
+    "d": 3.18,
+    "a": 3.51
+  },
+  "atletico madrid v levante__2025-11-08": {
+    "h": 1.22,
+    "d": 7.08,
+    "a": 12.4
+  },
+  "espanyol v villarreal__2025-11-08": {
+    "h": 2.87,
+    "d": 3.45,
+    "a": 2.57
+  },
+  "athletic club v oviedo__2025-11-09": {
+    "h": 1.61,
+    "d": 3.66,
+    "a": 7.14
+  },
+  "rayo vallecano v real madrid__2025-11-09": {
+    "h": 6.19,
+    "d": 4.67,
+    "a": 1.52
+  },
+  "getafe v mallorca__2025-11-09": {
+    "h": 2.64,
+    "d": 2.83,
+    "a": 3.39
+  },
+  "real betis v valencia__2025-11-09": {
+    "h": 3.52,
+    "d": 3.51,
+    "a": 2.18
+  },
+  "barcelona v celta vigo__2025-11-09": {
+    "h": 4.24,
+    "d": 4.3,
+    "a": 1.77
+  },
+  "levante v valencia__2025-11-21": {
+    "h": 2.08,
+    "d": 3.52,
+    "a": 3.79
+  },
+  "alaves v celta vigo__2025-11-22": {
+    "h": 2.77,
+    "d": 3.02,
+    "a": 2.99
+  },
+  "athletic club v barcelona__2025-11-22": {
+    "h": 1.43,
+    "d": 5.25,
+    "a": 7
+  },
+  "osasuna v real sociedad__2025-11-22": {
+    "h": 2.71,
+    "d": 3,
+    "a": 3.08
+  },
+  "mallorca v villarreal__2025-11-22": {
+    "h": 1.41,
+    "d": 5.02,
+    "a": 7.91
+  },
+  "oviedo v rayo vallecano__2025-11-23": {
+    "h": 3.6,
+    "d": 3.23,
+    "a": 2.27
+  },
+  "girona v real betis__2025-11-23": {
+    "h": 1.53,
+    "d": 4.52,
+    "a": 6.24
+  },
+  "atletico madrid v getafe__2025-11-23": {
+    "h": 4.95,
+    "d": 3.34,
+    "a": 1.88
+  },
+  "elche v real madrid__2025-11-23": {
+    "h": 7.07,
+    "d": 5.56,
+    "a": 1.4
+  },
+  "espanyol v sevilla__2025-11-24": {
+    "h": 1.85,
+    "d": 3.75,
+    "a": 4.49
+  },
+  "elche v getafe__2025-11-28": {
+    "h": 2.3,
+    "d": 2.97,
+    "a": 3.91
+  },
+  "mallorca v osasuna__2025-11-29": {
+    "h": 2.5,
+    "d": 3.03,
+    "a": 3.37
+  },
+  "alaves v barcelona__2025-11-29": {
+    "h": 1.25,
+    "d": 6.64,
+    "a": 11.13
+  },
+  "athletic club v levante__2025-11-29": {
+    "h": 3.94,
+    "d": 3.47,
+    "a": 2.05
+  },
+  "atletico madrid v oviedo__2025-11-29": {
+    "h": 1.25,
+    "d": 6.23,
+    "a": 12.97
+  },
+  "real sociedad v villarreal__2025-11-30": {
+    "h": 2.9,
+    "d": 3.41,
+    "a": 2.57
+  },
+  "real betis v sevilla__2025-11-30": {
+    "h": 2.78,
+    "d": 3.34,
+    "a": 2.72
+  },
+  "celta vigo v espanyol__2025-11-30": {
+    "h": 1.92,
+    "d": 3.57,
+    "a": 4.4
+  },
+  "girona v real madrid__2025-11-30": {
+    "h": 7.01,
+    "d": 5.71,
+    "a": 1.38
+  },
+  "rayo vallecano v valencia__2025-12-01": {
+    "h": 2.11,
+    "d": 3.21,
+    "a": 4.11
+  },
+  "atletico madrid v barcelona__2025-12-02": {
+    "h": 1.69,
+    "d": 4.49,
+    "a": 4.51
+  },
+  "athletic club v real madrid__2025-12-03": {
+    "h": 4.34,
+    "d": 3.69,
+    "a": 1.89
+  },
+  "mallorca v oviedo__2025-12-05": {
+    "h": 2.63,
+    "d": 3.05,
+    "a": 3.13
+  },
+  "getafe v villarreal__2025-12-06": {
+    "h": 1.64,
+    "d": 3.78,
+    "a": 6.23
+  },
+  "alaves v real sociedad__2025-12-06": {
+    "h": 2.77,
+    "d": 3.02,
+    "a": 2.98
+  },
+  "barcelona v real betis__2025-12-06": {
+    "h": 3.76,
+    "d": 4.11,
+    "a": 1.91
+  },
+  "athletic club v atletico madrid__2025-12-06": {
+    "h": 2.99,
+    "d": 3.2,
+    "a": 2.63
+  },
+  "elche v girona__2025-12-07": {
+    "h": 2.15,
+    "d": 3.37,
+    "a": 3.76
+  },
+  "sevilla v valencia__2025-12-07": {
+    "h": 2.01,
+    "d": 3.45,
+    "a": 4.13
+  },
+  "espanyol v rayo vallecano__2025-12-07": {
+    "h": 2.46,
+    "d": 3.21,
+    "a": 3.23
+  },
+  "celta vigo v real madrid__2025-12-07": {
+    "h": 1.28,
+    "d": 6.3,
+    "a": 11
+  },
+  "levante v osasuna__2025-12-08": {
+    "h": 1.7,
+    "d": 4,
+    "a": 5.1
+  },
+  "girona v real sociedad__2025-12-12": {
+    "h": 1.83,
+    "d": 3.67,
+    "a": 4.63
+  },
+  "atletico madrid v valencia__2025-12-13": {
+    "h": 1.33,
+    "d": 5.54,
+    "a": 9.6
+  },
+  "elche v mallorca__2025-12-13": {
+    "h": 2.62,
+    "d": 3.02,
+    "a": 3.17
+  },
+  "barcelona v osasuna__2025-12-13": {
+    "h": 1.2,
+    "d": 8.15,
+    "a": 12.5
+  },
+  "espanyol v getafe__2025-12-13": {
+    "h": 2.72,
+    "d": 2.8,
+    "a": 3.31
+  },
+  "oviedo v sevilla__2025-12-14": {
+    "h": 2.15,
+    "d": 3.15,
+    "a": 4.07
+  },
+  "athletic club v celta vigo__2025-12-14": {
+    "h": 3.04,
+    "d": 3.11,
+    "a": 2.65
+  },
+  "alaves v real madrid__2025-12-14": {
+    "h": 5.73,
+    "d": 4.12,
+    "a": 1.61
+  },
+  "rayo vallecano v real betis__2025-12-15": {
+    "h": 2.55,
+    "d": 3.15,
+    "a": 2.88
+  },
+  "mallorca v valencia__2025-12-19": {
+    "h": 2.11,
+    "d": 3.22,
+    "a": 4.08
+  },
+  "celta vigo v oviedo__2025-12-20": {
+    "h": 3.6,
+    "d": 3.26,
+    "a": 2.26
+  },
+  "levante v real sociedad__2025-12-20": {
+    "h": 3.18,
+    "d": 3.38,
+    "a": 2.4
+  },
+  "alaves v osasuna__2025-12-20": {
+    "h": 2.23,
+    "d": 3.04,
+    "a": 3.97
+  },
+  "real madrid v sevilla__2025-12-20": {
+    "h": 1.21,
+    "d": 7.06,
+    "a": 13.73
+  },
+  "atletico madrid v girona__2025-12-21": {
+    "h": 4.97,
+    "d": 3.77,
+    "a": 1.76
+  },
+  "barcelona v villarreal__2025-12-21": {
+    "h": 4.19,
+    "d": 4.48,
+    "a": 1.75
+  },
+  "elche v rayo vallecano__2025-12-21": {
+    "h": 2.56,
+    "d": 2.99,
+    "a": 3.31
+  },
+  "getafe v real betis__2025-12-21": {
+    "h": 1.77,
+    "d": 3.45,
+    "a": 5.72
+  },
+  "athletic club v espanyol__2025-12-22": {
+    "h": 1.88,
+    "d": 3.43,
+    "a": 4.87
+  },
+  "getafe v rayo vallecano__2026-01-02": {
+    "h": 2.15,
+    "d": 2.87,
+    "a": 4.68
+  },
+  "celta vigo v valencia__2026-01-03": {
+    "h": 2.06,
+    "d": 3.29,
+    "a": 4.16
+  },
+  "athletic club v osasuna__2026-01-03": {
+    "h": 3.1,
+    "d": 3.02,
+    "a": 2.68
+  },
+  "elche v villarreal__2026-01-03": {
+    "h": 3.24,
+    "d": 3.52,
+    "a": 2.3
+  },
+  "barcelona v espanyol__2026-01-03": {
+    "h": 5.94,
+    "d": 4.75,
+    "a": 1.52
+  },
+  "levante v sevilla__2026-01-04": {
+    "h": 1.79,
+    "d": 3.65,
+    "a": 5.07
+  },
+  "real betis v real madrid__2026-01-04": {
+    "h": 1.51,
+    "d": 4.55,
+    "a": 6.75
+  },
+  "alaves v oviedo__2026-01-04": {
+    "h": 1.93,
+    "d": 3.03,
+    "a": 5.48
+  },
+  "girona v mallorca__2026-01-04": {
+    "h": 2.25,
+    "d": 3.17,
+    "a": 3.73
+  },
+  "atletico madrid v real sociedad__2026-01-04": {
+    "h": 4.25,
+    "d": 3.81,
+    "a": 1.88
+  },
+  "getafe v real sociedad__2026-01-09": {
+    "h": 3.64,
+    "d": 2.99,
+    "a": 2.39
+  },
+  "oviedo v real betis__2026-01-10": {
+    "h": 3.89,
+    "d": 3.48,
+    "a": 2.05
+  },
+  "alaves v villarreal__2026-01-10": {
+    "h": 1.49,
+    "d": 4.29,
+    "a": 7.76
+  },
+  "girona v osasuna__2026-01-10": {
+    "h": 2.61,
+    "d": 3.14,
+    "a": 3.07
+  },
+  "elche v valencia__2026-01-10": {
+    "h": 2.04,
+    "d": 3.36,
+    "a": 4.14
+  },
+  "mallorca v rayo vallecano__2026-01-11": {
+    "h": 1.93,
+    "d": 3.25,
+    "a": 4.93
+  },
+  "espanyol v levante__2026-01-11": {
+    "h": 3.22,
+    "d": 3.31,
+    "a": 2.41
+  },
+  "celta vigo v sevilla__2026-01-12": {
+    "h": 2.66,
+    "d": 3.15,
+    "a": 3
+  },
+  "espanyol v girona__2026-01-16": {
+    "h": 1.85,
+    "d": 3.41,
+    "a": 4.4
+  },
+  "levante v real madrid__2026-01-17": {
+    "h": 1.14,
+    "d": 8.56,
+    "a": 15.19
+  },
+  "athletic club v mallorca__2026-01-17": {
+    "h": 3.64,
+    "d": 3.09,
+    "a": 2.15
+  },
+  "osasuna v oviedo__2026-01-17": {
+    "h": 1.73,
+    "d": 3.48,
+    "a": 5.22
+  },
+  "real betis v villarreal__2026-01-17": {
+    "h": 2.55,
+    "d": 3.45,
+    "a": 2.64
+  },
+  "getafe v valencia__2026-01-18": {
+    "h": 2.47,
+    "d": 2.73,
+    "a": 3.44
+  },
+  "alaves v atletico madrid__2026-01-18": {
+    "h": 1.35,
+    "d": 4.8,
+    "a": 8.98
+  },
+  "celta vigo v rayo vallecano__2026-01-18": {
+    "h": 1.9,
+    "d": 3.27,
+    "a": 4.39
+  },
+  "barcelona v real sociedad__2026-01-18": {
+    "h": 4.7,
+    "d": 4.37,
+    "a": 1.62
+  },
+  "elche v sevilla__2026-01-19": {
+    "h": 2.39,
+    "d": 3.04,
+    "a": 3.19
+  },
+  "elche v levante__2026-01-23": {
+    "h": 2.23,
+    "d": 3.33,
+    "a": 3.18
+  },
+  "osasuna v rayo vallecano__2026-01-24": {
+    "h": 2.22,
+    "d": 3.09,
+    "a": 3.49
+  },
+  "espanyol v valencia__2026-01-24": {
+    "h": 2.39,
+    "d": 3.11,
+    "a": 3.13
+  },
+  "athletic club v sevilla__2026-01-24": {
+    "h": 2.61,
+    "d": 2.97,
+    "a": 2.93
+  },
+  "real madrid v villarreal__2026-01-24": {
+    "h": 3.74,
+    "d": 4.05,
+    "a": 1.84
+  },
+  "atletico madrid v mallorca__2026-01-25": {
+    "h": 1.32,
+    "d": 5.06,
+    "a": 9.62
+  },
+  "barcelona v oviedo__2026-01-25": {
+    "h": 1.12,
+    "d": 9.35,
+    "a": 17.46
+  },
+  "celta vigo v real sociedad__2026-01-25": {
+    "h": 2.12,
+    "d": 3.26,
+    "a": 3.54
+  },
+  "alaves v real betis__2026-01-25": {
+    "h": 2.66,
+    "d": 2.95,
+    "a": 2.9
+  },
+  "getafe v girona__2026-01-26": {
+    "h": 2.16,
+    "d": 2.95,
+    "a": 3.87
+  },
+  "alaves v espanyol__2026-01-30": {
+    "h": 1.94,
+    "d": 3.07,
+    "a": 4.51
+  },
+  "girona v oviedo__2026-01-31": {
+    "h": 2.78,
+    "d": 2.99,
+    "a": 2.73
+  },
+  "osasuna v villarreal__2026-01-31": {
+    "h": 2.73,
+    "d": 3.28,
+    "a": 2.56
+  },
+  "atletico madrid v levante__2026-01-31": {
+    "h": 4.87,
+    "d": 3.82,
+    "a": 1.69
+  },
+  "barcelona v elche__2026-01-31": {
+    "h": 8.62,
+    "d": 6.26,
+    "a": 1.28
+  },
+  "rayo vallecano v real madrid__2026-02-01": {
+    "h": 1.26,
+    "d": 6.17,
+    "a": 9.75
+  },
+  "real betis v valencia__2026-02-01": {
+    "h": 1.81,
+    "d": 3.48,
+    "a": 4.54
+  },
+  "celta vigo v getafe__2026-02-01": {
+    "h": 2.9,
+    "d": 2.81,
+    "a": 2.8
+  },
+  "athletic club v real sociedad__2026-02-01": {
+    "h": 2.21,
+    "d": 3.1,
+    "a": 3.52
+  },
+  "mallorca v sevilla__2026-02-02": {
+    "h": 2.65,
+    "d": 3.01,
+    "a": 2.84
+  },
+  "celta vigo v osasuna__2026-02-06": {
+    "h": 2.05,
+    "d": 3.24,
+    "a": 3.8
+  },
+  "barcelona v mallorca__2026-02-07": {
+    "h": 1.14,
+    "d": 8.4,
+    "a": 15.31
+  },
+  "elche v real sociedad__2026-02-07": {
+    "h": 1.62,
+    "d": 4.02,
+    "a": 5.14
+  },
+  "alaves v getafe__2026-02-08": {
+    "h": 2.38,
+    "d": 2.67,
+    "a": 3.78
+  },
+  "athletic club v levante__2026-02-08": {
+    "h": 1.61,
+    "d": 3.87,
+    "a": 5.54
+  },
+  "girona v sevilla__2026-02-08": {
+    "h": 2.02,
+    "d": 3.4,
+    "a": 3.7
+  },
+  "atletico madrid v real betis__2026-02-08": {
+    "h": 1.45,
+    "d": 4.66,
+    "a": 6.35
+  },
+  "real madrid v valencia__2026-02-08": {
+    "h": 5.01,
+    "d": 4.1,
+    "a": 1.62
+  },
+  "espanyol v villarreal__2026-02-09": {
+    "h": 1.69,
+    "d": 3.91,
+    "a": 4.73
+  },
+  "elche v osasuna__2026-02-13": {
+    "h": 2.88,
+    "d": 3.14,
+    "a": 2.53
+  },
+  "celta vigo v espanyol__2026-02-14": {
+    "h": 2.58,
+    "d": 3.05,
+    "a": 2.88
+  },
+  "getafe v villarreal__2026-02-14": {
+    "h": 3.05,
+    "d": 2.84,
+    "a": 2.61
+  },
+  "alaves v sevilla__2026-02-14": {
+    "h": 2.1,
+    "d": 3.05,
+    "a": 3.92
+  },
+  "real madrid v real sociedad__2026-02-14": {
+    "h": 1.37,
+    "d": 5.08,
+    "a": 7.63
+  },
+  "athletic club v oviedo__2026-02-15": {
+    "h": 3.28,
+    "d": 2.93,
+    "a": 2.42
+  },
+  "atletico madrid v rayo vallecano__2026-02-15": {
+    "h": 4.55,
+    "d": 3.58,
+    "a": 1.78
+  },
+  "levante v valencia__2026-02-15": {
+    "h": 2.69,
+    "d": 3.14,
+    "a": 2.7
+  },
+  "mallorca v real betis__2026-02-15": {
+    "h": 3,
+    "d": 3.15,
+    "a": 2.44
+  },
+  "barcelona v girona__2026-02-16": {
+    "h": 7.79,
+    "d": 5.66,
+    "a": 1.32
+  },
+  "levante v villarreal__2026-02-18": {
+    "h": 3.97,
+    "d": 3.64,
+    "a": 1.86
+  },
+  "athletic club v elche__2026-02-20": {
+    "h": 1.7,
+    "d": 3.7,
+    "a": 4.96
+  },
+  "oviedo v real sociedad__2026-02-21": {
+    "h": 1.53,
+    "d": 3.9,
+    "a": 6.63
+  },
+  "rayo vallecano v real betis__2026-02-21": {
+    "h": 1.91,
+    "d": 3.45,
+    "a": 4.06
+  },
+  "osasuna v real madrid__2026-02-21": {
+    "h": 4.62,
+    "d": 3.94,
+    "a": 1.69
+  },
+  "atletico madrid v espanyol__2026-02-21": {
+    "h": 1.41,
+    "d": 4.54,
+    "a": 7.5
+  },
+  "getafe v sevilla__2026-02-22": {
+    "h": 2.33,
+    "d": 2.8,
+    "a": 3.62
+  },
+  "barcelona v levante__2026-02-22": {
+    "h": 1.1,
+    "d": 10.34,
+    "a": 17.85
+  },
+  "celta vigo v mallorca__2026-02-22": {
+    "h": 1.78,
+    "d": 3.48,
+    "a": 4.73
+  },
+  "valencia v villarreal__2026-02-22": {
+    "h": 1.67,
+    "d": 3.87,
+    "a": 4.89
+  },
+  "alaves v girona__2026-02-23": {
+    "h": 2.38,
+    "d": 3.04,
+    "a": 3.23
+  },
+  "alaves v levante__2026-02-27": {
+    "h": 2.69,
+    "d": 3.05,
+    "a": 2.77
+  },
+  "athletic club v rayo vallecano__2026-02-28": {
+    "h": 2.43,
+    "d": 3.05,
+    "a": 3.1
+  },
+  "barcelona v villarreal__2026-02-28": {
+    "h": 1.37,
+    "d": 5.54,
+    "a": 6.51
+  },
+  "mallorca v real sociedad__2026-02-28": {
+    "h": 3.04,
+    "d": 3.22,
+    "a": 2.36
+  },
+  "atletico madrid v oviedo__2026-02-28": {
+    "h": 4.72,
+    "d": 3.53,
+    "a": 1.77
+  },
+  "elche v espanyol__2026-03-01": {
+    "h": 2.4,
+    "d": 3.27,
+    "a": 2.94
+  },
+  "osasuna v valencia__2026-03-01": {
+    "h": 2.4,
+    "d": 3.11,
+    "a": 3.09
+  },
+  "real betis v sevilla__2026-03-01": {
+    "h": 1.74,
+    "d": 3.65,
+    "a": 4.74
+  },
+  "celta vigo v girona__2026-03-01": {
+    "h": 2.41,
+    "d": 3.24,
+    "a": 2.96
+  },
+  "getafe v real madrid__2026-03-02": {
+    "h": 1.39,
+    "d": 4.4,
+    "a": 8.67
+  },
+  "oviedo v rayo vallecano__2026-03-04": {
+    "h": 1.73,
+    "d": 3.52,
+    "a": 5.02
+  },
+  "celta vigo v real madrid__2026-03-06": {
+    "h": 2.97,
+    "d": 3.28,
+    "a": 2.37
+  },
+  "mallorca v osasuna__2026-03-07": {
+    "h": 1.89,
+    "d": 3.37,
+    "a": 4.23
+  },
+  "girona v levante__2026-03-07": {
+    "h": 2.7,
+    "d": 3.31,
+    "a": 2.56
+  },
+  "atletico madrid v real sociedad__2026-03-07": {
+    "h": 1.63,
+    "d": 3.97,
+    "a": 5.12
+  },
+  "athletic club v barcelona__2026-03-07": {
+    "h": 4.63,
+    "d": 4.27,
+    "a": 1.64
+  },
+  "elche v villarreal__2026-03-08": {
+    "h": 1.45,
+    "d": 4.59,
+    "a": 6.58
+  },
+  "getafe v real betis__2026-03-08": {
+    "h": 2.72,
+    "d": 2.77,
+    "a": 3.01
+  },
+  "rayo vallecano v sevilla__2026-03-08": {
+    "h": 2.53,
+    "d": 3.03,
+    "a": 2.98
+  },
+  "alaves v valencia__2026-03-08": {
+    "h": 2.08,
+    "d": 3.07,
+    "a": 3.91
+  },
+  "espanyol v oviedo__2026-03-09": {
+    "h": 1.94,
+    "d": 3.25,
+    "a": 4.17
+  },
+  "alaves v villarreal__2026-03-13": {
+    "h": 3.41,
+    "d": 3.39,
+    "a": 2.1
+  },
+  "athletic club v girona__2026-03-14": {
+    "h": 2.8,
+    "d": 3.28,
+    "a": 2.49
+  },
+  "atletico madrid v getafe__2026-03-14": {
+    "h": 1.64,
+    "d": 3.46,
+    "a": 6.1
+  },
+  "oviedo v valencia__2026-03-14": {
+    "h": 2.8,
+    "d": 3.12,
+    "a": 2.59
+  },
+  "elche v real madrid__2026-03-14": {
+    "h": 1.27,
+    "d": 5.93,
+    "a": 9.32
+  },
+  "espanyol v mallorca__2026-03-15": {
+    "h": 2.43,
+    "d": 3.09,
+    "a": 3.04
+  },
+  "barcelona v sevilla__2026-03-15": {
+    "h": 1.28,
+    "d": 5.87,
+    "a": 9.28
+  },
+  "celta vigo v real betis__2026-03-15": {
+    "h": 2.02,
+    "d": 3.32,
+    "a": 3.73
+  },
+  "osasuna v real sociedad__2026-03-15": {
+    "h": 1.91,
+    "d": 3.53,
+    "a": 3.89
+  },
+  "levante v rayo vallecano__2026-03-16": {
+    "h": 1.8,
+    "d": 3.55,
+    "a": 4.45
+  },
+  "real sociedad v villarreal__2026-03-20": {
+    "h": 1.92,
+    "d": 3.62,
+    "a": 3.74
+  },
+  "elche v mallorca__2026-03-21": {
+    "h": 2.05,
+    "d": 3.37,
+    "a": 3.55
+  },
+  "espanyol v getafe__2026-03-21": {
+    "h": 2.46,
+    "d": 2.83,
+    "a": 3.29
+  },
+  "levante v oviedo__2026-03-21": {
+    "h": 2.29,
+    "d": 3.19,
+    "a": 3.18
+  },
+  "girona v osasuna__2026-03-21": {
+    "h": 2.01,
+    "d": 3.48,
+    "a": 3.56
+  },
+  "sevilla v valencia__2026-03-21": {
+    "h": 2.18,
+    "d": 3.14,
+    "a": 3.48
+  },
+  "barcelona v rayo vallecano__2026-03-22": {
+    "h": 1.2,
+    "d": 7.1,
+    "a": 11.1
+  },
+  "alaves v celta vigo__2026-03-22": {
+    "h": 1.95,
+    "d": 3.25,
+    "a": 4.17
+  },
+  "athletic club v real betis__2026-03-22": {
+    "h": 2,
+    "d": 3.48,
+    "a": 3.61
+  },
+  "atletico madrid v real madrid__2026-03-22": {
+    "h": 2,
+    "d": 3.8,
+    "a": 3.32
+  },
+  "elche v rayo vallecano__2026-04-03": {
+    "h": 1.71,
+    "d": 3.76,
+    "a": 4.68
+  },
+  "levante v real sociedad__2026-04-04": {
+    "h": 1.57,
+    "d": 4.24,
+    "a": 5.24
+  },
+  "mallorca v real madrid__2026-04-04": {
+    "h": 5.41,
+    "d": 4.41,
+    "a": 1.53
+  },
+  "espanyol v real betis__2026-04-04": {
+    "h": 1.78,
+    "d": 3.72,
+    "a": 4.34
+  },
+  "atletico madrid v barcelona__2026-04-04": {
+    "h": 3.21,
+    "d": 3.98,
+    "a": 1.99
+  },
+  "athletic club v getafe__2026-04-05": {
+    "h": 3.27,
+    "d": 2.84,
+    "a": 2.48
+  },
+  "celta vigo v valencia__2026-04-05": {
+    "h": 2.33,
+    "d": 3.22,
+    "a": 3.11
+  },
+  "oviedo v sevilla__2026-04-05": {
+    "h": 2.79,
+    "d": 2.93,
+    "a": 2.75
+  },
+  "alaves v osasuna__2026-04-05": {
+    "h": 2.68,
+    "d": 3.1,
+    "a": 2.73
+  },
+  "girona v villarreal__2026-04-06": {
+    "h": 2.93,
+    "d": 3.53,
+    "a": 2.3
+  },
+  "girona v real madrid__2026-04-10": {
+    "h": 1.32,
+    "d": 5.79,
+    "a": 7.91
+  },
+  "alaves v real sociedad__2026-04-11": {
+    "h": 1.82,
+    "d": 3.59,
+    "a": 4.23
+  },
+  "elche v valencia__2026-04-11": {
+    "h": 2.59,
+    "d": 3.38,
+    "a": 2.62
+  },
+  "barcelona v espanyol__2026-04-11": {
+    "h": 1.3,
+    "d": 5.64,
+    "a": 8.46
+  },
+  "atletico madrid v sevilla__2026-04-11": {
+    "h": 2.23,
+    "d": 3.46,
+    "a": 3.12
+  },
+  "osasuna v real betis__2026-04-12": {
+    "h": 2.25,
+    "d": 3.37,
+    "a": 3.1
+  },
+  "mallorca v rayo vallecano__2026-04-12": {
+    "h": 2.4,
+    "d": 3.26,
+    "a": 2.95
+  },
+  "celta vigo v oviedo__2026-04-12": {
+    "h": 1.72,
+    "d": 3.52,
+    "a": 4.94
+  },
+  "athletic club v villarreal__2026-04-12": {
+    "h": 2.03,
+    "d": 3.46,
+    "a": 3.55
+  },
+  "getafe v levante__2026-04-13": {
+    "h": 2.61,
+    "d": 2.95,
+    "a": 2.94
+  },
+  "athletic club v osasuna__2026-04-21": {
+    "h": 1.84,
+    "d": 3.42,
+    "a": 4.37
+  },
+  "mallorca v valencia__2026-04-21": {
+    "h": 2.62,
+    "d": 3.14,
+    "a": 2.76
+  },
+  "girona v real betis__2026-04-21": {
+    "h": 2.4,
+    "d": 3.32,
+    "a": 2.89
+  },
+  "alaves v real madrid__2026-04-21": {
+    "h": 1.2,
+    "d": 7.26,
+    "a": 11.65
+  },
+  "atletico madrid v elche__2026-04-22": {
+    "h": 2.43,
+    "d": 3.61,
+    "a": 2.7
+  },
+  "getafe v real sociedad__2026-04-22": {
+    "h": 2.21,
+    "d": 3.02,
+    "a": 3.58
+  },
+  "barcelona v celta vigo__2026-04-22": {
+    "h": 1.22,
+    "d": 6.88,
+    "a": 10.23
+  },
+  "levante v sevilla__2026-04-23": {
+    "h": 2.41,
+    "d": 3.17,
+    "a": 2.99
+  },
+  "espanyol v rayo vallecano__2026-04-23": {
+    "h": 2.07,
+    "d": 3.29,
+    "a": 3.58
+  },
+  "oviedo v villarreal__2026-04-23": {
+    "h": 3.19,
+    "d": 3.29,
+    "a": 2.23
+  },
+  "real betis v real madrid__2026-04-24": {
+    "h": 3.54,
+    "d": 3.98,
+    "a": 1.88
+  },
+  "alaves v mallorca__2026-04-25": {
+    "h": 2.03,
+    "d": 3.29,
+    "a": 3.65
+  },
+  "barcelona v getafe__2026-04-25": {
+    "h": 5.59,
+    "d": 3.84,
+    "a": 1.59
+  },
+  "girona v valencia__2026-04-25": {
+    "h": 2.26,
+    "d": 3.22,
+    "a": 3.19
+  },
+  "athletic club v atletico madrid__2026-04-25": {
+    "h": 2.03,
+    "d": 3.53,
+    "a": 3.44
+  },
+  "rayo vallecano v real sociedad__2026-04-26": {
+    "h": 2.59,
+    "d": 3.37,
+    "a": 2.61
+  },
+  "elche v oviedo__2026-04-26": {
+    "h": 2.24,
+    "d": 3.23,
+    "a": 3.23
+  },
+  "osasuna v sevilla__2026-04-26": {
+    "h": 1.9,
+    "d": 3.33,
+    "a": 4.18
+  },
+  "celta vigo v villarreal__2026-04-26": {
+    "h": 1.89,
+    "d": 3.64,
+    "a": 3.83
+  },
+  "espanyol v levante__2026-04-27": {
+    "h": 2.11,
+    "d": 3.3,
+    "a": 3.47
+  },
+  "girona v mallorca__2026-05-01": {
+    "h": 1.91,
+    "d": 3.49,
+    "a": 3.91
+  },
+  "levante v villarreal__2026-05-02": {
+    "h": 1.73,
+    "d": 4.09,
+    "a": 4.04
+  },
+  "atletico madrid v valencia__2026-05-02": {
+    "h": 1.69,
+    "d": 3.82,
+    "a": 4.67
+  },
+  "alaves v athletic club__2026-05-02": {
+    "h": 2.74,
+    "d": 3.22,
+    "a": 2.56
+  },
+  "barcelona v osasuna__2026-05-02": {
+    "h": 4.67,
+    "d": 4.16,
+    "a": 1.64
+  },
+  "celta vigo v elche__2026-05-03": {
+    "h": 1.69,
+    "d": 3.86,
+    "a": 4.62
+  },
+  "getafe v rayo vallecano__2026-05-03": {
+    "h": 2.02,
+    "d": 3.03,
+    "a": 4.15
+  },
+  "oviedo v real betis__2026-05-03": {
+    "h": 1.54,
+    "d": 4.1,
+    "a": 5.85
+  },
+  "espanyol v real madrid__2026-05-03": {
+    "h": 4.31,
+    "d": 3.8,
+    "a": 1.75
+  },
+  "real sociedad v sevilla__2026-05-04": {
+    "h": 2.37,
+    "d": 3.19,
+    "a": 3.03
+  },
+  "levante v osasuna__2026-05-08": {
+    "h": 2.53,
+    "d": 3.24,
+    "a": 2.76
+  },
+  "alaves v elche__2026-05-09": {
+    "h": 2.23,
+    "d": 3.21,
+    "a": 3.27
+  },
+  "espanyol v sevilla__2026-05-09": {
+    "h": 1.98,
+    "d": 3.16,
+    "a": 4.13
+  },
+  "atletico madrid v celta vigo__2026-05-09": {
+    "h": 1.84,
+    "d": 3.7,
+    "a": 3.98
+  },
+  "real betis v real sociedad__2026-05-09": {
+    "h": 2.5,
+    "d": 3.49,
+    "a": 2.64
+  },
+  "mallorca v villarreal__2026-05-10": {
+    "h": 2.43,
+    "d": 3.41,
+    "a": 2.75
+  },
+  "athletic club v valencia__2026-05-10": {
+    "h": 1.65,
+    "d": 3.71,
+    "a": 5.29
+  },
+  "getafe v oviedo__2026-05-10": {
+    "h": 2.78,
+    "d": 2.83,
+    "a": 2.83
+  },
+  "barcelona v real madrid__2026-05-10": {
+    "h": 1.64,
+    "d": 4.6,
+    "a": 4.18
+  },
+  "girona v rayo vallecano__2026-05-11": {
+    "h": 2.22,
+    "d": 3.24,
+    "a": 3.25
+  },
+  "celta vigo v levante__2026-05-12": {
+    "h": 1.89,
+    "d": 3.68,
+    "a": 3.82
+  },
+  "elche v real betis__2026-05-12": {
+    "h": 1.6,
+    "d": 4.15,
+    "a": 4.95
+  },
+  "atletico madrid v osasuna__2026-05-12": {
+    "h": 2.59,
+    "d": 3.44,
+    "a": 2.58
+  },
+  "athletic club v espanyol__2026-05-13": {
+    "h": 2.74,
+    "d": 2.91,
+    "a": 2.75
+  },
+  "sevilla v villarreal__2026-05-13": {
+    "h": 2.07,
+    "d": 3.33,
+    "a": 3.46
+  },
+  "alaves v barcelona__2026-05-13": {
+    "h": 2.98,
+    "d": 3.69,
+    "a": 2.15
+  },
+  "getafe v mallorca__2026-05-13": {
+    "h": 2.29,
+    "d": 2.88,
+    "a": 3.48
+  },
+  "rayo vallecano v valencia__2026-05-14": {
+    "h": 2.27,
+    "d": 3.05,
+    "a": 3.31
+  },
+  "girona v real sociedad__2026-05-14": {
+    "h": 1.91,
+    "d": 3.67,
+    "a": 3.65
+  },
+  "oviedo v real madrid__2026-05-14": {
+    "h": 1.21,
+    "d": 6.51,
+    "a": 11.28
+  },
+  "athletic club v celta vigo__2026-05-17": {
+    "h": 2.13,
+    "d": 3.15,
+    "a": 3.52
+  },
+  "atletico madrid v girona__2026-05-17": {
+    "h": 1.78,
+    "d": 3.83,
+    "a": 4.07
+  },
+  "elche v getafe__2026-05-17": {
+    "h": 2.3,
+    "d": 2.87,
+    "a": 3.48
+  },
+  "levante v mallorca__2026-05-17": {
+    "h": 2.05,
+    "d": 3.39,
+    "a": 3.49
+  },
+  "espanyol v osasuna__2026-05-17": {
+    "h": 2.11,
+    "d": 2.9,
+    "a": 3.96
+  },
+  "alaves v oviedo__2026-05-17": {
+    "h": 3.71,
+    "d": 3.18,
+    "a": 2.04
+  },
+  "real madrid v sevilla__2026-05-17": {
+    "h": 3.45,
+    "d": 3.68,
+    "a": 1.96
+  },
+  "real sociedad v valencia__2026-05-17": {
+    "h": 2.37,
+    "d": 3.19,
+    "a": 2.99
+  },
+  "rayo vallecano v villarreal__2026-05-17": {
+    "h": 1.96,
+    "d": 3.55,
+    "a": 3.58
+  },
+  "barcelona v real betis__2026-05-17": {
+    "h": 1.32,
+    "d": 5.67,
+    "a": 7.3
+  },
+  "alaves v rayo vallecano__2026-05-23": {
+    "h": 2.11,
+    "d": 3.27,
+    "a": 3.45
+  },
+  "levante v real betis__2026-05-23": {
+    "h": 2.29,
+    "d": 3.43,
+    "a": 2.91
+  },
+  "celta vigo v sevilla__2026-05-23": {
+    "h": 1.85,
+    "d": 3.37,
+    "a": 4.34
+  },
+  "espanyol v real sociedad__2026-05-23": {
+    "h": 2.38,
+    "d": 3.49,
+    "a": 2.77
+  },
+  "getafe v osasuna__2026-05-23": {
+    "h": 2.91,
+    "d": 2.55,
+    "a": 2.99
+  },
+  "elche v girona__2026-05-23": {
+    "h": 1.77,
+    "d": 3.73,
+    "a": 4.21
+  },
+  "mallorca v oviedo__2026-05-23": {
+    "h": 1.45,
+    "d": 4.34,
+    "a": 6.78
+  },
+  "athletic club v real madrid__2026-05-23": {
+    "h": 1.52,
+    "d": 4.6,
+    "a": 5.18
+  },
+  "barcelona v valencia__2026-05-23": {
+    "h": 3.34,
+    "d": 3.98,
+    "a": 1.92
+  },
+  "atletico madrid v villarreal__2026-05-24": {
+    "h": 2.46,
+    "d": 3.79,
+    "a": 2.5
+  }
+}

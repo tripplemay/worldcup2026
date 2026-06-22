@@ -1,0 +1,4592 @@
+{
+  "bayern munich v werder bremen__2023-08-18": {
+    "h": 8.8,
+    "d": 6.3,
+    "a": 1.31
+  },
+  "borussia monchengladbach v fc augsburg__2023-08-19": {
+    "h": 2.92,
+    "d": 3.72,
+    "a": 2.43
+  },
+  "1899 hoffenheim v sc freiburg__2023-08-19": {
+    "h": 2.2,
+    "d": 3.74,
+    "a": 3.32
+  },
+  "bayer leverkusen v rb leipzig__2023-08-19": {
+    "h": 2.48,
+    "d": 3.63,
+    "a": 2.98
+  },
+  "vfb stuttgart v vfl bochum__2023-08-19": {
+    "h": 1.78,
+    "d": 4.16,
+    "a": 4.52
+  },
+  "heidenheim v vfl wolfsburg__2023-08-19": {
+    "h": 1.66,
+    "d": 4.42,
+    "a": 5.16
+  },
+  "1 fc koln v borussia dortmund__2023-08-19": {
+    "h": 1.51,
+    "d": 4.98,
+    "a": 6.21
+  },
+  "fsv mainz 05 v union berlin__2023-08-20": {
+    "h": 2.24,
+    "d": 3.29,
+    "a": 3.68
+  },
+  "eintracht frankfurt v sv darmstadt 98__2023-08-20": {
+    "h": 1.49,
+    "d": 4.78,
+    "a": 6.68
+  },
+  "rb leipzig v vfb stuttgart__2023-08-25": {
+    "h": 1.64,
+    "d": 4.33,
+    "a": 5.33
+  },
+  "borussia dortmund v vfl bochum__2023-08-26": {
+    "h": 5.62,
+    "d": 4.72,
+    "a": 1.57
+  },
+  "sv darmstadt 98 v union berlin__2023-08-26": {
+    "h": 4.17,
+    "d": 3.42,
+    "a": 2.04
+  },
+  "1 fc koln v vfl wolfsburg__2023-08-26": {
+    "h": 2.19,
+    "d": 3.61,
+    "a": 3.47
+  },
+  "sc freiburg v werder bremen__2023-08-26": {
+    "h": 1.77,
+    "d": 4.1,
+    "a": 4.67
+  },
+  "1899 hoffenheim v heidenheim__2023-08-26": {
+    "h": 3.15,
+    "d": 3.83,
+    "a": 2.26
+  },
+  "bayer leverkusen v borussia monchengladbach__2023-08-26": {
+    "h": 4.35,
+    "d": 4.08,
+    "a": 1.81
+  },
+  "eintracht frankfurt v fsv mainz 05__2023-08-27": {
+    "h": 2.82,
+    "d": 3.4,
+    "a": 2.68
+  },
+  "bayern munich v fc augsburg__2023-08-27": {
+    "h": 1.11,
+    "d": 11.5,
+    "a": 23
+  },
+  "borussia dortmund v heidenheim__2023-09-01": {
+    "h": 1.27,
+    "d": 7.05,
+    "a": 9.9
+  },
+  "fc augsburg v vfl bochum__2023-09-02": {
+    "h": 2.25,
+    "d": 3.68,
+    "a": 3.26
+  },
+  "1899 hoffenheim v vfl wolfsburg__2023-09-02": {
+    "h": 2.58,
+    "d": 3.97,
+    "a": 2.62
+  },
+  "bayer leverkusen v sv darmstadt 98__2023-09-02": {
+    "h": 1.22,
+    "d": 7.25,
+    "a": 13
+  },
+  "sc freiburg v vfb stuttgart__2023-09-02": {
+    "h": 2.35,
+    "d": 3.64,
+    "a": 3.11
+  },
+  "fsv mainz 05 v werder bremen__2023-09-02": {
+    "h": 2.73,
+    "d": 3.51,
+    "a": 2.7
+  },
+  "bayern munich v borussia monchengladbach__2023-09-02": {
+    "h": 10,
+    "d": 7.2,
+    "a": 1.26
+  },
+  "1 fc koln v eintracht frankfurt__2023-09-03": {
+    "h": 2.17,
+    "d": 3.48,
+    "a": 3.66
+  },
+  "rb leipzig v union berlin__2023-09-03": {
+    "h": 3.58,
+    "d": 3.77,
+    "a": 2.09
+  },
+  "bayer leverkusen v bayern munich__2023-09-15": {
+    "h": 1.61,
+    "d": 4.55,
+    "a": 5.38
+  },
+  "1 fc koln v 1899 hoffenheim__2023-09-16": {
+    "h": 2.22,
+    "d": 3.86,
+    "a": 3.19
+  },
+  "borussia dortmund v sc freiburg__2023-09-16": {
+    "h": 2.97,
+    "d": 3.82,
+    "a": 2.36
+  },
+  "fsv mainz 05 v vfb stuttgart__2023-09-16": {
+    "h": 2.71,
+    "d": 3.54,
+    "a": 2.71
+  },
+  "fc augsburg v rb leipzig__2023-09-16": {
+    "h": 1.27,
+    "d": 6.75,
+    "a": 10.25
+  },
+  "union berlin v vfl wolfsburg__2023-09-16": {
+    "h": 2.23,
+    "d": 3.35,
+    "a": 3.63
+  },
+  "eintracht frankfurt v vfl bochum__2023-09-16": {
+    "h": 2.93,
+    "d": 3.4,
+    "a": 2.59
+  },
+  "heidenheim v werder bremen__2023-09-17": {
+    "h": 2.33,
+    "d": 3.87,
+    "a": 2.99
+  },
+  "borussia monchengladbach v sv darmstadt 98__2023-09-17": {
+    "h": 2.42,
+    "d": 3.71,
+    "a": 2.94
+  },
+  "sv darmstadt 98 v vfb stuttgart__2023-09-22": {
+    "h": 1.39,
+    "d": 5.25,
+    "a": 8.29
+  },
+  "fc augsburg v fsv mainz 05__2023-09-23": {
+    "h": 2.56,
+    "d": 3.52,
+    "a": 2.88
+  },
+  "bayern munich v vfl bochum__2023-09-23": {
+    "h": 1.12,
+    "d": 10.5,
+    "a": 21
+  },
+  "borussia dortmund v vfl wolfsburg__2023-09-23": {
+    "h": 1.74,
+    "d": 4.42,
+    "a": 4.48
+  },
+  "borussia monchengladbach v rb leipzig__2023-09-23": {
+    "h": 4.91,
+    "d": 4.55,
+    "a": 1.66
+  },
+  "1899 hoffenheim v union berlin__2023-09-23": {
+    "h": 2.13,
+    "d": 3.72,
+    "a": 3.51
+  },
+  "1 fc koln v werder bremen__2023-09-23": {
+    "h": 2.38,
+    "d": 3.69,
+    "a": 3.02
+  },
+  "bayer leverkusen v heidenheim__2023-09-24": {
+    "h": 1.2,
+    "d": 7.91,
+    "a": 13.62
+  },
+  "eintracht frankfurt v sc freiburg__2023-09-24": {
+    "h": 2.22,
+    "d": 3.52,
+    "a": 3.47
+  },
+  "1899 hoffenheim v borussia dortmund__2023-09-29": {
+    "h": 3.12,
+    "d": 4.15,
+    "a": 2.17
+  },
+  "borussia monchengladbach v vfl bochum__2023-09-30": {
+    "h": 2.27,
+    "d": 3.77,
+    "a": 3.15
+  },
+  "1 fc koln v vfb stuttgart__2023-09-30": {
+    "h": 2.86,
+    "d": 3.58,
+    "a": 2.55
+  },
+  "heidenheim v union berlin__2023-09-30": {
+    "h": 3.18,
+    "d": 3.53,
+    "a": 2.33
+  },
+  "bayer leverkusen v fsv mainz 05__2023-09-30": {
+    "h": 5.25,
+    "d": 4.52,
+    "a": 1.63
+  },
+  "eintracht frankfurt v vfl wolfsburg__2023-09-30": {
+    "h": 2.21,
+    "d": 3.5,
+    "a": 3.52
+  },
+  "bayern munich v rb leipzig__2023-09-30": {
+    "h": 4.11,
+    "d": 4.5,
+    "a": 1.79
+  },
+  "sv darmstadt 98 v werder bremen__2023-10-01": {
+    "h": 3.05,
+    "d": 3.84,
+    "a": 2.3
+  },
+  "fc augsburg v sc freiburg__2023-10-01": {
+    "h": 1.93,
+    "d": 3.71,
+    "a": 4.26
+  },
+  "borussia monchengladbach v fsv mainz 05__2023-10-06": {
+    "h": 2.26,
+    "d": 3.82,
+    "a": 3.15
+  },
+  "fc augsburg v sv darmstadt 98__2023-10-07": {
+    "h": 1.85,
+    "d": 3.75,
+    "a": 4.66
+  },
+  "borussia dortmund v union berlin__2023-10-07": {
+    "h": 1.71,
+    "d": 4.17,
+    "a": 4.97
+  },
+  "rb leipzig v vfl bochum__2023-10-07": {
+    "h": 1.26,
+    "d": 6.66,
+    "a": 11.62
+  },
+  "vfb stuttgart v vfl wolfsburg__2023-10-07": {
+    "h": 1.88,
+    "d": 3.97,
+    "a": 4.16
+  },
+  "1899 hoffenheim v werder bremen__2023-10-07": {
+    "h": 2.69,
+    "d": 3.84,
+    "a": 2.56
+  },
+  "1 fc koln v bayer leverkusen__2023-10-08": {
+    "h": 1.28,
+    "d": 6.28,
+    "a": 11.19
+  },
+  "bayern munich v sc freiburg__2023-10-08": {
+    "h": 1.12,
+    "d": 11,
+    "a": 21
+  },
+  "eintracht frankfurt v heidenheim__2023-10-08": {
+    "h": 1.83,
+    "d": 3.9,
+    "a": 4.56
+  },
+  "borussia dortmund v werder bremen__2023-10-20": {
+    "h": 1.28,
+    "d": 6.77,
+    "a": 9.51
+  },
+  "rb leipzig v sv darmstadt 98__2023-10-21": {
+    "h": 6.59,
+    "d": 5.1,
+    "a": 1.47
+  },
+  "sc freiburg v vfl bochum__2023-10-21": {
+    "h": 1.81,
+    "d": 3.91,
+    "a": 4.61
+  },
+  "1899 hoffenheim v eintracht frankfurt__2023-10-21": {
+    "h": 2.06,
+    "d": 3.65,
+    "a": 3.79
+  },
+  "union berlin v vfb stuttgart__2023-10-21": {
+    "h": 2.61,
+    "d": 3.37,
+    "a": 2.92
+  },
+  "bayer leverkusen v vfl wolfsburg__2023-10-21": {
+    "h": 4.47,
+    "d": 4.11,
+    "a": 1.79
+  },
+  "bayern munich v fsv mainz 05__2023-10-21": {
+    "h": 8.78,
+    "d": 6.24,
+    "a": 1.32
+  },
+  "1 fc koln v borussia monchengladbach__2023-10-22": {
+    "h": 2.52,
+    "d": 3.67,
+    "a": 2.85
+  },
+  "fc augsburg v heidenheim__2023-10-22": {
+    "h": 2.45,
+    "d": 3.6,
+    "a": 2.97
+  },
+  "fsv mainz 05 v vfl bochum__2023-10-27": {
+    "h": 2.85,
+    "d": 3.52,
+    "a": 2.55
+  },
+  "fc augsburg v vfl wolfsburg__2023-10-28": {
+    "h": 2.54,
+    "d": 3.62,
+    "a": 2.8
+  },
+  "bayern munich v sv darmstadt 98__2023-10-28": {
+    "h": 1.06,
+    "d": 17.61,
+    "a": 32.15
+  },
+  "borussia monchengladbach v heidenheim__2023-10-28": {
+    "h": 1.69,
+    "d": 4.44,
+    "a": 4.7
+  },
+  "1899 hoffenheim v vfb stuttgart__2023-10-28": {
+    "h": 1.67,
+    "d": 4.43,
+    "a": 4.84
+  },
+  "union berlin v werder bremen__2023-10-28": {
+    "h": 2.86,
+    "d": 3.53,
+    "a": 2.53
+  },
+  "1 fc koln v rb leipzig__2023-10-28": {
+    "h": 1.49,
+    "d": 4.78,
+    "a": 6.56
+  },
+  "borussia dortmund v eintracht frankfurt__2023-10-29": {
+    "h": 3.14,
+    "d": 3.7,
+    "a": 2.28
+  },
+  "bayer leverkusen v sc freiburg__2023-10-29": {
+    "h": 1.24,
+    "d": 6.67,
+    "a": 12.56
+  },
+  "sv darmstadt 98 v vfl bochum__2023-11-03": {
+    "h": 2.37,
+    "d": 3.53,
+    "a": 3.1
+  },
+  "1 fc koln v fc augsburg__2023-11-04": {
+    "h": 2.05,
+    "d": 3.89,
+    "a": 3.52
+  },
+  "borussia monchengladbach v sc freiburg__2023-11-04": {
+    "h": 2.03,
+    "d": 3.85,
+    "a": 3.64
+  },
+  "1899 hoffenheim v bayer leverkusen__2023-11-04": {
+    "h": 5.53,
+    "d": 5.01,
+    "a": 1.53
+  },
+  "fsv mainz 05 v rb leipzig__2023-11-04": {
+    "h": 4.57,
+    "d": 4.04,
+    "a": 1.78
+  },
+  "eintracht frankfurt v union berlin__2023-11-04": {
+    "h": 2.54,
+    "d": 3.26,
+    "a": 3.06
+  },
+  "bayern munich v borussia dortmund__2023-11-04": {
+    "h": 3.91,
+    "d": 4.53,
+    "a": 1.81
+  },
+  "vfl wolfsburg v werder bremen__2023-11-05": {
+    "h": 1.75,
+    "d": 4.31,
+    "a": 4.39
+  },
+  "heidenheim v vfb stuttgart__2023-11-05": {
+    "h": 5.3,
+    "d": 4.25,
+    "a": 1.65
+  },
+  "borussia monchengladbach v vfl wolfsburg__2023-11-10": {
+    "h": 2.36,
+    "d": 3.9,
+    "a": 2.87
+  },
+  "1899 hoffenheim v fc augsburg__2023-11-11": {
+    "h": 2.43,
+    "d": 3.86,
+    "a": 2.8
+  },
+  "bayern munich v heidenheim__2023-11-11": {
+    "h": 1.11,
+    "d": 12,
+    "a": 19
+  },
+  "fsv mainz 05 v sv darmstadt 98__2023-11-11": {
+    "h": 3.28,
+    "d": 3.48,
+    "a": 2.3
+  },
+  "borussia dortmund v vfb stuttgart__2023-11-11": {
+    "h": 2.49,
+    "d": 3.84,
+    "a": 2.74
+  },
+  "1 fc koln v vfl bochum__2023-11-11": {
+    "h": 2.59,
+    "d": 3.61,
+    "a": 2.75
+  },
+  "bayer leverkusen v union berlin__2023-11-12": {
+    "h": 1.35,
+    "d": 5.56,
+    "a": 9.04
+  },
+  "eintracht frankfurt v werder bremen__2023-11-12": {
+    "h": 2.73,
+    "d": 3.55,
+    "a": 2.61
+  },
+  "rb leipzig v sc freiburg__2023-11-12": {
+    "h": 1.47,
+    "d": 4.92,
+    "a": 6.67
+  },
+  "1 fc koln v bayern munich__2023-11-24": {
+    "h": 10.08,
+    "d": 6.98,
+    "a": 1.26
+  },
+  "borussia dortmund v borussia monchengladbach__2023-11-25": {
+    "h": 1.51,
+    "d": 5.24,
+    "a": 5.53
+  },
+  "sc freiburg v sv darmstadt 98__2023-11-25": {
+    "h": 1.53,
+    "d": 4.55,
+    "a": 6.28
+  },
+  "fc augsburg v union berlin__2023-11-25": {
+    "h": 1.99,
+    "d": 3.59,
+    "a": 4.02
+  },
+  "bayer leverkusen v werder bremen__2023-11-25": {
+    "h": 6,
+    "d": 5.11,
+    "a": 1.47
+  },
+  "rb leipzig v vfl wolfsburg__2023-11-25": {
+    "h": 3.74,
+    "d": 4.01,
+    "a": 1.95
+  },
+  "eintracht frankfurt v vfb stuttgart__2023-11-25": {
+    "h": 2.89,
+    "d": 3.52,
+    "a": 2.5
+  },
+  "heidenheim v vfl bochum__2023-11-26": {
+    "h": 2.41,
+    "d": 3.6,
+    "a": 2.99
+  },
+  "1899 hoffenheim v fsv mainz 05__2023-11-26": {
+    "h": 1.86,
+    "d": 4.02,
+    "a": 4.1
+  },
+  "1 fc koln v sv darmstadt 98__2023-12-01": {
+    "h": 2.8,
+    "d": 3.37,
+    "a": 2.68
+  },
+  "vfl bochum v vfl wolfsburg__2023-12-02": {
+    "h": 2.63,
+    "d": 3.52,
+    "a": 2.75
+  },
+  "1899 hoffenheim v borussia monchengladbach__2023-12-02": {
+    "h": 2.16,
+    "d": 4.23,
+    "a": 3.05
+  },
+  "heidenheim v rb leipzig__2023-12-02": {
+    "h": 1.2,
+    "d": 7.77,
+    "a": 13.33
+  },
+  "vfb stuttgart v werder bremen__2023-12-02": {
+    "h": 1.36,
+    "d": 5.75,
+    "a": 8.29
+  },
+  "fsv mainz 05 v sc freiburg__2023-12-03": {
+    "h": 2.26,
+    "d": 3.5,
+    "a": 3.34
+  },
+  "bayer leverkusen v borussia dortmund__2023-12-03": {
+    "h": 1.65,
+    "d": 4.55,
+    "a": 4.93
+  },
+  "eintracht frankfurt v fc augsburg__2023-12-03": {
+    "h": 2.61,
+    "d": 3.37,
+    "a": 2.88
+  },
+  "1899 hoffenheim v vfl bochum__2023-12-08": {
+    "h": 1.79,
+    "d": 4.04,
+    "a": 4.45
+  },
+  "bayern munich v eintracht frankfurt__2023-12-09": {
+    "h": 8.95,
+    "d": 6.12,
+    "a": 1.32
+  },
+  "heidenheim v sv darmstadt 98__2023-12-09": {
+    "h": 1.82,
+    "d": 3.96,
+    "a": 4.4
+  },
+  "borussia monchengladbach v union berlin__2023-12-09": {
+    "h": 2.09,
+    "d": 3.54,
+    "a": 3.74
+  },
+  "fc augsburg v werder bremen__2023-12-09": {
+    "h": 2.21,
+    "d": 3.73,
+    "a": 3.25
+  },
+  "sc freiburg v vfl wolfsburg__2023-12-09": {
+    "h": 2.22,
+    "d": 3.54,
+    "a": 3.39
+  },
+  "borussia dortmund v rb leipzig__2023-12-09": {
+    "h": 2.69,
+    "d": 3.9,
+    "a": 2.5
+  },
+  "bayer leverkusen v vfb stuttgart__2023-12-10": {
+    "h": 2.94,
+    "d": 3.71,
+    "a": 2.39
+  },
+  "1 fc koln v fsv mainz 05__2023-12-10": {
+    "h": 2.78,
+    "d": 3.45,
+    "a": 2.65
+  },
+  "borussia monchengladbach v werder bremen__2023-12-15": {
+    "h": 2.16,
+    "d": 3.91,
+    "a": 3.22
+  },
+  "borussia dortmund v fc augsburg__2023-12-16": {
+    "h": 3.15,
+    "d": 3.94,
+    "a": 2.19
+  },
+  "union berlin v vfl bochum__2023-12-16": {
+    "h": 2.62,
+    "d": 3.36,
+    "a": 2.88
+  },
+  "sv darmstadt 98 v vfl wolfsburg__2023-12-16": {
+    "h": 3.97,
+    "d": 3.86,
+    "a": 1.93
+  },
+  "fsv mainz 05 v heidenheim__2023-12-16": {
+    "h": 1.72,
+    "d": 4.14,
+    "a": 4.82
+  },
+  "1899 hoffenheim v rb leipzig__2023-12-16": {
+    "h": 1.33,
+    "d": 6.1,
+    "a": 8.64
+  },
+  "1 fc koln v sc freiburg__2023-12-17": {
+    "h": 1.92,
+    "d": 3.72,
+    "a": 4.18
+  },
+  "bayer leverkusen v eintracht frankfurt__2023-12-17": {
+    "h": 1.26,
+    "d": 6.43,
+    "a": 11.03
+  },
+  "bayern munich v vfb stuttgart__2023-12-17": {
+    "h": 1.56,
+    "d": 5.03,
+    "a": 5.28
+  },
+  "rb leipzig v werder bremen__2023-12-19": {
+    "h": 5.56,
+    "d": 4.71,
+    "a": 1.56
+  },
+  "borussia dortmund v fsv mainz 05__2023-12-19": {
+    "h": 1.56,
+    "d": 4.63,
+    "a": 5.73
+  },
+  "1899 hoffenheim v sv darmstadt 98__2023-12-19": {
+    "h": 1.51,
+    "d": 4.74,
+    "a": 6.42
+  },
+  "1 fc koln v union berlin__2023-12-20": {
+    "h": 1.78,
+    "d": 3.83,
+    "a": 4.8
+  },
+  "borussia monchengladbach v eintracht frankfurt__2023-12-20": {
+    "h": 1.74,
+    "d": 4.21,
+    "a": 4.63
+  },
+  "heidenheim v sc freiburg__2023-12-20": {
+    "h": 3.28,
+    "d": 3.43,
+    "a": 2.32
+  },
+  "bayer leverkusen v vfl bochum__2023-12-20": {
+    "h": 1.22,
+    "d": 7.42,
+    "a": 12.08
+  },
+  "fc augsburg v vfb stuttgart__2023-12-20": {
+    "h": 1.38,
+    "d": 5.45,
+    "a": 8.13
+  },
+  "bayern munich v vfl wolfsburg__2023-12-20": {
+    "h": 6.44,
+    "d": 5.08,
+    "a": 1.47
+  },
+  "1899 hoffenheim v bayern munich__2024-01-12": {
+    "h": 1.13,
+    "d": 10.35,
+    "a": 19
+  },
+  "bayer leverkusen v fc augsburg__2024-01-13": {
+    "h": 5.89,
+    "d": 4.8,
+    "a": 1.52
+  },
+  "1 fc koln v heidenheim__2024-01-13": {
+    "h": 2.02,
+    "d": 3.8,
+    "a": 3.7
+  },
+  "sc freiburg v union berlin__2024-01-13": {
+    "h": 2.17,
+    "d": 3.33,
+    "a": 3.74
+  },
+  "fsv mainz 05 v vfl wolfsburg__2024-01-13": {
+    "h": 2.01,
+    "d": 3.57,
+    "a": 3.99
+  },
+  "eintracht frankfurt v rb leipzig__2024-01-13": {
+    "h": 1.42,
+    "d": 5.12,
+    "a": 7.54
+  },
+  "borussia dortmund v sv darmstadt 98__2024-01-13": {
+    "h": 4.83,
+    "d": 4.44,
+    "a": 1.67
+  },
+  "vfl bochum v werder bremen__2024-01-14": {
+    "h": 2.14,
+    "d": 3.67,
+    "a": 3.46
+  },
+  "borussia monchengladbach v vfb stuttgart__2024-01-14": {
+    "h": 3.7,
+    "d": 4.04,
+    "a": 1.96
+  },
+  "vfb stuttgart v vfl bochum__2024-01-20": {
+    "h": 4.47,
+    "d": 4.05,
+    "a": 1.79
+  },
+  "eintracht frankfurt v sv darmstadt 98__2024-01-20": {
+    "h": 3.75,
+    "d": 3.53,
+    "a": 2.09
+  },
+  "1 fc koln v borussia dortmund__2024-01-20": {
+    "h": 3.83,
+    "d": 4.18,
+    "a": 1.89
+  },
+  "1899 hoffenheim v sc freiburg__2024-01-20": {
+    "h": 2,
+    "d": 3.92,
+    "a": 3.67
+  },
+  "heidenheim v vfl wolfsburg__2024-01-20": {
+    "h": 2.94,
+    "d": 3.4,
+    "a": 2.54
+  },
+  "bayer leverkusen v rb leipzig__2024-01-20": {
+    "h": 2.5,
+    "d": 3.77,
+    "a": 2.76
+  },
+  "bayern munich v werder bremen__2024-01-21": {
+    "h": 1.09,
+    "d": 13,
+    "a": 26
+  },
+  "borussia monchengladbach v fc augsburg__2024-01-21": {
+    "h": 1.81,
+    "d": 4.14,
+    "a": 4.22
+  },
+  "bayern munich v union berlin__2024-01-24": {
+    "h": 1.14,
+    "d": 9.98,
+    "a": 18.01
+  },
+  "eintracht frankfurt v fsv mainz 05__2024-01-26": {
+    "h": 2.25,
+    "d": 3.36,
+    "a": 3.49
+  },
+  "bayern munich v fc augsburg__2024-01-27": {
+    "h": 7.96,
+    "d": 6.54,
+    "a": 1.32
+  },
+  "1899 hoffenheim v heidenheim__2024-01-27": {
+    "h": 1.74,
+    "d": 4.3,
+    "a": 4.51
+  },
+  "rb leipzig v vfb stuttgart__2024-01-27": {
+    "h": 2.54,
+    "d": 3.79,
+    "a": 2.7
+  },
+  "sc freiburg v werder bremen__2024-01-27": {
+    "h": 2.41,
+    "d": 3.5,
+    "a": 3.07
+  },
+  "1 fc koln v vfl wolfsburg__2024-01-27": {
+    "h": 1.74,
+    "d": 3.92,
+    "a": 5.03
+  },
+  "bayer leverkusen v borussia monchengladbach__2024-01-27": {
+    "h": 1.22,
+    "d": 7.78,
+    "a": 10.93
+  },
+  "sv darmstadt 98 v union berlin__2024-01-28": {
+    "h": 1.73,
+    "d": 3.69,
+    "a": 5.5
+  },
+  "borussia dortmund v vfl bochum__2024-01-28": {
+    "h": 1.38,
+    "d": 5.83,
+    "a": 7.23
+  },
+  "borussia dortmund v heidenheim__2024-02-02": {
+    "h": 3.29,
+    "d": 4.07,
+    "a": 2.09
+  },
+  "bayern munich v borussia monchengladbach__2024-02-03": {
+    "h": 1.14,
+    "d": 10.09,
+    "a": 17.99
+  },
+  "fc augsburg v vfl bochum__2024-02-03": {
+    "h": 2.45,
+    "d": 3.45,
+    "a": 3.03
+  },
+  "bayer leverkusen v sv darmstadt 98__2024-02-03": {
+    "h": 10.84,
+    "d": 6.14,
+    "a": 1.27
+  },
+  "sc freiburg v vfb stuttgart__2024-02-03": {
+    "h": 3.22,
+    "d": 3.47,
+    "a": 2.33
+  },
+  "fsv mainz 05 v werder bremen__2024-02-03": {
+    "h": 2.07,
+    "d": 3.51,
+    "a": 3.82
+  },
+  "1 fc koln v eintracht frankfurt__2024-02-03": {
+    "h": 3.03,
+    "d": 3.24,
+    "a": 2.57
+  },
+  "1899 hoffenheim v vfl wolfsburg__2024-02-04": {
+    "h": 2.15,
+    "d": 3.84,
+    "a": 3.3
+  },
+  "rb leipzig v union berlin__2024-02-04": {
+    "h": 1.35,
+    "d": 5.39,
+    "a": 9.26
+  },
+  "fsv mainz 05 v union berlin__2024-02-07": {
+    "h": 2.09,
+    "d": 3.32,
+    "a": 4.02
+  },
+  "borussia dortmund v sc freiburg__2024-02-09": {
+    "h": 1.47,
+    "d": 5.07,
+    "a": 6.44
+  },
+  "fc augsburg v rb leipzig__2024-02-10": {
+    "h": 4.42,
+    "d": 4.45,
+    "a": 1.74
+  },
+  "eintracht frankfurt v vfl bochum__2024-02-10": {
+    "h": 1.81,
+    "d": 3.84,
+    "a": 4.63
+  },
+  "borussia monchengladbach v sv darmstadt 98__2024-02-10": {
+    "h": 1.65,
+    "d": 4.13,
+    "a": 5.48
+  },
+  "union berlin v vfl wolfsburg__2024-02-10": {
+    "h": 2.33,
+    "d": 3.32,
+    "a": 3.36
+  },
+  "heidenheim v werder bremen__2024-02-10": {
+    "h": 1.86,
+    "d": 3.79,
+    "a": 4.39
+  },
+  "bayer leverkusen v bayern munich__2024-02-10": {
+    "h": 2.39,
+    "d": 3.53,
+    "a": 3.07
+  },
+  "fsv mainz 05 v vfb stuttgart__2024-02-11": {
+    "h": 1.47,
+    "d": 4.66,
+    "a": 7.2
+  },
+  "1 fc koln v 1899 hoffenheim__2024-02-11": {
+    "h": 1.75,
+    "d": 4.05,
+    "a": 4.74
+  },
+  "1 fc koln v werder bremen__2024-02-16": {
+    "h": 2.47,
+    "d": 3.37,
+    "a": 3.07
+  },
+  "sv darmstadt 98 v vfb stuttgart__2024-02-17": {
+    "h": 6.17,
+    "d": 4.73,
+    "a": 1.52
+  },
+  "bayer leverkusen v heidenheim__2024-02-17": {
+    "h": 7.47,
+    "d": 5.3,
+    "a": 1.41
+  },
+  "1899 hoffenheim v union berlin__2024-02-17": {
+    "h": 1.95,
+    "d": 3.77,
+    "a": 3.99
+  },
+  "fc augsburg v fsv mainz 05__2024-02-17": {
+    "h": 2,
+    "d": 3.65,
+    "a": 3.9
+  },
+  "borussia dortmund v vfl wolfsburg__2024-02-17": {
+    "h": 3.24,
+    "d": 3.91,
+    "a": 2.16
+  },
+  "borussia monchengladbach v rb leipzig__2024-02-17": {
+    "h": 1.32,
+    "d": 6.02,
+    "a": 9.1
+  },
+  "eintracht frankfurt v sc freiburg__2024-02-18": {
+    "h": 2.52,
+    "d": 3.41,
+    "a": 2.97
+  },
+  "bayern munich v vfl bochum__2024-02-18": {
+    "h": 7.65,
+    "d": 5.72,
+    "a": 1.38
+  },
+  "bayer leverkusen v fsv mainz 05__2024-02-23": {
+    "h": 1.3,
+    "d": 5.99,
+    "a": 10.49
+  },
+  "borussia monchengladbach v vfl bochum__2024-02-24": {
+    "h": 2.12,
+    "d": 3.63,
+    "a": 3.56
+  },
+  "1 fc koln v vfb stuttgart__2024-02-24": {
+    "h": 1.33,
+    "d": 5.66,
+    "a": 9.72
+  },
+  "heidenheim v union berlin__2024-02-24": {
+    "h": 1.87,
+    "d": 3.61,
+    "a": 4.6
+  },
+  "sv darmstadt 98 v werder bremen__2024-02-24": {
+    "h": 1.76,
+    "d": 3.95,
+    "a": 4.76
+  },
+  "bayern munich v rb leipzig__2024-02-24": {
+    "h": 1.81,
+    "d": 4.39,
+    "a": 4.02
+  },
+  "eintracht frankfurt v vfl wolfsburg__2024-02-25": {
+    "h": 2.49,
+    "d": 3.41,
+    "a": 3.01
+  },
+  "1899 hoffenheim v borussia dortmund__2024-02-25": {
+    "h": 1.44,
+    "d": 5.61,
+    "a": 6.29
+  },
+  "fc augsburg v sc freiburg__2024-02-25": {
+    "h": 2.38,
+    "d": 3.6,
+    "a": 3.03
+  },
+  "bayern munich v sc freiburg__2024-03-01": {
+    "h": 6.23,
+    "d": 4.84,
+    "a": 1.51
+  },
+  "rb leipzig v vfl bochum__2024-03-02": {
+    "h": 4.64,
+    "d": 4.5,
+    "a": 1.68
+  },
+  "fc augsburg v sv darmstadt 98__2024-03-02": {
+    "h": 3.63,
+    "d": 3.61,
+    "a": 2.1
+  },
+  "eintracht frankfurt v heidenheim__2024-03-02": {
+    "h": 3.07,
+    "d": 3.41,
+    "a": 2.45
+  },
+  "borussia monchengladbach v fsv mainz 05__2024-03-02": {
+    "h": 1.94,
+    "d": 3.74,
+    "a": 4.13
+  },
+  "borussia dortmund v union berlin__2024-03-02": {
+    "h": 3.45,
+    "d": 3.65,
+    "a": 2.15
+  },
+  "vfb stuttgart v vfl wolfsburg__2024-03-02": {
+    "h": 3.24,
+    "d": 3.58,
+    "a": 2.27
+  },
+  "1 fc koln v bayer leverkusen__2024-03-03": {
+    "h": 8.62,
+    "d": 5.37,
+    "a": 1.37
+  },
+  "1899 hoffenheim v werder bremen__2024-03-03": {
+    "h": 1.95,
+    "d": 4.18,
+    "a": 3.59
+  },
+  "union berlin v vfb stuttgart__2024-03-08": {
+    "h": 1.52,
+    "d": 4.46,
+    "a": 6.69
+  },
+  "fc augsburg v heidenheim__2024-03-09": {
+    "h": 1.69,
+    "d": 4.32,
+    "a": 4.98
+  },
+  "bayern munich v fsv mainz 05__2024-03-09": {
+    "h": 1.24,
+    "d": 6.87,
+    "a": 11.46
+  },
+  "1 fc koln v borussia monchengladbach__2024-03-09": {
+    "h": 1.88,
+    "d": 3.68,
+    "a": 4.4
+  },
+  "rb leipzig v sv darmstadt 98__2024-03-09": {
+    "h": 1.12,
+    "d": 10.42,
+    "a": 23.31
+  },
+  "borussia dortmund v werder bremen__2024-03-09": {
+    "h": 4.04,
+    "d": 4.28,
+    "a": 1.82
+  },
+  "sc freiburg v vfl bochum__2024-03-10": {
+    "h": 2.57,
+    "d": 3.45,
+    "a": 2.87
+  },
+  "1899 hoffenheim v eintracht frankfurt__2024-03-10": {
+    "h": 2.07,
+    "d": 3.8,
+    "a": 3.55
+  },
+  "bayer leverkusen v vfl wolfsburg__2024-03-10": {
+    "h": 1.3,
+    "d": 5.79,
+    "a": 10.97
+  },
+  "1 fc koln v rb leipzig__2024-03-15": {
+    "h": 6.76,
+    "d": 4.89,
+    "a": 1.47
+  },
+  "bayern munich v sv darmstadt 98__2024-03-16": {
+    "h": 17.27,
+    "d": 10.13,
+    "a": 1.14
+  },
+  "borussia monchengladbach v heidenheim__2024-03-16": {
+    "h": 2.64,
+    "d": 3.59,
+    "a": 2.71
+  },
+  "fsv mainz 05 v vfl bochum__2024-03-16": {
+    "h": 1.83,
+    "d": 3.92,
+    "a": 4.38
+  },
+  "union berlin v werder bremen__2024-03-16": {
+    "h": 2.13,
+    "d": 3.45,
+    "a": 3.72
+  },
+  "fc augsburg v vfl wolfsburg__2024-03-16": {
+    "h": 2.36,
+    "d": 3.59,
+    "a": 3.07
+  },
+  "1899 hoffenheim v vfb stuttgart__2024-03-16": {
+    "h": 4.33,
+    "d": 4.46,
+    "a": 1.74
+  },
+  "bayer leverkusen v sc freiburg__2024-03-17": {
+    "h": 6.41,
+    "d": 4.62,
+    "a": 1.52
+  },
+  "borussia dortmund v eintracht frankfurt__2024-03-17": {
+    "h": 1.67,
+    "d": 4.43,
+    "a": 4.87
+  },
+  "eintracht frankfurt v union berlin__2024-03-30": {
+    "h": 1.97,
+    "d": 3.51,
+    "a": 4.22
+  },
+  "1899 hoffenheim v bayer leverkusen__2024-03-30": {
+    "h": 1.2,
+    "d": 7.96,
+    "a": 12.98
+  },
+  "borussia monchengladbach v sc freiburg__2024-03-30": {
+    "h": 2.14,
+    "d": 3.62,
+    "a": 3.52
+  },
+  "fsv mainz 05 v rb leipzig__2024-03-30": {
+    "h": 1.37,
+    "d": 5.69,
+    "a": 7.85
+  },
+  "vfl wolfsburg v werder bremen__2024-03-30": {
+    "h": 2.71,
+    "d": 3.46,
+    "a": 2.71
+  },
+  "bayern munich v borussia dortmund__2024-03-30": {
+    "h": 1.35,
+    "d": 6.4,
+    "a": 7.45
+  },
+  "1 fc koln v fc augsburg__2024-03-31": {
+    "h": 1.67,
+    "d": 4.13,
+    "a": 5.16
+  },
+  "heidenheim v vfb stuttgart__2024-03-31": {
+    "h": 1.28,
+    "d": 6.38,
+    "a": 9.81
+  },
+  "sv darmstadt 98 v vfl bochum__2024-03-31": {
+    "h": 1.5,
+    "d": 4.76,
+    "a": 6.53
+  },
+  "eintracht frankfurt v werder bremen__2024-04-05": {
+    "h": 1.78,
+    "d": 3.96,
+    "a": 4.66
+  },
+  "1 fc koln v vfl bochum__2024-04-06": {
+    "h": 2.29,
+    "d": 3.51,
+    "a": 3.27
+  },
+  "rb leipzig v sc freiburg__2024-04-06": {
+    "h": 5.57,
+    "d": 4.65,
+    "a": 1.57
+  },
+  "bayern munich v heidenheim__2024-04-06": {
+    "h": 7.5,
+    "d": 5.8,
+    "a": 1.38
+  },
+  "fsv mainz 05 v sv darmstadt 98__2024-04-06": {
+    "h": 1.42,
+    "d": 5.11,
+    "a": 7.49
+  },
+  "bayer leverkusen v union berlin__2024-04-06": {
+    "h": 5.59,
+    "d": 3.88,
+    "a": 1.68
+  },
+  "borussia dortmund v vfb stuttgart__2024-04-06": {
+    "h": 1.97,
+    "d": 4.25,
+    "a": 3.49
+  },
+  "1899 hoffenheim v fc augsburg__2024-04-07": {
+    "h": 2.31,
+    "d": 3.96,
+    "a": 2.93
+  },
+  "borussia monchengladbach v vfl wolfsburg__2024-04-07": {
+    "h": 2,
+    "d": 3.84,
+    "a": 3.74
+  },
+  "fc augsburg v union berlin__2024-04-12": {
+    "h": 2.19,
+    "d": 3.44,
+    "a": 3.57
+  },
+  "1 fc koln v bayern munich__2024-04-13": {
+    "h": 1.19,
+    "d": 8.02,
+    "a": 14.6
+  },
+  "heidenheim v vfl bochum__2024-04-13": {
+    "h": 2.05,
+    "d": 3.69,
+    "a": 3.7
+  },
+  "1899 hoffenheim v fsv mainz 05__2024-04-13": {
+    "h": 1.78,
+    "d": 4.13,
+    "a": 4.4
+  },
+  "borussia dortmund v borussia monchengladbach__2024-04-13": {
+    "h": 3.51,
+    "d": 3.72,
+    "a": 2.11
+  },
+  "rb leipzig v vfl wolfsburg__2024-04-13": {
+    "h": 1.26,
+    "d": 6.42,
+    "a": 11.12
+  },
+  "eintracht frankfurt v vfb stuttgart__2024-04-13": {
+    "h": 1.48,
+    "d": 5.13,
+    "a": 6.22
+  },
+  "sc freiburg v sv darmstadt 98__2024-04-14": {
+    "h": 4.57,
+    "d": 4.2,
+    "a": 1.76
+  },
+  "bayer leverkusen v werder bremen__2024-04-14": {
+    "h": 1.2,
+    "d": 7.56,
+    "a": 13.47
+  },
+  "eintracht frankfurt v fc augsburg__2024-04-19": {
+    "h": 1.93,
+    "d": 3.93,
+    "a": 3.93
+  },
+  "1 fc koln v sv darmstadt 98__2024-04-20": {
+    "h": 1.43,
+    "d": 5.03,
+    "a": 7.57
+  },
+  "heidenheim v rb leipzig__2024-04-20": {
+    "h": 6.65,
+    "d": 5.3,
+    "a": 1.44
+  },
+  "1899 hoffenheim v borussia monchengladbach__2024-04-20": {
+    "h": 2.36,
+    "d": 3.82,
+    "a": 2.92
+  },
+  "vfl bochum v vfl wolfsburg__2024-04-20": {
+    "h": 1.99,
+    "d": 3.61,
+    "a": 4
+  },
+  "bayern munich v union berlin__2024-04-20": {
+    "h": 4.9,
+    "d": 4.15,
+    "a": 1.71
+  },
+  "vfb stuttgart v werder bremen__2024-04-21": {
+    "h": 4.39,
+    "d": 4.24,
+    "a": 1.77
+  },
+  "bayer leverkusen v borussia dortmund__2024-04-21": {
+    "h": 2.75,
+    "d": 3.48,
+    "a": 2.66
+  },
+  "fsv mainz 05 v sc freiburg__2024-04-21": {
+    "h": 3.02,
+    "d": 3.5,
+    "a": 2.44
+  },
+  "1899 hoffenheim v vfl bochum__2024-04-26": {
+    "h": 2.15,
+    "d": 3.97,
+    "a": 3.22
+  },
+  "fc augsburg v werder bremen__2024-04-27": {
+    "h": 1.69,
+    "d": 4.36,
+    "a": 4.78
+  },
+  "bayern munich v eintracht frankfurt__2024-04-27": {
+    "h": 1.44,
+    "d": 5.38,
+    "a": 6.64
+  },
+  "sc freiburg v vfl wolfsburg__2024-04-27": {
+    "h": 2.35,
+    "d": 3.45,
+    "a": 3.2
+  },
+  "borussia dortmund v rb leipzig__2024-04-27": {
+    "h": 1.57,
+    "d": 4.87,
+    "a": 5.33
+  },
+  "bayer leverkusen v vfb stuttgart__2024-04-27": {
+    "h": 1.85,
+    "d": 4.03,
+    "a": 4.13
+  },
+  "borussia monchengladbach v union berlin__2024-04-28": {
+    "h": 2.59,
+    "d": 3.44,
+    "a": 2.85
+  },
+  "1 fc koln v fsv mainz 05__2024-04-28": {
+    "h": 1.58,
+    "d": 4.34,
+    "a": 5.99
+  },
+  "heidenheim v sv darmstadt 98__2024-04-28": {
+    "h": 3.28,
+    "d": 3.76,
+    "a": 2.19
+  },
+  "1899 hoffenheim v rb leipzig__2024-05-03": {
+    "h": 5.22,
+    "d": 5.35,
+    "a": 1.53
+  },
+  "borussia dortmund v fc augsburg__2024-05-04": {
+    "h": 2.01,
+    "d": 4.19,
+    "a": 3.43
+  },
+  "bayern munich v vfb stuttgart__2024-05-04": {
+    "h": 2.64,
+    "d": 3.87,
+    "a": 2.56
+  },
+  "borussia monchengladbach v werder bremen__2024-05-04": {
+    "h": 2.11,
+    "d": 3.9,
+    "a": 3.36
+  },
+  "sv darmstadt 98 v vfl wolfsburg__2024-05-04": {
+    "h": 1.3,
+    "d": 6.02,
+    "a": 9.98
+  },
+  "1 fc koln v sc freiburg__2024-05-04": {
+    "h": 2.52,
+    "d": 3.67,
+    "a": 2.78
+  },
+  "union berlin v vfl bochum__2024-05-05": {
+    "h": 2,
+    "d": 3.57,
+    "a": 4.03
+  },
+  "bayer leverkusen v eintracht frankfurt__2024-05-05": {
+    "h": 2.93,
+    "d": 3.63,
+    "a": 2.43
+  },
+  "fsv mainz 05 v heidenheim__2024-05-05": {
+    "h": 3.05,
+    "d": 3.54,
+    "a": 2.4
+  },
+  "fc augsburg v vfb stuttgart__2024-05-10": {
+    "h": 4.02,
+    "d": 4.41,
+    "a": 1.81
+  },
+  "1 fc koln v union berlin__2024-05-11": {
+    "h": 2.59,
+    "d": 3.45,
+    "a": 2.85
+  },
+  "heidenheim v sc freiburg__2024-05-11": {
+    "h": 1.78,
+    "d": 3.98,
+    "a": 4.59
+  },
+  "borussia monchengladbach v eintracht frankfurt__2024-05-11": {
+    "h": 2.74,
+    "d": 3.69,
+    "a": 2.55
+  },
+  "rb leipzig v werder bremen__2024-05-11": {
+    "h": 1.38,
+    "d": 5.78,
+    "a": 7.3
+  },
+  "borussia dortmund v fsv mainz 05__2024-05-11": {
+    "h": 1.87,
+    "d": 4.23,
+    "a": 3.89
+  },
+  "1899 hoffenheim v sv darmstadt 98__2024-05-12": {
+    "h": 5.23,
+    "d": 5.22,
+    "a": 1.54
+  },
+  "bayern munich v vfl wolfsburg__2024-05-12": {
+    "h": 1.49,
+    "d": 5.08,
+    "a": 6.07
+  },
+  "bayer leverkusen v vfl bochum__2024-05-12": {
+    "h": 4.65,
+    "d": 3.92,
+    "a": 1.79
+  },
+  "borussia dortmund v sv darmstadt 98__2024-05-18": {
+    "h": 1.12,
+    "d": 10.99,
+    "a": 19.47
+  },
+  "eintracht frankfurt v rb leipzig__2024-05-18": {
+    "h": 2.21,
+    "d": 3.77,
+    "a": 3.16
+  },
+  "1 fc koln v heidenheim__2024-05-18": {
+    "h": 2.12,
+    "d": 3.91,
+    "a": 3.32
+  },
+  "1899 hoffenheim v bayern munich__2024-05-18": {
+    "h": 3.49,
+    "d": 4.55,
+    "a": 1.89
+  },
+  "bayer leverkusen v fc augsburg__2024-05-18": {
+    "h": 1.17,
+    "d": 8.34,
+    "a": 14.37
+  },
+  "borussia monchengladbach v vfb stuttgart__2024-05-18": {
+    "h": 1.2,
+    "d": 7.88,
+    "a": 11.65
+  },
+  "sc freiburg v union berlin__2024-05-18": {
+    "h": 1.91,
+    "d": 3.83,
+    "a": 4.14
+  },
+  "vfl bochum v werder bremen__2024-05-18": {
+    "h": 2.16,
+    "d": 3.87,
+    "a": 3.19
+  },
+  "fsv mainz 05 v vfl wolfsburg__2024-05-18": {
+    "h": 3.26,
+    "d": 3.43,
+    "a": 2.3
+  },
+  "bayer leverkusen v borussia monchengladbach__2024-08-23": {
+    "h": 4.94,
+    "d": 4.38,
+    "a": 1.67
+  },
+  "fc augsburg v werder bremen__2024-08-24": {
+    "h": 2.57,
+    "d": 3.61,
+    "a": 2.77
+  },
+  "sc freiburg v vfb stuttgart__2024-08-24": {
+    "h": 3.73,
+    "d": 3.99,
+    "a": 1.96
+  },
+  "1899 hoffenheim v holstein kiel__2024-08-24": {
+    "h": 1.61,
+    "d": 4.68,
+    "a": 5.05
+  },
+  "fsv mainz 05 v union berlin__2024-08-24": {
+    "h": 2.1,
+    "d": 3.39,
+    "a": 3.9
+  },
+  "rb leipzig v vfl bochum__2024-08-24": {
+    "h": 1.22,
+    "d": 7.23,
+    "a": 12.72
+  },
+  "borussia dortmund v eintracht frankfurt__2024-08-24": {
+    "h": 1.75,
+    "d": 4.19,
+    "a": 4.58
+  },
+  "bayern munich v vfl wolfsburg__2024-08-25": {
+    "h": 6.5,
+    "d": 4.57,
+    "a": 1.52
+  },
+  "fc st pauli v heidenheim__2024-08-25": {
+    "h": 2.02,
+    "d": 3.49,
+    "a": 4.06
+  },
+  "fc st pauli v union berlin__2024-08-30": {
+    "h": 1.95,
+    "d": 3.43,
+    "a": 4.43
+  },
+  "borussia monchengladbach v vfl bochum__2024-08-31": {
+    "h": 2.88,
+    "d": 3.85,
+    "a": 2.38
+  },
+  "1899 hoffenheim v eintracht frankfurt__2024-08-31": {
+    "h": 1.65,
+    "d": 4.6,
+    "a": 4.84
+  },
+  "holstein kiel v vfl wolfsburg__2024-08-31": {
+    "h": 3.06,
+    "d": 3.68,
+    "a": 2.33
+  },
+  "fsv mainz 05 v vfb stuttgart__2024-08-31": {
+    "h": 1.67,
+    "d": 4.21,
+    "a": 4.97
+  },
+  "borussia dortmund v werder bremen__2024-08-31": {
+    "h": 3.88,
+    "d": 3.94,
+    "a": 1.93
+  },
+  "bayer leverkusen v rb leipzig__2024-08-31": {
+    "h": 1.63,
+    "d": 4.45,
+    "a": 5.15
+  },
+  "fc augsburg v heidenheim__2024-09-01": {
+    "h": 2.42,
+    "d": 3.49,
+    "a": 3.05
+  },
+  "bayern munich v sc freiburg__2024-09-01": {
+    "h": 1.19,
+    "d": 8.1,
+    "a": 13.69
+  },
+  "borussia dortmund v heidenheim__2024-09-13": {
+    "h": 1.34,
+    "d": 5.7,
+    "a": 8.67
+  },
+  "sc freiburg v vfl bochum__2024-09-14": {
+    "h": 1.58,
+    "d": 4.41,
+    "a": 5.8
+  },
+  "1899 hoffenheim v bayer leverkusen__2024-09-14": {
+    "h": 6.84,
+    "d": 5.37,
+    "a": 1.43
+  },
+  "borussia monchengladbach v vfb stuttgart__2024-09-14": {
+    "h": 2.7,
+    "d": 3.86,
+    "a": 2.51
+  },
+  "rb leipzig v union berlin__2024-09-14": {
+    "h": 1.49,
+    "d": 4.8,
+    "a": 6.62
+  },
+  "eintracht frankfurt v vfl wolfsburg__2024-09-14": {
+    "h": 2.82,
+    "d": 3.44,
+    "a": 2.61
+  },
+  "bayern munich v holstein kiel__2024-09-14": {
+    "h": 13.19,
+    "d": 7.77,
+    "a": 1.2
+  },
+  "fc augsburg v fc st pauli__2024-09-15": {
+    "h": 2.08,
+    "d": 3.33,
+    "a": 4.02
+  },
+  "fsv mainz 05 v werder bremen__2024-09-15": {
+    "h": 2.2,
+    "d": 3.62,
+    "a": 3.37
+  },
+  "fc augsburg v fsv mainz 05__2024-09-20": {
+    "h": 2.41,
+    "d": 3.53,
+    "a": 3.03
+  },
+  "holstein kiel v vfl bochum__2024-09-21": {
+    "h": 1.82,
+    "d": 3.94,
+    "a": 4.4
+  },
+  "heidenheim v sc freiburg__2024-09-21": {
+    "h": 3.37,
+    "d": 3.48,
+    "a": 2.25
+  },
+  "1899 hoffenheim v union berlin__2024-09-21": {
+    "h": 1.87,
+    "d": 3.84,
+    "a": 4.28
+  },
+  "bayern munich v werder bremen__2024-09-21": {
+    "h": 9.26,
+    "d": 6.08,
+    "a": 1.32
+  },
+  "borussia monchengladbach v eintracht frankfurt__2024-09-21": {
+    "h": 1.77,
+    "d": 4.29,
+    "a": 4.3
+  },
+  "bayer leverkusen v vfl wolfsburg__2024-09-22": {
+    "h": 1.27,
+    "d": 6.45,
+    "a": 10.37
+  },
+  "borussia dortmund v vfb stuttgart__2024-09-22": {
+    "h": 2.32,
+    "d": 3.81,
+    "a": 2.99
+  },
+  "fc st pauli v rb leipzig__2024-09-22": {
+    "h": 5.25,
+    "d": 4.22,
+    "a": 1.66
+  },
+  "borussia dortmund v vfl bochum__2024-09-27": {
+    "h": 1.2,
+    "d": 7.66,
+    "a": 13.43
+  },
+  "fc st pauli v sc freiburg__2024-09-28": {
+    "h": 1.6,
+    "d": 4.2,
+    "a": 5.98
+  },
+  "fsv mainz 05 v heidenheim__2024-09-28": {
+    "h": 1.86,
+    "d": 3.67,
+    "a": 4.56
+  },
+  "borussia monchengladbach v union berlin__2024-09-28": {
+    "h": 2.19,
+    "d": 3.47,
+    "a": 3.53
+  },
+  "fc augsburg v rb leipzig__2024-09-28": {
+    "h": 1.51,
+    "d": 4.84,
+    "a": 6.15
+  },
+  "vfb stuttgart v vfl wolfsburg__2024-09-28": {
+    "h": 3.66,
+    "d": 3.82,
+    "a": 2.03
+  },
+  "bayer leverkusen v bayern munich__2024-09-28": {
+    "h": 1.67,
+    "d": 4.53,
+    "a": 4.75
+  },
+  "eintracht frankfurt v holstein kiel__2024-09-29": {
+    "h": 3.77,
+    "d": 3.88,
+    "a": 2
+  },
+  "1899 hoffenheim v werder bremen__2024-09-29": {
+    "h": 2.29,
+    "d": 3.78,
+    "a": 3.07
+  },
+  "borussia monchengladbach v fc augsburg__2024-10-04": {
+    "h": 2.45,
+    "d": 3.7,
+    "a": 2.86
+  },
+  "vfl bochum v vfl wolfsburg__2024-10-05": {
+    "h": 3.13,
+    "d": 3.71,
+    "a": 2.28
+  },
+  "bayer leverkusen v holstein kiel__2024-10-05": {
+    "h": 1.09,
+    "d": 11.97,
+    "a": 31.01
+  },
+  "borussia dortmund v union berlin__2024-10-05": {
+    "h": 3.77,
+    "d": 3.6,
+    "a": 2.06
+  },
+  "sc freiburg v werder bremen__2024-10-05": {
+    "h": 2.75,
+    "d": 3.46,
+    "a": 2.67
+  },
+  "fc st pauli v fsv mainz 05__2024-10-05": {
+    "h": 2.17,
+    "d": 3.38,
+    "a": 3.68
+  },
+  "heidenheim v rb leipzig__2024-10-06": {
+    "h": 5.18,
+    "d": 4.04,
+    "a": 1.69
+  },
+  "bayern munich v eintracht frankfurt__2024-10-06": {
+    "h": 5.64,
+    "d": 4.79,
+    "a": 1.55
+  },
+  "1899 hoffenheim v vfb stuttgart__2024-10-06": {
+    "h": 1.32,
+    "d": 6.3,
+    "a": 8.55
+  },
+  "borussia dortmund v fc st pauli__2024-10-18": {
+    "h": 1.3,
+    "d": 5.85,
+    "a": 10.67
+  },
+  "fc augsburg v sc freiburg__2024-10-19": {
+    "h": 1.69,
+    "d": 4.01,
+    "a": 5.3
+  },
+  "1899 hoffenheim v vfl bochum__2024-10-19": {
+    "h": 1.52,
+    "d": 4.94,
+    "a": 5.89
+  },
+  "bayer leverkusen v eintracht frankfurt__2024-10-19": {
+    "h": 1.47,
+    "d": 4.95,
+    "a": 6.59
+  },
+  "fsv mainz 05 v rb leipzig__2024-10-19": {
+    "h": 4.09,
+    "d": 3.96,
+    "a": 1.88
+  },
+  "borussia monchengladbach v heidenheim__2024-10-19": {
+    "h": 1.91,
+    "d": 3.79,
+    "a": 4.11
+  },
+  "bayern munich v vfb stuttgart__2024-10-19": {
+    "h": 1.3,
+    "d": 6.28,
+    "a": 9.55
+  },
+  "holstein kiel v union berlin__2024-10-20": {
+    "h": 3.83,
+    "d": 3.51,
+    "a": 2.07
+  },
+  "vfl wolfsburg v werder bremen__2024-10-20": {
+    "h": 2.02,
+    "d": 3.79,
+    "a": 3.67
+  },
+  "borussia monchengladbach v fsv mainz 05__2024-10-25": {
+    "h": 2.32,
+    "d": 3.76,
+    "a": 3.02
+  },
+  "borussia dortmund v fc augsburg__2024-10-26": {
+    "h": 4.15,
+    "d": 4.15,
+    "a": 1.83
+  },
+  "rb leipzig v sc freiburg__2024-10-26": {
+    "h": 1.83,
+    "d": 3.93,
+    "a": 4.39
+  },
+  "fc st pauli v vfl wolfsburg__2024-10-26": {
+    "h": 2.61,
+    "d": 3.45,
+    "a": 2.82
+  },
+  "holstein kiel v vfb stuttgart__2024-10-26": {
+    "h": 1.2,
+    "d": 7.69,
+    "a": 13.72
+  },
+  "bayer leverkusen v werder bremen__2024-10-26": {
+    "h": 6.48,
+    "d": 5.2,
+    "a": 1.46
+  },
+  "bayern munich v vfl bochum__2024-10-27": {
+    "h": 17.88,
+    "d": 9.51,
+    "a": 1.13
+  },
+  "eintracht frankfurt v union berlin__2024-10-27": {
+    "h": 2.55,
+    "d": 3.22,
+    "a": 3.08
+  },
+  "1899 hoffenheim v heidenheim__2024-10-27": {
+    "h": 2.88,
+    "d": 3.38,
+    "a": 2.6
+  },
+  "bayer leverkusen v vfb stuttgart__2024-11-01": {
+    "h": 1.63,
+    "d": 4.55,
+    "a": 5.05
+  },
+  "bayern munich v union berlin__2024-11-02": {
+    "h": 1.15,
+    "d": 8.88,
+    "a": 19.22
+  },
+  "eintracht frankfurt v vfl bochum__2024-11-02": {
+    "h": 1.46,
+    "d": 4.95,
+    "a": 6.59
+  },
+  "1899 hoffenheim v fc st pauli__2024-11-02": {
+    "h": 1.89,
+    "d": 3.86,
+    "a": 4.12
+  },
+  "heidenheim v holstein kiel__2024-11-02": {
+    "h": 2.5,
+    "d": 3.39,
+    "a": 3
+  },
+  "fc augsburg v vfl wolfsburg__2024-11-02": {
+    "h": 2.1,
+    "d": 3.59,
+    "a": 3.67
+  },
+  "borussia dortmund v rb leipzig__2024-11-02": {
+    "h": 2.19,
+    "d": 3.84,
+    "a": 3.21
+  },
+  "fsv mainz 05 v sc freiburg__2024-11-03": {
+    "h": 1.77,
+    "d": 3.78,
+    "a": 4.98
+  },
+  "borussia monchengladbach v werder bremen__2024-11-03": {
+    "h": 2.34,
+    "d": 3.73,
+    "a": 3.01
+  },
+  "sc freiburg v union berlin__2024-11-08": {
+    "h": 2.48,
+    "d": 3.25,
+    "a": 3.16
+  },
+  "bayer leverkusen v vfl bochum__2024-11-09": {
+    "h": 11.26,
+    "d": 6.81,
+    "a": 1.25
+  },
+  "borussia dortmund v fsv mainz 05__2024-11-09": {
+    "h": 3.75,
+    "d": 3.8,
+    "a": 2.01
+  },
+  "bayern munich v fc st pauli__2024-11-09": {
+    "h": 16.12,
+    "d": 7.69,
+    "a": 1.19
+  },
+  "holstein kiel v werder bremen__2024-11-09": {
+    "h": 1.61,
+    "d": 4.35,
+    "a": 5.53
+  },
+  "borussia monchengladbach v rb leipzig__2024-11-09": {
+    "h": 1.66,
+    "d": 4.4,
+    "a": 4.94
+  },
+  "1899 hoffenheim v fc augsburg__2024-11-10": {
+    "h": 2.18,
+    "d": 3.41,
+    "a": 3.63
+  },
+  "eintracht frankfurt v vfb stuttgart__2024-11-10": {
+    "h": 1.78,
+    "d": 3.95,
+    "a": 4.54
+  },
+  "heidenheim v vfl wolfsburg__2024-11-10": {
+    "h": 2.95,
+    "d": 3.29,
+    "a": 2.6
+  },
+  "bayern munich v fc augsburg__2024-11-22": {
+    "h": 1.11,
+    "d": 11.5,
+    "a": 23
+  },
+  "borussia dortmund v sc freiburg__2024-11-23": {
+    "h": 1.82,
+    "d": 3.87,
+    "a": 4.52
+  },
+  "1899 hoffenheim v rb leipzig__2024-11-23": {
+    "h": 3.21,
+    "d": 3.75,
+    "a": 2.22
+  },
+  "bayer leverkusen v heidenheim__2024-11-23": {
+    "h": 1.21,
+    "d": 7.42,
+    "a": 13.66
+  },
+  "vfb stuttgart v vfl bochum__2024-11-23": {
+    "h": 1.34,
+    "d": 6.01,
+    "a": 8.33
+  },
+  "union berlin v vfl wolfsburg__2024-11-23": {
+    "h": 2.18,
+    "d": 3.31,
+    "a": 3.74
+  },
+  "eintracht frankfurt v werder bremen__2024-11-23": {
+    "h": 1.79,
+    "d": 4.13,
+    "a": 4.37
+  },
+  "fsv mainz 05 v holstein kiel__2024-11-24": {
+    "h": 3.35,
+    "d": 3.39,
+    "a": 2.3
+  },
+  "borussia monchengladbach v fc st pauli__2024-11-24": {
+    "h": 1.92,
+    "d": 3.75,
+    "a": 4.14
+  },
+  "fc st pauli v holstein kiel__2024-11-29": {
+    "h": 1.67,
+    "d": 3.84,
+    "a": 5.61
+  },
+  "fc augsburg v vfl bochum__2024-11-30": {
+    "h": 1.82,
+    "d": 3.8,
+    "a": 4.61
+  },
+  "borussia monchengladbach v sc freiburg__2024-11-30": {
+    "h": 2.08,
+    "d": 3.71,
+    "a": 3.59
+  },
+  "rb leipzig v vfl wolfsburg__2024-11-30": {
+    "h": 1.79,
+    "d": 3.89,
+    "a": 4.64
+  },
+  "bayer leverkusen v union berlin__2024-11-30": {
+    "h": 4.88,
+    "d": 3.47,
+    "a": 1.9
+  },
+  "vfb stuttgart v werder bremen__2024-11-30": {
+    "h": 2.57,
+    "d": 3.56,
+    "a": 2.8
+  },
+  "bayern munich v borussia dortmund__2024-11-30": {
+    "h": 4.69,
+    "d": 4.17,
+    "a": 1.73
+  },
+  "1899 hoffenheim v fsv mainz 05__2024-12-01": {
+    "h": 2.15,
+    "d": 3.57,
+    "a": 3.52
+  },
+  "eintracht frankfurt v heidenheim__2024-12-01": {
+    "h": 4.09,
+    "d": 3.54,
+    "a": 1.99
+  },
+  "union berlin v vfb stuttgart__2024-12-06": {
+    "h": 1.93,
+    "d": 3.51,
+    "a": 4.42
+  },
+  "bayern munich v heidenheim__2024-12-07": {
+    "h": 1.11,
+    "d": 11.25,
+    "a": 24
+  },
+  "vfl bochum v werder bremen__2024-12-07": {
+    "h": 3.62,
+    "d": 3.8,
+    "a": 2.05
+  },
+  "eintracht frankfurt v fc augsburg__2024-12-07": {
+    "h": 1.54,
+    "d": 4.4,
+    "a": 6.39
+  },
+  "holstein kiel v rb leipzig__2024-12-07": {
+    "h": 6.95,
+    "d": 4.91,
+    "a": 1.46
+  },
+  "bayer leverkusen v fc st pauli__2024-12-07": {
+    "h": 1.28,
+    "d": 6.06,
+    "a": 11.8
+  },
+  "borussia dortmund v borussia monchengladbach__2024-12-07": {
+    "h": 3.45,
+    "d": 3.88,
+    "a": 2.08
+  },
+  "fsv mainz 05 v vfl wolfsburg__2024-12-08": {
+    "h": 2.13,
+    "d": 3.45,
+    "a": 3.72
+  },
+  "1899 hoffenheim v sc freiburg__2024-12-08": {
+    "h": 2.51,
+    "d": 3.3,
+    "a": 3.07
+  },
+  "sc freiburg v vfl wolfsburg__2024-12-13": {
+    "h": 2.32,
+    "d": 3.46,
+    "a": 3.25
+  },
+  "bayer leverkusen v fc augsburg__2024-12-14": {
+    "h": 6.3,
+    "d": 4.09,
+    "a": 1.59
+  },
+  "bayern munich v fsv mainz 05__2024-12-14": {
+    "h": 6.26,
+    "d": 4.59,
+    "a": 1.53
+  },
+  "borussia monchengladbach v holstein kiel__2024-12-14": {
+    "h": 1.43,
+    "d": 5.29,
+    "a": 7.5
+  },
+  "union berlin v vfl bochum__2024-12-14": {
+    "h": 1.67,
+    "d": 3.93,
+    "a": 5.68
+  },
+  "fc st pauli v werder bremen__2024-12-14": {
+    "h": 3,
+    "d": 3.19,
+    "a": 2.63
+  },
+  "heidenheim v vfb stuttgart__2024-12-15": {
+    "h": 4.72,
+    "d": 4.07,
+    "a": 1.75
+  },
+  "1899 hoffenheim v borussia dortmund__2024-12-15": {
+    "h": 1.36,
+    "d": 5.51,
+    "a": 8.55
+  },
+  "eintracht frankfurt v rb leipzig__2024-12-15": {
+    "h": 2.3,
+    "d": 3.76,
+    "a": 3.06
+  },
+  "bayern munich v rb leipzig__2024-12-20": {
+    "h": 1.22,
+    "d": 7.36,
+    "a": 12.59
+  },
+  "eintracht frankfurt v fsv mainz 05__2024-12-21": {
+    "h": 2.1,
+    "d": 3.6,
+    "a": 3.63
+  },
+  "1899 hoffenheim v borussia monchengladbach__2024-12-21": {
+    "h": 2.3,
+    "d": 3.63,
+    "a": 3.14
+  },
+  "fc augsburg v holstein kiel__2024-12-21": {
+    "h": 3.59,
+    "d": 3.36,
+    "a": 2.21
+  },
+  "fc st pauli v vfb stuttgart__2024-12-21": {
+    "h": 1.46,
+    "d": 4.77,
+    "a": 7.33
+  },
+  "union berlin v werder bremen__2024-12-21": {
+    "h": 2.33,
+    "d": 3.25,
+    "a": 3.43
+  },
+  "bayer leverkusen v sc freiburg__2024-12-21": {
+    "h": 1.39,
+    "d": 5.32,
+    "a": 8.17
+  },
+  "heidenheim v vfl bochum__2024-12-22": {
+    "h": 2.11,
+    "d": 3.47,
+    "a": 3.74
+  },
+  "borussia dortmund v vfl wolfsburg__2024-12-22": {
+    "h": 3.35,
+    "d": 3.76,
+    "a": 2.15
+  },
+  "bayer leverkusen v borussia dortmund__2025-01-10": {
+    "h": 3.88,
+    "d": 3.82,
+    "a": 1.96
+  },
+  "holstein kiel v sc freiburg__2025-01-11": {
+    "h": 1.46,
+    "d": 5.04,
+    "a": 6.73
+  },
+  "heidenheim v union berlin__2025-01-11": {
+    "h": 3.25,
+    "d": 3.46,
+    "a": 2.32
+  },
+  "1899 hoffenheim v vfl wolfsburg__2025-01-11": {
+    "h": 2.36,
+    "d": 3.48,
+    "a": 3.15
+  },
+  "fsv mainz 05 v vfl bochum__2025-01-11": {
+    "h": 1.68,
+    "d": 3.97,
+    "a": 5.47
+  },
+  "eintracht frankfurt v fc st pauli__2025-01-11": {
+    "h": 3.58,
+    "d": 3.43,
+    "a": 2.18
+  },
+  "bayern munich v borussia monchengladbach__2025-01-11": {
+    "h": 8.68,
+    "d": 5.86,
+    "a": 1.34
+  },
+  "rb leipzig v werder bremen__2025-01-12": {
+    "h": 1.91,
+    "d": 3.85,
+    "a": 4.06
+  },
+  "fc augsburg v vfb stuttgart__2025-01-12": {
+    "h": 4.15,
+    "d": 3.69,
+    "a": 1.93
+  },
+  "borussia dortmund v holstein kiel__2025-01-14": {
+    "h": 6.9,
+    "d": 4.8,
+    "a": 1.48
+  },
+  "eintracht frankfurt v sc freiburg__2025-01-14": {
+    "h": 1.7,
+    "d": 4.13,
+    "a": 5.03
+  },
+  "bayer leverkusen v fsv mainz 05__2025-01-14": {
+    "h": 1.37,
+    "d": 5.25,
+    "a": 8.81
+  },
+  "borussia monchengladbach v vfl wolfsburg__2025-01-14": {
+    "h": 1.9,
+    "d": 3.81,
+    "a": 4.14
+  },
+  "fc st pauli v vfl bochum__2025-01-15": {
+    "h": 2.56,
+    "d": 3.26,
+    "a": 3.03
+  },
+  "1899 hoffenheim v bayern munich__2025-01-15": {
+    "h": 1.1,
+    "d": 11.74,
+    "a": 25.84
+  },
+  "rb leipzig v vfb stuttgart__2025-01-15": {
+    "h": 2.01,
+    "d": 3.88,
+    "a": 3.64
+  },
+  "fc augsburg v union berlin__2025-01-15": {
+    "h": 2.2,
+    "d": 3.33,
+    "a": 3.65
+  },
+  "heidenheim v werder bremen__2025-01-15": {
+    "h": 1.76,
+    "d": 4.08,
+    "a": 4.58
+  },
+  "borussia dortmund v eintracht frankfurt__2025-01-17": {
+    "h": 2.89,
+    "d": 3.58,
+    "a": 2.49
+  },
+  "bayern munich v vfl wolfsburg__2025-01-18": {
+    "h": 1.14,
+    "d": 9,
+    "a": 21
+  },
+  "rb leipzig v vfl bochum__2025-01-18": {
+    "h": 3.39,
+    "d": 3.51,
+    "a": 2.23
+  },
+  "fc st pauli v heidenheim__2025-01-18": {
+    "h": 2.41,
+    "d": 3.46,
+    "a": 3.09
+  },
+  "1899 hoffenheim v holstein kiel__2025-01-18": {
+    "h": 2.99,
+    "d": 3.53,
+    "a": 2.44
+  },
+  "sc freiburg v vfb stuttgart__2025-01-18": {
+    "h": 1.61,
+    "d": 4.37,
+    "a": 5.54
+  },
+  "bayer leverkusen v borussia monchengladbach__2025-01-18": {
+    "h": 1.26,
+    "d": 6.52,
+    "a": 11.25
+  },
+  "fsv mainz 05 v union berlin__2025-01-19": {
+    "h": 2.86,
+    "d": 3.15,
+    "a": 2.78
+  },
+  "fc augsburg v werder bremen__2025-01-19": {
+    "h": 1.91,
+    "d": 3.73,
+    "a": 4.2
+  },
+  "holstein kiel v vfl wolfsburg__2025-01-24": {
+    "h": 1.47,
+    "d": 4.94,
+    "a": 6.39
+  },
+  "fc augsburg v heidenheim__2025-01-25": {
+    "h": 2.01,
+    "d": 3.56,
+    "a": 3.98
+  },
+  "borussia dortmund v werder bremen__2025-01-25": {
+    "h": 1.52,
+    "d": 4.8,
+    "a": 6
+  },
+  "bayern munich v sc freiburg__2025-01-25": {
+    "h": 13.24,
+    "d": 6.82,
+    "a": 1.23
+  },
+  "fsv mainz 05 v vfb stuttgart__2025-01-25": {
+    "h": 3.38,
+    "d": 3.46,
+    "a": 2.26
+  },
+  "bayer leverkusen v rb leipzig__2025-01-25": {
+    "h": 3.63,
+    "d": 3.54,
+    "a": 2.13
+  },
+  "borussia monchengladbach v vfl bochum__2025-01-25": {
+    "h": 1.77,
+    "d": 4.09,
+    "a": 4.52
+  },
+  "1899 hoffenheim v eintracht frankfurt__2025-01-26": {
+    "h": 3.43,
+    "d": 3.88,
+    "a": 2.09
+  },
+  "fc st pauli v union berlin__2025-01-26": {
+    "h": 2.39,
+    "d": 3.2,
+    "a": 3.37
+  },
+  "fsv mainz 05 v werder bremen__2025-01-31": {
+    "h": 2.4,
+    "d": 3.45,
+    "a": 3.13
+  },
+  "bayern munich v holstein kiel__2025-02-01": {
+    "h": 1.04,
+    "d": 18,
+    "a": 51
+  },
+  "sc freiburg v vfl bochum__2025-02-01": {
+    "h": 2.74,
+    "d": 3.35,
+    "a": 2.74
+  },
+  "borussia dortmund v heidenheim__2025-02-01": {
+    "h": 4.82,
+    "d": 4.11,
+    "a": 1.72
+  },
+  "fc augsburg v fc st pauli__2025-02-01": {
+    "h": 2.15,
+    "d": 3.32,
+    "a": 3.83
+  },
+  "borussia monchengladbach v vfb stuttgart__2025-02-01": {
+    "h": 1.68,
+    "d": 4.31,
+    "a": 4.94
+  },
+  "rb leipzig v union berlin__2025-02-01": {
+    "h": 2.96,
+    "d": 3.47,
+    "a": 2.49
+  },
+  "eintracht frankfurt v vfl wolfsburg__2025-02-02": {
+    "h": 2.11,
+    "d": 3.58,
+    "a": 3.63
+  },
+  "1899 hoffenheim v bayer leverkusen__2025-02-02": {
+    "h": 1.14,
+    "d": 9.66,
+    "a": 18.88
+  },
+  "bayern munich v werder bremen__2025-02-07": {
+    "h": 1.1,
+    "d": 12.94,
+    "a": 20.92
+  },
+  "borussia dortmund v vfb stuttgart__2025-02-08": {
+    "h": 2,
+    "d": 3.95,
+    "a": 3.62
+  },
+  "heidenheim v sc freiburg__2025-02-08": {
+    "h": 1.71,
+    "d": 3.81,
+    "a": 5.41
+  },
+  "1899 hoffenheim v union berlin__2025-02-08": {
+    "h": 2.38,
+    "d": 3.57,
+    "a": 3.06
+  },
+  "fc augsburg v fsv mainz 05__2025-02-08": {
+    "h": 1.83,
+    "d": 3.6,
+    "a": 4.87
+  },
+  "bayer leverkusen v vfl wolfsburg__2025-02-08": {
+    "h": 3.72,
+    "d": 3.38,
+    "a": 2.16
+  },
+  "borussia monchengladbach v eintracht frankfurt__2025-02-08": {
+    "h": 2.59,
+    "d": 3.73,
+    "a": 2.68
+  },
+  "holstein kiel v vfl bochum__2025-02-09": {
+    "h": 2.4,
+    "d": 3.49,
+    "a": 3.09
+  },
+  "fc st pauli v rb leipzig__2025-02-09": {
+    "h": 1.66,
+    "d": 4.11,
+    "a": 5.36
+  },
+  "fc augsburg v rb leipzig__2025-02-14": {
+    "h": 3.09,
+    "d": 3.4,
+    "a": 2.44
+  },
+  "borussia dortmund v vfl bochum__2025-02-15": {
+    "h": 5.77,
+    "d": 4.48,
+    "a": 1.57
+  },
+  "fc st pauli v sc freiburg__2025-02-15": {
+    "h": 2.59,
+    "d": 3.1,
+    "a": 3.14
+  },
+  "vfb stuttgart v vfl wolfsburg__2025-02-15": {
+    "h": 1.57,
+    "d": 4.61,
+    "a": 5.63
+  },
+  "borussia monchengladbach v union berlin__2025-02-15": {
+    "h": 2.16,
+    "d": 3.59,
+    "a": 3.48
+  },
+  "bayer leverkusen v bayern munich__2025-02-15": {
+    "h": 3.11,
+    "d": 3.56,
+    "a": 2.35
+  },
+  "1899 hoffenheim v werder bremen__2025-02-16": {
+    "h": 1.88,
+    "d": 3.88,
+    "a": 4.2
+  },
+  "eintracht frankfurt v holstein kiel__2025-02-16": {
+    "h": 1.34,
+    "d": 5.71,
+    "a": 8.82
+  },
+  "fsv mainz 05 v heidenheim__2025-02-16": {
+    "h": 3.8,
+    "d": 3.44,
+    "a": 2.1
+  },
+  "sc freiburg v werder bremen__2025-02-21": {
+    "h": 2.02,
+    "d": 3.49,
+    "a": 4.03
+  },
+  "bayer leverkusen v holstein kiel__2025-02-22": {
+    "h": 15.26,
+    "d": 7.32,
+    "a": 1.2
+  },
+  "fc st pauli v fsv mainz 05__2025-02-22": {
+    "h": 1.74,
+    "d": 3.7,
+    "a": 5.36
+  },
+  "borussia monchengladbach v fc augsburg__2025-02-22": {
+    "h": 1.97,
+    "d": 3.58,
+    "a": 4.12
+  },
+  "vfl bochum v vfl wolfsburg__2025-02-22": {
+    "h": 1.66,
+    "d": 4.35,
+    "a": 5
+  },
+  "borussia dortmund v union berlin__2025-02-22": {
+    "h": 1.52,
+    "d": 4.59,
+    "a": 6.34
+  },
+  "heidenheim v rb leipzig__2025-02-23": {
+    "h": 1.31,
+    "d": 5.91,
+    "a": 10.15
+  },
+  "bayern munich v eintracht frankfurt__2025-02-23": {
+    "h": 1.26,
+    "d": 6.85,
+    "a": 10.75
+  },
+  "1899 hoffenheim v vfb stuttgart__2025-02-23": {
+    "h": 3.43,
+    "d": 3.94,
+    "a": 2.07
+  },
+  "bayern munich v vfb stuttgart__2025-02-28": {
+    "h": 4.45,
+    "d": 4.18,
+    "a": 1.76
+  },
+  "1899 hoffenheim v vfl bochum__2025-03-01": {
+    "h": 2.41,
+    "d": 3.55,
+    "a": 3.01
+  },
+  "borussia monchengladbach v heidenheim__2025-03-01": {
+    "h": 2.73,
+    "d": 3.43,
+    "a": 2.7
+  },
+  "fsv mainz 05 v rb leipzig__2025-03-01": {
+    "h": 1.93,
+    "d": 3.76,
+    "a": 4.07
+  },
+  "borussia dortmund v fc st pauli__2025-03-01": {
+    "h": 4.39,
+    "d": 3.71,
+    "a": 1.88
+  },
+  "vfl wolfsburg v werder bremen__2025-03-01": {
+    "h": 3.13,
+    "d": 3.52,
+    "a": 2.36
+  },
+  "bayer leverkusen v eintracht frankfurt__2025-03-01": {
+    "h": 4.16,
+    "d": 3.93,
+    "a": 1.87
+  },
+  "holstein kiel v union berlin__2025-03-02": {
+    "h": 1.57,
+    "d": 4.36,
+    "a": 6
+  },
+  "fc augsburg v sc freiburg__2025-03-02": {
+    "h": 2.54,
+    "d": 3.11,
+    "a": 3.21
+  },
+  "borussia monchengladbach v fsv mainz 05__2025-03-07": {
+    "h": 2.73,
+    "d": 3.5,
+    "a": 2.67
+  },
+  "bayern munich v vfl bochum__2025-03-08": {
+    "h": 1.17,
+    "d": 8.25,
+    "a": 17
+  },
+  "borussia dortmund v fc augsburg__2025-03-08": {
+    "h": 1.41,
+    "d": 4.87,
+    "a": 8.32
+  },
+  "holstein kiel v vfb stuttgart__2025-03-08": {
+    "h": 6.23,
+    "d": 4.82,
+    "a": 1.51
+  },
+  "bayer leverkusen v werder bremen__2025-03-08": {
+    "h": 1.33,
+    "d": 5.74,
+    "a": 9.49
+  },
+  "fc st pauli v vfl wolfsburg__2025-03-08": {
+    "h": 1.85,
+    "d": 3.56,
+    "a": 4.76
+  },
+  "rb leipzig v sc freiburg__2025-03-08": {
+    "h": 2.56,
+    "d": 3.37,
+    "a": 2.94
+  },
+  "eintracht frankfurt v union berlin__2025-03-09": {
+    "h": 1.99,
+    "d": 3.67,
+    "a": 3.95
+  },
+  "1899 hoffenheim v heidenheim__2025-03-09": {
+    "h": 1.93,
+    "d": 3.85,
+    "a": 3.96
+  },
+  "1899 hoffenheim v fc st pauli__2025-03-14": {
+    "h": 2.35,
+    "d": 3.22,
+    "a": 3.44
+  },
+  "fc augsburg v vfl wolfsburg__2025-03-15": {
+    "h": 2.48,
+    "d": 3.28,
+    "a": 3.13
+  },
+  "fsv mainz 05 v sc freiburg__2025-03-15": {
+    "h": 1.86,
+    "d": 3.54,
+    "a": 4.74
+  },
+  "bayern munich v union berlin__2025-03-15": {
+    "h": 9.31,
+    "d": 5.42,
+    "a": 1.34
+  },
+  "borussia monchengladbach v werder bremen__2025-03-15": {
+    "h": 2.24,
+    "d": 3.78,
+    "a": 3.15
+  },
+  "borussia dortmund v rb leipzig__2025-03-15": {
+    "h": 2.8,
+    "d": 3.64,
+    "a": 2.52
+  },
+  "eintracht frankfurt v vfl bochum__2025-03-16": {
+    "h": 2.73,
+    "d": 3.54,
+    "a": 2.64
+  },
+  "heidenheim v holstein kiel__2025-03-16": {
+    "h": 2.05,
+    "d": 3.63,
+    "a": 3.77
+  },
+  "bayer leverkusen v vfb stuttgart__2025-03-16": {
+    "h": 3.34,
+    "d": 3.45,
+    "a": 2.28
+  },
+  "bayer leverkusen v vfl bochum__2025-03-28": {
+    "h": 1.23,
+    "d": 7.02,
+    "a": 12.77
+  },
+  "bayern munich v fc st pauli__2025-03-29": {
+    "h": 1.12,
+    "d": 9.5,
+    "a": 26
+  },
+  "1899 hoffenheim v fc augsburg__2025-03-29": {
+    "h": 2.36,
+    "d": 3.43,
+    "a": 3.19
+  },
+  "holstein kiel v werder bremen__2025-03-29": {
+    "h": 3.18,
+    "d": 3.74,
+    "a": 2.24
+  },
+  "borussia monchengladbach v rb leipzig__2025-03-29": {
+    "h": 3.01,
+    "d": 3.71,
+    "a": 2.35
+  },
+  "heidenheim v vfl wolfsburg__2025-03-29": {
+    "h": 1.72,
+    "d": 4.05,
+    "a": 4.98
+  },
+  "eintracht frankfurt v vfb stuttgart__2025-03-29": {
+    "h": 2.58,
+    "d": 3.79,
+    "a": 2.67
+  },
+  "sc freiburg v union berlin__2025-03-30": {
+    "h": 1.96,
+    "d": 3.48,
+    "a": 4.3
+  },
+  "borussia dortmund v fsv mainz 05__2025-03-30": {
+    "h": 1.67,
+    "d": 4.24,
+    "a": 5.02
+  },
+  "bayern munich v fc augsburg__2025-04-04": {
+    "h": 7.76,
+    "d": 5.12,
+    "a": 1.41
+  },
+  "vfb stuttgart v vfl bochum__2025-04-05": {
+    "h": 2.53,
+    "d": 3.46,
+    "a": 2.91
+  },
+  "borussia dortmund v sc freiburg__2025-04-05": {
+    "h": 3.42,
+    "d": 3.68,
+    "a": 2.15
+  },
+  "bayer leverkusen v heidenheim__2025-04-05": {
+    "h": 6.09,
+    "d": 4.55,
+    "a": 1.52
+  },
+  "fsv mainz 05 v holstein kiel__2025-04-05": {
+    "h": 1.44,
+    "d": 5.07,
+    "a": 7.16
+  },
+  "1899 hoffenheim v rb leipzig__2025-04-05": {
+    "h": 1.72,
+    "d": 4.29,
+    "a": 4.65
+  },
+  "eintracht frankfurt v werder bremen__2025-04-05": {
+    "h": 2.34,
+    "d": 3.71,
+    "a": 3.03
+  },
+  "borussia monchengladbach v fc st pauli__2025-04-06": {
+    "h": 2.3,
+    "d": 3.61,
+    "a": 3.16
+  },
+  "union berlin v vfl wolfsburg__2025-04-06": {
+    "h": 2.31,
+    "d": 3.4,
+    "a": 3.33
+  },
+  "rb leipzig v vfl wolfsburg__2025-04-11": {
+    "h": 2.75,
+    "d": 3.75,
+    "a": 2.51
+  },
+  "fc augsburg v vfl bochum__2025-04-12": {
+    "h": 2.37,
+    "d": 3.35,
+    "a": 3.26
+  },
+  "1899 hoffenheim v fsv mainz 05__2025-04-12": {
+    "h": 2.46,
+    "d": 3.48,
+    "a": 3
+  },
+  "fc st pauli v holstein kiel__2025-04-12": {
+    "h": 3.59,
+    "d": 3.5,
+    "a": 2.16
+  },
+  "bayer leverkusen v union berlin__2025-04-12": {
+    "h": 1.38,
+    "d": 5.12,
+    "a": 8.87
+  },
+  "borussia monchengladbach v sc freiburg__2025-04-12": {
+    "h": 2.29,
+    "d": 3.8,
+    "a": 3.06
+  },
+  "bayern munich v borussia dortmund__2025-04-12": {
+    "h": 1.44,
+    "d": 5.35,
+    "a": 6.6
+  },
+  "vfb stuttgart v werder bremen__2025-04-13": {
+    "h": 1.75,
+    "d": 4.31,
+    "a": 4.44
+  },
+  "eintracht frankfurt v heidenheim__2025-04-13": {
+    "h": 1.76,
+    "d": 4.06,
+    "a": 4.62
+  },
+  "1899 hoffenheim v sc freiburg__2025-04-19": {
+    "h": 1.94,
+    "d": 3.8,
+    "a": 4
+  },
+  "bayern munich v heidenheim__2025-04-19": {
+    "h": 9.59,
+    "d": 6.57,
+    "a": 1.27
+  },
+  "fsv mainz 05 v vfl wolfsburg__2025-04-19": {
+    "h": 2.03,
+    "d": 3.73,
+    "a": 3.73
+  },
+  "holstein kiel v rb leipzig__2025-04-19": {
+    "h": 1.48,
+    "d": 5.21,
+    "a": 6.11
+  },
+  "vfl bochum v werder bremen__2025-04-19": {
+    "h": 1.63,
+    "d": 4.48,
+    "a": 5.12
+  },
+  "union berlin v vfb stuttgart__2025-04-19": {
+    "h": 3.2,
+    "d": 3.5,
+    "a": 2.32
+  },
+  "eintracht frankfurt v fc augsburg__2025-04-20": {
+    "h": 2.62,
+    "d": 3.46,
+    "a": 2.8
+  },
+  "borussia dortmund v borussia monchengladbach__2025-04-20": {
+    "h": 1.37,
+    "d": 5.91,
+    "a": 7.62
+  },
+  "bayer leverkusen v fc st pauli__2025-04-20": {
+    "h": 5.08,
+    "d": 3.93,
+    "a": 1.72
+  },
+  "heidenheim v vfb stuttgart__2025-04-25": {
+    "h": 1.51,
+    "d": 4.86,
+    "a": 6.06
+  },
+  "bayern munich v fsv mainz 05__2025-04-26": {
+    "h": 1.24,
+    "d": 7.26,
+    "a": 11.09
+  },
+  "1899 hoffenheim v borussia dortmund__2025-04-26": {
+    "h": 4.01,
+    "d": 4.08,
+    "a": 1.87
+  },
+  "borussia monchengladbach v holstein kiel__2025-04-26": {
+    "h": 2.51,
+    "d": 3.83,
+    "a": 2.72
+  },
+  "bayer leverkusen v fc augsburg__2025-04-26": {
+    "h": 1.47,
+    "d": 4.77,
+    "a": 6.41
+  },
+  "sc freiburg v vfl wolfsburg__2025-04-26": {
+    "h": 2.37,
+    "d": 3.69,
+    "a": 2.98
+  },
+  "eintracht frankfurt v rb leipzig__2025-04-26": {
+    "h": 2.06,
+    "d": 3.91,
+    "a": 3.48
+  },
+  "union berlin v vfl bochum__2025-04-27": {
+    "h": 2.4,
+    "d": 3.46,
+    "a": 3.11
+  },
+  "fc st pauli v werder bremen__2025-04-27": {
+    "h": 2.03,
+    "d": 3.6,
+    "a": 3.87
+  },
+  "heidenheim v vfl bochum__2025-05-02": {
+    "h": 2.41,
+    "d": 3.39,
+    "a": 3.15
+  },
+  "1899 hoffenheim v borussia monchengladbach__2025-05-03": {
+    "h": 2.27,
+    "d": 4.05,
+    "a": 2.94
+  },
+  "bayern munich v rb leipzig__2025-05-03": {
+    "h": 4.19,
+    "d": 4.77,
+    "a": 1.72
+  },
+  "fc st pauli v vfb stuttgart__2025-05-03": {
+    "h": 2.86,
+    "d": 3.53,
+    "a": 2.53
+  },
+  "union berlin v werder bremen__2025-05-03": {
+    "h": 3.38,
+    "d": 3.49,
+    "a": 2.25
+  },
+  "borussia dortmund v vfl wolfsburg__2025-05-03": {
+    "h": 1.27,
+    "d": 6.72,
+    "a": 9.89
+  },
+  "fc augsburg v holstein kiel__2025-05-04": {
+    "h": 1.79,
+    "d": 4.1,
+    "a": 4.4
+  },
+  "bayer leverkusen v sc freiburg__2025-05-04": {
+    "h": 3.23,
+    "d": 3.62,
+    "a": 2.27
+  },
+  "eintracht frankfurt v fsv mainz 05__2025-05-04": {
+    "h": 2.37,
+    "d": 3.62,
+    "a": 3.02
+  },
+  "1899 hoffenheim v vfl wolfsburg__2025-05-09": {
+    "h": 2.98,
+    "d": 3.62,
+    "a": 2.4
+  },
+  "fsv mainz 05 v vfl bochum__2025-05-10": {
+    "h": 3.16,
+    "d": 3.9,
+    "a": 2.2
+  },
+  "holstein kiel v sc freiburg__2025-05-10": {
+    "h": 3.59,
+    "d": 3.85,
+    "a": 2.04
+  },
+  "heidenheim v union berlin__2025-05-10": {
+    "h": 2.11,
+    "d": 3.57,
+    "a": 3.64
+  },
+  "rb leipzig v werder bremen__2025-05-10": {
+    "h": 1.95,
+    "d": 4.18,
+    "a": 3.59
+  },
+  "bayern munich v borussia monchengladbach__2025-05-10": {
+    "h": 1.14,
+    "d": 9.5,
+    "a": 16.5
+  },
+  "bayer leverkusen v borussia dortmund__2025-05-11": {
+    "h": 2.59,
+    "d": 3.89,
+    "a": 2.6
+  },
+  "eintracht frankfurt v fc st pauli__2025-05-11": {
+    "h": 1.57,
+    "d": 4.34,
+    "a": 6.03
+  },
+  "fc augsburg v vfb stuttgart__2025-05-11": {
+    "h": 1.53,
+    "d": 4.78,
+    "a": 5.84
+  },
+  "fc augsburg v union berlin__2025-05-17": {
+    "h": 1.9,
+    "d": 3.69,
+    "a": 4.29
+  },
+  "borussia dortmund v holstein kiel__2025-05-17": {
+    "h": 1.13,
+    "d": 10.5,
+    "a": 18
+  },
+  "eintracht frankfurt v sc freiburg__2025-05-17": {
+    "h": 2.38,
+    "d": 3.68,
+    "a": 2.98
+  },
+  "heidenheim v werder bremen__2025-05-17": {
+    "h": 2.74,
+    "d": 3.77,
+    "a": 2.52
+  },
+  "1899 hoffenheim v bayern munich__2025-05-17": {
+    "h": 4.5,
+    "d": 4.61,
+    "a": 1.67
+  },
+  "bayer leverkusen v fsv mainz 05__2025-05-17": {
+    "h": 2.55,
+    "d": 3.72,
+    "a": 2.73
+  },
+  "borussia monchengladbach v vfl wolfsburg__2025-05-17": {
+    "h": 2.29,
+    "d": 4.1,
+    "a": 2.84
+  },
+  "rb leipzig v vfb stuttgart__2025-05-17": {
+    "h": 1.91,
+    "d": 4.4,
+    "a": 3.6
+  },
+  "fc st pauli v vfl bochum__2025-05-17": {
+    "h": 1.76,
+    "d": 4.09,
+    "a": 4.57
+  },
+  "bayern munich v rb leipzig__2025-08-22": {
+    "h": 1.25,
+    "d": 7.24,
+    "a": 10.31
+  },
+  "eintracht frankfurt v werder bremen__2025-08-23": {
+    "h": 1.62,
+    "d": 4.52,
+    "a": 5.21
+  },
+  "fc augsburg v sc freiburg__2025-08-23": {
+    "h": 1.96,
+    "d": 3.63,
+    "a": 4.11
+  },
+  "heidenheim v vfl wolfsburg__2025-08-23": {
+    "h": 2.84,
+    "d": 3.47,
+    "a": 2.58
+  },
+  "1899 hoffenheim v bayer leverkusen__2025-08-23": {
+    "h": 1.76,
+    "d": 4.25,
+    "a": 4.41
+  },
+  "union berlin v vfb stuttgart__2025-08-23": {
+    "h": 4.23,
+    "d": 3.87,
+    "a": 1.87
+  },
+  "borussia dortmund v fc st pauli__2025-08-23": {
+    "h": 4.13,
+    "d": 3.64,
+    "a": 1.95
+  },
+  "1 fc koln v fsv mainz 05__2025-08-24": {
+    "h": 1.93,
+    "d": 3.73,
+    "a": 4.12
+  },
+  "borussia monchengladbach v hamburger sv__2025-08-24": {
+    "h": 1.88,
+    "d": 4.02,
+    "a": 4.03
+  },
+  "fc st pauli v hamburger sv__2025-08-29": {
+    "h": 2.49,
+    "d": 3.18,
+    "a": 3.2
+  },
+  "1899 hoffenheim v eintracht frankfurt__2025-08-30": {
+    "h": 2.74,
+    "d": 3.81,
+    "a": 2.47
+  },
+  "heidenheim v rb leipzig__2025-08-30": {
+    "h": 1.48,
+    "d": 4.96,
+    "a": 6.28
+  },
+  "borussia monchengladbach v vfb stuttgart__2025-08-30": {
+    "h": 1.58,
+    "d": 4.81,
+    "a": 5.08
+  },
+  "bayer leverkusen v werder bremen__2025-08-30": {
+    "h": 3.59,
+    "d": 3.89,
+    "a": 2
+  },
+  "bayern munich v fc augsburg__2025-08-30": {
+    "h": 9.65,
+    "d": 6.2,
+    "a": 1.29
+  },
+  "fsv mainz 05 v vfl wolfsburg__2025-08-31": {
+    "h": 2.13,
+    "d": 3.65,
+    "a": 3.51
+  },
+  "borussia dortmund v union berlin__2025-08-31": {
+    "h": 1.41,
+    "d": 5.29,
+    "a": 7.35
+  },
+  "1 fc koln v sc freiburg__2025-08-31": {
+    "h": 2.6,
+    "d": 3.42,
+    "a": 2.86
+  },
+  "bayer leverkusen v eintracht frankfurt__2025-09-12": {
+    "h": 2.19,
+    "d": 3.8,
+    "a": 3.24
+  },
+  "sc freiburg v vfb stuttgart__2025-09-13": {
+    "h": 2.66,
+    "d": 3.5,
+    "a": 2.73
+  },
+  "borussia dortmund v heidenheim__2025-09-13": {
+    "h": 5.34,
+    "d": 4.54,
+    "a": 1.6
+  },
+  "fsv mainz 05 v rb leipzig__2025-09-13": {
+    "h": 2.41,
+    "d": 3.79,
+    "a": 2.87
+  },
+  "1899 hoffenheim v union berlin__2025-09-13": {
+    "h": 2.94,
+    "d": 3.42,
+    "a": 2.53
+  },
+  "1 fc koln v vfl wolfsburg__2025-09-13": {
+    "h": 1.97,
+    "d": 3.71,
+    "a": 3.97
+  },
+  "bayern munich v hamburger sv__2025-09-13": {
+    "h": 1.08,
+    "d": 16.5,
+    "a": 21
+  },
+  "fc augsburg v fc st pauli__2025-09-14": {
+    "h": 2.23,
+    "d": 3.32,
+    "a": 3.6
+  },
+  "borussia monchengladbach v werder bremen__2025-09-14": {
+    "h": 2.05,
+    "d": 4.08,
+    "a": 3.38
+  },
+  "fc st pauli v vfb stuttgart__2025-09-19": {
+    "h": 1.8,
+    "d": 4.09,
+    "a": 4.37
+  },
+  "fc augsburg v fsv mainz 05__2025-09-20": {
+    "h": 2.75,
+    "d": 3.42,
+    "a": 2.69
+  },
+  "hamburger sv v heidenheim__2025-09-20": {
+    "h": 1.88,
+    "d": 3.89,
+    "a": 4.18
+  },
+  "1899 hoffenheim v bayern munich__2025-09-20": {
+    "h": 8.29,
+    "d": 6.37,
+    "a": 1.31
+  },
+  "sc freiburg v werder bremen__2025-09-20": {
+    "h": 2.51,
+    "d": 3.68,
+    "a": 2.79
+  },
+  "1 fc koln v rb leipzig__2025-09-20": {
+    "h": 1.95,
+    "d": 3.9,
+    "a": 3.84
+  },
+  "eintracht frankfurt v union berlin__2025-09-21": {
+    "h": 1.65,
+    "d": 4.38,
+    "a": 5.03
+  },
+  "bayer leverkusen v borussia monchengladbach__2025-09-21": {
+    "h": 1.56,
+    "d": 4.48,
+    "a": 5.96
+  },
+  "borussia dortmund v vfl wolfsburg__2025-09-21": {
+    "h": 1.59,
+    "d": 4.66,
+    "a": 5.27
+  },
+  "bayern munich v werder bremen__2025-09-26": {
+    "h": 1.1,
+    "d": 12,
+    "a": 26
+  },
+  "fc augsburg v heidenheim__2025-09-27": {
+    "h": 2.85,
+    "d": 3.56,
+    "a": 2.53
+  },
+  "borussia dortmund v fsv mainz 05__2025-09-27": {
+    "h": 3.53,
+    "d": 3.83,
+    "a": 2.06
+  },
+  "bayer leverkusen v fc st pauli__2025-09-27": {
+    "h": 3.37,
+    "d": 3.54,
+    "a": 2.23
+  },
+  "rb leipzig v vfl wolfsburg__2025-09-27": {
+    "h": 2.63,
+    "d": 3.73,
+    "a": 2.63
+  },
+  "borussia monchengladbach v eintracht frankfurt__2025-09-27": {
+    "h": 3.08,
+    "d": 3.72,
+    "a": 2.3
+  },
+  "1899 hoffenheim v sc freiburg__2025-09-28": {
+    "h": 2.36,
+    "d": 3.55,
+    "a": 3.1
+  },
+  "1 fc koln v vfb stuttgart__2025-09-28": {
+    "h": 2.61,
+    "d": 3.72,
+    "a": 2.66
+  },
+  "hamburger sv v union berlin__2025-09-28": {
+    "h": 2.01,
+    "d": 3.61,
+    "a": 3.95
+  },
+  "1 fc koln v 1899 hoffenheim__2025-10-03": {
+    "h": 1.92,
+    "d": 3.95,
+    "a": 3.92
+  },
+  "fc augsburg v vfl wolfsburg__2025-10-04": {
+    "h": 2.64,
+    "d": 3.58,
+    "a": 2.71
+  },
+  "borussia dortmund v rb leipzig__2025-10-04": {
+    "h": 1.71,
+    "d": 4.63,
+    "a": 4.29
+  },
+  "bayer leverkusen v union berlin__2025-10-04": {
+    "h": 1.7,
+    "d": 4.09,
+    "a": 4.94
+  },
+  "fc st pauli v werder bremen__2025-10-04": {
+    "h": 2.37,
+    "d": 3.61,
+    "a": 3.04
+  },
+  "bayern munich v eintracht frankfurt__2025-10-04": {
+    "h": 7.49,
+    "d": 5.65,
+    "a": 1.38
+  },
+  "heidenheim v vfb stuttgart__2025-10-05": {
+    "h": 1.41,
+    "d": 5.33,
+    "a": 7.49
+  },
+  "fsv mainz 05 v hamburger sv__2025-10-05": {
+    "h": 3.21,
+    "d": 3.77,
+    "a": 2.21
+  },
+  "borussia monchengladbach v sc freiburg__2025-10-05": {
+    "h": 2.66,
+    "d": 3.4,
+    "a": 2.8
+  },
+  "borussia monchengladbach v union berlin__2025-10-17": {
+    "h": 2.25,
+    "d": 3.46,
+    "a": 3.39
+  },
+  "1 fc koln v fc augsburg__2025-10-18": {
+    "h": 1.92,
+    "d": 3.9,
+    "a": 3.98
+  },
+  "heidenheim v werder bremen__2025-10-18": {
+    "h": 3.08,
+    "d": 3.6,
+    "a": 2.35
+  },
+  "bayer leverkusen v fsv mainz 05__2025-10-18": {
+    "h": 2.69,
+    "d": 3.59,
+    "a": 2.65
+  },
+  "hamburger sv v rb leipzig__2025-10-18": {
+    "h": 1.47,
+    "d": 5.28,
+    "a": 6.25
+  },
+  "vfb stuttgart v vfl wolfsburg__2025-10-18": {
+    "h": 2.89,
+    "d": 3.75,
+    "a": 2.41
+  },
+  "bayern munich v borussia dortmund__2025-10-18": {
+    "h": 1.36,
+    "d": 5.75,
+    "a": 8.25
+  },
+  "eintracht frankfurt v sc freiburg__2025-10-19": {
+    "h": 2.56,
+    "d": 3.64,
+    "a": 2.76
+  },
+  "1899 hoffenheim v fc st pauli__2025-10-19": {
+    "h": 2.57,
+    "d": 3.49,
+    "a": 2.84
+  },
+  "union berlin v werder bremen__2025-10-24": {
+    "h": 2.36,
+    "d": 3.59,
+    "a": 3.08
+  },
+  "fc augsburg v rb leipzig__2025-10-25": {
+    "h": 3.41,
+    "d": 3.81,
+    "a": 2.12
+  },
+  "eintracht frankfurt v fc st pauli__2025-10-25": {
+    "h": 1.65,
+    "d": 4.43,
+    "a": 4.92
+  },
+  "hamburger sv v vfl wolfsburg__2025-10-25": {
+    "h": 2.21,
+    "d": 3.76,
+    "a": 3.24
+  },
+  "1899 hoffenheim v heidenheim__2025-10-25": {
+    "h": 1.6,
+    "d": 4.5,
+    "a": 5.32
+  },
+  "bayern munich v borussia monchengladbach__2025-10-25": {
+    "h": 10.65,
+    "d": 7,
+    "a": 1.24
+  },
+  "1 fc koln v borussia dortmund__2025-10-25": {
+    "h": 1.39,
+    "d": 5.38,
+    "a": 7.8
+  },
+  "bayer leverkusen v sc freiburg__2025-10-26": {
+    "h": 2.02,
+    "d": 3.59,
+    "a": 3.91
+  },
+  "fsv mainz 05 v vfb stuttgart__2025-10-26": {
+    "h": 2.16,
+    "d": 3.63,
+    "a": 3.44
+  },
+  "borussia dortmund v fc augsburg__2025-10-31": {
+    "h": 5.34,
+    "d": 4.42,
+    "a": 1.6
+  },
+  "eintracht frankfurt v heidenheim__2025-11-01": {
+    "h": 3.88,
+    "d": 4.14,
+    "a": 1.88
+  },
+  "fsv mainz 05 v werder bremen__2025-11-01": {
+    "h": 1.83,
+    "d": 4.02,
+    "a": 4.27
+  },
+  "rb leipzig v vfb stuttgart__2025-11-01": {
+    "h": 2.04,
+    "d": 3.89,
+    "a": 3.55
+  },
+  "borussia monchengladbach v fc st pauli__2025-11-01": {
+    "h": 2.35,
+    "d": 3.49,
+    "a": 3.17
+  },
+  "sc freiburg v union berlin__2025-11-01": {
+    "h": 2.72,
+    "d": 3.21,
+    "a": 2.87
+  },
+  "bayer leverkusen v bayern munich__2025-11-01": {
+    "h": 1.21,
+    "d": 7.57,
+    "a": 12.27
+  },
+  "1 fc koln v hamburger sv__2025-11-02": {
+    "h": 2.49,
+    "d": 3.64,
+    "a": 2.84
+  },
+  "1899 hoffenheim v vfl wolfsburg__2025-11-02": {
+    "h": 2.79,
+    "d": 3.77,
+    "a": 2.47
+  },
+  "vfl wolfsburg v werder bremen__2025-11-07": {
+    "h": 2.2,
+    "d": 3.76,
+    "a": 3.26
+  },
+  "borussia dortmund v hamburger sv__2025-11-08": {
+    "h": 4.1,
+    "d": 3.9,
+    "a": 1.89
+  },
+  "1899 hoffenheim v rb leipzig__2025-11-08": {
+    "h": 2.79,
+    "d": 3.95,
+    "a": 2.4
+  },
+  "bayer leverkusen v heidenheim__2025-11-08": {
+    "h": 1.4,
+    "d": 5.23,
+    "a": 7.71
+  },
+  "bayern munich v union berlin__2025-11-08": {
+    "h": 13,
+    "d": 7.05,
+    "a": 1.22
+  },
+  "1 fc koln v borussia monchengladbach__2025-11-08": {
+    "h": 2.07,
+    "d": 3.77,
+    "a": 3.57
+  },
+  "fc st pauli v sc freiburg__2025-11-09": {
+    "h": 1.78,
+    "d": 3.62,
+    "a": 5.17
+  },
+  "fc augsburg v vfb stuttgart__2025-11-09": {
+    "h": 1.53,
+    "d": 4.63,
+    "a": 6.08
+  },
+  "eintracht frankfurt v fsv mainz 05__2025-11-09": {
+    "h": 1.88,
+    "d": 3.94,
+    "a": 4.1
+  },
+  "1899 hoffenheim v fsv mainz 05__2025-11-21": {
+    "h": 2.54,
+    "d": 3.56,
+    "a": 2.83
+  },
+  "fc augsburg v hamburger sv__2025-11-22": {
+    "h": 2.53,
+    "d": 3.46,
+    "a": 2.91
+  },
+  "bayern munich v sc freiburg__2025-11-22": {
+    "h": 1.19,
+    "d": 7.8,
+    "a": 15
+  },
+  "borussia dortmund v vfb stuttgart__2025-11-22": {
+    "h": 1.83,
+    "d": 3.93,
+    "a": 4.38
+  },
+  "borussia monchengladbach v heidenheim__2025-11-22": {
+    "h": 3.44,
+    "d": 3.74,
+    "a": 2.13
+  },
+  "bayer leverkusen v vfl wolfsburg__2025-11-22": {
+    "h": 3.56,
+    "d": 3.92,
+    "a": 2.03
+  },
+  "1 fc koln v eintracht frankfurt__2025-11-22": {
+    "h": 2.83,
+    "d": 3.67,
+    "a": 2.49
+  },
+  "rb leipzig v werder bremen__2025-11-23": {
+    "h": 1.55,
+    "d": 4.82,
+    "a": 5.6
+  },
+  "fc st pauli v union berlin__2025-11-23": {
+    "h": 2.76,
+    "d": 3.04,
+    "a": 2.97
+  },
+  "borussia monchengladbach v rb leipzig__2025-11-28": {
+    "h": 2.92,
+    "d": 3.84,
+    "a": 2.35
+  },
+  "bayern munich v fc st pauli__2025-11-29": {
+    "h": 1.12,
+    "d": 11,
+    "a": 23
+  },
+  "1899 hoffenheim v fc augsburg__2025-11-29": {
+    "h": 1.77,
+    "d": 4.13,
+    "a": 4.5
+  },
+  "heidenheim v union berlin__2025-11-29": {
+    "h": 1.56,
+    "d": 4.09,
+    "a": 6.63
+  },
+  "1 fc koln v werder bremen__2025-11-29": {
+    "h": 2.25,
+    "d": 3.83,
+    "a": 3.1
+  },
+  "bayer leverkusen v borussia dortmund__2025-11-29": {
+    "h": 2.77,
+    "d": 3.61,
+    "a": 2.57
+  },
+  "hamburger sv v vfb stuttgart__2025-11-30": {
+    "h": 2.85,
+    "d": 3.55,
+    "a": 2.53
+  },
+  "eintracht frankfurt v vfl wolfsburg__2025-11-30": {
+    "h": 1.97,
+    "d": 3.98,
+    "a": 3.7
+  },
+  "fsv mainz 05 v sc freiburg__2025-11-30": {
+    "h": 1.75,
+    "d": 3.8,
+    "a": 5.09
+  },
+  "borussia monchengladbach v fsv mainz 05__2025-12-05": {
+    "h": 2.72,
+    "d": 3.48,
+    "a": 2.68
+  },
+  "bayer leverkusen v fc augsburg__2025-12-06": {
+    "h": 3.57,
+    "d": 3.48,
+    "a": 2.17
+  },
+  "1 fc koln v fc st pauli__2025-12-06": {
+    "h": 2.05,
+    "d": 3.56,
+    "a": 3.85
+  },
+  "heidenheim v sc freiburg__2025-12-06": {
+    "h": 4.97,
+    "d": 3.68,
+    "a": 1.79
+  },
+  "bayern munich v vfb stuttgart__2025-12-06": {
+    "h": 4.76,
+    "d": 4.71,
+    "a": 1.63
+  },
+  "union berlin v vfl wolfsburg__2025-12-06": {
+    "h": 2.04,
+    "d": 3.51,
+    "a": 3.95
+  },
+  "eintracht frankfurt v rb leipzig__2025-12-06": {
+    "h": 1.78,
+    "d": 4.1,
+    "a": 4.4
+  },
+  "hamburger sv v werder bremen__2025-12-07": {
+    "h": 2.45,
+    "d": 3.51,
+    "a": 2.99
+  },
+  "1899 hoffenheim v borussia dortmund__2025-12-07": {
+    "h": 1.65,
+    "d": 4.55,
+    "a": 4.95
+  },
+  "rb leipzig v union berlin__2025-12-12": {
+    "h": 3.13,
+    "d": 3.51,
+    "a": 2.36
+  },
+  "eintracht frankfurt v fc augsburg__2025-12-13": {
+    "h": 1.87,
+    "d": 3.82,
+    "a": 4.29
+  },
+  "1899 hoffenheim v hamburger sv__2025-12-13": {
+    "h": 1.72,
+    "d": 4.16,
+    "a": 4.68
+  },
+  "borussia monchengladbach v vfl wolfsburg__2025-12-13": {
+    "h": 2.05,
+    "d": 3.8,
+    "a": 3.62
+  },
+  "fc st pauli v heidenheim__2025-12-13": {
+    "h": 1.88,
+    "d": 3.54,
+    "a": 4.65
+  },
+  "1 fc koln v bayer leverkusen__2025-12-13": {
+    "h": 1.81,
+    "d": 4.3,
+    "a": 4.07
+  },
+  "borussia dortmund v sc freiburg__2025-12-14": {
+    "h": 3.95,
+    "d": 3.59,
+    "a": 2.01
+  },
+  "bayern munich v fsv mainz 05__2025-12-14": {
+    "h": 1.08,
+    "d": 14.25,
+    "a": 24
+  },
+  "vfb stuttgart v werder bremen__2025-12-14": {
+    "h": 2.9,
+    "d": 3.75,
+    "a": 2.4
+  },
+  "borussia dortmund v borussia monchengladbach__2025-12-19": {
+    "h": 1.52,
+    "d": 4.72,
+    "a": 6.1
+  },
+  "fc augsburg v werder bremen__2025-12-20": {
+    "h": 2.33,
+    "d": 3.53,
+    "a": 3.17
+  },
+  "1 fc koln v union berlin__2025-12-20": {
+    "h": 2.69,
+    "d": 3.27,
+    "a": 2.86
+  },
+  "eintracht frankfurt v hamburger sv__2025-12-20": {
+    "h": 2.52,
+    "d": 3.43,
+    "a": 2.95
+  },
+  "1899 hoffenheim v vfb stuttgart__2025-12-20": {
+    "h": 2,
+    "d": 3.92,
+    "a": 3.65
+  },
+  "sc freiburg v vfl wolfsburg__2025-12-20": {
+    "h": 2.48,
+    "d": 3.49,
+    "a": 2.96
+  },
+  "bayer leverkusen v rb leipzig__2025-12-20": {
+    "h": 2.11,
+    "d": 3.92,
+    "a": 3.33
+  },
+  "fc st pauli v fsv mainz 05__2025-12-21": {
+    "h": 2.04,
+    "d": 3.39,
+    "a": 4.12
+  },
+  "bayern munich v heidenheim__2025-12-21": {
+    "h": 15.87,
+    "d": 9.2,
+    "a": 1.15
+  },
+  "borussia dortmund v eintracht frankfurt__2026-01-09": {
+    "h": 3.51,
+    "d": 3.7,
+    "a": 2.11
+  },
+  "hamburger sv v sc freiburg__2026-01-10": {
+    "h": 1.81,
+    "d": 3.67,
+    "a": 4.82
+  },
+  "1 fc koln v heidenheim__2026-01-10": {
+    "h": 2.81,
+    "d": 3.52,
+    "a": 2.59
+  },
+  "fsv mainz 05 v union berlin__2026-01-10": {
+    "h": 2.12,
+    "d": 3.29,
+    "a": 3.97
+  },
+  "bayer leverkusen v vfb stuttgart__2026-01-10": {
+    "h": 2.23,
+    "d": 3.75,
+    "a": 3.19
+  },
+  "borussia monchengladbach v fc augsburg__2026-01-11": {
+    "h": 1.95,
+    "d": 3.71,
+    "a": 3.99
+  },
+  "bayern munich v vfl wolfsburg__2026-01-11": {
+    "h": 1.13,
+    "d": 11,
+    "a": 19
+  },
+  "eintracht frankfurt v vfb stuttgart__2026-01-13": {
+    "h": 1.81,
+    "d": 4.01,
+    "a": 4.25
+  },
+  "borussia dortmund v werder bremen__2026-01-13": {
+    "h": 1.36,
+    "d": 5.64,
+    "a": 7.94
+  },
+  "fsv mainz 05 v heidenheim__2026-01-13": {
+    "h": 1.67,
+    "d": 3.85,
+    "a": 5.58
+  },
+  "fc st pauli v vfl wolfsburg__2026-01-14": {
+    "h": 1.9,
+    "d": 3.75,
+    "a": 4.14
+  },
+  "1 fc koln v bayern munich__2026-01-14": {
+    "h": 9.41,
+    "d": 6.82,
+    "a": 1.26
+  },
+  "1899 hoffenheim v borussia monchengladbach__2026-01-14": {
+    "h": 1.85,
+    "d": 4.05,
+    "a": 4.05
+  },
+  "rb leipzig v sc freiburg__2026-01-14": {
+    "h": 1.72,
+    "d": 4.16,
+    "a": 4.63
+  },
+  "fc augsburg v union berlin__2026-01-15": {
+    "h": 2.59,
+    "d": 3.13,
+    "a": 2.79
+  },
+  "eintracht frankfurt v werder bremen__2026-01-16": {
+    "h": 2.57,
+    "d": 3.45,
+    "a": 2.58
+  },
+  "borussia dortmund v fc st pauli__2026-01-17": {
+    "h": 1.3,
+    "d": 5.1,
+    "a": 10.27
+  },
+  "1 fc koln v fsv mainz 05__2026-01-17": {
+    "h": 2.08,
+    "d": 3.47,
+    "a": 3.39
+  },
+  "borussia monchengladbach v hamburger sv__2026-01-17": {
+    "h": 2.41,
+    "d": 3.41,
+    "a": 2.81
+  },
+  "1899 hoffenheim v bayer leverkusen__2026-01-17": {
+    "h": 2.31,
+    "d": 3.71,
+    "a": 2.77
+  },
+  "heidenheim v vfl wolfsburg__2026-01-17": {
+    "h": 1.67,
+    "d": 4.01,
+    "a": 4.75
+  },
+  "bayern munich v rb leipzig__2026-01-17": {
+    "h": 4.12,
+    "d": 4.33,
+    "a": 1.7
+  },
+  "union berlin v vfb stuttgart__2026-01-18": {
+    "h": 1.58,
+    "d": 4.08,
+    "a": 5.47
+  },
+  "fc augsburg v sc freiburg__2026-01-18": {
+    "h": 2.59,
+    "d": 3.2,
+    "a": 2.75
+  },
+  "fc st pauli v hamburger sv__2026-01-23": {
+    "h": 2.81,
+    "d": 2.91,
+    "a": 2.75
+  },
+  "bayern munich v fc augsburg__2026-01-24": {
+    "h": 1.12,
+    "d": 9.33,
+    "a": 16.38
+  },
+  "1899 hoffenheim v eintracht frankfurt__2026-01-24": {
+    "h": 2.99,
+    "d": 3.58,
+    "a": 2.21
+  },
+  "heidenheim v rb leipzig__2026-01-24": {
+    "h": 4.6,
+    "d": 4.33,
+    "a": 1.62
+  },
+  "bayer leverkusen v werder bremen__2026-01-24": {
+    "h": 1.54,
+    "d": 4.41,
+    "a": 5.32
+  },
+  "fsv mainz 05 v vfl wolfsburg__2026-01-24": {
+    "h": 2.29,
+    "d": 3.33,
+    "a": 3.06
+  },
+  "borussia dortmund v union berlin__2026-01-24": {
+    "h": 3.21,
+    "d": 3.25,
+    "a": 2.25
+  },
+  "borussia monchengladbach v vfb stuttgart__2026-01-25": {
+    "h": 2.88,
+    "d": 3.61,
+    "a": 2.29
+  },
+  "1 fc koln v sc freiburg__2026-01-25": {
+    "h": 1.98,
+    "d": 3.6,
+    "a": 3.57
+  },
+  "fc st pauli v rb leipzig__2026-01-27": {
+    "h": 4.75,
+    "d": 3.58,
+    "a": 1.75
+  },
+  "1899 hoffenheim v werder bremen__2026-01-27": {
+    "h": 3.66,
+    "d": 3.7,
+    "a": 1.93
+  },
+  "1 fc koln v vfl wolfsburg__2026-01-30": {
+    "h": 2.03,
+    "d": 3.62,
+    "a": 3.4
+  },
+  "fc augsburg v fc st pauli__2026-01-31": {
+    "h": 2.11,
+    "d": 3.06,
+    "a": 3.81
+  },
+  "bayer leverkusen v eintracht frankfurt__2026-01-31": {
+    "h": 3.38,
+    "d": 3.6,
+    "a": 2.04
+  },
+  "1899 hoffenheim v union berlin__2026-01-31": {
+    "h": 1.81,
+    "d": 3.63,
+    "a": 4.23
+  },
+  "fsv mainz 05 v rb leipzig__2026-01-31": {
+    "h": 1.52,
+    "d": 4.52,
+    "a": 5.44
+  },
+  "borussia monchengladbach v werder bremen__2026-01-31": {
+    "h": 2.14,
+    "d": 3.48,
+    "a": 3.21
+  },
+  "bayern munich v hamburger sv__2026-01-31": {
+    "h": 9.01,
+    "d": 5.94,
+    "a": 1.27
+  },
+  "sc freiburg v vfb stuttgart__2026-02-01": {
+    "h": 1.63,
+    "d": 4.13,
+    "a": 4.82
+  },
+  "borussia dortmund v heidenheim__2026-02-01": {
+    "h": 1.26,
+    "d": 6.03,
+    "a": 10
+  },
+  "eintracht frankfurt v union berlin__2026-02-06": {
+    "h": 2.14,
+    "d": 3.39,
+    "a": 3.31
+  },
+  "sc freiburg v werder bremen__2026-02-07": {
+    "h": 2.1,
+    "d": 3.34,
+    "a": 3.47
+  },
+  "hamburger sv v heidenheim__2026-02-07": {
+    "h": 2.87,
+    "d": 3.37,
+    "a": 2.4
+  },
+  "fc augsburg v fsv mainz 05__2026-02-07": {
+    "h": 1.94,
+    "d": 3.57,
+    "a": 3.75
+  },
+  "fc st pauli v vfb stuttgart__2026-02-07": {
+    "h": 4.79,
+    "d": 3.77,
+    "a": 1.7
+  },
+  "borussia dortmund v vfl wolfsburg__2026-02-07": {
+    "h": 4.46,
+    "d": 4.16,
+    "a": 1.67
+  },
+  "bayer leverkusen v borussia monchengladbach__2026-02-07": {
+    "h": 3.48,
+    "d": 3.65,
+    "a": 2
+  },
+  "1 fc koln v rb leipzig__2026-02-08": {
+    "h": 3.31,
+    "d": 3.85,
+    "a": 2
+  },
+  "1899 hoffenheim v bayern munich__2026-02-08": {
+    "h": 1.22,
+    "d": 7.03,
+    "a": 9.82
+  },
+  "borussia dortmund v fsv mainz 05__2026-02-13": {
+    "h": 1.64,
+    "d": 4.1,
+    "a": 4.77
+  },
+  "borussia monchengladbach v eintracht frankfurt__2026-02-14": {
+    "h": 2.12,
+    "d": 3.47,
+    "a": 3.31
+  },
+  "hamburger sv v union berlin__2026-02-14": {
+    "h": 2.33,
+    "d": 3.14,
+    "a": 3.14
+  },
+  "1899 hoffenheim v sc freiburg__2026-02-14": {
+    "h": 1.7,
+    "d": 3.92,
+    "a": 4.53
+  },
+  "bayer leverkusen v fc st pauli__2026-02-14": {
+    "h": 1.51,
+    "d": 4.23,
+    "a": 6.14
+  },
+  "bayern munich v werder bremen__2026-02-14": {
+    "h": 7.88,
+    "d": 5.83,
+    "a": 1.31
+  },
+  "1 fc koln v vfb stuttgart__2026-02-14": {
+    "h": 1.49,
+    "d": 4.71,
+    "a": 5.64
+  },
+  "fc augsburg v heidenheim__2026-02-15": {
+    "h": 1.87,
+    "d": 3.7,
+    "a": 3.85
+  },
+  "rb leipzig v vfl wolfsburg__2026-02-15": {
+    "h": 1.51,
+    "d": 4.66,
+    "a": 5.39
+  },
+  "fsv mainz 05 v hamburger sv__2026-02-20": {
+    "h": 2.06,
+    "d": 3.45,
+    "a": 3.48
+  },
+  "bayern munich v eintracht frankfurt__2026-02-21": {
+    "h": 1.08,
+    "d": 10.88,
+    "a": 19.31
+  },
+  "1 fc koln v 1899 hoffenheim__2026-02-21": {
+    "h": 3.43,
+    "d": 3.71,
+    "a": 1.99
+  },
+  "bayer leverkusen v union berlin__2026-02-21": {
+    "h": 3.1,
+    "d": 3.26,
+    "a": 2.3
+  },
+  "fc augsburg v vfl wolfsburg__2026-02-21": {
+    "h": 2.19,
+    "d": 3.39,
+    "a": 3.17
+  },
+  "borussia dortmund v rb leipzig__2026-02-21": {
+    "h": 1.97,
+    "d": 3.88,
+    "a": 3.32
+  },
+  "borussia monchengladbach v sc freiburg__2026-02-22": {
+    "h": 2.06,
+    "d": 3.34,
+    "a": 3.58
+  },
+  "fc st pauli v werder bremen__2026-02-22": {
+    "h": 2.65,
+    "d": 3.11,
+    "a": 2.73
+  },
+  "heidenheim v vfb stuttgart__2026-02-22": {
+    "h": 4.42,
+    "d": 4.21,
+    "a": 1.67
+  },
+  "1 fc koln v fc augsburg__2026-02-27": {
+    "h": 2.16,
+    "d": 3.39,
+    "a": 3.23
+  },
+  "1899 hoffenheim v fc st pauli__2026-02-28": {
+    "h": 1.51,
+    "d": 4.2,
+    "a": 6.11
+  },
+  "bayer leverkusen v fsv mainz 05__2026-02-28": {
+    "h": 1.68,
+    "d": 4,
+    "a": 4.53
+  },
+  "borussia monchengladbach v union berlin__2026-02-28": {
+    "h": 2.34,
+    "d": 3.25,
+    "a": 3.01
+  },
+  "heidenheim v werder bremen__2026-02-28": {
+    "h": 1.6,
+    "d": 4.21,
+    "a": 4.97
+  },
+  "bayern munich v borussia dortmund__2026-02-28": {
+    "h": 4.21,
+    "d": 4.38,
+    "a": 1.67
+  },
+  "vfb stuttgart v vfl wolfsburg__2026-03-01": {
+    "h": 1.37,
+    "d": 5.4,
+    "a": 6.61
+  },
+  "eintracht frankfurt v sc freiburg__2026-03-01": {
+    "h": 2.22,
+    "d": 3.45,
+    "a": 3.06
+  },
+  "hamburger sv v rb leipzig__2026-03-01": {
+    "h": 3.72,
+    "d": 3.87,
+    "a": 1.86
+  },
+  "bayer leverkusen v hamburger sv__2026-03-04": {
+    "h": 3.54,
+    "d": 3.63,
+    "a": 1.97
+  },
+  "bayern munich v borussia monchengladbach__2026-03-06": {
+    "h": 1.21,
+    "d": 7.08,
+    "a": 10.63
+  },
+  "bayer leverkusen v sc freiburg__2026-03-07": {
+    "h": 2.94,
+    "d": 3.37,
+    "a": 2.34
+  },
+  "1899 hoffenheim v heidenheim__2026-03-07": {
+    "h": 5.44,
+    "d": 4.57,
+    "a": 1.51
+  },
+  "fsv mainz 05 v vfb stuttgart__2026-03-07": {
+    "h": 3.47,
+    "d": 3.77,
+    "a": 1.95
+  },
+  "fc augsburg v rb leipzig__2026-03-07": {
+    "h": 1.33,
+    "d": 5.42,
+    "a": 7.63
+  },
+  "hamburger sv v vfl wolfsburg__2026-03-07": {
+    "h": 2.56,
+    "d": 3.37,
+    "a": 2.65
+  },
+  "1 fc koln v borussia dortmund__2026-03-07": {
+    "h": 4.03,
+    "d": 3.94,
+    "a": 1.77
+  },
+  "eintracht frankfurt v fc st pauli__2026-03-08": {
+    "h": 2.54,
+    "d": 3.28,
+    "a": 2.74
+  },
+  "union berlin v werder bremen__2026-03-08": {
+    "h": 2.37,
+    "d": 3.18,
+    "a": 3.04
+  },
+  "borussia monchengladbach v fc st pauli__2026-03-13": {
+    "h": 1.91,
+    "d": 3.3,
+    "a": 4.17
+  },
+  "borussia dortmund v fc augsburg__2026-03-14": {
+    "h": 1.53,
+    "d": 4.47,
+    "a": 5.31
+  },
+  "eintracht frankfurt v heidenheim__2026-03-14": {
+    "h": 1.61,
+    "d": 4.26,
+    "a": 4.77
+  },
+  "1899 hoffenheim v vfl wolfsburg__2026-03-14": {
+    "h": 1.41,
+    "d": 4.97,
+    "a": 6.46
+  },
+  "bayer leverkusen v bayern munich__2026-03-14": {
+    "h": 4.91,
+    "d": 4.67,
+    "a": 1.54
+  },
+  "1 fc koln v hamburger sv__2026-03-14": {
+    "h": 2.32,
+    "d": 3.44,
+    "a": 2.88
+  },
+  "fsv mainz 05 v werder bremen__2026-03-15": {
+    "h": 2.24,
+    "d": 3.48,
+    "a": 3.02
+  },
+  "sc freiburg v union berlin__2026-03-15": {
+    "h": 1.89,
+    "d": 3.54,
+    "a": 3.94
+  },
+  "rb leipzig v vfb stuttgart__2026-03-15": {
+    "h": 2.4,
+    "d": 3.91,
+    "a": 2.54
+  },
+  "1899 hoffenheim v rb leipzig__2026-03-20": {
+    "h": 1.9,
+    "d": 3.98,
+    "a": 3.45
+  },
+  "bayern munich v union berlin__2026-03-21": {
+    "h": 1.13,
+    "d": 8.67,
+    "a": 15.22
+  },
+  "1 fc koln v borussia monchengladbach__2026-03-21": {
+    "h": 2.3,
+    "d": 3.36,
+    "a": 3
+  },
+  "bayer leverkusen v heidenheim__2026-03-21": {
+    "h": 5.25,
+    "d": 4.58,
+    "a": 1.52
+  },
+  "vfl wolfsburg v werder bremen__2026-03-21": {
+    "h": 2.34,
+    "d": 3.58,
+    "a": 2.8
+  },
+  "borussia dortmund v hamburger sv__2026-03-21": {
+    "h": 1.41,
+    "d": 4.78,
+    "a": 6.89
+  },
+  "eintracht frankfurt v fsv mainz 05__2026-03-22": {
+    "h": 2.15,
+    "d": 3.51,
+    "a": 3.18
+  },
+  "fc st pauli v sc freiburg__2026-03-22": {
+    "h": 2.66,
+    "d": 3,
+    "a": 2.8
+  },
+  "fc augsburg v vfb stuttgart__2026-03-22": {
+    "h": 3.37,
+    "d": 3.74,
+    "a": 1.99
+  },
+  "bayern munich v sc freiburg__2026-04-04": {
+    "h": 5.43,
+    "d": 4.61,
+    "a": 1.5
+  },
+  "fc augsburg v hamburger sv__2026-04-04": {
+    "h": 2.37,
+    "d": 3.37,
+    "a": 2.88
+  },
+  "1899 hoffenheim v fsv mainz 05__2026-04-04": {
+    "h": 1.7,
+    "d": 3.95,
+    "a": 4.52
+  },
+  "bayer leverkusen v vfl wolfsburg__2026-04-04": {
+    "h": 1.42,
+    "d": 4.88,
+    "a": 6.39
+  },
+  "borussia monchengladbach v heidenheim__2026-04-04": {
+    "h": 1.59,
+    "d": 4.22,
+    "a": 5.05
+  },
+  "rb leipzig v werder bremen__2026-04-04": {
+    "h": 3.74,
+    "d": 3.96,
+    "a": 1.84
+  },
+  "borussia dortmund v vfb stuttgart__2026-04-04": {
+    "h": 2.33,
+    "d": 3.85,
+    "a": 2.65
+  },
+  "fc st pauli v union berlin__2026-04-05": {
+    "h": 2.04,
+    "d": 3.18,
+    "a": 3.85
+  },
+  "1 fc koln v eintracht frankfurt__2026-04-05": {
+    "h": 1.9,
+    "d": 3.7,
+    "a": 3.72
+  },
+  "1899 hoffenheim v fc augsburg__2026-04-10": {
+    "h": 3.46,
+    "d": 3.84,
+    "a": 1.94
+  },
+  "bayer leverkusen v borussia dortmund__2026-04-11": {
+    "h": 2.06,
+    "d": 3.79,
+    "a": 3.19
+  },
+  "heidenheim v union berlin__2026-04-11": {
+    "h": 2.74,
+    "d": 3.39,
+    "a": 2.47
+  },
+  "borussia monchengladbach v rb leipzig__2026-04-11": {
+    "h": 1.46,
+    "d": 4.73,
+    "a": 5.94
+  },
+  "eintracht frankfurt v vfl wolfsburg__2026-04-11": {
+    "h": 2.46,
+    "d": 3.62,
+    "a": 2.6
+  },
+  "bayern munich v fc st pauli__2026-04-11": {
+    "h": 8.22,
+    "d": 5.53,
+    "a": 1.31
+  },
+  "1 fc koln v werder bremen__2026-04-12": {
+    "h": 2.29,
+    "d": 3.38,
+    "a": 3.01
+  },
+  "hamburger sv v vfb stuttgart__2026-04-12": {
+    "h": 1.28,
+    "d": 5.93,
+    "a": 8.84
+  },
+  "fsv mainz 05 v sc freiburg__2026-04-12": {
+    "h": 2.2,
+    "d": 3.2,
+    "a": 3.37
+  },
+  "1 fc koln v fc st pauli__2026-04-17": {
+    "h": 2.82,
+    "d": 3.25,
+    "a": 2.48
+  },
+  "1899 hoffenheim v borussia dortmund__2026-04-18": {
+    "h": 2.19,
+    "d": 3.82,
+    "a": 2.89
+  },
+  "bayer leverkusen v fc augsburg__2026-04-18": {
+    "h": 1.38,
+    "d": 5.2,
+    "a": 6.74
+  },
+  "union berlin v vfl wolfsburg__2026-04-18": {
+    "h": 2.14,
+    "d": 3.56,
+    "a": 3.15
+  },
+  "hamburger sv v werder bremen__2026-04-18": {
+    "h": 1.79,
+    "d": 3.78,
+    "a": 4.18
+  },
+  "eintracht frankfurt v rb leipzig__2026-04-18": {
+    "h": 2.9,
+    "d": 3.89,
+    "a": 2.16
+  },
+  "heidenheim v sc freiburg__2026-04-19": {
+    "h": 1.62,
+    "d": 4.12,
+    "a": 4.87
+  },
+  "bayern munich v vfb stuttgart__2026-04-19": {
+    "h": 1.46,
+    "d": 5.16,
+    "a": 5.45
+  },
+  "borussia monchengladbach v fsv mainz 05__2026-04-19": {
+    "h": 2.22,
+    "d": 3.48,
+    "a": 3.04
+  },
+  "rb leipzig v union berlin__2026-04-24": {
+    "h": 1.51,
+    "d": 4.4,
+    "a": 5.69
+  },
+  "eintracht frankfurt v fc augsburg__2026-04-25": {
+    "h": 2.36,
+    "d": 3.69,
+    "a": 2.67
+  },
+  "1 fc koln v bayer leverkusen__2026-04-25": {
+    "h": 3.52,
+    "d": 3.92,
+    "a": 1.89
+  },
+  "fc st pauli v heidenheim__2026-04-25": {
+    "h": 2.29,
+    "d": 3.37,
+    "a": 2.95
+  },
+  "bayern munich v fsv mainz 05__2026-04-25": {
+    "h": 3.63,
+    "d": 4.22,
+    "a": 1.79
+  },
+  "borussia monchengladbach v vfl wolfsburg__2026-04-25": {
+    "h": 2.12,
+    "d": 3.65,
+    "a": 3.09
+  },
+  "1899 hoffenheim v hamburger sv__2026-04-25": {
+    "h": 4.34,
+    "d": 4.16,
+    "a": 1.67
+  },
+  "vfb stuttgart v werder bremen__2026-04-26": {
+    "h": 1.52,
+    "d": 4.5,
+    "a": 5.29
+  },
+  "borussia dortmund v sc freiburg__2026-04-26": {
+    "h": 1.41,
+    "d": 4.88,
+    "a": 6.62
+  },
+  "bayern munich v heidenheim__2026-05-02": {
+    "h": 1.26,
+    "d": 6.59,
+    "a": 8.53
+  },
+  "eintracht frankfurt v hamburger sv__2026-05-02": {
+    "h": 1.66,
+    "d": 4.16,
+    "a": 4.42
+  },
+  "1899 hoffenheim v vfb stuttgart__2026-05-02": {
+    "h": 2.16,
+    "d": 3.98,
+    "a": 2.82
+  },
+  "1 fc koln v union berlin__2026-05-02": {
+    "h": 2.61,
+    "d": 3.37,
+    "a": 2.58
+  },
+  "fc augsburg v werder bremen__2026-05-02": {
+    "h": 1.93,
+    "d": 3.82,
+    "a": 3.48
+  },
+  "bayer leverkusen v rb leipzig__2026-05-02": {
+    "h": 2.09,
+    "d": 4,
+    "a": 2.93
+  },
+  "fc st pauli v fsv mainz 05__2026-05-03": {
+    "h": 2.75,
+    "d": 3.26,
+    "a": 2.51
+  },
+  "borussia dortmund v borussia monchengladbach__2026-05-03": {
+    "h": 3.64,
+    "d": 3.82,
+    "a": 1.89
+  },
+  "sc freiburg v vfl wolfsburg__2026-05-03": {
+    "h": 2.05,
+    "d": 3.59,
+    "a": 3.31
+  },
+  "borussia dortmund v eintracht frankfurt__2026-05-08": {
+    "h": 1.7,
+    "d": 4.24,
+    "a": 4.13
+  },
+  "borussia monchengladbach v fc augsburg__2026-05-09": {
+    "h": 1.91,
+    "d": 3.9,
+    "a": 3.46
+  },
+  "1899 hoffenheim v werder bremen__2026-05-09": {
+    "h": 1.48,
+    "d": 4.87,
+    "a": 5.42
+  },
+  "fc st pauli v rb leipzig__2026-05-09": {
+    "h": 1.27,
+    "d": 6.01,
+    "a": 9.02
+  },
+  "bayer leverkusen v vfb stuttgart__2026-05-09": {
+    "h": 1.99,
+    "d": 4.12,
+    "a": 3.12
+  },
+  "bayern munich v vfl wolfsburg__2026-05-09": {
+    "h": 5.28,
+    "d": 5.16,
+    "a": 1.46
+  },
+  "hamburger sv v sc freiburg__2026-05-10": {
+    "h": 2.94,
+    "d": 3.59,
+    "a": 2.23
+  },
+  "1 fc koln v heidenheim__2026-05-10": {
+    "h": 2.02,
+    "d": 4.05,
+    "a": 3.08
+  },
+  "fsv mainz 05 v union berlin__2026-05-10": {
+    "h": 1.66,
+    "d": 4.27,
+    "a": 4.34
+  },
+  "1 fc koln v bayern munich__2026-05-16": {
+    "h": 1.14,
+    "d": 9.11,
+    "a": 12.56
+  },
+  "eintracht frankfurt v vfb stuttgart__2026-05-16": {
+    "h": 3.48,
+    "d": 4.24,
+    "a": 1.82
+  },
+  "rb leipzig v sc freiburg__2026-05-16": {
+    "h": 2.44,
+    "d": 3.72,
+    "a": 2.53
+  },
+  "fsv mainz 05 v heidenheim__2026-05-16": {
+    "h": 1.92,
+    "d": 4.04,
+    "a": 3.28
+  },
+  "bayer leverkusen v hamburger sv__2026-05-16": {
+    "h": 1.27,
+    "d": 6.19,
+    "a": 8.28
+  },
+  "1899 hoffenheim v borussia monchengladbach__2026-05-16": {
+    "h": 4.37,
+    "d": 4.43,
+    "a": 1.62
+  },
+  "fc st pauli v vfl wolfsburg__2026-05-16": {
+    "h": 2.56,
+    "d": 3.56,
+    "a": 2.51
+  },
+  "fc augsburg v union berlin__2026-05-16": {
+    "h": 2.51,
+    "d": 3.95,
+    "a": 2.38
+  },
+  "borussia dortmund v werder bremen__2026-05-16": {
+    "h": 3.12,
+    "d": 3.94,
+    "a": 2.01
+  }
+}

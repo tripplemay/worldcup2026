@@ -1,0 +1,7378 @@
+{
+  "1048881": {
+    "eventId": "1048881",
+    "date": "2023-08-18T18:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1048882": {
+    "eventId": "1048882",
+    "date": "2023-08-19T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048883": {
+    "eventId": "1048883",
+    "date": "2023-08-20T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1048884": {
+    "eventId": "1048884",
+    "date": "2023-08-19T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1048885": {
+    "eventId": "1048885",
+    "date": "2023-08-20T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048886": {
+    "eventId": "1048886",
+    "date": "2023-08-19T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048887": {
+    "eventId": "1048887",
+    "date": "2023-08-19T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048888": {
+    "eventId": "1048888",
+    "date": "2023-08-19T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 4,
+    "awayGoals": 4
+  },
+  "1048889": {
+    "eventId": "1048889",
+    "date": "2023-08-19T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1048890": {
+    "eventId": "1048890",
+    "date": "2023-08-27T15:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048891": {
+    "eventId": "1048891",
+    "date": "2023-08-25T18:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1048892": {
+    "eventId": "1048892",
+    "date": "2023-08-26T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048893": {
+    "eventId": "1048893",
+    "date": "2023-08-27T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048894": {
+    "eventId": "1048894",
+    "date": "2023-08-26T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1048895": {
+    "eventId": "1048895",
+    "date": "2023-08-26T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048896": {
+    "eventId": "1048896",
+    "date": "2023-08-26T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048897": {
+    "eventId": "1048897",
+    "date": "2023-08-26T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1048898": {
+    "eventId": "1048898",
+    "date": "2023-08-26T13:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1048899": {
+    "eventId": "1048899",
+    "date": "2023-09-01T18:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048900": {
+    "eventId": "1048900",
+    "date": "2023-09-03T15:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1048901": {
+    "eventId": "1048901",
+    "date": "2023-09-02T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1048902": {
+    "eventId": "1048902",
+    "date": "2023-09-03T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048903": {
+    "eventId": "1048903",
+    "date": "2023-09-02T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048904": {
+    "eventId": "1048904",
+    "date": "2023-09-02T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048905": {
+    "eventId": "1048905",
+    "date": "2023-09-02T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1048906": {
+    "eventId": "1048906",
+    "date": "2023-09-02T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048907": {
+    "eventId": "1048907",
+    "date": "2023-09-02T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1048908": {
+    "eventId": "1048908",
+    "date": "2023-09-15T18:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048909": {
+    "eventId": "1048909",
+    "date": "2023-09-16T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1048910": {
+    "eventId": "1048910",
+    "date": "2023-09-16T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1048911": {
+    "eventId": "1048911",
+    "date": "2023-09-16T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048912": {
+    "eventId": "1048912",
+    "date": "2023-09-16T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048913": {
+    "eventId": "1048913",
+    "date": "2023-09-16T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048914": {
+    "eventId": "1048914",
+    "date": "2023-09-16T16:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048915": {
+    "eventId": "1048915",
+    "date": "2023-09-17T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "werder bremen",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1048916": {
+    "eventId": "1048916",
+    "date": "2023-09-17T15:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1048917": {
+    "eventId": "1048917",
+    "date": "2023-09-23T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 7,
+    "awayGoals": 0
+  },
+  "1048918": {
+    "eventId": "1048918",
+    "date": "2023-09-23T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048919": {
+    "eventId": "1048919",
+    "date": "2023-09-23T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1048920": {
+    "eventId": "1048920",
+    "date": "2023-09-24T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "heidenheim",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1048921": {
+    "eventId": "1048921",
+    "date": "2023-09-24T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1048922": {
+    "eventId": "1048922",
+    "date": "2023-09-23T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1048923": {
+    "eventId": "1048923",
+    "date": "2023-09-23T16:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048924": {
+    "eventId": "1048924",
+    "date": "2023-09-23T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048925": {
+    "eventId": "1048925",
+    "date": "2023-09-22T18:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048926": {
+    "eventId": "1048926",
+    "date": "2023-09-30T16:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048927": {
+    "eventId": "1048927",
+    "date": "2023-10-01T15:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048928": {
+    "eventId": "1048928",
+    "date": "2023-09-30T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048929": {
+    "eventId": "1048929",
+    "date": "2023-09-30T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1048930": {
+    "eventId": "1048930",
+    "date": "2023-09-30T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1048931": {
+    "eventId": "1048931",
+    "date": "2023-09-29T18:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048932": {
+    "eventId": "1048932",
+    "date": "2023-09-30T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048933": {
+    "eventId": "1048933",
+    "date": "2023-09-30T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048934": {
+    "eventId": "1048934",
+    "date": "2023-10-01T13:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "werder bremen",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1048935": {
+    "eventId": "1048935",
+    "date": "2023-10-08T15:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1048936": {
+    "eventId": "1048936",
+    "date": "2023-10-07T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "union berlin",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1048937": {
+    "eventId": "1048937",
+    "date": "2023-10-07T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1048938": {
+    "eventId": "1048938",
+    "date": "2023-10-08T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1048939": {
+    "eventId": "1048939",
+    "date": "2023-10-08T17:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048940": {
+    "eventId": "1048940",
+    "date": "2023-10-06T18:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048941": {
+    "eventId": "1048941",
+    "date": "2023-10-07T16:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1048942": {
+    "eventId": "1048942",
+    "date": "2023-10-07T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048943": {
+    "eventId": "1048943",
+    "date": "2023-10-07T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048944": {
+    "eventId": "1048944",
+    "date": "2023-10-20T18:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048945": {
+    "eventId": "1048945",
+    "date": "2023-10-21T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1048946": {
+    "eventId": "1048946",
+    "date": "2023-10-21T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048947": {
+    "eventId": "1048947",
+    "date": "2023-10-21T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048948": {
+    "eventId": "1048948",
+    "date": "2023-10-21T16:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048949": {
+    "eventId": "1048949",
+    "date": "2023-10-22T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048950": {
+    "eventId": "1048950",
+    "date": "2023-10-21T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048951": {
+    "eventId": "1048951",
+    "date": "2023-10-22T15:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1048952": {
+    "eventId": "1048952",
+    "date": "2023-10-21T13:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1048953": {
+    "eventId": "1048953",
+    "date": "2023-10-28T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 8,
+    "awayGoals": 0
+  },
+  "1048954": {
+    "eventId": "1048954",
+    "date": "2023-10-28T16:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1048955": {
+    "eventId": "1048955",
+    "date": "2023-10-29T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048956": {
+    "eventId": "1048956",
+    "date": "2023-10-29T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1048957": {
+    "eventId": "1048957",
+    "date": "2023-10-28T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048958": {
+    "eventId": "1048958",
+    "date": "2023-10-28T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048959": {
+    "eventId": "1048959",
+    "date": "2023-10-27T18:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048960": {
+    "eventId": "1048960",
+    "date": "2023-10-28T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1048961": {
+    "eventId": "1048961",
+    "date": "2023-10-28T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1048962": {
+    "eventId": "1048962",
+    "date": "2023-11-04T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1048963": {
+    "eventId": "1048963",
+    "date": "2023-11-04T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1048964": {
+    "eventId": "1048964",
+    "date": "2023-11-04T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1048965": {
+    "eventId": "1048965",
+    "date": "2023-11-05T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048966": {
+    "eventId": "1048966",
+    "date": "2023-11-04T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048967": {
+    "eventId": "1048967",
+    "date": "2023-11-04T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048968": {
+    "eventId": "1048968",
+    "date": "2023-11-04T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1048969": {
+    "eventId": "1048969",
+    "date": "2023-11-05T16:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048970": {
+    "eventId": "1048970",
+    "date": "2023-11-03T19:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048971": {
+    "eventId": "1048971",
+    "date": "2023-11-11T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "heidenheim",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1048972": {
+    "eventId": "1048972",
+    "date": "2023-11-12T18:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048973": {
+    "eventId": "1048973",
+    "date": "2023-11-12T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "union berlin",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1048974": {
+    "eventId": "1048974",
+    "date": "2023-11-10T19:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1048975": {
+    "eventId": "1048975",
+    "date": "2023-11-12T16:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1048976": {
+    "eventId": "1048976",
+    "date": "2023-11-11T17:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048977": {
+    "eventId": "1048977",
+    "date": "2023-11-11T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048978": {
+    "eventId": "1048978",
+    "date": "2023-11-11T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048979": {
+    "eventId": "1048979",
+    "date": "2023-11-11T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1048980": {
+    "eventId": "1048980",
+    "date": "2023-11-25T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1048981": {
+    "eventId": "1048981",
+    "date": "2023-11-25T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048982": {
+    "eventId": "1048982",
+    "date": "2023-11-25T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048983": {
+    "eventId": "1048983",
+    "date": "2023-11-25T17:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1048984": {
+    "eventId": "1048984",
+    "date": "2023-11-25T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048985": {
+    "eventId": "1048985",
+    "date": "2023-11-24T19:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1048986": {
+    "eventId": "1048986",
+    "date": "2023-11-26T16:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048987": {
+    "eventId": "1048987",
+    "date": "2023-11-25T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1048988": {
+    "eventId": "1048988",
+    "date": "2023-11-26T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1048989": {
+    "eventId": "1048989",
+    "date": "2024-01-24T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1048990": {
+    "eventId": "1048990",
+    "date": "2023-12-02T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048991": {
+    "eventId": "1048991",
+    "date": "2023-12-03T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1048992": {
+    "eventId": "1048992",
+    "date": "2023-12-03T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1048993": {
+    "eventId": "1048993",
+    "date": "2023-12-02T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048994": {
+    "eventId": "1048994",
+    "date": "2023-12-02T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1048995": {
+    "eventId": "1048995",
+    "date": "2023-12-03T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1048996": {
+    "eventId": "1048996",
+    "date": "2023-12-02T17:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1048997": {
+    "eventId": "1048997",
+    "date": "2023-12-01T19:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1048998": {
+    "eventId": "1048998",
+    "date": "2023-12-09T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1048999": {
+    "eventId": "1048999",
+    "date": "2023-12-09T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049000": {
+    "eventId": "1049000",
+    "date": "2023-12-09T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "bayern munich",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1049001": {
+    "eventId": "1049001",
+    "date": "2023-12-09T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049002": {
+    "eventId": "1049002",
+    "date": "2023-12-10T16:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049003": {
+    "eventId": "1049003",
+    "date": "2023-12-08T19:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049004": {
+    "eventId": "1049004",
+    "date": "2023-12-09T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049005": {
+    "eventId": "1049005",
+    "date": "2023-12-10T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049006": {
+    "eventId": "1049006",
+    "date": "2023-12-09T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049007": {
+    "eventId": "1049007",
+    "date": "2023-12-17T18:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049008": {
+    "eventId": "1049008",
+    "date": "2023-12-16T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049009": {
+    "eventId": "1049009",
+    "date": "2023-12-17T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049010": {
+    "eventId": "1049010",
+    "date": "2023-12-17T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049011": {
+    "eventId": "1049011",
+    "date": "2023-12-16T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049012": {
+    "eventId": "1049012",
+    "date": "2023-12-15T19:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049013": {
+    "eventId": "1049013",
+    "date": "2023-12-16T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049014": {
+    "eventId": "1049014",
+    "date": "2023-12-16T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049015": {
+    "eventId": "1049015",
+    "date": "2023-12-16T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049016": {
+    "eventId": "1049016",
+    "date": "2023-12-19T19:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049017": {
+    "eventId": "1049017",
+    "date": "2023-12-20T17:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049018": {
+    "eventId": "1049018",
+    "date": "2023-12-20T19:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1049019": {
+    "eventId": "1049019",
+    "date": "2023-12-20T19:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049020": {
+    "eventId": "1049020",
+    "date": "2023-12-20T19:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049021": {
+    "eventId": "1049021",
+    "date": "2023-12-19T19:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1049022": {
+    "eventId": "1049022",
+    "date": "2023-12-19T17:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049023": {
+    "eventId": "1049023",
+    "date": "2023-12-20T19:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049024": {
+    "eventId": "1049024",
+    "date": "2023-12-20T19:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049025": {
+    "eventId": "1049025",
+    "date": "2024-01-12T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049026": {
+    "eventId": "1049026",
+    "date": "2024-01-13T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049027": {
+    "eventId": "1049027",
+    "date": "2024-01-13T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049028": {
+    "eventId": "1049028",
+    "date": "2024-01-13T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049029": {
+    "eventId": "1049029",
+    "date": "2024-01-14T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049030": {
+    "eventId": "1049030",
+    "date": "2024-01-13T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049031": {
+    "eventId": "1049031",
+    "date": "2024-01-14T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049032": {
+    "eventId": "1049032",
+    "date": "2024-01-13T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049033": {
+    "eventId": "1049033",
+    "date": "2024-01-13T17:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1049034": {
+    "eventId": "1049034",
+    "date": "2024-01-21T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049035": {
+    "eventId": "1049035",
+    "date": "2024-01-20T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1049036": {
+    "eventId": "1049036",
+    "date": "2024-01-20T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049037": {
+    "eventId": "1049037",
+    "date": "2024-02-07T17:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049038": {
+    "eventId": "1049038",
+    "date": "2024-01-21T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049039": {
+    "eventId": "1049039",
+    "date": "2024-01-20T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1049040": {
+    "eventId": "1049040",
+    "date": "2024-01-20T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049041": {
+    "eventId": "1049041",
+    "date": "2024-01-20T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049042": {
+    "eventId": "1049042",
+    "date": "2024-01-20T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049043": {
+    "eventId": "1049043",
+    "date": "2024-01-28T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049044": {
+    "eventId": "1049044",
+    "date": "2024-01-28T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049045": {
+    "eventId": "1049045",
+    "date": "2024-01-27T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049046": {
+    "eventId": "1049046",
+    "date": "2024-01-26T19:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049047": {
+    "eventId": "1049047",
+    "date": "2024-01-27T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049048": {
+    "eventId": "1049048",
+    "date": "2024-01-27T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049049": {
+    "eventId": "1049049",
+    "date": "2024-01-27T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049050": {
+    "eventId": "1049050",
+    "date": "2024-01-27T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1049051": {
+    "eventId": "1049051",
+    "date": "2024-01-27T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 5,
+    "awayGoals": 2
+  },
+  "1049052": {
+    "eventId": "1049052",
+    "date": "2024-02-03T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049053": {
+    "eventId": "1049053",
+    "date": "2024-02-04T16:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049054": {
+    "eventId": "1049054",
+    "date": "2024-02-03T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1049055": {
+    "eventId": "1049055",
+    "date": "2024-02-04T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049056": {
+    "eventId": "1049056",
+    "date": "2024-02-03T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049057": {
+    "eventId": "1049057",
+    "date": "2024-02-03T17:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049058": {
+    "eventId": "1049058",
+    "date": "2024-02-03T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049059": {
+    "eventId": "1049059",
+    "date": "2024-02-02T19:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049060": {
+    "eventId": "1049060",
+    "date": "2024-02-03T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1049061": {
+    "eventId": "1049061",
+    "date": "2024-02-09T19:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049062": {
+    "eventId": "1049062",
+    "date": "2024-02-10T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049063": {
+    "eventId": "1049063",
+    "date": "2024-02-10T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049064": {
+    "eventId": "1049064",
+    "date": "2024-02-10T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049065": {
+    "eventId": "1049065",
+    "date": "2024-02-10T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049066": {
+    "eventId": "1049066",
+    "date": "2024-02-11T16:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049067": {
+    "eventId": "1049067",
+    "date": "2024-02-10T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049068": {
+    "eventId": "1049068",
+    "date": "2024-02-10T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049069": {
+    "eventId": "1049069",
+    "date": "2024-02-11T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049070": {
+    "eventId": "1049070",
+    "date": "2024-02-17T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049071": {
+    "eventId": "1049071",
+    "date": "2024-02-18T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1049072": {
+    "eventId": "1049072",
+    "date": "2024-02-17T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049073": {
+    "eventId": "1049073",
+    "date": "2024-02-17T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049074": {
+    "eventId": "1049074",
+    "date": "2024-02-16T19:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049075": {
+    "eventId": "1049075",
+    "date": "2024-02-17T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049076": {
+    "eventId": "1049076",
+    "date": "2024-02-18T16:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049077": {
+    "eventId": "1049077",
+    "date": "2024-02-17T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049078": {
+    "eventId": "1049078",
+    "date": "2024-02-17T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049079": {
+    "eventId": "1049079",
+    "date": "2024-02-24T17:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049080": {
+    "eventId": "1049080",
+    "date": "2024-02-25T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1049081": {
+    "eventId": "1049081",
+    "date": "2024-02-24T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049082": {
+    "eventId": "1049082",
+    "date": "2024-02-23T19:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049083": {
+    "eventId": "1049083",
+    "date": "2024-02-25T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049084": {
+    "eventId": "1049084",
+    "date": "2024-02-24T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 5,
+    "awayGoals": 2
+  },
+  "1049085": {
+    "eventId": "1049085",
+    "date": "2024-02-24T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049086": {
+    "eventId": "1049086",
+    "date": "2024-02-25T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049087": {
+    "eventId": "1049087",
+    "date": "2024-02-24T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049088": {
+    "eventId": "1049088",
+    "date": "2024-03-02T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1049089": {
+    "eventId": "1049089",
+    "date": "2024-03-01T19:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049090": {
+    "eventId": "1049090",
+    "date": "2024-03-02T17:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1049091": {
+    "eventId": "1049091",
+    "date": "2024-03-02T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049092": {
+    "eventId": "1049092",
+    "date": "2024-03-03T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1049093": {
+    "eventId": "1049093",
+    "date": "2024-03-03T16:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049094": {
+    "eventId": "1049094",
+    "date": "2024-03-02T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1049095": {
+    "eventId": "1049095",
+    "date": "2024-03-02T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049096": {
+    "eventId": "1049096",
+    "date": "2024-03-02T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 0,
+    "awayGoals": 6
+  },
+  "1049097": {
+    "eventId": "1049097",
+    "date": "2024-03-09T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 8,
+    "awayGoals": 1
+  },
+  "1049098": {
+    "eventId": "1049098",
+    "date": "2024-03-09T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049099": {
+    "eventId": "1049099",
+    "date": "2024-03-10T18:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049100": {
+    "eventId": "1049100",
+    "date": "2024-03-10T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049101": {
+    "eventId": "1049101",
+    "date": "2024-03-09T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1049102": {
+    "eventId": "1049102",
+    "date": "2024-03-09T17:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049103": {
+    "eventId": "1049103",
+    "date": "2024-03-10T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049104": {
+    "eventId": "1049104",
+    "date": "2024-03-09T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049105": {
+    "eventId": "1049105",
+    "date": "2024-03-08T19:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049106": {
+    "eventId": "1049106",
+    "date": "2024-03-17T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049107": {
+    "eventId": "1049107",
+    "date": "2024-03-16T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049108": {
+    "eventId": "1049108",
+    "date": "2024-03-17T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1049109": {
+    "eventId": "1049109",
+    "date": "2024-03-16T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1049110": {
+    "eventId": "1049110",
+    "date": "2024-03-16T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049111": {
+    "eventId": "1049111",
+    "date": "2024-03-15T19:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1049112": {
+    "eventId": "1049112",
+    "date": "2024-03-16T17:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1049113": {
+    "eventId": "1049113",
+    "date": "2024-03-16T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049114": {
+    "eventId": "1049114",
+    "date": "2024-03-16T14:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1049115": {
+    "eventId": "1049115",
+    "date": "2024-03-30T17:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1049116": {
+    "eventId": "1049116",
+    "date": "2024-03-30T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049117": {
+    "eventId": "1049117",
+    "date": "2024-03-30T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049118": {
+    "eventId": "1049118",
+    "date": "2024-03-30T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049119": {
+    "eventId": "1049119",
+    "date": "2024-03-30T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1049120": {
+    "eventId": "1049120",
+    "date": "2024-03-30T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1049121": {
+    "eventId": "1049121",
+    "date": "2024-03-31T17:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049122": {
+    "eventId": "1049122",
+    "date": "2024-03-31T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049123": {
+    "eventId": "1049123",
+    "date": "2024-03-31T15:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1049124": {
+    "eventId": "1049124",
+    "date": "2024-04-06T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049125": {
+    "eventId": "1049125",
+    "date": "2024-04-06T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049126": {
+    "eventId": "1049126",
+    "date": "2024-04-06T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1049127": {
+    "eventId": "1049127",
+    "date": "2024-04-05T18:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049128": {
+    "eventId": "1049128",
+    "date": "2024-04-07T15:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1049129": {
+    "eventId": "1049129",
+    "date": "2024-04-06T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1049130": {
+    "eventId": "1049130",
+    "date": "2024-04-06T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049131": {
+    "eventId": "1049131",
+    "date": "2024-04-07T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049132": {
+    "eventId": "1049132",
+    "date": "2024-04-06T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049133": {
+    "eventId": "1049133",
+    "date": "2024-04-13T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049134": {
+    "eventId": "1049134",
+    "date": "2024-04-13T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049135": {
+    "eventId": "1049135",
+    "date": "2024-04-14T15:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "werder bremen",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1049136": {
+    "eventId": "1049136",
+    "date": "2024-04-13T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1049137": {
+    "eventId": "1049137",
+    "date": "2024-04-13T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049138": {
+    "eventId": "1049138",
+    "date": "2024-04-13T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049139": {
+    "eventId": "1049139",
+    "date": "2024-04-12T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049140": {
+    "eventId": "1049140",
+    "date": "2024-04-13T16:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049141": {
+    "eventId": "1049141",
+    "date": "2024-04-14T13:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049142": {
+    "eventId": "1049142",
+    "date": "2024-04-21T15:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049143": {
+    "eventId": "1049143",
+    "date": "2024-04-20T16:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1049144": {
+    "eventId": "1049144",
+    "date": "2024-04-21T17:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049145": {
+    "eventId": "1049145",
+    "date": "2024-04-19T18:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049146": {
+    "eventId": "1049146",
+    "date": "2024-04-20T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1049147": {
+    "eventId": "1049147",
+    "date": "2024-04-20T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1049148": {
+    "eventId": "1049148",
+    "date": "2024-04-20T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1049149": {
+    "eventId": "1049149",
+    "date": "2024-04-21T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049150": {
+    "eventId": "1049150",
+    "date": "2024-04-20T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049151": {
+    "eventId": "1049151",
+    "date": "2024-04-27T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049152": {
+    "eventId": "1049152",
+    "date": "2024-04-27T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1049153": {
+    "eventId": "1049153",
+    "date": "2024-04-27T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1049154": {
+    "eventId": "1049154",
+    "date": "2024-04-27T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049155": {
+    "eventId": "1049155",
+    "date": "2024-04-28T15:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049156": {
+    "eventId": "1049156",
+    "date": "2024-04-28T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049157": {
+    "eventId": "1049157",
+    "date": "2024-04-26T18:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049158": {
+    "eventId": "1049158",
+    "date": "2024-04-27T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1049159": {
+    "eventId": "1049159",
+    "date": "2024-04-28T17:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049160": {
+    "eventId": "1049160",
+    "date": "2024-05-04T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1049161": {
+    "eventId": "1049161",
+    "date": "2024-05-05T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1049162": {
+    "eventId": "1049162",
+    "date": "2024-05-05T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1049163": {
+    "eventId": "1049163",
+    "date": "2024-05-04T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049164": {
+    "eventId": "1049164",
+    "date": "2024-05-04T16:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1049165": {
+    "eventId": "1049165",
+    "date": "2024-05-03T18:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049166": {
+    "eventId": "1049166",
+    "date": "2024-05-04T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049167": {
+    "eventId": "1049167",
+    "date": "2024-05-04T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1049168": {
+    "eventId": "1049168",
+    "date": "2024-05-05T17:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049169": {
+    "eventId": "1049169",
+    "date": "2024-05-12T15:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1049170": {
+    "eventId": "1049170",
+    "date": "2024-05-11T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049171": {
+    "eventId": "1049171",
+    "date": "2024-05-11T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049172": {
+    "eventId": "1049172",
+    "date": "2024-05-11T16:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1049173": {
+    "eventId": "1049173",
+    "date": "2024-05-11T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1049174": {
+    "eventId": "1049174",
+    "date": "2024-05-11T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1049175": {
+    "eventId": "1049175",
+    "date": "2024-05-12T17:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1049176": {
+    "eventId": "1049176",
+    "date": "2024-05-10T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1049177": {
+    "eventId": "1049177",
+    "date": "2024-05-12T13:30:00+00:00",
+    "homeNorm": "sv darmstadt 98",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 6
+  },
+  "1049178": {
+    "eventId": "1049178",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "sv darmstadt 98",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1049179": {
+    "eventId": "1049179",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049180": {
+    "eventId": "1049180",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1049181": {
+    "eventId": "1049181",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1049182": {
+    "eventId": "1049182",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1049183": {
+    "eventId": "1049183",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "bayern munich",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1049184": {
+    "eventId": "1049184",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1049185": {
+    "eventId": "1049185",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1049186": {
+    "eventId": "1049186",
+    "date": "2024-05-18T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1200849": {
+    "eventId": "1200849",
+    "date": "2024-05-23T18:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "fortuna dusseldorf",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1223975": {
+    "eventId": "1223975",
+    "date": "2024-08-23T18:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1223976": {
+    "eventId": "1223976",
+    "date": "2024-08-24T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1223977": {
+    "eventId": "1223977",
+    "date": "2024-08-24T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1223978": {
+    "eventId": "1223978",
+    "date": "2024-08-24T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1223979": {
+    "eventId": "1223979",
+    "date": "2024-08-24T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1223980": {
+    "eventId": "1223980",
+    "date": "2024-08-24T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1223981": {
+    "eventId": "1223981",
+    "date": "2024-08-25T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1223982": {
+    "eventId": "1223982",
+    "date": "2024-08-24T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1223983": {
+    "eventId": "1223983",
+    "date": "2024-08-25T15:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1223984": {
+    "eventId": "1223984",
+    "date": "2024-08-31T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1223985": {
+    "eventId": "1223985",
+    "date": "2024-08-31T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1223986": {
+    "eventId": "1223986",
+    "date": "2024-09-01T15:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1223987": {
+    "eventId": "1223987",
+    "date": "2024-08-31T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1223988": {
+    "eventId": "1223988",
+    "date": "2024-09-01T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1223989": {
+    "eventId": "1223989",
+    "date": "2024-08-31T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1223990": {
+    "eventId": "1223990",
+    "date": "2024-08-30T18:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1223991": {
+    "eventId": "1223991",
+    "date": "2024-08-31T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1223992": {
+    "eventId": "1223992",
+    "date": "2024-08-31T13:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1223993": {
+    "eventId": "1223993",
+    "date": "2024-09-14T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1223994": {
+    "eventId": "1223994",
+    "date": "2024-09-13T18:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "heidenheim",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1223995": {
+    "eventId": "1223995",
+    "date": "2024-09-14T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1223996": {
+    "eventId": "1223996",
+    "date": "2024-09-14T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1223997": {
+    "eventId": "1223997",
+    "date": "2024-09-15T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1223998": {
+    "eventId": "1223998",
+    "date": "2024-09-14T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1223999": {
+    "eventId": "1223999",
+    "date": "2024-09-15T15:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224000": {
+    "eventId": "1224000",
+    "date": "2024-09-14T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224001": {
+    "eventId": "1224001",
+    "date": "2024-09-14T16:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 6
+  },
+  "1224002": {
+    "eventId": "1224002",
+    "date": "2024-09-22T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1224003": {
+    "eventId": "1224003",
+    "date": "2024-09-22T15:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1224004": {
+    "eventId": "1224004",
+    "date": "2024-09-21T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224005": {
+    "eventId": "1224005",
+    "date": "2024-09-21T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224006": {
+    "eventId": "1224006",
+    "date": "2024-09-21T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1224007": {
+    "eventId": "1224007",
+    "date": "2024-09-20T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224008": {
+    "eventId": "1224008",
+    "date": "2024-09-21T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224009": {
+    "eventId": "1224009",
+    "date": "2024-09-21T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224010": {
+    "eventId": "1224010",
+    "date": "2024-09-22T17:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224011": {
+    "eventId": "1224011",
+    "date": "2024-09-28T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224012": {
+    "eventId": "1224012",
+    "date": "2024-09-28T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224013": {
+    "eventId": "1224013",
+    "date": "2024-09-27T18:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1224014": {
+    "eventId": "1224014",
+    "date": "2024-09-29T15:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "werder bremen",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1224015": {
+    "eventId": "1224015",
+    "date": "2024-09-28T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224016": {
+    "eventId": "1224016",
+    "date": "2024-09-28T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224017": {
+    "eventId": "1224017",
+    "date": "2024-09-28T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224018": {
+    "eventId": "1224018",
+    "date": "2024-09-28T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224019": {
+    "eventId": "1224019",
+    "date": "2024-09-29T13:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1224020": {
+    "eventId": "1224020",
+    "date": "2024-10-05T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224021": {
+    "eventId": "1224021",
+    "date": "2024-10-06T17:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224022": {
+    "eventId": "1224022",
+    "date": "2024-10-06T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1224023": {
+    "eventId": "1224023",
+    "date": "2024-10-06T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224024": {
+    "eventId": "1224024",
+    "date": "2024-10-05T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224025": {
+    "eventId": "1224025",
+    "date": "2024-10-04T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224026": {
+    "eventId": "1224026",
+    "date": "2024-10-05T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224027": {
+    "eventId": "1224027",
+    "date": "2024-10-05T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224028": {
+    "eventId": "1224028",
+    "date": "2024-10-05T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224029": {
+    "eventId": "1224029",
+    "date": "2024-10-19T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224030": {
+    "eventId": "1224030",
+    "date": "2024-10-19T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224031": {
+    "eventId": "1224031",
+    "date": "2024-10-18T18:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224032": {
+    "eventId": "1224032",
+    "date": "2024-10-19T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224033": {
+    "eventId": "1224033",
+    "date": "2024-10-19T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224034": {
+    "eventId": "1224034",
+    "date": "2024-10-20T15:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1224035": {
+    "eventId": "1224035",
+    "date": "2024-10-19T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224036": {
+    "eventId": "1224036",
+    "date": "2024-10-19T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224037": {
+    "eventId": "1224037",
+    "date": "2024-10-20T13:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224038": {
+    "eventId": "1224038",
+    "date": "2024-10-26T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224039": {
+    "eventId": "1224039",
+    "date": "2024-10-26T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224040": {
+    "eventId": "1224040",
+    "date": "2024-10-27T18:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224041": {
+    "eventId": "1224041",
+    "date": "2024-10-26T16:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224042": {
+    "eventId": "1224042",
+    "date": "2024-10-26T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224043": {
+    "eventId": "1224043",
+    "date": "2024-10-25T18:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224044": {
+    "eventId": "1224044",
+    "date": "2024-10-27T16:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224045": {
+    "eventId": "1224045",
+    "date": "2024-10-27T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1224046": {
+    "eventId": "1224046",
+    "date": "2024-10-26T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224047": {
+    "eventId": "1224047",
+    "date": "2024-11-01T19:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224048": {
+    "eventId": "1224048",
+    "date": "2024-11-02T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224049": {
+    "eventId": "1224049",
+    "date": "2024-11-02T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224050": {
+    "eventId": "1224050",
+    "date": "2024-11-02T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 7,
+    "awayGoals": 2
+  },
+  "1224051": {
+    "eventId": "1224051",
+    "date": "2024-11-02T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224052": {
+    "eventId": "1224052",
+    "date": "2024-11-03T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224053": {
+    "eventId": "1224053",
+    "date": "2024-11-02T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224054": {
+    "eventId": "1224054",
+    "date": "2024-11-03T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "werder bremen",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1224055": {
+    "eventId": "1224055",
+    "date": "2024-11-02T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224056": {
+    "eventId": "1224056",
+    "date": "2024-11-10T16:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224057": {
+    "eventId": "1224057",
+    "date": "2024-11-09T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224058": {
+    "eventId": "1224058",
+    "date": "2024-11-10T18:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224059": {
+    "eventId": "1224059",
+    "date": "2024-11-09T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224060": {
+    "eventId": "1224060",
+    "date": "2024-11-10T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224061": {
+    "eventId": "1224061",
+    "date": "2024-11-09T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224062": {
+    "eventId": "1224062",
+    "date": "2024-11-08T19:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224063": {
+    "eventId": "1224063",
+    "date": "2024-11-09T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224064": {
+    "eventId": "1224064",
+    "date": "2024-11-09T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224065": {
+    "eventId": "1224065",
+    "date": "2024-11-23T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "heidenheim",
+    "homeGoals": 5,
+    "awayGoals": 2
+  },
+  "1224066": {
+    "eventId": "1224066",
+    "date": "2024-11-23T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224067": {
+    "eventId": "1224067",
+    "date": "2024-11-22T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224068": {
+    "eventId": "1224068",
+    "date": "2024-11-23T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224069": {
+    "eventId": "1224069",
+    "date": "2024-11-23T17:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224070": {
+    "eventId": "1224070",
+    "date": "2024-11-23T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1224071": {
+    "eventId": "1224071",
+    "date": "2024-11-23T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224072": {
+    "eventId": "1224072",
+    "date": "2024-11-24T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224073": {
+    "eventId": "1224073",
+    "date": "2024-11-24T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224074": {
+    "eventId": "1224074",
+    "date": "2024-11-30T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1224075": {
+    "eventId": "1224075",
+    "date": "2024-11-30T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224076": {
+    "eventId": "1224076",
+    "date": "2024-12-01T16:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1224077": {
+    "eventId": "1224077",
+    "date": "2024-11-30T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224078": {
+    "eventId": "1224078",
+    "date": "2024-11-30T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224079": {
+    "eventId": "1224079",
+    "date": "2024-11-30T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224080": {
+    "eventId": "1224080",
+    "date": "2024-12-01T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224081": {
+    "eventId": "1224081",
+    "date": "2024-11-30T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224082": {
+    "eventId": "1224082",
+    "date": "2024-11-29T19:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224083": {
+    "eventId": "1224083",
+    "date": "2024-12-07T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224084": {
+    "eventId": "1224084",
+    "date": "2024-12-06T19:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224085": {
+    "eventId": "1224085",
+    "date": "2024-12-07T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "heidenheim",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1224086": {
+    "eventId": "1224086",
+    "date": "2024-12-07T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224087": {
+    "eventId": "1224087",
+    "date": "2024-12-08T16:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224088": {
+    "eventId": "1224088",
+    "date": "2024-12-08T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1224089": {
+    "eventId": "1224089",
+    "date": "2024-12-07T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224090": {
+    "eventId": "1224090",
+    "date": "2024-12-07T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224091": {
+    "eventId": "1224091",
+    "date": "2024-12-07T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224092": {
+    "eventId": "1224092",
+    "date": "2024-12-15T18:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224093": {
+    "eventId": "1224093",
+    "date": "2024-12-15T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224094": {
+    "eventId": "1224094",
+    "date": "2024-12-15T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224095": {
+    "eventId": "1224095",
+    "date": "2024-12-13T19:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224096": {
+    "eventId": "1224096",
+    "date": "2024-12-14T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224097": {
+    "eventId": "1224097",
+    "date": "2024-12-14T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224098": {
+    "eventId": "1224098",
+    "date": "2024-12-14T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1224099": {
+    "eventId": "1224099",
+    "date": "2024-12-14T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224100": {
+    "eventId": "1224100",
+    "date": "2024-12-14T17:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224101": {
+    "eventId": "1224101",
+    "date": "2024-12-21T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1224102": {
+    "eventId": "1224102",
+    "date": "2024-12-21T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224103": {
+    "eventId": "1224103",
+    "date": "2024-12-20T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1224104": {
+    "eventId": "1224104",
+    "date": "2024-12-21T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224105": {
+    "eventId": "1224105",
+    "date": "2024-12-21T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224106": {
+    "eventId": "1224106",
+    "date": "2024-12-21T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "union berlin",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1224107": {
+    "eventId": "1224107",
+    "date": "2024-12-22T16:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224108": {
+    "eventId": "1224108",
+    "date": "2024-12-22T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224109": {
+    "eventId": "1224109",
+    "date": "2024-12-21T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1224110": {
+    "eventId": "1224110",
+    "date": "2025-01-12T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "werder bremen",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1224111": {
+    "eventId": "1224111",
+    "date": "2025-01-10T19:45:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224112": {
+    "eventId": "1224112",
+    "date": "2025-01-11T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224113": {
+    "eventId": "1224113",
+    "date": "2025-01-11T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224114": {
+    "eventId": "1224114",
+    "date": "2025-01-11T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224115": {
+    "eventId": "1224115",
+    "date": "2025-01-12T16:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224116": {
+    "eventId": "1224116",
+    "date": "2025-01-11T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224117": {
+    "eventId": "1224117",
+    "date": "2025-01-11T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224118": {
+    "eventId": "1224118",
+    "date": "2025-01-11T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224119": {
+    "eventId": "1224119",
+    "date": "2025-01-14T19:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224120": {
+    "eventId": "1224120",
+    "date": "2025-01-15T19:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224121": {
+    "eventId": "1224121",
+    "date": "2025-01-15T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1224122": {
+    "eventId": "1224122",
+    "date": "2025-01-14T19:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1224123": {
+    "eventId": "1224123",
+    "date": "2025-01-15T19:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1224124": {
+    "eventId": "1224124",
+    "date": "2025-01-14T19:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1224125": {
+    "eventId": "1224125",
+    "date": "2025-01-15T19:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224126": {
+    "eventId": "1224126",
+    "date": "2025-01-15T17:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224127": {
+    "eventId": "1224127",
+    "date": "2025-01-14T17:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1224128": {
+    "eventId": "1224128",
+    "date": "2025-01-18T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224129": {
+    "eventId": "1224129",
+    "date": "2025-01-18T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224130": {
+    "eventId": "1224130",
+    "date": "2025-01-18T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224131": {
+    "eventId": "1224131",
+    "date": "2025-01-17T19:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224132": {
+    "eventId": "1224132",
+    "date": "2025-01-18T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224133": {
+    "eventId": "1224133",
+    "date": "2025-01-19T16:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224134": {
+    "eventId": "1224134",
+    "date": "2025-01-19T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224135": {
+    "eventId": "1224135",
+    "date": "2025-01-18T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1224136": {
+    "eventId": "1224136",
+    "date": "2025-01-18T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224137": {
+    "eventId": "1224137",
+    "date": "2025-01-25T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224138": {
+    "eventId": "1224138",
+    "date": "2025-01-25T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224139": {
+    "eventId": "1224139",
+    "date": "2025-01-26T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224140": {
+    "eventId": "1224140",
+    "date": "2025-01-25T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224141": {
+    "eventId": "1224141",
+    "date": "2025-01-25T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1224142": {
+    "eventId": "1224142",
+    "date": "2025-01-24T19:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224143": {
+    "eventId": "1224143",
+    "date": "2025-01-25T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224144": {
+    "eventId": "1224144",
+    "date": "2025-01-25T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224145": {
+    "eventId": "1224145",
+    "date": "2025-01-26T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224146": {
+    "eventId": "1224146",
+    "date": "2025-02-02T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224147": {
+    "eventId": "1224147",
+    "date": "2025-02-01T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224148": {
+    "eventId": "1224148",
+    "date": "2025-02-01T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1224149": {
+    "eventId": "1224149",
+    "date": "2025-02-02T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224150": {
+    "eventId": "1224150",
+    "date": "2025-02-01T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224151": {
+    "eventId": "1224151",
+    "date": "2025-01-31T19:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224152": {
+    "eventId": "1224152",
+    "date": "2025-02-01T17:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224153": {
+    "eventId": "1224153",
+    "date": "2025-02-01T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224154": {
+    "eventId": "1224154",
+    "date": "2025-02-01T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224155": {
+    "eventId": "1224155",
+    "date": "2025-02-07T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "werder bremen",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224156": {
+    "eventId": "1224156",
+    "date": "2025-02-09T16:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224157": {
+    "eventId": "1224157",
+    "date": "2025-02-08T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224158": {
+    "eventId": "1224158",
+    "date": "2025-02-08T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1224159": {
+    "eventId": "1224159",
+    "date": "2025-02-08T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224160": {
+    "eventId": "1224160",
+    "date": "2025-02-08T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224161": {
+    "eventId": "1224161",
+    "date": "2025-02-08T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224162": {
+    "eventId": "1224162",
+    "date": "2025-02-08T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224163": {
+    "eventId": "1224163",
+    "date": "2025-02-09T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224164": {
+    "eventId": "1224164",
+    "date": "2025-02-15T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224165": {
+    "eventId": "1224165",
+    "date": "2025-02-15T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224166": {
+    "eventId": "1224166",
+    "date": "2025-02-16T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224167": {
+    "eventId": "1224167",
+    "date": "2025-02-16T18:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224168": {
+    "eventId": "1224168",
+    "date": "2025-02-16T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224169": {
+    "eventId": "1224169",
+    "date": "2025-02-14T19:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224170": {
+    "eventId": "1224170",
+    "date": "2025-02-15T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224171": {
+    "eventId": "1224171",
+    "date": "2025-02-15T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224172": {
+    "eventId": "1224172",
+    "date": "2025-02-15T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224173": {
+    "eventId": "1224173",
+    "date": "2025-02-23T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224174": {
+    "eventId": "1224174",
+    "date": "2025-02-23T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224175": {
+    "eventId": "1224175",
+    "date": "2025-02-22T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "union berlin",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1224176": {
+    "eventId": "1224176",
+    "date": "2025-02-23T18:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224177": {
+    "eventId": "1224177",
+    "date": "2025-02-21T19:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1224178": {
+    "eventId": "1224178",
+    "date": "2025-02-22T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224179": {
+    "eventId": "1224179",
+    "date": "2025-02-22T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224180": {
+    "eventId": "1224180",
+    "date": "2025-02-22T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224181": {
+    "eventId": "1224181",
+    "date": "2025-02-22T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224182": {
+    "eventId": "1224182",
+    "date": "2025-02-28T19:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224183": {
+    "eventId": "1224183",
+    "date": "2025-03-01T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224184": {
+    "eventId": "1224184",
+    "date": "2025-03-01T17:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1224185": {
+    "eventId": "1224185",
+    "date": "2025-03-01T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224186": {
+    "eventId": "1224186",
+    "date": "2025-03-01T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224187": {
+    "eventId": "1224187",
+    "date": "2025-03-02T16:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224188": {
+    "eventId": "1224188",
+    "date": "2025-03-02T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224189": {
+    "eventId": "1224189",
+    "date": "2025-03-01T14:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224190": {
+    "eventId": "1224190",
+    "date": "2025-03-01T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224191": {
+    "eventId": "1224191",
+    "date": "2025-03-08T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1224192": {
+    "eventId": "1224192",
+    "date": "2025-03-08T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224193": {
+    "eventId": "1224193",
+    "date": "2025-03-08T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224194": {
+    "eventId": "1224194",
+    "date": "2025-03-09T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224195": {
+    "eventId": "1224195",
+    "date": "2025-03-09T16:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224196": {
+    "eventId": "1224196",
+    "date": "2025-03-08T17:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224197": {
+    "eventId": "1224197",
+    "date": "2025-03-08T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224198": {
+    "eventId": "1224198",
+    "date": "2025-03-07T19:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224199": {
+    "eventId": "1224199",
+    "date": "2025-03-08T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224200": {
+    "eventId": "1224200",
+    "date": "2025-03-16T18:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1224201": {
+    "eventId": "1224201",
+    "date": "2025-03-15T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224202": {
+    "eventId": "1224202",
+    "date": "2025-03-16T16:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224203": {
+    "eventId": "1224203",
+    "date": "2025-03-15T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1224204": {
+    "eventId": "1224204",
+    "date": "2025-03-15T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224205": {
+    "eventId": "1224205",
+    "date": "2025-03-15T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224206": {
+    "eventId": "1224206",
+    "date": "2025-03-15T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224207": {
+    "eventId": "1224207",
+    "date": "2025-03-16T15:20:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224208": {
+    "eventId": "1224208",
+    "date": "2025-03-14T19:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224209": {
+    "eventId": "1224209",
+    "date": "2025-03-28T19:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224210": {
+    "eventId": "1224210",
+    "date": "2025-03-29T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224211": {
+    "eventId": "1224211",
+    "date": "2025-03-30T15:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224212": {
+    "eventId": "1224212",
+    "date": "2025-03-29T17:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224213": {
+    "eventId": "1224213",
+    "date": "2025-03-29T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224214": {
+    "eventId": "1224214",
+    "date": "2025-03-30T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224215": {
+    "eventId": "1224215",
+    "date": "2025-03-29T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224216": {
+    "eventId": "1224216",
+    "date": "2025-03-29T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224217": {
+    "eventId": "1224217",
+    "date": "2025-03-29T14:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224218": {
+    "eventId": "1224218",
+    "date": "2025-04-05T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1224219": {
+    "eventId": "1224219",
+    "date": "2025-04-05T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224220": {
+    "eventId": "1224220",
+    "date": "2025-04-05T16:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224221": {
+    "eventId": "1224221",
+    "date": "2025-04-05T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1224222": {
+    "eventId": "1224222",
+    "date": "2025-04-04T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224223": {
+    "eventId": "1224223",
+    "date": "2025-04-05T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224224": {
+    "eventId": "1224224",
+    "date": "2025-04-06T15:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224225": {
+    "eventId": "1224225",
+    "date": "2025-04-05T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1224226": {
+    "eventId": "1224226",
+    "date": "2025-04-06T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224227": {
+    "eventId": "1224227",
+    "date": "2025-04-12T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224228": {
+    "eventId": "1224228",
+    "date": "2025-04-13T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224229": {
+    "eventId": "1224229",
+    "date": "2025-04-12T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224230": {
+    "eventId": "1224230",
+    "date": "2025-04-13T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224231": {
+    "eventId": "1224231",
+    "date": "2025-04-12T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224232": {
+    "eventId": "1224232",
+    "date": "2025-04-11T18:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224233": {
+    "eventId": "1224233",
+    "date": "2025-04-12T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224234": {
+    "eventId": "1224234",
+    "date": "2025-04-12T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224235": {
+    "eventId": "1224235",
+    "date": "2025-04-12T13:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224236": {
+    "eventId": "1224236",
+    "date": "2025-04-19T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224237": {
+    "eventId": "1224237",
+    "date": "2025-04-20T15:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224238": {
+    "eventId": "1224238",
+    "date": "2025-04-19T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1224239": {
+    "eventId": "1224239",
+    "date": "2025-04-19T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1224240": {
+    "eventId": "1224240",
+    "date": "2025-04-19T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1224241": {
+    "eventId": "1224241",
+    "date": "2025-04-20T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224242": {
+    "eventId": "1224242",
+    "date": "2025-04-19T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224243": {
+    "eventId": "1224243",
+    "date": "2025-04-19T16:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 4,
+    "awayGoals": 4
+  },
+  "1224244": {
+    "eventId": "1224244",
+    "date": "2025-04-20T17:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224245": {
+    "eventId": "1224245",
+    "date": "2025-04-26T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224246": {
+    "eventId": "1224246",
+    "date": "2025-04-25T18:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224247": {
+    "eventId": "1224247",
+    "date": "2025-04-26T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224248": {
+    "eventId": "1224248",
+    "date": "2025-04-26T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224249": {
+    "eventId": "1224249",
+    "date": "2025-04-26T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224250": {
+    "eventId": "1224250",
+    "date": "2025-04-27T15:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224251": {
+    "eventId": "1224251",
+    "date": "2025-04-26T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224252": {
+    "eventId": "1224252",
+    "date": "2025-04-27T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224253": {
+    "eventId": "1224253",
+    "date": "2025-04-26T13:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1224254": {
+    "eventId": "1224254",
+    "date": "2025-05-03T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1224255": {
+    "eventId": "1224255",
+    "date": "2025-05-03T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224256": {
+    "eventId": "1224256",
+    "date": "2025-05-02T18:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224257": {
+    "eventId": "1224257",
+    "date": "2025-05-04T15:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224258": {
+    "eventId": "1224258",
+    "date": "2025-05-04T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224259": {
+    "eventId": "1224259",
+    "date": "2025-05-04T17:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1224260": {
+    "eventId": "1224260",
+    "date": "2025-05-03T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 4,
+    "awayGoals": 4
+  },
+  "1224261": {
+    "eventId": "1224261",
+    "date": "2025-05-03T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224262": {
+    "eventId": "1224262",
+    "date": "2025-05-03T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224263": {
+    "eventId": "1224263",
+    "date": "2025-05-11T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1224264": {
+    "eventId": "1224264",
+    "date": "2025-05-11T17:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1224265": {
+    "eventId": "1224265",
+    "date": "2025-05-10T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1224266": {
+    "eventId": "1224266",
+    "date": "2025-05-11T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224267": {
+    "eventId": "1224267",
+    "date": "2025-05-10T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1224268": {
+    "eventId": "1224268",
+    "date": "2025-05-09T18:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224269": {
+    "eventId": "1224269",
+    "date": "2025-05-10T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "heidenheim",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1224270": {
+    "eventId": "1224270",
+    "date": "2025-05-10T13:30:00+00:00",
+    "homeNorm": "vfl bochum",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1224271": {
+    "eventId": "1224271",
+    "date": "2025-05-10T13:30:00+00:00",
+    "homeNorm": "holstein kiel",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224272": {
+    "eventId": "1224272",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1224273": {
+    "eventId": "1224273",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "holstein kiel",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1224274": {
+    "eventId": "1224274",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1224275": {
+    "eventId": "1224275",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1224276": {
+    "eventId": "1224276",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1224277": {
+    "eventId": "1224277",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1224278": {
+    "eventId": "1224278",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1224279": {
+    "eventId": "1224279",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1224280": {
+    "eventId": "1224280",
+    "date": "2025-05-17T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "vfl bochum",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1375862": {
+    "eventId": "1375862",
+    "date": "2025-05-22T18:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "sv elversberg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1375863": {
+    "eventId": "1375863",
+    "date": "2025-05-26T18:30:00+00:00",
+    "homeNorm": "sv elversberg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388308": {
+    "eventId": "1388308",
+    "date": "2025-08-22T18:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1388309": {
+    "eventId": "1388309",
+    "date": "2025-08-23T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388310": {
+    "eventId": "1388310",
+    "date": "2025-08-24T15:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388311": {
+    "eventId": "1388311",
+    "date": "2025-08-23T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "werder bremen",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388312": {
+    "eventId": "1388312",
+    "date": "2025-08-23T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388313": {
+    "eventId": "1388313",
+    "date": "2025-08-23T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388314": {
+    "eventId": "1388314",
+    "date": "2025-08-24T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388315": {
+    "eventId": "1388315",
+    "date": "2025-08-23T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388316": {
+    "eventId": "1388316",
+    "date": "2025-08-23T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388317": {
+    "eventId": "1388317",
+    "date": "2025-08-30T16:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1388318": {
+    "eventId": "1388318",
+    "date": "2025-08-31T15:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1388319": {
+    "eventId": "1388319",
+    "date": "2025-08-31T17:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388320": {
+    "eventId": "1388320",
+    "date": "2025-08-29T18:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388321": {
+    "eventId": "1388321",
+    "date": "2025-08-30T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388322": {
+    "eventId": "1388322",
+    "date": "2025-08-30T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388323": {
+    "eventId": "1388323",
+    "date": "2025-08-30T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388324": {
+    "eventId": "1388324",
+    "date": "2025-08-30T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388325": {
+    "eventId": "1388325",
+    "date": "2025-08-31T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388326": {
+    "eventId": "1388326",
+    "date": "2025-09-12T18:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388327": {
+    "eventId": "1388327",
+    "date": "2025-09-13T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1388328": {
+    "eventId": "1388328",
+    "date": "2025-09-14T15:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1388329": {
+    "eventId": "1388329",
+    "date": "2025-09-13T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388330": {
+    "eventId": "1388330",
+    "date": "2025-09-13T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388331": {
+    "eventId": "1388331",
+    "date": "2025-09-13T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388332": {
+    "eventId": "1388332",
+    "date": "2025-09-14T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388333": {
+    "eventId": "1388333",
+    "date": "2025-09-13T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1388334": {
+    "eventId": "1388334",
+    "date": "2025-09-13T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388335": {
+    "eventId": "1388335",
+    "date": "2025-09-20T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1388336": {
+    "eventId": "1388336",
+    "date": "2025-09-21T15:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388337": {
+    "eventId": "1388337",
+    "date": "2025-09-21T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388338": {
+    "eventId": "1388338",
+    "date": "2025-09-21T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1388339": {
+    "eventId": "1388339",
+    "date": "2025-09-20T13:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388340": {
+    "eventId": "1388340",
+    "date": "2025-09-20T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1388341": {
+    "eventId": "1388341",
+    "date": "2025-09-20T16:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388342": {
+    "eventId": "1388342",
+    "date": "2025-09-19T18:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388343": {
+    "eventId": "1388343",
+    "date": "2025-09-20T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388344": {
+    "eventId": "1388344",
+    "date": "2025-09-26T18:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "werder bremen",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388345": {
+    "eventId": "1388345",
+    "date": "2025-09-27T16:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 4,
+    "awayGoals": 6
+  },
+  "1388346": {
+    "eventId": "1388346",
+    "date": "2025-09-28T15:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388347": {
+    "eventId": "1388347",
+    "date": "2025-09-28T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388348": {
+    "eventId": "1388348",
+    "date": "2025-09-27T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388349": {
+    "eventId": "1388349",
+    "date": "2025-09-27T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388350": {
+    "eventId": "1388350",
+    "date": "2025-09-27T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388351": {
+    "eventId": "1388351",
+    "date": "2025-09-28T17:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388352": {
+    "eventId": "1388352",
+    "date": "2025-09-27T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388353": {
+    "eventId": "1388353",
+    "date": "2025-10-04T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388354": {
+    "eventId": "1388354",
+    "date": "2025-10-04T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "union berlin",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388355": {
+    "eventId": "1388355",
+    "date": "2025-10-05T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388356": {
+    "eventId": "1388356",
+    "date": "2025-10-04T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388357": {
+    "eventId": "1388357",
+    "date": "2025-10-04T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388358": {
+    "eventId": "1388358",
+    "date": "2025-10-05T15:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388359": {
+    "eventId": "1388359",
+    "date": "2025-10-03T18:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388360": {
+    "eventId": "1388360",
+    "date": "2025-10-05T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388361": {
+    "eventId": "1388361",
+    "date": "2025-10-04T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388362": {
+    "eventId": "1388362",
+    "date": "2025-10-18T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388363": {
+    "eventId": "1388363",
+    "date": "2025-10-18T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388364": {
+    "eventId": "1388364",
+    "date": "2025-10-19T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388365": {
+    "eventId": "1388365",
+    "date": "2025-10-18T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388366": {
+    "eventId": "1388366",
+    "date": "2025-10-18T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1388367": {
+    "eventId": "1388367",
+    "date": "2025-10-18T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388368": {
+    "eventId": "1388368",
+    "date": "2025-10-19T15:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388369": {
+    "eventId": "1388369",
+    "date": "2025-10-17T18:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388370": {
+    "eventId": "1388370",
+    "date": "2025-10-18T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388371": {
+    "eventId": "1388371",
+    "date": "2025-10-25T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 6
+  },
+  "1388372": {
+    "eventId": "1388372",
+    "date": "2025-10-26T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388373": {
+    "eventId": "1388373",
+    "date": "2025-10-25T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388374": {
+    "eventId": "1388374",
+    "date": "2025-10-25T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388375": {
+    "eventId": "1388375",
+    "date": "2025-10-25T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388376": {
+    "eventId": "1388376",
+    "date": "2025-10-25T13:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388377": {
+    "eventId": "1388377",
+    "date": "2025-10-25T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388378": {
+    "eventId": "1388378",
+    "date": "2025-10-26T16:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388379": {
+    "eventId": "1388379",
+    "date": "2025-10-24T18:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388380": {
+    "eventId": "1388380",
+    "date": "2025-10-31T19:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388381": {
+    "eventId": "1388381",
+    "date": "2025-11-01T17:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1388382": {
+    "eventId": "1388382",
+    "date": "2025-11-02T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388383": {
+    "eventId": "1388383",
+    "date": "2025-11-01T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388384": {
+    "eventId": "1388384",
+    "date": "2025-11-01T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388385": {
+    "eventId": "1388385",
+    "date": "2025-11-01T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388386": {
+    "eventId": "1388386",
+    "date": "2025-11-01T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1388387": {
+    "eventId": "1388387",
+    "date": "2025-11-01T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388388": {
+    "eventId": "1388388",
+    "date": "2025-11-02T16:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1388389": {
+    "eventId": "1388389",
+    "date": "2025-11-08T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "heidenheim",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1388390": {
+    "eventId": "1388390",
+    "date": "2025-11-08T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388391": {
+    "eventId": "1388391",
+    "date": "2025-11-09T18:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388392": {
+    "eventId": "1388392",
+    "date": "2025-11-09T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388393": {
+    "eventId": "1388393",
+    "date": "2025-11-08T14:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388394": {
+    "eventId": "1388394",
+    "date": "2025-11-08T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388395": {
+    "eventId": "1388395",
+    "date": "2025-11-09T16:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388396": {
+    "eventId": "1388396",
+    "date": "2025-11-08T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388397": {
+    "eventId": "1388397",
+    "date": "2025-11-07T19:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388398": {
+    "eventId": "1388398",
+    "date": "2025-11-22T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388399": {
+    "eventId": "1388399",
+    "date": "2025-11-22T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 6,
+    "awayGoals": 2
+  },
+  "1388400": {
+    "eventId": "1388400",
+    "date": "2025-11-22T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388401": {
+    "eventId": "1388401",
+    "date": "2025-11-22T17:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1388402": {
+    "eventId": "1388402",
+    "date": "2025-11-22T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388403": {
+    "eventId": "1388403",
+    "date": "2025-11-21T19:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388404": {
+    "eventId": "1388404",
+    "date": "2025-11-23T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388405": {
+    "eventId": "1388405",
+    "date": "2025-11-23T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388406": {
+    "eventId": "1388406",
+    "date": "2025-11-22T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388407": {
+    "eventId": "1388407",
+    "date": "2025-11-29T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388408": {
+    "eventId": "1388408",
+    "date": "2025-11-29T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388409": {
+    "eventId": "1388409",
+    "date": "2025-11-28T19:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388410": {
+    "eventId": "1388410",
+    "date": "2025-11-30T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388411": {
+    "eventId": "1388411",
+    "date": "2025-11-30T18:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388412": {
+    "eventId": "1388412",
+    "date": "2025-11-30T14:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388413": {
+    "eventId": "1388413",
+    "date": "2025-11-29T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1388414": {
+    "eventId": "1388414",
+    "date": "2025-11-29T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388415": {
+    "eventId": "1388415",
+    "date": "2025-11-29T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388416": {
+    "eventId": "1388416",
+    "date": "2025-12-06T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388417": {
+    "eventId": "1388417",
+    "date": "2025-12-07T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388418": {
+    "eventId": "1388418",
+    "date": "2025-12-06T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388419": {
+    "eventId": "1388419",
+    "date": "2025-12-07T14:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "werder bremen",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388420": {
+    "eventId": "1388420",
+    "date": "2025-12-06T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388421": {
+    "eventId": "1388421",
+    "date": "2025-12-05T19:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388422": {
+    "eventId": "1388422",
+    "date": "2025-12-06T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1388423": {
+    "eventId": "1388423",
+    "date": "2025-12-06T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1388424": {
+    "eventId": "1388424",
+    "date": "2025-12-06T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388425": {
+    "eventId": "1388425",
+    "date": "2025-12-13T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388426": {
+    "eventId": "1388426",
+    "date": "2025-12-14T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388427": {
+    "eventId": "1388427",
+    "date": "2025-12-13T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388428": {
+    "eventId": "1388428",
+    "date": "2025-12-13T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388429": {
+    "eventId": "1388429",
+    "date": "2025-12-14T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388430": {
+    "eventId": "1388430",
+    "date": "2025-12-13T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388431": {
+    "eventId": "1388431",
+    "date": "2025-12-13T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388432": {
+    "eventId": "1388432",
+    "date": "2025-12-12T19:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388433": {
+    "eventId": "1388433",
+    "date": "2025-12-14T18:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1388434": {
+    "eventId": "1388434",
+    "date": "2025-12-20T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388435": {
+    "eventId": "1388435",
+    "date": "2025-12-19T19:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388436": {
+    "eventId": "1388436",
+    "date": "2025-12-20T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388437": {
+    "eventId": "1388437",
+    "date": "2025-12-20T14:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388438": {
+    "eventId": "1388438",
+    "date": "2025-12-21T16:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1388439": {
+    "eventId": "1388439",
+    "date": "2025-12-21T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388440": {
+    "eventId": "1388440",
+    "date": "2025-12-20T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388441": {
+    "eventId": "1388441",
+    "date": "2025-12-20T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388442": {
+    "eventId": "1388442",
+    "date": "2025-12-20T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1388443": {
+    "eventId": "1388443",
+    "date": "2026-01-10T17:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1388444": {
+    "eventId": "1388444",
+    "date": "2026-01-11T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 8,
+    "awayGoals": 1
+  },
+  "1388445": {
+    "eventId": "1388445",
+    "date": "2026-01-11T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388446": {
+    "eventId": "1388446",
+    "date": "2026-01-09T19:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388447": {
+    "eventId": "1388447",
+    "date": "2026-01-10T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388448": {
+    "eventId": "1388448",
+    "date": "2026-01-10T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388449": {
+    "eventId": "1388449",
+    "date": "2026-01-27T19:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388450": {
+    "eventId": "1388450",
+    "date": "2026-01-10T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388451": {
+    "eventId": "1388451",
+    "date": "2026-01-27T19:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388452": {
+    "eventId": "1388452",
+    "date": "2026-01-15T19:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388453": {
+    "eventId": "1388453",
+    "date": "2026-01-13T19:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "werder bremen",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1388454": {
+    "eventId": "1388454",
+    "date": "2026-01-14T19:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388455": {
+    "eventId": "1388455",
+    "date": "2026-03-04T19:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388456": {
+    "eventId": "1388456",
+    "date": "2026-01-14T19:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1388457": {
+    "eventId": "1388457",
+    "date": "2026-01-13T19:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388458": {
+    "eventId": "1388458",
+    "date": "2026-01-14T19:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388459": {
+    "eventId": "1388459",
+    "date": "2026-01-13T17:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388460": {
+    "eventId": "1388460",
+    "date": "2026-01-14T17:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388461": {
+    "eventId": "1388461",
+    "date": "2026-01-18T16:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388462": {
+    "eventId": "1388462",
+    "date": "2026-01-17T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388463": {
+    "eventId": "1388463",
+    "date": "2026-01-17T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388464": {
+    "eventId": "1388464",
+    "date": "2026-01-17T14:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388465": {
+    "eventId": "1388465",
+    "date": "2026-01-17T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388466": {
+    "eventId": "1388466",
+    "date": "2026-01-17T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1388467": {
+    "eventId": "1388467",
+    "date": "2026-01-18T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388468": {
+    "eventId": "1388468",
+    "date": "2026-01-16T19:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388469": {
+    "eventId": "1388469",
+    "date": "2026-01-17T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388470": {
+    "eventId": "1388470",
+    "date": "2026-01-24T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388471": {
+    "eventId": "1388471",
+    "date": "2026-01-24T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388472": {
+    "eventId": "1388472",
+    "date": "2026-01-25T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388473": {
+    "eventId": "1388473",
+    "date": "2026-01-24T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388474": {
+    "eventId": "1388474",
+    "date": "2026-01-25T16:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388475": {
+    "eventId": "1388475",
+    "date": "2026-01-24T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388476": {
+    "eventId": "1388476",
+    "date": "2026-01-24T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388477": {
+    "eventId": "1388477",
+    "date": "2026-01-23T19:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388478": {
+    "eventId": "1388478",
+    "date": "2026-01-24T17:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388479": {
+    "eventId": "1388479",
+    "date": "2026-01-31T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388480": {
+    "eventId": "1388480",
+    "date": "2026-02-01T16:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388481": {
+    "eventId": "1388481",
+    "date": "2026-01-31T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388482": {
+    "eventId": "1388482",
+    "date": "2026-01-30T19:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388483": {
+    "eventId": "1388483",
+    "date": "2026-01-31T17:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388484": {
+    "eventId": "1388484",
+    "date": "2026-01-31T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388485": {
+    "eventId": "1388485",
+    "date": "2026-01-31T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388486": {
+    "eventId": "1388486",
+    "date": "2026-02-01T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388487": {
+    "eventId": "1388487",
+    "date": "2026-01-31T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388488": {
+    "eventId": "1388488",
+    "date": "2026-02-08T16:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1388489": {
+    "eventId": "1388489",
+    "date": "2026-02-07T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388490": {
+    "eventId": "1388490",
+    "date": "2026-02-08T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388491": {
+    "eventId": "1388491",
+    "date": "2026-02-07T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388492": {
+    "eventId": "1388492",
+    "date": "2026-02-07T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388493": {
+    "eventId": "1388493",
+    "date": "2026-02-07T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388494": {
+    "eventId": "1388494",
+    "date": "2026-02-07T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388495": {
+    "eventId": "1388495",
+    "date": "2026-02-06T19:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388496": {
+    "eventId": "1388496",
+    "date": "2026-02-07T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388497": {
+    "eventId": "1388497",
+    "date": "2026-02-15T14:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388498": {
+    "eventId": "1388498",
+    "date": "2026-02-14T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388499": {
+    "eventId": "1388499",
+    "date": "2026-02-13T19:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388500": {
+    "eventId": "1388500",
+    "date": "2026-02-14T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1388501": {
+    "eventId": "1388501",
+    "date": "2026-02-14T14:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388502": {
+    "eventId": "1388502",
+    "date": "2026-02-14T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1388503": {
+    "eventId": "1388503",
+    "date": "2026-02-15T16:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388504": {
+    "eventId": "1388504",
+    "date": "2026-02-14T17:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388505": {
+    "eventId": "1388505",
+    "date": "2026-02-14T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1388506": {
+    "eventId": "1388506",
+    "date": "2026-02-21T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388507": {
+    "eventId": "1388507",
+    "date": "2026-02-21T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388508": {
+    "eventId": "1388508",
+    "date": "2026-02-22T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388509": {
+    "eventId": "1388509",
+    "date": "2026-02-22T18:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388510": {
+    "eventId": "1388510",
+    "date": "2026-02-20T19:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388511": {
+    "eventId": "1388511",
+    "date": "2026-02-21T17:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388512": {
+    "eventId": "1388512",
+    "date": "2026-02-22T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "werder bremen",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388513": {
+    "eventId": "1388513",
+    "date": "2026-02-21T14:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388514": {
+    "eventId": "1388514",
+    "date": "2026-02-21T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1388515": {
+    "eventId": "1388515",
+    "date": "2026-02-27T19:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388516": {
+    "eventId": "1388516",
+    "date": "2026-02-28T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388517": {
+    "eventId": "1388517",
+    "date": "2026-02-28T14:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388518": {
+    "eventId": "1388518",
+    "date": "2026-02-28T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1388519": {
+    "eventId": "1388519",
+    "date": "2026-03-01T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388520": {
+    "eventId": "1388520",
+    "date": "2026-03-01T18:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388521": {
+    "eventId": "1388521",
+    "date": "2026-02-28T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388522": {
+    "eventId": "1388522",
+    "date": "2026-03-01T14:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388523": {
+    "eventId": "1388523",
+    "date": "2026-02-28T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388524": {
+    "eventId": "1388524",
+    "date": "2026-03-06T19:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388525": {
+    "eventId": "1388525",
+    "date": "2026-03-07T17:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388526": {
+    "eventId": "1388526",
+    "date": "2026-03-07T14:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388527": {
+    "eventId": "1388527",
+    "date": "2026-03-07T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1388528": {
+    "eventId": "1388528",
+    "date": "2026-03-07T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388529": {
+    "eventId": "1388529",
+    "date": "2026-03-07T14:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388530": {
+    "eventId": "1388530",
+    "date": "2026-03-08T14:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388531": {
+    "eventId": "1388531",
+    "date": "2026-03-08T16:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1388532": {
+    "eventId": "1388532",
+    "date": "2026-03-07T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388533": {
+    "eventId": "1388533",
+    "date": "2026-03-14T14:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "bayern munich",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388534": {
+    "eventId": "1388534",
+    "date": "2026-03-13T19:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388535": {
+    "eventId": "1388535",
+    "date": "2026-03-14T14:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388536": {
+    "eventId": "1388536",
+    "date": "2026-03-14T14:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388537": {
+    "eventId": "1388537",
+    "date": "2026-03-15T16:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "union berlin",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388538": {
+    "eventId": "1388538",
+    "date": "2026-03-14T17:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388539": {
+    "eventId": "1388539",
+    "date": "2026-03-14T14:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388540": {
+    "eventId": "1388540",
+    "date": "2026-03-15T18:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388541": {
+    "eventId": "1388541",
+    "date": "2026-03-15T14:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388542": {
+    "eventId": "1388542",
+    "date": "2026-03-22T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1388543": {
+    "eventId": "1388543",
+    "date": "2026-03-21T14:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "union berlin",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388544": {
+    "eventId": "1388544",
+    "date": "2026-03-21T17:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388545": {
+    "eventId": "1388545",
+    "date": "2026-03-21T14:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388546": {
+    "eventId": "1388546",
+    "date": "2026-03-21T14:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388547": {
+    "eventId": "1388547",
+    "date": "2026-03-22T14:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388548": {
+    "eventId": "1388548",
+    "date": "2026-03-20T19:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1388549": {
+    "eventId": "1388549",
+    "date": "2026-03-22T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388550": {
+    "eventId": "1388550",
+    "date": "2026-03-21T14:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "werder bremen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388551": {
+    "eventId": "1388551",
+    "date": "2026-04-04T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 6,
+    "awayGoals": 3
+  },
+  "1388552": {
+    "eventId": "1388552",
+    "date": "2026-04-04T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388553": {
+    "eventId": "1388553",
+    "date": "2026-04-05T15:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388554": {
+    "eventId": "1388554",
+    "date": "2026-04-04T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1388555": {
+    "eventId": "1388555",
+    "date": "2026-04-04T13:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388556": {
+    "eventId": "1388556",
+    "date": "2026-04-04T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388557": {
+    "eventId": "1388557",
+    "date": "2026-04-04T16:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388558": {
+    "eventId": "1388558",
+    "date": "2026-04-05T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388559": {
+    "eventId": "1388559",
+    "date": "2026-04-04T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388560": {
+    "eventId": "1388560",
+    "date": "2026-04-10T18:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388561": {
+    "eventId": "1388561",
+    "date": "2026-04-11T13:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388562": {
+    "eventId": "1388562",
+    "date": "2026-04-12T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "werder bremen",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388563": {
+    "eventId": "1388563",
+    "date": "2026-04-11T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388564": {
+    "eventId": "1388564",
+    "date": "2026-04-12T17:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388565": {
+    "eventId": "1388565",
+    "date": "2026-04-11T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388566": {
+    "eventId": "1388566",
+    "date": "2026-04-11T16:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1388567": {
+    "eventId": "1388567",
+    "date": "2026-04-12T15:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388568": {
+    "eventId": "1388568",
+    "date": "2026-04-11T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388569": {
+    "eventId": "1388569",
+    "date": "2026-04-18T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388570": {
+    "eventId": "1388570",
+    "date": "2026-04-19T15:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1388571": {
+    "eventId": "1388571",
+    "date": "2026-04-19T17:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388572": {
+    "eventId": "1388572",
+    "date": "2026-04-18T16:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388573": {
+    "eventId": "1388573",
+    "date": "2026-04-19T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "heidenheim",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388574": {
+    "eventId": "1388574",
+    "date": "2026-04-18T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388575": {
+    "eventId": "1388575",
+    "date": "2026-04-17T18:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388576": {
+    "eventId": "1388576",
+    "date": "2026-04-18T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388577": {
+    "eventId": "1388577",
+    "date": "2026-04-18T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388578": {
+    "eventId": "1388578",
+    "date": "2026-04-25T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388579": {
+    "eventId": "1388579",
+    "date": "2026-04-26T15:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388580": {
+    "eventId": "1388580",
+    "date": "2026-04-25T13:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388581": {
+    "eventId": "1388581",
+    "date": "2026-04-25T16:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388582": {
+    "eventId": "1388582",
+    "date": "2026-04-25T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1388583": {
+    "eventId": "1388583",
+    "date": "2026-04-25T13:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "bayern munich",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1388584": {
+    "eventId": "1388584",
+    "date": "2026-04-24T18:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "union berlin",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388585": {
+    "eventId": "1388585",
+    "date": "2026-04-26T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388586": {
+    "eventId": "1388586",
+    "date": "2026-04-25T13:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388587": {
+    "eventId": "1388587",
+    "date": "2026-05-02T16:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388588": {
+    "eventId": "1388588",
+    "date": "2026-05-02T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "heidenheim",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388589": {
+    "eventId": "1388589",
+    "date": "2026-05-03T15:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388590": {
+    "eventId": "1388590",
+    "date": "2026-05-02T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388591": {
+    "eventId": "1388591",
+    "date": "2026-05-03T17:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388592": {
+    "eventId": "1388592",
+    "date": "2026-05-02T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1388593": {
+    "eventId": "1388593",
+    "date": "2026-05-03T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1388594": {
+    "eventId": "1388594",
+    "date": "2026-05-02T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388595": {
+    "eventId": "1388595",
+    "date": "2026-05-02T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388596": {
+    "eventId": "1388596",
+    "date": "2026-05-09T13:30:00+00:00",
+    "homeNorm": "fc augsburg",
+    "awayNorm": "borussia monchengladbach",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388597": {
+    "eventId": "1388597",
+    "date": "2026-05-08T18:30:00+00:00",
+    "homeNorm": "borussia dortmund",
+    "awayNorm": "eintracht frankfurt",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388598": {
+    "eventId": "1388598",
+    "date": "2026-05-10T15:30:00+00:00",
+    "homeNorm": "1 fc koln",
+    "awayNorm": "heidenheim",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388599": {
+    "eventId": "1388599",
+    "date": "2026-05-10T13:30:00+00:00",
+    "homeNorm": "hamburger sv",
+    "awayNorm": "sc freiburg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1388600": {
+    "eventId": "1388600",
+    "date": "2026-05-09T13:30:00+00:00",
+    "homeNorm": "1899 hoffenheim",
+    "awayNorm": "werder bremen",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1388601": {
+    "eventId": "1388601",
+    "date": "2026-05-10T17:30:00+00:00",
+    "homeNorm": "fsv mainz 05",
+    "awayNorm": "union berlin",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388602": {
+    "eventId": "1388602",
+    "date": "2026-05-09T13:30:00+00:00",
+    "homeNorm": "rb leipzig",
+    "awayNorm": "fc st pauli",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388603": {
+    "eventId": "1388603",
+    "date": "2026-05-09T13:30:00+00:00",
+    "homeNorm": "vfb stuttgart",
+    "awayNorm": "bayer leverkusen",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388604": {
+    "eventId": "1388604",
+    "date": "2026-05-09T16:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "bayern munich",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1388605": {
+    "eventId": "1388605",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "bayer leverkusen",
+    "awayNorm": "hamburger sv",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1388606": {
+    "eventId": "1388606",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "bayern munich",
+    "awayNorm": "1 fc koln",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1388607": {
+    "eventId": "1388607",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "borussia monchengladbach",
+    "awayNorm": "1899 hoffenheim",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388608": {
+    "eventId": "1388608",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "eintracht frankfurt",
+    "awayNorm": "vfb stuttgart",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1388609": {
+    "eventId": "1388609",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "sc freiburg",
+    "awayNorm": "rb leipzig",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1388610": {
+    "eventId": "1388610",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "heidenheim",
+    "awayNorm": "fsv mainz 05",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1388611": {
+    "eventId": "1388611",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "fc st pauli",
+    "awayNorm": "vfl wolfsburg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1388612": {
+    "eventId": "1388612",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "union berlin",
+    "awayNorm": "fc augsburg",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1388613": {
+    "eventId": "1388613",
+    "date": "2026-05-16T13:30:00+00:00",
+    "homeNorm": "werder bremen",
+    "awayNorm": "borussia dortmund",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1545417": {
+    "eventId": "1545417",
+    "date": "2026-05-21T18:30:00+00:00",
+    "homeNorm": "vfl wolfsburg",
+    "awayNorm": "sc paderborn 07",
+    "homeGoals": 0,
+    "awayGoals": 0
+  }
+}

@@ -34,6 +34,8 @@ jobs:
           cp -r .next/standalone/. deploy/
           cp -r .next/static deploy/.next/static
           cp -r public deploy/public
+          # 联赛回测种子数据(随产物带上,VPS 部署时播种到数据目录,供 /backtest 调参)
+          [ -d seed ] && cp -r seed deploy/seed || true
           tar czf deploy.tar.gz -C deploy .
       - uses: actions/upload-artifact@v4
         with:
@@ -117,6 +119,15 @@ jobs:
             DATA_DIR=/opt/apps/worldcup-data
             mkdir -p "$DATA_DIR"
             export ODDS_KEYS_FILE="$DATA_DIR/odds-keys.json"
+            # ── 联赛回测数据播种(copy-if-missing;静态历史,prod 不生成 league-* 故永不覆盖现有)──
+            mkdir -p "$DATA_DIR/predict"
+            if [ -d "$STAGING/seed/leagues" ]; then
+              for f in "$STAGING/seed/leagues/"*.json; do
+                [ -e "$f" ] || continue
+                dest="$DATA_DIR/predict/$(basename "$f")"
+                [ -f "$dest" ] || cp "$f" "$dest"
+              done
+            fi
             # 预测系统数据目录(历史/评分 JSON,部署不丢)
             export WC_DATA_DIR="$DATA_DIR"
             # 管理员口令(前端 key 管理鉴权;未设则该功能禁用)

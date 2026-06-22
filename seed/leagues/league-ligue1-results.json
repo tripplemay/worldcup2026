@@ -1,0 +1,7378 @@
+{
+  "1044881": {
+    "eventId": "1044881",
+    "date": "2023-08-12T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lorient",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044882": {
+    "eventId": "1044882",
+    "date": "2023-08-13T18:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1044883": {
+    "eventId": "1044883",
+    "date": "2023-08-13T15:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "metz",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1044884": {
+    "eventId": "1044884",
+    "date": "2023-08-12T15:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1044885": {
+    "eventId": "1044885",
+    "date": "2023-08-11T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044886": {
+    "eventId": "1044886",
+    "date": "2023-08-13T13:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1044887": {
+    "eventId": "1044887",
+    "date": "2023-08-13T13:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044888": {
+    "eventId": "1044888",
+    "date": "2023-08-13T13:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044889": {
+    "eventId": "1044889",
+    "date": "2023-08-13T11:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1044890": {
+    "eventId": "1044890",
+    "date": "2023-08-19T19:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044891": {
+    "eventId": "1044891",
+    "date": "2023-08-20T13:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044892": {
+    "eventId": "1044892",
+    "date": "2023-08-20T17:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044893": {
+    "eventId": "1044893",
+    "date": "2023-08-20T11:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044894": {
+    "eventId": "1044894",
+    "date": "2023-08-19T17:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1044895": {
+    "eventId": "1044895",
+    "date": "2023-08-20T13:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "clermont foot",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044896": {
+    "eventId": "1044896",
+    "date": "2023-08-20T18:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044897": {
+    "eventId": "1044897",
+    "date": "2023-08-20T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044898": {
+    "eventId": "1044898",
+    "date": "2023-08-18T19:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044899": {
+    "eventId": "1044899",
+    "date": "2023-08-26T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1044900": {
+    "eventId": "1044900",
+    "date": "2023-08-27T13:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044901": {
+    "eventId": "1044901",
+    "date": "2023-08-27T11:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044902": {
+    "eventId": "1044902",
+    "date": "2023-08-26T17:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044903": {
+    "eventId": "1044903",
+    "date": "2023-08-27T15:05:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "lille",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1044904": {
+    "eventId": "1044904",
+    "date": "2023-08-27T18:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044905": {
+    "eventId": "1044905",
+    "date": "2023-08-27T13:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044906": {
+    "eventId": "1044906",
+    "date": "2023-08-25T19:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "monaco",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1044907": {
+    "eventId": "1044907",
+    "date": "2023-08-27T13:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1044908": {
+    "eventId": "1044908",
+    "date": "2023-09-03T11:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "clermont foot",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044909": {
+    "eventId": "1044909",
+    "date": "2023-09-02T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044910": {
+    "eventId": "1044910",
+    "date": "2023-09-03T13:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044911": {
+    "eventId": "1044911",
+    "date": "2023-09-03T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1044912": {
+    "eventId": "1044912",
+    "date": "2023-09-03T15:05:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044913": {
+    "eventId": "1044913",
+    "date": "2023-09-01T19:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044914": {
+    "eventId": "1044914",
+    "date": "2023-09-03T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044915": {
+    "eventId": "1044915",
+    "date": "2023-09-03T13:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044916": {
+    "eventId": "1044916",
+    "date": "2023-09-02T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044917": {
+    "eventId": "1044917",
+    "date": "2023-09-15T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1044918": {
+    "eventId": "1044918",
+    "date": "2023-09-17T13:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044919": {
+    "eventId": "1044919",
+    "date": "2023-09-16T15:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044920": {
+    "eventId": "1044920",
+    "date": "2023-09-17T15:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044921": {
+    "eventId": "1044921",
+    "date": "2023-09-17T11:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1044922": {
+    "eventId": "1044922",
+    "date": "2023-09-17T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044923": {
+    "eventId": "1044923",
+    "date": "2023-09-17T13:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044924": {
+    "eventId": "1044924",
+    "date": "2023-09-17T13:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044925": {
+    "eventId": "1044925",
+    "date": "2023-09-16T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044926": {
+    "eventId": "1044926",
+    "date": "2023-09-24T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "marseille",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1044927": {
+    "eventId": "1044927",
+    "date": "2023-09-22T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044928": {
+    "eventId": "1044928",
+    "date": "2023-09-26T19:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044929": {
+    "eventId": "1044929",
+    "date": "2023-09-24T13:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1044930": {
+    "eventId": "1044930",
+    "date": "2023-09-23T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lorient",
+    "homeGoals": 5,
+    "awayGoals": 3
+  },
+  "1044931": {
+    "eventId": "1044931",
+    "date": "2023-09-24T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "clermont foot",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1044932": {
+    "eventId": "1044932",
+    "date": "2023-09-24T11:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044933": {
+    "eventId": "1044933",
+    "date": "2023-09-24T15:05:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044934": {
+    "eventId": "1044934",
+    "date": "2023-09-23T19:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044935": {
+    "eventId": "1044935",
+    "date": "2023-09-29T19:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044936": {
+    "eventId": "1044936",
+    "date": "2023-10-01T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1044937": {
+    "eventId": "1044937",
+    "date": "2023-10-01T13:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044938": {
+    "eventId": "1044938",
+    "date": "2023-10-01T15:05:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "montpellier",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1044939": {
+    "eventId": "1044939",
+    "date": "2023-09-30T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1044940": {
+    "eventId": "1044940",
+    "date": "2023-10-01T13:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044941": {
+    "eventId": "1044941",
+    "date": "2023-09-30T15:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044942": {
+    "eventId": "1044942",
+    "date": "2023-10-01T11:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044943": {
+    "eventId": "1044943",
+    "date": "2023-10-01T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1044944": {
+    "eventId": "1044944",
+    "date": "2023-10-06T19:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044945": {
+    "eventId": "1044945",
+    "date": "2023-10-08T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1044946": {
+    "eventId": "1044946",
+    "date": "2023-10-08T11:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044947": {
+    "eventId": "1044947",
+    "date": "2023-10-08T13:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1044948": {
+    "eventId": "1044948",
+    "date": "2023-10-07T19:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1044949": {
+    "eventId": "1044949",
+    "date": "2023-10-08T15:05:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044950": {
+    "eventId": "1044950",
+    "date": "2023-10-07T15:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044951": {
+    "eventId": "1044951",
+    "date": "2023-11-29T18:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "clermont foot",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044952": {
+    "eventId": "1044952",
+    "date": "2023-10-08T13:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044953": {
+    "eventId": "1044953",
+    "date": "2023-10-21T15:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044954": {
+    "eventId": "1044954",
+    "date": "2023-10-22T13:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044955": {
+    "eventId": "1044955",
+    "date": "2023-10-22T11:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1044956": {
+    "eventId": "1044956",
+    "date": "2023-10-22T15:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1044957": {
+    "eventId": "1044957",
+    "date": "2023-10-22T13:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044958": {
+    "eventId": "1044958",
+    "date": "2023-10-22T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "clermont foot",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044959": {
+    "eventId": "1044959",
+    "date": "2023-10-21T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044960": {
+    "eventId": "1044960",
+    "date": "2023-10-22T13:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044961": {
+    "eventId": "1044961",
+    "date": "2023-10-20T19:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044962": {
+    "eventId": "1044962",
+    "date": "2023-10-29T16:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044963": {
+    "eventId": "1044963",
+    "date": "2023-12-06T20:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044964": {
+    "eventId": "1044964",
+    "date": "2023-10-29T14:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044965": {
+    "eventId": "1044965",
+    "date": "2023-10-27T19:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044966": {
+    "eventId": "1044966",
+    "date": "2023-10-28T15:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044967": {
+    "eventId": "1044967",
+    "date": "2023-10-28T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "nantes",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1044968": {
+    "eventId": "1044968",
+    "date": "2023-10-29T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044969": {
+    "eventId": "1044969",
+    "date": "2023-10-29T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044970": {
+    "eventId": "1044970",
+    "date": "2023-10-29T12:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1044971": {
+    "eventId": "1044971",
+    "date": "2023-11-03T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "montpellier",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1044972": {
+    "eventId": "1044972",
+    "date": "2023-11-05T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "clermont foot",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044973": {
+    "eventId": "1044973",
+    "date": "2023-11-05T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1044974": {
+    "eventId": "1044974",
+    "date": "2023-11-04T20:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044975": {
+    "eventId": "1044975",
+    "date": "2023-11-04T16:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044976": {
+    "eventId": "1044976",
+    "date": "2023-11-05T16:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044977": {
+    "eventId": "1044977",
+    "date": "2023-11-05T12:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "metz",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044978": {
+    "eventId": "1044978",
+    "date": "2023-11-05T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1044979": {
+    "eventId": "1044979",
+    "date": "2023-11-05T14:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "reims",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044980": {
+    "eventId": "1044980",
+    "date": "2023-11-12T16:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1044981": {
+    "eventId": "1044981",
+    "date": "2023-11-12T14:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044982": {
+    "eventId": "1044982",
+    "date": "2023-11-12T14:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044983": {
+    "eventId": "1044983",
+    "date": "2023-11-11T16:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1044984": {
+    "eventId": "1044984",
+    "date": "2023-11-12T19:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044985": {
+    "eventId": "1044985",
+    "date": "2023-11-11T20:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044986": {
+    "eventId": "1044986",
+    "date": "2023-11-12T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1044987": {
+    "eventId": "1044987",
+    "date": "2023-11-10T20:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044988": {
+    "eventId": "1044988",
+    "date": "2023-12-07T19:30:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044989": {
+    "eventId": "1044989",
+    "date": "2023-11-24T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "monaco",
+    "homeGoals": 5,
+    "awayGoals": 2
+  },
+  "1044990": {
+    "eventId": "1044990",
+    "date": "2023-11-25T20:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044991": {
+    "eventId": "1044991",
+    "date": "2023-11-26T16:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "reims",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1044992": {
+    "eventId": "1044992",
+    "date": "2023-11-26T14:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1044993": {
+    "eventId": "1044993",
+    "date": "2023-11-26T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1044994": {
+    "eventId": "1044994",
+    "date": "2023-11-26T12:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1044995": {
+    "eventId": "1044995",
+    "date": "2023-11-25T16:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1044996": {
+    "eventId": "1044996",
+    "date": "2023-11-26T14:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1044997": {
+    "eventId": "1044997",
+    "date": "2023-11-26T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1044998": {
+    "eventId": "1044998",
+    "date": "2023-12-03T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1044999": {
+    "eventId": "1044999",
+    "date": "2023-12-03T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045000": {
+    "eventId": "1045000",
+    "date": "2023-12-03T14:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045001": {
+    "eventId": "1045001",
+    "date": "2023-12-03T16:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045002": {
+    "eventId": "1045002",
+    "date": "2023-12-01T20:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045003": {
+    "eventId": "1045003",
+    "date": "2023-12-02T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1045004": {
+    "eventId": "1045004",
+    "date": "2023-12-02T20:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045005": {
+    "eventId": "1045005",
+    "date": "2023-12-03T12:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045006": {
+    "eventId": "1045006",
+    "date": "2023-12-03T14:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "clermont foot",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1045007": {
+    "eventId": "1045007",
+    "date": "2023-12-09T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045008": {
+    "eventId": "1045008",
+    "date": "2023-12-10T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045009": {
+    "eventId": "1045009",
+    "date": "2023-12-09T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045010": {
+    "eventId": "1045010",
+    "date": "2023-12-10T19:45:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1045011": {
+    "eventId": "1045011",
+    "date": "2023-12-10T16:05:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1045012": {
+    "eventId": "1045012",
+    "date": "2023-12-10T12:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045013": {
+    "eventId": "1045013",
+    "date": "2023-12-10T14:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045014": {
+    "eventId": "1045014",
+    "date": "2023-12-10T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045015": {
+    "eventId": "1045015",
+    "date": "2023-12-08T20:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045016": {
+    "eventId": "1045016",
+    "date": "2023-12-17T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045017": {
+    "eventId": "1045017",
+    "date": "2023-12-17T16:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "clermont foot",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045018": {
+    "eventId": "1045018",
+    "date": "2023-12-17T14:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045019": {
+    "eventId": "1045019",
+    "date": "2023-12-15T20:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045020": {
+    "eventId": "1045020",
+    "date": "2023-12-17T19:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045021": {
+    "eventId": "1045021",
+    "date": "2023-12-16T20:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045022": {
+    "eventId": "1045022",
+    "date": "2023-12-17T12:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045023": {
+    "eventId": "1045023",
+    "date": "2023-12-16T16:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "nice",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045024": {
+    "eventId": "1045024",
+    "date": "2023-12-17T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "montpellier",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045025": {
+    "eventId": "1045025",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045026": {
+    "eventId": "1045026",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045027": {
+    "eventId": "1045027",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045028": {
+    "eventId": "1045028",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045029": {
+    "eventId": "1045029",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045030": {
+    "eventId": "1045030",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045031": {
+    "eventId": "1045031",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045032": {
+    "eventId": "1045032",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045033": {
+    "eventId": "1045033",
+    "date": "2023-12-20T20:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lorient",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1045034": {
+    "eventId": "1045034",
+    "date": "2024-01-13T20:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045035": {
+    "eventId": "1045035",
+    "date": "2024-01-12T20:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045036": {
+    "eventId": "1045036",
+    "date": "2024-01-13T16:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045037": {
+    "eventId": "1045037",
+    "date": "2024-01-14T12:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1045038": {
+    "eventId": "1045038",
+    "date": "2024-01-14T14:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "clermont foot",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045039": {
+    "eventId": "1045039",
+    "date": "2024-01-14T16:05:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045040": {
+    "eventId": "1045040",
+    "date": "2024-01-14T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045041": {
+    "eventId": "1045041",
+    "date": "2024-01-14T14:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045042": {
+    "eventId": "1045042",
+    "date": "2024-01-14T19:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045043": {
+    "eventId": "1045043",
+    "date": "2024-01-28T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045044": {
+    "eventId": "1045044",
+    "date": "2024-01-28T16:05:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045045": {
+    "eventId": "1045045",
+    "date": "2024-01-27T20:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045046": {
+    "eventId": "1045046",
+    "date": "2024-01-28T14:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1045047": {
+    "eventId": "1045047",
+    "date": "2024-01-26T20:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1045048": {
+    "eventId": "1045048",
+    "date": "2024-01-27T16:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "metz",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045049": {
+    "eventId": "1045049",
+    "date": "2024-01-28T14:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045050": {
+    "eventId": "1045050",
+    "date": "2024-01-28T14:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045051": {
+    "eventId": "1045051",
+    "date": "2024-01-28T12:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045052": {
+    "eventId": "1045052",
+    "date": "2024-02-02T20:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045053": {
+    "eventId": "1045053",
+    "date": "2024-02-03T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045054": {
+    "eventId": "1045054",
+    "date": "2024-02-04T12:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045055": {
+    "eventId": "1045055",
+    "date": "2024-02-04T14:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "clermont foot",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1045056": {
+    "eventId": "1045056",
+    "date": "2024-02-04T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045057": {
+    "eventId": "1045057",
+    "date": "2024-02-04T14:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1045058": {
+    "eventId": "1045058",
+    "date": "2024-02-03T20:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045059": {
+    "eventId": "1045059",
+    "date": "2024-02-04T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045060": {
+    "eventId": "1045060",
+    "date": "2024-02-04T16:05:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045061": {
+    "eventId": "1045061",
+    "date": "2024-02-10T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lille",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045062": {
+    "eventId": "1045062",
+    "date": "2024-02-11T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045063": {
+    "eventId": "1045063",
+    "date": "2024-02-09T20:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "metz",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045064": {
+    "eventId": "1045064",
+    "date": "2024-02-11T14:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045065": {
+    "eventId": "1045065",
+    "date": "2024-02-11T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1045066": {
+    "eventId": "1045066",
+    "date": "2024-02-11T14:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045067": {
+    "eventId": "1045067",
+    "date": "2024-02-10T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045068": {
+    "eventId": "1045068",
+    "date": "2024-02-11T12:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045069": {
+    "eventId": "1045069",
+    "date": "2024-02-11T16:05:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045070": {
+    "eventId": "1045070",
+    "date": "2024-02-18T12:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045071": {
+    "eventId": "1045071",
+    "date": "2024-02-18T14:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "clermont foot",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045072": {
+    "eventId": "1045072",
+    "date": "2024-02-18T14:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045073": {
+    "eventId": "1045073",
+    "date": "2024-02-17T16:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1045074": {
+    "eventId": "1045074",
+    "date": "2024-02-16T20:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045075": {
+    "eventId": "1045075",
+    "date": "2024-02-18T16:05:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045076": {
+    "eventId": "1045076",
+    "date": "2024-02-17T20:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045077": {
+    "eventId": "1045077",
+    "date": "2024-02-18T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1045078": {
+    "eventId": "1045078",
+    "date": "2024-02-18T19:45:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045079": {
+    "eventId": "1045079",
+    "date": "2024-02-25T16:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045080": {
+    "eventId": "1045080",
+    "date": "2024-02-24T20:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1045081": {
+    "eventId": "1045081",
+    "date": "2024-02-25T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lille",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045082": {
+    "eventId": "1045082",
+    "date": "2024-02-25T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "montpellier",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1045083": {
+    "eventId": "1045083",
+    "date": "2024-02-24T16:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045084": {
+    "eventId": "1045084",
+    "date": "2024-02-25T14:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "clermont foot",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045085": {
+    "eventId": "1045085",
+    "date": "2024-02-25T12:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1045086": {
+    "eventId": "1045086",
+    "date": "2024-02-25T14:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045087": {
+    "eventId": "1045087",
+    "date": "2024-02-23T20:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045088": {
+    "eventId": "1045088",
+    "date": "2024-03-03T16:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045089": {
+    "eventId": "1045089",
+    "date": "2024-03-03T12:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045090": {
+    "eventId": "1045090",
+    "date": "2024-03-01T20:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045091": {
+    "eventId": "1045091",
+    "date": "2024-03-03T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1045092": {
+    "eventId": "1045092",
+    "date": "2024-03-02T20:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1045093": {
+    "eventId": "1045093",
+    "date": "2024-03-02T16:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045094": {
+    "eventId": "1045094",
+    "date": "2024-03-03T14:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045095": {
+    "eventId": "1045095",
+    "date": "2024-03-03T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045096": {
+    "eventId": "1045096",
+    "date": "2024-03-03T14:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045097": {
+    "eventId": "1045097",
+    "date": "2024-03-10T12:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045098": {
+    "eventId": "1045098",
+    "date": "2024-03-10T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045099": {
+    "eventId": "1045099",
+    "date": "2024-03-10T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045100": {
+    "eventId": "1045100",
+    "date": "2024-03-09T16:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045101": {
+    "eventId": "1045101",
+    "date": "2024-03-10T16:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045102": {
+    "eventId": "1045102",
+    "date": "2024-03-08T20:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045103": {
+    "eventId": "1045103",
+    "date": "2024-03-09T20:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045104": {
+    "eventId": "1045104",
+    "date": "2024-03-10T14:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045105": {
+    "eventId": "1045105",
+    "date": "2024-03-10T14:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "clermont foot",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045106": {
+    "eventId": "1045106",
+    "date": "2024-03-17T16:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045107": {
+    "eventId": "1045107",
+    "date": "2024-03-15T20:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1045108": {
+    "eventId": "1045108",
+    "date": "2024-03-17T14:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045109": {
+    "eventId": "1045109",
+    "date": "2024-03-17T14:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045110": {
+    "eventId": "1045110",
+    "date": "2024-03-17T14:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045111": {
+    "eventId": "1045111",
+    "date": "2024-03-16T20:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045112": {
+    "eventId": "1045112",
+    "date": "2024-03-16T16:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045113": {
+    "eventId": "1045113",
+    "date": "2024-03-17T19:45:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 6
+  },
+  "1045114": {
+    "eventId": "1045114",
+    "date": "2024-03-17T12:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045115": {
+    "eventId": "1045115",
+    "date": "2024-03-31T15:05:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045116": {
+    "eventId": "1045116",
+    "date": "2024-03-31T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045117": {
+    "eventId": "1045117",
+    "date": "2024-03-31T11:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045118": {
+    "eventId": "1045118",
+    "date": "2024-03-29T20:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045119": {
+    "eventId": "1045119",
+    "date": "2024-03-30T20:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045120": {
+    "eventId": "1045120",
+    "date": "2024-03-31T13:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045121": {
+    "eventId": "1045121",
+    "date": "2024-03-31T13:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1045122": {
+    "eventId": "1045122",
+    "date": "2024-03-31T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "montpellier",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045123": {
+    "eventId": "1045123",
+    "date": "2024-03-30T16:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1045124": {
+    "eventId": "1045124",
+    "date": "2024-04-06T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "clermont foot",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045125": {
+    "eventId": "1045125",
+    "date": "2024-04-07T13:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045126": {
+    "eventId": "1045126",
+    "date": "2024-04-07T15:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045127": {
+    "eventId": "1045127",
+    "date": "2024-04-05T19:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045128": {
+    "eventId": "1045128",
+    "date": "2024-04-07T13:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045129": {
+    "eventId": "1045129",
+    "date": "2024-04-06T15:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045130": {
+    "eventId": "1045130",
+    "date": "2024-04-07T18:45:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045131": {
+    "eventId": "1045131",
+    "date": "2024-04-07T13:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045132": {
+    "eventId": "1045132",
+    "date": "2024-04-07T11:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "metz",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1045133": {
+    "eventId": "1045133",
+    "date": "2024-04-13T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "reims",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045134": {
+    "eventId": "1045134",
+    "date": "2024-04-13T19:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045135": {
+    "eventId": "1045135",
+    "date": "2024-04-24T19:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045136": {
+    "eventId": "1045136",
+    "date": "2024-04-24T17:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1045137": {
+    "eventId": "1045137",
+    "date": "2024-04-24T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045138": {
+    "eventId": "1045138",
+    "date": "2024-04-14T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1045139": {
+    "eventId": "1045139",
+    "date": "2024-04-14T13:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045140": {
+    "eventId": "1045140",
+    "date": "2024-04-14T11:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045141": {
+    "eventId": "1045141",
+    "date": "2024-04-12T19:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045142": {
+    "eventId": "1045142",
+    "date": "2024-04-21T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lyon",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1045143": {
+    "eventId": "1045143",
+    "date": "2024-04-21T17:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045144": {
+    "eventId": "1045144",
+    "date": "2024-04-21T13:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045145": {
+    "eventId": "1045145",
+    "date": "2024-04-19T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1045146": {
+    "eventId": "1045146",
+    "date": "2024-04-21T13:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045147": {
+    "eventId": "1045147",
+    "date": "2024-04-20T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "clermont foot",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045148": {
+    "eventId": "1045148",
+    "date": "2024-04-20T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1045149": {
+    "eventId": "1045149",
+    "date": "2024-04-21T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045150": {
+    "eventId": "1045150",
+    "date": "2024-04-21T15:05:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045151": {
+    "eventId": "1045151",
+    "date": "2024-04-27T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1045152": {
+    "eventId": "1045152",
+    "date": "2024-04-28T13:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045153": {
+    "eventId": "1045153",
+    "date": "2024-04-28T15:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 4,
+    "awayGoals": 5
+  },
+  "1045154": {
+    "eventId": "1045154",
+    "date": "2024-04-28T19:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045155": {
+    "eventId": "1045155",
+    "date": "2024-04-28T13:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045156": {
+    "eventId": "1045156",
+    "date": "2024-04-28T17:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "monaco",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1045157": {
+    "eventId": "1045157",
+    "date": "2024-04-28T13:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "reims",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1045158": {
+    "eventId": "1045158",
+    "date": "2024-04-28T11:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045159": {
+    "eventId": "1045159",
+    "date": "2024-04-26T19:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045160": {
+    "eventId": "1045160",
+    "date": "2024-05-03T17:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045161": {
+    "eventId": "1045161",
+    "date": "2024-05-04T15:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "clermont foot",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1045162": {
+    "eventId": "1045162",
+    "date": "2024-05-06T19:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1045163": {
+    "eventId": "1045163",
+    "date": "2024-05-15T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045164": {
+    "eventId": "1045164",
+    "date": "2024-05-15T19:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045165": {
+    "eventId": "1045165",
+    "date": "2024-05-03T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1045166": {
+    "eventId": "1045166",
+    "date": "2024-05-04T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045167": {
+    "eventId": "1045167",
+    "date": "2024-05-04T17:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1045168": {
+    "eventId": "1045168",
+    "date": "2024-05-04T19:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1045169": {
+    "eventId": "1045169",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1045170": {
+    "eventId": "1045170",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045171": {
+    "eventId": "1045171",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045172": {
+    "eventId": "1045172",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1045173": {
+    "eventId": "1045173",
+    "date": "2024-05-10T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1045174": {
+    "eventId": "1045174",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "clermont foot",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1045175": {
+    "eventId": "1045175",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045176": {
+    "eventId": "1045176",
+    "date": "2024-05-12T19:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1045177": {
+    "eventId": "1045177",
+    "date": "2024-05-10T19:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1045178": {
+    "eventId": "1045178",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1045179": {
+    "eventId": "1045179",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "clermont foot",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1045180": {
+    "eventId": "1045180",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "nantes",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1045181": {
+    "eventId": "1045181",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045182": {
+    "eventId": "1045182",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045183": {
+    "eventId": "1045183",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1045184": {
+    "eventId": "1045184",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1045185": {
+    "eventId": "1045185",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1045186": {
+    "eventId": "1045186",
+    "date": "2024-05-19T19:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1201624": {
+    "eventId": "1201624",
+    "date": "2024-05-30T18:30:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213747": {
+    "eventId": "1213747",
+    "date": "2024-08-17T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1213748": {
+    "eventId": "1213748",
+    "date": "2024-08-18T15:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213749": {
+    "eventId": "1213749",
+    "date": "2024-08-18T15:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213750": {
+    "eventId": "1213750",
+    "date": "2024-08-18T15:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213751": {
+    "eventId": "1213751",
+    "date": "2024-08-17T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "saint etienne",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213752": {
+    "eventId": "1213752",
+    "date": "2024-08-17T17:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213753": {
+    "eventId": "1213753",
+    "date": "2024-08-18T13:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213754": {
+    "eventId": "1213754",
+    "date": "2024-08-16T18:45:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1213755": {
+    "eventId": "1213755",
+    "date": "2024-08-18T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1213756": {
+    "eventId": "1213756",
+    "date": "2024-08-23T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "montpellier",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1213757": {
+    "eventId": "1213757",
+    "date": "2024-08-25T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213758": {
+    "eventId": "1213758",
+    "date": "2024-08-25T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213759": {
+    "eventId": "1213759",
+    "date": "2024-08-24T19:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213760": {
+    "eventId": "1213760",
+    "date": "2024-08-24T17:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213761": {
+    "eventId": "1213761",
+    "date": "2024-08-25T15:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213762": {
+    "eventId": "1213762",
+    "date": "2024-08-25T13:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213763": {
+    "eventId": "1213763",
+    "date": "2024-08-24T15:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213764": {
+    "eventId": "1213764",
+    "date": "2024-08-25T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213765": {
+    "eventId": "1213765",
+    "date": "2024-09-01T18:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213766": {
+    "eventId": "1213766",
+    "date": "2024-08-30T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "strasbourg",
+    "homeGoals": 4,
+    "awayGoals": 3
+  },
+  "1213767": {
+    "eventId": "1213767",
+    "date": "2024-08-31T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "saint etienne",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1213768": {
+    "eventId": "1213768",
+    "date": "2024-08-31T17:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213769": {
+    "eventId": "1213769",
+    "date": "2024-09-01T15:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1213770": {
+    "eventId": "1213770",
+    "date": "2024-09-01T13:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213771": {
+    "eventId": "1213771",
+    "date": "2024-09-01T15:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213772": {
+    "eventId": "1213772",
+    "date": "2024-09-01T15:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213773": {
+    "eventId": "1213773",
+    "date": "2024-08-31T19:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213774": {
+    "eventId": "1213774",
+    "date": "2024-09-14T17:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213775": {
+    "eventId": "1213775",
+    "date": "2024-09-15T13:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "montpellier",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1213776": {
+    "eventId": "1213776",
+    "date": "2024-09-15T18:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213777": {
+    "eventId": "1213777",
+    "date": "2024-09-15T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213778": {
+    "eventId": "1213778",
+    "date": "2024-09-15T15:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213779": {
+    "eventId": "1213779",
+    "date": "2024-09-15T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213780": {
+    "eventId": "1213780",
+    "date": "2024-09-13T18:45:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213781": {
+    "eventId": "1213781",
+    "date": "2024-09-14T15:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213782": {
+    "eventId": "1213782",
+    "date": "2024-09-14T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213783": {
+    "eventId": "1213783",
+    "date": "2024-09-22T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1213784": {
+    "eventId": "1213784",
+    "date": "2024-09-20T18:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "saint etienne",
+    "homeGoals": 8,
+    "awayGoals": 0
+  },
+  "1213785": {
+    "eventId": "1213785",
+    "date": "2024-09-21T19:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213786": {
+    "eventId": "1213786",
+    "date": "2024-09-22T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213787": {
+    "eventId": "1213787",
+    "date": "2024-09-22T15:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213788": {
+    "eventId": "1213788",
+    "date": "2024-09-22T15:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213789": {
+    "eventId": "1213789",
+    "date": "2024-09-21T15:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1213790": {
+    "eventId": "1213790",
+    "date": "2024-09-21T17:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213791": {
+    "eventId": "1213791",
+    "date": "2024-09-22T13:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213792": {
+    "eventId": "1213792",
+    "date": "2024-09-29T18:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213793": {
+    "eventId": "1213793",
+    "date": "2024-09-27T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213794": {
+    "eventId": "1213794",
+    "date": "2024-09-27T17:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1213795": {
+    "eventId": "1213795",
+    "date": "2024-09-28T15:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213796": {
+    "eventId": "1213796",
+    "date": "2024-09-29T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "saint etienne",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213797": {
+    "eventId": "1213797",
+    "date": "2024-09-28T17:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213798": {
+    "eventId": "1213798",
+    "date": "2024-09-29T13:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213799": {
+    "eventId": "1213799",
+    "date": "2024-09-28T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213800": {
+    "eventId": "1213800",
+    "date": "2024-09-29T15:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213801": {
+    "eventId": "1213801",
+    "date": "2024-10-06T13:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213802": {
+    "eventId": "1213802",
+    "date": "2024-10-06T18:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213803": {
+    "eventId": "1213803",
+    "date": "2024-10-05T17:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213804": {
+    "eventId": "1213804",
+    "date": "2024-10-05T15:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213805": {
+    "eventId": "1213805",
+    "date": "2024-10-06T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213806": {
+    "eventId": "1213806",
+    "date": "2024-10-04T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213807": {
+    "eventId": "1213807",
+    "date": "2024-10-05T19:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213808": {
+    "eventId": "1213808",
+    "date": "2024-10-06T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213809": {
+    "eventId": "1213809",
+    "date": "2024-10-06T15:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "montpellier",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1213810": {
+    "eventId": "1213810",
+    "date": "2024-10-20T15:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213811": {
+    "eventId": "1213811",
+    "date": "2024-10-20T15:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213812": {
+    "eventId": "1213812",
+    "date": "2024-10-20T13:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1213813": {
+    "eventId": "1213813",
+    "date": "2024-10-20T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213814": {
+    "eventId": "1213814",
+    "date": "2024-10-20T18:45:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1213815": {
+    "eventId": "1213815",
+    "date": "2024-10-18T18:45:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213816": {
+    "eventId": "1213816",
+    "date": "2024-10-19T17:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213817": {
+    "eventId": "1213817",
+    "date": "2024-10-19T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213818": {
+    "eventId": "1213818",
+    "date": "2024-10-19T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "strasbourg",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1213819": {
+    "eventId": "1213819",
+    "date": "2024-10-27T15:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213820": {
+    "eventId": "1213820",
+    "date": "2024-10-26T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213821": {
+    "eventId": "1213821",
+    "date": "2024-10-27T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213822": {
+    "eventId": "1213822",
+    "date": "2024-10-27T13:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213823": {
+    "eventId": "1213823",
+    "date": "2024-10-27T15:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213824": {
+    "eventId": "1213824",
+    "date": "2024-10-27T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213825": {
+    "eventId": "1213825",
+    "date": "2024-10-25T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213826": {
+    "eventId": "1213826",
+    "date": "2024-10-26T15:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "saint etienne",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1213827": {
+    "eventId": "1213827",
+    "date": "2024-10-26T17:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213828": {
+    "eventId": "1213828",
+    "date": "2024-11-03T16:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "rennes",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1213829": {
+    "eventId": "1213829",
+    "date": "2024-11-03T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213830": {
+    "eventId": "1213830",
+    "date": "2024-11-01T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213831": {
+    "eventId": "1213831",
+    "date": "2024-11-03T16:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213832": {
+    "eventId": "1213832",
+    "date": "2024-11-03T19:45:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213833": {
+    "eventId": "1213833",
+    "date": "2024-11-01T20:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213834": {
+    "eventId": "1213834",
+    "date": "2024-11-02T20:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213835": {
+    "eventId": "1213835",
+    "date": "2024-11-02T18:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213836": {
+    "eventId": "1213836",
+    "date": "2024-11-02T16:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213837": {
+    "eventId": "1213837",
+    "date": "2024-11-08T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213838": {
+    "eventId": "1213838",
+    "date": "2024-11-10T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "saint etienne",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213839": {
+    "eventId": "1213839",
+    "date": "2024-11-10T16:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213840": {
+    "eventId": "1213840",
+    "date": "2024-11-10T16:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "reims",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213841": {
+    "eventId": "1213841",
+    "date": "2024-11-09T16:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213842": {
+    "eventId": "1213842",
+    "date": "2024-11-09T18:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213843": {
+    "eventId": "1213843",
+    "date": "2024-11-10T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213844": {
+    "eventId": "1213844",
+    "date": "2024-11-10T14:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213845": {
+    "eventId": "1213845",
+    "date": "2024-11-09T20:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1213846": {
+    "eventId": "1213846",
+    "date": "2024-11-22T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1213847": {
+    "eventId": "1213847",
+    "date": "2024-11-23T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213848": {
+    "eventId": "1213848",
+    "date": "2024-11-24T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213849": {
+    "eventId": "1213849",
+    "date": "2024-11-23T18:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213850": {
+    "eventId": "1213850",
+    "date": "2024-11-24T14:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213851": {
+    "eventId": "1213851",
+    "date": "2024-11-24T16:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213852": {
+    "eventId": "1213852",
+    "date": "2024-11-22T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213853": {
+    "eventId": "1213853",
+    "date": "2024-11-24T16:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213854": {
+    "eventId": "1213854",
+    "date": "2024-11-23T20:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213855": {
+    "eventId": "1213855",
+    "date": "2024-11-29T19:45:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213856": {
+    "eventId": "1213856",
+    "date": "2024-11-30T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "saint etienne",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1213857": {
+    "eventId": "1213857",
+    "date": "2024-12-01T16:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213858": {
+    "eventId": "1213858",
+    "date": "2024-12-01T16:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213859": {
+    "eventId": "1213859",
+    "date": "2024-11-30T18:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213860": {
+    "eventId": "1213860",
+    "date": "2024-12-01T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213861": {
+    "eventId": "1213861",
+    "date": "2024-11-30T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213862": {
+    "eventId": "1213862",
+    "date": "2024-12-01T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213863": {
+    "eventId": "1213863",
+    "date": "2024-12-01T16:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "nice",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1213864": {
+    "eventId": "1213864",
+    "date": "2024-12-07T18:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213865": {
+    "eventId": "1213865",
+    "date": "2024-12-06T20:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213866": {
+    "eventId": "1213866",
+    "date": "2024-12-08T19:45:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213867": {
+    "eventId": "1213867",
+    "date": "2024-12-07T20:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213868": {
+    "eventId": "1213868",
+    "date": "2024-12-06T18:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213869": {
+    "eventId": "1213869",
+    "date": "2024-12-08T14:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213870": {
+    "eventId": "1213870",
+    "date": "2024-12-08T16:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "reims",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213871": {
+    "eventId": "1213871",
+    "date": "2024-12-08T16:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213872": {
+    "eventId": "1213872",
+    "date": "2024-12-07T16:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213873": {
+    "eventId": "1213873",
+    "date": "2024-12-15T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213874": {
+    "eventId": "1213874",
+    "date": "2024-12-15T16:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213875": {
+    "eventId": "1213875",
+    "date": "2024-12-14T20:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213876": {
+    "eventId": "1213876",
+    "date": "2024-12-14T18:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213877": {
+    "eventId": "1213877",
+    "date": "2024-12-13T19:45:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "saint etienne",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213878": {
+    "eventId": "1213878",
+    "date": "2024-12-15T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213879": {
+    "eventId": "1213879",
+    "date": "2024-12-15T16:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "nantes",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1213880": {
+    "eventId": "1213880",
+    "date": "2024-12-14T16:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213881": {
+    "eventId": "1213881",
+    "date": "2024-12-15T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213882": {
+    "eventId": "1213882",
+    "date": "2024-12-18T20:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1213883": {
+    "eventId": "1213883",
+    "date": "2025-01-04T20:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213884": {
+    "eventId": "1213884",
+    "date": "2025-01-05T14:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213885": {
+    "eventId": "1213885",
+    "date": "2025-01-04T16:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "reims",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213886": {
+    "eventId": "1213886",
+    "date": "2025-01-05T14:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213887": {
+    "eventId": "1213887",
+    "date": "2025-01-04T18:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213888": {
+    "eventId": "1213888",
+    "date": "2025-01-05T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "le havre",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1213889": {
+    "eventId": "1213889",
+    "date": "2025-01-05T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213890": {
+    "eventId": "1213890",
+    "date": "2025-01-03T20:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213891": {
+    "eventId": "1213891",
+    "date": "2025-01-12T16:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213892": {
+    "eventId": "1213892",
+    "date": "2025-01-10T18:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213893": {
+    "eventId": "1213893",
+    "date": "2025-01-10T20:05:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213894": {
+    "eventId": "1213894",
+    "date": "2025-01-11T18:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1213895": {
+    "eventId": "1213895",
+    "date": "2025-01-12T14:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213896": {
+    "eventId": "1213896",
+    "date": "2025-01-12T16:15:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213897": {
+    "eventId": "1213897",
+    "date": "2025-01-11T16:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213898": {
+    "eventId": "1213898",
+    "date": "2025-01-12T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "saint etienne",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213899": {
+    "eventId": "1213899",
+    "date": "2025-01-11T20:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213900": {
+    "eventId": "1213900",
+    "date": "2025-01-19T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213901": {
+    "eventId": "1213901",
+    "date": "2025-01-18T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213902": {
+    "eventId": "1213902",
+    "date": "2025-01-17T20:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213903": {
+    "eventId": "1213903",
+    "date": "2025-01-18T20:05:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213904": {
+    "eventId": "1213904",
+    "date": "2025-01-19T14:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213905": {
+    "eventId": "1213905",
+    "date": "2025-01-17T18:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213906": {
+    "eventId": "1213906",
+    "date": "2025-01-19T16:15:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213907": {
+    "eventId": "1213907",
+    "date": "2025-01-19T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213908": {
+    "eventId": "1213908",
+    "date": "2025-01-18T18:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213909": {
+    "eventId": "1213909",
+    "date": "2025-01-25T18:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213910": {
+    "eventId": "1213910",
+    "date": "2025-01-26T16:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213911": {
+    "eventId": "1213911",
+    "date": "2025-01-25T16:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213912": {
+    "eventId": "1213912",
+    "date": "2025-01-26T16:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213913": {
+    "eventId": "1213913",
+    "date": "2025-01-26T14:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213914": {
+    "eventId": "1213914",
+    "date": "2025-01-24T19:45:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "saint etienne",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213915": {
+    "eventId": "1213915",
+    "date": "2025-01-26T16:15:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213916": {
+    "eventId": "1213916",
+    "date": "2025-01-25T20:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213917": {
+    "eventId": "1213917",
+    "date": "2025-01-26T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213918": {
+    "eventId": "1213918",
+    "date": "2025-02-02T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213919": {
+    "eventId": "1213919",
+    "date": "2025-02-01T16:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1213920": {
+    "eventId": "1213920",
+    "date": "2025-01-31T19:45:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213921": {
+    "eventId": "1213921",
+    "date": "2025-02-01T20:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "saint etienne",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1213922": {
+    "eventId": "1213922",
+    "date": "2025-02-02T16:15:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213923": {
+    "eventId": "1213923",
+    "date": "2025-02-02T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213924": {
+    "eventId": "1213924",
+    "date": "2025-02-02T14:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213925": {
+    "eventId": "1213925",
+    "date": "2025-02-02T16:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213926": {
+    "eventId": "1213926",
+    "date": "2025-02-01T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "auxerre",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1213927": {
+    "eventId": "1213927",
+    "date": "2025-02-09T16:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213928": {
+    "eventId": "1213928",
+    "date": "2025-02-07T18:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213929": {
+    "eventId": "1213929",
+    "date": "2025-02-09T16:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213930": {
+    "eventId": "1213930",
+    "date": "2025-02-08T18:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213931": {
+    "eventId": "1213931",
+    "date": "2025-02-08T20:05:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213932": {
+    "eventId": "1213932",
+    "date": "2025-02-07T20:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "monaco",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1213933": {
+    "eventId": "1213933",
+    "date": "2025-02-09T14:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "reims",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1213934": {
+    "eventId": "1213934",
+    "date": "2025-02-09T19:45:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213935": {
+    "eventId": "1213935",
+    "date": "2025-02-08T16:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213936": {
+    "eventId": "1213936",
+    "date": "2025-02-15T20:05:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213937": {
+    "eventId": "1213937",
+    "date": "2025-02-15T16:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "saint etienne",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1213938": {
+    "eventId": "1213938",
+    "date": "2025-02-16T14:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1213939": {
+    "eventId": "1213939",
+    "date": "2025-02-16T16:15:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213940": {
+    "eventId": "1213940",
+    "date": "2025-02-14T19:45:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1213941": {
+    "eventId": "1213941",
+    "date": "2025-02-16T19:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213942": {
+    "eventId": "1213942",
+    "date": "2025-02-16T16:15:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213943": {
+    "eventId": "1213943",
+    "date": "2025-02-16T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213944": {
+    "eventId": "1213944",
+    "date": "2025-02-15T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "nantes",
+    "homeGoals": 7,
+    "awayGoals": 1
+  },
+  "1213945": {
+    "eventId": "1213945",
+    "date": "2025-02-21T19:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213946": {
+    "eventId": "1213946",
+    "date": "2025-02-23T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1213947": {
+    "eventId": "1213947",
+    "date": "2025-02-22T16:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213948": {
+    "eventId": "1213948",
+    "date": "2025-02-23T16:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213949": {
+    "eventId": "1213949",
+    "date": "2025-02-23T14:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213950": {
+    "eventId": "1213950",
+    "date": "2025-02-22T18:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "angers",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1213951": {
+    "eventId": "1213951",
+    "date": "2025-02-22T20:05:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1213952": {
+    "eventId": "1213952",
+    "date": "2025-02-23T16:15:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213953": {
+    "eventId": "1213953",
+    "date": "2025-02-23T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1213954": {
+    "eventId": "1213954",
+    "date": "2025-03-01T20:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lille",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1213955": {
+    "eventId": "1213955",
+    "date": "2025-03-02T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213956": {
+    "eventId": "1213956",
+    "date": "2025-03-02T14:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213957": {
+    "eventId": "1213957",
+    "date": "2025-03-02T16:15:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1213958": {
+    "eventId": "1213958",
+    "date": "2025-03-01T16:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1213959": {
+    "eventId": "1213959",
+    "date": "2025-03-01T18:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1213960": {
+    "eventId": "1213960",
+    "date": "2025-03-02T16:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213961": {
+    "eventId": "1213961",
+    "date": "2025-02-28T19:45:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "reims",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1213962": {
+    "eventId": "1213962",
+    "date": "2025-03-02T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1213963": {
+    "eventId": "1213963",
+    "date": "2025-03-09T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "saint etienne",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213964": {
+    "eventId": "1213964",
+    "date": "2025-03-09T16:15:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "auxerre",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213965": {
+    "eventId": "1213965",
+    "date": "2025-03-09T16:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213966": {
+    "eventId": "1213966",
+    "date": "2025-03-07T19:45:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213967": {
+    "eventId": "1213967",
+    "date": "2025-03-09T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213968": {
+    "eventId": "1213968",
+    "date": "2025-03-09T14:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1213969": {
+    "eventId": "1213969",
+    "date": "2025-03-08T18:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213970": {
+    "eventId": "1213970",
+    "date": "2025-03-08T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1213971": {
+    "eventId": "1213971",
+    "date": "2025-03-08T20:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213972": {
+    "eventId": "1213972",
+    "date": "2025-03-16T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213973": {
+    "eventId": "1213973",
+    "date": "2025-03-14T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1213974": {
+    "eventId": "1213974",
+    "date": "2025-03-16T16:15:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "saint etienne",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213975": {
+    "eventId": "1213975",
+    "date": "2025-03-16T16:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "reims",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1213976": {
+    "eventId": "1213976",
+    "date": "2025-03-16T14:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "le havre",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1213977": {
+    "eventId": "1213977",
+    "date": "2025-03-15T20:05:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213978": {
+    "eventId": "1213978",
+    "date": "2025-03-16T16:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213979": {
+    "eventId": "1213979",
+    "date": "2025-03-15T16:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213980": {
+    "eventId": "1213980",
+    "date": "2025-03-15T18:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213981": {
+    "eventId": "1213981",
+    "date": "2025-03-30T15:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1213982": {
+    "eventId": "1213982",
+    "date": "2025-03-30T15:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213983": {
+    "eventId": "1213983",
+    "date": "2025-03-30T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213984": {
+    "eventId": "1213984",
+    "date": "2025-03-28T19:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lyon",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1213985": {
+    "eventId": "1213985",
+    "date": "2025-03-30T13:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 4
+  },
+  "1213986": {
+    "eventId": "1213986",
+    "date": "2025-03-29T18:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 6
+  },
+  "1213987": {
+    "eventId": "1213987",
+    "date": "2025-03-29T16:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1213988": {
+    "eventId": "1213988",
+    "date": "2025-03-30T18:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213989": {
+    "eventId": "1213989",
+    "date": "2025-03-29T20:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213990": {
+    "eventId": "1213990",
+    "date": "2025-04-06T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1213991": {
+    "eventId": "1213991",
+    "date": "2025-04-04T18:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1213992": {
+    "eventId": "1213992",
+    "date": "2025-04-05T17:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213993": {
+    "eventId": "1213993",
+    "date": "2025-04-06T15:15:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1213994": {
+    "eventId": "1213994",
+    "date": "2025-04-05T19:05:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1213995": {
+    "eventId": "1213995",
+    "date": "2025-04-06T13:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "saint etienne",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213996": {
+    "eventId": "1213996",
+    "date": "2025-04-05T15:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1213997": {
+    "eventId": "1213997",
+    "date": "2025-04-06T15:15:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213998": {
+    "eventId": "1213998",
+    "date": "2025-04-06T15:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "auxerre",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1213999": {
+    "eventId": "1213999",
+    "date": "2025-04-12T17:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1214000": {
+    "eventId": "1214000",
+    "date": "2025-04-13T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1214001": {
+    "eventId": "1214001",
+    "date": "2025-04-13T18:45:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1214002": {
+    "eventId": "1214002",
+    "date": "2025-04-22T18:45:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1214003": {
+    "eventId": "1214003",
+    "date": "2025-04-12T19:05:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1214004": {
+    "eventId": "1214004",
+    "date": "2025-04-13T13:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1214005": {
+    "eventId": "1214005",
+    "date": "2025-04-13T15:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "montpellier",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1214006": {
+    "eventId": "1214006",
+    "date": "2025-04-11T18:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "reims",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1214007": {
+    "eventId": "1214007",
+    "date": "2025-04-12T15:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1214008": {
+    "eventId": "1214008",
+    "date": "2025-04-20T18:45:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214009": {
+    "eventId": "1214009",
+    "date": "2025-04-20T15:15:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214010": {
+    "eventId": "1214010",
+    "date": "2025-04-20T15:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1214011": {
+    "eventId": "1214011",
+    "date": "2025-04-20T13:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1214012": {
+    "eventId": "1214012",
+    "date": "2025-04-19T15:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214013": {
+    "eventId": "1214013",
+    "date": "2025-04-19T19:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "montpellier",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1214014": {
+    "eventId": "1214014",
+    "date": "2025-04-20T15:15:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1214015": {
+    "eventId": "1214015",
+    "date": "2025-04-19T17:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1214016": {
+    "eventId": "1214016",
+    "date": "2025-04-18T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214017": {
+    "eventId": "1214017",
+    "date": "2025-04-26T17:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1214018": {
+    "eventId": "1214018",
+    "date": "2025-04-26T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "saint etienne",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1214019": {
+    "eventId": "1214019",
+    "date": "2025-04-27T15:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1214020": {
+    "eventId": "1214020",
+    "date": "2025-04-27T15:15:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "reims",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1214021": {
+    "eventId": "1214021",
+    "date": "2025-04-27T15:15:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "auxerre",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1214022": {
+    "eventId": "1214022",
+    "date": "2025-04-27T13:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1214023": {
+    "eventId": "1214023",
+    "date": "2025-04-25T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1214024": {
+    "eventId": "1214024",
+    "date": "2025-04-27T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1214025": {
+    "eventId": "1214025",
+    "date": "2025-04-26T19:05:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "rennes",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1214026": {
+    "eventId": "1214026",
+    "date": "2025-05-04T15:15:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1214027": {
+    "eventId": "1214027",
+    "date": "2025-05-04T18:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1214028": {
+    "eventId": "1214028",
+    "date": "2025-05-02T18:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1214029": {
+    "eventId": "1214029",
+    "date": "2025-05-04T15:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "montpellier",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1214030": {
+    "eventId": "1214030",
+    "date": "2025-05-03T19:05:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1214031": {
+    "eventId": "1214031",
+    "date": "2025-05-04T13:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1214032": {
+    "eventId": "1214032",
+    "date": "2025-05-03T17:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214033": {
+    "eventId": "1214033",
+    "date": "2025-05-03T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214034": {
+    "eventId": "1214034",
+    "date": "2025-05-04T15:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1214035": {
+    "eventId": "1214035",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "reims",
+    "awayNorm": "saint etienne",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1214036": {
+    "eventId": "1214036",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1214037": {
+    "eventId": "1214037",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214038": {
+    "eventId": "1214038",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1214039": {
+    "eventId": "1214039",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1214040": {
+    "eventId": "1214040",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "montpellier",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1214041": {
+    "eventId": "1214041",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1214042": {
+    "eventId": "1214042",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1214043": {
+    "eventId": "1214043",
+    "date": "2025-05-10T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1214044": {
+    "eventId": "1214044",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "rennes",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1214045": {
+    "eventId": "1214045",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1214046": {
+    "eventId": "1214046",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 6,
+    "awayGoals": 0
+  },
+  "1214047": {
+    "eventId": "1214047",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1214048": {
+    "eventId": "1214048",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "reims",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1214049": {
+    "eventId": "1214049",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1214050": {
+    "eventId": "1214050",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "montpellier",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1214051": {
+    "eventId": "1214051",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "monaco",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1214052": {
+    "eventId": "1214052",
+    "date": "2025-05-17T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1375858": {
+    "eventId": "1375858",
+    "date": "2025-05-21T18:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "reims",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387698": {
+    "eventId": "1387698",
+    "date": "2025-08-17T15:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387699": {
+    "eventId": "1387699",
+    "date": "2025-08-17T15:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387700": {
+    "eventId": "1387700",
+    "date": "2025-08-17T13:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lille",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1387701": {
+    "eventId": "1387701",
+    "date": "2025-08-16T15:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387702": {
+    "eventId": "1387702",
+    "date": "2025-08-17T15:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387703": {
+    "eventId": "1387703",
+    "date": "2025-08-16T17:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387704": {
+    "eventId": "1387704",
+    "date": "2025-08-17T18:45:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387705": {
+    "eventId": "1387705",
+    "date": "2025-08-16T19:05:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387706": {
+    "eventId": "1387706",
+    "date": "2025-08-15T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387707": {
+    "eventId": "1387707",
+    "date": "2025-08-24T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387708": {
+    "eventId": "1387708",
+    "date": "2025-08-24T18:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387709": {
+    "eventId": "1387709",
+    "date": "2025-08-24T13:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "rennes",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1387710": {
+    "eventId": "1387710",
+    "date": "2025-08-23T19:05:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387711": {
+    "eventId": "1387711",
+    "date": "2025-08-23T15:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "paris fc",
+    "homeGoals": 5,
+    "awayGoals": 2
+  },
+  "1387712": {
+    "eventId": "1387712",
+    "date": "2025-08-23T17:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387713": {
+    "eventId": "1387713",
+    "date": "2025-08-22T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387714": {
+    "eventId": "1387714",
+    "date": "2025-08-24T15:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387715": {
+    "eventId": "1387715",
+    "date": "2025-08-24T15:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387716": {
+    "eventId": "1387716",
+    "date": "2025-08-31T13:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "rennes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387717": {
+    "eventId": "1387717",
+    "date": "2025-08-31T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "nice",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387718": {
+    "eventId": "1387718",
+    "date": "2025-08-29T18:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387719": {
+    "eventId": "1387719",
+    "date": "2025-08-30T15:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 7
+  },
+  "1387720": {
+    "eventId": "1387720",
+    "date": "2025-08-31T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387721": {
+    "eventId": "1387721",
+    "date": "2025-08-31T15:15:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387722": {
+    "eventId": "1387722",
+    "date": "2025-08-30T17:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387723": {
+    "eventId": "1387723",
+    "date": "2025-08-31T15:15:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387724": {
+    "eventId": "1387724",
+    "date": "2025-08-30T19:05:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 3,
+    "awayGoals": 6
+  },
+  "1387725": {
+    "eventId": "1387725",
+    "date": "2025-09-13T19:05:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387726": {
+    "eventId": "1387726",
+    "date": "2025-09-14T15:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387727": {
+    "eventId": "1387727",
+    "date": "2025-09-14T13:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387728": {
+    "eventId": "1387728",
+    "date": "2025-09-12T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lorient",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1387729": {
+    "eventId": "1387729",
+    "date": "2025-09-14T15:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387730": {
+    "eventId": "1387730",
+    "date": "2025-09-13T15:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387731": {
+    "eventId": "1387731",
+    "date": "2025-09-14T15:15:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387732": {
+    "eventId": "1387732",
+    "date": "2025-09-14T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387733": {
+    "eventId": "1387733",
+    "date": "2025-09-14T15:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387734": {
+    "eventId": "1387734",
+    "date": "2025-09-21T15:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387735": {
+    "eventId": "1387735",
+    "date": "2025-09-20T17:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "nice",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1387736": {
+    "eventId": "1387736",
+    "date": "2025-09-21T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387737": {
+    "eventId": "1387737",
+    "date": "2025-09-20T19:05:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lille",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387738": {
+    "eventId": "1387738",
+    "date": "2025-09-19T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387739": {
+    "eventId": "1387739",
+    "date": "2025-09-22T18:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387740": {
+    "eventId": "1387740",
+    "date": "2025-09-21T15:15:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "metz",
+    "homeGoals": 5,
+    "awayGoals": 2
+  },
+  "1387741": {
+    "eventId": "1387741",
+    "date": "2025-09-20T15:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387742": {
+    "eventId": "1387742",
+    "date": "2025-09-21T13:00:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1387743": {
+    "eventId": "1387743",
+    "date": "2025-09-28T15:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387744": {
+    "eventId": "1387744",
+    "date": "2025-09-28T15:15:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387745": {
+    "eventId": "1387745",
+    "date": "2025-09-27T15:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "monaco",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387746": {
+    "eventId": "1387746",
+    "date": "2025-09-28T15:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387747": {
+    "eventId": "1387747",
+    "date": "2025-09-28T13:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387748": {
+    "eventId": "1387748",
+    "date": "2025-09-27T19:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387749": {
+    "eventId": "1387749",
+    "date": "2025-09-28T18:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387750": {
+    "eventId": "1387750",
+    "date": "2025-09-26T18:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387751": {
+    "eventId": "1387751",
+    "date": "2025-09-27T17:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387752": {
+    "eventId": "1387752",
+    "date": "2025-10-04T19:05:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387753": {
+    "eventId": "1387753",
+    "date": "2025-10-04T17:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387754": {
+    "eventId": "1387754",
+    "date": "2025-10-05T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387755": {
+    "eventId": "1387755",
+    "date": "2025-10-05T18:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387756": {
+    "eventId": "1387756",
+    "date": "2025-10-05T13:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387757": {
+    "eventId": "1387757",
+    "date": "2025-10-04T15:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387758": {
+    "eventId": "1387758",
+    "date": "2025-10-05T15:15:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387759": {
+    "eventId": "1387759",
+    "date": "2025-10-03T18:45:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387760": {
+    "eventId": "1387760",
+    "date": "2025-10-05T15:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "angers",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1387761": {
+    "eventId": "1387761",
+    "date": "2025-10-18T17:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387762": {
+    "eventId": "1387762",
+    "date": "2025-10-19T13:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "paris fc",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387763": {
+    "eventId": "1387763",
+    "date": "2025-10-19T15:15:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1387764": {
+    "eventId": "1387764",
+    "date": "2025-10-18T19:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "le havre",
+    "homeGoals": 6,
+    "awayGoals": 2
+  },
+  "1387765": {
+    "eventId": "1387765",
+    "date": "2025-10-19T18:45:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387766": {
+    "eventId": "1387766",
+    "date": "2025-10-18T15:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387767": {
+    "eventId": "1387767",
+    "date": "2025-10-17T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "strasbourg",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1387768": {
+    "eventId": "1387768",
+    "date": "2025-10-19T15:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387769": {
+    "eventId": "1387769",
+    "date": "2025-10-19T15:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "metz",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1387770": {
+    "eventId": "1387770",
+    "date": "2025-10-26T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387771": {
+    "eventId": "1387771",
+    "date": "2025-10-26T16:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387772": {
+    "eventId": "1387772",
+    "date": "2025-10-25T15:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387773": {
+    "eventId": "1387773",
+    "date": "2025-10-25T19:05:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387774": {
+    "eventId": "1387774",
+    "date": "2025-10-26T14:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "metz",
+    "homeGoals": 6,
+    "awayGoals": 1
+  },
+  "1387775": {
+    "eventId": "1387775",
+    "date": "2025-10-26T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387776": {
+    "eventId": "1387776",
+    "date": "2025-10-25T17:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387777": {
+    "eventId": "1387777",
+    "date": "2025-10-24T18:45:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387778": {
+    "eventId": "1387778",
+    "date": "2025-10-26T16:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387779": {
+    "eventId": "1387779",
+    "date": "2025-10-29T18:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387780": {
+    "eventId": "1387780",
+    "date": "2025-10-29T18:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387781": {
+    "eventId": "1387781",
+    "date": "2025-10-29T20:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387782": {
+    "eventId": "1387782",
+    "date": "2025-10-29T18:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387783": {
+    "eventId": "1387783",
+    "date": "2025-10-29T20:05:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "monaco",
+    "homeGoals": 3,
+    "awayGoals": 5
+  },
+  "1387784": {
+    "eventId": "1387784",
+    "date": "2025-10-29T18:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387785": {
+    "eventId": "1387785",
+    "date": "2025-10-29T20:05:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1387786": {
+    "eventId": "1387786",
+    "date": "2025-10-29T20:05:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387787": {
+    "eventId": "1387787",
+    "date": "2025-10-29T20:05:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "rennes",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387788": {
+    "eventId": "1387788",
+    "date": "2025-11-01T20:05:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387789": {
+    "eventId": "1387789",
+    "date": "2025-11-02T19:45:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387790": {
+    "eventId": "1387790",
+    "date": "2025-11-02T16:15:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387791": {
+    "eventId": "1387791",
+    "date": "2025-11-02T16:15:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387792": {
+    "eventId": "1387792",
+    "date": "2025-11-01T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "paris fc",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387793": {
+    "eventId": "1387793",
+    "date": "2025-11-02T16:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387794": {
+    "eventId": "1387794",
+    "date": "2025-11-01T16:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387795": {
+    "eventId": "1387795",
+    "date": "2025-11-02T14:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "strasbourg",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1387796": {
+    "eventId": "1387796",
+    "date": "2025-11-02T16:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387797": {
+    "eventId": "1387797",
+    "date": "2025-11-09T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387798": {
+    "eventId": "1387798",
+    "date": "2025-11-08T18:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387799": {
+    "eventId": "1387799",
+    "date": "2025-11-09T14:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387800": {
+    "eventId": "1387800",
+    "date": "2025-11-09T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1387801": {
+    "eventId": "1387801",
+    "date": "2025-11-08T16:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387802": {
+    "eventId": "1387802",
+    "date": "2025-11-09T16:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387803": {
+    "eventId": "1387803",
+    "date": "2025-11-08T20:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1387804": {
+    "eventId": "1387804",
+    "date": "2025-11-07T19:45:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387805": {
+    "eventId": "1387805",
+    "date": "2025-11-09T16:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387806": {
+    "eventId": "1387806",
+    "date": "2025-11-23T14:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387807": {
+    "eventId": "1387807",
+    "date": "2025-11-23T16:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387808": {
+    "eventId": "1387808",
+    "date": "2025-11-22T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387809": {
+    "eventId": "1387809",
+    "date": "2025-11-23T19:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "paris fc",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1387810": {
+    "eventId": "1387810",
+    "date": "2025-11-23T16:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387811": {
+    "eventId": "1387811",
+    "date": "2025-11-21T19:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 5
+  },
+  "1387812": {
+    "eventId": "1387812",
+    "date": "2025-11-22T20:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387813": {
+    "eventId": "1387813",
+    "date": "2025-11-22T18:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "monaco",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1387814": {
+    "eventId": "1387814",
+    "date": "2025-11-23T16:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387815": {
+    "eventId": "1387815",
+    "date": "2025-11-30T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387816": {
+    "eventId": "1387816",
+    "date": "2025-11-30T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387817": {
+    "eventId": "1387817",
+    "date": "2025-11-30T16:15:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "nice",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387818": {
+    "eventId": "1387818",
+    "date": "2025-11-30T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387819": {
+    "eventId": "1387819",
+    "date": "2025-11-29T20:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387820": {
+    "eventId": "1387820",
+    "date": "2025-11-28T19:45:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387821": {
+    "eventId": "1387821",
+    "date": "2025-11-29T16:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387822": {
+    "eventId": "1387822",
+    "date": "2025-11-29T18:00:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387823": {
+    "eventId": "1387823",
+    "date": "2025-11-30T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387824": {
+    "eventId": "1387824",
+    "date": "2025-12-07T16:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387825": {
+    "eventId": "1387825",
+    "date": "2025-12-05T18:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387826": {
+    "eventId": "1387826",
+    "date": "2025-12-07T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "paris fc",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387827": {
+    "eventId": "1387827",
+    "date": "2025-12-05T20:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "marseille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387828": {
+    "eventId": "1387828",
+    "date": "2025-12-07T19:45:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387829": {
+    "eventId": "1387829",
+    "date": "2025-12-06T16:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387830": {
+    "eventId": "1387830",
+    "date": "2025-12-07T14:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387831": {
+    "eventId": "1387831",
+    "date": "2025-12-06T20:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "rennes",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1387832": {
+    "eventId": "1387832",
+    "date": "2025-12-06T18:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387833": {
+    "eventId": "1387833",
+    "date": "2025-12-12T19:45:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "nantes",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1387834": {
+    "eventId": "1387834",
+    "date": "2025-12-14T16:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "lille",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1387835": {
+    "eventId": "1387835",
+    "date": "2025-12-14T16:15:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387836": {
+    "eventId": "1387836",
+    "date": "2025-12-14T14:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387837": {
+    "eventId": "1387837",
+    "date": "2025-12-14T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387838": {
+    "eventId": "1387838",
+    "date": "2025-12-13T18:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1387839": {
+    "eventId": "1387839",
+    "date": "2025-12-13T20:05:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387840": {
+    "eventId": "1387840",
+    "date": "2025-12-13T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387841": {
+    "eventId": "1387841",
+    "date": "2025-12-14T16:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lorient",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387842": {
+    "eventId": "1387842",
+    "date": "2026-01-04T16:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387843": {
+    "eventId": "1387843",
+    "date": "2026-01-04T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387844": {
+    "eventId": "1387844",
+    "date": "2026-01-03T20:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387845": {
+    "eventId": "1387845",
+    "date": "2026-01-04T16:15:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "metz",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387846": {
+    "eventId": "1387846",
+    "date": "2026-01-04T14:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387847": {
+    "eventId": "1387847",
+    "date": "2026-01-03T16:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1387848": {
+    "eventId": "1387848",
+    "date": "2026-01-03T18:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387849": {
+    "eventId": "1387849",
+    "date": "2026-01-04T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "paris fc",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387850": {
+    "eventId": "1387850",
+    "date": "2026-01-02T19:45:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387851": {
+    "eventId": "1387851",
+    "date": "2026-01-17T20:05:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1387852": {
+    "eventId": "1387852",
+    "date": "2026-01-17T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387853": {
+    "eventId": "1387853",
+    "date": "2026-01-18T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387854": {
+    "eventId": "1387854",
+    "date": "2026-01-16T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1387855": {
+    "eventId": "1387855",
+    "date": "2026-01-18T16:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387856": {
+    "eventId": "1387856",
+    "date": "2026-01-16T20:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lille",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387857": {
+    "eventId": "1387857",
+    "date": "2026-01-18T16:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387858": {
+    "eventId": "1387858",
+    "date": "2026-01-18T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "metz",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387859": {
+    "eventId": "1387859",
+    "date": "2026-01-17T18:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "nice",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1387860": {
+    "eventId": "1387860",
+    "date": "2026-01-23T19:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387861": {
+    "eventId": "1387861",
+    "date": "2026-01-25T16:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "toulouse",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387862": {
+    "eventId": "1387862",
+    "date": "2026-01-24T18:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387863": {
+    "eventId": "1387863",
+    "date": "2026-01-25T19:45:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1387864": {
+    "eventId": "1387864",
+    "date": "2026-01-24T20:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387865": {
+    "eventId": "1387865",
+    "date": "2026-01-25T16:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 5
+  },
+  "1387866": {
+    "eventId": "1387866",
+    "date": "2026-01-25T14:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 4
+  },
+  "1387867": {
+    "eventId": "1387867",
+    "date": "2026-01-25T16:15:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387868": {
+    "eventId": "1387868",
+    "date": "2026-01-24T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lorient",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387869": {
+    "eventId": "1387869",
+    "date": "2026-02-01T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "metz",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387870": {
+    "eventId": "1387870",
+    "date": "2026-01-30T19:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387871": {
+    "eventId": "1387871",
+    "date": "2026-01-31T18:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387872": {
+    "eventId": "1387872",
+    "date": "2026-02-01T14:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387873": {
+    "eventId": "1387873",
+    "date": "2026-01-31T20:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "rennes",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1387874": {
+    "eventId": "1387874",
+    "date": "2026-02-01T16:15:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387875": {
+    "eventId": "1387875",
+    "date": "2026-01-31T16:00:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387876": {
+    "eventId": "1387876",
+    "date": "2026-02-01T19:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387877": {
+    "eventId": "1387877",
+    "date": "2026-02-01T16:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "auxerre",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387878": {
+    "eventId": "1387878",
+    "date": "2026-02-08T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387879": {
+    "eventId": "1387879",
+    "date": "2026-02-08T16:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "paris fc",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387880": {
+    "eventId": "1387880",
+    "date": "2026-02-07T18:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387881": {
+    "eventId": "1387881",
+    "date": "2026-02-08T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387882": {
+    "eventId": "1387882",
+    "date": "2026-02-07T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387883": {
+    "eventId": "1387883",
+    "date": "2026-02-06T19:45:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387884": {
+    "eventId": "1387884",
+    "date": "2026-02-07T20:05:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387885": {
+    "eventId": "1387885",
+    "date": "2026-02-08T14:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "monaco",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387886": {
+    "eventId": "1387886",
+    "date": "2026-02-08T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "marseille",
+    "homeGoals": 5,
+    "awayGoals": 0
+  },
+  "1387887": {
+    "eventId": "1387887",
+    "date": "2026-02-15T14:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "toulouse",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387888": {
+    "eventId": "1387888",
+    "date": "2026-02-14T18:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387889": {
+    "eventId": "1387889",
+    "date": "2026-02-15T16:15:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387890": {
+    "eventId": "1387890",
+    "date": "2026-02-15T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387891": {
+    "eventId": "1387891",
+    "date": "2026-02-14T16:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387892": {
+    "eventId": "1387892",
+    "date": "2026-02-15T16:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1387893": {
+    "eventId": "1387893",
+    "date": "2026-02-13T20:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387894": {
+    "eventId": "1387894",
+    "date": "2026-02-14T20:05:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 5
+  },
+  "1387895": {
+    "eventId": "1387895",
+    "date": "2026-02-13T18:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387896": {
+    "eventId": "1387896",
+    "date": "2026-02-22T16:15:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387897": {
+    "eventId": "1387897",
+    "date": "2026-02-22T14:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387898": {
+    "eventId": "1387898",
+    "date": "2026-02-20T19:45:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387899": {
+    "eventId": "1387899",
+    "date": "2026-02-21T16:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1387900": {
+    "eventId": "1387900",
+    "date": "2026-02-22T16:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387901": {
+    "eventId": "1387901",
+    "date": "2026-02-22T16:15:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lorient",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1387902": {
+    "eventId": "1387902",
+    "date": "2026-02-21T20:05:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387903": {
+    "eventId": "1387903",
+    "date": "2026-02-22T19:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387904": {
+    "eventId": "1387904",
+    "date": "2026-02-21T18:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387905": {
+    "eventId": "1387905",
+    "date": "2026-02-28T20:05:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387906": {
+    "eventId": "1387906",
+    "date": "2026-03-01T16:15:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387907": {
+    "eventId": "1387907",
+    "date": "2026-03-01T16:15:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387908": {
+    "eventId": "1387908",
+    "date": "2026-03-01T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lyon",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387909": {
+    "eventId": "1387909",
+    "date": "2026-03-01T16:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387910": {
+    "eventId": "1387910",
+    "date": "2026-02-28T18:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387911": {
+    "eventId": "1387911",
+    "date": "2026-03-01T14:00:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387912": {
+    "eventId": "1387912",
+    "date": "2026-02-28T16:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387913": {
+    "eventId": "1387913",
+    "date": "2026-02-27T19:45:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387914": {
+    "eventId": "1387914",
+    "date": "2026-03-07T18:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "strasbourg",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387915": {
+    "eventId": "1387915",
+    "date": "2026-03-08T16:15:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "le havre",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387916": {
+    "eventId": "1387916",
+    "date": "2026-03-08T14:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387917": {
+    "eventId": "1387917",
+    "date": "2026-03-08T16:15:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387918": {
+    "eventId": "1387918",
+    "date": "2026-03-08T19:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387919": {
+    "eventId": "1387919",
+    "date": "2026-03-07T16:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "angers",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387920": {
+    "eventId": "1387920",
+    "date": "2026-03-08T16:15:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1387921": {
+    "eventId": "1387921",
+    "date": "2026-03-06T19:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1387922": {
+    "eventId": "1387922",
+    "date": "2026-03-07T20:05:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387923": {
+    "eventId": "1387923",
+    "date": "2026-03-14T18:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387924": {
+    "eventId": "1387924",
+    "date": "2026-03-15T16:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387925": {
+    "eventId": "1387925",
+    "date": "2026-03-14T16:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "lens",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387926": {
+    "eventId": "1387926",
+    "date": "2026-03-13T19:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387927": {
+    "eventId": "1387927",
+    "date": "2026-03-15T16:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1387928": {
+    "eventId": "1387928",
+    "date": "2026-03-14T20:05:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387929": {
+    "eventId": "1387929",
+    "date": "2026-04-22T17:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "nantes",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387930": {
+    "eventId": "1387930",
+    "date": "2026-03-15T19:45:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387931": {
+    "eventId": "1387931",
+    "date": "2026-03-15T14:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "paris fc",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387932": {
+    "eventId": "1387932",
+    "date": "2026-03-21T18:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387933": {
+    "eventId": "1387933",
+    "date": "2026-03-20T19:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "angers",
+    "homeGoals": 5,
+    "awayGoals": 1
+  },
+  "1387934": {
+    "eventId": "1387934",
+    "date": "2026-03-22T14:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387935": {
+    "eventId": "1387935",
+    "date": "2026-03-22T16:15:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "lille",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387936": {
+    "eventId": "1387936",
+    "date": "2026-03-22T19:45:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1387937": {
+    "eventId": "1387937",
+    "date": "2026-03-21T20:05:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1387938": {
+    "eventId": "1387938",
+    "date": "2026-03-22T16:15:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "le havre",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387939": {
+    "eventId": "1387939",
+    "date": "2026-03-22T16:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387940": {
+    "eventId": "1387940",
+    "date": "2026-03-21T16:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lorient",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387941": {
+    "eventId": "1387941",
+    "date": "2026-04-05T13:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "lyon",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387942": {
+    "eventId": "1387942",
+    "date": "2026-04-04T17:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 4
+  },
+  "1387943": {
+    "eventId": "1387943",
+    "date": "2026-04-05T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "auxerre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387944": {
+    "eventId": "1387944",
+    "date": "2026-04-04T19:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387945": {
+    "eventId": "1387945",
+    "date": "2026-04-05T15:15:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387946": {
+    "eventId": "1387946",
+    "date": "2026-04-05T15:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387947": {
+    "eventId": "1387947",
+    "date": "2026-04-05T18:45:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387948": {
+    "eventId": "1387948",
+    "date": "2026-04-03T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387949": {
+    "eventId": "1387949",
+    "date": "2026-04-04T15:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "nice",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387950": {
+    "eventId": "1387950",
+    "date": "2026-04-11T17:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "nantes",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387951": {
+    "eventId": "1387951",
+    "date": "2026-05-13T17:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387952": {
+    "eventId": "1387952",
+    "date": "2026-05-13T19:00:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387953": {
+    "eventId": "1387953",
+    "date": "2026-04-12T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387954": {
+    "eventId": "1387954",
+    "date": "2026-04-10T19:05:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "metz",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387955": {
+    "eventId": "1387955",
+    "date": "2026-04-12T15:15:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387956": {
+    "eventId": "1387956",
+    "date": "2026-04-10T17:00:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "monaco",
+    "homeGoals": 4,
+    "awayGoals": 1
+  },
+  "1387957": {
+    "eventId": "1387957",
+    "date": "2026-04-11T19:05:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "angers",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387958": {
+    "eventId": "1387958",
+    "date": "2026-04-12T15:15:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1387959": {
+    "eventId": "1387959",
+    "date": "2026-04-18T17:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387960": {
+    "eventId": "1387960",
+    "date": "2026-04-17T18:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "toulouse",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387961": {
+    "eventId": "1387961",
+    "date": "2026-04-18T19:05:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1387962": {
+    "eventId": "1387962",
+    "date": "2026-04-18T15:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "marseille",
+    "homeGoals": 2,
+    "awayGoals": 0
+  },
+  "1387963": {
+    "eventId": "1387963",
+    "date": "2026-04-19T15:15:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "paris fc",
+    "homeGoals": 1,
+    "awayGoals": 3
+  },
+  "1387964": {
+    "eventId": "1387964",
+    "date": "2026-04-19T13:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "auxerre",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387965": {
+    "eventId": "1387965",
+    "date": "2026-04-19T15:15:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387966": {
+    "eventId": "1387966",
+    "date": "2026-04-19T18:45:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lyon",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387967": {
+    "eventId": "1387967",
+    "date": "2026-04-19T15:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "rennes",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387968": {
+    "eventId": "1387968",
+    "date": "2026-04-25T17:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 0,
+    "awayGoals": 3
+  },
+  "1387969": {
+    "eventId": "1387969",
+    "date": "2026-04-24T18:45:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "lens",
+    "homeGoals": 3,
+    "awayGoals": 3
+  },
+  "1387970": {
+    "eventId": "1387970",
+    "date": "2026-04-26T15:15:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "metz",
+    "homeGoals": 4,
+    "awayGoals": 4
+  },
+  "1387971": {
+    "eventId": "1387971",
+    "date": "2026-04-26T13:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "strasbourg",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1387972": {
+    "eventId": "1387972",
+    "date": "2026-04-25T13:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "auxerre",
+    "homeGoals": 3,
+    "awayGoals": 2
+  },
+  "1387973": {
+    "eventId": "1387973",
+    "date": "2026-04-26T18:45:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "nice",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387974": {
+    "eventId": "1387974",
+    "date": "2026-04-26T15:15:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387975": {
+    "eventId": "1387975",
+    "date": "2026-04-26T15:15:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "nantes",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387976": {
+    "eventId": "1387976",
+    "date": "2026-04-25T19:05:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "monaco",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387977": {
+    "eventId": "1387977",
+    "date": "2026-05-03T15:15:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "angers",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1387978": {
+    "eventId": "1387978",
+    "date": "2026-05-03T13:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "le havre",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387979": {
+    "eventId": "1387979",
+    "date": "2026-05-03T18:45:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "rennes",
+    "homeGoals": 4,
+    "awayGoals": 2
+  },
+  "1387980": {
+    "eventId": "1387980",
+    "date": "2026-05-02T17:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "monaco",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387981": {
+    "eventId": "1387981",
+    "date": "2026-05-02T13:00:00+00:00",
+    "homeNorm": "nantes",
+    "awayNorm": "marseille",
+    "homeGoals": 3,
+    "awayGoals": 0
+  },
+  "1387982": {
+    "eventId": "1387982",
+    "date": "2026-05-02T19:05:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "lens",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387983": {
+    "eventId": "1387983",
+    "date": "2026-05-03T15:15:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 4,
+    "awayGoals": 0
+  },
+  "1387984": {
+    "eventId": "1387984",
+    "date": "2026-05-02T15:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "lorient",
+    "homeGoals": 2,
+    "awayGoals": 2
+  },
+  "1387985": {
+    "eventId": "1387985",
+    "date": "2026-05-03T15:15:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "toulouse",
+    "homeGoals": 1,
+    "awayGoals": 2
+  },
+  "1387986": {
+    "eventId": "1387986",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "angers",
+    "awayNorm": "strasbourg",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387987": {
+    "eventId": "1387987",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "auxerre",
+    "awayNorm": "nice",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387988": {
+    "eventId": "1387988",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "le havre",
+    "awayNorm": "marseille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387989": {
+    "eventId": "1387989",
+    "date": "2026-05-08T18:45:00+00:00",
+    "homeNorm": "lens",
+    "awayNorm": "nantes",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387990": {
+    "eventId": "1387990",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "metz",
+    "awayNorm": "lorient",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1387991": {
+    "eventId": "1387991",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "monaco",
+    "awayNorm": "lille",
+    "homeGoals": 0,
+    "awayGoals": 1
+  },
+  "1387992": {
+    "eventId": "1387992",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "paris saint germain",
+    "awayNorm": "stade brestois 29",
+    "homeGoals": 1,
+    "awayGoals": 0
+  },
+  "1387993": {
+    "eventId": "1387993",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "rennes",
+    "awayNorm": "paris fc",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387994": {
+    "eventId": "1387994",
+    "date": "2026-05-10T19:00:00+00:00",
+    "homeNorm": "toulouse",
+    "awayNorm": "lyon",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1387995": {
+    "eventId": "1387995",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "stade brestois 29",
+    "awayNorm": "angers",
+    "homeGoals": 1,
+    "awayGoals": 1
+  },
+  "1387996": {
+    "eventId": "1387996",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "lille",
+    "awayNorm": "auxerre",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387997": {
+    "eventId": "1387997",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "lorient",
+    "awayNorm": "le havre",
+    "homeGoals": 0,
+    "awayGoals": 2
+  },
+  "1387998": {
+    "eventId": "1387998",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "lyon",
+    "awayNorm": "lens",
+    "homeGoals": 0,
+    "awayGoals": 4
+  },
+  "1387999": {
+    "eventId": "1387999",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "marseille",
+    "awayNorm": "rennes",
+    "homeGoals": 3,
+    "awayGoals": 1
+  },
+  "1388001": {
+    "eventId": "1388001",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "metz",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1388002": {
+    "eventId": "1388002",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "paris fc",
+    "awayNorm": "paris saint germain",
+    "homeGoals": 2,
+    "awayGoals": 1
+  },
+  "1388003": {
+    "eventId": "1388003",
+    "date": "2026-05-17T19:00:00+00:00",
+    "homeNorm": "strasbourg",
+    "awayNorm": "monaco",
+    "homeGoals": 5,
+    "awayGoals": 4
+  },
+  "1544684": {
+    "eventId": "1544684",
+    "date": "2026-05-12T18:30:00+00:00",
+    "homeNorm": "red star fc 93",
+    "awayNorm": "rodez",
+    "homeGoals": 2,
+    "awayGoals": 3
+  },
+  "1545408": {
+    "eventId": "1545408",
+    "date": "2026-05-26T18:45:00+00:00",
+    "homeNorm": "saint etienne",
+    "awayNorm": "nice",
+    "homeGoals": 0,
+    "awayGoals": 0
+  },
+  "1545409": {
+    "eventId": "1545409",
+    "date": "2026-05-29T18:45:00+00:00",
+    "homeNorm": "nice",
+    "awayNorm": "saint etienne",
+    "homeGoals": 4,
+    "awayGoals": 1
+  }
+}

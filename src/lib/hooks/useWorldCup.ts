@@ -38,6 +38,7 @@ import type {
 } from 'lib/espn/types';
 import type { WeatherInfo } from 'lib/weather/openmeteo';
 import type { MatchWithPredictions } from 'lib/predict/predict';
+import type { LeagueBacktestResult } from 'lib/predict/leagueBacktest';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
@@ -368,6 +369,44 @@ export function useLeaguePredictions(comp: string | null, days = 10) {
     { refreshInterval: STANDINGS_MS, ...common },
   );
   return { matches: data?.matches ?? [], error, isLoading };
+}
+
+/** 回测可调参数(undefined = 用该联赛验证后的默认配置)。 */
+export interface BacktestParams {
+  shrinkEloScale?: number;
+  hfaElo?: number;
+  hfaMult?: number;
+  goalShrink?: number;
+  dcRho?: number;
+  marketWeight?: number;
+  from?: string;
+}
+
+/**
+ * 联赛历史 walk-forward 回测(调参面板用)。纯计算、零配额(只读已播种的联赛数据)。
+ * key = 联赛存储键(epl-2025 / laliga / bundesliga / seriea / ligue1)。
+ */
+export function useLeagueBacktest(key: string, params: BacktestParams) {
+  const qs = new URLSearchParams({ key });
+  (
+    [
+      'shrinkEloScale',
+      'hfaElo',
+      'hfaMult',
+      'goalShrink',
+      'dcRho',
+      'marketWeight',
+    ] as const
+  ).forEach((k) => {
+    if (params[k] != null) qs.set(k, String(params[k]));
+  });
+  if (params.from) qs.set('from', params.from);
+  const { data, error, isLoading } = useSWR<LeagueBacktestResult>(
+    `/api/worldcup/epl/backtest?${qs.toString()}`,
+    fetcher,
+    { revalidateOnFocus: false, keepPreviousData: true },
+  );
+  return { result: data, error, isLoading };
 }
 
 /** 单场联赛预测(详情页;comp+matchId 齐全时请求)。 */

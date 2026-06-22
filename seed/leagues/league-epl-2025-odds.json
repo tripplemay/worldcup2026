@@ -1,0 +1,5702 @@
+{
+  "burnley v manchester city__2023-08-11": {
+    "h": 9.62,
+    "d": 5.81,
+    "a": 1.33
+  },
+  "arsenal v nottingham forest__2023-08-12": {
+    "h": 1.19,
+    "d": 8,
+    "a": 16
+  },
+  "bournemouth v west ham__2023-08-12": {
+    "h": 2.75,
+    "d": 3.6,
+    "a": 2.63
+  },
+  "brighton v luton__2023-08-12": {
+    "h": 1.27,
+    "d": 6.36,
+    "a": 11.36
+  },
+  "everton v fulham__2023-08-12": {
+    "h": 2.39,
+    "d": 3.32,
+    "a": 3.3
+  },
+  "crystal palace v sheffield united__2023-08-12": {
+    "h": 3.98,
+    "d": 3.22,
+    "a": 2.17
+  },
+  "aston villa v newcastle__2023-08-12": {
+    "h": 1.68,
+    "d": 4.2,
+    "a": 5.29
+  },
+  "brentford v tottenham__2023-08-13": {
+    "h": 2.62,
+    "d": 3.54,
+    "a": 2.8
+  },
+  "chelsea v liverpool__2023-08-13": {
+    "h": 3.21,
+    "d": 3.89,
+    "a": 2.2
+  },
+  "manchester united v wolves__2023-08-14": {
+    "h": 1.27,
+    "d": 6.3,
+    "a": 12.25
+  },
+  "nottingham forest v sheffield united__2023-08-18": {
+    "h": 1.94,
+    "d": 3.51,
+    "a": 4.48
+  },
+  "brentford v fulham__2023-08-19": {
+    "h": 2.87,
+    "d": 3.22,
+    "a": 2.75
+  },
+  "bournemouth v liverpool__2023-08-19": {
+    "h": 1.2,
+    "d": 8.25,
+    "a": 13
+  },
+  "brighton v wolves__2023-08-19": {
+    "h": 4.11,
+    "d": 4.21,
+    "a": 1.83
+  },
+  "manchester united v tottenham__2023-08-19": {
+    "h": 3.07,
+    "d": 3.87,
+    "a": 2.28
+  },
+  "manchester city v newcastle__2023-08-19": {
+    "h": 1.87,
+    "d": 3.84,
+    "a": 4.37
+  },
+  "aston villa v everton__2023-08-20": {
+    "h": 1.85,
+    "d": 3.92,
+    "a": 4.38
+  },
+  "chelsea v west ham__2023-08-20": {
+    "h": 3.25,
+    "d": 3.65,
+    "a": 2.27
+  },
+  "arsenal v crystal palace__2023-08-21": {
+    "h": 4.51,
+    "d": 3.53,
+    "a": 1.93
+  },
+  "chelsea v luton__2023-08-25": {
+    "h": 1.27,
+    "d": 6.25,
+    "a": 12.5
+  },
+  "bournemouth v tottenham__2023-08-26": {
+    "h": 3.47,
+    "d": 3.89,
+    "a": 2.09
+  },
+  "arsenal v fulham__2023-08-26": {
+    "h": 1.29,
+    "d": 6.29,
+    "a": 10.32
+  },
+  "brentford v crystal palace__2023-08-26": {
+    "h": 2.16,
+    "d": 3.37,
+    "a": 3.81
+  },
+  "everton v wolves__2023-08-26": {
+    "h": 2.45,
+    "d": 3.38,
+    "a": 3.14
+  },
+  "manchester united v nottingham forest__2023-08-26": {
+    "h": 1.38,
+    "d": 5.3,
+    "a": 8.51
+  },
+  "brighton v west ham__2023-08-26": {
+    "h": 1.5,
+    "d": 4.95,
+    "a": 6.25
+  },
+  "aston villa v burnley__2023-08-27": {
+    "h": 3.24,
+    "d": 3.6,
+    "a": 2.29
+  },
+  "manchester city v sheffield united__2023-08-27": {
+    "h": 16,
+    "d": 7.4,
+    "a": 1.2
+  },
+  "liverpool v newcastle__2023-08-27": {
+    "h": 2.24,
+    "d": 3.93,
+    "a": 3.11
+  },
+  "luton v west ham__2023-09-01": {
+    "h": 4.67,
+    "d": 4.09,
+    "a": 1.76
+  },
+  "everton v sheffield united__2023-09-02": {
+    "h": 3.21,
+    "d": 3.42,
+    "a": 2.39
+  },
+  "bournemouth v brentford__2023-09-02": {
+    "h": 1.75,
+    "d": 4.01,
+    "a": 4.86
+  },
+  "burnley v tottenham__2023-09-02": {
+    "h": 3.71,
+    "d": 3.79,
+    "a": 2.04
+  },
+  "chelsea v nottingham forest__2023-09-02": {
+    "h": 1.41,
+    "d": 5.01,
+    "a": 8.45
+  },
+  "fulham v manchester city__2023-09-02": {
+    "h": 1.19,
+    "d": 7.65,
+    "a": 16
+  },
+  "brighton v newcastle__2023-09-02": {
+    "h": 2.64,
+    "d": 3.87,
+    "a": 2.59
+  },
+  "crystal palace v wolves__2023-09-03": {
+    "h": 1.9,
+    "d": 3.61,
+    "a": 4.54
+  },
+  "aston villa v liverpool__2023-09-03": {
+    "h": 1.65,
+    "d": 4.67,
+    "a": 5.02
+  },
+  "arsenal v manchester united__2023-09-03": {
+    "h": 1.76,
+    "d": 4.2,
+    "a": 4.49
+  },
+  "liverpool v wolves__2023-09-16": {
+    "h": 4.58,
+    "d": 4.46,
+    "a": 1.71
+  },
+  "aston villa v crystal palace__2023-09-16": {
+    "h": 1.98,
+    "d": 3.66,
+    "a": 4.08
+  },
+  "fulham v luton__2023-09-16": {
+    "h": 1.69,
+    "d": 3.82,
+    "a": 5.68
+  },
+  "brighton v manchester united__2023-09-16": {
+    "h": 2.07,
+    "d": 3.9,
+    "a": 3.53
+  },
+  "sheffield united v tottenham__2023-09-16": {
+    "h": 1.3,
+    "d": 6.31,
+    "a": 9.4
+  },
+  "manchester city v west ham__2023-09-16": {
+    "h": 5.49,
+    "d": 4.3,
+    "a": 1.63
+  },
+  "brentford v newcastle__2023-09-16": {
+    "h": 1.66,
+    "d": 4.17,
+    "a": 5.43
+  },
+  "bournemouth v chelsea__2023-09-17": {
+    "h": 4.34,
+    "d": 3.97,
+    "a": 1.83
+  },
+  "arsenal v everton__2023-09-17": {
+    "h": 6,
+    "d": 4.3,
+    "a": 1.59
+  },
+  "burnley v nottingham forest__2023-09-18": {
+    "h": 2.14,
+    "d": 3.51,
+    "a": 3.69
+  },
+  "crystal palace v fulham__2023-09-23": {
+    "h": 2.1,
+    "d": 3.39,
+    "a": 3.97
+  },
+  "luton v wolves__2023-09-23": {
+    "h": 3.28,
+    "d": 3.31,
+    "a": 2.41
+  },
+  "manchester city v nottingham forest__2023-09-23": {
+    "h": 1.17,
+    "d": 8.5,
+    "a": 18
+  },
+  "brentford v everton__2023-09-23": {
+    "h": 1.95,
+    "d": 3.53,
+    "a": 4.4
+  },
+  "burnley v manchester united__2023-09-23": {
+    "h": 4.32,
+    "d": 4,
+    "a": 1.83
+  },
+  "arsenal v tottenham__2023-09-24": {
+    "h": 1.65,
+    "d": 4.39,
+    "a": 5.11
+  },
+  "bournemouth v brighton__2023-09-24": {
+    "h": 1.52,
+    "d": 4.97,
+    "a": 5.9
+  },
+  "aston villa v chelsea__2023-09-24": {
+    "h": 1.91,
+    "d": 3.93,
+    "a": 4.1
+  },
+  "liverpool v west ham__2023-09-24": {
+    "h": 1.39,
+    "d": 5.64,
+    "a": 7.61
+  },
+  "newcastle v sheffield united__2023-09-24": {
+    "h": 6.05,
+    "d": 4.39,
+    "a": 1.57
+  },
+  "aston villa v brighton__2023-09-30": {
+    "h": 2.49,
+    "d": 3.77,
+    "a": 2.82
+  },
+  "arsenal v bournemouth__2023-09-30": {
+    "h": 6.06,
+    "d": 4.62,
+    "a": 1.55
+  },
+  "everton v luton__2023-09-30": {
+    "h": 1.67,
+    "d": 3.93,
+    "a": 5.7
+  },
+  "crystal palace v manchester united__2023-09-30": {
+    "h": 1.58,
+    "d": 4.37,
+    "a": 5.96
+  },
+  "burnley v newcastle__2023-09-30": {
+    "h": 1.38,
+    "d": 5.24,
+    "a": 8.53
+  },
+  "sheffield united v west ham__2023-09-30": {
+    "h": 1.48,
+    "d": 4.79,
+    "a": 7
+  },
+  "manchester city v wolves__2023-09-30": {
+    "h": 8.61,
+    "d": 5.19,
+    "a": 1.39
+  },
+  "liverpool v tottenham__2023-09-30": {
+    "h": 2.96,
+    "d": 4.01,
+    "a": 2.3
+  },
+  "brentford v nottingham forest__2023-10-01": {
+    "h": 2.62,
+    "d": 3.27,
+    "a": 2.99
+  },
+  "chelsea v fulham__2023-10-02": {
+    "h": 3.52,
+    "d": 3.49,
+    "a": 2.22
+  },
+  "burnley v luton__2023-10-03": {
+    "h": 2.95,
+    "d": 3.22,
+    "a": 2.69
+  },
+  "luton v tottenham__2023-10-07": {
+    "h": 6.8,
+    "d": 5.15,
+    "a": 1.45
+  },
+  "burnley v chelsea__2023-10-07": {
+    "h": 5.2,
+    "d": 4.07,
+    "a": 1.69
+  },
+  "bournemouth v everton__2023-10-07": {
+    "h": 1.93,
+    "d": 3.78,
+    "a": 4.18
+  },
+  "fulham v sheffield united__2023-10-07": {
+    "h": 1.52,
+    "d": 4.56,
+    "a": 6.57
+  },
+  "brentford v manchester united__2023-10-07": {
+    "h": 1.63,
+    "d": 4.33,
+    "a": 5.41
+  },
+  "crystal palace v nottingham forest__2023-10-07": {
+    "h": 2.34,
+    "d": 3.12,
+    "a": 3.64
+  },
+  "brighton v liverpool__2023-10-08": {
+    "h": 3.26,
+    "d": 4.19,
+    "a": 2.1
+  },
+  "newcastle v west ham__2023-10-08": {
+    "h": 3.58,
+    "d": 3.73,
+    "a": 2.11
+  },
+  "aston villa v wolves__2023-10-08": {
+    "h": 3.7,
+    "d": 3.68,
+    "a": 2.08
+  },
+  "arsenal v manchester city__2023-10-08": {
+    "h": 3,
+    "d": 3.39,
+    "a": 2.56
+  },
+  "everton v liverpool__2023-10-21": {
+    "h": 1.4,
+    "d": 5.5,
+    "a": 7.4
+  },
+  "bournemouth v wolves__2023-10-21": {
+    "h": 2.31,
+    "d": 3.46,
+    "a": 3.32
+  },
+  "brentford v burnley__2023-10-21": {
+    "h": 1.74,
+    "d": 3.9,
+    "a": 5.09
+  },
+  "brighton v manchester city__2023-10-21": {
+    "h": 1.36,
+    "d": 5.69,
+    "a": 7.74
+  },
+  "crystal palace v newcastle__2023-10-21": {
+    "h": 1.48,
+    "d": 4.49,
+    "a": 7.68
+  },
+  "luton v nottingham forest__2023-10-21": {
+    "h": 1.76,
+    "d": 3.65,
+    "a": 5.39
+  },
+  "arsenal v chelsea__2023-10-21": {
+    "h": 3.35,
+    "d": 3.44,
+    "a": 2.31
+  },
+  "manchester united v sheffield united__2023-10-21": {
+    "h": 7.8,
+    "d": 5.6,
+    "a": 1.38
+  },
+  "aston villa v west ham__2023-10-22": {
+    "h": 1.79,
+    "d": 4.02,
+    "a": 4.54
+  },
+  "fulham v tottenham__2023-10-23": {
+    "h": 1.52,
+    "d": 4.72,
+    "a": 6.13
+  },
+  "crystal palace v tottenham__2023-10-27": {
+    "h": 4.58,
+    "d": 3.85,
+    "a": 1.81
+  },
+  "brentford v chelsea__2023-10-28": {
+    "h": 1.65,
+    "d": 4.05,
+    "a": 5.6
+  },
+  "arsenal v sheffield united__2023-10-28": {
+    "h": 1.13,
+    "d": 9.5,
+    "a": 21
+  },
+  "bournemouth v burnley__2023-10-28": {
+    "h": 2.13,
+    "d": 3.65,
+    "a": 3.51
+  },
+  "newcastle v wolves__2023-10-28": {
+    "h": 4.11,
+    "d": 3.75,
+    "a": 1.93
+  },
+  "everton v west ham__2023-10-29": {
+    "h": 2.08,
+    "d": 3.7,
+    "a": 3.62
+  },
+  "aston villa v luton__2023-10-29": {
+    "h": 1.34,
+    "d": 5.85,
+    "a": 8.55
+  },
+  "brighton v fulham__2023-10-29": {
+    "h": 1.64,
+    "d": 4.32,
+    "a": 5.29
+  },
+  "liverpool v nottingham forest__2023-10-29": {
+    "h": 1.22,
+    "d": 7.31,
+    "a": 12.08
+  },
+  "manchester city v manchester united__2023-10-29": {
+    "h": 5.6,
+    "d": 4.3,
+    "a": 1.61
+  },
+  "fulham v manchester united__2023-11-04": {
+    "h": 3.03,
+    "d": 3.59,
+    "a": 2.38
+  },
+  "brentford v west ham__2023-11-04": {
+    "h": 2.16,
+    "d": 3.71,
+    "a": 3.39
+  },
+  "burnley v crystal palace__2023-11-04": {
+    "h": 3.53,
+    "d": 3.21,
+    "a": 2.31
+  },
+  "brighton v everton__2023-11-04": {
+    "h": 2.86,
+    "d": 3.52,
+    "a": 2.54
+  },
+  "bournemouth v manchester city__2023-11-04": {
+    "h": 1.09,
+    "d": 11.5,
+    "a": 28.5
+  },
+  "sheffield united v wolves__2023-11-04": {
+    "h": 4.35,
+    "d": 3.76,
+    "a": 1.87
+  },
+  "arsenal v newcastle__2023-11-04": {
+    "h": 2.84,
+    "d": 3.23,
+    "a": 2.73
+  },
+  "aston villa v nottingham forest__2023-11-05": {
+    "h": 3.93,
+    "d": 3.81,
+    "a": 1.95
+  },
+  "liverpool v luton__2023-11-05": {
+    "h": 15,
+    "d": 8.5,
+    "a": 1.18
+  },
+  "chelsea v tottenham__2023-11-06": {
+    "h": 2.37,
+    "d": 3.65,
+    "a": 3
+  },
+  "tottenham v wolves__2023-11-11": {
+    "h": 3.13,
+    "d": 3.62,
+    "a": 2.31
+  },
+  "arsenal v burnley__2023-11-11": {
+    "h": 1.19,
+    "d": 7.49,
+    "a": 16.59
+  },
+  "crystal palace v everton__2023-11-11": {
+    "h": 2.71,
+    "d": 3.12,
+    "a": 2.96
+  },
+  "luton v manchester united__2023-11-11": {
+    "h": 1.29,
+    "d": 6.14,
+    "a": 10.06
+  },
+  "bournemouth v newcastle__2023-11-11": {
+    "h": 3.9,
+    "d": 3.76,
+    "a": 1.97
+  },
+  "aston villa v fulham__2023-11-12": {
+    "h": 1.64,
+    "d": 4.22,
+    "a": 5.4
+  },
+  "brighton v sheffield united__2023-11-12": {
+    "h": 1.27,
+    "d": 6.23,
+    "a": 11.19
+  },
+  "brentford v liverpool__2023-11-12": {
+    "h": 1.4,
+    "d": 5.51,
+    "a": 7.48
+  },
+  "nottingham forest v west ham__2023-11-12": {
+    "h": 1.81,
+    "d": 3.84,
+    "a": 4.59
+  },
+  "chelsea v manchester city__2023-11-12": {
+    "h": 4.8,
+    "d": 4,
+    "a": 1.76
+  },
+  "liverpool v manchester city__2023-11-25": {
+    "h": 1.7,
+    "d": 4.42,
+    "a": 4.61
+  },
+  "burnley v west ham__2023-11-25": {
+    "h": 3.48,
+    "d": 3.43,
+    "a": 2.23
+  },
+  "crystal palace v luton__2023-11-25": {
+    "h": 4.12,
+    "d": 3.42,
+    "a": 2.03
+  },
+  "chelsea v newcastle__2023-11-25": {
+    "h": 2.6,
+    "d": 3.55,
+    "a": 2.76
+  },
+  "brighton v nottingham forest__2023-11-25": {
+    "h": 3.69,
+    "d": 3.63,
+    "a": 2.07
+  },
+  "bournemouth v sheffield united__2023-11-25": {
+    "h": 3.57,
+    "d": 3.5,
+    "a": 2.16
+  },
+  "arsenal v brentford__2023-11-25": {
+    "h": 5.8,
+    "d": 4.05,
+    "a": 1.65
+  },
+  "aston villa v tottenham__2023-11-26": {
+    "h": 2.7,
+    "d": 3.7,
+    "a": 2.58
+  },
+  "everton v manchester united__2023-11-26": {
+    "h": 2.68,
+    "d": 3.45,
+    "a": 2.75
+  },
+  "fulham v wolves__2023-11-27": {
+    "h": 2.43,
+    "d": 3.3,
+    "a": 3.19
+  },
+  "arsenal v wolves__2023-12-02": {
+    "h": 1.24,
+    "d": 6.5,
+    "a": 13
+  },
+  "brentford v luton__2023-12-02": {
+    "h": 1.54,
+    "d": 4.43,
+    "a": 6.38
+  },
+  "burnley v sheffield united__2023-12-02": {
+    "h": 1.74,
+    "d": 3.81,
+    "a": 5.19
+  },
+  "everton v nottingham forest__2023-12-02": {
+    "h": 2.88,
+    "d": 3.16,
+    "a": 2.76
+  },
+  "manchester united v newcastle__2023-12-02": {
+    "h": 2,
+    "d": 3.78,
+    "a": 3.79
+  },
+  "aston villa v bournemouth__2023-12-03": {
+    "h": 3.12,
+    "d": 3.98,
+    "a": 2.19
+  },
+  "brighton v chelsea__2023-12-03": {
+    "h": 1.6,
+    "d": 4.45,
+    "a": 5.5
+  },
+  "fulham v liverpool__2023-12-03": {
+    "h": 1.23,
+    "d": 7.04,
+    "a": 11.81
+  },
+  "crystal palace v west ham__2023-12-03": {
+    "h": 1.94,
+    "d": 3.58,
+    "a": 4.26
+  },
+  "manchester city v tottenham__2023-12-03": {
+    "h": 1.23,
+    "d": 7.6,
+    "a": 10.75
+  },
+  "burnley v wolves__2023-12-05": {
+    "h": 1.95,
+    "d": 3.65,
+    "a": 4.13
+  },
+  "arsenal v luton__2023-12-05": {
+    "h": 15.5,
+    "d": 7.25,
+    "a": 1.2
+  },
+  "brentford v brighton__2023-12-06": {
+    "h": 1.76,
+    "d": 4.1,
+    "a": 4.57
+  },
+  "bournemouth v crystal palace__2023-12-06": {
+    "h": 2.36,
+    "d": 3.43,
+    "a": 3.2
+  },
+  "fulham v nottingham forest__2023-12-06": {
+    "h": 2.06,
+    "d": 3.46,
+    "a": 3.94
+  },
+  "liverpool v sheffield united__2023-12-06": {
+    "h": 14,
+    "d": 8.5,
+    "a": 1.18
+  },
+  "aston villa v manchester city__2023-12-06": {
+    "h": 5.12,
+    "d": 4.33,
+    "a": 1.64
+  },
+  "chelsea v manchester united__2023-12-06": {
+    "h": 2.86,
+    "d": 3.61,
+    "a": 2.49
+  },
+  "everton v newcastle__2023-12-07": {
+    "h": 3.28,
+    "d": 3.45,
+    "a": 2.31
+  },
+  "tottenham v west ham__2023-12-07": {
+    "h": 1.67,
+    "d": 4.4,
+    "a": 4.9
+  },
+  "crystal palace v liverpool__2023-12-09": {
+    "h": 6.65,
+    "d": 4.7,
+    "a": 1.5
+  },
+  "brighton v burnley__2023-12-09": {
+    "h": 1.54,
+    "d": 4.53,
+    "a": 6.19
+  },
+  "bournemouth v manchester united__2023-12-09": {
+    "h": 1.67,
+    "d": 4.48,
+    "a": 4.78
+  },
+  "brentford v sheffield united__2023-12-09": {
+    "h": 4.71,
+    "d": 3.91,
+    "a": 1.78
+  },
+  "nottingham forest v wolves__2023-12-09": {
+    "h": 1.99,
+    "d": 3.34,
+    "a": 4.42
+  },
+  "arsenal v aston villa__2023-12-09": {
+    "h": 3.65,
+    "d": 3.87,
+    "a": 2.02
+  },
+  "chelsea v everton__2023-12-10": {
+    "h": 2.55,
+    "d": 3.45,
+    "a": 2.88
+  },
+  "fulham v west ham__2023-12-10": {
+    "h": 2.19,
+    "d": 3.6,
+    "a": 3.41
+  },
+  "luton v manchester city__2023-12-10": {
+    "h": 16,
+    "d": 7.8,
+    "a": 1.18
+  },
+  "newcastle v tottenham__2023-12-10": {
+    "h": 2.06,
+    "d": 4,
+    "a": 3.41
+  },
+  "nottingham forest v tottenham__2023-12-15": {
+    "h": 5.14,
+    "d": 4.19,
+    "a": 1.68
+  },
+  "chelsea v sheffield united__2023-12-16": {
+    "h": 1.18,
+    "d": 8.04,
+    "a": 15.9
+  },
+  "crystal palace v manchester city__2023-12-16": {
+    "h": 1.18,
+    "d": 7.6,
+    "a": 20.24
+  },
+  "fulham v newcastle__2023-12-16": {
+    "h": 1.92,
+    "d": 3.83,
+    "a": 4.07
+  },
+  "burnley v everton__2023-12-16": {
+    "h": 3.28,
+    "d": 3.57,
+    "a": 2.26
+  },
+  "arsenal v brighton__2023-12-17": {
+    "h": 1.47,
+    "d": 4.88,
+    "a": 6.82
+  },
+  "aston villa v brentford__2023-12-17": {
+    "h": 3.18,
+    "d": 3.46,
+    "a": 2.36
+  },
+  "west ham v wolves__2023-12-17": {
+    "h": 1.9,
+    "d": 3.65,
+    "a": 4.34
+  },
+  "liverpool v manchester united__2023-12-17": {
+    "h": 1.33,
+    "d": 6.1,
+    "a": 8.5
+  },
+  "brighton v crystal palace__2023-12-21": {
+    "h": 3.23,
+    "d": 3.37,
+    "a": 2.38
+  },
+  "aston villa v sheffield united__2023-12-22": {
+    "h": 1.22,
+    "d": 7.3,
+    "a": 12.5
+  },
+  "manchester united v west ham__2023-12-23": {
+    "h": 2.1,
+    "d": 3.89,
+    "a": 3.39
+  },
+  "burnley v fulham__2023-12-23": {
+    "h": 1.71,
+    "d": 3.93,
+    "a": 5.24
+  },
+  "luton v newcastle__2023-12-23": {
+    "h": 5.32,
+    "d": 4.12,
+    "a": 1.67
+  },
+  "bournemouth v nottingham forest__2023-12-23": {
+    "h": 2.94,
+    "d": 3.45,
+    "a": 2.52
+  },
+  "everton v tottenham__2023-12-23": {
+    "h": 1.7,
+    "d": 4.29,
+    "a": 4.76
+  },
+  "arsenal v liverpool__2023-12-23": {
+    "h": 2.52,
+    "d": 3.66,
+    "a": 2.8
+  },
+  "chelsea v wolves__2023-12-24": {
+    "h": 3.34,
+    "d": 3.65,
+    "a": 2.2
+  },
+  "newcastle v nottingham forest__2023-12-26": {
+    "h": 1.4,
+    "d": 5.15,
+    "a": 8.1
+  },
+  "bournemouth v fulham__2023-12-26": {
+    "h": 1.92,
+    "d": 3.9,
+    "a": 3.97
+  },
+  "luton v sheffield united__2023-12-26": {
+    "h": 2.46,
+    "d": 3.29,
+    "a": 3.15
+  },
+  "burnley v liverpool__2023-12-26": {
+    "h": 7.85,
+    "d": 5.65,
+    "a": 1.38
+  },
+  "aston villa v manchester united__2023-12-26": {
+    "h": 2.35,
+    "d": 3.77,
+    "a": 2.98
+  },
+  "brentford v wolves__2023-12-27": {
+    "h": 2.25,
+    "d": 3.39,
+    "a": 3.46
+  },
+  "chelsea v crystal palace__2023-12-27": {
+    "h": 1.81,
+    "d": 3.76,
+    "a": 4.72
+  },
+  "everton v manchester city__2023-12-27": {
+    "h": 5.5,
+    "d": 3.97,
+    "a": 1.68
+  },
+  "brighton v tottenham__2023-12-28": {
+    "h": 2.48,
+    "d": 3.92,
+    "a": 2.71
+  },
+  "arsenal v west ham__2023-12-28": {
+    "h": 1.29,
+    "d": 6.09,
+    "a": 10.81
+  },
+  "chelsea v luton__2023-12-30": {
+    "h": 5.55,
+    "d": 4.6,
+    "a": 1.58
+  },
+  "aston villa v burnley__2023-12-30": {
+    "h": 1.41,
+    "d": 5.3,
+    "a": 7.94
+  },
+  "brentford v crystal palace__2023-12-30": {
+    "h": 2.15,
+    "d": 3.27,
+    "a": 3.89
+  },
+  "manchester city v sheffield united__2023-12-30": {
+    "h": 1.07,
+    "d": 14,
+    "a": 36
+  },
+  "everton v wolves__2023-12-30": {
+    "h": 2.97,
+    "d": 3.24,
+    "a": 2.61
+  },
+  "manchester united v nottingham forest__2023-12-30": {
+    "h": 3.31,
+    "d": 3.66,
+    "a": 2.21
+  },
+  "arsenal v fulham__2023-12-31": {
+    "h": 5.78,
+    "d": 4.22,
+    "a": 1.61
+  },
+  "bournemouth v tottenham__2023-12-31": {
+    "h": 1.79,
+    "d": 4.59,
+    "a": 3.92
+  },
+  "liverpool v newcastle__2024-01-01": {
+    "h": 1.38,
+    "d": 5.7,
+    "a": 7.75
+  },
+  "brighton v west ham__2024-01-02": {
+    "h": 3.19,
+    "d": 3.65,
+    "a": 2.27
+  },
+  "burnley v luton__2024-01-12": {
+    "h": 2.18,
+    "d": 3.47,
+    "a": 3.6
+  },
+  "chelsea v fulham__2024-01-13": {
+    "h": 1.67,
+    "d": 4.15,
+    "a": 5.3
+  },
+  "manchester city v newcastle__2024-01-13": {
+    "h": 5.1,
+    "d": 4.25,
+    "a": 1.67
+  },
+  "aston villa v everton__2024-01-14": {
+    "h": 2.55,
+    "d": 3.61,
+    "a": 2.79
+  },
+  "manchester united v tottenham__2024-01-14": {
+    "h": 1.99,
+    "d": 4.02,
+    "a": 3.59
+  },
+  "arsenal v crystal palace__2024-01-20": {
+    "h": 1.27,
+    "d": 6.15,
+    "a": 12.65
+  },
+  "brentford v nottingham forest__2024-01-20": {
+    "h": 1.78,
+    "d": 3.86,
+    "a": 4.81
+  },
+  "sheffield united v west ham__2024-01-21": {
+    "h": 2.82,
+    "d": 3.35,
+    "a": 2.67
+  },
+  "bournemouth v liverpool__2024-01-21": {
+    "h": 4.49,
+    "d": 4.46,
+    "a": 1.71
+  },
+  "brighton v wolves__2024-01-22": {
+    "h": 1.67,
+    "d": 4.25,
+    "a": 5.15
+  },
+  "arsenal v nottingham forest__2024-01-30": {
+    "h": 9.02,
+    "d": 5.14,
+    "a": 1.38
+  },
+  "everton v fulham__2024-01-30": {
+    "h": 2.23,
+    "d": 3.27,
+    "a": 3.64
+  },
+  "brighton v luton__2024-01-30": {
+    "h": 4.29,
+    "d": 3.99,
+    "a": 1.83
+  },
+  "crystal palace v sheffield united__2024-01-30": {
+    "h": 1.61,
+    "d": 4.01,
+    "a": 6.2
+  },
+  "aston villa v newcastle__2024-01-30": {
+    "h": 1.86,
+    "d": 4.08,
+    "a": 4.06
+  },
+  "burnley v manchester city__2024-01-31": {
+    "h": 1.11,
+    "d": 11.5,
+    "a": 23
+  },
+  "brentford v tottenham__2024-01-31": {
+    "h": 1.62,
+    "d": 4.56,
+    "a": 5.18
+  },
+  "chelsea v liverpool__2024-01-31": {
+    "h": 1.66,
+    "d": 4.46,
+    "a": 4.89
+  },
+  "bournemouth v west ham__2024-02-01": {
+    "h": 2.51,
+    "d": 3.54,
+    "a": 2.89
+  },
+  "manchester united v wolves__2024-02-01": {
+    "h": 3.01,
+    "d": 3.46,
+    "a": 2.46
+  },
+  "everton v tottenham__2024-02-03": {
+    "h": 3.1,
+    "d": 3.74,
+    "a": 2.28
+  },
+  "brighton v crystal palace__2024-02-03": {
+    "h": 1.74,
+    "d": 3.82,
+    "a": 5.23
+  },
+  "burnley v fulham__2024-02-03": {
+    "h": 2.97,
+    "d": 3.28,
+    "a": 2.59
+  },
+  "luton v newcastle__2024-02-03": {
+    "h": 1.54,
+    "d": 4.69,
+    "a": 5.92
+  },
+  "aston villa v sheffield united__2024-02-03": {
+    "h": 5.35,
+    "d": 4.3,
+    "a": 1.64
+  },
+  "bournemouth v nottingham forest__2024-02-04": {
+    "h": 1.66,
+    "d": 4.37,
+    "a": 5.01
+  },
+  "chelsea v wolves__2024-02-04": {
+    "h": 1.54,
+    "d": 4.63,
+    "a": 6.02
+  },
+  "manchester united v west ham__2024-02-04": {
+    "h": 1.56,
+    "d": 4.59,
+    "a": 5.9
+  },
+  "arsenal v liverpool__2024-02-04": {
+    "h": 2.2,
+    "d": 3.75,
+    "a": 3.26
+  },
+  "brentford v manchester city__2024-02-05": {
+    "h": 7.8,
+    "d": 5.4,
+    "a": 1.39
+  },
+  "everton v manchester city__2024-02-10": {
+    "h": 1.24,
+    "d": 6.85,
+    "a": 12.25
+  },
+  "bournemouth v fulham__2024-02-10": {
+    "h": 2.64,
+    "d": 3.5,
+    "a": 2.76
+  },
+  "burnley v liverpool__2024-02-10": {
+    "h": 1.16,
+    "d": 9.27,
+    "a": 15.41
+  },
+  "luton v sheffield united__2024-02-10": {
+    "h": 1.72,
+    "d": 4.05,
+    "a": 4.96
+  },
+  "brighton v tottenham__2024-02-10": {
+    "h": 1.72,
+    "d": 4.64,
+    "a": 4.27
+  },
+  "brentford v wolves__2024-02-10": {
+    "h": 2.27,
+    "d": 3.54,
+    "a": 3.28
+  },
+  "newcastle v nottingham forest__2024-02-10": {
+    "h": 3.32,
+    "d": 3.79,
+    "a": 2.16
+  },
+  "arsenal v west ham__2024-02-11": {
+    "h": 6.25,
+    "d": 4.4,
+    "a": 1.56
+  },
+  "aston villa v manchester united__2024-02-11": {
+    "h": 2.18,
+    "d": 3.93,
+    "a": 3.18
+  },
+  "chelsea v crystal palace__2024-02-12": {
+    "h": 5.04,
+    "d": 3.99,
+    "a": 1.72
+  },
+  "brentford v liverpool__2024-02-17": {
+    "h": 4.85,
+    "d": 4.45,
+    "a": 1.66
+  },
+  "arsenal v burnley__2024-02-17": {
+    "h": 10.32,
+    "d": 6.08,
+    "a": 1.29
+  },
+  "aston villa v fulham__2024-02-17": {
+    "h": 3.1,
+    "d": 3.74,
+    "a": 2.28
+  },
+  "bournemouth v newcastle__2024-02-17": {
+    "h": 2,
+    "d": 3.94,
+    "a": 3.64
+  },
+  "nottingham forest v west ham__2024-02-17": {
+    "h": 2.29,
+    "d": 3.54,
+    "a": 3.24
+  },
+  "tottenham v wolves__2024-02-17": {
+    "h": 1.51,
+    "d": 5.01,
+    "a": 5.84
+  },
+  "chelsea v manchester city__2024-02-17": {
+    "h": 1.31,
+    "d": 6.6,
+    "a": 8.75
+  },
+  "brighton v sheffield united__2024-02-18": {
+    "h": 4.91,
+    "d": 4.32,
+    "a": 1.68
+  },
+  "luton v manchester united__2024-02-18": {
+    "h": 4.32,
+    "d": 4.14,
+    "a": 1.79
+  },
+  "crystal palace v everton__2024-02-19": {
+    "h": 1.83,
+    "d": 3.49,
+    "a": 5.06
+  },
+  "brentford v manchester city__2024-02-20": {
+    "h": 1.18,
+    "d": 8.5,
+    "a": 15
+  },
+  "liverpool v luton__2024-02-21": {
+    "h": 1.25,
+    "d": 6.93,
+    "a": 10.47
+  },
+  "aston villa v nottingham forest__2024-02-24": {
+    "h": 1.61,
+    "d": 4.51,
+    "a": 5.37
+  },
+  "brighton v everton__2024-02-24": {
+    "h": 1.87,
+    "d": 3.98,
+    "a": 4.1
+  },
+  "burnley v crystal palace__2024-02-24": {
+    "h": 1.98,
+    "d": 3.54,
+    "a": 4.13
+  },
+  "fulham v manchester united__2024-02-24": {
+    "h": 1.65,
+    "d": 4.26,
+    "a": 5.24
+  },
+  "bournemouth v manchester city__2024-02-24": {
+    "h": 6.75,
+    "d": 5.2,
+    "a": 1.45
+  },
+  "arsenal v newcastle__2024-02-24": {
+    "h": 1.36,
+    "d": 5.75,
+    "a": 8.2
+  },
+  "sheffield united v wolves__2024-02-25": {
+    "h": 1.49,
+    "d": 4.65,
+    "a": 6.92
+  },
+  "brentford v west ham__2024-02-26": {
+    "h": 2.33,
+    "d": 3.6,
+    "a": 3.12
+  },
+  "brentford v chelsea__2024-03-02": {
+    "h": 3.28,
+    "d": 3.74,
+    "a": 2.2
+  },
+  "everton v west ham__2024-03-02": {
+    "h": 2.17,
+    "d": 3.56,
+    "a": 3.49
+  },
+  "brighton v fulham__2024-03-02": {
+    "h": 2.62,
+    "d": 3.44,
+    "a": 2.81
+  },
+  "newcastle v wolves__2024-03-02": {
+    "h": 1.73,
+    "d": 4.28,
+    "a": 4.58
+  },
+  "liverpool v nottingham forest__2024-03-02": {
+    "h": 5.41,
+    "d": 4.51,
+    "a": 1.6
+  },
+  "crystal palace v tottenham__2024-03-02": {
+    "h": 1.54,
+    "d": 4.6,
+    "a": 6.11
+  },
+  "aston villa v luton__2024-03-02": {
+    "h": 4.55,
+    "d": 4.5,
+    "a": 1.7
+  },
+  "bournemouth v burnley__2024-03-03": {
+    "h": 3.8,
+    "d": 3.8,
+    "a": 1.99
+  },
+  "manchester city v manchester united__2024-03-03": {
+    "h": 1.24,
+    "d": 7.2,
+    "a": 10.75
+  },
+  "arsenal v sheffield united__2024-03-04": {
+    "h": 17.5,
+    "d": 7.75,
+    "a": 1.18
+  },
+  "everton v manchester united__2024-03-09": {
+    "h": 1.95,
+    "d": 3.74,
+    "a": 4.01
+  },
+  "bournemouth v sheffield united__2024-03-09": {
+    "h": 1.34,
+    "d": 5.79,
+    "a": 8.51
+  },
+  "crystal palace v luton__2024-03-09": {
+    "h": 1.92,
+    "d": 3.76,
+    "a": 4.12
+  },
+  "fulham v wolves__2024-03-09": {
+    "h": 2.56,
+    "d": 3.44,
+    "a": 2.89
+  },
+  "arsenal v brentford__2024-03-09": {
+    "h": 1.22,
+    "d": 7.5,
+    "a": 13
+  },
+  "aston villa v tottenham__2024-03-10": {
+    "h": 2.55,
+    "d": 3.86,
+    "a": 2.66
+  },
+  "brighton v nottingham forest__2024-03-10": {
+    "h": 1.63,
+    "d": 4.39,
+    "a": 5.3
+  },
+  "burnley v west ham__2024-03-10": {
+    "h": 1.66,
+    "d": 4.08,
+    "a": 5.43
+  },
+  "liverpool v manchester city__2024-03-10": {
+    "h": 3.48,
+    "d": 3.9,
+    "a": 2.06
+  },
+  "chelsea v newcastle__2024-03-11": {
+    "h": 1.85,
+    "d": 4.31,
+    "a": 3.91
+  },
+  "bournemouth v luton__2024-03-13": {
+    "h": 1.53,
+    "d": 4.89,
+    "a": 5.69
+  },
+  "brentford v burnley__2024-03-16": {
+    "h": 3.18,
+    "d": 3.65,
+    "a": 2.28
+  },
+  "luton v nottingham forest__2024-03-16": {
+    "h": 2.67,
+    "d": 3.59,
+    "a": 2.67
+  },
+  "fulham v tottenham__2024-03-16": {
+    "h": 3.45,
+    "d": 4,
+    "a": 2.05
+  },
+  "aston villa v west ham__2024-03-17": {
+    "h": 2.48,
+    "d": 3.69,
+    "a": 2.83
+  },
+  "newcastle v west ham__2024-03-30": {
+    "h": 1.85,
+    "d": 4.19,
+    "a": 3.96
+  },
+  "bournemouth v everton__2024-03-30": {
+    "h": 2.18,
+    "d": 3.74,
+    "a": 3.24
+  },
+  "burnley v chelsea__2024-03-30": {
+    "h": 1.25,
+    "d": 6.66,
+    "a": 11.18
+  },
+  "crystal palace v nottingham forest__2024-03-30": {
+    "h": 2.25,
+    "d": 3.4,
+    "a": 3.43
+  },
+  "fulham v sheffield united__2024-03-30": {
+    "h": 4.89,
+    "d": 4.13,
+    "a": 1.71
+  },
+  "luton v tottenham__2024-03-30": {
+    "h": 1.19,
+    "d": 8.37,
+    "a": 12.64
+  },
+  "aston villa v wolves__2024-03-30": {
+    "h": 1.53,
+    "d": 4.41,
+    "a": 6.66
+  },
+  "brentford v manchester united__2024-03-30": {
+    "h": 3.39,
+    "d": 4.06,
+    "a": 2.06
+  },
+  "brighton v liverpool__2024-03-31": {
+    "h": 1.29,
+    "d": 6.6,
+    "a": 9.25
+  },
+  "arsenal v manchester city__2024-03-31": {
+    "h": 2.09,
+    "d": 3.6,
+    "a": 3.72
+  },
+  "everton v newcastle__2024-04-02": {
+    "h": 2.03,
+    "d": 3.78,
+    "a": 3.72
+  },
+  "fulham v nottingham forest__2024-04-02": {
+    "h": 2.74,
+    "d": 3.48,
+    "a": 2.66
+  },
+  "bournemouth v crystal palace__2024-04-02": {
+    "h": 1.89,
+    "d": 3.89,
+    "a": 4.14
+  },
+  "burnley v wolves__2024-04-02": {
+    "h": 2.36,
+    "d": 3.54,
+    "a": 3.08
+  },
+  "tottenham v west ham__2024-04-02": {
+    "h": 3.47,
+    "d": 4.26,
+    "a": 1.99
+  },
+  "arsenal v luton__2024-04-03": {
+    "h": 1.13,
+    "d": 10.5,
+    "a": 19.5
+  },
+  "brentford v brighton__2024-04-03": {
+    "h": 2.57,
+    "d": 3.63,
+    "a": 2.75
+  },
+  "aston villa v manchester city__2024-04-03": {
+    "h": 1.21,
+    "d": 7.5,
+    "a": 13.5
+  },
+  "liverpool v sheffield united__2024-04-04": {
+    "h": 1.06,
+    "d": 18.5,
+    "a": 31
+  },
+  "chelsea v manchester united__2024-04-04": {
+    "h": 1.82,
+    "d": 4.41,
+    "a": 3.98
+  },
+  "crystal palace v manchester city__2024-04-06": {
+    "h": 8.8,
+    "d": 5.35,
+    "a": 1.37
+  },
+  "aston villa v brentford__2024-04-06": {
+    "h": 1.65,
+    "d": 4.22,
+    "a": 5.31
+  },
+  "burnley v everton__2024-04-06": {
+    "h": 1.76,
+    "d": 3.92,
+    "a": 4.79
+  },
+  "fulham v newcastle__2024-04-06": {
+    "h": 2.47,
+    "d": 3.7,
+    "a": 2.83
+  },
+  "bournemouth v luton__2024-04-06": {
+    "h": 3.82,
+    "d": 4.07,
+    "a": 1.92
+  },
+  "west ham v wolves__2024-04-06": {
+    "h": 2.91,
+    "d": 3.42,
+    "a": 2.55
+  },
+  "arsenal v brighton__2024-04-06": {
+    "h": 6.55,
+    "d": 4.6,
+    "a": 1.51
+  },
+  "liverpool v manchester united__2024-04-07": {
+    "h": 5,
+    "d": 4.85,
+    "a": 1.6
+  },
+  "chelsea v sheffield united__2024-04-07": {
+    "h": 6.69,
+    "d": 5.28,
+    "a": 1.44
+  },
+  "nottingham forest v tottenham__2024-04-07": {
+    "h": 1.42,
+    "d": 5.5,
+    "a": 6.9
+  },
+  "newcastle v tottenham__2024-04-13": {
+    "h": 2.65,
+    "d": 4.1,
+    "a": 2.48
+  },
+  "brentford v sheffield united__2024-04-13": {
+    "h": 1.49,
+    "d": 5.03,
+    "a": 6.25
+  },
+  "brighton v burnley__2024-04-13": {
+    "h": 3.97,
+    "d": 4.06,
+    "a": 1.88
+  },
+  "luton v manchester city__2024-04-13": {
+    "h": 1.08,
+    "d": 13.5,
+    "a": 26
+  },
+  "nottingham forest v wolves__2024-04-13": {
+    "h": 2.07,
+    "d": 3.52,
+    "a": 3.81
+  },
+  "bournemouth v manchester united__2024-04-13": {
+    "h": 2.38,
+    "d": 4.1,
+    "a": 2.74
+  },
+  "crystal palace v liverpool__2024-04-14": {
+    "h": 1.18,
+    "d": 8.5,
+    "a": 14.5
+  },
+  "fulham v west ham__2024-04-14": {
+    "h": 2.44,
+    "d": 3.68,
+    "a": 2.89
+  },
+  "arsenal v aston villa__2024-04-14": {
+    "h": 1.24,
+    "d": 7,
+    "a": 11.5
+  },
+  "chelsea v everton__2024-04-15": {
+    "h": 1.67,
+    "d": 4.25,
+    "a": 5.1
+  },
+  "brentford v luton__2024-04-20": {
+    "h": 2.92,
+    "d": 3.54,
+    "a": 2.48
+  },
+  "burnley v sheffield united__2024-04-20": {
+    "h": 2.66,
+    "d": 3.55,
+    "a": 2.7
+  },
+  "arsenal v wolves__2024-04-20": {
+    "h": 11.75,
+    "d": 6.6,
+    "a": 1.26
+  },
+  "everton v nottingham forest__2024-04-21": {
+    "h": 2.34,
+    "d": 3.3,
+    "a": 3.36
+  },
+  "aston villa v bournemouth__2024-04-21": {
+    "h": 1.87,
+    "d": 4.11,
+    "a": 4.03
+  },
+  "crystal palace v west ham__2024-04-21": {
+    "h": 2.23,
+    "d": 3.55,
+    "a": 3.36
+  },
+  "fulham v liverpool__2024-04-21": {
+    "h": 4.65,
+    "d": 4.5,
+    "a": 1.68
+  },
+  "arsenal v chelsea__2024-04-23": {
+    "h": 1.41,
+    "d": 5.3,
+    "a": 7.65
+  },
+  "bournemouth v wolves__2024-04-24": {
+    "h": 2.81,
+    "d": 3.67,
+    "a": 2.5
+  },
+  "crystal palace v newcastle__2024-04-24": {
+    "h": 3.09,
+    "d": 3.69,
+    "a": 2.31
+  },
+  "everton v liverpool__2024-04-24": {
+    "h": 7.65,
+    "d": 5.35,
+    "a": 1.4
+  },
+  "manchester united v sheffield united__2024-04-24": {
+    "h": 1.32,
+    "d": 6.3,
+    "a": 8.59
+  },
+  "brighton v manchester city__2024-04-25": {
+    "h": 7.9,
+    "d": 5.85,
+    "a": 1.36
+  },
+  "liverpool v west ham__2024-04-27": {
+    "h": 5.35,
+    "d": 4.95,
+    "a": 1.56
+  },
+  "crystal palace v fulham__2024-04-27": {
+    "h": 2.11,
+    "d": 3.45,
+    "a": 3.78
+  },
+  "burnley v manchester united__2024-04-27": {
+    "h": 1.5,
+    "d": 5.29,
+    "a": 5.72
+  },
+  "newcastle v sheffield united__2024-04-27": {
+    "h": 1.2,
+    "d": 7.87,
+    "a": 12.52
+  },
+  "luton v wolves__2024-04-27": {
+    "h": 1.93,
+    "d": 3.85,
+    "a": 3.96
+  },
+  "brentford v everton__2024-04-27": {
+    "h": 3,
+    "d": 3.44,
+    "a": 2.48
+  },
+  "aston villa v chelsea__2024-04-27": {
+    "h": 2.05,
+    "d": 4.08,
+    "a": 3.43
+  },
+  "bournemouth v brighton__2024-04-28": {
+    "h": 1.96,
+    "d": 4.17,
+    "a": 3.57
+  },
+  "arsenal v tottenham__2024-04-28": {
+    "h": 4.35,
+    "d": 4.21,
+    "a": 1.78
+  },
+  "manchester city v nottingham forest__2024-04-28": {
+    "h": 11,
+    "d": 6.2,
+    "a": 1.29
+  },
+  "chelsea v tottenham__2024-05-02": {
+    "h": 2.46,
+    "d": 4.04,
+    "a": 2.68
+  },
+  "everton v luton__2024-05-03": {
+    "h": 2.78,
+    "d": 3.7,
+    "a": 2.52
+  },
+  "arsenal v bournemouth__2024-05-04": {
+    "h": 1.21,
+    "d": 7.25,
+    "a": 14
+  },
+  "brentford v fulham__2024-05-04": {
+    "h": 2.09,
+    "d": 3.8,
+    "a": 3.49
+  },
+  "burnley v newcastle__2024-05-04": {
+    "h": 3.37,
+    "d": 4.21,
+    "a": 2.02
+  },
+  "nottingham forest v sheffield united__2024-05-04": {
+    "h": 5.08,
+    "d": 4.27,
+    "a": 1.67
+  },
+  "manchester city v wolves__2024-05-04": {
+    "h": 1.1,
+    "d": 13.5,
+    "a": 24
+  },
+  "aston villa v brighton__2024-05-05": {
+    "h": 2.41,
+    "d": 3.85,
+    "a": 2.84
+  },
+  "chelsea v west ham__2024-05-05": {
+    "h": 1.5,
+    "d": 5.15,
+    "a": 5.91
+  },
+  "liverpool v tottenham__2024-05-05": {
+    "h": 1.42,
+    "d": 5.9,
+    "a": 6.4
+  },
+  "crystal palace v manchester united__2024-05-06": {
+    "h": 1.99,
+    "d": 4.05,
+    "a": 3.57
+  },
+  "fulham v manchester city__2024-05-11": {
+    "h": 10.9,
+    "d": 7.4,
+    "a": 1.24
+  },
+  "bournemouth v brentford__2024-05-11": {
+    "h": 2.16,
+    "d": 3.88,
+    "a": 3.25
+  },
+  "everton v sheffield united__2024-05-11": {
+    "h": 1.44,
+    "d": 5.07,
+    "a": 7.03
+  },
+  "brighton v newcastle__2024-05-11": {
+    "h": 1.6,
+    "d": 4.84,
+    "a": 5.01
+  },
+  "burnley v tottenham__2024-05-11": {
+    "h": 1.31,
+    "d": 6.53,
+    "a": 8.32
+  },
+  "luton v west ham__2024-05-11": {
+    "h": 1.88,
+    "d": 4.27,
+    "a": 3.77
+  },
+  "crystal palace v wolves__2024-05-11": {
+    "h": 3.31,
+    "d": 3.63,
+    "a": 2.22
+  },
+  "chelsea v nottingham forest__2024-05-11": {
+    "h": 4.04,
+    "d": 3.98,
+    "a": 1.88
+  },
+  "arsenal v manchester united__2024-05-12": {
+    "h": 9.75,
+    "d": 7.05,
+    "a": 1.26
+  },
+  "aston villa v liverpool__2024-05-13": {
+    "h": 3.9,
+    "d": 4.58,
+    "a": 1.8
+  },
+  "manchester city v tottenham__2024-05-14": {
+    "h": 6.6,
+    "d": 6.35,
+    "a": 1.38
+  },
+  "brighton v chelsea__2024-05-15": {
+    "h": 3.2,
+    "d": 4.22,
+    "a": 2.09
+  },
+  "manchester united v newcastle__2024-05-15": {
+    "h": 2.73,
+    "d": 3.9,
+    "a": 2.47
+  },
+  "arsenal v everton__2024-05-19": {
+    "h": 1.22,
+    "d": 7.16,
+    "a": 13.07
+  },
+  "brentford v newcastle__2024-05-19": {
+    "h": 2.99,
+    "d": 4.05,
+    "a": 2.24
+  },
+  "brighton v manchester united__2024-05-19": {
+    "h": 2.66,
+    "d": 4.03,
+    "a": 2.48
+  },
+  "burnley v nottingham forest__2024-05-19": {
+    "h": 2.85,
+    "d": 3.9,
+    "a": 2.35
+  },
+  "bournemouth v chelsea__2024-05-19": {
+    "h": 1.4,
+    "d": 5.59,
+    "a": 7.23
+  },
+  "aston villa v crystal palace__2024-05-19": {
+    "h": 1.63,
+    "d": 4.64,
+    "a": 4.99
+  },
+  "liverpool v wolves__2024-05-19": {
+    "h": 1.13,
+    "d": 10.69,
+    "a": 16.27
+  },
+  "fulham v luton__2024-05-19": {
+    "h": 3.11,
+    "d": 3.99,
+    "a": 2.19
+  },
+  "manchester city v west ham__2024-05-19": {
+    "h": 1.07,
+    "d": 15.01,
+    "a": 27.84
+  },
+  "sheffield united v tottenham__2024-05-19": {
+    "h": 7.99,
+    "d": 6.11,
+    "a": 1.35
+  },
+  "fulham v manchester united__2024-08-16": {
+    "h": 1.65,
+    "d": 4.23,
+    "a": 5.28
+  },
+  "ipswich v liverpool__2024-08-17": {
+    "h": 8.14,
+    "d": 6.09,
+    "a": 1.34
+  },
+  "arsenal v wolves__2024-08-17": {
+    "h": 1.15,
+    "d": 9.05,
+    "a": 18.76
+  },
+  "brighton v everton__2024-08-17": {
+    "h": 3.15,
+    "d": 3.41,
+    "a": 2.4
+  },
+  "newcastle v southampton__2024-08-17": {
+    "h": 1.42,
+    "d": 5.3,
+    "a": 7.26
+  },
+  "bournemouth v nottingham forest__2024-08-17": {
+    "h": 2.24,
+    "d": 3.5,
+    "a": 3.37
+  },
+  "aston villa v west ham__2024-08-17": {
+    "h": 2.54,
+    "d": 3.51,
+    "a": 2.86
+  },
+  "brentford v crystal palace__2024-08-18": {
+    "h": 2.92,
+    "d": 3.24,
+    "a": 2.66
+  },
+  "chelsea v manchester city__2024-08-18": {
+    "h": 3.86,
+    "d": 3.91,
+    "a": 1.97
+  },
+  "leicester v tottenham__2024-08-19": {
+    "h": 4.64,
+    "d": 4.33,
+    "a": 1.71
+  },
+  "brighton v manchester united__2024-08-24": {
+    "h": 2.42,
+    "d": 3.76,
+    "a": 2.86
+  },
+  "crystal palace v west ham__2024-08-24": {
+    "h": 1.97,
+    "d": 3.84,
+    "a": 3.84
+  },
+  "fulham v leicester__2024-08-24": {
+    "h": 1.88,
+    "d": 3.81,
+    "a": 4.26
+  },
+  "ipswich v manchester city__2024-08-24": {
+    "h": 1.1,
+    "d": 11,
+    "a": 31
+  },
+  "nottingham forest v southampton__2024-08-24": {
+    "h": 2.33,
+    "d": 3.54,
+    "a": 3.11
+  },
+  "everton v tottenham__2024-08-24": {
+    "h": 1.37,
+    "d": 5.66,
+    "a": 8
+  },
+  "arsenal v aston villa__2024-08-24": {
+    "h": 4.85,
+    "d": 4.04,
+    "a": 1.74
+  },
+  "bournemouth v newcastle__2024-08-25": {
+    "h": 2.63,
+    "d": 3.66,
+    "a": 2.68
+  },
+  "chelsea v wolves__2024-08-25": {
+    "h": 3.91,
+    "d": 3.94,
+    "a": 1.93
+  },
+  "brentford v liverpool__2024-08-25": {
+    "h": 1.22,
+    "d": 7.75,
+    "a": 12.5
+  },
+  "arsenal v brighton__2024-08-31": {
+    "h": 1.37,
+    "d": 5.48,
+    "a": 8.43
+  },
+  "brentford v southampton__2024-08-31": {
+    "h": 1.82,
+    "d": 3.91,
+    "a": 4.46
+  },
+  "bournemouth v everton__2024-08-31": {
+    "h": 3.14,
+    "d": 3.45,
+    "a": 2.39
+  },
+  "fulham v ipswich__2024-08-31": {
+    "h": 3.07,
+    "d": 3.43,
+    "a": 2.43
+  },
+  "aston villa v leicester__2024-08-31": {
+    "h": 4.01,
+    "d": 3.87,
+    "a": 1.92
+  },
+  "nottingham forest v wolves__2024-08-31": {
+    "h": 2,
+    "d": 3.7,
+    "a": 3.88
+  },
+  "manchester city v west ham__2024-08-31": {
+    "h": 7.7,
+    "d": 5.25,
+    "a": 1.41
+  },
+  "chelsea v crystal palace__2024-09-01": {
+    "h": 1.68,
+    "d": 4.24,
+    "a": 5.05
+  },
+  "newcastle v tottenham__2024-09-01": {
+    "h": 2.53,
+    "d": 3.89,
+    "a": 2.66
+  },
+  "liverpool v manchester united__2024-09-01": {
+    "h": 3.51,
+    "d": 4.11,
+    "a": 2
+  },
+  "manchester united v southampton__2024-09-14": {
+    "h": 4.2,
+    "d": 4.12,
+    "a": 1.82
+  },
+  "brighton v ipswich__2024-09-14": {
+    "h": 1.53,
+    "d": 4.61,
+    "a": 6.22
+  },
+  "crystal palace v leicester__2024-09-14": {
+    "h": 1.67,
+    "d": 4.02,
+    "a": 5.43
+  },
+  "fulham v west ham__2024-09-14": {
+    "h": 2.36,
+    "d": 3.41,
+    "a": 3.21
+  },
+  "liverpool v nottingham forest__2024-09-14": {
+    "h": 1.22,
+    "d": 7.11,
+    "a": 12.95
+  },
+  "brentford v manchester city__2024-09-14": {
+    "h": 1.21,
+    "d": 7.2,
+    "a": 13.92
+  },
+  "aston villa v everton__2024-09-14": {
+    "h": 1.68,
+    "d": 4,
+    "a": 5.44
+  },
+  "bournemouth v chelsea__2024-09-14": {
+    "h": 3.17,
+    "d": 3.79,
+    "a": 2.23
+  },
+  "arsenal v tottenham__2024-09-15": {
+    "h": 2.77,
+    "d": 3.49,
+    "a": 2.63
+  },
+  "newcastle v wolves__2024-09-15": {
+    "h": 3.6,
+    "d": 3.73,
+    "a": 2.07
+  },
+  "chelsea v west ham__2024-09-21": {
+    "h": 3.59,
+    "d": 3.94,
+    "a": 2.01
+  },
+  "aston villa v wolves__2024-09-21": {
+    "h": 1.67,
+    "d": 4.21,
+    "a": 5.16
+  },
+  "fulham v newcastle__2024-09-21": {
+    "h": 3.02,
+    "d": 3.57,
+    "a": 2.41
+  },
+  "everton v leicester__2024-09-21": {
+    "h": 2.1,
+    "d": 3.52,
+    "a": 3.69
+  },
+  "bournemouth v liverpool__2024-09-21": {
+    "h": 1.25,
+    "d": 6.85,
+    "a": 10.91
+  },
+  "ipswich v southampton__2024-09-21": {
+    "h": 2.42,
+    "d": 3.48,
+    "a": 3.06
+  },
+  "brentford v tottenham__2024-09-21": {
+    "h": 1.48,
+    "d": 5.1,
+    "a": 6.23
+  },
+  "crystal palace v manchester united__2024-09-21": {
+    "h": 2.8,
+    "d": 3.55,
+    "a": 2.57
+  },
+  "brighton v nottingham forest__2024-09-22": {
+    "h": 1.84,
+    "d": 3.82,
+    "a": 4.45
+  },
+  "arsenal v manchester city__2024-09-22": {
+    "h": 1.81,
+    "d": 3.66,
+    "a": 4.91
+  },
+  "manchester city v newcastle__2024-09-28": {
+    "h": 4.9,
+    "d": 4.23,
+    "a": 1.69
+  },
+  "arsenal v leicester__2024-09-28": {
+    "h": 1.2,
+    "d": 6.8,
+    "a": 17.5
+  },
+  "brentford v west ham__2024-09-28": {
+    "h": 2.26,
+    "d": 3.56,
+    "a": 3.27
+  },
+  "brighton v chelsea__2024-09-28": {
+    "h": 1.81,
+    "d": 4.2,
+    "a": 4.15
+  },
+  "crystal palace v everton__2024-09-28": {
+    "h": 2.79,
+    "d": 3.35,
+    "a": 2.7
+  },
+  "fulham v nottingham forest__2024-09-28": {
+    "h": 2.65,
+    "d": 3.16,
+    "a": 3
+  },
+  "liverpool v wolves__2024-09-28": {
+    "h": 8.72,
+    "d": 5.95,
+    "a": 1.33
+  },
+  "aston villa v ipswich__2024-09-29": {
+    "h": 3.64,
+    "d": 3.59,
+    "a": 2.1
+  },
+  "manchester united v tottenham__2024-09-29": {
+    "h": 2.12,
+    "d": 3.89,
+    "a": 3.27
+  },
+  "bournemouth v southampton__2024-09-30": {
+    "h": 1.49,
+    "d": 4.69,
+    "a": 6.79
+  },
+  "crystal palace v liverpool__2024-10-05": {
+    "h": 5.14,
+    "d": 4.1,
+    "a": 1.69
+  },
+  "arsenal v southampton__2024-10-05": {
+    "h": 1.16,
+    "d": 8.18,
+    "a": 18.71
+  },
+  "brentford v wolves__2024-10-05": {
+    "h": 2.11,
+    "d": 3.61,
+    "a": 3.6
+  },
+  "bournemouth v leicester__2024-10-05": {
+    "h": 3.7,
+    "d": 3.81,
+    "a": 2.02
+  },
+  "fulham v manchester city__2024-10-05": {
+    "h": 1.26,
+    "d": 6.52,
+    "a": 11.37
+  },
+  "ipswich v west ham__2024-10-05": {
+    "h": 1.92,
+    "d": 3.84,
+    "a": 4.05
+  },
+  "everton v newcastle__2024-10-05": {
+    "h": 3.71,
+    "d": 3.77,
+    "a": 2
+  },
+  "aston villa v manchester united__2024-10-06": {
+    "h": 2.23,
+    "d": 3.84,
+    "a": 3.13
+  },
+  "chelsea v nottingham forest__2024-10-06": {
+    "h": 1.52,
+    "d": 4.7,
+    "a": 6.34
+  },
+  "brighton v tottenham__2024-10-06": {
+    "h": 2.94,
+    "d": 3.95,
+    "a": 2.3
+  },
+  "tottenham v west ham__2024-10-19": {
+    "h": 1.45,
+    "d": 5.45,
+    "a": 6.25
+  },
+  "aston villa v fulham__2024-10-19": {
+    "h": 2.48,
+    "d": 3.46,
+    "a": 2.98
+  },
+  "everton v ipswich__2024-10-19": {
+    "h": 2.44,
+    "d": 3.43,
+    "a": 3.06
+  },
+  "brentford v manchester united__2024-10-19": {
+    "h": 1.67,
+    "d": 4.41,
+    "a": 4.92
+  },
+  "brighton v newcastle__2024-10-19": {
+    "h": 1.75,
+    "d": 4.08,
+    "a": 4.67
+  },
+  "leicester v southampton__2024-10-19": {
+    "h": 2.23,
+    "d": 3.5,
+    "a": 3.41
+  },
+  "arsenal v bournemouth__2024-10-19": {
+    "h": 5.17,
+    "d": 3.71,
+    "a": 1.76
+  },
+  "manchester city v wolves__2024-10-20": {
+    "h": 8.08,
+    "d": 5.46,
+    "a": 1.38
+  },
+  "chelsea v liverpool__2024-10-20": {
+    "h": 1.72,
+    "d": 4.4,
+    "a": 4.55
+  },
+  "crystal palace v nottingham forest__2024-10-21": {
+    "h": 2.38,
+    "d": 3.3,
+    "a": 3.29
+  },
+  "leicester v nottingham forest__2024-10-25": {
+    "h": 3.07,
+    "d": 3.4,
+    "a": 2.46
+  },
+  "aston villa v bournemouth__2024-10-26": {
+    "h": 1.79,
+    "d": 3.97,
+    "a": 4.54
+  },
+  "brentford v ipswich__2024-10-26": {
+    "h": 1.68,
+    "d": 4.16,
+    "a": 5.19
+  },
+  "brighton v wolves__2024-10-26": {
+    "h": 1.58,
+    "d": 4.41,
+    "a": 5.79
+  },
+  "manchester city v southampton__2024-10-26": {
+    "h": 1.12,
+    "d": 10.5,
+    "a": 23
+  },
+  "everton v fulham__2024-10-26": {
+    "h": 2.71,
+    "d": 3.36,
+    "a": 2.73
+  },
+  "chelsea v newcastle__2024-10-27": {
+    "h": 1.82,
+    "d": 4.03,
+    "a": 4.29
+  },
+  "crystal palace v tottenham__2024-10-27": {
+    "h": 3.78,
+    "d": 3.97,
+    "a": 1.95
+  },
+  "manchester united v west ham__2024-10-27": {
+    "h": 3.39,
+    "d": 3.72,
+    "a": 2.15
+  },
+  "arsenal v liverpool__2024-10-27": {
+    "h": 2.27,
+    "d": 3.46,
+    "a": 3.35
+  },
+  "arsenal v newcastle__2024-11-02": {
+    "h": 4.03,
+    "d": 3.69,
+    "a": 1.96
+  },
+  "bournemouth v manchester city__2024-11-02": {
+    "h": 6.11,
+    "d": 4.42,
+    "a": 1.56
+  },
+  "ipswich v leicester__2024-11-02": {
+    "h": 2.36,
+    "d": 3.54,
+    "a": 3.09
+  },
+  "brighton v liverpool__2024-11-02": {
+    "h": 1.36,
+    "d": 5.79,
+    "a": 7.93
+  },
+  "nottingham forest v west ham__2024-11-02": {
+    "h": 2.05,
+    "d": 3.46,
+    "a": 3.95
+  },
+  "everton v southampton__2024-11-02": {
+    "h": 2.72,
+    "d": 3.31,
+    "a": 2.8
+  },
+  "crystal palace v wolves__2024-11-02": {
+    "h": 2.44,
+    "d": 3.34,
+    "a": 3.13
+  },
+  "aston villa v tottenham__2024-11-03": {
+    "h": 1.99,
+    "d": 4.04,
+    "a": 3.59
+  },
+  "chelsea v manchester united__2024-11-03": {
+    "h": 2.72,
+    "d": 3.65,
+    "a": 2.59
+  },
+  "brentford v fulham__2024-11-04": {
+    "h": 2.02,
+    "d": 3.76,
+    "a": 3.73
+  },
+  "bournemouth v brentford__2024-11-09": {
+    "h": 2.64,
+    "d": 3.53,
+    "a": 2.74
+  },
+  "crystal palace v fulham__2024-11-09": {
+    "h": 3.37,
+    "d": 3.3,
+    "a": 2.34
+  },
+  "everton v west ham__2024-11-09": {
+    "h": 2.17,
+    "d": 3.53,
+    "a": 3.52
+  },
+  "southampton v wolves__2024-11-09": {
+    "h": 1.95,
+    "d": 3.75,
+    "a": 4.01
+  },
+  "brighton v manchester city__2024-11-09": {
+    "h": 4.1,
+    "d": 4.15,
+    "a": 1.83
+  },
+  "aston villa v liverpool__2024-11-09": {
+    "h": 1.47,
+    "d": 4.9,
+    "a": 7
+  },
+  "leicester v manchester united__2024-11-10": {
+    "h": 1.35,
+    "d": 5.62,
+    "a": 8.93
+  },
+  "newcastle v nottingham forest__2024-11-10": {
+    "h": 2.81,
+    "d": 3.3,
+    "a": 2.72
+  },
+  "ipswich v tottenham__2024-11-10": {
+    "h": 1.26,
+    "d": 6.72,
+    "a": 10.66
+  },
+  "arsenal v chelsea__2024-11-10": {
+    "h": 3,
+    "d": 3.35,
+    "a": 2.52
+  },
+  "chelsea v leicester__2024-11-23": {
+    "h": 7,
+    "d": 5.05,
+    "a": 1.45
+  },
+  "arsenal v nottingham forest__2024-11-23": {
+    "h": 1.41,
+    "d": 4.8,
+    "a": 8.86
+  },
+  "aston villa v crystal palace__2024-11-23": {
+    "h": 1.75,
+    "d": 3.84,
+    "a": 5.01
+  },
+  "bournemouth v brighton__2024-11-23": {
+    "h": 2.49,
+    "d": 3.6,
+    "a": 2.88
+  },
+  "brentford v everton__2024-11-23": {
+    "h": 2.38,
+    "d": 3.42,
+    "a": 3.18
+  },
+  "fulham v wolves__2024-11-23": {
+    "h": 1.57,
+    "d": 4.43,
+    "a": 5.91
+  },
+  "manchester city v tottenham__2024-11-23": {
+    "h": 1.44,
+    "d": 5.28,
+    "a": 6.71
+  },
+  "liverpool v southampton__2024-11-24": {
+    "h": 10,
+    "d": 5.95,
+    "a": 1.31
+  },
+  "ipswich v manchester united__2024-11-24": {
+    "h": 5.15,
+    "d": 4.16,
+    "a": 1.68
+  },
+  "newcastle v west ham__2024-11-25": {
+    "h": 1.5,
+    "d": 4.71,
+    "a": 6.64
+  },
+  "brighton v southampton__2024-11-29": {
+    "h": 1.38,
+    "d": 5.68,
+    "a": 7.25
+  },
+  "brentford v leicester__2024-11-30": {
+    "h": 1.63,
+    "d": 4.36,
+    "a": 5.38
+  },
+  "crystal palace v newcastle__2024-11-30": {
+    "h": 3.3,
+    "d": 3.53,
+    "a": 2.27
+  },
+  "ipswich v nottingham forest__2024-11-30": {
+    "h": 1.74,
+    "d": 3.98,
+    "a": 4.94
+  },
+  "bournemouth v wolves__2024-11-30": {
+    "h": 2.75,
+    "d": 3.48,
+    "a": 2.66
+  },
+  "arsenal v west ham__2024-11-30": {
+    "h": 7.34,
+    "d": 4.89,
+    "a": 1.45
+  },
+  "aston villa v chelsea__2024-12-01": {
+    "h": 1.75,
+    "d": 4.07,
+    "a": 4.69
+  },
+  "everton v manchester united__2024-12-01": {
+    "h": 1.62,
+    "d": 4.07,
+    "a": 5.98
+  },
+  "fulham v tottenham__2024-12-01": {
+    "h": 1.98,
+    "d": 4.06,
+    "a": 3.61
+  },
+  "liverpool v manchester city__2024-12-01": {
+    "h": 2.06,
+    "d": 3.76,
+    "a": 3.6
+  },
+  "crystal palace v ipswich__2024-12-03": {
+    "h": 3.35,
+    "d": 3.39,
+    "a": 2.3
+  },
+  "leicester v west ham__2024-12-03": {
+    "h": 3.04,
+    "d": 3.5,
+    "a": 2.43
+  },
+  "everton v wolves__2024-12-04": {
+    "h": 2.14,
+    "d": 3.36,
+    "a": 3.8
+  },
+  "manchester city v nottingham forest__2024-12-04": {
+    "h": 1.31,
+    "d": 5.88,
+    "a": 10.02
+  },
+  "liverpool v newcastle__2024-12-04": {
+    "h": 3.68,
+    "d": 3.74,
+    "a": 2.04
+  },
+  "chelsea v southampton__2024-12-04": {
+    "h": 9.07,
+    "d": 5.95,
+    "a": 1.33
+  },
+  "arsenal v manchester united__2024-12-04": {
+    "h": 1.48,
+    "d": 4.89,
+    "a": 6.64
+  },
+  "aston villa v brentford__2024-12-04": {
+    "h": 1.68,
+    "d": 4.23,
+    "a": 5.06
+  },
+  "brighton v fulham__2024-12-05": {
+    "h": 2.64,
+    "d": 3.65,
+    "a": 2.7
+  },
+  "bournemouth v tottenham__2024-12-05": {
+    "h": 2.21,
+    "d": 3.97,
+    "a": 3.06
+  },
+  "aston villa v southampton__2024-12-07": {
+    "h": 1.33,
+    "d": 5.79,
+    "a": 9.42
+  },
+  "brentford v newcastle__2024-12-07": {
+    "h": 3.02,
+    "d": 3.74,
+    "a": 2.33
+  },
+  "crystal palace v manchester city__2024-12-07": {
+    "h": 4.69,
+    "d": 4.04,
+    "a": 1.76
+  },
+  "manchester united v nottingham forest__2024-12-07": {
+    "h": 1.69,
+    "d": 3.98,
+    "a": 5.33
+  },
+  "arsenal v fulham__2024-12-08": {
+    "h": 5.5,
+    "d": 4.2,
+    "a": 1.64
+  },
+  "bournemouth v ipswich__2024-12-08": {
+    "h": 3.92,
+    "d": 3.82,
+    "a": 1.95
+  },
+  "brighton v leicester__2024-12-08": {
+    "h": 4.98,
+    "d": 4.27,
+    "a": 1.68
+  },
+  "chelsea v tottenham__2024-12-08": {
+    "h": 2.93,
+    "d": 4.1,
+    "a": 2.25
+  },
+  "west ham v wolves__2024-12-09": {
+    "h": 1.82,
+    "d": 3.99,
+    "a": 4.37
+  },
+  "arsenal v everton__2024-12-14": {
+    "h": 1.25,
+    "d": 6.5,
+    "a": 13
+  },
+  "fulham v liverpool__2024-12-14": {
+    "h": 1.29,
+    "d": 6.13,
+    "a": 9.62
+  },
+  "leicester v newcastle__2024-12-14": {
+    "h": 1.29,
+    "d": 6.29,
+    "a": 9.49
+  },
+  "ipswich v wolves__2024-12-14": {
+    "h": 2,
+    "d": 3.65,
+    "a": 3.93
+  },
+  "aston villa v nottingham forest__2024-12-14": {
+    "h": 2.73,
+    "d": 3.28,
+    "a": 2.81
+  },
+  "brighton v crystal palace__2024-12-15": {
+    "h": 1.92,
+    "d": 3.73,
+    "a": 4.14
+  },
+  "manchester city v manchester united__2024-12-15": {
+    "h": 1.53,
+    "d": 4.9,
+    "a": 5.85
+  },
+  "brentford v chelsea__2024-12-15": {
+    "h": 1.32,
+    "d": 6.3,
+    "a": 8.25
+  },
+  "southampton v tottenham__2024-12-15": {
+    "h": 4.04,
+    "d": 4.49,
+    "a": 1.79
+  },
+  "bournemouth v west ham__2024-12-16": {
+    "h": 1.78,
+    "d": 4.13,
+    "a": 4.42
+  },
+  "aston villa v manchester city__2024-12-21": {
+    "h": 3.21,
+    "d": 3.7,
+    "a": 2.24
+  },
+  "brentford v nottingham forest__2024-12-21": {
+    "h": 2.53,
+    "d": 3.66,
+    "a": 2.78
+  },
+  "ipswich v newcastle__2024-12-21": {
+    "h": 4.6,
+    "d": 4.24,
+    "a": 1.73
+  },
+  "brighton v west ham__2024-12-21": {
+    "h": 2.83,
+    "d": 3.68,
+    "a": 2.48
+  },
+  "arsenal v crystal palace__2024-12-21": {
+    "h": 7.6,
+    "d": 4.6,
+    "a": 1.47
+  },
+  "chelsea v everton__2024-12-22": {
+    "h": 5.01,
+    "d": 4.11,
+    "a": 1.69
+  },
+  "fulham v southampton__2024-12-22": {
+    "h": 1.68,
+    "d": 4.15,
+    "a": 5.88
+  },
+  "leicester v wolves__2024-12-22": {
+    "h": 3.05,
+    "d": 3.51,
+    "a": 2.41
+  },
+  "bournemouth v manchester united__2024-12-22": {
+    "h": 1.88,
+    "d": 3.8,
+    "a": 4.25
+  },
+  "liverpool v tottenham__2024-12-22": {
+    "h": 4.9,
+    "d": 4.55,
+    "a": 1.65
+  },
+  "everton v manchester city__2024-12-26": {
+    "h": 1.36,
+    "d": 5.5,
+    "a": 9
+  },
+  "bournemouth v crystal palace__2024-12-26": {
+    "h": 2.13,
+    "d": 3.66,
+    "a": 3.5
+  },
+  "chelsea v fulham__2024-12-26": {
+    "h": 1.46,
+    "d": 4.94,
+    "a": 6.86
+  },
+  "aston villa v newcastle__2024-12-26": {
+    "h": 1.94,
+    "d": 3.87,
+    "a": 3.89
+  },
+  "nottingham forest v tottenham__2024-12-26": {
+    "h": 2.16,
+    "d": 3.92,
+    "a": 3.22
+  },
+  "southampton v west ham__2024-12-26": {
+    "h": 3.12,
+    "d": 3.63,
+    "a": 2.31
+  },
+  "manchester united v wolves__2024-12-26": {
+    "h": 4.44,
+    "d": 4.01,
+    "a": 1.8
+  },
+  "leicester v liverpool__2024-12-26": {
+    "h": 1.09,
+    "d": 12.25,
+    "a": 27
+  },
+  "brentford v brighton__2024-12-27": {
+    "h": 1.63,
+    "d": 4.6,
+    "a": 5.05
+  },
+  "arsenal v ipswich__2024-12-27": {
+    "h": 1.13,
+    "d": 9.25,
+    "a": 23.5
+  },
+  "leicester v manchester city__2024-12-29": {
+    "h": 10.25,
+    "d": 6.42,
+    "a": 1.27
+  },
+  "crystal palace v southampton__2024-12-29": {
+    "h": 1.53,
+    "d": 4.45,
+    "a": 6.43
+  },
+  "everton v nottingham forest__2024-12-29": {
+    "h": 2.71,
+    "d": 3.07,
+    "a": 3
+  },
+  "bournemouth v fulham__2024-12-29": {
+    "h": 2.27,
+    "d": 3.5,
+    "a": 3.31
+  },
+  "tottenham v wolves__2024-12-29": {
+    "h": 1.68,
+    "d": 4.64,
+    "a": 4.6
+  },
+  "liverpool v west ham__2024-12-29": {
+    "h": 7.75,
+    "d": 5.5,
+    "a": 1.39
+  },
+  "aston villa v brighton__2024-12-30": {
+    "h": 1.86,
+    "d": 3.89,
+    "a": 4.25
+  },
+  "chelsea v ipswich__2024-12-30": {
+    "h": 7.55,
+    "d": 5.28,
+    "a": 1.4
+  },
+  "manchester united v newcastle__2024-12-30": {
+    "h": 2.71,
+    "d": 3.6,
+    "a": 2.58
+  },
+  "arsenal v brentford__2025-01-01": {
+    "h": 6,
+    "d": 4.5,
+    "a": 1.56
+  },
+  "newcastle v tottenham__2025-01-04": {
+    "h": 3.9,
+    "d": 4.69,
+    "a": 1.79
+  },
+  "aston villa v leicester__2025-01-04": {
+    "h": 1.34,
+    "d": 5.69,
+    "a": 8.32
+  },
+  "bournemouth v everton__2025-01-04": {
+    "h": 1.7,
+    "d": 3.97,
+    "a": 5.23
+  },
+  "chelsea v crystal palace__2025-01-04": {
+    "h": 3.64,
+    "d": 3.94,
+    "a": 2
+  },
+  "manchester city v west ham__2025-01-04": {
+    "h": 1.26,
+    "d": 7.24,
+    "a": 10.79
+  },
+  "brentford v southampton__2025-01-04": {
+    "h": 3.44,
+    "d": 3.65,
+    "a": 2.16
+  },
+  "arsenal v brighton__2025-01-04": {
+    "h": 4.93,
+    "d": 3.68,
+    "a": 1.8
+  },
+  "fulham v ipswich__2025-01-05": {
+    "h": 1.59,
+    "d": 4.2,
+    "a": 6.15
+  },
+  "liverpool v manchester united__2025-01-05": {
+    "h": 1.36,
+    "d": 5.55,
+    "a": 8.55
+  },
+  "nottingham forest v wolves__2025-01-06": {
+    "h": 4.01,
+    "d": 3.54,
+    "a": 2.01
+  },
+  "brentford v manchester city__2025-01-14": {
+    "h": 5.18,
+    "d": 4.51,
+    "a": 1.61
+  },
+  "bournemouth v chelsea__2025-01-14": {
+    "h": 1.54,
+    "d": 4.8,
+    "a": 5.71
+  },
+  "fulham v west ham__2025-01-14": {
+    "h": 3.22,
+    "d": 3.3,
+    "a": 2.42
+  },
+  "liverpool v nottingham forest__2025-01-14": {
+    "h": 5.7,
+    "d": 4.3,
+    "a": 1.62
+  },
+  "aston villa v everton__2025-01-15": {
+    "h": 3.55,
+    "d": 3.13,
+    "a": 2.35
+  },
+  "crystal palace v leicester__2025-01-15": {
+    "h": 4.07,
+    "d": 3.63,
+    "a": 1.97
+  },
+  "newcastle v wolves__2025-01-15": {
+    "h": 1.37,
+    "d": 5.4,
+    "a": 8.5
+  },
+  "arsenal v tottenham__2025-01-15": {
+    "h": 1.38,
+    "d": 5.35,
+    "a": 8.2
+  },
+  "brighton v ipswich__2025-01-16": {
+    "h": 3.94,
+    "d": 3.75,
+    "a": 1.97
+  },
+  "manchester united v southampton__2025-01-16": {
+    "h": 1.29,
+    "d": 6.1,
+    "a": 11
+  },
+  "bournemouth v newcastle__2025-01-18": {
+    "h": 1.66,
+    "d": 4.25,
+    "a": 5.2
+  },
+  "brentford v liverpool__2025-01-18": {
+    "h": 6.33,
+    "d": 5,
+    "a": 1.49
+  },
+  "fulham v leicester__2025-01-18": {
+    "h": 4.65,
+    "d": 3.79,
+    "a": 1.81
+  },
+  "crystal palace v west ham__2025-01-18": {
+    "h": 2.86,
+    "d": 3.32,
+    "a": 2.66
+  },
+  "arsenal v aston villa__2025-01-18": {
+    "h": 1.57,
+    "d": 4.35,
+    "a": 6.1
+  },
+  "everton v tottenham__2025-01-19": {
+    "h": 2.56,
+    "d": 3.51,
+    "a": 2.85
+  },
+  "brighton v manchester united__2025-01-19": {
+    "h": 2.34,
+    "d": 3.45,
+    "a": 3.25
+  },
+  "nottingham forest v southampton__2025-01-19": {
+    "h": 1.37,
+    "d": 5.15,
+    "a": 9.23
+  },
+  "ipswich v manchester city__2025-01-19": {
+    "h": 8.5,
+    "d": 5.5,
+    "a": 1.37
+  },
+  "chelsea v wolves__2025-01-20": {
+    "h": 1.44,
+    "d": 5.25,
+    "a": 6.8
+  },
+  "bournemouth v nottingham forest__2025-01-25": {
+    "h": 1.97,
+    "d": 3.73,
+    "a": 3.94
+  },
+  "brighton v everton__2025-01-25": {
+    "h": 1.74,
+    "d": 3.69,
+    "a": 5.42
+  },
+  "ipswich v liverpool__2025-01-25": {
+    "h": 1.1,
+    "d": 12.25,
+    "a": 24.5
+  },
+  "newcastle v southampton__2025-01-25": {
+    "h": 6.62,
+    "d": 5.04,
+    "a": 1.47
+  },
+  "arsenal v wolves__2025-01-25": {
+    "h": 5.93,
+    "d": 4.15,
+    "a": 1.61
+  },
+  "chelsea v manchester city__2025-01-25": {
+    "h": 2.39,
+    "d": 3.89,
+    "a": 2.85
+  },
+  "brentford v crystal palace__2025-01-26": {
+    "h": 1.97,
+    "d": 3.8,
+    "a": 3.84
+  },
+  "leicester v tottenham__2025-01-26": {
+    "h": 1.51,
+    "d": 5.05,
+    "a": 5.85
+  },
+  "aston villa v west ham__2025-01-26": {
+    "h": 1.47,
+    "d": 4.9,
+    "a": 6.9
+  },
+  "fulham v manchester united__2025-01-26": {
+    "h": 2.4,
+    "d": 3.55,
+    "a": 3.03
+  },
+  "brighton v nottingham forest__2025-02-01": {
+    "h": 2.68,
+    "d": 3.45,
+    "a": 2.74
+  },
+  "bournemouth v liverpool__2025-02-01": {
+    "h": 4.66,
+    "d": 4.26,
+    "a": 1.72
+  },
+  "everton v leicester__2025-02-01": {
+    "h": 1.96,
+    "d": 3.34,
+    "a": 4.53
+  },
+  "ipswich v southampton__2025-02-01": {
+    "h": 1.91,
+    "d": 3.75,
+    "a": 4.18
+  },
+  "fulham v newcastle__2025-02-01": {
+    "h": 1.77,
+    "d": 3.82,
+    "a": 4.91
+  },
+  "aston villa v wolves__2025-02-01": {
+    "h": 3.32,
+    "d": 3.48,
+    "a": 2.28
+  },
+  "brentford v tottenham__2025-02-02": {
+    "h": 1.97,
+    "d": 4.21,
+    "a": 3.51
+  },
+  "crystal palace v manchester united__2025-02-02": {
+    "h": 1.78,
+    "d": 3.73,
+    "a": 4.97
+  },
+  "arsenal v manchester city__2025-02-02": {
+    "h": 1.91,
+    "d": 4.17,
+    "a": 3.77
+  },
+  "chelsea v west ham__2025-02-03": {
+    "h": 1.29,
+    "d": 6.55,
+    "a": 9.45
+  },
+  "everton v liverpool__2025-02-12": {
+    "h": 7.9,
+    "d": 4.65,
+    "a": 1.45
+  },
+  "brighton v chelsea__2025-02-14": {
+    "h": 2.95,
+    "d": 3.78,
+    "a": 2.36
+  },
+  "arsenal v leicester__2025-02-15": {
+    "h": 10.15,
+    "d": 5.52,
+    "a": 1.33
+  },
+  "aston villa v ipswich__2025-02-15": {
+    "h": 1.44,
+    "d": 4.99,
+    "a": 7.41
+  },
+  "fulham v nottingham forest__2025-02-15": {
+    "h": 2.12,
+    "d": 3.55,
+    "a": 3.63
+  },
+  "manchester city v newcastle__2025-02-15": {
+    "h": 2.09,
+    "d": 4.07,
+    "a": 3.29
+  },
+  "bournemouth v southampton__2025-02-15": {
+    "h": 6.32,
+    "d": 4.79,
+    "a": 1.51
+  },
+  "brentford v west ham__2025-02-15": {
+    "h": 2.4,
+    "d": 3.71,
+    "a": 2.93
+  },
+  "crystal palace v everton__2025-02-15": {
+    "h": 2,
+    "d": 3.25,
+    "a": 4.53
+  },
+  "liverpool v wolves__2025-02-16": {
+    "h": 1.23,
+    "d": 7.1,
+    "a": 12.75
+  },
+  "manchester united v tottenham__2025-02-16": {
+    "h": 2.21,
+    "d": 3.9,
+    "a": 3.13
+  },
+  "aston villa v liverpool__2025-02-19": {
+    "h": 3.97,
+    "d": 4.04,
+    "a": 1.88
+  },
+  "brentford v leicester__2025-02-21": {
+    "h": 3.74,
+    "d": 3.86,
+    "a": 1.99
+  },
+  "everton v manchester united__2025-02-22": {
+    "h": 2.67,
+    "d": 3.15,
+    "a": 2.97
+  },
+  "arsenal v west ham__2025-02-22": {
+    "h": 1.29,
+    "d": 5.82,
+    "a": 12.73
+  },
+  "bournemouth v wolves__2025-02-22": {
+    "h": 1.66,
+    "d": 4.21,
+    "a": 5.27
+  },
+  "crystal palace v fulham__2025-02-22": {
+    "h": 2.1,
+    "d": 3.49,
+    "a": 3.77
+  },
+  "ipswich v tottenham__2025-02-22": {
+    "h": 3.42,
+    "d": 3.85,
+    "a": 2.1
+  },
+  "brighton v southampton__2025-02-22": {
+    "h": 5.83,
+    "d": 4.51,
+    "a": 1.57
+  },
+  "aston villa v chelsea__2025-02-22": {
+    "h": 2.68,
+    "d": 3.61,
+    "a": 2.65
+  },
+  "newcastle v nottingham forest__2025-02-23": {
+    "h": 1.92,
+    "d": 3.88,
+    "a": 4.01
+  },
+  "liverpool v manchester city__2025-02-23": {
+    "h": 3.24,
+    "d": 3.87,
+    "a": 2.21
+  },
+  "bournemouth v brighton__2025-02-25": {
+    "h": 2.01,
+    "d": 3.92,
+    "a": 3.63
+  },
+  "aston villa v crystal palace__2025-02-25": {
+    "h": 2.27,
+    "d": 3.55,
+    "a": 3.26
+  },
+  "fulham v wolves__2025-02-25": {
+    "h": 2.42,
+    "d": 3.31,
+    "a": 3.2
+  },
+  "chelsea v southampton__2025-02-25": {
+    "h": 1.18,
+    "d": 8.25,
+    "a": 16
+  },
+  "brentford v everton__2025-02-26": {
+    "h": 2.03,
+    "d": 3.68,
+    "a": 3.8
+  },
+  "ipswich v manchester united__2025-02-26": {
+    "h": 1.52,
+    "d": 4.52,
+    "a": 6.65
+  },
+  "arsenal v nottingham forest__2025-02-26": {
+    "h": 4.37,
+    "d": 3.45,
+    "a": 1.96
+  },
+  "manchester city v tottenham__2025-02-26": {
+    "h": 3.96,
+    "d": 4.19,
+    "a": 1.85
+  },
+  "liverpool v newcastle__2025-02-26": {
+    "h": 1.37,
+    "d": 5.65,
+    "a": 8
+  },
+  "leicester v west ham__2025-02-27": {
+    "h": 1.79,
+    "d": 3.79,
+    "a": 4.83
+  },
+  "manchester city v nottingham forest__2025-03-08": {
+    "h": 3.91,
+    "d": 3.87,
+    "a": 1.94
+  },
+  "brighton v fulham__2025-03-08": {
+    "h": 2.01,
+    "d": 3.55,
+    "a": 4
+  },
+  "crystal palace v ipswich__2025-03-08": {
+    "h": 1.57,
+    "d": 4.21,
+    "a": 6.39
+  },
+  "liverpool v southampton__2025-03-08": {
+    "h": 1.11,
+    "d": 11.5,
+    "a": 26
+  },
+  "aston villa v brentford__2025-03-08": {
+    "h": 2.15,
+    "d": 3.96,
+    "a": 3.21
+  },
+  "everton v wolves__2025-03-08": {
+    "h": 2.88,
+    "d": 3,
+    "a": 2.88
+  },
+  "chelsea v leicester__2025-03-09": {
+    "h": 1.24,
+    "d": 6.85,
+    "a": 13
+  },
+  "bournemouth v tottenham__2025-03-09": {
+    "h": 2.86,
+    "d": 3.83,
+    "a": 2.4
+  },
+  "arsenal v manchester united__2025-03-09": {
+    "h": 5.05,
+    "d": 3.72,
+    "a": 1.78
+  },
+  "newcastle v west ham__2025-03-10": {
+    "h": 3.39,
+    "d": 3.55,
+    "a": 2.22
+  },
+  "everton v west ham__2025-03-15": {
+    "h": 2.12,
+    "d": 3.31,
+    "a": 3.92
+  },
+  "ipswich v nottingham forest__2025-03-15": {
+    "h": 3.99,
+    "d": 3.58,
+    "a": 2
+  },
+  "brighton v manchester city__2025-03-15": {
+    "h": 1.83,
+    "d": 3.99,
+    "a": 4.3
+  },
+  "southampton v wolves__2025-03-15": {
+    "h": 3.97,
+    "d": 3.43,
+    "a": 2.07
+  },
+  "bournemouth v brentford__2025-03-15": {
+    "h": 1.76,
+    "d": 4.35,
+    "a": 4.32
+  },
+  "arsenal v chelsea__2025-03-16": {
+    "h": 1.73,
+    "d": 3.74,
+    "a": 5.39
+  },
+  "fulham v tottenham__2025-03-16": {
+    "h": 1.85,
+    "d": 4.1,
+    "a": 4.08
+  },
+  "leicester v manchester united__2025-03-16": {
+    "h": 4.56,
+    "d": 3.82,
+    "a": 1.83
+  },
+  "arsenal v fulham__2025-04-01": {
+    "h": 1.51,
+    "d": 4.3,
+    "a": 7.6
+  },
+  "west ham v wolves__2025-04-01": {
+    "h": 2.39,
+    "d": 3.29,
+    "a": 3.27
+  },
+  "manchester united v nottingham forest__2025-04-01": {
+    "h": 2.35,
+    "d": 3.46,
+    "a": 3.19
+  },
+  "bournemouth v ipswich__2025-04-02": {
+    "h": 1.4,
+    "d": 5.4,
+    "a": 7.52
+  },
+  "aston villa v brighton__2025-04-02": {
+    "h": 2.38,
+    "d": 3.5,
+    "a": 3.11
+  },
+  "leicester v manchester city__2025-04-02": {
+    "h": 1.2,
+    "d": 8,
+    "a": 13.5
+  },
+  "brentford v newcastle__2025-04-02": {
+    "h": 1.7,
+    "d": 4.29,
+    "a": 4.69
+  },
+  "crystal palace v southampton__2025-04-02": {
+    "h": 5.72,
+    "d": 4.13,
+    "a": 1.63
+  },
+  "everton v liverpool__2025-04-02": {
+    "h": 1.5,
+    "d": 4.41,
+    "a": 7.31
+  },
+  "chelsea v tottenham__2025-04-03": {
+    "h": 1.67,
+    "d": 4.46,
+    "a": 4.83
+  },
+  "arsenal v everton__2025-04-05": {
+    "h": 4.19,
+    "d": 3.19,
+    "a": 2.1
+  },
+  "brighton v crystal palace__2025-04-05": {
+    "h": 2.58,
+    "d": 3.4,
+    "a": 2.89
+  },
+  "ipswich v wolves__2025-04-05": {
+    "h": 2.85,
+    "d": 3.27,
+    "a": 2.7
+  },
+  "bournemouth v west ham__2025-04-05": {
+    "h": 3.04,
+    "d": 3.55,
+    "a": 2.4
+  },
+  "aston villa v nottingham forest__2025-04-05": {
+    "h": 2.15,
+    "d": 3.45,
+    "a": 3.66
+  },
+  "brentford v chelsea__2025-04-06": {
+    "h": 2.94,
+    "d": 3.65,
+    "a": 2.42
+  },
+  "fulham v liverpool__2025-04-06": {
+    "h": 4.29,
+    "d": 3.55,
+    "a": 1.94
+  },
+  "southampton v tottenham__2025-04-06": {
+    "h": 1.37,
+    "d": 5.64,
+    "a": 7.87
+  },
+  "manchester city v manchester united__2025-04-06": {
+    "h": 3.48,
+    "d": 3.75,
+    "a": 2.11
+  },
+  "leicester v newcastle__2025-04-07": {
+    "h": 7.45,
+    "d": 4.85,
+    "a": 1.45
+  },
+  "crystal palace v manchester city__2025-04-12": {
+    "h": 1.64,
+    "d": 4.35,
+    "a": 5.3
+  },
+  "brighton v leicester__2025-04-12": {
+    "h": 1.29,
+    "d": 5.95,
+    "a": 10.93
+  },
+  "everton v nottingham forest__2025-04-12": {
+    "h": 1.99,
+    "d": 3.38,
+    "a": 4.35
+  },
+  "aston villa v southampton__2025-04-12": {
+    "h": 6.23,
+    "d": 4.64,
+    "a": 1.53
+  },
+  "arsenal v brentford__2025-04-12": {
+    "h": 1.62,
+    "d": 4.24,
+    "a": 5.66
+  },
+  "chelsea v ipswich__2025-04-13": {
+    "h": 1.21,
+    "d": 7.43,
+    "a": 13.76
+  },
+  "liverpool v west ham__2025-04-13": {
+    "h": 1.28,
+    "d": 6.12,
+    "a": 10.75
+  },
+  "tottenham v wolves__2025-04-13": {
+    "h": 2.29,
+    "d": 3.63,
+    "a": 3.16
+  },
+  "manchester united v newcastle__2025-04-13": {
+    "h": 1.62,
+    "d": 4.35,
+    "a": 5.45
+  },
+  "bournemouth v fulham__2025-04-14": {
+    "h": 2.24,
+    "d": 3.45,
+    "a": 3.43
+  },
+  "crystal palace v newcastle__2025-04-16": {
+    "h": 1.68,
+    "d": 3.99,
+    "a": 5.24
+  },
+  "brentford v brighton__2025-04-19": {
+    "h": 2.7,
+    "d": 3.66,
+    "a": 2.6
+  },
+  "bournemouth v crystal palace__2025-04-19": {
+    "h": 2.59,
+    "d": 3.54,
+    "a": 2.79
+  },
+  "everton v manchester city__2025-04-19": {
+    "h": 4.13,
+    "d": 3.73,
+    "a": 1.93
+  },
+  "southampton v west ham__2025-04-19": {
+    "h": 1.64,
+    "d": 4.3,
+    "a": 5.25
+  },
+  "aston villa v newcastle__2025-04-19": {
+    "h": 2.55,
+    "d": 3.65,
+    "a": 2.71
+  },
+  "chelsea v fulham__2025-04-20": {
+    "h": 3.15,
+    "d": 3.61,
+    "a": 2.31
+  },
+  "arsenal v ipswich__2025-04-20": {
+    "h": 8.93,
+    "d": 5.22,
+    "a": 1.37
+  },
+  "manchester united v wolves__2025-04-20": {
+    "h": 2.6,
+    "d": 3.5,
+    "a": 2.8
+  },
+  "leicester v liverpool__2025-04-20": {
+    "h": 13.5,
+    "d": 7.25,
+    "a": 1.22
+  },
+  "nottingham forest v tottenham__2025-04-21": {
+    "h": 2.4,
+    "d": 3.55,
+    "a": 3.06
+  },
+  "aston villa v manchester city__2025-04-22": {
+    "h": 1.91,
+    "d": 4.06,
+    "a": 3.96
+  },
+  "arsenal v crystal palace__2025-04-23": {
+    "h": 1.4,
+    "d": 4.85,
+    "a": 9.1
+  },
+  "chelsea v everton__2025-04-26": {
+    "h": 1.44,
+    "d": 4.95,
+    "a": 7.5
+  },
+  "brighton v west ham__2025-04-26": {
+    "h": 1.79,
+    "d": 4,
+    "a": 4.46
+  },
+  "ipswich v newcastle__2025-04-26": {
+    "h": 1.17,
+    "d": 8.5,
+    "a": 17.5
+  },
+  "fulham v southampton__2025-04-26": {
+    "h": 5.08,
+    "d": 4.11,
+    "a": 1.68
+  },
+  "leicester v wolves__2025-04-26": {
+    "h": 1.55,
+    "d": 4.46,
+    "a": 6.03
+  },
+  "bournemouth v manchester united__2025-04-27": {
+    "h": 1.98,
+    "d": 3.93,
+    "a": 3.72
+  },
+  "liverpool v tottenham__2025-04-27": {
+    "h": 1.2,
+    "d": 7.95,
+    "a": 13.75
+  },
+  "brentford v nottingham forest__2025-05-01": {
+    "h": 2.35,
+    "d": 3.61,
+    "a": 3.22
+  },
+  "manchester city v wolves__2025-05-02": {
+    "h": 1.33,
+    "d": 5.6,
+    "a": 9.75
+  },
+  "aston villa v fulham__2025-05-03": {
+    "h": 1.88,
+    "d": 3.78,
+    "a": 4.28
+  },
+  "everton v ipswich__2025-05-03": {
+    "h": 1.57,
+    "d": 4.3,
+    "a": 6.09
+  },
+  "leicester v southampton__2025-05-03": {
+    "h": 2.45,
+    "d": 3.61,
+    "a": 2.91
+  },
+  "arsenal v bournemouth__2025-05-03": {
+    "h": 1.68,
+    "d": 4.05,
+    "a": 5.25
+  },
+  "brentford v manchester united__2025-05-04": {
+    "h": 1.65,
+    "d": 4.34,
+    "a": 4.96
+  },
+  "brighton v newcastle__2025-05-04": {
+    "h": 3.13,
+    "d": 3.75,
+    "a": 2.26
+  },
+  "tottenham v west ham__2025-05-04": {
+    "h": 1.85,
+    "d": 3.95,
+    "a": 4.22
+  },
+  "chelsea v liverpool__2025-05-04": {
+    "h": 2.34,
+    "d": 3.84,
+    "a": 2.95
+  },
+  "crystal palace v nottingham forest__2025-05-05": {
+    "h": 2.19,
+    "d": 3.5,
+    "a": 3.5
+  },
+  "everton v fulham__2025-05-10": {
+    "h": 1.77,
+    "d": 3.75,
+    "a": 4.94
+  },
+  "brentford v ipswich__2025-05-10": {
+    "h": 5.83,
+    "d": 4.84,
+    "a": 1.52
+  },
+  "manchester city v southampton__2025-05-10": {
+    "h": 15,
+    "d": 8,
+    "a": 1.19
+  },
+  "brighton v wolves__2025-05-10": {
+    "h": 3.08,
+    "d": 3.39,
+    "a": 2.45
+  },
+  "aston villa v bournemouth__2025-05-10": {
+    "h": 2.62,
+    "d": 3.58,
+    "a": 2.73
+  },
+  "chelsea v newcastle__2025-05-11": {
+    "h": 2.29,
+    "d": 3.73,
+    "a": 3.1
+  },
+  "manchester united v west ham__2025-05-11": {
+    "h": 2.02,
+    "d": 3.68,
+    "a": 3.74
+  },
+  "leicester v nottingham forest__2025-05-11": {
+    "h": 1.39,
+    "d": 5.19,
+    "a": 7.91
+  },
+  "crystal palace v tottenham__2025-05-11": {
+    "h": 3.13,
+    "d": 3.74,
+    "a": 2.26
+  },
+  "arsenal v liverpool__2025-05-11": {
+    "h": 2.24,
+    "d": 3.68,
+    "a": 3.22
+  },
+  "aston villa v tottenham__2025-05-16": {
+    "h": 1.26,
+    "d": 7,
+    "a": 11
+  },
+  "chelsea v manchester united__2025-05-16": {
+    "h": 1.56,
+    "d": 4.7,
+    "a": 5.75
+  },
+  "everton v southampton__2025-05-18": {
+    "h": 1.43,
+    "d": 4.95,
+    "a": 7.6
+  },
+  "nottingham forest v west ham__2025-05-18": {
+    "h": 3.05,
+    "d": 3.44,
+    "a": 2.44
+  },
+  "brentford v fulham__2025-05-18": {
+    "h": 2.07,
+    "d": 3.79,
+    "a": 3.56
+  },
+  "ipswich v leicester__2025-05-18": {
+    "h": 2.27,
+    "d": 3.77,
+    "a": 3.11
+  },
+  "arsenal v newcastle__2025-05-18": {
+    "h": 1.94,
+    "d": 3.79,
+    "a": 3.98
+  },
+  "brighton v liverpool__2025-05-19": {
+    "h": 2.2,
+    "d": 3.99,
+    "a": 3.09
+  },
+  "crystal palace v wolves__2025-05-20": {
+    "h": 2.41,
+    "d": 3.26,
+    "a": 3.23
+  },
+  "bournemouth v manchester city__2025-05-20": {
+    "h": 1.34,
+    "d": 5.8,
+    "a": 8.9
+  },
+  "bournemouth v leicester__2025-05-25": {
+    "h": 1.34,
+    "d": 5.67,
+    "a": 9.01
+  },
+  "fulham v manchester city__2025-05-25": {
+    "h": 6.32,
+    "d": 4.57,
+    "a": 1.52
+  },
+  "ipswich v west ham__2025-05-25": {
+    "h": 3.28,
+    "d": 3.63,
+    "a": 2.23
+  },
+  "crystal palace v liverpool__2025-05-25": {
+    "h": 1.38,
+    "d": 6.04,
+    "a": 7.14
+  },
+  "aston villa v manchester united__2025-05-25": {
+    "h": 4.82,
+    "d": 4.37,
+    "a": 1.68
+  },
+  "everton v newcastle__2025-05-25": {
+    "h": 1.28,
+    "d": 6.19,
+    "a": 10.36
+  },
+  "chelsea v nottingham forest__2025-05-25": {
+    "h": 3.5,
+    "d": 3.87,
+    "a": 2.07
+  },
+  "arsenal v southampton__2025-05-25": {
+    "h": 11.73,
+    "d": 6.54,
+    "a": 1.25
+  },
+  "brighton v tottenham__2025-05-25": {
+    "h": 3.83,
+    "d": 4.06,
+    "a": 1.92
+  },
+  "brentford v wolves__2025-05-25": {
+    "h": 3,
+    "d": 3.82,
+    "a": 2.31
+  },
+  "bournemouth v liverpool__2025-08-15": {
+    "h": 1.29,
+    "d": 6.55,
+    "a": 9.75
+  },
+  "aston villa v newcastle__2025-08-16": {
+    "h": 2.32,
+    "d": 3.63,
+    "a": 3.07
+  },
+  "brighton v fulham__2025-08-16": {
+    "h": 1.92,
+    "d": 3.66,
+    "a": 4.27
+  },
+  "sunderland v west ham__2025-08-16": {
+    "h": 3.55,
+    "d": 3.24,
+    "a": 2.29
+  },
+  "burnley v tottenham__2025-08-16": {
+    "h": 1.56,
+    "d": 4.2,
+    "a": 6.7
+  },
+  "manchester city v wolves__2025-08-16": {
+    "h": 6.22,
+    "d": 4.7,
+    "a": 1.52
+  },
+  "chelsea v crystal palace__2025-08-17": {
+    "h": 1.75,
+    "d": 4.1,
+    "a": 4.67
+  },
+  "brentford v nottingham forest__2025-08-17": {
+    "h": 2.18,
+    "d": 3.37,
+    "a": 3.66
+  },
+  "arsenal v manchester united__2025-08-17": {
+    "h": 3.84,
+    "d": 3.71,
+    "a": 2
+  },
+  "everton v leeds__2025-08-18": {
+    "h": 2.36,
+    "d": 3.3,
+    "a": 3.32
+  },
+  "chelsea v west ham__2025-08-22": {
+    "h": 5.17,
+    "d": 4.14,
+    "a": 1.68
+  },
+  "manchester city v tottenham__2025-08-23": {
+    "h": 1.51,
+    "d": 4.93,
+    "a": 6.07
+  },
+  "bournemouth v wolves__2025-08-23": {
+    "h": 1.81,
+    "d": 3.88,
+    "a": 4.59
+  },
+  "aston villa v brentford__2025-08-23": {
+    "h": 3.29,
+    "d": 3.48,
+    "a": 2.29
+  },
+  "burnley v sunderland__2025-08-23": {
+    "h": 2.35,
+    "d": 3.19,
+    "a": 3.47
+  },
+  "arsenal v leeds__2025-08-23": {
+    "h": 1.34,
+    "d": 5.55,
+    "a": 9.7
+  },
+  "crystal palace v nottingham forest__2025-08-24": {
+    "h": 2.45,
+    "d": 3.25,
+    "a": 3.21
+  },
+  "brighton v everton__2025-08-24": {
+    "h": 3.14,
+    "d": 3.36,
+    "a": 2.43
+  },
+  "fulham v manchester united__2025-08-24": {
+    "h": 3.53,
+    "d": 3.49,
+    "a": 2.18
+  },
+  "liverpool v newcastle__2025-08-25": {
+    "h": 2.97,
+    "d": 3.74,
+    "a": 2.36
+  },
+  "chelsea v fulham__2025-08-30": {
+    "h": 1.67,
+    "d": 3.97,
+    "a": 5.49
+  },
+  "burnley v manchester united__2025-08-30": {
+    "h": 1.4,
+    "d": 5.11,
+    "a": 7.98
+  },
+  "brentford v sunderland__2025-08-30": {
+    "h": 3.08,
+    "d": 3.29,
+    "a": 2.5
+  },
+  "bournemouth v tottenham__2025-08-30": {
+    "h": 1.97,
+    "d": 3.71,
+    "a": 3.97
+  },
+  "everton v wolves__2025-08-30": {
+    "h": 3.21,
+    "d": 3.2,
+    "a": 2.48
+  },
+  "leeds v newcastle__2025-08-30": {
+    "h": 3.16,
+    "d": 3.55,
+    "a": 2.33
+  },
+  "brighton v manchester city__2025-08-31": {
+    "h": 3.77,
+    "d": 3.79,
+    "a": 2
+  },
+  "nottingham forest v west ham__2025-08-31": {
+    "h": 1.69,
+    "d": 4,
+    "a": 5.17
+  },
+  "arsenal v liverpool__2025-08-31": {
+    "h": 2.4,
+    "d": 3.53,
+    "a": 3.05
+  },
+  "aston villa v crystal palace__2025-08-31": {
+    "h": 2.03,
+    "d": 3.51,
+    "a": 3.98
+  },
+  "arsenal v nottingham forest__2025-09-13": {
+    "h": 1.38,
+    "d": 5.12,
+    "a": 8.32
+  },
+  "bournemouth v brighton__2025-09-13": {
+    "h": 2.47,
+    "d": 3.54,
+    "a": 2.94
+  },
+  "crystal palace v sunderland__2025-09-13": {
+    "h": 1.69,
+    "d": 3.69,
+    "a": 5.82
+  },
+  "aston villa v everton__2025-09-13": {
+    "h": 2.7,
+    "d": 3.26,
+    "a": 2.86
+  },
+  "fulham v leeds__2025-09-13": {
+    "h": 2.11,
+    "d": 3.38,
+    "a": 3.87
+  },
+  "newcastle v wolves__2025-09-13": {
+    "h": 1.37,
+    "d": 5.2,
+    "a": 9.25
+  },
+  "tottenham v west ham__2025-09-13": {
+    "h": 3.44,
+    "d": 3.59,
+    "a": 2.18
+  },
+  "brentford v chelsea__2025-09-13": {
+    "h": 4.21,
+    "d": 3.86,
+    "a": 1.88
+  },
+  "burnley v liverpool__2025-09-14": {
+    "h": 9.5,
+    "d": 5.7,
+    "a": 1.33
+  },
+  "manchester city v manchester united__2025-09-14": {
+    "h": 1.77,
+    "d": 4.05,
+    "a": 4.53
+  },
+  "everton v liverpool__2025-09-20": {
+    "h": 1.54,
+    "d": 4.4,
+    "a": 6.5
+  },
+  "brighton v tottenham__2025-09-20": {
+    "h": 2.28,
+    "d": 3.74,
+    "a": 3.1
+  },
+  "burnley v nottingham forest__2025-09-20": {
+    "h": 3.46,
+    "d": 3.37,
+    "a": 2.26
+  },
+  "crystal palace v west ham__2025-09-20": {
+    "h": 3.26,
+    "d": 3.4,
+    "a": 2.34
+  },
+  "leeds v wolves__2025-09-20": {
+    "h": 2.85,
+    "d": 3.17,
+    "a": 2.77
+  },
+  "chelsea v manchester united__2025-09-20": {
+    "h": 2.71,
+    "d": 3.69,
+    "a": 2.58
+  },
+  "brentford v fulham__2025-09-20": {
+    "h": 2.19,
+    "d": 3.32,
+    "a": 3.71
+  },
+  "bournemouth v newcastle__2025-09-21": {
+    "h": 2.52,
+    "d": 3.45,
+    "a": 2.93
+  },
+  "aston villa v sunderland__2025-09-21": {
+    "h": 3.61,
+    "d": 3.32,
+    "a": 2.22
+  },
+  "arsenal v manchester city__2025-09-21": {
+    "h": 2.05,
+    "d": 3.65,
+    "a": 3.76
+  },
+  "brentford v manchester united__2025-09-27": {
+    "h": 3.39,
+    "d": 3.82,
+    "a": 2.12
+  },
+  "brighton v chelsea__2025-09-27": {
+    "h": 1.91,
+    "d": 3.91,
+    "a": 4
+  },
+  "crystal palace v liverpool__2025-09-27": {
+    "h": 4.3,
+    "d": 3.71,
+    "a": 1.89
+  },
+  "bournemouth v leeds__2025-09-27": {
+    "h": 3.01,
+    "d": 3.37,
+    "a": 2.5
+  },
+  "burnley v manchester city__2025-09-27": {
+    "h": 1.2,
+    "d": 7.49,
+    "a": 14.84
+  },
+  "nottingham forest v sunderland__2025-09-27": {
+    "h": 1.78,
+    "d": 3.82,
+    "a": 4.79
+  },
+  "tottenham v wolves__2025-09-27": {
+    "h": 1.58,
+    "d": 4.37,
+    "a": 5.76
+  },
+  "aston villa v fulham__2025-09-28": {
+    "h": 2.38,
+    "d": 3.25,
+    "a": 3.34
+  },
+  "arsenal v newcastle__2025-09-28": {
+    "h": 3.78,
+    "d": 3.36,
+    "a": 2.14
+  },
+  "everton v west ham__2025-09-29": {
+    "h": 1.68,
+    "d": 3.9,
+    "a": 5.46
+  },
+  "bournemouth v fulham__2025-10-03": {
+    "h": 2.02,
+    "d": 3.55,
+    "a": 3.98
+  },
+  "leeds v tottenham__2025-10-04": {
+    "h": 2.77,
+    "d": 3.45,
+    "a": 2.65
+  },
+  "arsenal v west ham__2025-10-04": {
+    "h": 1.22,
+    "d": 6.82,
+    "a": 14.76
+  },
+  "manchester united v sunderland__2025-10-04": {
+    "h": 1.57,
+    "d": 4.41,
+    "a": 5.78
+  },
+  "chelsea v liverpool__2025-10-04": {
+    "h": 2.9,
+    "d": 3.85,
+    "a": 2.36
+  },
+  "aston villa v burnley__2025-10-05": {
+    "h": 1.65,
+    "d": 3.91,
+    "a": 5.77
+  },
+  "crystal palace v everton__2025-10-05": {
+    "h": 2.61,
+    "d": 3.23,
+    "a": 2.99
+  },
+  "newcastle v nottingham forest__2025-10-05": {
+    "h": 1.57,
+    "d": 4.39,
+    "a": 5.91
+  },
+  "brighton v wolves__2025-10-05": {
+    "h": 3.82,
+    "d": 3.68,
+    "a": 2.02
+  },
+  "brentford v manchester city__2025-10-05": {
+    "h": 5.04,
+    "d": 4.39,
+    "a": 1.65
+  },
+  "chelsea v nottingham forest__2025-10-18": {
+    "h": 3.24,
+    "d": 3.5,
+    "a": 2.31
+  },
+  "brighton v newcastle__2025-10-18": {
+    "h": 2.87,
+    "d": 3.5,
+    "a": 2.54
+  },
+  "burnley v leeds__2025-10-18": {
+    "h": 3.57,
+    "d": 3.23,
+    "a": 2.28
+  },
+  "bournemouth v crystal palace__2025-10-18": {
+    "h": 2.24,
+    "d": 3.41,
+    "a": 3.47
+  },
+  "everton v manchester city__2025-10-18": {
+    "h": 1.44,
+    "d": 4.55,
+    "a": 8.31
+  },
+  "sunderland v wolves__2025-10-18": {
+    "h": 2.65,
+    "d": 3.03,
+    "a": 3.12
+  },
+  "arsenal v fulham__2025-10-18": {
+    "h": 7.25,
+    "d": 4.15,
+    "a": 1.54
+  },
+  "aston villa v tottenham__2025-10-19": {
+    "h": 2.32,
+    "d": 3.44,
+    "a": 3.27
+  },
+  "liverpool v manchester united__2025-10-19": {
+    "h": 1.63,
+    "d": 4.46,
+    "a": 5.12
+  },
+  "brentford v west ham__2025-10-20": {
+    "h": 2.63,
+    "d": 3.31,
+    "a": 2.9
+  },
+  "leeds v west ham__2025-10-24": {
+    "h": 1.81,
+    "d": 3.71,
+    "a": 4.79
+  },
+  "chelsea v sunderland__2025-10-25": {
+    "h": 1.45,
+    "d": 4.7,
+    "a": 7.85
+  },
+  "fulham v newcastle__2025-10-25": {
+    "h": 1.61,
+    "d": 4.15,
+    "a": 6
+  },
+  "brighton v manchester united__2025-10-25": {
+    "h": 2.03,
+    "d": 3.9,
+    "a": 3.57
+  },
+  "brentford v liverpool__2025-10-25": {
+    "h": 4.27,
+    "d": 3.93,
+    "a": 1.85
+  },
+  "arsenal v crystal palace__2025-10-26": {
+    "h": 1.39,
+    "d": 5,
+    "a": 9
+  },
+  "aston villa v manchester city__2025-10-26": {
+    "h": 4.27,
+    "d": 3.77,
+    "a": 1.88
+  },
+  "bournemouth v nottingham forest__2025-10-26": {
+    "h": 2.02,
+    "d": 3.54,
+    "a": 3.98
+  },
+  "burnley v wolves__2025-10-26": {
+    "h": 1.93,
+    "d": 3.41,
+    "a": 4.55
+  },
+  "everton v tottenham__2025-10-26": {
+    "h": 2.28,
+    "d": 3.39,
+    "a": 3.4
+  },
+  "brighton v leeds__2025-11-01": {
+    "h": 2.03,
+    "d": 3.6,
+    "a": 3.86
+  },
+  "arsenal v burnley__2025-11-01": {
+    "h": 12.24,
+    "d": 6.08,
+    "a": 1.27
+  },
+  "brentford v crystal palace__2025-11-01": {
+    "h": 2.07,
+    "d": 3.53,
+    "a": 3.81
+  },
+  "fulham v wolves__2025-11-01": {
+    "h": 1.79,
+    "d": 3.73,
+    "a": 4.92
+  },
+  "manchester united v nottingham forest__2025-11-01": {
+    "h": 3.48,
+    "d": 3.77,
+    "a": 2.1
+  },
+  "chelsea v tottenham__2025-11-01": {
+    "h": 2.83,
+    "d": 3.51,
+    "a": 2.57
+  },
+  "aston villa v liverpool__2025-11-01": {
+    "h": 1.68,
+    "d": 4.34,
+    "a": 4.92
+  },
+  "newcastle v west ham__2025-11-02": {
+    "h": 5.17,
+    "d": 4.22,
+    "a": 1.66
+  },
+  "bournemouth v manchester city__2025-11-02": {
+    "h": 1.43,
+    "d": 5.35,
+    "a": 6.8
+  },
+  "everton v sunderland__2025-11-03": {
+    "h": 3.32,
+    "d": 3.2,
+    "a": 2.42
+  },
+  "manchester united v tottenham__2025-11-08": {
+    "h": 3.01,
+    "d": 3.59,
+    "a": 2.43
+  },
+  "everton v fulham__2025-11-08": {
+    "h": 2.38,
+    "d": 3.24,
+    "a": 3.35
+  },
+  "burnley v west ham__2025-11-08": {
+    "h": 1.88,
+    "d": 3.66,
+    "a": 4.44
+  },
+  "arsenal v sunderland__2025-11-08": {
+    "h": 8,
+    "d": 4.5,
+    "a": 1.47
+  },
+  "chelsea v wolves__2025-11-08": {
+    "h": 1.36,
+    "d": 5.4,
+    "a": 9.2
+  },
+  "aston villa v bournemouth__2025-11-09": {
+    "h": 2.37,
+    "d": 3.4,
+    "a": 3.2
+  },
+  "brentford v newcastle__2025-11-09": {
+    "h": 2.93,
+    "d": 3.51,
+    "a": 2.49
+  },
+  "brighton v crystal palace__2025-11-09": {
+    "h": 2.43,
+    "d": 3.45,
+    "a": 3.07
+  },
+  "leeds v nottingham forest__2025-11-09": {
+    "h": 2.23,
+    "d": 3.3,
+    "a": 3.62
+  },
+  "liverpool v manchester city__2025-11-09": {
+    "h": 1.94,
+    "d": 4,
+    "a": 3.86
+  },
+  "burnley v chelsea__2025-11-22": {
+    "h": 5.8,
+    "d": 4.25,
+    "a": 1.61
+  },
+  "bournemouth v west ham__2025-11-22": {
+    "h": 1.68,
+    "d": 4.09,
+    "a": 5.12
+  },
+  "brentford v brighton__2025-11-22": {
+    "h": 2.17,
+    "d": 3.47,
+    "a": 3.59
+  },
+  "fulham v sunderland__2025-11-22": {
+    "h": 2.07,
+    "d": 3.38,
+    "a": 4
+  },
+  "liverpool v nottingham forest__2025-11-22": {
+    "h": 1.47,
+    "d": 4.69,
+    "a": 6.97
+  },
+  "crystal palace v wolves__2025-11-22": {
+    "h": 4.53,
+    "d": 3.8,
+    "a": 1.82
+  },
+  "manchester city v newcastle__2025-11-22": {
+    "h": 4.06,
+    "d": 3.85,
+    "a": 1.93
+  },
+  "aston villa v leeds__2025-11-23": {
+    "h": 3.3,
+    "d": 3.46,
+    "a": 2.29
+  },
+  "arsenal v tottenham__2025-11-23": {
+    "h": 1.47,
+    "d": 4.47,
+    "a": 7.69
+  },
+  "everton v manchester united__2025-11-24": {
+    "h": 1.9,
+    "d": 3.87,
+    "a": 4.08
+  },
+  "brentford v burnley__2025-11-29": {
+    "h": 1.5,
+    "d": 4.55,
+    "a": 7.05
+  },
+  "leeds v manchester city__2025-11-29": {
+    "h": 1.22,
+    "d": 7.5,
+    "a": 13.5
+  },
+  "bournemouth v sunderland__2025-11-29": {
+    "h": 3.29,
+    "d": 3.43,
+    "a": 2.31
+  },
+  "everton v newcastle__2025-11-29": {
+    "h": 2.75,
+    "d": 3.36,
+    "a": 2.73
+  },
+  "fulham v tottenham__2025-11-29": {
+    "h": 2.4,
+    "d": 3.44,
+    "a": 3.12
+  },
+  "crystal palace v manchester united__2025-11-30": {
+    "h": 2.1,
+    "d": 3.75,
+    "a": 3.56
+  },
+  "aston villa v wolves__2025-11-30": {
+    "h": 1.47,
+    "d": 4.65,
+    "a": 7.25
+  },
+  "brighton v nottingham forest__2025-11-30": {
+    "h": 2.95,
+    "d": 3.35,
+    "a": 2.57
+  },
+  "liverpool v west ham__2025-11-30": {
+    "h": 5.15,
+    "d": 4.75,
+    "a": 1.6
+  },
+  "arsenal v chelsea__2025-11-30": {
+    "h": 3.19,
+    "d": 3.17,
+    "a": 2.51
+  },
+  "bournemouth v everton__2025-12-02": {
+    "h": 2.23,
+    "d": 3.5,
+    "a": 3.41
+  },
+  "fulham v manchester city__2025-12-02": {
+    "h": 5.3,
+    "d": 4.12,
+    "a": 1.66
+  },
+  "newcastle v tottenham__2025-12-02": {
+    "h": 1.85,
+    "d": 3.89,
+    "a": 4.3
+  },
+  "arsenal v brentford__2025-12-03": {
+    "h": 1.44,
+    "d": 4.65,
+    "a": 8.07
+  },
+  "aston villa v brighton__2025-12-03": {
+    "h": 2.31,
+    "d": 3.45,
+    "a": 3.27
+  },
+  "burnley v crystal palace__2025-12-03": {
+    "h": 5.05,
+    "d": 3.77,
+    "a": 1.76
+  },
+  "nottingham forest v wolves__2025-12-03": {
+    "h": 3.17,
+    "d": 3.32,
+    "a": 2.44
+  },
+  "chelsea v leeds__2025-12-03": {
+    "h": 4.11,
+    "d": 3.53,
+    "a": 1.99
+  },
+  "liverpool v sunderland__2025-12-03": {
+    "h": 1.36,
+    "d": 5.47,
+    "a": 8.52
+  },
+  "manchester united v west ham__2025-12-04": {
+    "h": 1.39,
+    "d": 5.2,
+    "a": 8.25
+  },
+  "arsenal v aston villa__2025-12-06": {
+    "h": 4.5,
+    "d": 3.54,
+    "a": 1.93
+  },
+  "bournemouth v chelsea__2025-12-06": {
+    "h": 3.38,
+    "d": 3.85,
+    "a": 2.12
+  },
+  "everton v nottingham forest__2025-12-06": {
+    "h": 2.12,
+    "d": 3.37,
+    "a": 3.84
+  },
+  "manchester city v sunderland__2025-12-06": {
+    "h": 1.27,
+    "d": 6.45,
+    "a": 11
+  },
+  "burnley v newcastle__2025-12-06": {
+    "h": 1.33,
+    "d": 5.75,
+    "a": 9.25
+  },
+  "brentford v tottenham__2025-12-06": {
+    "h": 2.49,
+    "d": 3.43,
+    "a": 3
+  },
+  "leeds v liverpool__2025-12-06": {
+    "h": 4.58,
+    "d": 4.07,
+    "a": 1.76
+  },
+  "brighton v west ham__2025-12-07": {
+    "h": 1.63,
+    "d": 4.35,
+    "a": 5.35
+  },
+  "crystal palace v fulham__2025-12-07": {
+    "h": 2.53,
+    "d": 3.4,
+    "a": 2.96
+  },
+  "manchester united v wolves__2025-12-08": {
+    "h": 5.35,
+    "d": 4.2,
+    "a": 1.65
+  },
+  "chelsea v everton__2025-12-13": {
+    "h": 1.75,
+    "d": 3.91,
+    "a": 4.86
+  },
+  "brighton v liverpool__2025-12-13": {
+    "h": 1.8,
+    "d": 4.1,
+    "a": 4.28
+  },
+  "burnley v fulham__2025-12-13": {
+    "h": 4.06,
+    "d": 3.51,
+    "a": 2.01
+  },
+  "arsenal v wolves__2025-12-13": {
+    "h": 1.13,
+    "d": 9.55,
+    "a": 27
+  },
+  "crystal palace v manchester city__2025-12-14": {
+    "h": 4.23,
+    "d": 3.82,
+    "a": 1.9
+  },
+  "nottingham forest v tottenham__2025-12-14": {
+    "h": 2.75,
+    "d": 3.35,
+    "a": 2.74
+  },
+  "newcastle v sunderland__2025-12-14": {
+    "h": 3.61,
+    "d": 3.43,
+    "a": 2.18
+  },
+  "aston villa v west ham__2025-12-14": {
+    "h": 3.35,
+    "d": 3.57,
+    "a": 2.23
+  },
+  "brentford v leeds__2025-12-14": {
+    "h": 2.23,
+    "d": 3.33,
+    "a": 3.59
+  },
+  "bournemouth v manchester united__2025-12-15": {
+    "h": 1.81,
+    "d": 4.15,
+    "a": 4.2
+  },
+  "chelsea v newcastle__2025-12-20": {
+    "h": 2.87,
+    "d": 3.55,
+    "a": 2.52
+  },
+  "bournemouth v burnley__2025-12-20": {
+    "h": 1.48,
+    "d": 4.8,
+    "a": 6.95
+  },
+  "brighton v sunderland__2025-12-20": {
+    "h": 1.88,
+    "d": 3.63,
+    "a": 4.64
+  },
+  "manchester city v west ham__2025-12-20": {
+    "h": 1.19,
+    "d": 8.25,
+    "a": 14
+  },
+  "brentford v wolves__2025-12-20": {
+    "h": 3.47,
+    "d": 3.48,
+    "a": 2.21
+  },
+  "liverpool v tottenham__2025-12-20": {
+    "h": 3.71,
+    "d": 3.68,
+    "a": 2.05
+  },
+  "arsenal v everton__2025-12-20": {
+    "h": 6.65,
+    "d": 4.2,
+    "a": 1.56
+  },
+  "crystal palace v leeds__2025-12-20": {
+    "h": 2.93,
+    "d": 3.11,
+    "a": 2.74
+  },
+  "aston villa v manchester united__2025-12-21": {
+    "h": 2.04,
+    "d": 3.75,
+    "a": 3.76
+  },
+  "fulham v nottingham forest__2025-12-22": {
+    "h": 2.66,
+    "d": 3.35,
+    "a": 2.83
+  },
+  "manchester united v newcastle__2025-12-26": {
+    "h": 2.49,
+    "d": 3.77,
+    "a": 2.71
+  },
+  "manchester city v nottingham forest__2025-12-27": {
+    "h": 5.55,
+    "d": 4.15,
+    "a": 1.64
+  },
+  "arsenal v brighton__2025-12-27": {
+    "h": 1.33,
+    "d": 5.65,
+    "a": 9.7
+  },
+  "bournemouth v brentford__2025-12-27": {
+    "h": 2.32,
+    "d": 3.59,
+    "a": 3.15
+  },
+  "burnley v everton__2025-12-27": {
+    "h": 3.74,
+    "d": 3.25,
+    "a": 2.21
+  },
+  "liverpool v wolves__2025-12-27": {
+    "h": 1.25,
+    "d": 6.61,
+    "a": 11.61
+  },
+  "fulham v west ham__2025-12-27": {
+    "h": 3.06,
+    "d": 3.38,
+    "a": 2.47
+  },
+  "aston villa v chelsea__2025-12-27": {
+    "h": 1.79,
+    "d": 4.14,
+    "a": 4.31
+  },
+  "leeds v sunderland__2025-12-28": {
+    "h": 3.01,
+    "d": 3.15,
+    "a": 2.65
+  },
+  "crystal palace v tottenham__2025-12-28": {
+    "h": 2.29,
+    "d": 3.45,
+    "a": 3.33
+  },
+  "burnley v newcastle__2025-12-30": {
+    "h": 6,
+    "d": 4.4,
+    "a": 1.57
+  },
+  "bournemouth v chelsea__2025-12-30": {
+    "h": 1.59,
+    "d": 4.5,
+    "a": 5.6
+  },
+  "everton v nottingham forest__2025-12-30": {
+    "h": 1.92,
+    "d": 3.49,
+    "a": 4.54
+  },
+  "brighton v west ham__2025-12-30": {
+    "h": 3.53,
+    "d": 3.65,
+    "a": 2.12
+  },
+  "arsenal v aston villa__2025-12-30": {
+    "h": 1.37,
+    "d": 5.5,
+    "a": 8.25
+  },
+  "manchester united v wolves__2025-12-30": {
+    "h": 1.38,
+    "d": 5.4,
+    "a": 8.25
+  },
+  "crystal palace v fulham__2026-01-01": {
+    "h": 2.29,
+    "d": 3.31,
+    "a": 3.47
+  },
+  "leeds v liverpool__2026-01-01": {
+    "h": 1.48,
+    "d": 4.65,
+    "a": 7.25
+  },
+  "brentford v tottenham__2026-01-01": {
+    "h": 2.52,
+    "d": 3.45,
+    "a": 2.94
+  },
+  "manchester city v sunderland__2026-01-01": {
+    "h": 7.75,
+    "d": 4.9,
+    "a": 1.44
+  },
+  "aston villa v nottingham forest__2026-01-03": {
+    "h": 1.96,
+    "d": 3.49,
+    "a": 4.29
+  },
+  "brighton v burnley__2026-01-03": {
+    "h": 1.47,
+    "d": 4.6,
+    "a": 7.55
+  },
+  "west ham v wolves__2026-01-03": {
+    "h": 2.73,
+    "d": 3.4,
+    "a": 2.72
+  },
+  "arsenal v bournemouth__2026-01-03": {
+    "h": 6.3,
+    "d": 4.55,
+    "a": 1.53
+  },
+  "leeds v manchester united__2026-01-04": {
+    "h": 2.77,
+    "d": 3.4,
+    "a": 2.68
+  },
+  "brentford v everton__2026-01-04": {
+    "h": 2.53,
+    "d": 3.24,
+    "a": 3.09
+  },
+  "crystal palace v newcastle__2026-01-04": {
+    "h": 1.69,
+    "d": 4,
+    "a": 5.19
+  },
+  "sunderland v tottenham__2026-01-04": {
+    "h": 2.01,
+    "d": 3.46,
+    "a": 4.22
+  },
+  "fulham v liverpool__2026-01-04": {
+    "h": 4.39,
+    "d": 3.67,
+    "a": 1.91
+  },
+  "chelsea v manchester city__2026-01-04": {
+    "h": 1.48,
+    "d": 5.05,
+    "a": 6.35
+  },
+  "nottingham forest v west ham__2026-01-06": {
+    "h": 3.05,
+    "d": 3.5,
+    "a": 2.41
+  },
+  "bournemouth v tottenham__2026-01-07": {
+    "h": 2.25,
+    "d": 3.64,
+    "a": 3.23
+  },
+  "brentford v sunderland__2026-01-07": {
+    "h": 2.08,
+    "d": 3.17,
+    "a": 4.3
+  },
+  "aston villa v crystal palace__2026-01-07": {
+    "h": 3.08,
+    "d": 3.4,
+    "a": 2.45
+  },
+  "everton v wolves__2026-01-07": {
+    "h": 1.89,
+    "d": 3.52,
+    "a": 4.6
+  },
+  "chelsea v fulham__2026-01-07": {
+    "h": 3.7,
+    "d": 3.58,
+    "a": 2.09
+  },
+  "brighton v manchester city__2026-01-07": {
+    "h": 1.53,
+    "d": 4.63,
+    "a": 6.1
+  },
+  "burnley v manchester united__2026-01-07": {
+    "h": 4.98,
+    "d": 3.87,
+    "a": 1.74
+  },
+  "leeds v newcastle__2026-01-07": {
+    "h": 1.65,
+    "d": 4.04,
+    "a": 5.57
+  },
+  "arsenal v liverpool__2026-01-08": {
+    "h": 1.59,
+    "d": 4.4,
+    "a": 5.75
+  },
+  "manchester city v manchester united__2026-01-17": {
+    "h": 3.01,
+    "d": 3.63,
+    "a": 2.23
+  },
+  "brentford v chelsea__2026-01-17": {
+    "h": 1.86,
+    "d": 3.78,
+    "a": 3.93
+  },
+  "fulham v leeds__2026-01-17": {
+    "h": 2.31,
+    "d": 3.34,
+    "a": 3.1
+  },
+  "burnley v liverpool__2026-01-17": {
+    "h": 1.23,
+    "d": 6.38,
+    "a": 11.91
+  },
+  "crystal palace v sunderland__2026-01-17": {
+    "h": 2.38,
+    "d": 3.13,
+    "a": 3.15
+  },
+  "tottenham v west ham__2026-01-17": {
+    "h": 1.84,
+    "d": 3.72,
+    "a": 4.13
+  },
+  "arsenal v nottingham forest__2026-01-17": {
+    "h": 5.79,
+    "d": 3.87,
+    "a": 1.6
+  },
+  "newcastle v wolves__2026-01-18": {
+    "h": 4.5,
+    "d": 3.98,
+    "a": 1.72
+  },
+  "aston villa v everton__2026-01-18": {
+    "h": 1.6,
+    "d": 3.94,
+    "a": 5.77
+  },
+  "bournemouth v brighton__2026-01-19": {
+    "h": 1.96,
+    "d": 3.79,
+    "a": 3.55
+  },
+  "sunderland v west ham__2026-01-24": {
+    "h": 2.21,
+    "d": 3.32,
+    "a": 3.28
+  },
+  "burnley v tottenham__2026-01-24": {
+    "h": 3.85,
+    "d": 3.33,
+    "a": 2.01
+  },
+  "brighton v fulham__2026-01-24": {
+    "h": 2.57,
+    "d": 3.28,
+    "a": 2.76
+  },
+  "manchester city v wolves__2026-01-24": {
+    "h": 1.3,
+    "d": 5.63,
+    "a": 9.5
+  },
+  "bournemouth v liverpool__2026-01-24": {
+    "h": 4.21,
+    "d": 3.98,
+    "a": 1.77
+  },
+  "brentford v nottingham forest__2026-01-25": {
+    "h": 1.84,
+    "d": 3.5,
+    "a": 4.38
+  },
+  "chelsea v crystal palace__2026-01-25": {
+    "h": 3.39,
+    "d": 3.48,
+    "a": 2.11
+  },
+  "aston villa v newcastle__2026-01-25": {
+    "h": 2.15,
+    "d": 3.53,
+    "a": 3.26
+  },
+  "arsenal v manchester united__2026-01-25": {
+    "h": 1.54,
+    "d": 4.32,
+    "a": 5.69
+  },
+  "everton v leeds__2026-01-26": {
+    "h": 2.49,
+    "d": 3.07,
+    "a": 3.03
+  },
+  "brighton v everton__2026-01-31": {
+    "h": 1.91,
+    "d": 3.47,
+    "a": 4.08
+  },
+  "arsenal v leeds__2026-01-31": {
+    "h": 5.87,
+    "d": 3.99,
+    "a": 1.57
+  },
+  "bournemouth v wolves__2026-01-31": {
+    "h": 2.94,
+    "d": 3.41,
+    "a": 2.37
+  },
+  "chelsea v west ham__2026-01-31": {
+    "h": 1.59,
+    "d": 4.34,
+    "a": 5.11
+  },
+  "liverpool v newcastle__2026-01-31": {
+    "h": 1.64,
+    "d": 4.22,
+    "a": 4.78
+  },
+  "aston villa v brentford__2026-02-01": {
+    "h": 2.3,
+    "d": 3.32,
+    "a": 3.13
+  },
+  "fulham v manchester united__2026-02-01": {
+    "h": 1.52,
+    "d": 4.63,
+    "a": 5.47
+  },
+  "crystal palace v nottingham forest__2026-02-01": {
+    "h": 2.09,
+    "d": 3.22,
+    "a": 3.73
+  },
+  "manchester city v tottenham__2026-02-01": {
+    "h": 4.98,
+    "d": 4.01,
+    "a": 1.65
+  },
+  "burnley v sunderland__2026-02-02": {
+    "h": 1.91,
+    "d": 3.23,
+    "a": 4.46
+  },
+  "leeds v nottingham forest__2026-02-06": {
+    "h": 2.14,
+    "d": 3.37,
+    "a": 3.4
+  },
+  "manchester united v tottenham__2026-02-07": {
+    "h": 1.59,
+    "d": 4.38,
+    "a": 4.95
+  },
+  "arsenal v sunderland__2026-02-07": {
+    "h": 1.26,
+    "d": 5.65,
+    "a": 12.04
+  },
+  "aston villa v bournemouth__2026-02-07": {
+    "h": 2.84,
+    "d": 3.58,
+    "a": 2.35
+  },
+  "burnley v west ham__2026-02-07": {
+    "h": 3.11,
+    "d": 3.58,
+    "a": 2.19
+  },
+  "everton v fulham__2026-02-07": {
+    "h": 2.13,
+    "d": 3.41,
+    "a": 3.4
+  },
+  "chelsea v wolves__2026-02-07": {
+    "h": 5.31,
+    "d": 4.19,
+    "a": 1.58
+  },
+  "brentford v newcastle__2026-02-07": {
+    "h": 1.92,
+    "d": 3.7,
+    "a": 3.77
+  },
+  "brighton v crystal palace__2026-02-08": {
+    "h": 2.19,
+    "d": 3.27,
+    "a": 3.39
+  },
+  "liverpool v manchester city__2026-02-08": {
+    "h": 2.15,
+    "d": 3.84,
+    "a": 3.01
+  },
+  "chelsea v leeds__2026-02-10": {
+    "h": 1.51,
+    "d": 4.4,
+    "a": 6.03
+  },
+  "bournemouth v everton__2026-02-10": {
+    "h": 2.32,
+    "d": 3.41,
+    "a": 3
+  },
+  "newcastle v tottenham__2026-02-10": {
+    "h": 3,
+    "d": 3.6,
+    "a": 2.25
+  },
+  "manchester united v west ham__2026-02-10": {
+    "h": 4.47,
+    "d": 4.15,
+    "a": 1.69
+  },
+  "aston villa v brighton__2026-02-11": {
+    "h": 2.06,
+    "d": 3.69,
+    "a": 3.34
+  },
+  "burnley v crystal palace__2026-02-11": {
+    "h": 1.46,
+    "d": 4.45,
+    "a": 6.9
+  },
+  "fulham v manchester city__2026-02-11": {
+    "h": 1.37,
+    "d": 5.23,
+    "a": 7.38
+  },
+  "nottingham forest v wolves__2026-02-11": {
+    "h": 1.73,
+    "d": 3.79,
+    "a": 4.66
+  },
+  "liverpool v sunderland__2026-02-11": {
+    "h": 4.45,
+    "d": 3.83,
+    "a": 1.75
+  },
+  "arsenal v brentford__2026-02-12": {
+    "h": 5.08,
+    "d": 3.77,
+    "a": 1.68
+  },
+  "arsenal v wolves__2026-02-18": {
+    "h": 12.35,
+    "d": 5.93,
+    "a": 1.24
+  },
+  "aston villa v leeds__2026-02-21": {
+    "h": 1.82,
+    "d": 3.68,
+    "a": 4.18
+  },
+  "brentford v brighton__2026-02-21": {
+    "h": 2.25,
+    "d": 3.39,
+    "a": 3.13
+  },
+  "burnley v chelsea__2026-02-21": {
+    "h": 1.23,
+    "d": 6.31,
+    "a": 11.6
+  },
+  "bournemouth v west ham__2026-02-21": {
+    "h": 2.66,
+    "d": 3.62,
+    "a": 2.46
+  },
+  "manchester city v newcastle__2026-02-21": {
+    "h": 1.54,
+    "d": 4.63,
+    "a": 5.31
+  },
+  "crystal palace v wolves__2026-02-22": {
+    "h": 1.77,
+    "d": 3.71,
+    "a": 4.44
+  },
+  "liverpool v nottingham forest__2026-02-22": {
+    "h": 3.83,
+    "d": 3.78,
+    "a": 1.87
+  },
+  "fulham v sunderland__2026-02-22": {
+    "h": 2.85,
+    "d": 3.18,
+    "a": 2.55
+  },
+  "arsenal v tottenham__2026-02-22": {
+    "h": 7.2,
+    "d": 4.35,
+    "a": 1.45
+  },
+  "everton v manchester united__2026-02-23": {
+    "h": 3.52,
+    "d": 3.62,
+    "a": 1.99
+  },
+  "aston villa v wolves__2026-02-27": {
+    "h": 4.6,
+    "d": 3.74,
+    "a": 1.74
+  },
+  "bournemouth v sunderland__2026-02-28": {
+    "h": 1.8,
+    "d": 3.68,
+    "a": 4.27
+  },
+  "brentford v burnley__2026-02-28": {
+    "h": 4.34,
+    "d": 3.79,
+    "a": 1.77
+  },
+  "liverpool v west ham__2026-02-28": {
+    "h": 1.41,
+    "d": 4.98,
+    "a": 6.69
+  },
+  "everton v newcastle__2026-02-28": {
+    "h": 1.78,
+    "d": 3.73,
+    "a": 4.34
+  },
+  "leeds v manchester city__2026-02-28": {
+    "h": 4.77,
+    "d": 3.91,
+    "a": 1.69
+  },
+  "brighton v nottingham forest__2026-03-01": {
+    "h": 2.09,
+    "d": 3.39,
+    "a": 3.48
+  },
+  "fulham v tottenham__2026-03-01": {
+    "h": 2.02,
+    "d": 3.66,
+    "a": 3.45
+  },
+  "crystal palace v manchester united__2026-03-01": {
+    "h": 1.51,
+    "d": 4.35,
+    "a": 5.95
+  },
+  "arsenal v chelsea__2026-03-01": {
+    "h": 1.5,
+    "d": 4.36,
+    "a": 6.05
+  },
+  "bournemouth v brentford__2026-03-03": {
+    "h": 2.5,
+    "d": 3.56,
+    "a": 2.65
+  },
+  "burnley v everton__2026-03-03": {
+    "h": 1.61,
+    "d": 3.78,
+    "a": 5.73
+  },
+  "leeds v sunderland__2026-03-03": {
+    "h": 1.81,
+    "d": 3.51,
+    "a": 4.51
+  },
+  "liverpool v wolves__2026-03-03": {
+    "h": 6.85,
+    "d": 4.71,
+    "a": 1.43
+  },
+  "aston villa v chelsea__2026-03-04": {
+    "h": 2.64,
+    "d": 3.48,
+    "a": 2.54
+  },
+  "arsenal v brighton__2026-03-04": {
+    "h": 5.03,
+    "d": 3.84,
+    "a": 1.67
+  },
+  "fulham v west ham__2026-03-04": {
+    "h": 2.2,
+    "d": 3.51,
+    "a": 3.13
+  },
+  "manchester city v nottingham forest__2026-03-04": {
+    "h": 1.39,
+    "d": 4.83,
+    "a": 7.62
+  },
+  "manchester united v newcastle__2026-03-04": {
+    "h": 2.56,
+    "d": 3.62,
+    "a": 2.52
+  },
+  "crystal palace v tottenham__2026-03-05": {
+    "h": 2.44,
+    "d": 3.37,
+    "a": 2.83
+  },
+  "bournemouth v burnley__2026-03-14": {
+    "h": 3.92,
+    "d": 3.93,
+    "a": 1.82
+  },
+  "brighton v sunderland__2026-03-14": {
+    "h": 3.64,
+    "d": 3.46,
+    "a": 2.01
+  },
+  "arsenal v everton__2026-03-14": {
+    "h": 1.37,
+    "d": 4.65,
+    "a": 8.58
+  },
+  "chelsea v newcastle__2026-03-14": {
+    "h": 1.69,
+    "d": 4.24,
+    "a": 4.3
+  },
+  "manchester city v west ham__2026-03-14": {
+    "h": 4.81,
+    "d": 4.16,
+    "a": 1.63
+  },
+  "crystal palace v leeds__2026-03-15": {
+    "h": 2.66,
+    "d": 3.23,
+    "a": 2.69
+  },
+  "aston villa v manchester united__2026-03-15": {
+    "h": 1.69,
+    "d": 4,
+    "a": 4.56
+  },
+  "fulham v nottingham forest__2026-03-15": {
+    "h": 2.29,
+    "d": 3.31,
+    "a": 3.13
+  },
+  "liverpool v tottenham__2026-03-15": {
+    "h": 1.3,
+    "d": 5.87,
+    "a": 8.24
+  },
+  "brentford v wolves__2026-03-16": {
+    "h": 1.53,
+    "d": 4.29,
+    "a": 5.78
+  },
+  "bournemouth v manchester united__2026-03-20": {
+    "h": 3.07,
+    "d": 3.72,
+    "a": 2.15
+  },
+  "brighton v liverpool__2026-03-21": {
+    "h": 3.05,
+    "d": 3.62,
+    "a": 2.19
+  },
+  "burnley v fulham__2026-03-21": {
+    "h": 1.52,
+    "d": 4.29,
+    "a": 5.92
+  },
+  "chelsea v everton__2026-03-21": {
+    "h": 3.15,
+    "d": 3.43,
+    "a": 2.22
+  },
+  "brentford v leeds__2026-03-21": {
+    "h": 2.35,
+    "d": 3.41,
+    "a": 2.95
+  },
+  "newcastle v sunderland__2026-03-22": {
+    "h": 1.53,
+    "d": 4.2,
+    "a": 5.83
+  },
+  "aston villa v west ham__2026-03-22": {
+    "h": 1.73,
+    "d": 3.79,
+    "a": 4.55
+  },
+  "nottingham forest v tottenham__2026-03-22": {
+    "h": 2.37,
+    "d": 3.29,
+    "a": 3
+  },
+  "west ham v wolves__2026-04-10": {
+    "h": 1.77,
+    "d": 3.74,
+    "a": 4.38
+  },
+  "arsenal v bournemouth__2026-04-11": {
+    "h": 1.47,
+    "d": 4.47,
+    "a": 6.4
+  },
+  "brentford v everton__2026-04-11": {
+    "h": 2.15,
+    "d": 3.34,
+    "a": 3.37
+  },
+  "brighton v burnley__2026-04-11": {
+    "h": 5.29,
+    "d": 4.13,
+    "a": 1.59
+  },
+  "fulham v liverpool__2026-04-11": {
+    "h": 1.71,
+    "d": 4.06,
+    "a": 4.38
+  },
+  "crystal palace v newcastle__2026-04-12": {
+    "h": 2.91,
+    "d": 3.3,
+    "a": 2.42
+  },
+  "aston villa v nottingham forest__2026-04-12": {
+    "h": 2.35,
+    "d": 3.32,
+    "a": 2.99
+  },
+  "sunderland v tottenham__2026-04-12": {
+    "h": 2.75,
+    "d": 3.31,
+    "a": 2.53
+  },
+  "chelsea v manchester city__2026-04-12": {
+    "h": 3.48,
+    "d": 3.89,
+    "a": 1.94
+  },
+  "leeds v manchester united__2026-04-13": {
+    "h": 1.62,
+    "d": 4.07,
+    "a": 5.08
+  },
+  "brentford v fulham__2026-04-18": {
+    "h": 1.96,
+    "d": 3.75,
+    "a": 3.52
+  },
+  "leeds v wolves__2026-04-18": {
+    "h": 1.53,
+    "d": 4.11,
+    "a": 6.26
+  },
+  "bournemouth v newcastle__2026-04-18": {
+    "h": 2.18,
+    "d": 3.67,
+    "a": 3.04
+  },
+  "brighton v tottenham__2026-04-18": {
+    "h": 2.93,
+    "d": 3.76,
+    "a": 2.21
+  },
+  "chelsea v manchester united__2026-04-18": {
+    "h": 2.1,
+    "d": 3.69,
+    "a": 3.21
+  },
+  "aston villa v sunderland__2026-04-19": {
+    "h": 1.73,
+    "d": 3.66,
+    "a": 4.8
+  },
+  "everton v liverpool__2026-04-19": {
+    "h": 3.2,
+    "d": 3.33,
+    "a": 2.24
+  },
+  "burnley v nottingham forest__2026-04-19": {
+    "h": 1.46,
+    "d": 4.39,
+    "a": 6.84
+  },
+  "arsenal v manchester city__2026-04-19": {
+    "h": 1.84,
+    "d": 3.59,
+    "a": 4.22
+  },
+  "crystal palace v west ham__2026-04-20": {
+    "h": 2.53,
+    "d": 3.33,
+    "a": 2.76
+  },
+  "brighton v chelsea__2026-04-21": {
+    "h": 2.28,
+    "d": 3.43,
+    "a": 3.01
+  },
+  "bournemouth v leeds__2026-04-22": {
+    "h": 1.83,
+    "d": 3.78,
+    "a": 4.02
+  },
+  "burnley v manchester city__2026-04-22": {
+    "h": 15.78,
+    "d": 8.1,
+    "a": 1.15
+  },
+  "nottingham forest v sunderland__2026-04-24": {
+    "h": 2.66,
+    "d": 3.1,
+    "a": 2.75
+  },
+  "aston villa v fulham__2026-04-25": {
+    "h": 2.43,
+    "d": 3.55,
+    "a": 2.7
+  },
+  "crystal palace v liverpool__2026-04-25": {
+    "h": 1.56,
+    "d": 4.37,
+    "a": 5.21
+  },
+  "everton v west ham__2026-04-25": {
+    "h": 2.42,
+    "d": 3.38,
+    "a": 2.82
+  },
+  "tottenham v wolves__2026-04-25": {
+    "h": 4.62,
+    "d": 4.17,
+    "a": 1.64
+  },
+  "arsenal v newcastle__2026-04-25": {
+    "h": 1.38,
+    "d": 4.87,
+    "a": 7.59
+  },
+  "brentford v manchester united__2026-04-27": {
+    "h": 1.96,
+    "d": 3.73,
+    "a": 3.53
+  },
+  "burnley v leeds__2026-05-01": {
+    "h": 1.36,
+    "d": 4.93,
+    "a": 8.54
+  },
+  "brentford v west ham__2026-05-02": {
+    "h": 1.86,
+    "d": 3.86,
+    "a": 3.8
+  },
+  "brighton v newcastle__2026-05-02": {
+    "h": 2.66,
+    "d": 3.6,
+    "a": 2.46
+  },
+  "sunderland v wolves__2026-05-02": {
+    "h": 3.67,
+    "d": 3.52,
+    "a": 1.98
+  },
+  "arsenal v fulham__2026-05-02": {
+    "h": 1.45,
+    "d": 4.42,
+    "a": 7.02
+  },
+  "bournemouth v crystal palace__2026-05-03": {
+    "h": 1.56,
+    "d": 4.23,
+    "a": 5.36
+  },
+  "liverpool v manchester united__2026-05-03": {
+    "h": 2.35,
+    "d": 3.71,
+    "a": 2.74
+  },
+  "aston villa v tottenham__2026-05-03": {
+    "h": 2.24,
+    "d": 3.54,
+    "a": 2.99
+  },
+  "chelsea v nottingham forest__2026-05-04": {
+    "h": 1.41,
+    "d": 4.78,
+    "a": 7.11
+  },
+  "everton v manchester city__2026-05-04": {
+    "h": 6.69,
+    "d": 4.61,
+    "a": 1.44
+  },
+  "chelsea v liverpool__2026-05-09": {
+    "h": 1.99,
+    "d": 3.69,
+    "a": 3.48
+  },
+  "brighton v wolves__2026-05-09": {
+    "h": 1.27,
+    "d": 5.95,
+    "a": 9.93
+  },
+  "bournemouth v fulham__2026-05-09": {
+    "h": 2.63,
+    "d": 3.6,
+    "a": 2.47
+  },
+  "manchester united v sunderland__2026-05-09": {
+    "h": 3.21,
+    "d": 3.51,
+    "a": 2.15
+  },
+  "brentford v manchester city__2026-05-09": {
+    "h": 1.34,
+    "d": 5.57,
+    "a": 7.32
+  },
+  "aston villa v burnley__2026-05-10": {
+    "h": 6.34,
+    "d": 4.42,
+    "a": 1.48
+  },
+  "crystal palace v everton__2026-05-10": {
+    "h": 2.78,
+    "d": 3.25,
+    "a": 2.54
+  },
+  "newcastle v nottingham forest__2026-05-10": {
+    "h": 3.27,
+    "d": 3.44,
+    "a": 2.15
+  },
+  "arsenal v west ham__2026-05-10": {
+    "h": 5.83,
+    "d": 4.14,
+    "a": 1.54
+  },
+  "leeds v tottenham__2026-05-11": {
+    "h": 1.81,
+    "d": 3.73,
+    "a": 4.15
+  },
+  "crystal palace v manchester city__2026-05-13": {
+    "h": 1.3,
+    "d": 5.7,
+    "a": 8.53
+  },
+  "aston villa v liverpool__2026-05-15": {
+    "h": 2.68,
+    "d": 3.42,
+    "a": 2.5
+  },
+  "manchester united v nottingham forest__2026-05-17": {
+    "h": 1.56,
+    "d": 4.42,
+    "a": 5.12
+  },
+  "brentford v crystal palace__2026-05-17": {
+    "h": 1.72,
+    "d": 3.9,
+    "a": 4.41
+  },
+  "everton v sunderland__2026-05-17": {
+    "h": 1.84,
+    "d": 3.58,
+    "a": 4.13
+  },
+  "brighton v leeds__2026-05-17": {
+    "h": 3.43,
+    "d": 3.48,
+    "a": 2.04
+  },
+  "fulham v wolves__2026-05-17": {
+    "h": 4.03,
+    "d": 3.63,
+    "a": 1.84
+  },
+  "newcastle v west ham__2026-05-17": {
+    "h": 2.05,
+    "d": 3.81,
+    "a": 3.15
+  },
+  "arsenal v burnley__2026-05-18": {
+    "h": 1.09,
+    "d": 10.11,
+    "a": 22.69
+  },
+  "bournemouth v manchester city__2026-05-19": {
+    "h": 4.62,
+    "d": 4.24,
+    "a": 1.63
+  },
+  "chelsea v tottenham__2026-05-19": {
+    "h": 2.19,
+    "d": 3.28,
+    "a": 3.25
+  },
+  "brighton v manchester united__2026-05-24": {
+    "h": 1.87,
+    "d": 4.08,
+    "a": 3.49
+  },
+  "burnley v wolves__2026-05-24": {
+    "h": 2.39,
+    "d": 3.42,
+    "a": 2.82
+  },
+  "arsenal v crystal palace__2026-05-24": {
+    "h": 3.97,
+    "d": 3.66,
+    "a": 1.86
+  },
+  "fulham v newcastle__2026-05-24": {
+    "h": 2.54,
+    "d": 3.63,
+    "a": 2.53
+  },
+  "brentford v liverpool__2026-05-24": {
+    "h": 1.77,
+    "d": 4.06,
+    "a": 3.96
+  },
+  "aston villa v manchester city__2026-05-24": {
+    "h": 1.39,
+    "d": 5.15,
+    "a": 6.71
+  },
+  "bournemouth v nottingham forest__2026-05-24": {
+    "h": 3.54,
+    "d": 3.7,
+    "a": 1.96
+  },
+  "chelsea v sunderland__2026-05-24": {
+    "h": 3.39,
+    "d": 3.65,
+    "a": 2.03
+  },
+  "everton v tottenham__2026-05-24": {
+    "h": 1.87,
+    "d": 3.48,
+    "a": 4.1
+  },
+  "leeds v west ham__2026-05-24": {
+    "h": 1.7,
+    "d": 4.11,
+    "a": 4.35
+  }
+}
