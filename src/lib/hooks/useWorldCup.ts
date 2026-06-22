@@ -193,6 +193,34 @@ export function useLiveOdds() {
   };
 }
 
+/** 某场盘口去水真概率时序(读盘:线如何移动;仅传 matchId 时请求,读服务端内存)。 */
+export interface OddsSeriesPoint {
+  ts: number;
+  home: number;
+  draw: number;
+  away: number;
+}
+export function useOddsSeries(matchId?: string) {
+  const { data, isLoading } = useSWR<{
+    id: string;
+    n: number;
+    open: OddsSeriesPoint | null;
+    last: OddsSeriesPoint | null;
+    points: OddsSeriesPoint[];
+  }>(matchId ? `/api/worldcup/odds-series?id=${matchId}` : null, fetcher, {
+    refreshInterval: LIVE_ODDS_MS,
+    refreshWhenHidden: false,
+    keepPreviousData: true,
+  });
+  return {
+    points: data?.points ?? [],
+    open: data?.open ?? null,
+    last: data?.last ?? null,
+    n: data?.n ?? 0,
+    isLoading,
+  };
+}
+
 /** 微观异动雷达信息流(steam / 关键线击穿 / RLM)。 */
 export function useRadar() {
   const { data, isLoading } = useSWR<{ alerts: RadarAlert[] }>(

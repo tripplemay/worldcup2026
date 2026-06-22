@@ -6,6 +6,7 @@ import TeamBadge from 'components/worldcup/TeamBadge';
 import OddsArrow from 'components/worldcup/OddsArrow';
 import VsBadge from 'components/worldcup/VsBadge';
 import LiveMarketsPanel from 'components/worldcup/LiveMarketsPanel';
+import LineTrend from 'components/worldcup/LineTrend';
 import { useTeamLogos } from 'lib/hooks/useWorldCup';
 import type { MatchChange, OutcomeChange } from 'lib/odds/changes';
 import { normalizeTeam } from 'lib/match/normalize';
@@ -117,6 +118,7 @@ function OddsCard({ m, change }: { m: MatchOdds; change?: MatchChange }) {
       </button>
       {open && (
         <div className="fade-in-up">
+          <LineTrend matchId={m.id} />
           <LiveMarketsPanel matchId={m.id} />
         </div>
       )}
