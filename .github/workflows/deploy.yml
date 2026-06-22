@@ -119,14 +119,11 @@ jobs:
             DATA_DIR=/opt/apps/worldcup-data
             mkdir -p "$DATA_DIR"
             export ODDS_KEYS_FILE="$DATA_DIR/odds-keys.json"
-            # ── 联赛回测数据播种(copy-if-missing;静态历史,prod 不生成 league-* 故永不覆盖现有)──
+            # ── 联赛回测数据播种(seed 为唯一真相源,覆盖同步;prod 不自生成 league-* 故安全)──
+            # 工作流:本地 ingest → 刷新 seed/leagues/ → redeploy 覆盖到 prod 数据目录。
             mkdir -p "$DATA_DIR/predict"
             if [ -d "$STAGING/seed/leagues" ]; then
-              for f in "$STAGING/seed/leagues/"*.json; do
-                [ -e "$f" ] || continue
-                dest="$DATA_DIR/predict/$(basename "$f")"
-                [ -f "$dest" ] || cp "$f" "$dest"
-              done
+              cp -f "$STAGING/seed/leagues/"*.json "$DATA_DIR/predict/" 2>/dev/null || true
             fi
             # 预测系统数据目录(历史/评分 JSON,部署不丢)
             export WC_DATA_DIR="$DATA_DIR"
