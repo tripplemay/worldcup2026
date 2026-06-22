@@ -13,11 +13,13 @@ import { tiltEnsembleScores } from './models/poissonCore';
 import { getIntel } from 'lib/intel/intel';
 import { findVenue } from 'lib/data/venues';
 import { getHeadToHead, type H2HSummary } from './apifootball';
+import { computeBookDivergence } from 'lib/odds/bookDivergence';
 import './models'; // 副作用:注册所有模型
 import type { MatchPrediction, PredictionContext } from './model';
 import type { TeamRating } from './types';
 import type { TeamIntel } from 'lib/intel/types';
 import type { MatchOdds } from 'lib/odds/types';
+import type { BookDivergence } from 'lib/odds/bookDivergence';
 import type { ScheduleMatch } from 'lib/espn/types';
 
 const CN_OFFSET = 8 * 3600_000;
@@ -39,6 +41,7 @@ export interface MatchWithPredictions {
   awayIntel?: TeamIntel | null;
   adjusted?: { home: number; draw: number; away: number } | null; // 情报修正后(旁注参考)
   h2h?: H2HSummary | null; // 历史交锋(API-Football)
+  marketDivergence?: BookDivergence | null; // 跨家盘口分歧(读盘旁注)
 }
 
 /** 把情报修正量叠加到融合概率(Path B),重归一化;无显著修正返回 null。 */
@@ -182,6 +185,8 @@ function predictFixture(
     // 展示层后验倾斜:比分/大小球向 ensemble 头条对齐(Phase 8.1 Q5)
     ensemble: ens ? tiltEnsembleScores(ens, predictions) : null,
     weightMode,
+    // 跨家盘口分歧(读盘旁注;复用同场已抓多家赔率,零额外配额)
+    marketDivergence: odds ? computeBookDivergence(odds.bookmakers) : null,
   };
 }
 

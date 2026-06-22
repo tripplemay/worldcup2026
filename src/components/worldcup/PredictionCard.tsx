@@ -11,6 +11,7 @@ import {
 } from 'react-icons/md';
 import Card from 'components/card';
 import ProbBar from 'components/worldcup/ProbBar';
+import BookDivergenceNote from 'components/worldcup/BookDivergenceNote';
 import { useMatchPrediction } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import {
@@ -176,6 +177,8 @@ export default function PredictionCard({
   const adjusted = frozen ? null : prediction?.adjusted ?? null;
   const h2h = prediction?.h2h ?? null;
   const weightMode = frozen ? undefined : prediction?.weightMode;
+  // 跨家盘口分歧(读盘旁注;已结束/无盘口为 null → 不展示)
+  const divg = frozen ? null : prediction?.marketDivergence ?? null;
 
   const consensus =
     base.length >= 2 && base.every((p) => argmax(p) === argmax(base[0]));
@@ -254,6 +257,11 @@ export default function PredictionCard({
               draw={headline.draw}
               away={headline.awayWin}
             />
+            {divg && (
+              <div className="mt-2 rounded-lg bg-lightPrimary/60 px-2.5 py-1.5 dark:bg-navy-700/40">
+                <BookDivergenceNote d={divg} />
+              </div>
+            )}
           </div>
 
           {/* 我们的模型(参考对比,不构成下注建议) */}

@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Card from 'components/card';
 import { MdInsights, MdBolt } from 'react-icons/md';
 import ProbBar from 'components/worldcup/ProbBar';
+import BookDivergenceNote from 'components/worldcup/BookDivergenceNote';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import ModelRecord from 'components/worldcup/ModelRecord';
 import PageHeading from 'components/worldcup/PageHeading';
@@ -150,6 +151,11 @@ export default function PredictPage() {
                 draw={headline.draw}
                 away={headline.awayWin}
               />
+              {m.marketDivergence && m.marketDivergence.level !== 'tight' && (
+                <div className="mt-2">
+                  <BookDivergenceNote d={m.marketDivergence} compact />
+                </div>
+              )}
             </Card>
           );
           // WC → /match/[id](WC ESPN);联赛 → /league/[comp]/[id](联赛 ESPN + calib 预测)

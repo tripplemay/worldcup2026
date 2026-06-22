@@ -18,6 +18,7 @@ import { getModels } from './registry';
 import { ensemble } from './ensemble';
 import { tiltEnsembleScores } from './models/poissonCore';
 import { getLeague, getCompetitionConfig } from './leagues';
+import { computeBookDivergence } from 'lib/odds/bookDivergence';
 import type { CompetitionConfig } from './leagues';
 import './models'; // 副作用:注册模型
 import type { MatchPrediction, PredictionContext } from './model';
@@ -139,6 +140,8 @@ function predictLeagueFixture(
     // 展示层后验倾斜:比分/大小球向 ensemble 头条对齐(Phase 8.1 Q5)
     ensemble: ensTilted,
     weightMode,
+    // 跨家盘口分歧(读盘旁注;复用同场已抓多家赔率,零额外配额)
+    marketDivergence: odds ? computeBookDivergence(odds.bookmakers) : null,
   };
 }
 
