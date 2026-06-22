@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Card from 'components/card';
 import { useMatchMarkets, useMatchGroup } from 'lib/hooks/useWorldCup';
 import { useT, useTn } from 'lib/i18n/context';
+import { MdBolt } from 'react-icons/md';
 import GroupPanel from 'components/worldcup/MarketPanels';
 import OddsArrow from 'components/worldcup/OddsArrow';
 import BookDivergenceNote from 'components/worldcup/BookDivergenceNote';
@@ -113,6 +114,18 @@ function H2hTable({ m, change }: { m: MatchOdds; change?: MatchChange }) {
               {pctOf(div.consensus.away)}
             </span>
           </div>
+          {div.sharp && (
+            <div className="flex items-baseline justify-between text-[11px]">
+              <span className="flex items-center gap-0.5 text-amber-600 dark:text-amber-400">
+                <MdBolt /> {t('predict.divg.sharpConsensus')}
+              </span>
+              <span className="tabular-nums text-navy-700 dark:text-white">
+                {t('odds.home')} {pctOf(div.sharp.sharpConsensus.home)} ·{' '}
+                {t('odds.draw')} {pctOf(div.sharp.sharpConsensus.draw)} ·{' '}
+                {t('odds.away')} {pctOf(div.sharp.sharpConsensus.away)}
+              </span>
+            </div>
+          )}
           <BookDivergenceNote d={div} />
         </div>
       )}
@@ -135,6 +148,9 @@ function H2hTable({ m, change }: { m: MatchOdds; change?: MatchChange }) {
                 className="border-t border-gray-100 dark:border-white/5"
               >
                 <td className="py-1 text-gray-600 dark:text-gray-300">
+                  {ip?.sharp && (
+                    <MdBolt className="mr-0.5 inline-block align-text-bottom text-amber-500" />
+                  )}
                   {b.title}
                 </td>
                 <DvCell

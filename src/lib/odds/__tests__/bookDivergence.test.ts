@@ -77,4 +77,56 @@ describe('computeBookDivergence', () => {
     }
     expect(r.perBook).toHaveLength(3);
   });
+
+  describe('锐盘 vs 软市场(校准升级)', () => {
+    it('含锐盘(pinnacle)+ 软盘 → sharp 读盘存在,标记正确', () => {
+      const r = computeBookDivergence([
+        bk('pinnacle', 1.4, 4.8, 9.5), // 锐盘:主胜看得更高
+        bk('williamhill', 1.55, 4.2, 6.5),
+        bk('unibet_nl', 1.58, 4.1, 6.2),
+      ])!;
+      expect(r.sharp).not.toBeNull();
+      expect(r.sharp!.sharpCount).toBe(1);
+      expect(r.sharp!.softCount).toBe(2);
+      expect(r.sharp!.sharpTitles).toEqual(['pinnacle']);
+      // 锐盘主胜去水 > 软市场主胜去水 → gapPp 在主胜侧为正(锐盘看高)
+      expect(r.sharp!.gapSide).toBe('home');
+      expect(r.sharp!.gapPp).toBeGreaterThan(0);
+      expect(r.perBook.find((p) => p.key === 'pinnacle')!.sharp).toBe(true);
+      expect(r.perBook.find((p) => p.key === 'williamhill')!.sharp).toBe(false);
+    });
+
+    it('全为软盘 → sharp = null(无锐盘信号)', () => {
+      const r = computeBookDivergence([
+        bk('williamhill', 1.5, 4.2, 7.0),
+        bk('unibet_nl', 1.52, 4.2, 6.8),
+        bk('betsson', 1.5, 4.25, 7.0),
+      ])!;
+      expect(r.sharp).toBeNull();
+    });
+
+    it('全为锐盘(无软市场对照)→ sharp = null', () => {
+      const r = computeBookDivergence([
+        bk('pinnacle', 1.5, 4.2, 7.0),
+        bk('betfair_ex_eu', 1.52, 4.2, 6.8),
+        bk('matchbook', 1.5, 4.25, 7.0),
+      ])!;
+      expect(r.sharp).toBeNull();
+    });
+
+    it('sharp/soft 共识各自三项和为 1', () => {
+      const r = computeBookDivergence([
+        bk('pinnacle', 2.0, 3.4, 3.7),
+        bk('matchbook', 2.05, 3.3, 3.7),
+        bk('williamhill', 2.2, 3.4, 3.3),
+        bk('betsson', 2.15, 3.5, 3.2),
+      ])!;
+      const sc = r.sharp!.sharpConsensus;
+      const fc = r.sharp!.softConsensus;
+      expect(sc.home + sc.draw + sc.away).toBeCloseTo(1, 3);
+      expect(fc.home + fc.draw + fc.away).toBeCloseTo(1, 3);
+      expect(r.sharp!.sharpCount).toBe(2);
+      expect(r.sharp!.softCount).toBe(2);
+    });
+  });
 });

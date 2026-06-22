@@ -151,11 +151,19 @@ export default function PredictPage() {
                 draw={headline.draw}
                 away={headline.awayWin}
               />
-              {m.marketDivergence && m.marketDivergence.level !== 'tight' && (
-                <div className="mt-2">
-                  <BookDivergenceNote d={m.marketDivergence} compact />
-                </div>
-              )}
+              {(() => {
+                // 有锐盘 → 仅锐盘与软市场分歧时显示;无锐盘 → 回退裸幅度(非 tight)
+                const d = m.marketDivergence;
+                if (!d) return null;
+                const show = d.sharp
+                  ? d.sharp.level !== 'aligned'
+                  : d.level !== 'tight';
+                return show ? (
+                  <div className="mt-2">
+                    <BookDivergenceNote d={d} compact />
+                  </div>
+                ) : null;
+              })()}
             </Card>
           );
           // WC → /match/[id](WC ESPN);联赛 → /league/[comp]/[id](联赛 ESPN + calib 预测)
