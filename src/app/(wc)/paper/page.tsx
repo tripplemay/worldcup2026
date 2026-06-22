@@ -310,6 +310,13 @@ export default function PaperPage() {
         </p>
       </header>
 
+      {/* 诚实框:读盘校准工具,非盈利策略;看 CLV 而非盈亏 */}
+      <Card extra="mb-3 bg-amber-50/60 p-3 dark:bg-amber-500/10">
+        <p className="text-[11px] leading-relaxed text-amber-700 dark:text-amber-300">
+          ⓘ {t('trade.honesty')}
+        </p>
+      </Card>
+
       {wallet && (
         <Card extra="mb-3 p-4">
           <div className="flex items-end justify-between">
@@ -351,6 +358,28 @@ export default function PaperPage() {
             />
             <Stat label="W-L" value={`${wallet.wins}-${wallet.losses}`} />
           </div>
+
+          {/* CLV 读盘准度(真·记分牌:下注后线是否朝我们走)— 头条提升 */}
+          {stats?.clv && stats.clv.n > 0 && (
+            <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-2 dark:border-white/5">
+              <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                {t('trade.clvScore')}
+              </span>
+              <span className="flex items-baseline gap-2">
+                <span
+                  className={`font-mono text-lg font-extrabold ${posCls(
+                    stats.clv.avgClv,
+                  )}`}
+                >
+                  {stats.clv.avgClv >= 0 ? '+' : ''}
+                  {(stats.clv.avgClv * 100).toFixed(1)}%
+                </span>
+                <span className="text-[10px] text-gray-400">
+                  {t('trade.posClv')} {pct(stats.clv.posRate)} ({stats.clv.n})
+                </span>
+              </span>
+            </div>
+          )}
         </Card>
       )}
 

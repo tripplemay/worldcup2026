@@ -348,9 +348,12 @@ export const messages = {
       note: '第三方参考',
     },
     trade: {
-      title: '模拟盘',
-      subtitle: '虚拟资金 · 市场无关模型 +EV 策略验证 · 非投注建议',
-      tag: '模拟',
+      title: '读盘记分牌',
+      subtitle: '校准/读盘观测 · 看 CLV 而非盈亏 · 非投注建议',
+      tag: '观测',
+      honesty:
+        '读盘校准工具,非盈利策略——锐利收盘市场不可战胜(模拟回测已实证)。重点看 CLV(下注后线是否朝我们走);盈亏预期为负,仅作观测,不是目标。',
+      clvScore: 'CLV 读盘准度',
       balance: '当前余额',
       initial: '初始本金',
       roi: '回报率',
@@ -776,10 +779,13 @@ export const messages = {
       note: '3rd-party ref',
     },
     trade: {
-      title: 'Paper Trade',
+      title: 'Read Scorecard',
       subtitle:
-        'Virtual bankroll · market-free model +EV · validation only, not betting advice',
-      tag: 'Paper',
+        'Calibration / line-reading · watch CLV not P&L · not betting advice',
+      tag: 'Observe',
+      honesty:
+        'A line-reading calibration tool, not a profit strategy — the sharp closing market is unbeatable (proven by our backtest). Watch CLV (did the line move our way after we read it); P&L is expected negative, observational only.',
+      clvScore: 'CLV read-accuracy',
       balance: 'Balance',
       initial: 'Initial',
       roi: 'ROI',
