@@ -32,10 +32,16 @@ const rs: RadarState = (g.__wcRadar ??= { alerts: [], lastFired: {} });
 
 const MAX_ALERTS = 120;
 const STEAM_DELTA = 0.025;
-const STEAM_WINDOW = 180_000; // 3min
-const STEAM_COOLDOWN = 600_000; // 10min
-const RLM_WINDOW = 3_600_000; // 临场 1h
-const RLM_COOLDOWN = 1_800_000; // 30min
+// 滑窗去重不变式:每个检测器的 cooldown 必须 ≥ 它的回看窗口。否则"现值 vs 窗口前值"
+// 的比较在一次穿越后整个窗口期内持续为真;cooldown(若 < 窗口)到期、而窗口尚未滑过
+// 穿越点时,会把【同一次穿越】重复报一遍(实测 BREAKOUT 同场 ~11min 重复即此因)。
+export const STEAM_WINDOW = 180_000; // 3min
+export const STEAM_COOLDOWN = 600_000; // 10min(> 窗口 ✓)
+export const BREAKOUT_WINDOW = 900_000; // 15min 回看(慢速线动也能捕捉)
+export const BREAKOUT_COOLDOWN = 1_200_000; // 20min(> 回看窗口;原误复用 STEAM 的 10min<15min)
+export const RLM_WINDOW = 3_600_000; // 临场 1h
+export const RLM_REFIRE = 3_600_000; // 触发去重 ≥ 窗口(每场每窗最多 1 条 RLM)
+const RLM_COOLDOWN = 1_800_000; // 30min:hasActiveRlm 风控"近期活跃"窗(与触发去重解耦)
 const KEY_LINES = [-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2];
 
 function snapBefore(
@@ -124,7 +130,7 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
     // ② BREAKOUT:亚盘主线跨越关键数 + 新去水 > 0.48(防诱盘)
     const curLine = cur[4];
     if (curLine != null) {
-      const past15 = snapBefore(series, now - 900_000);
+      const past15 = snapBefore(series, now - BREAKOUT_WINDOW);
       const pastLine = past15?.[4];
       if (pastLine != null && pastLine !== curLine) {
         const crossed = KEY_LINES.some(
@@ -136,7 +142,7 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
           crossed &&
           ah &&
           Math.max(ah.a, ah.b) > 0.48 &&
-          cooled(`${m.id}:BREAKOUT:${curLine}`, now, STEAM_COOLDOWN)
+          cooled(`${m.id}:BREAKOUT:${curLine}`, now, BREAKOUT_COOLDOWN)
         ) {
           push({
             id: `${m.id}-BREAKOUT-${now}`,
@@ -176,11 +182,7 @@ export function detectAnomalies(matches: MatchOdds[], now: number): void {
         const falling = ipPastHr
           ? ipCur[favKey] < ipPastHr[favKey] - 0.005
           : false;
-        if (
-          drift >= 0.1 &&
-          falling &&
-          cooled(`${m.id}:RLM`, now, RLM_COOLDOWN)
-        ) {
+        if (drift >= 0.1 && falling && cooled(`${m.id}:RLM`, now, RLM_REFIRE)) {
           const label =
             favKey === 'home' ? '主' : favKey === 'away' ? '客' : '平';
           push({
