@@ -133,6 +133,7 @@ export default function PnlPage() {
   const [filter, setFilter] = useState<string>('all'); // bettorId | UNASSIGNED | 'all'
   const [token, setToken] = useState('');
   const [tokenInput, setTokenInput] = useState('');
+  const [newBettor, setNewBettor] = useState('');
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
 
@@ -167,6 +168,35 @@ export default function PnlPage() {
     } catch {
       setMsg(t('common.loadFailed'));
       return false;
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function addBettorByName() {
+    const name = newBettor.trim();
+    if (!name || !token || busy) return;
+    setBusy(true);
+    setMsg('');
+    try {
+      const res = await fetch('/api/worldcup/bettors', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json', 'x-admin-token': token },
+        body: JSON.stringify({ name }),
+      });
+      if (res.status === 401 || res.status === 403) {
+        setMsg(t('settings.wrongToken'));
+        return;
+      }
+      if (!res.ok) {
+        setMsg(t('common.loadFailed'));
+        return;
+      }
+      setNewBettor('');
+      setMsg(t('pnl.saved'));
+      await mutate();
+    } catch {
+      setMsg(t('common.loadFailed'));
     } finally {
       setBusy(false);
     }
@@ -289,27 +319,46 @@ export default function PnlPage() {
           {/* 管理解锁 */}
           <Card extra="p-3">
             {admin ? (
-              <div className="flex items-center justify-between gap-2 text-xs">
-                <span className="text-green-600 dark:text-green-400">
-                  🔓 {t('pnl.admin')}
-                </span>
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-green-600 dark:text-green-400">
+                    🔓 {t('pnl.admin')}
+                  </span>
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => void adminPost({ action: 'resettle' })}
+                      disabled={busy}
+                      className="rounded-lg bg-brand-500 px-2.5 py-1 text-white active:scale-95 disabled:opacity-50"
+                    >
+                      {t('pnl.resettle')}
+                    </button>
+                    <button
+                      onClick={() => {
+                        localStorage.removeItem(TOKEN_KEY);
+                        setToken('');
+                        setTokenInput('');
+                      }}
+                      className="rounded-lg bg-gray-200 px-2.5 py-1 text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                </div>
                 <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newBettor}
+                    onChange={(e) => setNewBettor(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addBettorByName()}
+                    placeholder={t('pnl.bettorNamePh')}
+                    className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                  />
                   <button
-                    onClick={() => void adminPost({ action: 'resettle' })}
-                    disabled={busy}
-                    className="rounded-lg bg-brand-500 px-2.5 py-1 text-white active:scale-95 disabled:opacity-50"
+                    onClick={addBettorByName}
+                    disabled={busy || !newBettor.trim()}
+                    className="rounded-lg bg-brand-500 px-3 py-1.5 text-white active:scale-95 disabled:opacity-50"
                   >
-                    {t('pnl.resettle')}
-                  </button>
-                  <button
-                    onClick={() => {
-                      localStorage.removeItem(TOKEN_KEY);
-                      setToken('');
-                      setTokenInput('');
-                    }}
-                    className="rounded-lg bg-gray-200 px-2.5 py-1 text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
-                  >
-                    ✕
+                    {t('pnl.addBettor')}
                   </button>
                 </div>
               </div>
