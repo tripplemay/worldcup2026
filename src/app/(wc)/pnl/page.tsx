@@ -33,7 +33,6 @@ const posCls = (x: number) =>
     ? 'text-red-500 dark:text-red-400'
     : 'text-gray-400';
 
-const TOKEN_KEY = 'wc_admin_token';
 const UNASSIGNED = '__unassigned__';
 
 type T = (k: string) => string;
@@ -135,8 +134,6 @@ export default function PnlPage() {
   );
   const [view, setView] = useState<'overview' | 'detail'>('overview');
   const [filter, setFilter] = useState<string>('all'); // bettorId | UNASSIGNED | 'all'
-  const [token, setToken] = useState('');
-  const [tokenInput, setTokenInput] = useState('');
   const [newBettor, setNewBettor] = useState('');
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
@@ -145,8 +142,6 @@ export default function PnlPage() {
   const [viewBusy, setViewBusy] = useState(false);
 
   useEffect(() => {
-    const saved = localStorage.getItem(TOKEN_KEY);
-    if (saved) setToken(saved);
     // 浏览密码以服务端 cookie 为准:探测一次决定是否需要输入密码
     fetch('/api/worldcup/pnl', { cache: 'no-store' })
       .then((r) => setAuthed(r.ok))
@@ -177,20 +172,20 @@ export default function PnlPage() {
     }
   }
 
-  const admin = !!token;
+  // 已过浏览密码即可管理(写接口按浏览 cookie 鉴权,无需再输管理口令)
+  const admin = true;
 
   async function adminPost(body: Record<string, unknown>): Promise<boolean> {
-    if (!token) return false;
     setBusy(true);
     setMsg('');
     try {
       const res = await fetch('/api/worldcup/bets', {
         method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-admin-token': token },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify(body),
       });
       if (res.status === 401 || res.status === 403) {
-        setMsg(t('settings.wrongToken'));
+        setMsg(t('pnl.viewWrong'));
         return false;
       }
       if (!res.ok) {
@@ -210,17 +205,17 @@ export default function PnlPage() {
 
   async function addBettorByName() {
     const name = newBettor.trim();
-    if (!name || !token || busy) return;
+    if (!name || busy) return;
     setBusy(true);
     setMsg('');
     try {
       const res = await fetch('/api/worldcup/bettors', {
         method: 'POST',
-        headers: { 'content-type': 'application/json', 'x-admin-token': token },
+        headers: { 'content-type': 'application/json' },
         body: JSON.stringify({ name }),
       });
       if (res.status === 401 || res.status === 403) {
-        setMsg(t('settings.wrongToken'));
+        setMsg(t('pnl.viewWrong'));
         return;
       }
       if (!res.ok) {
@@ -396,80 +391,39 @@ export default function PnlPage() {
         </div>
       ) : (
         <div className="space-y-3">
-          {/* 管理解锁 */}
+          {/* 管理区(已过浏览密码即可操作) */}
           <Card extra="p-3">
-            {admin ? (
-              <div className="space-y-2 text-xs">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-green-600 dark:text-green-400">
-                    🔓 {t('pnl.admin')}
-                  </span>
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => void adminPost({ action: 'resettle' })}
-                      disabled={busy}
-                      className="rounded-lg bg-brand-500 px-2.5 py-1 text-white active:scale-95 disabled:opacity-50"
-                    >
-                      {t('pnl.resettle')}
-                    </button>
-                    <button
-                      onClick={() => {
-                        localStorage.removeItem(TOKEN_KEY);
-                        setToken('');
-                        setTokenInput('');
-                      }}
-                      className="rounded-lg bg-gray-200 px-2.5 py-1 text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
-                    >
-                      ✕
-                    </button>
-                  </div>
-                </div>
-                <div className="flex gap-2">
-                  <input
-                    type="text"
-                    value={newBettor}
-                    onChange={(e) => setNewBettor(e.target.value)}
-                    onKeyDown={(e) => e.key === 'Enter' && addBettorByName()}
-                    placeholder={t('pnl.bettorNamePh')}
-                    className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
-                  />
-                  <button
-                    onClick={addBettorByName}
-                    disabled={busy || !newBettor.trim()}
-                    className="rounded-lg bg-brand-500 px-3 py-1.5 text-white active:scale-95 disabled:opacity-50"
-                  >
-                    {t('pnl.addBettor')}
-                  </button>
-                </div>
-              </div>
-            ) : (
-              <div className="flex gap-2">
-                <input
-                  type="password"
-                  value={tokenInput}
-                  onChange={(e) => setTokenInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' && tokenInput.trim()) {
-                      localStorage.setItem(TOKEN_KEY, tokenInput.trim());
-                      setToken(tokenInput.trim());
-                    }
-                  }}
-                  placeholder={t('settings.adminToken')}
-                  className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
-                />
+            <div className="space-y-2 text-xs">
+              <div className="flex items-center justify-between gap-2">
+                <span className="text-gray-500 dark:text-gray-400">
+                  {t('pnl.admin')}
+                </span>
                 <button
-                  onClick={() => {
-                    if (tokenInput.trim()) {
-                      localStorage.setItem(TOKEN_KEY, tokenInput.trim());
-                      setToken(tokenInput.trim());
-                    }
-                  }}
-                  className="rounded-lg bg-brand-500 px-3 py-1.5 text-sm text-white active:scale-95"
+                  onClick={() => void adminPost({ action: 'resettle' })}
+                  disabled={busy}
+                  className="rounded-lg bg-brand-500 px-2.5 py-1 text-white active:scale-95 disabled:opacity-50"
                 >
-                  {t('settings.unlock')}
+                  {t('pnl.resettle')}
                 </button>
               </div>
-            )}
+              <div className="flex gap-2">
+                <input
+                  type="text"
+                  value={newBettor}
+                  onChange={(e) => setNewBettor(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addBettorByName()}
+                  placeholder={t('pnl.bettorNamePh')}
+                  className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                />
+                <button
+                  onClick={addBettorByName}
+                  disabled={busy || !newBettor.trim()}
+                  className="rounded-lg bg-brand-500 px-3 py-1.5 text-white active:scale-95 disabled:opacity-50"
+                >
+                  {t('pnl.addBettor')}
+                </button>
+              </div>
+            </div>
             {msg && (
               <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">
                 {msg}

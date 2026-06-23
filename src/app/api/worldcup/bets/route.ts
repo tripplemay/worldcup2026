@@ -8,15 +8,17 @@
  */
 import { updateBet, assignBettor } from 'lib/bets/bets';
 import { settlePendingBets } from 'lib/bets/run';
+import { isViewAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
 import type { BetSlip } from 'lib/bets/types';
 
 export const dynamic = 'force-dynamic';
 
-function checkAuth(req: Request): boolean | null {
-  const token = process.env.ADMIN_TOKEN;
-  if (!token) return null;
-  return req.headers.get('x-admin-token') === token;
+/** 管理写权限:已过浏览密码(cookie)即可;或带正确管理口令(供 API/脚本)。 */
+function authorized(req: Request): boolean {
+  if (isViewAuthed(req)) return true;
+  const tok = process.env.ADMIN_TOKEN;
+  return !!tok && req.headers.get('x-admin-token') === tok;
 }
 
 const PATCHABLE: (keyof BetSlip)[] = [
@@ -42,9 +44,7 @@ function sanitizePatch(raw: unknown): Partial<BetSlip> {
 }
 
 export async function POST(req: Request) {
-  const a = checkAuth(req);
-  if (a === null) return fail('未启用(服务端未设置 ADMIN_TOKEN)', 403);
-  if (!a) return fail('管理口令错误', 401);
+  if (!authorized(req)) return fail('需要浏览密码或管理口令', 401);
   try {
     const body = (await req.json()) as {
       id?: string;
