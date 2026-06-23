@@ -273,12 +273,9 @@ export default function PnlPage() {
   }
 
   const setOutcome = (s: BetSlip, status: BetStatus) => {
+    // 可盈 = 净盈利:赢 → +可盈;输 → −本金;走盘 → 0
     const pnl =
-      status === 'won'
-        ? +(s.potentialReturn - s.stake)
-        : status === 'lost'
-        ? -s.stake
-        : 0;
+      status === 'won' ? s.potentialReturn : status === 'lost' ? -s.stake : 0;
     void adminPost({ id: s.id, patch: { status, pnl } });
   };
 

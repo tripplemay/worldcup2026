@@ -7,7 +7,13 @@ import type { BetLeg, LegResult } from 'lib/bets/types';
 
 /** 构造一条最小可结算腿(只有 settleSlip 用到的字段无关紧要时占位)。 */
 function leg(over: Partial<BetLeg> = {}): BetLeg {
-  return { homeName: 'H', awayName: 'A', market: '1X2', selection: 'home', ...over };
+  return {
+    homeName: 'H',
+    awayName: 'A',
+    market: '1X2',
+    selection: 'home',
+    ...over,
+  };
 }
 
 describe('judgeLeg —— 基础盘口', () => {
@@ -114,11 +120,15 @@ describe('judgeLeg —— 亚盘(AH)', () => {
 });
 
 describe('settleSlip —— 串关聚合', () => {
-  const slip = { stake: 100, potentialReturn: 350, legs: [leg(), leg(), leg()] };
+  const slip = {
+    stake: 100,
+    potentialReturn: 350,
+    legs: [leg(), leg(), leg()],
+  };
 
-  it('全赢 → won,pnl = potentialReturn − stake', () => {
+  it('全赢 → won,pnl = potentialReturn(可盈=净盈利)', () => {
     const r: LegResult[] = ['won', 'won', 'won'];
-    expect(settleSlip(slip, r)).toEqual({ status: 'won', pnl: 250 });
+    expect(settleSlip(slip, r)).toEqual({ status: 'won', pnl: 350 });
   });
 
   it('有一腿输 → lost,pnl = −stake', () => {
@@ -155,8 +165,8 @@ describe('settleSlip —— 串关聚合', () => {
 describe('settleSlip —— 单注', () => {
   const single = { stake: 50, potentialReturn: 130, legs: [leg()] };
 
-  it('won → pnl = potentialReturn − stake', () => {
-    expect(settleSlip(single, ['won'])).toEqual({ status: 'won', pnl: 80 });
+  it('won → pnl = potentialReturn(可盈=净盈利)', () => {
+    expect(settleSlip(single, ['won'])).toEqual({ status: 'won', pnl: 130 });
   });
 
   it('lost → pnl = −stake', () => {

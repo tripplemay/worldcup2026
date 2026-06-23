@@ -62,11 +62,11 @@ export interface BetSlip {
   bettorId: string | null; // null=未归属(待按钮指定)
   platform?: string;
   stake: number; // 本金(截图)
-  potentialReturn: number; // 可赢/总返款(截图;默认含本金口径)
+  potentialReturn: number; // 「可赢/可盈」= 净盈利(截图;不含本金)
   currency?: string;
   legs: BetLeg[];
   status: BetStatus;
-  pnl: number | null; // 赢=potentialReturn−stake;输=−stake;void=0;未结=null
+  pnl: number | null; // 赢=potentialReturn(净赚);输=−stake;void=0;未结=null
   confidence: number; // 识别置信度 0–1
   imageRef?: string; // 落盘原图相对路径(复核)
   source?: { chatId?: number; messageId?: number; fileId?: string };
@@ -80,7 +80,7 @@ export interface BetSlip {
 /** 视觉识别输出(部分 BetSlip;webhook 再补 id/bettorId/状态/时间)。 */
 export interface RecognizedSlip {
   stake: number;
-  potentialReturn: number;
+  potentialReturn: number; // 「可赢/可盈」= 净盈利(不含本金)
   currency?: string;
   platform?: string;
   legs: BetLeg[];

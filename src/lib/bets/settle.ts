@@ -3,7 +3,8 @@
  *
  * 复用 lib/trade/settle 的 outcome 做基础盘口判定(1X2/OU/AH 整数·半盘/BTTS/DC/DNB)。
  * 唯一新增能力:亚盘四分盘(±.25/.75)拆成两条相邻半盘,聚合出 half_won/half_lost。
- * 金额一律以截图为准(stake / potentialReturn 含本金口径),不重算赔率;
+ * 金额一律以截图为准,不重算赔率:**potentialReturn = 注单「可盈」= 净盈利(不含本金)**。
+ *   赢 → pnl = potentialReturn(净赚);输 → pnl = −stake;走盘 → pnl = 0。
  * 任何使截图金额失真的情形(走盘、半赢半输混入串关)一律 needs_review,交人工。
  */
 import { outcome } from 'lib/trade/settle';
@@ -84,8 +85,7 @@ export function settleSlip(
   // 单注特判:截图金额可直接表达走盘退本。
   if (slip.legs.length === 1) {
     const r = legResults[0];
-    if (r === 'won')
-      return { status: 'won', pnl: +(slip.potentialReturn - slip.stake) };
+    if (r === 'won') return { status: 'won', pnl: slip.potentialReturn };
     if (r === 'lost') return { status: 'lost', pnl: -slip.stake };
     if (r === 'void') return { status: 'void', pnl: 0 };
     return { status: 'needs_review', pnl: null }; // half_won / half_lost
@@ -100,5 +100,5 @@ export function settleSlip(
   if (legResults.some((r) => r === 'void'))
     return { status: 'needs_review', pnl: null };
   // 全赢。
-  return { status: 'won', pnl: +(slip.potentialReturn - slip.stake) };
+  return { status: 'won', pnl: slip.potentialReturn };
 }
