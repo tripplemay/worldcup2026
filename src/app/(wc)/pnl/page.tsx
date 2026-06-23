@@ -137,6 +137,8 @@ export default function PnlPage() {
   const [newBettor, setNewBettor] = useState('');
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
+  const [editId, setEditId] = useState<string | null>(null); // 正在手改盈亏的注单
+  const [editPnl, setEditPnl] = useState('');
   const [viewPw, setViewPw] = useState('');
   const [viewMsg, setViewMsg] = useState('');
   const [viewBusy, setViewBusy] = useState(false);
@@ -278,6 +280,18 @@ export default function PnlPage() {
       status === 'won' ? s.potentialReturn : status === 'lost' ? -s.stake : 0;
     void adminPost({ id: s.id, patch: { status, pnl } });
   };
+
+  // 管理员手填本单实际盈亏(应对各平台串关结算差异);正=赢、负=输、0=走盘
+  async function saveManualPnl(s: BetSlip) {
+    const v = Number(editPnl);
+    if (editPnl.trim() === '' || !Number.isFinite(v)) {
+      setMsg(t('pnl.pnlInvalid'));
+      return;
+    }
+    const status: BetStatus = v > 0 ? 'won' : v < 0 ? 'lost' : 'void';
+    const okk = await adminPost({ id: s.id, patch: { pnl: v, status } });
+    if (okk) setEditId(null);
+  }
 
   // 排行榜:净盈亏降序,平手按注数;无下注者沉底
   const sortedUsers = [...perUser].sort(
@@ -699,6 +713,16 @@ export default function PnlPage() {
                       >
                         {t('pnl.setVoid')}
                       </button>
+                      <button
+                        onClick={() => {
+                          setEditId(editId === s.id ? null : s.id);
+                          setEditPnl(s.pnl != null ? String(s.pnl) : '');
+                        }}
+                        disabled={busy}
+                        className="rounded-lg bg-brand-50 px-2 py-1 text-xs text-brand-600 active:scale-95 disabled:opacity-50 dark:bg-brand-500/15 dark:text-brand-400"
+                      >
+                        ✏️ {t('pnl.editPnl')}
+                      </button>
                       {s.imageRef && (
                         <a
                           href={`/api/worldcup/bet-image?file=${encodeURIComponent(
@@ -711,6 +735,37 @@ export default function PnlPage() {
                           <MdImage className="text-sm" />
                           {t('pnl.viewImage')}
                         </a>
+                      )}
+                      {editId === s.id && (
+                        <div className="mt-1 flex w-full flex-wrap items-center gap-2 border-t border-gray-100 pt-2 dark:border-white/5">
+                          <input
+                            type="number"
+                            inputMode="decimal"
+                            value={editPnl}
+                            onChange={(e) => setEditPnl(e.target.value)}
+                            onKeyDown={(e) =>
+                              e.key === 'Enter' && saveManualPnl(s)
+                            }
+                            placeholder={t('pnl.pnlPlaceholder')}
+                            className="w-28 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                          />
+                          <button
+                            onClick={() => void saveManualPnl(s)}
+                            disabled={busy || editPnl.trim() === ''}
+                            className="rounded-lg bg-brand-500 px-3 py-1 text-xs text-white active:scale-95 disabled:opacity-50"
+                          >
+                            {t('pnl.save')}
+                          </button>
+                          <button
+                            onClick={() => setEditId(null)}
+                            className="rounded-lg bg-gray-200 px-3 py-1 text-xs text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
+                          >
+                            {t('pnl.cancel')}
+                          </button>
+                          <span className="w-full text-[11px] text-gray-400">
+                            {t('pnl.pnlHint')}
+                          </span>
+                        </div>
                       )}
                     </div>
                   )}
