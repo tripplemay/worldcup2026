@@ -42,6 +42,8 @@ import type { LeagueBacktestResult } from 'lib/predict/leagueBacktest';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
+import type { Bettor, BetSlip } from 'lib/bets/types';
+import type { BettorPnl } from 'lib/bets/bets';
 
 interface TierStat {
   n: number;
@@ -500,6 +502,26 @@ export function useTrade() {
     trades: data?.trades ?? [],
     error,
     isLoading,
+  };
+}
+
+/** Phase 9 盈亏台:各投注人盈亏总览 + 注单明细 + 名册。 */
+export function usePnl() {
+  const { data, error, isLoading, mutate } = useSWR<{
+    bettors: Bettor[];
+    slips: BetSlip[];
+    perUser: BettorPnl[];
+  }>('/api/worldcup/pnl', fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
+  return {
+    bettors: data?.bettors ?? [],
+    slips: data?.slips ?? [],
+    perUser: data?.perUser ?? [],
+    error,
+    isLoading,
+    mutate,
   };
 }
 

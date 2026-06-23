@@ -4,6 +4,7 @@
  * 可选 ?window=N 临时放宽下注窗口(分钟),用于手动补单/测试(仍只下未开赛的比赛)。
  */
 import { runSettlement } from 'lib/trade/settle';
+import { settlePendingBets } from 'lib/bets/run';
 import { runPreMatchBetting } from 'lib/trade/prematch';
 import {
   snapshotPredictions,
@@ -28,6 +29,7 @@ export async function POST(req: Request) {
   try {
     const w = Number(new URL(req.url).searchParams.get('window'));
     const settled = await runSettlement();
+    const betsSettled = await settlePendingBets(); // Phase 9:他平台注单赛后结算
     const betting = await runPreMatchBetting(
       Number.isFinite(w) && w > 0 ? { windowMin: w } : undefined,
     );
@@ -37,6 +39,7 @@ export async function POST(req: Request) {
     const snapped = await snapshotPredictions();
     return ok({
       settled,
+      betsSettled,
       betting,
       predictionLog: { backfilled, logSettled, snapped },
     });

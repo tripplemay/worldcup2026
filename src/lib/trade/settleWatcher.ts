@@ -8,8 +8,9 @@
  * ESPN 探测免费;结算幂等+互斥;每日 engine cron + 15min cron 仍兜底。
  */
 import { espnProvider } from 'lib/espn/espn';
-import { loadTrades } from 'lib/db/store';
+import { loadTrades, loadBets } from 'lib/db/store';
 import { runSettlement } from './settle';
+import { settlePendingBets } from 'lib/bets/run';
 import { settlePredictionLog } from 'lib/predict/predictionLog';
 import { ingestHistory } from 'lib/predict/history';
 import { recomputeRatings } from 'lib/predict/ratings';
@@ -83,9 +84,23 @@ async function tick(): Promise<number> {
 
   // ② 结算:有未结算注的比赛已 FT
   const pending = loadTrades().filter((t) => t.status === 'pending');
-  if (pending.length && pending.some((p) => statusOf.get(p.matchId) === 'post')) {
+  if (
+    pending.length &&
+    pending.some((p) => statusOf.get(p.matchId) === 'post')
+  ) {
     await runSettlement();
     await settlePredictionLog();
+  }
+
+  // ②b Phase 9:他平台注单结算(赛果跨 WC + 联赛;ESPN 探测免费,失败不阻塞守望者)
+  if (
+    loadBets().some((b) => b.status === 'pending' || b.status === 'unmatched')
+  ) {
+    try {
+      await settlePendingBets();
+    } catch (e) {
+      console.error('[settleWatcher] 注单结算失败', e);
+    }
   }
 
   // ③ 自适应节奏
@@ -93,7 +108,8 @@ async function tick(): Promise<number> {
   const remaining = loadTrades()
     .filter((t) => t.status === 'pending')
     .map((p) => statusOf.get(p.matchId));
-  if (anyLive || remaining.some((s) => s === 'in' || s === 'post')) return LIVE_MS;
+  if (anyLive || remaining.some((s) => s === 'in' || s === 'post'))
+    return LIVE_MS;
   if (remaining.some((s) => s === 'pre')) return PRE_MS;
   return IDLE_MS;
 }

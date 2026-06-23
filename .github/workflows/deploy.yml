@@ -66,7 +66,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY,TG_BOT_TOKEN,TG_ADMIN_CHAT_ID,TG_WEBHOOK_SECRET
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -133,6 +133,12 @@ jobs:
             export AIGC_API_KEY="${AIGC_API_KEY}"
             export AIGC_BASE="https://aigc.guangai.ai/v1"
             export INTEL_LLM_MODEL="qwen3.5-flash"
+            # Phase 9 投注单识别(Telegram bot + 视觉 LLM);未设 TG_* 则 webhook 禁用
+            export TG_BOT_TOKEN="${TG_BOT_TOKEN}"
+            export TG_ADMIN_CHAT_ID="${TG_ADMIN_CHAT_ID}"
+            export TG_WEBHOOK_SECRET="${TG_WEBHOOK_SECRET}"
+            # 视觉识别模型缺省沿用 INTEL_LLM_MODEL;如需单独覆盖再设 BETS_VISION_MODEL
+            # 预置投注人名册(逗号分隔;名册为空时首次写入):export BET_TRACKER_BETTORS="张三,李四"
             # 预测数据源:API-Football(付费 Pro);未设则历史摄取跳过
             export API_FOOTBALL_KEY="${API_FOOTBALL_KEY}"
             export API_FOOTBALL_BASE="https://v3.football.api-sports.io"
@@ -149,6 +155,14 @@ jobs:
             pm2 start server.js --name worldcup --update-env
             pm2 save
             rm -rf "${APP_DIR}.old"
+
+            # ── Phase 9:注册 Telegram webhook(幂等;未配 TG_* 则跳过)──
+            if [ -n "${TG_BOT_TOKEN}" ] && [ -n "${TG_WEBHOOK_SECRET}" ]; then
+              curl -s --max-time 20 "https://api.telegram.org/bot${TG_BOT_TOKEN}/setWebhook" \
+                -d "url=https://${DOMAIN}/api/tg/webhook" \
+                -d "secret_token=${TG_WEBHOOK_SECRET}" \
+                -d 'allowed_updates=["message","callback_query"]' >/dev/null 2>&1 || true
+            fi
 
             # ── 预测引擎:首次播种评分 + 每日刷新 cron(纯 ESPN,免费)──
             if [ -n "${ADMIN_TOKEN}" ]; then
@@ -178,3 +192,6 @@ jobs:
           ADMIN_TOKEN: ${{ secrets.ADMIN_TOKEN }}
           AIGC_API_KEY: ${{ secrets.AIGC_API_KEY }}
           API_FOOTBALL_KEY: ${{ secrets.API_FOOTBALL_KEY }}
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
+          TG_ADMIN_CHAT_ID: ${{ secrets.TG_ADMIN_CHAT_ID }}
+          TG_WEBHOOK_SECRET: ${{ secrets.TG_WEBHOOK_SECRET }}
