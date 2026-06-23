@@ -11,7 +11,10 @@ import { outcome } from 'lib/trade/settle';
 import type { Trade, MarketType } from 'lib/trade/types';
 import type { BetLeg, LegResult, BetStatus } from './types';
 
-/** 结算引擎支持的 6 个盘口码;其余(波胆/半场/角球等)不臆断 → 转人工。 */
+/**
+ * 自动结算支持的盘口码。CS=全场波胆,CS1H/CS2H=上/下半场波胆(需进球事件算半场比分)。
+ * 其余(角球/罚牌/球员/特色等)不臆断 → 转人工。
+ */
 export const VALID_MARKETS: readonly string[] = [
   '1X2',
   'OU',
@@ -19,7 +22,27 @@ export const VALID_MARKETS: readonly string[] = [
   'BTTS',
   'DC',
   'DNB',
+  'CS',
+  'CS1H',
+  'CS2H',
 ];
+
+/** 解析比分选项 "2-0"/"2:0"/"2 - 0" → {h,a};无法解析返回 null。 */
+function parseScore(sel: string): { h: number; a: number } | null {
+  const m = /^\s*(\d+)\s*[-:比]\s*(\d+)\s*$/.exec(sel ?? '');
+  return m ? { h: Number(m[1]), a: Number(m[2]) } : null;
+}
+
+/** 波胆(正确比分)判定:下注比分 === 实际比分 → won,否则 lost;比分无法解析 → null(转人工)。 */
+function judgeCorrectScore(
+  selection: string,
+  scoreH: number,
+  scoreA: number,
+): 'won' | 'lost' | null {
+  const bet = parseScore(selection);
+  if (!bet) return null;
+  return bet.h === scoreH && bet.a === scoreA ? 'won' : 'lost';
+}
 
 /** 调用基础盘口判定:只读 market/selection/line,返回 won/lost/void。 */
 function baseOutcome(
@@ -53,9 +76,21 @@ export function judgeLeg(
   line: number | undefined,
   gf: number,
   ga: number,
+  ht?: { h: number; a: number }, // 上半场比分(注单主客视角);CS1H/CS2H 需要
 ): LegResult {
-  // 不支持的盘口(波胆/半场/角球等):不臆断 → 标 unsupported,转人工
+  // 不支持的盘口(角球/罚牌/球员/特色等):不臆断 → 转人工
   if (!VALID_MARKETS.includes(market)) return 'unsupported';
+  // 波胆(正确比分):全场用 90' 比分;上/下半场需半场比分(事件齐全才有,否则转人工)
+  if (market === 'CS')
+    return judgeCorrectScore(selection, gf, ga) ?? 'unsupported';
+  if (market === 'CS1H') {
+    if (!ht) return 'unsupported';
+    return judgeCorrectScore(selection, ht.h, ht.a) ?? 'unsupported';
+  }
+  if (market === 'CS2H') {
+    if (!ht) return 'unsupported';
+    return judgeCorrectScore(selection, gf - ht.h, ga - ht.a) ?? 'unsupported';
+  }
   if (market === 'AH' && isQuarterLine(line)) {
     const base = line as number;
     const lowHalf = base - 0.25;
