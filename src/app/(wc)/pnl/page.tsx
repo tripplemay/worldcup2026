@@ -13,7 +13,6 @@ import {
   MdRemoveCircleOutline,
   MdHelpOutline,
   MdSchedule,
-  MdImage,
   MdRefresh,
   MdLock,
 } from 'react-icons/md';
@@ -43,18 +42,21 @@ function statusMeta(t: T, status: BetStatus) {
       return {
         label: t('pnl.stWon'),
         cls: 'bg-green-500/15 text-green-600 dark:text-green-400',
+        bar: 'border-green-500',
         Icon: MdCheckCircle,
       };
     case 'lost':
       return {
         label: t('pnl.stLost'),
         cls: 'bg-red-500/15 text-red-500 dark:text-red-400',
+        bar: 'border-red-500',
         Icon: MdCancel,
       };
     case 'void':
       return {
         label: t('pnl.stVoid'),
         cls: 'bg-gray-400/15 text-gray-500 dark:text-gray-400',
+        bar: 'border-gray-400',
         Icon: MdRemoveCircleOutline,
       };
     case 'unmatched':
@@ -63,12 +65,14 @@ function statusMeta(t: T, status: BetStatus) {
         label:
           status === 'unmatched' ? t('pnl.stUnmatched') : t('pnl.stReview'),
         cls: 'bg-amber-500/15 text-amber-600 dark:text-amber-400',
+        bar: 'border-amber-500',
         Icon: MdHelpOutline,
       };
     default:
       return {
         label: t('pnl.stPending'),
         cls: 'bg-blue-500/15 text-blue-600 dark:text-blue-400',
+        bar: 'border-blue-500',
         Icon: MdSchedule,
       };
   }
@@ -137,8 +141,9 @@ export default function PnlPage() {
   const [newBettor, setNewBettor] = useState('');
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
-  const [editId, setEditId] = useState<string | null>(null); // 正在手改盈亏的注单
+  const [editId, setEditId] = useState<string | null>(null); // 展开编辑面板的注单
   const [editPnl, setEditPnl] = useState('');
+  const [mgmtOpen, setMgmtOpen] = useState(false); // 顶部管理区折叠(默认收起)
   const [viewPw, setViewPw] = useState('');
   const [viewMsg, setViewMsg] = useState('');
   const [viewBusy, setViewBusy] = useState(false);
@@ -189,8 +194,6 @@ export default function PnlPage() {
   }
 
   // 已过浏览密码即可管理(写接口按浏览 cookie 鉴权,无需再输管理口令)
-  const admin = true;
-
   async function adminPost(body: Record<string, unknown>): Promise<boolean> {
     setBusy(true);
     setMsg('');
@@ -503,64 +506,76 @@ export default function PnlPage() {
               {t('common.loadFailed')}
             </div>
           )}
-          <Card extra="p-3">
-            <div className="space-y-2 text-xs">
-              <div className="flex items-center justify-between gap-2">
-                <span className="text-gray-500 dark:text-gray-400">
-                  {t('pnl.admin')}
-                </span>
-                <button
-                  onClick={() => void adminPost({ action: 'resettle' })}
-                  disabled={busy}
-                  className="rounded-lg bg-brand-500 px-2.5 py-1 text-white active:scale-95 disabled:opacity-50"
-                >
-                  {t('pnl.resettle')}
-                </button>
-              </div>
-              <div className="flex gap-2">
-                <input
-                  type="text"
-                  value={newBettor}
-                  onChange={(e) => setNewBettor(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && addBettorByName()}
-                  placeholder={t('pnl.bettorNamePh')}
-                  className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
-                />
-                <button
-                  onClick={addBettorByName}
-                  disabled={busy || !newBettor.trim()}
-                  className="rounded-lg bg-brand-500 px-3 py-1.5 text-white active:scale-95 disabled:opacity-50"
-                >
-                  {t('pnl.addBettor')}
-                </button>
-              </div>
-              {bettors.length > 0 && (
-                <div className="flex flex-wrap gap-1.5 pt-0.5">
-                  {bettors.map((b) => (
-                    <span
-                      key={b.id}
-                      className="flex items-center gap-1 rounded-full bg-lightPrimary px-2 py-0.5 text-[11px] text-navy-700 dark:bg-navy-700 dark:text-gray-200"
-                    >
-                      {b.name}
-                      <button
-                        onClick={() => removeBettorById(b.id)}
-                        disabled={busy}
-                        aria-label="remove"
-                        className="text-gray-400 active:scale-90 disabled:opacity-50"
-                      >
-                        ✕
-                      </button>
-                    </span>
-                  ))}
+          {/* 管理区:默认收起,点开加人 / 重结算 / 名册 */}
+          <button
+            onClick={() => setMgmtOpen((v) => !v)}
+            className="flex w-full items-center justify-between rounded-lg bg-white px-3 py-2 text-xs text-gray-500 shadow-sm active:scale-[0.99] dark:bg-navy-800 dark:text-gray-400"
+          >
+            <span>⚙️ {t('pnl.manage')}</span>
+            <span>{mgmtOpen ? '▴' : '▾'}</span>
+          </button>
+          {mgmtOpen && (
+            <Card extra="p-3">
+              <div className="space-y-2 text-xs">
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-gray-500 dark:text-gray-400">
+                    {t('pnl.admin')}
+                  </span>
+                  <button
+                    onClick={() => void adminPost({ action: 'resettle' })}
+                    disabled={busy}
+                    className="rounded-lg bg-brand-500 px-2.5 py-1 text-white active:scale-95 disabled:opacity-50"
+                  >
+                    {t('pnl.resettle')}
+                  </button>
                 </div>
-              )}
-            </div>
-            {msg && (
-              <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">
-                {msg}
+                <div className="flex gap-2">
+                  <input
+                    type="text"
+                    value={newBettor}
+                    onChange={(e) => setNewBettor(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && addBettorByName()}
+                    placeholder={t('pnl.bettorNamePh')}
+                    className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                  />
+                  <button
+                    onClick={addBettorByName}
+                    disabled={busy || !newBettor.trim()}
+                    className="rounded-lg bg-brand-500 px-3 py-1.5 text-white active:scale-95 disabled:opacity-50"
+                  >
+                    {t('pnl.addBettor')}
+                  </button>
+                </div>
+                {bettors.length > 0 && (
+                  <div className="flex flex-wrap gap-1.5 pt-0.5">
+                    {bettors.map((b) => (
+                      <span
+                        key={b.id}
+                        className="flex items-center gap-1 rounded-full bg-lightPrimary px-2 py-0.5 text-[11px] text-navy-700 dark:bg-navy-700 dark:text-gray-200"
+                      >
+                        {b.name}
+                        <button
+                          onClick={() => removeBettorById(b.id)}
+                          disabled={busy}
+                          aria-label="remove"
+                          className="text-gray-400 active:scale-90 disabled:opacity-50"
+                        >
+                          ✕
+                        </button>
+                      </span>
+                    ))}
+                  </div>
+                )}
               </div>
-            )}
-          </Card>
+            </Card>
+          )}
+
+          {/* 操作反馈(管理区折叠时也可见)*/}
+          {msg && (
+            <div className="text-center text-xs text-gray-600 dark:text-gray-300">
+              {msg}
+            </div>
+          )}
 
           {/* 投注人筛选 */}
           <div className="flex flex-wrap gap-2">
@@ -598,7 +613,7 @@ export default function PnlPage() {
             visibleSlips.map((s) => {
               const sm = statusMeta(t, s.status);
               return (
-                <Card key={s.id} extra="p-4">
+                <Card key={s.id} extra={`border-l-4 p-4 ${sm.bar}`}>
                   <div className="mb-2 flex items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
                       <span
@@ -621,10 +636,16 @@ export default function PnlPage() {
                   <div className="space-y-1">
                     {s.legs.map((leg, i) => {
                       const mk = legResultMark(leg.result);
+                      const tint =
+                        leg.result === 'won' || leg.result === 'half_won'
+                          ? 'bg-green-500/5'
+                          : leg.result === 'lost' || leg.result === 'half_lost'
+                          ? 'bg-red-500/5'
+                          : '';
                       return (
                         <div
                           key={i}
-                          className="flex items-center justify-between gap-2 text-xs"
+                          className={`flex items-center justify-between gap-2 rounded px-1.5 py-1 text-xs ${tint}`}
                         >
                           <div className="min-w-0 flex-1 truncate text-navy-700 dark:text-gray-200">
                             {leg.homeName} vs {leg.awayName}
@@ -652,11 +673,15 @@ export default function PnlPage() {
                     <div className="text-[11px] text-gray-500 dark:text-gray-400">
                       {t('pnl.staked')} {s.currency ? `${s.currency} ` : ''}
                       {money(s.stake)} · {t('pnl.payout')}{' '}
-                      {money(s.potentialReturn)} · {t('pnl.conf')}{' '}
-                      {Math.round(s.confidence * 100)}%
+                      {money(s.potentialReturn)}
+                      {s.status === 'needs_review' || s.confidence < 0.6
+                        ? ` · ${t('pnl.conf')} ${Math.round(
+                            s.confidence * 100,
+                          )}%`
+                        : ''}
                     </div>
                     <div
-                      className={`font-mono text-base font-bold ${posCls(
+                      className={`font-mono text-xl font-extrabold ${posCls(
                         s.pnl ?? 0,
                       )}`}
                     >
@@ -670,59 +695,98 @@ export default function PnlPage() {
                     </div>
                   )}
 
-                  {admin && (
-                    <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-2 dark:border-white/5">
-                      <select
-                        value={s.bettorId ?? ''}
-                        onChange={(e) => {
-                          if (!e.target.value) return;
-                          void adminPost({
-                            id: s.id,
-                            action: 'assign',
-                            bettorId: e.target.value,
-                          });
-                        }}
-                        disabled={busy}
-                        className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 dark:border-white/10 dark:bg-navy-900 dark:text-white"
-                      >
-                        <option value="">{t('pnl.reassign')}…</option>
-                        {bettors.map((b) => (
-                          <option key={b.id} value={b.id}>
-                            {b.name}
-                          </option>
-                        ))}
-                      </select>
-                      <button
-                        onClick={() => setOutcome(s, 'won')}
-                        disabled={busy}
-                        className="rounded-lg bg-green-500/15 px-2 py-1 text-xs text-green-700 active:scale-95 disabled:opacity-50 dark:text-green-400"
-                      >
-                        {t('pnl.setWon')}
-                      </button>
-                      <button
-                        onClick={() => setOutcome(s, 'lost')}
-                        disabled={busy}
-                        className="rounded-lg bg-red-500/15 px-2 py-1 text-xs text-red-600 active:scale-95 disabled:opacity-50 dark:text-red-400"
-                      >
-                        {t('pnl.setLost')}
-                      </button>
-                      <button
-                        onClick={() => setOutcome(s, 'void')}
-                        disabled={busy}
-                        className="rounded-lg bg-gray-200 px-2 py-1 text-xs text-gray-600 active:scale-95 disabled:opacity-50 dark:bg-navy-700 dark:text-gray-300"
-                      >
-                        {t('pnl.setVoid')}
-                      </button>
-                      <button
-                        onClick={() => {
-                          setEditId(editId === s.id ? null : s.id);
+                  {/* 编辑开关:默认只读,点开才显操作 */}
+                  <div className="mt-2 flex justify-end">
+                    <button
+                      onClick={() => {
+                        const open = editId === s.id;
+                        setEditId(open ? null : s.id);
+                        if (!open)
                           setEditPnl(s.pnl != null ? String(s.pnl) : '');
-                        }}
-                        disabled={busy}
-                        className="rounded-lg bg-brand-50 px-2 py-1 text-xs text-brand-600 active:scale-95 disabled:opacity-50 dark:bg-brand-500/15 dark:text-brand-400"
-                      >
-                        ✏️ {t('pnl.editPnl')}
-                      </button>
+                      }}
+                      className="rounded-lg px-2 py-1 text-xs text-gray-500 active:scale-95 dark:text-gray-400"
+                    >
+                      {editId === s.id
+                        ? `▴ ${t('pnl.collapse')}`
+                        : `✏️ ${t('pnl.edit')}`}
+                    </button>
+                  </div>
+
+                  {/* 编辑面板 */}
+                  {editId === s.id && (
+                    <div className="mt-1 space-y-2 border-t border-gray-100 pt-2 dark:border-white/5">
+                      {/* 归属 + 判定 */}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <select
+                          value={s.bettorId ?? ''}
+                          onChange={(e) => {
+                            if (!e.target.value) return;
+                            void adminPost({
+                              id: s.id,
+                              action: 'assign',
+                              bettorId: e.target.value,
+                            });
+                          }}
+                          disabled={busy}
+                          className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                        >
+                          <option value="">{t('pnl.reassign')}…</option>
+                          {bettors.map((b) => (
+                            <option key={b.id} value={b.id}>
+                              {b.name}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          onClick={() => setOutcome(s, 'won')}
+                          disabled={busy}
+                          className="rounded-lg bg-green-500/15 px-2 py-1 text-xs text-green-700 active:scale-95 disabled:opacity-50 dark:text-green-400"
+                        >
+                          {t('pnl.setWon')}
+                        </button>
+                        <button
+                          onClick={() => setOutcome(s, 'lost')}
+                          disabled={busy}
+                          className="rounded-lg bg-red-500/15 px-2 py-1 text-xs text-red-600 active:scale-95 disabled:opacity-50 dark:text-red-400"
+                        >
+                          {t('pnl.setLost')}
+                        </button>
+                        <button
+                          onClick={() => setOutcome(s, 'void')}
+                          disabled={busy}
+                          className="rounded-lg bg-gray-200 px-2 py-1 text-xs text-gray-600 active:scale-95 disabled:opacity-50 dark:bg-navy-700 dark:text-gray-300"
+                        >
+                          {t('pnl.setVoid')}
+                        </button>
+                      </div>
+                      {/* 实际盈亏(各平台串关规则不同时手填)*/}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="text-[11px] text-gray-400">
+                          {t('pnl.editPnl')}
+                        </span>
+                        <input
+                          type="number"
+                          inputMode="decimal"
+                          value={editPnl}
+                          onChange={(e) => setEditPnl(e.target.value)}
+                          onKeyDown={(e) =>
+                            e.key === 'Enter' && saveManualPnl(s)
+                          }
+                          placeholder={t('pnl.pnlPlaceholder')}
+                          className="w-28 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                        />
+                        <button
+                          onClick={() => void saveManualPnl(s)}
+                          disabled={busy || editPnl.trim() === ''}
+                          className="rounded-lg bg-brand-500 px-3 py-1 text-xs text-white active:scale-95 disabled:opacity-50"
+                        >
+                          {t('pnl.save')}
+                        </button>
+                        <span className="w-full text-[11px] text-gray-400">
+                          {t('pnl.pnlHint')}
+                        </span>
+                      </div>
+                      {/* 原图缩略图(点击放大)*/}
                       {s.imageRef && (
                         <a
                           href={`/api/worldcup/bet-image?file=${encodeURIComponent(
@@ -730,42 +794,17 @@ export default function PnlPage() {
                           )}`}
                           target="_blank"
                           rel="noreferrer"
-                          className="ml-auto flex items-center gap-0.5 text-xs text-brand-500 dark:text-brand-400"
+                          className="inline-block"
                         >
-                          <MdImage className="text-sm" />
-                          {t('pnl.viewImage')}
-                        </a>
-                      )}
-                      {editId === s.id && (
-                        <div className="mt-1 flex w-full flex-wrap items-center gap-2 border-t border-gray-100 pt-2 dark:border-white/5">
-                          <input
-                            type="number"
-                            inputMode="decimal"
-                            value={editPnl}
-                            onChange={(e) => setEditPnl(e.target.value)}
-                            onKeyDown={(e) =>
-                              e.key === 'Enter' && saveManualPnl(s)
-                            }
-                            placeholder={t('pnl.pnlPlaceholder')}
-                            className="w-28 rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={`/api/worldcup/bet-image?file=${encodeURIComponent(
+                              s.imageRef,
+                            )}`}
+                            alt={t('pnl.viewImage')}
+                            className="h-16 w-auto rounded-lg border border-gray-200 object-cover dark:border-white/10"
                           />
-                          <button
-                            onClick={() => void saveManualPnl(s)}
-                            disabled={busy || editPnl.trim() === ''}
-                            className="rounded-lg bg-brand-500 px-3 py-1 text-xs text-white active:scale-95 disabled:opacity-50"
-                          >
-                            {t('pnl.save')}
-                          </button>
-                          <button
-                            onClick={() => setEditId(null)}
-                            className="rounded-lg bg-gray-200 px-3 py-1 text-xs text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
-                          >
-                            {t('pnl.cancel')}
-                          </button>
-                          <span className="w-full text-[11px] text-gray-400">
-                            {t('pnl.pnlHint')}
-                          </span>
-                        </div>
+                        </a>
                       )}
                     </div>
                   )}
