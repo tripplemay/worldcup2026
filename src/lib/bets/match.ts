@@ -115,7 +115,9 @@ interface SummaryScore {
   awayGoals?: number;
   homeNorm?: string;
 }
-async function resolveViaSummary(eventId: string): Promise<SummaryScore | null> {
+async function resolveViaSummary(
+  eventId: string,
+): Promise<SummaryScore | null> {
   try {
     const s = await espnProvider.getMatchSummary(eventId);
     if (!s) return null;
@@ -198,39 +200,42 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
     );
   }
 
-  // 3) WC 存档未命中:在 matchDate ±1 天窗口里查 ESPN 赛程
-  if (leg.matchDate && legHome && legAway) {
+  // 3) WC 存档未命中:查 ESPN 赛程(有日期用 ±1 天窗口;无日期用整届 WC 范围,
+  //    确保「已完赛但尚未摄取进 results.json」或缺开赛日的腿也能从权威赛程解析)
+  if (legHome && legAway) {
     try {
       const dayMs = 86_400_000;
-      const t = new Date(leg.matchDate).getTime();
+      const t = leg.matchDate ? new Date(leg.matchDate).getTime() : NaN;
+      let dates: string;
       if (!Number.isNaN(t)) {
         const from = compactDay(new Date(t - dayMs).toISOString());
         const to = compactDay(new Date(t + dayMs).toISOString());
-        if (from && to) {
-          const board = await espnProvider.getScoreboard(`${from}-${to}`);
-          const fixture = board.find((m) => {
-            const h = normalizeTeam(m.homeTeam);
-            const a = normalizeTeam(m.awayTeam);
-            return (
-              (h === legHome && a === legAway) ||
-              (h === legAway && a === legHome)
+        dates = `${from}-${to}`;
+      } else {
+        const season = process.env.WC_SEASON ?? '2026';
+        dates = `${season}0611-${season}0719`; // 整届世界杯范围
+      }
+      const board = await espnProvider.getScoreboard(dates);
+      const fixture = board.find((m) => {
+        const h = normalizeTeam(m.homeTeam);
+        const a = normalizeTeam(m.awayTeam);
+        return (
+          (h === legHome && a === legAway) || (h === legAway && a === legHome)
+        );
+      });
+      if (fixture) {
+        if (fixture.status === 'post') {
+          const via = await resolveViaSummary(fixture.id);
+          if (via?.status === 'matched')
+            return matchedFrom(
+              via.matchId as string,
+              via.homeNorm as string,
+              via.homeGoals as number,
+              via.awayGoals as number,
             );
-          });
-          if (fixture) {
-            if (fixture.status === 'post') {
-              const via = await resolveViaSummary(fixture.id);
-              if (via?.status === 'matched')
-                return matchedFrom(
-                  via.matchId as string,
-                  via.homeNorm as string,
-                  via.homeGoals as number,
-                  via.awayGoals as number,
-                );
-              return { status: 'pending' }; // ESPN 详情暂失败:下轮重试
-            }
-            return { status: 'pending' }; // 尚未完赛
-          }
+          return { status: 'pending' }; // ESPN 详情暂失败:下轮重试
         }
+        return { status: 'pending' }; // 尚未完赛
       }
     } catch {
       return { status: 'pending' }; // 网络失败:下轮重试,不误判
@@ -246,7 +251,12 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
       leg.matchDate,
     );
     if (hit)
-      return matchedFrom(hit.eventId, hit.homeNorm, hit.homeGoals, hit.awayGoals);
+      return matchedFrom(
+        hit.eventId,
+        hit.homeNorm,
+        hit.homeGoals,
+        hit.awayGoals,
+      );
   }
 
   // 5) 全部落空:待人工绑定
