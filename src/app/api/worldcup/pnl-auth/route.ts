@@ -14,7 +14,8 @@ export async function POST(req: Request) {
     if (!password || !checkViewPassword(password))
       return fail('浏览密码错误', 401);
     const res = NextResponse.json({ success: true, data: { ok: true } });
-    res.cookies.set(PNL_COOKIE, encodeURIComponent(password), {
+    // 直接存原值:Next 的 cookies.set 会自行 URL 编码传输,读取侧再 decode(切勿预编码,否则双重编码)
+    res.cookies.set(PNL_COOKIE, password, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
