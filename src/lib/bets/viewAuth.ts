@@ -25,8 +25,10 @@ export function isViewAuthed(req: Request): boolean {
   const cookie = req.headers.get('cookie') ?? '';
   const m = new RegExp(`(?:^|;\\s*)${PNL_COOKIE}=([^;]+)`).exec(cookie);
   if (!m) return false;
+  const v = m[1];
+  if (v === exp) return true; // 原值
   try {
-    return decodeURIComponent(m[1]) === exp;
+    return decodeURIComponent(v) === exp; // 反解 Next 传输编码
   } catch {
     return false;
   }
