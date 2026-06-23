@@ -4,11 +4,12 @@
  * 落在 WC_DATA_DIR(默认本地 .data/,生产 /opt/apps/worldcup-data/,部署不丢)。
  * 日后若快照量大或需复杂查询,可平滑升级 SQLite。
  */
-import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'fs';
 import { join } from 'path';
 import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
+import type { Bettor, BetSlip } from 'lib/bets/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const PREDICT_DIR = join(DATA_DIR, 'predict');
@@ -24,7 +25,11 @@ function readJson<T>(file: string, fallback: T): T {
 function writeJson(file: string, data: unknown): void {
   try {
     mkdirSync(PREDICT_DIR, { recursive: true });
-    writeFileSync(join(PREDICT_DIR, file), JSON.stringify(data, null, 2));
+    // 原子写:先写临时文件再 rename(同盘 rename 原子),避免半截写入/并发交错损坏
+    const target = join(PREDICT_DIR, file);
+    const tmp = `${target}.tmp`;
+    writeFileSync(tmp, JSON.stringify(data, null, 2));
+    renameSync(tmp, target);
   } catch (e) {
     // 写失败不抛(避免阻断请求);记录到 stderr
     console.error('[store] 写入失败', file, e);
@@ -310,4 +315,20 @@ export function loadIntel(): IntelMap {
 }
 export function saveIntel(map: IntelMap): void {
   writeJson('intel.json', map);
+}
+
+// ── 跟单人名册(Phase 9:可下注人,Telegram 按钮归属用)──────
+export function loadBettors(): Bettor[] {
+  return readJson<Bettor[]>('bettors.json', []);
+}
+export function saveBettors(list: Bettor[]): void {
+  writeJson('bettors.json', list);
+}
+
+// ── 他平台注单(Phase 9:截图识别 + 赛后自动结算)──────────
+export function loadBets(): BetSlip[] {
+  return readJson<BetSlip[]>('bets.json', []);
+}
+export function saveBets(list: BetSlip[]): void {
+  writeJson('bets.json', list);
 }

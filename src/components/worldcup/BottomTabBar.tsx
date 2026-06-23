@@ -11,6 +11,7 @@ import {
   MdAccountBalanceWallet,
   MdGpsFixed,
   MdBolt,
+  MdSavings,
 } from 'react-icons/md';
 import type { IconType } from 'react-icons';
 import { useT } from 'lib/i18n/context';
@@ -103,6 +104,7 @@ export default function BottomTabBar() {
       badge: true,
     },
     { href: '/radar', label: t('nav.radar'), Icon: MdBolt, radar: true },
+    { href: '/pnl', label: t('nav.pnl'), Icon: MdSavings },
   ];
   return (
     <nav className="fixed inset-x-0 bottom-0 z-40 border-t border-gray-200 bg-white/95 pb-[env(safe-area-inset-bottom)] backdrop-blur dark:border-white/10 dark:bg-navy-800/95">
