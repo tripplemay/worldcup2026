@@ -161,6 +161,8 @@ export default function PnlPage() {
   const [editId, setEditId] = useState<string | null>(null); // 展开编辑面板的注单
   const [editPnl, setEditPnl] = useState('');
   const [mgmtOpen, setMgmtOpen] = useState(false); // 顶部管理区折叠(默认收起)
+  const [clearConfirm, setClearConfirm] = useState(false); // 清空全部二次确认
+  const [delConfirmId, setDelConfirmId] = useState<string | null>(null); // 单删二次确认
   const [viewPw, setViewPw] = useState('');
   const [viewMsg, setViewMsg] = useState('');
   const [viewBusy, setViewBusy] = useState(false);
@@ -311,6 +313,34 @@ export default function PnlPage() {
     const status: BetStatus = v > 0 ? 'won' : v < 0 ? 'lost' : 'void';
     const okk = await adminPost({ id: s.id, patch: { pnl: v, status } });
     if (okk) setEditId(null);
+  }
+
+  /** 删除单张注单 / 清空全部。 */
+  async function delBets(query: string) {
+    if (busy) return;
+    setBusy(true);
+    setMsg('');
+    try {
+      const res = await fetch(`/api/worldcup/bets?${query}`, {
+        method: 'DELETE',
+      });
+      if (!res.ok) {
+        setMsg(
+          res.status === 401 || res.status === 403
+            ? t('pnl.viewWrong')
+            : t('common.loadFailed'),
+        );
+        return;
+      }
+      setMsg(t('pnl.saved'));
+      setEditId(null);
+      setClearConfirm(false);
+      await mutate();
+    } catch {
+      setMsg(t('common.loadFailed'));
+    } finally {
+      setBusy(false);
+    }
   }
 
   // 排行榜:净盈亏降序,平手按注数;无下注者沉底
@@ -583,6 +613,37 @@ export default function PnlPage() {
                     ))}
                   </div>
                 )}
+                {/* 危险操作:清空全部注单(二次确认)*/}
+                <div className="border-t border-gray-100 pt-2 dark:border-white/5">
+                  {clearConfirm ? (
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="text-[11px] text-red-500 dark:text-red-400">
+                        {t('pnl.confirmClear')}
+                      </span>
+                      <button
+                        onClick={() => void delBets('all=1')}
+                        disabled={busy}
+                        className="rounded-lg bg-red-500 px-3 py-1 text-white active:scale-95 disabled:opacity-50"
+                      >
+                        {t('pnl.confirm')}
+                      </button>
+                      <button
+                        onClick={() => setClearConfirm(false)}
+                        className="rounded-lg bg-gray-200 px-3 py-1 text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
+                      >
+                        {t('pnl.cancel')}
+                      </button>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={() => setClearConfirm(true)}
+                      disabled={busy || slips.length === 0}
+                      className="text-red-500 active:scale-95 disabled:opacity-40 dark:text-red-400"
+                    >
+                      🗑 {t('pnl.clearAll')}({slips.length})
+                    </button>
+                  )}
+                </div>
               </div>
             </Card>
           )}
@@ -831,6 +892,37 @@ export default function PnlPage() {
                           />
                         </a>
                       )}
+                      {/* 删除此单(二次确认)*/}
+                      <div className="flex items-center justify-end border-t border-gray-100 pt-2 dark:border-white/5">
+                        {delConfirmId === s.id ? (
+                          <div className="flex items-center gap-2">
+                            <span className="text-[11px] text-red-500 dark:text-red-400">
+                              {t('pnl.del')}?
+                            </span>
+                            <button
+                              onClick={() => void delBets(`id=${s.id}`)}
+                              disabled={busy}
+                              className="rounded-lg bg-red-500 px-3 py-1 text-xs text-white active:scale-95 disabled:opacity-50"
+                            >
+                              {t('pnl.confirm')}
+                            </button>
+                            <button
+                              onClick={() => setDelConfirmId(null)}
+                              className="rounded-lg bg-gray-200 px-3 py-1 text-xs text-gray-600 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
+                            >
+                              {t('pnl.cancel')}
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            onClick={() => setDelConfirmId(s.id)}
+                            disabled={busy}
+                            className="text-xs text-red-500 active:scale-95 disabled:opacity-50 dark:text-red-400"
+                          >
+                            🗑 {t('pnl.del')}
+                          </button>
+                        )}
+                      </div>
                     </div>
                   )}
                 </Card>

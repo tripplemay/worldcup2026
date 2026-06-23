@@ -67,6 +67,10 @@ export const messages = {
       manage: '管理(投注人 / 重新结算)',
       edit: '编辑',
       collapse: '收起',
+      del: '删除',
+      clearAll: '清空全部注单',
+      confirmClear: '确认清空全部注单?不可恢复',
+      confirm: '确认',
     },
     signals: {
       title: '交易指令台',
@@ -596,6 +600,10 @@ export const messages = {
       manage: 'Manage (bettors / re-settle)',
       edit: 'Edit',
       collapse: 'Close',
+      del: 'Delete',
+      clearAll: 'Clear all slips',
+      confirmClear: 'Clear ALL slips? Irreversible',
+      confirm: 'Confirm',
     },
     signals: {
       title: 'Signal Desk',
