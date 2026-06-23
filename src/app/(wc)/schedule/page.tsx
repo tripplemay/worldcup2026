@@ -118,7 +118,7 @@ export default function SchedulePage() {
   return (
     <div>
       <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between pr-24">
           <PageHeading Icon={MdCalendarMonth}>
             {t('schedule.title')}
           </PageHeading>
