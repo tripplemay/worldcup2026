@@ -232,6 +232,32 @@ export default function PnlPage() {
     }
   }
 
+  async function removeBettorById(id: string) {
+    if (busy) return;
+    setBusy(true);
+    setMsg('');
+    try {
+      const res = await fetch(
+        `/api/worldcup/bettors?id=${encodeURIComponent(id)}`,
+        { method: 'DELETE' },
+      );
+      if (!res.ok) {
+        setMsg(
+          res.status === 401 || res.status === 403
+            ? t('pnl.viewWrong')
+            : t('common.loadFailed'),
+        );
+        return;
+      }
+      setMsg(t('pnl.saved'));
+      await mutate();
+    } catch {
+      setMsg(t('common.loadFailed'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   const setOutcome = (s: BetSlip, status: BetStatus) => {
     const pnl =
       status === 'won'
@@ -423,6 +449,26 @@ export default function PnlPage() {
                   {t('pnl.addBettor')}
                 </button>
               </div>
+              {bettors.length > 0 && (
+                <div className="flex flex-wrap gap-1.5 pt-0.5">
+                  {bettors.map((b) => (
+                    <span
+                      key={b.id}
+                      className="flex items-center gap-1 rounded-full bg-lightPrimary px-2 py-0.5 text-[11px] text-navy-700 dark:bg-navy-700 dark:text-gray-200"
+                    >
+                      {b.name}
+                      <button
+                        onClick={() => removeBettorById(b.id)}
+                        disabled={busy}
+                        aria-label="remove"
+                        className="text-gray-400 active:scale-90 disabled:opacity-50"
+                      >
+                        ✕
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
             {msg && (
               <div className="mt-2 text-xs text-gray-600 dark:text-gray-300">

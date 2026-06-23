@@ -17,7 +17,11 @@ export function seedBettorsFromEnv(): Bettor[] {
     .map((s) => s.trim())
     .filter(Boolean);
   if (!names.length) return cur;
-  const list = names.map((name) => ({ id: genId('bettor'), name, active: true }));
+  const list = names.map((name) => ({
+    id: genId('bettor'),
+    name,
+    active: true,
+  }));
   saveBettors(list);
   return list;
 }
@@ -42,6 +46,14 @@ export function addBettor(name: string): Bettor | null {
   const b: Bettor = { id: genId('bettor'), name: n, active: true };
   saveBettors([...list, b]);
   return b;
+}
+
+/** 移除投注人(其历史注单的 bettorId 变为悬空 → 盈亏归入「未归属」,可重指)。 */
+export function removeBettor(id: string): boolean {
+  const list = loadBettors();
+  if (!list.some((b) => b.id === id)) return false;
+  saveBettors(list.filter((b) => b.id !== id));
+  return true;
 }
 
 /** 启用/停用(停用者不再出现在归属按钮)。 */

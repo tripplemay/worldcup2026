@@ -2,7 +2,7 @@
  * GET  /api/worldcup/bettors — 投注人名册(盈亏页归属下拉用)。
  * POST /api/worldcup/bettors {name} — 新增投注人(需管理口令 x-admin-token)。
  */
-import { listBettors, addBettor } from 'lib/bets/bettors';
+import { listBettors, addBettor, removeBettor } from 'lib/bets/bettors';
 import { isViewAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
 
@@ -33,4 +33,11 @@ export async function POST(req: Request) {
   } catch (e) {
     return fail(e instanceof Error ? e.message : '新增投注人失败');
   }
+}
+
+export async function DELETE(req: Request) {
+  if (!authorized(req)) return fail('需要浏览密码或管理口令', 401);
+  const id = new URL(req.url).searchParams.get('id') ?? '';
+  if (!id) return fail('缺少 id', 400);
+  return removeBettor(id) ? ok({ id }) : fail('投注人不存在', 404);
 }
