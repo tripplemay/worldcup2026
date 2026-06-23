@@ -51,6 +51,7 @@ export interface BetLeg {
 
   // —— 结算回填 ——
   matchId?: string; // 解析到的 ESPN/联赛 eventId
+  kickoff?: string; // 比赛开赛 ISO(系统赛程权威;显示用 UTC+8)
   homeGoals?: number; // 90' 比分
   awayGoals?: number;
   result?: LegResult; // 逐腿判定
@@ -91,6 +92,7 @@ export interface RecognizedSlip {
 export interface LegResolution {
   status: 'matched' | 'pending' | 'unmatched';
   matchId?: string;
+  kickoff?: string; // 开赛 ISO(系统赛程)
   homeGoals?: number;
   awayGoals?: number;
 }

@@ -34,6 +34,21 @@ const posCls = (x: number) =>
 
 const UNASSIGNED = '__unassigned__';
 
+/** 比赛时间 → 北京时间(UTC+8)显示 MM/DD HH:mm;无效/缺失返回空串。 */
+function fmtKickoff(iso?: string): string {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleString('zh-CN', {
+    timeZone: 'Asia/Shanghai',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+}
+
 type T = (k: string) => string;
 
 function statusMeta(t: T, status: BetStatus) {
@@ -636,6 +651,7 @@ export default function PnlPage() {
                   <div className="space-y-1">
                     {s.legs.map((leg, i) => {
                       const mk = legResultMark(leg.result);
+                      const when = fmtKickoff(leg.kickoff ?? leg.matchDate);
                       const tint =
                         leg.result === 'won' || leg.result === 'half_won'
                           ? 'bg-green-500/5'
@@ -647,12 +663,19 @@ export default function PnlPage() {
                           key={i}
                           className={`flex items-center justify-between gap-2 rounded px-1.5 py-1 text-xs ${tint}`}
                         >
-                          <div className="min-w-0 flex-1 truncate text-navy-700 dark:text-gray-200">
-                            {leg.homeName} vs {leg.awayName}
-                            <span className="ml-1 text-gray-400">
-                              · {legLabel(t, leg)}
-                              {leg.odds != null ? ` @${leg.odds}` : ''}
-                            </span>
+                          <div className="min-w-0 flex-1">
+                            <div className="truncate text-navy-700 dark:text-gray-200">
+                              {leg.homeName} vs {leg.awayName}
+                              <span className="ml-1 text-gray-400">
+                                · {legLabel(t, leg)}
+                                {leg.odds != null ? ` @${leg.odds}` : ''}
+                              </span>
+                            </div>
+                            {when && (
+                              <div className="mt-0.5 text-[10px] text-gray-400">
+                                🕒 {when}
+                              </div>
+                            )}
                           </div>
                           <div className="flex shrink-0 items-center gap-1">
                             {leg.homeGoals != null && leg.awayGoals != null && (

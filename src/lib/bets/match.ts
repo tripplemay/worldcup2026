@@ -155,9 +155,16 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
     fixHomeNorm: string,
     gh: number,
     ga: number,
+    kickoff?: string,
   ): LegResolution => {
     const { home, away } = orientScore(legHome, fixHomeNorm, gh, ga);
-    return { status: 'matched', matchId, homeGoals: home, awayGoals: away };
+    return {
+      status: 'matched',
+      matchId,
+      kickoff,
+      homeGoals: home,
+      awayGoals: away,
+    };
   };
 
   // 1) 已注册联赛:联赛存档即 90' 比分,无需 ESPN 校正
@@ -170,7 +177,13 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
       leg.matchDate,
     );
     return hit
-      ? matchedFrom(hit.eventId, hit.homeNorm, hit.homeGoals, hit.awayGoals)
+      ? matchedFrom(
+          hit.eventId,
+          hit.homeNorm,
+          hit.homeGoals,
+          hit.awayGoals,
+          hit.date,
+        )
       : { status: 'unmatched' };
   }
 
@@ -189,14 +202,17 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
         via.homeNorm as string,
         via.homeGoals as number,
         via.awayGoals as number,
+        wcHit.date,
       );
-    if (via?.status === 'pending') return { status: 'pending' };
+    if (via?.status === 'pending')
+      return { status: 'pending', kickoff: wcHit.date };
     // ESPN 失败:回退用存档比分(WC 存档为终分;作为兜底)
     return matchedFrom(
       wcHit.eventId,
       wcHit.homeNorm,
       wcHit.homeGoals,
       wcHit.awayGoals,
+      wcHit.date,
     );
   }
 
@@ -232,10 +248,11 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
               via.homeNorm as string,
               via.homeGoals as number,
               via.awayGoals as number,
+              fixture.commenceTime,
             );
-          return { status: 'pending' }; // ESPN 详情暂失败:下轮重试
+          return { status: 'pending', kickoff: fixture.commenceTime };
         }
-        return { status: 'pending' }; // 尚未完赛
+        return { status: 'pending', kickoff: fixture.commenceTime }; // 尚未完赛
       }
     } catch {
       return { status: 'pending' }; // 网络失败:下轮重试,不误判
@@ -256,6 +273,7 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
         hit.homeNorm,
         hit.homeGoals,
         hit.awayGoals,
+        hit.date,
       );
   }
 
