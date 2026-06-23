@@ -11,7 +11,7 @@
 import { loadBets, saveBets } from 'lib/db/store';
 import { withBetsLock } from './lock';
 import { resolveLeg } from './match';
-import { judgeLeg, settleSlip } from './settle';
+import { judgeLeg, settleSlip, VALID_MARKETS } from './settle';
 import type { BetLeg, LegResult } from './types';
 
 interface LegPatch {
@@ -31,6 +31,8 @@ interface SlipUpdate {
 
 /** needs_review 的人工原因(便于管理员判断如何改账)。 */
 function reviewNote(results: LegResult[]): string {
+  if (results.some((r) => r === 'unsupported'))
+    return '含波胆/半场等不支持自动结算的盘口,请按实际结果手填盈亏';
   if (results.some((r) => r === 'half_won' || r === 'half_lost'))
     return '四分盘半赢/半输,截图金额无法表达,请人工核对';
   if (results.some((r) => r === 'void'))
@@ -51,7 +53,15 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
     const legPatches: LegPatch[] = [];
     for (const leg of slip.legs) {
       const res = await resolveLeg(leg);
-      if (
+      // 不支持的盘口(波胆/半场等):立即标 unsupported → 转人工,不臆造结果
+      if (!VALID_MARKETS.includes(leg.market)) {
+        legResults.push('unsupported');
+        legPatches.push({
+          matchId: res.matchId,
+          kickoff: res.kickoff,
+          result: 'unsupported',
+        });
+      } else if (
         res.status === 'matched' &&
         res.homeGoals != null &&
         res.awayGoals != null

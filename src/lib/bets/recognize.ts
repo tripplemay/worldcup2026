@@ -16,17 +16,20 @@ const MODEL =
   process.env.INTEL_LLM_MODEL ??
   'qwen3.5-flash';
 
-/** 结算引擎支持的 6 个盘口码。 */
+/** 结算引擎支持的 6 个盘口码(仅【全场】这几类可自动结算)。 */
 const MARKETS: readonly MarketType[] = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
 
 const SYSTEM = `你是顶级体育博彩单据识别员。识别一张投注单截图,抽取成严格 JSON。
 只输出 JSON,格式必须严格为:
-{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB","selection":string,"line":number|null,"odds":number|null}],"confidence":0到1的数}
+{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null}],"confidence":0到1的数}
 规则:
-- potentialReturn = 注单上标注的「可赢/可盈」金额 = 净盈利(赢了之后净赚多少,**不含本金**)。
+- potentialReturn = 注单「可赢/可盈金额」一栏的数字 = 净盈利(不含本金)。**务必逐位看准这一栏**,不要与赔率或本金混淆。
 - 赔率一律用小数赔率(decimal odds)。
-- market 必须映射到这 6 个码之一:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
-- selection 归一化:1X2/AH/DNB 用 home 或 away(平局用 draw;AH 的 home/away 取所列让球一方);OU 用 Over 或 Under;BTTS 用 Yes 或 No;DC 用 1X、12 或 X2。
+- market 只有当该腿是【全场】的下列 6 类之一才映射对应码:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
+- **其它所有盘口一律 market="OTHER"**,例如:波胆/正确比分、上半场/下半场(任何「半场」盘)、角球、罚牌、球员相关、特色组合、总进球单双 等。
+  · 严禁把不支持的盘口硬塞成 AH/OU/1X2 等并编造让分或盘线(line)。
+  · market="OTHER" 时:selection 填原文选项(如比分 "1-1"),rawText 填简短中文描述(如 "下半场波胆 1-1")。
+- selection 归一化(仅 6 码时):1X2/AH/DNB 用 home 或 away(平局用 draw;AH 的 home/away 取所列让球一方);OU 用 Over 或 Under;BTTS 用 Yes 或 No;DC 用 1X、12 或 X2。
 - 队名保留英文/截图原文。
 - matchDate 若可见输出 ISO(或 YYYY-MM-DD),不可见用 null。
 - 任何读不出的字段一律用 null。
@@ -62,10 +65,8 @@ function cleanLeg(raw: unknown): BetLeg | null {
   if (!homeName || !awayName) return null;
 
   const marketRaw = toStr(o.market) as MarketType | undefined;
-  // 命中 6 码则用之;否则保留原文(上层/人工再处理)
-  const market = (
-    marketRaw && MARKETS.includes(marketRaw) ? marketRaw : marketRaw ?? '1X2'
-  ) as MarketType;
+  // 仅命中 6 码才当可结算盘口;其余一律 'OTHER'(波胆/半场/角球等)→ 转人工,绝不臆造
+  const market = marketRaw && MARKETS.includes(marketRaw) ? marketRaw : 'OTHER';
 
   const leg: BetLeg = {
     homeName,
@@ -78,10 +79,15 @@ function cleanLeg(raw: unknown): BetLeg | null {
   if (league !== undefined) leg.league = league;
   const matchDate = toStr(o.matchDate);
   if (matchDate !== undefined) leg.matchDate = matchDate;
-  const line = toNum(o.line);
-  if (line !== undefined) leg.line = line;
   const odds = toNum(o.odds);
   if (odds !== undefined) leg.odds = odds;
+  const rawText = toStr(o.rawText);
+  if (rawText !== undefined) leg.rawText = rawText;
+  // 让分/盘线只对 6 码有意义;OTHER 不带 line,避免误导
+  if (market !== 'OTHER') {
+    const line = toNum(o.line);
+    if (line !== undefined) leg.line = line;
+  }
 
   return leg;
 }

@@ -160,6 +160,18 @@ describe('settleSlip —— 串关聚合', () => {
     const r: LegResult[] = ['lost', 'half_lost', 'won'];
     expect(settleSlip(slip, r)).toEqual({ status: 'needs_review', pnl: null });
   });
+
+  it('含不支持盘口 → needs_review(优先于一切)', () => {
+    const r: LegResult[] = ['won', 'unsupported', 'lost'];
+    expect(settleSlip(slip, r)).toEqual({ status: 'needs_review', pnl: null });
+  });
+});
+
+describe('judgeLeg —— 不支持的盘口(波胆/半场等)', () => {
+  it('OTHER / 非 6 码 → unsupported(不臆造)', () => {
+    expect(judgeLeg('OTHER', '1-1', undefined, 2, 1)).toBe('unsupported');
+    expect(judgeLeg('CS', '2-0', undefined, 0, 0)).toBe('unsupported');
+  });
 });
 
 describe('settleSlip —— 单注', () => {
