@@ -66,7 +66,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY,TG_BOT_TOKEN,TG_ADMIN_CHAT_ID,TG_WEBHOOK_SECRET
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY,TG_BOT_TOKEN,TG_ADMIN_CHAT_ID,TG_WEBHOOK_SECRET,PNL_VIEW_PASSWORD
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -137,6 +137,8 @@ jobs:
             export TG_BOT_TOKEN="${TG_BOT_TOKEN}"
             export TG_ADMIN_CHAT_ID="${TG_ADMIN_CHAT_ID}"
             export TG_WEBHOOK_SECRET="${TG_WEBHOOK_SECRET}"
+            # 盈亏页浏览密码(fail-closed:未设则盈亏页/接口一律拒绝)
+            export PNL_VIEW_PASSWORD="${PNL_VIEW_PASSWORD}"
             # 视觉识别模型缺省沿用 INTEL_LLM_MODEL;如需单独覆盖再设 BETS_VISION_MODEL
             # 预置投注人名册(逗号分隔;名册为空时首次写入):export BET_TRACKER_BETTORS="张三,李四"
             # 预测数据源:API-Football(付费 Pro);未设则历史摄取跳过
@@ -195,3 +197,4 @@ jobs:
           TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
           TG_ADMIN_CHAT_ID: ${{ secrets.TG_ADMIN_CHAT_ID }}
           TG_WEBHOOK_SECRET: ${{ secrets.TG_WEBHOOK_SECRET }}
+          PNL_VIEW_PASSWORD: ${{ secrets.PNL_VIEW_PASSWORD }}

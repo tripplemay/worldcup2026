@@ -49,6 +49,10 @@ export const messages = {
       refresh: '刷新',
       addBettor: '添加',
       bettorNamePh: '新投注人姓名',
+      viewPrompt: '请输入浏览密码查看',
+      viewPlaceholder: '浏览密码',
+      enter: '进入',
+      viewWrong: '密码错误',
     },
     signals: {
       title: '交易指令台',
@@ -560,6 +564,10 @@ export const messages = {
       refresh: 'Refresh',
       addBettor: 'Add',
       bettorNamePh: 'New bettor name',
+      viewPrompt: 'Enter the view password',
+      viewPlaceholder: 'View password',
+      enter: 'Enter',
+      viewWrong: 'Wrong password',
     },
     signals: {
       title: 'Signal Desk',

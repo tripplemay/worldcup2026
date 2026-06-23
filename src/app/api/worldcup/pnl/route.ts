@@ -5,11 +5,13 @@
 import { loadBets } from 'lib/db/store';
 import { listBettors } from 'lib/bets/bettors';
 import { perUserPnl } from 'lib/bets/bets';
+import { isViewAuthed } from 'lib/bets/viewAuth';
 import { okLive, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET() {
+export async function GET(req: Request) {
+  if (!isViewAuthed(req)) return fail('需要浏览密码', 401);
   try {
     const slips = loadBets();
     const bettors = listBettors();

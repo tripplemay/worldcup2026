@@ -505,13 +505,13 @@ export function useTrade() {
   };
 }
 
-/** Phase 9 盈亏台:各投注人盈亏总览 + 注单明细 + 名册。 */
-export function usePnl() {
+/** Phase 9 盈亏台:各投注人盈亏总览 + 注单明细 + 名册。enabled=false(未过浏览密码)时不请求。 */
+export function usePnl(enabled = true) {
   const { data, error, isLoading, mutate } = useSWR<{
     bettors: Bettor[];
     slips: BetSlip[];
     perUser: BettorPnl[];
-  }>('/api/worldcup/pnl', fetcher, {
+  }>(enabled ? '/api/worldcup/pnl' : null, fetcher, {
     refreshInterval: STANDINGS_MS,
     ...common,
   });
