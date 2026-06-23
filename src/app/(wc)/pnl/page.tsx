@@ -142,10 +142,23 @@ export default function PnlPage() {
   const [viewBusy, setViewBusy] = useState(false);
 
   useEffect(() => {
-    // 浏览密码以服务端 cookie 为准:探测一次决定是否需要输入密码
+    // 记住过(localStorage)→ 直接进,避免每次重输;cookie 仍负责数据鉴权。
+    const remembered = localStorage.getItem('pnl_view_ok') === '1';
+    if (remembered) setAuthed(true);
+    // 后台探测纠正:200=放行并记住;401=确已失效才退回密码页;网络错误不误踢。
     fetch('/api/worldcup/pnl', { cache: 'no-store' })
-      .then((r) => setAuthed(r.ok))
-      .catch(() => setAuthed(false));
+      .then((r) => {
+        if (r.ok) {
+          localStorage.setItem('pnl_view_ok', '1');
+          setAuthed(true);
+        } else if (r.status === 401) {
+          localStorage.removeItem('pnl_view_ok');
+          setAuthed(false);
+        }
+      })
+      .catch(() => {
+        if (!remembered) setAuthed(false);
+      });
   }, []);
 
   async function viewEnter() {
@@ -161,6 +174,7 @@ export default function PnlPage() {
       });
       if (res.ok) {
         setViewPw('');
+        localStorage.setItem('pnl_view_ok', '1');
         setAuthed(true);
       } else {
         setViewMsg(t('pnl.viewWrong'));
@@ -361,63 +375,64 @@ export default function PnlPage() {
         </div>
       </header>
 
-      {isLoading && slips.length === 0 ? (
-        <div className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
-      ) : error && slips.length === 0 ? (
-        <div className="py-16 text-center text-gray-400">
-          <div>{t('common.loadFailed')}</div>
-          <button
-            onClick={() => void mutate()}
-            className="mt-3 rounded-full bg-brand-500 px-4 py-1.5 text-xs text-white active:scale-95"
-          >
-            {t('pnl.refresh')}
-          </button>
-        </div>
-      ) : slips.length === 0 ? (
-        <div className="py-16 text-center text-gray-400">{t('pnl.empty')}</div>
-      ) : view === 'overview' ? (
-        <div className="space-y-3">
-          {sortedUsers.map((u) => (
-            <button
-              key={u.bettorId}
-              onClick={() => {
-                setFilter(u.bettorId === UNASSIGNED ? UNASSIGNED : u.bettorId);
-                setView('detail');
-              }}
-              className="block w-full text-left"
-            >
-              <Card extra="p-4">
-                <div className="flex items-end justify-between">
-                  <div>
-                    <div className="text-sm font-semibold text-navy-700 dark:text-white">
-                      {u.bettorId === UNASSIGNED ? t('pnl.unassigned') : u.name}
+      {view === 'overview' ? (
+        sortedUsers.length === 0 ? (
+          <div className="py-16 text-center text-gray-400">
+            {isLoading ? '…' : t('pnl.empty')}
+          </div>
+        ) : (
+          <div className="space-y-3">
+            {sortedUsers.map((u) => (
+              <button
+                key={u.bettorId}
+                onClick={() => {
+                  setFilter(
+                    u.bettorId === UNASSIGNED ? UNASSIGNED : u.bettorId,
+                  );
+                  setView('detail');
+                }}
+                className="block w-full text-left"
+              >
+                <Card extra="p-4">
+                  <div className="flex items-end justify-between">
+                    <div>
+                      <div className="text-sm font-semibold text-navy-700 dark:text-white">
+                        {u.bettorId === UNASSIGNED
+                          ? t('pnl.unassigned')
+                          : u.name}
+                      </div>
+                      <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+                        {t('pnl.bets')} {u.bets} · {t('pnl.settled')}{' '}
+                        {u.settled} · {t('pnl.pending')} {u.pending}
+                      </div>
                     </div>
-                    <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
-                      {t('pnl.bets')} {u.bets} · {t('pnl.settled')} {u.settled}{' '}
-                      · {t('pnl.pending')} {u.pending}
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <div
-                      className={`font-mono text-2xl font-extrabold ${posCls(
-                        u.pnl,
-                      )}`}
-                    >
-                      {signMoney(u.pnl)}
-                    </div>
-                    <div className="text-[11px] text-gray-500 dark:text-gray-400">
-                      {t('pnl.staked')} {money(u.staked)} · {t('pnl.winRate')}{' '}
-                      {u.settled ? pct(u.won / u.settled) : '—'}
+                    <div className="text-right">
+                      <div
+                        className={`font-mono text-2xl font-extrabold ${posCls(
+                          u.pnl,
+                        )}`}
+                      >
+                        {signMoney(u.pnl)}
+                      </div>
+                      <div className="text-[11px] text-gray-500 dark:text-gray-400">
+                        {t('pnl.staked')} {money(u.staked)} · {t('pnl.winRate')}{' '}
+                        {u.settled ? pct(u.won / u.settled) : '—'}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </Card>
-            </button>
-          ))}
-        </div>
+                </Card>
+              </button>
+            ))}
+          </div>
+        )
       ) : (
         <div className="space-y-3">
-          {/* 管理区(已过浏览密码即可操作) */}
+          {/* 管理区(已过浏览密码即可操作)—— 始终显示,不被空/错误态遮挡 */}
+          {error && (
+            <div className="rounded-lg bg-amber-500/10 px-3 py-2 text-center text-xs text-amber-600 dark:text-amber-400">
+              {t('common.loadFailed')}
+            </div>
+          )}
           <Card extra="p-3">
             <div className="space-y-2 text-xs">
               <div className="flex items-center justify-between gap-2">
@@ -502,140 +517,151 @@ export default function PnlPage() {
             </button>
           </div>
 
-          {visibleSlips.map((s) => {
-            const sm = statusMeta(t, s.status);
-            return (
-              <Card key={s.id} extra="p-4">
-                <div className="mb-2 flex items-center justify-between gap-2">
-                  <div className="flex items-center gap-2">
-                    <span
-                      className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${sm.cls}`}
-                    >
-                      <sm.Icon className="mr-0.5 inline align-[-2px] text-sm" />
-                      {sm.label}
-                    </span>
-                    <span className="text-[11px] text-gray-500 dark:text-gray-400">
-                      {s.legs.length > 1
-                        ? `${t('pnl.parlay')}×${s.legs.length}`
-                        : t('pnl.single')}
+          {/* 注单列表:加载/空 内联,不遮挡上方管理区 */}
+          {isLoading && slips.length === 0 ? (
+            <div className="h-16 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
+          ) : visibleSlips.length === 0 ? (
+            <div className="py-10 text-center text-gray-400">
+              {t('pnl.empty')}
+            </div>
+          ) : (
+            visibleSlips.map((s) => {
+              const sm = statusMeta(t, s.status);
+              return (
+                <Card key={s.id} extra="p-4">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[11px] font-medium ${sm.cls}`}
+                      >
+                        <sm.Icon className="mr-0.5 inline align-[-2px] text-sm" />
+                        {sm.label}
+                      </span>
+                      <span className="text-[11px] text-gray-500 dark:text-gray-400">
+                        {s.legs.length > 1
+                          ? `${t('pnl.parlay')}×${s.legs.length}`
+                          : t('pnl.single')}
+                      </span>
+                    </div>
+                    <span className="text-xs font-medium text-navy-700 dark:text-white">
+                      {bettorName(t, bettors, s.bettorId)}
                     </span>
                   </div>
-                  <span className="text-xs font-medium text-navy-700 dark:text-white">
-                    {bettorName(t, bettors, s.bettorId)}
-                  </span>
-                </div>
 
-                <div className="space-y-1">
-                  {s.legs.map((leg, i) => {
-                    const mk = legResultMark(leg.result);
-                    return (
-                      <div
-                        key={i}
-                        className="flex items-center justify-between gap-2 text-xs"
-                      >
-                        <div className="min-w-0 flex-1 truncate text-navy-700 dark:text-gray-200">
-                          {leg.homeName} vs {leg.awayName}
-                          <span className="ml-1 text-gray-400">
-                            · {legLabel(t, leg)}
-                            {leg.odds != null ? ` @${leg.odds}` : ''}
-                          </span>
-                        </div>
-                        <div className="flex shrink-0 items-center gap-1">
-                          {leg.homeGoals != null && leg.awayGoals != null && (
-                            <span className="font-mono text-gray-500 dark:text-gray-400">
-                              {leg.homeGoals}-{leg.awayGoals}
+                  <div className="space-y-1">
+                    {s.legs.map((leg, i) => {
+                      const mk = legResultMark(leg.result);
+                      return (
+                        <div
+                          key={i}
+                          className="flex items-center justify-between gap-2 text-xs"
+                        >
+                          <div className="min-w-0 flex-1 truncate text-navy-700 dark:text-gray-200">
+                            {leg.homeName} vs {leg.awayName}
+                            <span className="ml-1 text-gray-400">
+                              · {legLabel(t, leg)}
+                              {leg.odds != null ? ` @${leg.odds}` : ''}
                             </span>
-                          )}
-                          <span className={`font-bold ${mk.cls}`}>{mk.ch}</span>
+                          </div>
+                          <div className="flex shrink-0 items-center gap-1">
+                            {leg.homeGoals != null && leg.awayGoals != null && (
+                              <span className="font-mono text-gray-500 dark:text-gray-400">
+                                {leg.homeGoals}-{leg.awayGoals}
+                              </span>
+                            )}
+                            <span className={`font-bold ${mk.cls}`}>
+                              {mk.ch}
+                            </span>
+                          </div>
                         </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                <div className="mt-2 flex items-end justify-between border-t border-gray-100 pt-2 dark:border-white/5">
-                  <div className="text-[11px] text-gray-500 dark:text-gray-400">
-                    {t('pnl.staked')} {s.currency ? `${s.currency} ` : ''}
-                    {money(s.stake)} · {t('pnl.payout')}{' '}
-                    {money(s.potentialReturn)} · {t('pnl.conf')}{' '}
-                    {Math.round(s.confidence * 100)}%
+                      );
+                    })}
                   </div>
-                  <div
-                    className={`font-mono text-base font-bold ${posCls(
-                      s.pnl ?? 0,
-                    )}`}
-                  >
-                    {s.pnl != null ? signMoney(s.pnl) : '—'}
-                  </div>
-                </div>
 
-                {s.note && (
-                  <div className="mt-1 text-[11px] text-amber-600 dark:text-amber-400">
-                    {s.note}
+                  <div className="mt-2 flex items-end justify-between border-t border-gray-100 pt-2 dark:border-white/5">
+                    <div className="text-[11px] text-gray-500 dark:text-gray-400">
+                      {t('pnl.staked')} {s.currency ? `${s.currency} ` : ''}
+                      {money(s.stake)} · {t('pnl.payout')}{' '}
+                      {money(s.potentialReturn)} · {t('pnl.conf')}{' '}
+                      {Math.round(s.confidence * 100)}%
+                    </div>
+                    <div
+                      className={`font-mono text-base font-bold ${posCls(
+                        s.pnl ?? 0,
+                      )}`}
+                    >
+                      {s.pnl != null ? signMoney(s.pnl) : '—'}
+                    </div>
                   </div>
-                )}
 
-                {admin && (
-                  <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-2 dark:border-white/5">
-                    <select
-                      value={s.bettorId ?? ''}
-                      onChange={(e) => {
-                        if (!e.target.value) return;
-                        void adminPost({
-                          id: s.id,
-                          action: 'assign',
-                          bettorId: e.target.value,
-                        });
-                      }}
-                      disabled={busy}
-                      className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 dark:border-white/10 dark:bg-navy-900 dark:text-white"
-                    >
-                      <option value="">{t('pnl.reassign')}…</option>
-                      {bettors.map((b) => (
-                        <option key={b.id} value={b.id}>
-                          {b.name}
-                        </option>
-                      ))}
-                    </select>
-                    <button
-                      onClick={() => setOutcome(s, 'won')}
-                      disabled={busy}
-                      className="rounded-lg bg-green-500/15 px-2 py-1 text-xs text-green-700 active:scale-95 disabled:opacity-50 dark:text-green-400"
-                    >
-                      {t('pnl.setWon')}
-                    </button>
-                    <button
-                      onClick={() => setOutcome(s, 'lost')}
-                      disabled={busy}
-                      className="rounded-lg bg-red-500/15 px-2 py-1 text-xs text-red-600 active:scale-95 disabled:opacity-50 dark:text-red-400"
-                    >
-                      {t('pnl.setLost')}
-                    </button>
-                    <button
-                      onClick={() => setOutcome(s, 'void')}
-                      disabled={busy}
-                      className="rounded-lg bg-gray-200 px-2 py-1 text-xs text-gray-600 active:scale-95 disabled:opacity-50 dark:bg-navy-700 dark:text-gray-300"
-                    >
-                      {t('pnl.setVoid')}
-                    </button>
-                    {s.imageRef && (
-                      <a
-                        href={`/api/worldcup/bet-image?file=${encodeURIComponent(
-                          s.imageRef,
-                        )}`}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="ml-auto flex items-center gap-0.5 text-xs text-brand-500 dark:text-brand-400"
+                  {s.note && (
+                    <div className="mt-1 text-[11px] text-amber-600 dark:text-amber-400">
+                      {s.note}
+                    </div>
+                  )}
+
+                  {admin && (
+                    <div className="mt-2 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-2 dark:border-white/5">
+                      <select
+                        value={s.bettorId ?? ''}
+                        onChange={(e) => {
+                          if (!e.target.value) return;
+                          void adminPost({
+                            id: s.id,
+                            action: 'assign',
+                            bettorId: e.target.value,
+                          });
+                        }}
+                        disabled={busy}
+                        className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-xs text-navy-700 dark:border-white/10 dark:bg-navy-900 dark:text-white"
                       >
-                        <MdImage className="text-sm" />
-                        {t('pnl.viewImage')}
-                      </a>
-                    )}
-                  </div>
-                )}
-              </Card>
-            );
-          })}
+                        <option value="">{t('pnl.reassign')}…</option>
+                        {bettors.map((b) => (
+                          <option key={b.id} value={b.id}>
+                            {b.name}
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        onClick={() => setOutcome(s, 'won')}
+                        disabled={busy}
+                        className="rounded-lg bg-green-500/15 px-2 py-1 text-xs text-green-700 active:scale-95 disabled:opacity-50 dark:text-green-400"
+                      >
+                        {t('pnl.setWon')}
+                      </button>
+                      <button
+                        onClick={() => setOutcome(s, 'lost')}
+                        disabled={busy}
+                        className="rounded-lg bg-red-500/15 px-2 py-1 text-xs text-red-600 active:scale-95 disabled:opacity-50 dark:text-red-400"
+                      >
+                        {t('pnl.setLost')}
+                      </button>
+                      <button
+                        onClick={() => setOutcome(s, 'void')}
+                        disabled={busy}
+                        className="rounded-lg bg-gray-200 px-2 py-1 text-xs text-gray-600 active:scale-95 disabled:opacity-50 dark:bg-navy-700 dark:text-gray-300"
+                      >
+                        {t('pnl.setVoid')}
+                      </button>
+                      {s.imageRef && (
+                        <a
+                          href={`/api/worldcup/bet-image?file=${encodeURIComponent(
+                            s.imageRef,
+                          )}`}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="ml-auto flex items-center gap-0.5 text-xs text-brand-500 dark:text-brand-400"
+                        >
+                          <MdImage className="text-sm" />
+                          {t('pnl.viewImage')}
+                        </a>
+                      )}
+                    </div>
+                  )}
+                </Card>
+              );
+            })
+          )}
         </div>
       )}
     </div>
