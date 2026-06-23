@@ -512,7 +512,7 @@ export function usePnl(enabled = true) {
     slips: BetSlip[];
     perUser: BettorPnl[];
   }>(enabled ? '/api/worldcup/pnl' : null, fetcher, {
-    refreshInterval: STANDINGS_MS,
+    refreshInterval: 60_000, // 1min:赛后自动结算后尽快反映到盈亏页
     ...common,
   });
   return {
