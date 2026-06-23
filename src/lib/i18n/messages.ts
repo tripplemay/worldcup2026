@@ -47,6 +47,8 @@ export const messages = {
       saved: '已保存',
       all: '全部',
       refresh: '刷新',
+      addBettor: '添加',
+      bettorNamePh: '新投注人姓名',
     },
     signals: {
       title: '交易指令台',
@@ -556,6 +558,8 @@ export const messages = {
       saved: 'Saved',
       all: 'All',
       refresh: 'Refresh',
+      addBettor: 'Add',
+      bettorNamePh: 'New bettor name',
     },
     signals: {
       title: 'Signal Desk',
