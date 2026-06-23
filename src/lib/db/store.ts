@@ -332,3 +332,11 @@ export function loadBets(): BetSlip[] {
 export function saveBets(list: BetSlip[]): void {
   writeJson('bets.json', list);
 }
+
+// ── 微信接入轮询游标(Phase 9b:wx-link 收单)──────────────
+export function loadWxCursor(): string {
+  return readJson<{ cursor: string }>('wx-cursor.json', { cursor: '' }).cursor;
+}
+export function saveWxCursor(cursor: string): void {
+  writeJson('wx-cursor.json', { cursor, updatedAt: Date.now() });
+}
