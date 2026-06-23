@@ -11,8 +11,8 @@ import { outcome } from 'lib/trade/settle';
 import type { Trade, MarketType } from 'lib/trade/types';
 import type { BetLeg, LegResult, BetStatus } from './types';
 
-/** 结算引擎支持的 6 个盘口码;其余一律不臆断(否则 outcome 会落到 AH 分支误判)。 */
-const VALID_MARKETS: readonly MarketType[] = [
+/** 结算引擎支持的 6 个盘口码;其余(波胆/半场/角球等)不臆断 → 转人工。 */
+export const VALID_MARKETS: readonly string[] = [
   '1X2',
   'OU',
   'AH',
@@ -23,13 +23,17 @@ const VALID_MARKETS: readonly MarketType[] = [
 
 /** 调用基础盘口判定:只读 market/selection/line,返回 won/lost/void。 */
 function baseOutcome(
-  market: MarketType,
+  market: string,
   selection: string,
   line: number | undefined,
   gf: number,
   ga: number,
 ): 'won' | 'lost' | 'void' {
-  return outcome({ market, selection, line } as unknown as Trade, gf, ga);
+  return outcome(
+    { market: market as MarketType, selection, line } as unknown as Trade,
+    gf,
+    ga,
+  );
 }
 
 /** 四分盘判定:盘口线小数位为 .25 或 .75(含负)。 */
@@ -44,14 +48,14 @@ function isQuarterLine(line: number | undefined): boolean {
  * 因两半相差 0.5,至多一条走盘,故只会出现 won/lost/half_won/half_lost。
  */
 export function judgeLeg(
-  market: MarketType,
+  market: string,
   selection: string,
   line: number | undefined,
   gf: number,
   ga: number,
 ): LegResult {
-  // 未知盘口码:不臆断(避免 outcome 落到 AH 分支误判)→ 交人工
-  if (!VALID_MARKETS.includes(market)) return 'unmatched';
+  // 不支持的盘口(波胆/半场/角球等):不臆断 → 标 unsupported,转人工
+  if (!VALID_MARKETS.includes(market)) return 'unsupported';
   if (market === 'AH' && isQuarterLine(line)) {
     const base = line as number;
     const lowHalf = base - 0.25;
@@ -70,13 +74,16 @@ export function judgeLeg(
 /**
  * 串关/单注聚合:legResults 与 slip.legs 1:1 对齐(已判定或 pending/unmatched)。
  *
- * 优先级:unmatched > pending > (half_* | void → needs_review) > lost > won。
- * 单注(legs.length===1)直接映射:走盘退本(void→pnl 0)、半赢半输交人工。
+ * 优先级:unsupported > unmatched > pending > (half_* | void → needs_review) > lost > won。
+ * 单注(legs.length===1)直接映射:走盘退本(void→pnl 0)、半赢半输/不支持交人工。
  */
 export function settleSlip(
   slip: { stake: number; potentialReturn: number; legs: BetLeg[] },
   legResults: LegResult[],
 ): { status: BetStatus; pnl: number | null } {
+  // 不支持的盘口永不自动判定 → 直接转人工(优先于其它,等比赛/匹配都没意义)
+  if (legResults.some((r) => r === 'unsupported'))
+    return { status: 'needs_review', pnl: null };
   if (legResults.some((r) => r === 'unmatched'))
     return { status: 'unmatched', pnl: null };
   if (legResults.some((r) => r === 'pending'))

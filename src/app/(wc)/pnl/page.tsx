@@ -95,8 +95,13 @@ function statusMeta(t: T, status: BetStatus) {
   }
 }
 
-/** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。 */
+const SUPPORTED_MARKETS = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
+
+/** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。不支持盘口显示原文描述。 */
 function legLabel(t: T, leg: BetLeg): string {
+  // OTHER / 不支持盘口:显示识别到的中文描述或原文选项
+  if (!SUPPORTED_MARKETS.includes(leg.market))
+    return leg.rawText || leg.selection || leg.market;
   const sel = leg.selection;
   if (leg.market === '1X2')
     return sel === 'home'

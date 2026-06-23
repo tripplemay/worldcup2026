@@ -5,7 +5,6 @@
  * 落库 BetSlip(pending)→ 赛后逐腿匹配赛果 + 串关聚合 → 回填 pnl。
  * 金额(本金/可赢)一律以截图为准,系统只做「结果匹配」,不重算赔率。
  */
-import type { MarketType } from 'lib/trade/types';
 
 /** 可下注人(小范围预置名册;Telegram 按钮归属用)。 */
 export interface Bettor {
@@ -25,7 +24,8 @@ export type LegResult =
   | 'half_won'
   | 'half_lost'
   | 'pending'
-  | 'unmatched';
+  | 'unmatched'
+  | 'unsupported'; // 盘口不被自动结算引擎支持(波胆/半场/角球等)→ 转人工
 
 /** 注单整体状态。 */
 export type BetStatus =
@@ -43,11 +43,11 @@ export interface BetLeg {
   awayName: string;
   league?: string; // 'wc' | 'epl' | 'laliga' | 'bundesliga' | 'seriea' | 'ligue1' | 原文
   matchDate?: string; // ISO 或 YYYY-MM-DD(识别到的开赛时间;匹配用)
-  market: MarketType; // 复用结算引擎盘口码:1X2|OU|AH|BTTS|DC|DNB
-  selection: string; // 归一结算词汇:home|draw|away / Over|Under / Yes|No / 1X|12|X2
+  market: string; // 可结算的 6 码(1X2|OU|AH|BTTS|DC|DNB)或 'OTHER'(波胆/半场/角球等不支持→人工)
+  selection: string; // 归一结算词汇:home|draw|away / Over|Under / Yes|No / 1X|12|X2;OTHER 时存原文选项(如比分 1-1)
   line?: number; // OU/AH 盘口线(含 ±.25/.75 四分盘)
   odds?: number; // 各腿赔率(展示用;不参与金额结算)
-  rawText?: string; // 识别原始文字(debug/复核)
+  rawText?: string; // 不支持盘口的中文描述(如「下半场波胆 1-1」),供人工核对/展示
 
   // —— 结算回填 ——
   matchId?: string; // 解析到的 ESPN/联赛 eventId
