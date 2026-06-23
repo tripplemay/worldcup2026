@@ -8,5 +8,7 @@ export async function register(): Promise<void> {
     startLivePoller();
     const { startSettleWatcher } = await import('lib/trade/settleWatcher');
     startSettleWatcher();
+    const { startWxPoller } = await import('lib/wx/poller');
+    startWxPoller(); // 微信接入:仅当配置 WX_BOT_TOKEN 时启动
   }
 }
