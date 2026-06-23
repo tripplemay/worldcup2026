@@ -71,6 +71,9 @@ export const messages = {
       clearAll: '清空全部注单',
       confirmClear: '确认清空全部注单?不可恢复',
       confirm: '确认',
+      csFull: '波胆',
+      cs1h: '上半场波胆',
+      cs2h: '下半场波胆',
     },
     signals: {
       title: '交易指令台',
@@ -604,6 +607,9 @@ export const messages = {
       clearAll: 'Clear all slips',
       confirmClear: 'Clear ALL slips? Irreversible',
       confirm: 'Confirm',
+      csFull: 'Correct Score',
+      cs1h: '1H Correct Score',
+      cs2h: '2H Correct Score',
     },
     signals: {
       title: 'Signal Desk',

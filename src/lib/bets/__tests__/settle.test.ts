@@ -167,10 +167,41 @@ describe('settleSlip —— 串关聚合', () => {
   });
 });
 
-describe('judgeLeg —— 不支持的盘口(波胆/半场等)', () => {
-  it('OTHER / 非 6 码 → unsupported(不臆造)', () => {
+describe('judgeLeg —— 不支持的盘口', () => {
+  it('OTHER / 未知码(角球等)→ unsupported(不臆造)', () => {
     expect(judgeLeg('OTHER', '1-1', undefined, 2, 1)).toBe('unsupported');
-    expect(judgeLeg('CS', '2-0', undefined, 0, 0)).toBe('unsupported');
+    expect(judgeLeg('CORNERS', 'over', undefined, 0, 0)).toBe('unsupported');
+  });
+});
+
+describe('judgeLeg —— 波胆(正确比分)', () => {
+  it('全场 CS:命中=won,不中=lost', () => {
+    expect(judgeLeg('CS', '2-0', undefined, 2, 0)).toBe('won');
+    expect(judgeLeg('CS', '2-0', undefined, 1, 0)).toBe('lost');
+    expect(judgeLeg('CS', '1-1', undefined, 1, 1)).toBe('won');
+  });
+  it('比分无法解析 → unsupported(转人工)', () => {
+    expect(judgeLeg('CS', '大比分', undefined, 2, 0)).toBe('unsupported');
+  });
+  it('上半场 CS1H:按上半场比分判;缺半场比分 → unsupported', () => {
+    // 上半场 2-0,全场 3-1
+    expect(judgeLeg('CS1H', '2-0', undefined, 3, 1, { h: 2, a: 0 })).toBe(
+      'won',
+    );
+    expect(judgeLeg('CS1H', '1-0', undefined, 3, 1, { h: 2, a: 0 })).toBe(
+      'lost',
+    );
+    expect(judgeLeg('CS1H', '2-0', undefined, 3, 1)).toBe('unsupported');
+  });
+  it('下半场 CS2H:全场−上半场;缺半场比分 → unsupported', () => {
+    // 全场 3-1,上半场 2-0 → 下半场 1-1
+    expect(judgeLeg('CS2H', '1-1', undefined, 3, 1, { h: 2, a: 0 })).toBe(
+      'won',
+    );
+    expect(judgeLeg('CS2H', '0-1', undefined, 3, 1, { h: 2, a: 0 })).toBe(
+      'lost',
+    );
+    expect(judgeLeg('CS2H', '1-1', undefined, 3, 1)).toBe('unsupported');
   });
 });
 

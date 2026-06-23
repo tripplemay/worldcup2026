@@ -52,8 +52,10 @@ export interface BetLeg {
   // —— 结算回填 ——
   matchId?: string; // 解析到的 ESPN/联赛 eventId
   kickoff?: string; // 比赛开赛 ISO(系统赛程权威;显示用 UTC+8)
-  homeGoals?: number; // 90' 比分
+  homeGoals?: number; // 90' 比分(注单主客视角)
   awayGoals?: number;
+  htHome?: number; // 上半场比分(≤45';仅进球事件齐全时给出,供波胆半场判定)
+  htAway?: number;
   result?: LegResult; // 逐腿判定
 }
 
@@ -95,4 +97,6 @@ export interface LegResolution {
   kickoff?: string; // 开赛 ISO(系统赛程)
   homeGoals?: number;
   awayGoals?: number;
+  htHome?: number; // 上半场比分(进球事件齐全时;否则缺省 → 半场波胆转人工)
+  htAway?: number;
 }

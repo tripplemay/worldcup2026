@@ -19,7 +19,49 @@ import { espnProvider } from 'lib/espn/espn';
 import { regulationScore } from 'lib/trade/settle';
 import { toCanonicalName } from './cnTeams';
 import type { ResultMatch } from 'lib/predict/types';
+import type { MatchEvent } from 'lib/espn/types';
 import type { BetLeg, LegResolution } from './types';
+
+/** 事件分钟(前导整数;"45'+2"→45,"90'+3"→90,缺失→NaN)。 */
+function evMinute(e: MatchEvent): number {
+  const n = parseInt(String(e.minute ?? '').trim(), 10);
+  return Number.isFinite(n) ? n : NaN;
+}
+const isGoalEv = (e: MatchEvent): boolean =>
+  e.scoringPlay === true || /goal/i.test(e.type);
+
+/**
+ * 由进球事件按分钟分段计分(供波胆半场判定)。
+ * ht = ≤45'(含上半补时);ev90 = ≤90'(用于校验事件是否齐全)。依赖事件完整性。
+ */
+function periodScores(
+  events: MatchEvent[],
+  homeTeam: string,
+  awayTeam: string,
+): { ht: { h: number; a: number }; ev90: { h: number; a: number } } {
+  const hN = normalizeTeam(homeTeam);
+  const aN = normalizeTeam(awayTeam);
+  let htH = 0;
+  let htA = 0;
+  let h90 = 0;
+  let a90 = 0;
+  for (const e of events) {
+    if (!isGoalEv(e)) continue;
+    const m = evMinute(e);
+    if (!(m <= 90)) continue; // 加时/点球/NaN 不计
+    const t = normalizeTeam(e.team ?? '');
+    const isH = t === hN;
+    const isA = t === aN;
+    if (!isH && !isA) continue;
+    if (m <= 45) {
+      if (isH) htH += 1;
+      else htA += 1;
+    }
+    if (isH) h90 += 1;
+    else a90 += 1;
+  }
+  return { ht: { h: htH, a: htA }, ev90: { h: h90, a: a90 } };
+}
 
 /** ISO 转 UTC 日(YYYY-MM-DD);非法日期返回空串。 */
 function utcDay(iso: string): string {
@@ -114,6 +156,8 @@ interface SummaryScore {
   homeGoals?: number;
   awayGoals?: number;
   homeNorm?: string;
+  htHome?: number; // 上半场比分(赛事视角;仅事件齐全时)
+  htAway?: number;
 }
 async function resolveViaSummary(
   eventId: string,
@@ -131,13 +175,20 @@ async function resolveViaSummary(
       s.homeScore,
       s.awayScore,
     );
-    return {
+    const out: SummaryScore = {
       status: 'matched',
       matchId: eventId,
       homeGoals: home,
       awayGoals: away,
       homeNorm: normalizeTeam(s.homeTeam),
     };
+    // 半场比分:仅当进球事件能完整还原 90' 总分(账齐了)才给出,否则留空 → 半场波胆转人工
+    const ps = periodScores(s.events, s.homeTeam, s.awayTeam);
+    if (ps.ev90.h === home && ps.ev90.a === away) {
+      out.htHome = ps.ht.h;
+      out.htAway = ps.ht.a;
+    }
+    return out;
   } catch {
     return null; // 网络/解析失败:交给调用方降级
   }
@@ -156,15 +207,23 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
     gh: number,
     ga: number,
     kickoff?: string,
+    htH?: number,
+    htA?: number,
   ): LegResolution => {
     const { home, away } = orientScore(legHome, fixHomeNorm, gh, ga);
-    return {
+    const r: LegResolution = {
       status: 'matched',
       matchId,
       kickoff,
       homeGoals: home,
       awayGoals: away,
     };
+    if (htH != null && htA != null) {
+      const o = orientScore(legHome, fixHomeNorm, htH, htA);
+      r.htHome = o.home;
+      r.htAway = o.away;
+    }
+    return r;
   };
 
   // 1) 已注册联赛:联赛存档即 90' 比分,无需 ESPN 校正
@@ -203,6 +262,8 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
         via.homeGoals as number,
         via.awayGoals as number,
         wcHit.date,
+        via.htHome,
+        via.htAway,
       );
     if (via?.status === 'pending')
       return { status: 'pending', kickoff: wcHit.date };
@@ -249,6 +310,8 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
               via.homeGoals as number,
               via.awayGoals as number,
               fixture.commenceTime,
+              via.htHome,
+              via.htAway,
             );
           return { status: 'pending', kickoff: fixture.commenceTime };
         }

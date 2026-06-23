@@ -6,7 +6,6 @@
  * 金额(本金/可赢)一律以截图为准,系统只做「结果匹配」,不重算赔率。
  * 未配置 AIGC_API_KEY 时返回 null(功能禁用);网络/LLM 失败一律 return null,绝不抛。
  */
-import type { MarketType } from 'lib/trade/types';
 import type { BetLeg, RecognizedSlip } from './types';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
@@ -16,20 +15,30 @@ const MODEL =
   process.env.INTEL_LLM_MODEL ??
   'qwen3.5-flash';
 
-/** 结算引擎支持的 6 个盘口码(仅【全场】这几类可自动结算)。 */
-const MARKETS: readonly MarketType[] = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
+/** 可结算盘口码(全场 6 类 + 波胆 全场/上半场/下半场);其余 → OTHER 转人工。 */
+const MARKETS: readonly string[] = [
+  '1X2',
+  'OU',
+  'AH',
+  'BTTS',
+  'DC',
+  'DNB',
+  'CS',
+  'CS1H',
+  'CS2H',
+];
 
 const SYSTEM = `你是顶级体育博彩单据识别员。识别一张投注单截图,抽取成严格 JSON。
 只输出 JSON,格式必须严格为:
-{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null}],"confidence":0到1的数}
+{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null}],"confidence":0到1的数}
 规则:
 - potentialReturn = 注单「可赢/可盈金额」一栏的数字 = 净盈利(不含本金)。**务必逐位看准这一栏**,不要与赔率或本金混淆。
 - 赔率一律用小数赔率(decimal odds)。
-- market 只有当该腿是【全场】的下列 6 类之一才映射对应码:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
-- **其它所有盘口一律 market="OTHER"**,例如:波胆/正确比分、上半场/下半场(任何「半场」盘)、角球、罚牌、球员相关、特色组合、总进球单双 等。
-  · 严禁把不支持的盘口硬塞成 AH/OU/1X2 等并编造让分或盘线(line)。
-  · market="OTHER" 时:selection 填原文选项(如比分 "1-1"),rawText 填简短中文描述(如 "下半场波胆 1-1")。
-- selection 归一化(仅 6 码时):1X2/AH/DNB 用 home 或 away(平局用 draw;AH 的 home/away 取所列让球一方);OU 用 Over 或 Under;BTTS 用 Yes 或 No;DC 用 1X、12 或 X2。
+- 全场标准盘口映射:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
+- 波胆/正确比分 → market 用:全场=CS、上半场=CS1H、下半场=CS2H;**selection 填「主-客」比分**(按所列主客顺序,如 "2-0");rawText 填中文描述(如 "下半场波胆 1-1")。
+- **其它真不支持的盘口一律 market="OTHER"**(如:角球、罚牌、球员相关、特色组合、总进球单双 等);selection 填原文选项,rawText 填中文描述。
+- 严禁把波胆/半场/其它盘口硬塞成 AH/OU/1X2 等并编造让分或盘线(line)。
+- selection 归一化(标准 6 码时):1X2/AH/DNB 用 home 或 away(平局用 draw;AH 的 home/away 取所列让球一方);OU 用 Over 或 Under;BTTS 用 Yes 或 No;DC 用 1X、12 或 X2。
 - 队名保留英文/截图原文。
 - matchDate 若可见输出 ISO(或 YYYY-MM-DD),不可见用 null。
 - 任何读不出的字段一律用 null。
@@ -64,8 +73,8 @@ function cleanLeg(raw: unknown): BetLeg | null {
   const awayName = toStr(o.awayName);
   if (!homeName || !awayName) return null;
 
-  const marketRaw = toStr(o.market) as MarketType | undefined;
-  // 仅命中 6 码才当可结算盘口;其余一律 'OTHER'(波胆/半场/角球等)→ 转人工,绝不臆造
+  const marketRaw = toStr(o.market);
+  // 命中可结算码(6 类 + 波胆 CS/CS1H/CS2H)才保留;其余一律 'OTHER'(角球/特色等)→ 转人工
   const market = marketRaw && MARKETS.includes(marketRaw) ? marketRaw : 'OTHER';
 
   const leg: BetLeg = {
@@ -83,8 +92,8 @@ function cleanLeg(raw: unknown): BetLeg | null {
   if (odds !== undefined) leg.odds = odds;
   const rawText = toStr(o.rawText);
   if (rawText !== undefined) leg.rawText = rawText;
-  // 让分/盘线只对 6 码有意义;OTHER 不带 line,避免误导
-  if (market !== 'OTHER') {
+  // 盘线只对 AH/OU 有意义;其余(波胆/OTHER 等)不带 line,避免误导
+  if (market === 'AH' || market === 'OU') {
     const line = toNum(o.line);
     if (line !== undefined) leg.line = line;
   }

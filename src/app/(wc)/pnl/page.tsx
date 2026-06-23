@@ -97,8 +97,12 @@ function statusMeta(t: T, status: BetStatus) {
 
 const SUPPORTED_MARKETS = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
 
-/** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。不支持盘口显示原文描述。 */
+/** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。波胆/不支持盘口特殊展示。 */
 function legLabel(t: T, leg: BetLeg): string {
+  // 波胆(正确比分):全场 / 上半场 / 下半场
+  if (leg.market === 'CS') return `${t('pnl.csFull')} ${leg.selection}`;
+  if (leg.market === 'CS1H') return `${t('pnl.cs1h')} ${leg.selection}`;
+  if (leg.market === 'CS2H') return `${t('pnl.cs2h')} ${leg.selection}`;
   // OTHER / 不支持盘口:显示识别到的中文描述或原文选项
   if (!SUPPORTED_MARKETS.includes(leg.market))
     return leg.rawText || leg.selection || leg.market;

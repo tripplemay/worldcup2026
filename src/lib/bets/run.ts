@@ -19,6 +19,8 @@ interface LegPatch {
   kickoff?: string;
   homeGoals?: number;
   awayGoals?: number;
+  htHome?: number;
+  htAway?: number;
   result: LegResult;
 }
 interface SlipUpdate {
@@ -66,12 +68,17 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
         res.homeGoals != null &&
         res.awayGoals != null
       ) {
+        const ht =
+          res.htHome != null && res.htAway != null
+            ? { h: res.htHome, a: res.htAway }
+            : undefined;
         const r = judgeLeg(
           leg.market,
           leg.selection,
           leg.line,
           res.homeGoals,
           res.awayGoals,
+          ht,
         );
         legResults.push(r);
         legPatches.push({
@@ -79,6 +86,8 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
           kickoff: res.kickoff,
           homeGoals: res.homeGoals,
           awayGoals: res.awayGoals,
+          htHome: res.htHome,
+          htAway: res.htAway,
           result: r,
         });
       } else if (res.status === 'pending') {
@@ -119,6 +128,8 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
           if (lp.kickoff !== undefined) leg.kickoff = lp.kickoff;
           if (lp.homeGoals !== undefined) leg.homeGoals = lp.homeGoals;
           if (lp.awayGoals !== undefined) leg.awayGoals = lp.awayGoals;
+          if (lp.htHome !== undefined) leg.htHome = lp.htHome;
+          if (lp.htAway !== undefined) leg.htAway = lp.htAway;
           leg.result = lp.result;
           changed = true;
         }
