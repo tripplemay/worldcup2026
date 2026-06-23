@@ -4,6 +4,7 @@ import { MdSettings } from 'react-icons/md';
 import { SWRConfig } from 'swr';
 import { LocaleProvider } from 'lib/i18n/context';
 import BottomTabBar from 'components/worldcup/BottomTabBar';
+import SignalBell from 'components/worldcup/SignalBell';
 
 /** 世界杯移动 App 布局:i18n Provider + SWR 全局默认 + Horizon 背景 + 移动容器 + 底部 Tab。
  * 注:仅设安全的全局默认(去重 + 限制重试);各 hook 的 refreshInterval 与
@@ -19,6 +20,7 @@ export default function WorldCupLayout({ children }: { children: ReactNode }) {
         }}
       >
         <div className="min-h-screen bg-lightPrimary text-navy-700 dark:bg-navy-900 dark:text-white">
+          <SignalBell />
           <Link
             href="/settings"
             aria-label="Settings"

@@ -9,41 +9,17 @@ import {
   MdInsights,
   MdLeaderboard,
   MdAccountBalanceWallet,
-  MdGpsFixed,
-  MdBolt,
   MdSavings,
 } from 'react-icons/md';
 import type { IconType } from 'react-icons';
 import { useT } from 'lib/i18n/context';
-import { useLiveOdds, useSignals, useRadar } from 'lib/hooks/useWorldCup';
+import { useLiveOdds } from 'lib/hooks/useWorldCup';
 
 interface Tab {
   href: string;
   label: string;
   Icon: IconType;
   live?: boolean;
-  badge?: boolean;
-  radar?: boolean;
-}
-
-const RADAR_FRESH_MS = 15 * 60_000; // 15min 内有异动视为「活跃」
-
-/** 新指令红点:有比「上次查看」更新的指令时显示,进入指令台后清除(localStorage + 同标签事件)。 */
-function SignalDot() {
-  const { signals } = useSignals();
-  const maxTs = signals.reduce((m, s) => Math.max(m, s.ts), 0);
-  const [seenAt, setSeenAt] = useState(0);
-  useEffect(() => {
-    const read = () =>
-      setSeenAt(Number(localStorage.getItem('wc:signalsSeenAt') || 0));
-    read();
-    window.addEventListener('wc-signals-seen', read);
-    return () => window.removeEventListener('wc-signals-seen', read);
-  }, []);
-  if (!(maxTs > 0 && maxTs > seenAt)) return null;
-  return (
-    <span className="pointer-events-none absolute -right-1.5 -top-0.5 h-2 w-2 rounded-full bg-red-500 ring-2 ring-white dark:ring-navy-800" />
-  );
 }
 
 /** 实时更新小圆点:常驻低调绿点,每次实时赔率更新扩散一圈光晕。 */
@@ -71,23 +47,7 @@ function LiveDot() {
   );
 }
 
-/** 异动活跃点:15min 内有雷达异动(STEAM/BREAKOUT/RLM)时显示琥珀点。 */
-function RadarDot() {
-  const { alerts } = useRadar();
-  const [now, setNow] = useState(() => 0);
-  useEffect(() => {
-    setNow(Date.now());
-    const id = setInterval(() => setNow(Date.now()), 60_000);
-    return () => clearInterval(id);
-  }, []);
-  const fresh = now > 0 && alerts.some((a) => now - a.ts < RADAR_FRESH_MS);
-  if (!fresh) return null;
-  return (
-    <span className="pointer-events-none absolute -right-1.5 -top-0.5 h-2 w-2 rounded-full bg-amber-500 ring-2 ring-white dark:ring-navy-800" />
-  );
-}
-
-/** 底部 Tab Bar(Horizon token,拇指热区 + iPhone 安全区)。 */
+/** 底部 Tab Bar(Horizon token,拇指热区 + iPhone 安全区)。指令改为右上铃铛、异动入口下线。 */
 export default function BottomTabBar() {
   const pathname = usePathname();
   const t = useT();
@@ -97,13 +57,6 @@ export default function BottomTabBar() {
     { href: '/predict', label: t('nav.predict'), Icon: MdInsights },
     { href: '/standings', label: t('nav.standings'), Icon: MdLeaderboard },
     { href: '/paper', label: t('nav.paper'), Icon: MdAccountBalanceWallet },
-    {
-      href: '/signals',
-      label: t('nav.signals'),
-      Icon: MdGpsFixed,
-      badge: true,
-    },
-    { href: '/radar', label: t('nav.radar'), Icon: MdBolt, radar: true },
     { href: '/pnl', label: t('nav.pnl'), Icon: MdSavings },
   ];
   return (
@@ -128,8 +81,6 @@ export default function BottomTabBar() {
                     }`}
                   />
                   {tab.live && <LiveDot />}
-                  {tab.badge && <SignalDot />}
-                  {tab.radar && <RadarDot />}
                 </span>
                 {tab.label}
               </Link>

@@ -15,6 +15,7 @@ import {
   MdSchedule,
   MdImage,
   MdRefresh,
+  MdLock,
 } from 'react-icons/md';
 import Card from 'components/card';
 import PageHeading from 'components/worldcup/PageHeading';
@@ -128,7 +129,10 @@ function bettorName(t: T, bettors: Bettor[], id: string | null): string {
 
 export default function PnlPage() {
   const { t } = useLocale();
-  const { bettors, slips, perUser, isLoading, error, mutate } = usePnl();
+  const [authed, setAuthed] = useState<boolean | null>(null); // null=校验中
+  const { bettors, slips, perUser, isLoading, error, mutate } = usePnl(
+    authed === true,
+  );
   const [view, setView] = useState<'overview' | 'detail'>('overview');
   const [filter, setFilter] = useState<string>('all'); // bettorId | UNASSIGNED | 'all'
   const [token, setToken] = useState('');
@@ -136,11 +140,42 @@ export default function PnlPage() {
   const [newBettor, setNewBettor] = useState('');
   const [msg, setMsg] = useState('');
   const [busy, setBusy] = useState(false);
+  const [viewPw, setViewPw] = useState('');
+  const [viewMsg, setViewMsg] = useState('');
+  const [viewBusy, setViewBusy] = useState(false);
 
   useEffect(() => {
     const saved = localStorage.getItem(TOKEN_KEY);
     if (saved) setToken(saved);
+    // 浏览密码以服务端 cookie 为准:探测一次决定是否需要输入密码
+    fetch('/api/worldcup/pnl', { cache: 'no-store' })
+      .then((r) => setAuthed(r.ok))
+      .catch(() => setAuthed(false));
   }, []);
+
+  async function viewEnter() {
+    const pw = viewPw.trim();
+    if (!pw || viewBusy) return;
+    setViewBusy(true);
+    setViewMsg('');
+    try {
+      const res = await fetch('/api/worldcup/pnl-auth', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      if (res.ok) {
+        setViewPw('');
+        setAuthed(true);
+      } else {
+        setViewMsg(t('pnl.viewWrong'));
+      }
+    } catch {
+      setViewMsg(t('common.loadFailed'));
+    } finally {
+      setViewBusy(false);
+    }
+  }
 
   const admin = !!token;
 
@@ -227,6 +262,51 @@ export default function PnlPage() {
         ? 'bg-brand-500 text-white'
         : 'bg-white text-gray-500 dark:bg-navy-800 dark:text-gray-400'
     }`;
+
+  // 浏览密码门禁:未通过(或校验中)只渲染密码页,数据接口同样按 cookie 鉴权(双重保险)
+  if (authed !== true) {
+    return (
+      <div>
+        <header className="sticky top-0 z-30 -mx-4 mb-3 bg-lightPrimary/95 px-4 py-3 backdrop-blur dark:bg-navy-900/95">
+          <PageHeading Icon={MdSavings}>{t('pnl.title')}</PageHeading>
+        </header>
+        <Card extra="mt-6 p-5">
+          <div className="mb-3 flex items-center gap-2 text-sm font-medium text-navy-700 dark:text-white">
+            <MdLock className="text-brand-500 dark:text-brand-400" />
+            {t('pnl.viewPrompt')}
+          </div>
+          {authed === null ? (
+            <div className="h-10 animate-pulse rounded-lg bg-lightPrimary dark:bg-navy-900" />
+          ) : (
+            <>
+              <div className="flex gap-2">
+                <input
+                  type="password"
+                  value={viewPw}
+                  onChange={(e) => setViewPw(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && viewEnter()}
+                  placeholder={t('pnl.viewPlaceholder')}
+                  className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                />
+                <button
+                  onClick={viewEnter}
+                  disabled={viewBusy || !viewPw.trim()}
+                  className="rounded-lg bg-brand-500 px-4 py-1.5 text-sm text-white active:scale-95 disabled:opacity-50"
+                >
+                  {t('pnl.enter')}
+                </button>
+              </div>
+              {viewMsg && (
+                <div className="mt-2 text-xs text-red-500 dark:text-red-400">
+                  {viewMsg}
+                </div>
+              )}
+            </>
+          )}
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div>
