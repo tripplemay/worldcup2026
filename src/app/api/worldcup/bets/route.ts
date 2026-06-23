@@ -1,12 +1,9 @@
 /**
- * POST /api/worldcup/bets — 管理员改账(需管理口令 x-admin-token)。
- *  body: { id, action?: 'assign'|'resettle'|'patch', bettorId?, patch? }
- *   · assign   → 重指归属(bettorId)
- *   · resettle → 触发一次结算扫描(补结新完赛/已绑定的注单)
- *   · patch    → 白名单字段直改(stake/potentialReturn/status/pnl/note/bettorId/legs)
- * 改识别错账、手动结算、绑定 unmatched、清 needs_review 均走此口。
+ * POST   /api/worldcup/bets — 管理员改账(assign / resettle / patch)。
+ * DELETE /api/worldcup/bets?id=X  — 删除单张;?all=1 — 清空全部。
+ * 鉴权:浏览密码 cookie 或 x-admin-token。
  */
-import { updateBet, assignBettor } from 'lib/bets/bets';
+import { updateBet, assignBettor, removeBet, clearBets } from 'lib/bets/bets';
 import { settlePendingBets } from 'lib/bets/run';
 import { isViewAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
@@ -72,4 +69,16 @@ export async function POST(req: Request) {
   } catch (e) {
     return fail(e instanceof Error ? e.message : '改账失败');
   }
+}
+
+export async function DELETE(req: Request) {
+  if (!authorized(req)) return fail('需要浏览密码或管理口令', 401);
+  const url = new URL(req.url);
+  if (url.searchParams.get('all') === '1') {
+    const cleared = await clearBets();
+    return ok({ cleared });
+  }
+  const id = url.searchParams.get('id') ?? '';
+  if (!id) return fail('缺少 id', 400);
+  return (await removeBet(id)) ? ok({ id }) : fail('注单不存在', 404);
 }

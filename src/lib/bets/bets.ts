@@ -64,6 +64,25 @@ export function updateBet(
   });
 }
 
+/** 删除单张注单(锁内)。命中返回 true。 */
+export function removeBet(id: string): Promise<boolean> {
+  return withBetsLock(() => {
+    const list = loadBets();
+    if (!list.some((b) => b.id === id)) return false;
+    saveBets(list.filter((b) => b.id !== id));
+    return true;
+  });
+}
+
+/** 清空全部注单(锁内),返回被清数量。 */
+export function clearBets(): Promise<number> {
+  return withBetsLock(() => {
+    const n = loadBets().length;
+    saveBets([]);
+    return n;
+  });
+}
+
 /** 归属到某投注人。 */
 export function assignBettor(
   betId: string,
