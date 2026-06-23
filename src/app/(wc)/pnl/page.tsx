@@ -282,7 +282,19 @@ export default function PnlPage() {
     void adminPost({ id: s.id, patch: { status, pnl } });
   };
 
-  const sortedUsers = [...perUser].sort((a, b) => b.pnl - a.pnl);
+  // 排行榜:净盈亏降序,平手按注数;无下注者沉底
+  const sortedUsers = [...perUser].sort(
+    (a, b) => b.pnl - a.pnl || b.bets - a.bets || b.settled - a.settled,
+  );
+  const totals = perUser.reduce(
+    (acc, u) => ({
+      net: acc.net + u.pnl,
+      staked: acc.staked + u.staked,
+      bets: acc.bets + u.bets,
+      settled: acc.settled + u.settled,
+    }),
+    { net: 0, staked: 0, bets: 0, settled: 0 },
+  );
   const visibleSlips = slips
     .filter((s) => {
       if (filter === 'all') return true;
@@ -382,47 +394,94 @@ export default function PnlPage() {
           </div>
         ) : (
           <div className="space-y-3">
-            {sortedUsers.map((u) => (
-              <button
-                key={u.bettorId}
-                onClick={() => {
-                  setFilter(
-                    u.bettorId === UNASSIGNED ? UNASSIGNED : u.bettorId,
-                  );
-                  setView('detail');
-                }}
-                className="block w-full text-left"
-              >
-                <Card extra="p-4">
-                  <div className="flex items-end justify-between">
-                    <div>
-                      <div className="text-sm font-semibold text-navy-700 dark:text-white">
-                        {u.bettorId === UNASSIGNED
-                          ? t('pnl.unassigned')
-                          : u.name}
-                      </div>
-                      <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
-                        {t('pnl.bets')} {u.bets} · {t('pnl.settled')}{' '}
-                        {u.settled} · {t('pnl.pending')} {u.pending}
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <div
-                        className={`font-mono text-2xl font-extrabold ${posCls(
-                          u.pnl,
-                        )}`}
-                      >
-                        {signMoney(u.pnl)}
-                      </div>
-                      <div className="text-[11px] text-gray-500 dark:text-gray-400">
-                        {t('pnl.staked')} {money(u.staked)} · {t('pnl.winRate')}{' '}
-                        {u.settled ? pct(u.won / u.settled) : '—'}
-                      </div>
-                    </div>
+            {/* 总计 */}
+            <Card extra="p-4">
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-[11px] text-gray-400">
+                    {t('pnl.totalNet')}
                   </div>
-                </Card>
-              </button>
-            ))}
+                  <div
+                    className={`font-mono text-2xl font-extrabold ${posCls(
+                      totals.net,
+                    )}`}
+                  >
+                    {signMoney(totals.net)}
+                  </div>
+                </div>
+                <div className="text-right text-[11px] text-gray-500 dark:text-gray-400">
+                  <div>
+                    {t('pnl.players')} {perUser.length} · {t('pnl.bets')}{' '}
+                    {totals.bets}
+                  </div>
+                  <div>
+                    {t('pnl.staked')} {money(totals.staked)} ·{' '}
+                    {t('pnl.settled')} {totals.settled}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            {/* 排行(全员,含 0 注)*/}
+            {sortedUsers.map((u, i) => {
+              const rank = i + 1;
+              const medal =
+                u.settled > 0 && rank <= 3
+                  ? ['🥇', '🥈', '🥉'][rank - 1]
+                  : null;
+              return (
+                <button
+                  key={u.bettorId}
+                  onClick={() => {
+                    setFilter(
+                      u.bettorId === UNASSIGNED ? UNASSIGNED : u.bettorId,
+                    );
+                    setView('detail');
+                  }}
+                  className="block w-full text-left"
+                >
+                  <Card extra="p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-7 shrink-0 text-center text-lg font-bold text-gray-400">
+                        {medal ?? rank}
+                      </div>
+                      <div className="min-w-0 flex-1">
+                        <div className="truncate text-sm font-semibold text-navy-700 dark:text-white">
+                          {u.bettorId === UNASSIGNED
+                            ? t('pnl.unassigned')
+                            : u.name}
+                        </div>
+                        <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+                          {u.bets === 0
+                            ? t('pnl.noBets')
+                            : `${t('pnl.record')} ${u.won}-${u.lost}` +
+                              (u.pending
+                                ? ` · ${t('pnl.pending')} ${u.pending}`
+                                : '') +
+                              ` · ${t('pnl.staked')} ${money(u.staked)}`}
+                        </div>
+                      </div>
+                      <div className="shrink-0 text-right">
+                        <div
+                          className={`font-mono text-xl font-extrabold ${posCls(
+                            u.pnl,
+                          )}`}
+                        >
+                          {u.settled > 0 ? signMoney(u.pnl) : '—'}
+                        </div>
+                        <div className="text-[11px] text-gray-500 dark:text-gray-400">
+                          {u.settled > 0
+                            ? `${t('pnl.roi')} ${
+                                u.staked ? pct(u.pnl / u.staked) : '—'
+                              }`
+                            : `${t('pnl.winRate')} —`}
+                        </div>
+                      </div>
+                    </div>
+                  </Card>
+                </button>
+              );
+            })}
           </div>
         )
       ) : (
