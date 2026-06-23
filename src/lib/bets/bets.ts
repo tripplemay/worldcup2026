@@ -95,7 +95,10 @@ function isSettled(s: BetSlip): boolean {
   );
 }
 
-/** 每名投注人的盈亏聚合(未归属归入「(未归属)」桶;只保留有注单的桶)。 */
+/**
+ * 每名投注人的盈亏聚合。**保留所有在册投注人(含 0 注)**,便于排行榜全员显示;
+ * 「未归属」桶仅当有悬空注单时才出现。金额做 2 位小数收敛,去浮点噪声。
+ */
 export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
   const blank = (bettorId: string, name: string): BettorPnl => ({
     bettorId,
@@ -127,5 +130,8 @@ export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
     }
     byId.set(key, agg);
   }
-  return [...byId.values()].filter((a) => a.bets > 0);
+  const round2 = (n: number) => Math.round(n * 100) / 100;
+  return [...byId.values()]
+    .filter((a) => a.bettorId !== UNASSIGNED || a.bets > 0) // 在册全保留;未归属仅在有注时出现
+    .map((a) => ({ ...a, pnl: round2(a.pnl), staked: round2(a.staked) }));
 }

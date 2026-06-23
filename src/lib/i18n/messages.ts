@@ -53,6 +53,11 @@ export const messages = {
       viewPlaceholder: '浏览密码',
       enter: '进入',
       viewWrong: '密码错误',
+      totalNet: '总盈亏',
+      players: '人数',
+      noBets: '暂无下注',
+      roi: '回报',
+      record: '战绩',
     },
     signals: {
       title: '交易指令台',
@@ -568,6 +573,11 @@ export const messages = {
       viewPlaceholder: 'View password',
       enter: 'Enter',
       viewWrong: 'Wrong password',
+      totalNet: 'Total',
+      players: 'Players',
+      noBets: 'No bets',
+      roi: 'ROI',
+      record: 'Record',
     },
     signals: {
       title: 'Signal Desk',
