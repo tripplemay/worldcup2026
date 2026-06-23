@@ -352,10 +352,13 @@ export default function PnlPage() {
     }
   }
 
-  // 排行榜:净盈亏降序,平手按注数;无下注者沉底
-  const sortedUsers = [...perUser].sort(
-    (a, b) => b.pnl - a.pnl || b.bets - a.bets || b.settled - a.settled,
-  );
+  // 排行榜:无下注者(bets=0)一律沉底;有注者按净盈亏降序,平手按注数/已结
+  const sortedUsers = [...perUser].sort((a, b) => {
+    const aEmpty = a.bets === 0;
+    const bEmpty = b.bets === 0;
+    if (aEmpty !== bEmpty) return aEmpty ? 1 : -1;
+    return b.pnl - a.pnl || b.bets - a.bets || b.settled - a.settled;
+  });
   const totals = perUser.reduce(
     (acc, u) => ({
       net: acc.net + u.pnl,
