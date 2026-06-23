@@ -16,6 +16,7 @@ import type { BetLeg, LegResult } from './types';
 
 interface LegPatch {
   matchId?: string;
+  kickoff?: string;
   homeGoals?: number;
   awayGoals?: number;
   result: LegResult;
@@ -65,13 +66,14 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
         legResults.push(r);
         legPatches.push({
           matchId: res.matchId,
+          kickoff: res.kickoff,
           homeGoals: res.homeGoals,
           awayGoals: res.awayGoals,
           result: r,
         });
       } else if (res.status === 'pending') {
         legResults.push('pending');
-        legPatches.push({ result: 'pending' });
+        legPatches.push({ kickoff: res.kickoff, result: 'pending' });
       } else {
         legResults.push('unmatched');
         legPatches.push({ result: 'unmatched' });
@@ -100,9 +102,11 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
         if (
           leg.result !== lp.result ||
           leg.homeGoals !== lp.homeGoals ||
-          leg.awayGoals !== lp.awayGoals
+          leg.awayGoals !== lp.awayGoals ||
+          (lp.kickoff !== undefined && leg.kickoff !== lp.kickoff)
         ) {
           if (lp.matchId !== undefined) leg.matchId = lp.matchId;
+          if (lp.kickoff !== undefined) leg.kickoff = lp.kickoff;
           if (lp.homeGoals !== undefined) leg.homeGoals = lp.homeGoals;
           if (lp.awayGoals !== undefined) leg.awayGoals = lp.awayGoals;
           leg.result = lp.result;
