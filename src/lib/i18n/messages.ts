@@ -64,6 +64,9 @@ export const messages = {
       pnlInvalid: '请输入有效数字',
       save: '保存',
       cancel: '取消',
+      manage: '管理(投注人 / 重新结算)',
+      edit: '编辑',
+      collapse: '收起',
     },
     signals: {
       title: '交易指令台',
@@ -590,6 +593,9 @@ export const messages = {
       pnlInvalid: 'Enter a valid number',
       save: 'Save',
       cancel: 'Cancel',
+      manage: 'Manage (bettors / re-settle)',
+      edit: 'Edit',
+      collapse: 'Close',
     },
     signals: {
       title: 'Signal Desk',
