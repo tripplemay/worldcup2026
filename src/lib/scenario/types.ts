@@ -208,3 +208,23 @@ export interface ScenarioResult {
   teams: TeamOutlook[]; // 全部 48 队前景
   notes?: string;
 }
+
+// ── 展示口径切换:同一份 byResult.probs 上按不同「目标轮」重排/取最期望(前端交叉比对)──
+
+/** 按指定目标轮(口径)对结果桶降序排(期望度 = 打进该轮及更深的概率)。 */
+export function sortBucketsByMetric(
+  byResult: ResultBucket[],
+  stage: Stage,
+): ResultBucket[] {
+  return [...byResult].sort(
+    (a, b) => reachProb(b.probs, stage) - reachProb(a.probs, stage),
+  );
+}
+
+/** 在指定口径下的最期望结果(argmax 打进目标轮);无桶返回 undefined。 */
+export function desiredByMetric(
+  byResult: ResultBucket[],
+  stage: Stage,
+): Outcome | undefined {
+  return sortBucketsByMetric(byResult, stage)[0]?.outcome;
+}

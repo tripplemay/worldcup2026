@@ -3,7 +3,11 @@
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import { useLocale, useTn } from 'lib/i18n/context';
-import { reachProb } from 'lib/scenario/types';
+import {
+  reachProb,
+  sortBucketsByMetric,
+  desiredByMetric,
+} from 'lib/scenario/types';
 import type {
   FixtureView,
   Outcome,
@@ -25,22 +29,35 @@ const OUTCOME_BG: Record<Outcome, string> = {
   L: 'bg-rose-100 text-rose-700 dark:bg-rose-500/20 dark:text-rose-300',
 };
 
-/** 一支队的一侧视角(队徽 + 最期望 + 各结果路径概率 / 已踢则显总体前景)。 */
+/** 自身期望结果 → 比赛结果(主胜/平/客胜),用于默契判定。 */
+const homeOutcome = (o?: Outcome) =>
+  o === 'W' ? 'home' : o === 'D' ? 'draw' : o === 'L' ? 'away' : undefined;
+const awayOutcome = (o?: Outcome) =>
+  o === 'W' ? 'away' : o === 'D' ? 'draw' : o === 'L' ? 'home' : undefined;
+
+/** 一支队的一侧视角(队徽 + 最期望 + 各结果在所选口径下的概率;已踢则只显总体前景)。 */
 function TeamSide({
   outlook,
   played,
-  targetStage,
+  metricStage,
 }: {
   outlook?: TeamOutlook;
   played: boolean;
-  targetStage: Stage;
+  metricStage: Stage;
 }) {
   const { t } = useLocale();
   const tn = useTn();
   if (!outlook) return null;
   const oc = (o: Outcome) =>
     t(`scenarios.${o === 'W' ? 'win' : o === 'D' ? 'draw' : 'lose'}`);
-  const targetLabel = t('scenarios.reach') + t(`scenarios.st${targetStage}`);
+  // R32(出线)直接叫「出线」,其余叫「进8强」之类
+  const metricLabel =
+    metricStage === 'R32'
+      ? t('scenarios.advance')
+      : t('scenarios.reach') + t(`scenarios.st${metricStage}`);
+
+  const buckets = sortBucketsByMetric(outlook.byResult, metricStage);
+  const desired = played ? undefined : buckets[0]?.outcome;
 
   return (
     <div>
@@ -50,81 +67,82 @@ function TeamSide({
           logo={outlook.logo}
           className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
         />
-        {!played && outlook.desired && (
+        {desired && (
           <span
-            className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${
-              OUTCOME_BG[outlook.desired]
-            }`}
+            className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
           >
-            {t('scenarios.desired')} {oc(outlook.desired)}
+            {t('scenarios.desired')} {oc(desired)}
           </span>
         )}
       </div>
 
-      {/* 总体前景 */}
+      {/* 总体前景(固定三锚点,跨口径不变,做参照) */}
       <div className="mt-1 flex gap-3 text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
         <span>
           {t('scenarios.advance')} {pct(outlook.overall.advance)}
         </span>
         <span>
-          {targetLabel} {pct(reachProb(outlook.overall, targetStage))}
+          {t('scenarios.reach')}
+          {t('scenarios.stQF')} {pct(outlook.overall.qf)}
         </span>
         <span>
           {t('scenarios.champion')} {pct(outlook.overall.champion)}
         </span>
       </div>
 
-      {/* 未踢:各结果(胜/平/负)的路径概率,最期望置顶 */}
-      {!played && outlook.byResult.length > 0 && (
+      {/* 未踢:各结果(胜/平/负)在「所选口径」下的概率,最期望置顶 */}
+      {!played && buckets.length > 0 && (
         <div className="mt-1.5 space-y-1">
-          {outlook.byResult.map((b, i) => (
-            <div
-              key={b.outcome}
-              className="flex items-center gap-2 text-[11px]"
-            >
-              <span
-                className={`w-4 shrink-0 font-semibold ${
-                  OUTCOME_COLOR[b.outcome]
-                }`}
+          <div className="text-[10px] text-gray-400">{metricLabel}</div>
+          {buckets.map((b, i) => {
+            const v = reachProb(b.probs, metricStage);
+            return (
+              <div
+                key={b.outcome}
+                className="flex items-center gap-2 text-[11px]"
               >
-                {oc(b.outcome)}
-              </span>
-              {/* 进度条占满主宽度;对手名缩成右侧小尾巴(各尺寸恒显示,过长截断) */}
-              <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
                 <span
-                  className={`block h-full rounded-full ${
-                    i === 0 ? 'bg-brand-500' : 'bg-gray-300 dark:bg-navy-500'
-                  }`}
-                  style={{ width: pct(b.target) }}
-                />
-              </div>
-              <span className="w-9 shrink-0 text-right tabular-nums text-gray-500 dark:text-gray-400">
-                {pct(b.target)}
-              </span>
-              {b.topOpponent && (
-                <span className="max-w-[5.5rem] shrink-0 truncate text-gray-400">
-                  vs {tn(b.topOpponent.norm)}
+                  className={`w-4 shrink-0 font-semibold ${OUTCOME_COLOR[b.outcome]}`}
+                >
+                  {oc(b.outcome)}
                 </span>
-              )}
-            </div>
-          ))}
+                {/* 进度条占满主宽度;对手名缩成右侧小尾巴 */}
+                <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
+                  <span
+                    className={`block h-full rounded-full ${
+                      i === 0 ? 'bg-brand-500' : 'bg-gray-300 dark:bg-navy-500'
+                    }`}
+                    style={{ width: pct(v) }}
+                  />
+                </div>
+                <span className="w-9 shrink-0 text-right tabular-nums text-gray-500 dark:text-gray-400">
+                  {pct(v)}
+                </span>
+                {b.topOpponent && (
+                  <span className="max-w-[5.5rem] shrink-0 truncate text-gray-400">
+                    vs {tn(b.topOpponent.norm)}
+                  </span>
+                )}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
 
-/** 第三轮一场对阵的双视角卡(含默契高亮)。 */
+/** 第三轮一场对阵的双视角卡(按所选口径计算最期望 + 默契)。 */
 export default function ScenarioFixtureCard({
   fixture,
   home,
   away,
-  targetStage,
+  metricStage,
 }: {
   fixture: FixtureView;
   home?: TeamOutlook;
   away?: TeamOutlook;
-  targetStage: Stage;
+  metricStage: Stage;
 }) {
   const { t } = useLocale();
   const tn = useTn();
@@ -136,13 +154,25 @@ export default function ScenarioFixtureCard({
     return `· ${d.getMonth() + 1}/${d.getDate()}`;
   })();
 
-  const jointLabel = (() => {
-    if (!fixture.mutualInterest || !fixture.jointOutcome) return '';
-    if (fixture.jointOutcome === 'draw') return t('scenarios.draw');
-    return fixture.jointOutcome === 'home'
-      ? tn(fixture.homeName)
-      : tn(fixture.awayName);
-  })();
+  // 按所选口径重算双方最期望 → 默契(都指向同一比赛结果)
+  const hDesired =
+    home && !fixture.played
+      ? desiredByMetric(home.byResult, metricStage)
+      : undefined;
+  const aDesired =
+    away && !fixture.played
+      ? desiredByMetric(away.byResult, metricStage)
+      : undefined;
+  const hOut = homeOutcome(hDesired);
+  const aOut = awayOutcome(aDesired);
+  const mutual = !!hOut && !!aOut && hOut === aOut;
+  const jointLabel = !mutual
+    ? ''
+    : hOut === 'draw'
+    ? t('scenarios.draw')
+    : hOut === 'home'
+    ? tn(fixture.homeName)
+    : tn(fixture.awayName);
 
   return (
     <Card extra="p-3">
@@ -150,7 +180,7 @@ export default function ScenarioFixtureCard({
         <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
           {t('scenarios.groupsTag')} {fixture.group} {when}
         </span>
-        {fixture.mutualInterest && fixture.jointOutcome && (
+        {mutual && (
           <span
             title={t('scenarios.mutualHint')}
             className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-[10px] font-semibold text-amber-700 dark:bg-amber-500/20 dark:text-amber-300"
@@ -159,17 +189,9 @@ export default function ScenarioFixtureCard({
           </span>
         )}
       </div>
-      <TeamSide
-        outlook={home}
-        played={fixture.played}
-        targetStage={targetStage}
-      />
+      <TeamSide outlook={home} played={fixture.played} metricStage={metricStage} />
       <div className="my-2 h-px bg-gray-100 dark:bg-white/5" />
-      <TeamSide
-        outlook={away}
-        played={fixture.played}
-        targetStage={targetStage}
-      />
+      <TeamSide outlook={away} played={fixture.played} metricStage={metricStage} />
     </Card>
   );
 }
