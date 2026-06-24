@@ -353,11 +353,12 @@ export function runMonteCarlo(
       jointOutcome: mutual ? hOut : undefined,
     };
   });
+  // 按比赛(开赛)顺序排:同组两场同时开球 → 相邻;缺时间的排最后
   fixtures.sort(
     (a, b) =>
-      Number(a.played) - Number(b.played) ||
+      (a.commenceTime || '9999').localeCompare(b.commenceTime || '9999') ||
       a.group.localeCompare(b.group) ||
-      (a.commenceTime ?? '').localeCompare(b.commenceTime ?? ''),
+      a.home.localeCompare(b.home),
   );
 
   return {

@@ -24,6 +24,18 @@ export default function ScenariosPage() {
     return m;
   }, [scenario]);
 
+  // 防御:按比赛(开赛)顺序展示对阵(同组同时开球→相邻;缺时间排最后)
+  const fixtures = useMemo(
+    () =>
+      [...(scenario?.fixtures ?? [])].sort(
+        (a, b) =>
+          (a.commenceTime || '9999').localeCompare(b.commenceTime || '9999') ||
+          a.group.localeCompare(b.group) ||
+          a.home.localeCompare(b.home),
+      ),
+    [scenario],
+  );
+
   const freshness = (() => {
     if (!scenario) return '';
     const d = new Date(scenario.computedAt);
@@ -84,7 +96,7 @@ export default function ScenariosPage() {
               {t('scenarios.fixturesTitle')}
             </h2>
             <div className="space-y-2.5">
-              {scenario.fixtures.map((f) => (
+              {fixtures.map((f) => (
                 <ScenarioFixtureCard
                   key={`${f.group}-${f.home}-${f.away}`}
                   fixture={f}
