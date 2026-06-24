@@ -3,8 +3,17 @@
  * DELETE /api/worldcup/bets?id=X  — 删除单张;?all=1 — 清空全部。
  * 鉴权:浏览密码 cookie 或 x-admin-token。
  */
-import { updateBet, assignBettor, removeBet, clearBets } from 'lib/bets/bets';
+import {
+  updateBet,
+  assignBettor,
+  removeBet,
+  clearBets,
+  getBet,
+} from 'lib/bets/bets';
 import { settlePendingBets } from 'lib/bets/run';
+import { readBetImage } from 'lib/bets/images';
+import { recognizeBetSlip } from 'lib/bets/recognize';
+import { backfillLegKickoffs } from 'lib/bets/match';
 import { isAdminAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
 import type { BetSlip } from 'lib/bets/types';
@@ -54,6 +63,35 @@ export async function POST(req: Request) {
       return ok(r);
     }
     if (!body.id) return fail('缺少 id', 400);
+    if (body.action === 'recognize') {
+      // 用原图重跑识别(升级模型/prompt 后修历史单);成功则重置为 pending 待重结算
+      const slip = getBet(body.id);
+      if (!slip) return fail('注单不存在', 404);
+      if (!slip.imageRef) return fail('该单无原图,无法重新识别', 400);
+      const buf = readBetImage(slip.imageRef);
+      if (!buf) return fail('原图读取失败', 400);
+      const mime =
+        buf[0] === 0x89 && buf[1] === 0x50 ? 'image/png' : 'image/jpeg';
+      const rec = await recognizeBetSlip(buf.toString('base64'), mime);
+      if (!rec) return fail('重新识别失败(未配置视觉模型或图片不清晰)', 422);
+      // 回填新腿开赛时间(原地写 kickoff/matchId)
+      await backfillLegKickoffs({ ...slip, legs: rec.legs } as BetSlip);
+      const patch: Partial<BetSlip> = {
+        legs: rec.legs,
+        stake: rec.stake,
+        potentialReturn: rec.potentialReturn,
+        confidence: rec.confidence,
+        status: 'pending',
+        pnl: null,
+        note: '',
+        settledAt: undefined,
+      };
+      if (rec.currency !== undefined) patch.currency = rec.currency;
+      if (rec.platform !== undefined) patch.platform = rec.platform;
+      return (await updateBet(body.id, patch))
+        ? ok({ id: body.id, legs: rec.legs.length, confidence: rec.confidence })
+        : fail('注单不存在', 404);
+    }
     if (body.action === 'assign') {
       if (!body.bettorId) return fail('缺少 bettorId', 400);
       return (await assignBettor(body.id, body.bettorId))
