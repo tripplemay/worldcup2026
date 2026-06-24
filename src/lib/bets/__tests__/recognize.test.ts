@@ -51,7 +51,9 @@ describe('parseRecognizedSlip — confidence 处理', () => {
     const slip = parseRecognizedSlip({
       stake: 10,
       potentialReturn: 20,
-      legs: [{ homeName: 'A', awayName: 'B', market: '1X2', selection: 'home' }],
+      legs: [
+        { homeName: 'A', awayName: 'B', market: '1X2', selection: 'home' },
+      ],
     });
     expect(slip!.confidence).toBe(0.5);
   });
@@ -65,7 +67,9 @@ describe('parseRecognizedSlip — confidence 处理', () => {
       stake: 10,
       potentialReturn: 20,
       confidence: input,
-      legs: [{ homeName: 'A', awayName: 'B', market: '1X2', selection: 'home' }],
+      legs: [
+        { homeName: 'A', awayName: 'B', market: '1X2', selection: 'home' },
+      ],
     });
     expect(slip!.confidence).toBeCloseTo(expected);
   });
@@ -75,7 +79,9 @@ describe('parseRecognizedSlip — confidence 处理', () => {
       stake: 10,
       potentialReturn: 20,
       confidence: 'abc',
-      legs: [{ homeName: 'A', awayName: 'B', market: '1X2', selection: 'home' }],
+      legs: [
+        { homeName: 'A', awayName: 'B', market: '1X2', selection: 'home' },
+      ],
     });
     expect(slip!.confidence).toBe(0.5);
   });
@@ -215,6 +221,49 @@ describe('parseRecognizedSlip — 可选字段与脏腿清洗', () => {
     expect(slip!.currency).toBe('USD');
     expect(slip!.legs[0].homeName).toBe('A');
     expect(slip!.legs[0].selection).toBe('home');
+  });
+});
+
+describe('parseRecognizedSlip — 市场码大小写归一', () => {
+  it('小写/变体市场码归一为大写并保留(不误判 OTHER)', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        { homeName: 'A', awayName: 'B', market: 'cs', selection: '2-1' },
+        {
+          homeName: 'C',
+          awayName: 'D',
+          market: 'ou',
+          selection: 'Over',
+          line: 2.5,
+        },
+        { homeName: 'E', awayName: 'F', market: '1x2', selection: 'home' },
+        { homeName: 'G', awayName: 'H', market: 'cs2h', selection: '1-1' },
+      ],
+    });
+    expect(slip!.legs.map((l) => l.market)).toEqual([
+      'CS',
+      'OU',
+      '1X2',
+      'CS2H',
+    ]);
+  });
+
+  it('真未知盘口仍归为 OTHER', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'corners',
+          selection: 'over 9.5',
+        },
+      ],
+    });
+    expect(slip!.legs[0].market).toBe('OTHER');
   });
 });
 

@@ -73,7 +73,8 @@ function cleanLeg(raw: unknown): BetLeg | null {
   const awayName = toStr(o.awayName);
   if (!homeName || !awayName) return null;
 
-  const marketRaw = toStr(o.market);
+  // 市场码大小写归一后再匹配:模型偶尔输出小写/变体(cs/ou/1x2),不应因此误降为 OTHER
+  const marketRaw = toStr(o.market)?.toUpperCase();
   // 命中可结算码(6 类 + 波胆 CS/CS1H/CS2H)才保留;其余一律 'OTHER'(角球/特色等)→ 转人工
   const market = marketRaw && MARKETS.includes(marketRaw) ? marketRaw : 'OTHER';
 
