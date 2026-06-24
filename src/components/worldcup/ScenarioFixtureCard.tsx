@@ -7,6 +7,7 @@ import {
   reachProb,
   sortBucketsByMetric,
   desiredByMetric,
+  isMeaningful,
 } from 'lib/scenario/types';
 import type {
   FixtureView,
@@ -57,7 +58,9 @@ function TeamSide({
       : t('scenarios.reach') + t(`scenarios.st${metricStage}`);
 
   const buckets = sortBucketsByMetric(outlook.byResult, metricStage);
-  const desired = played ? undefined : buckets[0]?.outcome;
+  // 摆动够大才显示「最期望」;否则视为「势均·影响不大」(避免噪声 argmax 误导)
+  const meaningful = !played && isMeaningful(outlook.byResult, metricStage);
+  const desired = meaningful ? buckets[0]?.outcome : undefined;
 
   return (
     <div>
@@ -67,13 +70,18 @@ function TeamSide({
           logo={outlook.logo}
           className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
         />
-        {desired && (
-          <span
-            className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
-          >
-            {t('scenarios.desired')} {oc(desired)}
-          </span>
-        )}
+        {!played &&
+          (desired ? (
+            <span
+              className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
+            >
+              {t('scenarios.desired')} {oc(desired)}
+            </span>
+          ) : (
+            <span className="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500 dark:bg-white/10 dark:text-gray-400">
+              {t('scenarios.evenOdds')}
+            </span>
+          ))}
       </div>
 
       {/* 总体前景(固定三锚点,跨口径不变,做参照) */}
@@ -102,7 +110,9 @@ function TeamSide({
                 className="flex items-center gap-2 text-[11px]"
               >
                 <span
-                  className={`w-4 shrink-0 font-semibold ${OUTCOME_COLOR[b.outcome]}`}
+                  className={`w-4 shrink-0 font-semibold ${
+                    OUTCOME_COLOR[b.outcome]
+                  }`}
                 >
                   {oc(b.outcome)}
                 </span>
@@ -154,13 +164,13 @@ export default function ScenarioFixtureCard({
     return `· ${d.getMonth() + 1}/${d.getDate()}`;
   })();
 
-  // 按所选口径重算双方最期望 → 默契(都指向同一比赛结果)
+  // 按所选口径重算双方最期望 → 默契(都「有取舍」且指向同一比赛结果才算)
   const hDesired =
-    home && !fixture.played
+    home && !fixture.played && isMeaningful(home.byResult, metricStage)
       ? desiredByMetric(home.byResult, metricStage)
       : undefined;
   const aDesired =
-    away && !fixture.played
+    away && !fixture.played && isMeaningful(away.byResult, metricStage)
       ? desiredByMetric(away.byResult, metricStage)
       : undefined;
   const hOut = homeOutcome(hDesired);
@@ -189,9 +199,17 @@ export default function ScenarioFixtureCard({
           </span>
         )}
       </div>
-      <TeamSide outlook={home} played={fixture.played} metricStage={metricStage} />
+      <TeamSide
+        outlook={home}
+        played={fixture.played}
+        metricStage={metricStage}
+      />
       <div className="my-2 h-px bg-gray-100 dark:bg-white/5" />
-      <TeamSide outlook={away} played={fixture.played} metricStage={metricStage} />
+      <TeamSide
+        outlook={away}
+        played={fixture.played}
+        metricStage={metricStage}
+      />
     </Card>
   );
 }
