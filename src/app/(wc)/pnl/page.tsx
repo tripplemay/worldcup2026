@@ -573,6 +573,7 @@ export default function PnlPage() {
             {sortedUsers.map((u, i) => {
               const rank = i + 1;
               const opening = u.openingPnl ?? 0;
+              const systemPnl = u.pnl - opening; // 本系统内净盈亏(剔除期初),供回报率计算
               const hasResult = u.settled > 0 || opening !== 0;
               const medal =
                 hasResult && rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : null;
@@ -646,9 +647,7 @@ export default function PnlPage() {
                         </div>
                         <div className="text-[11px] text-gray-500 dark:text-gray-400">
                           {u.staked > 0
-                            ? `${t('pnl.roi')} ${pct(
-                                (u.pnl - opening) / u.staked,
-                              )}`
+                            ? `${t('pnl.roi')} ${pct(systemPnl / u.staked)}`
                             : hasResult
                             ? ''
                             : `${t('pnl.winRate')} —`}
