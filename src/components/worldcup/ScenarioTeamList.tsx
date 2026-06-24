@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import { useLocale } from 'lib/i18n/context';
-import { desiredByMetric } from 'lib/scenario/types';
+import { desiredByMetric, isMeaningful } from 'lib/scenario/types';
 import type { Outcome, Stage, TeamOutlook } from 'lib/scenario/types';
 
 const pct = (p: number) => `${Math.round(p * 100)}%`;
@@ -47,9 +47,10 @@ export default function ScenarioTeamList({
       </div>
       <ul className="space-y-1.5">
         {shown.map((tm, i) => {
-          const desired = tm.played3
-            ? undefined
-            : desiredByMetric(tm.byResult, metricStage);
+          const desired =
+            !tm.played3 && isMeaningful(tm.byResult, metricStage)
+              ? desiredByMetric(tm.byResult, metricStage)
+              : undefined;
           return (
             <li
               key={tm.norm}

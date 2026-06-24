@@ -228,3 +228,22 @@ export function desiredByMetric(
 ): Outcome | undefined {
   return sortBucketsByMetric(byResult, stage)[0]?.outcome;
 }
+
+/** 「有取舍」阈值:摆动绝对≥5pp 或 相对≥50%(后者救「绝对小但决定性」的弱旅,如 2%/0%)。 */
+export const MEANINGFUL_ABS = 0.05;
+export const MEANINGFUL_REL = 0.5;
+
+/**
+ * 在某口径下,胜/平/负三结果的概率摆动是否「有取舍」(值得高亮最期望/触发默契)。
+ * 不够大 → 视为「势均·影响不大」,argmax 多半是噪声,不应误导。
+ */
+export function isMeaningful(byResult: ResultBucket[], stage: Stage): boolean {
+  if (byResult.length < 2) return false;
+  const vals = byResult.map((b) => reachProb(b.probs, stage));
+  const max = Math.max(...vals);
+  const min = Math.min(...vals);
+  const spread = max - min;
+  return (
+    spread >= MEANINGFUL_ABS || (max > 0 && spread / max >= MEANINGFUL_REL)
+  );
+}

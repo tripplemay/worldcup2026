@@ -1,4 +1,4 @@
-import { desiredByMetric, sortBucketsByMetric } from '../types';
+import { desiredByMetric, sortBucketsByMetric, isMeaningful } from '../types';
 import type { ResultBucket, StageProbs } from '../types';
 
 const probs = (advance: number, qf: number): StageProbs => ({
@@ -53,5 +53,34 @@ describe('口径切换:desiredByMetric / sortBucketsByMetric', () => {
 
   it('空桶返回 undefined', () => {
     expect(desiredByMetric([], 'QF')).toBeUndefined();
+  });
+});
+
+describe('isMeaningful:势均阈值(5pp 绝对 或 50% 相对)', () => {
+  it('摆动≥5pp → 有取舍', () => {
+    const b = [
+      bucket('W', 0.3, 0.3),
+      bucket('D', 0.3, 0.24),
+      bucket('L', 0.3, 0.2),
+    ];
+    expect(isMeaningful(b, 'QF')).toBe(true);
+  });
+
+  it('绝对小但相对≥50%(弱旅 2%/0%)→ 有取舍', () => {
+    const b = [bucket('W', 0.02, 0.02), bucket('D', 0, 0), bucket('L', 0, 0)];
+    expect(isMeaningful(b, 'QF')).toBe(true);
+  });
+
+  it('三者几乎相等(33/31/31)→ 势均', () => {
+    const b = [
+      bucket('L', 0.33, 0.33),
+      bucket('D', 0.31, 0.31),
+      bucket('W', 0.31, 0.31),
+    ];
+    expect(isMeaningful(b, 'QF')).toBe(false);
+  });
+
+  it('不足两桶 → false', () => {
+    expect(isMeaningful([bucket('W', 0.5, 0.5)], 'QF')).toBe(false);
   });
 });
