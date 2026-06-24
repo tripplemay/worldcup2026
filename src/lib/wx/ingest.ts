@@ -16,11 +16,17 @@ function summarize(slip: BetSlip): string {
   const lines = slip.legs.map((l, i) => {
     const line = l.line != null ? ` ${l.line}` : '';
     const odds = l.odds != null ? ` @${l.odds}` : '';
-    return `${i + 1}. ${l.homeName} vs ${l.awayName} — ${l.market} ${l.selection}${line}${odds}`;
+    return `${i + 1}. ${l.homeName} vs ${l.awayName} — ${l.market} ${
+      l.selection
+    }${line}${odds}`;
   });
   return [
-    `🧾 识别注单(${slip.legs.length} ${slip.legs.length > 1 ? '串关' : '单注'})`,
-    `本金 ${cur}${slip.stake} · 可赢 ${cur}${slip.potentialReturn}`,
+    `🧾 识别注单(${slip.legs.length} ${
+      slip.legs.length > 1 ? '串关' : '单注'
+    })`,
+    `本金 ${cur}${slip.stake.toFixed(
+      2,
+    )} · 可赢 ${cur}${slip.potentialReturn.toFixed(2)}`,
     `置信度 ${Math.round(slip.confidence * 100)}%`,
     ...lines,
   ].join('\n');
@@ -54,7 +60,12 @@ export async function handleWxMessage(
   if (!sender) return;
   const admin = process.env.WX_ADMIN_USER;
   if (admin && sender !== admin) return; // 配置了管理员则只信任他
-  if (!admin) console.warn('[wx] 收到来自', sender, '的消息(未设 WX_ADMIN_USER,建议锁定)');
+  if (!admin)
+    console.warn(
+      '[wx] 收到来自',
+      sender,
+      '的消息(未设 WX_ADMIN_USER,建议锁定)',
+    );
 
   const imgItem = (msg.item_list ?? []).find(
     (it) => it.type === MessageItemType.IMAGE && it.image_item,

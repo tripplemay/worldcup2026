@@ -60,7 +60,9 @@ function summarize(slip: BetSlip): string {
     `🧾 识别注单(${slip.legs.length} ${
       slip.legs.length > 1 ? '串关' : '单注'
     })`,
-    `本金 ${cur}${slip.stake} · 可赢 ${cur}${slip.potentialReturn}`,
+    `本金 ${cur}${slip.stake.toFixed(
+      2,
+    )} · 可赢 ${cur}${slip.potentialReturn.toFixed(2)}`,
     `置信度 ${Math.round(slip.confidence * 100)}%`,
     ...lines,
   ].join('\n');

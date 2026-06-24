@@ -23,7 +23,12 @@ import { useLocale } from 'lib/i18n/context';
 import type { BetSlip, BetLeg, BetStatus, Bettor } from 'lib/bets/types';
 import type { BettorPnl } from 'lib/bets/bets';
 
-const money = (x: number) => Math.round(x).toLocaleString();
+// 货币金额一律保留 2 位小数 + 千分位(固定 en-US locale 避免 SSR/客户端水合不一致)
+const money = (x: number) =>
+  x.toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  });
 const signMoney = (x: number) => `${x >= 0 ? '+' : '−'}${money(Math.abs(x))}`;
 const pct = (x: number) => `${(x * 100).toFixed(0)}%`;
 const posCls = (x: number) =>
