@@ -5,7 +5,7 @@
  *  · 总览:各投注人净盈亏排行。
  *  · 明细:逐单(串关各腿、状态、盈亏);管理员解锁后可改归属/手动判定/重新结算。
  */
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   MdSavings,
   MdCheckCircle,
@@ -37,6 +37,14 @@ const posCls = (x: number) =>
     : x < 0
     ? 'text-red-500 dark:text-red-400'
     : 'text-gray-400';
+
+/** 战绩点颜色:赢=绿、输=红、走盘=灰。 */
+const DOT_CLS: Partial<Record<BetStatus, string>> = {
+  won: 'bg-green-500',
+  lost: 'bg-red-500',
+  void: 'bg-gray-400 dark:bg-gray-500',
+};
+const STREAK_MAX = 20; // 战绩点最多显示最近 N 个
 
 const UNASSIGNED = '__unassigned__';
 
@@ -398,6 +406,24 @@ export default function PnlPage() {
     }
   }
 
+  // 每名投注人的「战绩点」序列:已结(赢/输/走盘)注单按上传时间旧→新
+  const streakByUser = useMemo(() => {
+    const validIds = new Set(bettors.map((b) => b.id));
+    const m = new Map<string, BetStatus[]>();
+    [...slips]
+      .sort((a, b) => a.createdAt - b.createdAt) // 旧→新
+      .forEach((s) => {
+        if (s.status !== 'won' && s.status !== 'lost' && s.status !== 'void')
+          return;
+        const key =
+          s.bettorId && validIds.has(s.bettorId) ? s.bettorId : UNASSIGNED;
+        const arr = m.get(key) ?? [];
+        arr.push(s.status);
+        m.set(key, arr);
+      });
+    return m;
+  }, [slips, bettors]);
+
   // 排行榜:无成绩者(0 注且无期初盈亏)一律沉底;有成绩者按净盈亏降序,平手按注数/已结
   const isEmptyUser = (u: BettorPnl) =>
     u.bets === 0 && (u.openingPnl ?? 0) === 0;
@@ -550,6 +576,11 @@ export default function PnlPage() {
               const hasResult = u.settled > 0 || opening !== 0;
               const medal =
                 hasResult && rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : null;
+              const streakAll = streakByUser.get(u.bettorId) ?? [];
+              const streakHidden = Math.max(0, streakAll.length - STREAK_MAX);
+              const streak = streakHidden
+                ? streakAll.slice(-STREAK_MAX)
+                : streakAll;
               return (
                 <button
                   key={u.bettorId}
@@ -586,6 +617,24 @@ export default function PnlPage() {
                                 ? ` · ${t('pnl.opening')} ${signMoney(opening)}`
                                 : '')}
                         </div>
+                        {streak.length > 0 && (
+                          <div className="mt-1 flex flex-wrap items-center gap-1">
+                            {streakHidden > 0 && (
+                              <span className="mr-0.5 text-[10px] leading-none text-gray-400">
+                                +{streakHidden}
+                              </span>
+                            )}
+                            {streak.map((st, idx) => (
+                              <span
+                                key={idx}
+                                title={t(`pnl.streak.${st}`)}
+                                className={`h-2 w-2 rounded-full ${
+                                  DOT_CLS[st] ?? 'bg-gray-300'
+                                }`}
+                              />
+                            ))}
+                          </div>
+                        )}
                       </div>
                       <div className="shrink-0 text-right">
                         <div
