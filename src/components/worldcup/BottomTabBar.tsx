@@ -8,6 +8,7 @@ import {
   MdShowChart,
   MdInsights,
   MdLeaderboard,
+  MdAccountTree,
   MdAccountBalanceWallet,
   MdSavings,
 } from 'react-icons/md';
@@ -56,6 +57,7 @@ export default function BottomTabBar() {
     { href: '/odds', label: t('nav.odds'), Icon: MdShowChart, live: true },
     { href: '/predict', label: t('nav.predict'), Icon: MdInsights },
     { href: '/standings', label: t('nav.standings'), Icon: MdLeaderboard },
+    { href: '/scenarios', label: t('nav.sandbox'), Icon: MdAccountTree },
     { href: '/paper', label: t('nav.paper'), Icon: MdAccountBalanceWallet },
     { href: '/pnl', label: t('nav.pnl'), Icon: MdSavings },
   ];

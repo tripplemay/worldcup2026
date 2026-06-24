@@ -16,6 +16,7 @@ import { ingestHistory } from 'lib/predict/history';
 import { recomputeRatings } from 'lib/predict/ratings';
 import { fetchEloRatings } from 'lib/predict/eloratings';
 import { ingestPlayerMinutes } from 'lib/predict/playerMinutes';
+import { computeScenario } from 'lib/scenario/compute';
 import { clearCache } from 'lib/cache';
 
 const num = (v: string | undefined, d: number) => {
@@ -31,6 +32,7 @@ const LIVE_MS = num(process.env.PAPER_SETTLE_LIVE_MS, 45_000); // 有比赛进�
 const PRE_MS = num(process.env.PAPER_SETTLE_PRE_MS, 300_000); // 有注但未开赛
 const IDLE_MS = num(process.env.PAPER_SETTLE_IDLE_MS, 600_000); // 空闲
 const RECOMPUTE_ON_FINISH = bool(process.env.PREDICT_RECOMPUTE_ON_FINISH, true);
+const SCENARIO_ON_FINISH = bool(process.env.SCENARIO_RECOMPUTE_ON_FINISH, true); // 新赛果后重算沙盘
 const RECOMPUTE_DELAY_MS = num(process.env.PREDICT_RECOMPUTE_DELAY_MS, 120_000); // 完赛后稍候,待 AF 落数据
 
 let started = false;
@@ -47,6 +49,12 @@ async function recomputeNow(): Promise<void> {
     void ingestPlayerMinutes().catch(() => {});
     clearCache('predict:');
     clearCache('tmi:');
+    // 新赛果 → 新评分 → 重算沙盘(未开踢的队据此修正预期);后台异步,不阻塞守望者
+    if (SCENARIO_ON_FINISH) {
+      void computeScenario().catch((e) =>
+        console.error('[settleWatcher] 沙盘重算失败', e),
+      );
+    }
   } catch (e) {
     console.error('[settleWatcher] 赛后重算失败', e);
   }

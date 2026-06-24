@@ -10,6 +10,7 @@ import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip } from 'lib/bets/types';
+import type { ScenarioResult } from 'lib/scenario/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const PREDICT_DIR = join(DATA_DIR, 'predict');
@@ -331,6 +332,14 @@ export function loadBets(): BetSlip[] {
 }
 export function saveBets(list: BetSlip[]): void {
   writeJson('bets.json', list);
+}
+
+// ── 沙盘情景推演(Phase 8d:第三轮期望结果 + 整树晋级路径 Monte-Carlo)──────
+export function loadScenario(): ScenarioResult | null {
+  return readJson<ScenarioResult | null>('scenarios.json', null);
+}
+export function saveScenario(s: ScenarioResult): void {
+  writeJson('scenarios.json', s);
 }
 
 // ── 微信接入轮询游标(Phase 9b:wx-link 收单)──────────────
