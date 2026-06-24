@@ -61,6 +61,7 @@ import type {
 import type { AfPrediction } from 'lib/predict/apifootball';
 import type { ModelStats } from 'lib/predict/predictionLog';
 import type { RadarAlert } from 'lib/odds/radar';
+import type { ScenarioResult } from 'lib/scenario/types';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -113,6 +114,22 @@ export function useStandings() {
     ...common,
   });
   return { groups: data?.groups ?? [], error, isLoading, refresh: mutate };
+}
+
+/** 沙盘情景推演(第三轮期望结果 + 整树晋级路径);读后台缓存。 */
+export function useScenarios() {
+  const { data, error, isLoading, mutate } = useSWR<{
+    scenario: ScenarioResult | null;
+  }>('/api/worldcup/scenarios', fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
+  return {
+    scenario: data?.scenario ?? null,
+    error,
+    isLoading,
+    refresh: mutate,
+  };
 }
 
 /** 48 强球队。 */
