@@ -476,7 +476,8 @@ export const messages = {
       clvScore: 'CLV 读盘准度',
       balance: '当前余额',
       initial: '初始本金',
-      roi: '回报率',
+      roi: '本站回报率', // 仅本系统内本金与盈利,不含期初
+
       winRate: '胜率',
       pending: '待结算',
       won: '赢',
@@ -597,7 +598,7 @@ export const messages = {
       totalNet: 'Total',
       players: 'Players',
       noBets: 'No bets',
-      roi: 'ROI',
+      roi: 'In-app ROI', // in-system stake & profit only, excludes opening
       record: 'Record',
       editPnl: 'Edit P&L',
       pnlPlaceholder: 'Actual P&L',
