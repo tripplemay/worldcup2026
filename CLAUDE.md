@@ -86,7 +86,7 @@ pnpm test -t "归一化"   # 按用例名过滤 (-t 透传给 jest)
 - `POST intel?hours=N`(每 2 小时):刷新近期比赛场外情报。
 - `POST trade/run`(每 15 分钟):结算已完成纸上注单 + Phase 9 注单,赛前下注,快照/结算预测日志。
 - `POST odds/capture-openings`(每日 4:10):未开赛比赛初盘 write-once 捕获(幂等)。
-- `POST scenarios/run`(第三轮窗口高频,如每 15–30 分钟;窗口外可停):重算「沙盘」情景推演(?sims=N 可覆盖)。事件驱动主路径已挂 `settleWatcher`(每场收官即重算),cron 仅兜底。
+- `POST scenarios/run`(每 20 分钟,部署后亦立即预热一次):重算「沙盘」情景推演(?sims=N 可覆盖)。事件驱动主路径已挂 `settleWatcher`(每场收官即重算),cron 仅兜底。
 
 ## 部署
 
