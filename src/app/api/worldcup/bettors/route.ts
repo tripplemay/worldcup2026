@@ -10,14 +10,14 @@ import {
   removeBettor,
   setBettorOpeningPnl,
 } from 'lib/bets/bettors';
-import { isViewAuthed } from 'lib/bets/viewAuth';
+import { isAdminAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
 
-/** 管理写权限:已过浏览密码(cookie)即可;或带正确管理口令(供 API/脚本)。 */
+/** 写权限:持管理密码 cookie(配置后浏览密码降为只读);或带管理口令(供 API/脚本)。 */
 function authorized(req: Request): boolean {
-  if (isViewAuthed(req)) return true;
+  if (isAdminAuthed(req)) return true;
   const tok = process.env.ADMIN_TOKEN;
   return !!tok && req.headers.get('x-admin-token') === tok;
 }

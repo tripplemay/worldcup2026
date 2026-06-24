@@ -66,7 +66,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           password: ${{ secrets.SSH_PASSWORD }}
           command_timeout: 15m
-          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY,TG_BOT_TOKEN,TG_ADMIN_CHAT_ID,TG_WEBHOOK_SECRET,PNL_VIEW_PASSWORD,WX_BOT_TOKEN,WX_BASE_URL,WX_ADMIN_USER
+          envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY,TG_BOT_TOKEN,TG_ADMIN_CHAT_ID,TG_WEBHOOK_SECRET,PNL_VIEW_PASSWORD,PNL_ADMIN_PASSWORD,WX_BOT_TOKEN,WX_BASE_URL,WX_ADMIN_USER
           script: |
             set -e
             APP_DIR=/opt/apps/worldcup
@@ -139,6 +139,8 @@ jobs:
             export TG_WEBHOOK_SECRET="${TG_WEBHOOK_SECRET}"
             # 盈亏页浏览密码(fail-closed:未设则盈亏页/接口一律拒绝)
             export PNL_VIEW_PASSWORD="${PNL_VIEW_PASSWORD}"
+            # 盈亏页管理密码(看/改分权:配置后浏览密码降为只读,改账需管理密码;未设则浏览密码仍可改)
+            export PNL_ADMIN_PASSWORD="${PNL_ADMIN_PASSWORD}"
             # 微信接入(wx-link;未设 WX_BOT_TOKEN 则微信轮询不启动)。WX_BASE_URL 缺省 iLink 域;
             # WX_ADMIN_USER 锁定只收某人(从日志拿 from_user_id 后回填)。
             export WX_BOT_TOKEN="${WX_BOT_TOKEN}"
@@ -203,6 +205,7 @@ jobs:
           TG_ADMIN_CHAT_ID: ${{ secrets.TG_ADMIN_CHAT_ID }}
           TG_WEBHOOK_SECRET: ${{ secrets.TG_WEBHOOK_SECRET }}
           PNL_VIEW_PASSWORD: ${{ secrets.PNL_VIEW_PASSWORD }}
+          PNL_ADMIN_PASSWORD: ${{ secrets.PNL_ADMIN_PASSWORD }}
           WX_BOT_TOKEN: ${{ secrets.WX_BOT_TOKEN }}
           WX_BASE_URL: ${{ secrets.WX_BASE_URL }}
           WX_ADMIN_USER: ${{ secrets.WX_ADMIN_USER }}

@@ -58,14 +58,17 @@ export async function handleWxMessage(
   if (msg.group_id) return; // 暂只处理私聊(方案 A)
   const sender = msg.from_user_id;
   if (!sender) return;
+  // fail-closed:未配置 WX_ADMIN_USER 时不处理任何人(避免陌生人发图落库);向 TG 看齐
   const admin = process.env.WX_ADMIN_USER;
-  if (admin && sender !== admin) return; // 配置了管理员则只信任他
-  if (!admin)
+  if (!admin) {
     console.warn(
-      '[wx] 收到来自',
+      '[wx] 未设 WX_ADMIN_USER,忽略来自',
       sender,
-      '的消息(未设 WX_ADMIN_USER,建议锁定)',
+      '的消息(请配置后再用)',
     );
+    return;
+  }
+  if (sender !== admin) return; // 只信任配置的管理员
 
   const imgItem = (msg.item_list ?? []).find(
     (it) => it.type === MessageItemType.IMAGE && it.image_item,

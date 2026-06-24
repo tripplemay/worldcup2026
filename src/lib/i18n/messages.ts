@@ -79,6 +79,11 @@ export const messages = {
       openingHint: '正数=之前净赢、负数=之前净输;会计入排行总盈亏。留空记 0。',
       openingInvalid: '期初盈亏需为数字',
       streak: { won: '赢', lost: '输', void: '走盘' },
+      readonly: '只读模式',
+      unlockEdit: '解锁编辑',
+      unlock: '解锁',
+      adminPwPh: '管理密码',
+      adminWrong: '管理密码错误',
     },
     signals: {
       title: '交易指令台',
@@ -622,6 +627,11 @@ export const messages = {
         'Positive = prior net win, negative = prior net loss; counts toward the ranking total. Blank = 0.',
       openingInvalid: 'Opening P&L must be a number',
       streak: { won: 'Win', lost: 'Loss', void: 'Push' },
+      readonly: 'Read-only',
+      unlockEdit: 'Unlock editing',
+      unlock: 'Unlock',
+      adminPwPh: 'Admin password',
+      adminWrong: 'Wrong admin password',
     },
     signals: {
       title: 'Signal Desk',

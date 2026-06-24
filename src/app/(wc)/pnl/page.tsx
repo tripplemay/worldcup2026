@@ -173,7 +173,7 @@ function bettorName(t: T, bettors: Bettor[], id: string | null): string {
 export default function PnlPage() {
   const { t } = useLocale();
   const [authed, setAuthed] = useState<boolean | null>(null); // null=校验中
-  const { bettors, slips, perUser, isLoading, error, mutate } = usePnl(
+  const { bettors, slips, perUser, canEdit, isLoading, error, mutate } = usePnl(
     authed === true,
   );
   const [view, setView] = useState<'overview' | 'detail'>('overview');
@@ -190,6 +190,9 @@ export default function PnlPage() {
   const [viewPw, setViewPw] = useState('');
   const [viewMsg, setViewMsg] = useState('');
   const [viewBusy, setViewBusy] = useState(false);
+  const [adminOpen, setAdminOpen] = useState(false); // 解锁编辑(管理密码)输入框
+  const [adminPw, setAdminPw] = useState('');
+  const [adminMsg, setAdminMsg] = useState('');
 
   useEffect(() => {
     // 记住过(localStorage)→ 直接进,避免每次重输;cookie 仍负责数据鉴权。
@@ -236,7 +239,34 @@ export default function PnlPage() {
     }
   }
 
-  // 已过浏览密码即可管理(写接口按浏览 cookie 鉴权,无需再输管理口令)
+  // 解锁编辑:输入管理密码 → 写 pnl_admin cookie → 刷新 /pnl(canEdit 变 true,显示编辑控件)
+  async function adminUnlock() {
+    const pw = adminPw.trim();
+    if (!pw || viewBusy) return;
+    setViewBusy(true);
+    setAdminMsg('');
+    try {
+      const res = await fetch('/api/worldcup/pnl-auth', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ password: pw }),
+      });
+      const j = res.ok ? await res.json().catch(() => null) : null;
+      if (res.ok && j?.data?.role === 'admin') {
+        setAdminPw('');
+        setAdminOpen(false);
+        await mutate(); // 重新拉 /pnl → canEdit=true
+      } else {
+        setAdminMsg(t('pnl.adminWrong'));
+      }
+    } catch {
+      setAdminMsg(t('common.loadFailed'));
+    } finally {
+      setViewBusy(false);
+    }
+  }
+
+  // 写接口按管理(pnl_admin)cookie 鉴权;view-only 用户调用会被后端 401
   async function adminPost(body: Record<string, unknown>): Promise<boolean> {
     setBusy(true);
     setMsg('');
@@ -668,15 +698,55 @@ export default function PnlPage() {
               {t('common.loadFailed')}
             </div>
           )}
-          {/* 管理区:默认收起,点开加人 / 重结算 / 名册 */}
-          <button
-            onClick={() => setMgmtOpen((v) => !v)}
-            className="flex w-full items-center justify-between rounded-lg bg-white px-3 py-2 text-xs text-gray-500 shadow-sm active:scale-[0.99] dark:bg-navy-800 dark:text-gray-400"
-          >
-            <span>⚙️ {t('pnl.manage')}</span>
-            <span>{mgmtOpen ? '▴' : '▾'}</span>
-          </button>
-          {mgmtOpen && (
+          {/* 只读用户:解锁编辑(输入管理密码) */}
+          {!canEdit && (
+            <div className="rounded-lg bg-white px-3 py-2 shadow-sm dark:bg-navy-800">
+              <button
+                onClick={() => setAdminOpen((v) => !v)}
+                className="flex w-full items-center justify-between text-xs text-gray-500 active:scale-[0.99] dark:text-gray-400"
+              >
+                <span>
+                  🔒 {t('pnl.readonly')} · {t('pnl.unlockEdit')}
+                </span>
+                <span>{adminOpen ? '▴' : '▾'}</span>
+              </button>
+              {adminOpen && (
+                <div className="mt-2 flex gap-2">
+                  <input
+                    type="password"
+                    value={adminPw}
+                    onChange={(e) => setAdminPw(e.target.value)}
+                    onKeyDown={(e) => e.key === 'Enter' && adminUnlock()}
+                    placeholder={t('pnl.adminPwPh')}
+                    className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-xs text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                  />
+                  <button
+                    onClick={adminUnlock}
+                    disabled={viewBusy || !adminPw.trim()}
+                    className="rounded-lg bg-brand-500 px-3 py-1.5 text-xs text-white active:scale-95 disabled:opacity-50"
+                  >
+                    {t('pnl.unlock')}
+                  </button>
+                </div>
+              )}
+              {adminMsg && (
+                <div className="mt-1 text-[11px] text-red-500 dark:text-red-400">
+                  {adminMsg}
+                </div>
+              )}
+            </div>
+          )}
+          {/* 管理区:默认收起,点开加人 / 重结算 / 名册(仅管理权限) */}
+          {canEdit && (
+            <button
+              onClick={() => setMgmtOpen((v) => !v)}
+              className="flex w-full items-center justify-between rounded-lg bg-white px-3 py-2 text-xs text-gray-500 shadow-sm active:scale-[0.99] dark:bg-navy-800 dark:text-gray-400"
+            >
+              <span>⚙️ {t('pnl.manage')}</span>
+              <span>{mgmtOpen ? '▴' : '▾'}</span>
+            </button>
+          )}
+          {canEdit && mgmtOpen && (
             <Card extra="p-3">
               <div className="space-y-2 text-xs">
                 <div className="flex items-center justify-between gap-2">
@@ -939,25 +1009,27 @@ export default function PnlPage() {
                     </div>
                   )}
 
-                  {/* 编辑开关:默认只读,点开才显操作 */}
-                  <div className="mt-2 flex justify-end">
-                    <button
-                      onClick={() => {
-                        const open = editId === s.id;
-                        setEditId(open ? null : s.id);
-                        if (!open)
-                          setEditPnl(s.pnl != null ? String(s.pnl) : '');
-                      }}
-                      className="rounded-lg px-2 py-1 text-xs text-gray-500 active:scale-95 dark:text-gray-400"
-                    >
-                      {editId === s.id
-                        ? `▴ ${t('pnl.collapse')}`
-                        : `✏️ ${t('pnl.edit')}`}
-                    </button>
-                  </div>
+                  {/* 编辑开关:仅管理权限可见;只读用户不显示 */}
+                  {canEdit && (
+                    <div className="mt-2 flex justify-end">
+                      <button
+                        onClick={() => {
+                          const open = editId === s.id;
+                          setEditId(open ? null : s.id);
+                          if (!open)
+                            setEditPnl(s.pnl != null ? String(s.pnl) : '');
+                        }}
+                        className="rounded-lg px-2 py-1 text-xs text-gray-500 active:scale-95 dark:text-gray-400"
+                      >
+                        {editId === s.id
+                          ? `▴ ${t('pnl.collapse')}`
+                          : `✏️ ${t('pnl.edit')}`}
+                      </button>
+                    </div>
+                  )}
 
                   {/* 编辑面板 */}
-                  {editId === s.id && (
+                  {canEdit && editId === s.id && (
                     <div className="mt-1 space-y-2 border-t border-gray-100 pt-2 dark:border-white/5">
                       {/* 归属 + 判定 */}
                       <div className="flex flex-wrap items-center gap-2">

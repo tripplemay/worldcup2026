@@ -5,7 +5,7 @@
 import { loadBets } from 'lib/db/store';
 import { listBettors } from 'lib/bets/bettors';
 import { perUserPnl } from 'lib/bets/bets';
-import { isViewAuthed } from 'lib/bets/viewAuth';
+import { isViewAuthed, isAdminAuthed } from 'lib/bets/viewAuth';
 import { okLive, fail } from 'lib/api/respond';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,13 @@ export async function GET(req: Request) {
     const perUser = perUserPnl(slips, bettors);
     // 去掉仅服务端需要的内部字段(Telegram chat/file id、原始 LLM 转储),减少无谓暴露
     const safe = slips.map(({ recognizedRaw, source, ...rest }) => rest);
-    return okLive({ bettors, slips: safe, perUser });
+    // canEdit:是否持有管理(写)权限,供前端决定是否显示编辑/管理控件
+    return okLive({
+      bettors,
+      slips: safe,
+      perUser,
+      canEdit: isAdminAuthed(req),
+    });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '盈亏数据获取失败');
   }
