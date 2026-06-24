@@ -1139,6 +1139,18 @@ export default function PnlPage() {
                           />
                         </a>
                       )}
+                      {/* 重新识别(用原图重跑;升级模型/prompt 后修历史单)*/}
+                      {s.imageRef && (
+                        <button
+                          onClick={() =>
+                            void adminPost({ id: s.id, action: 'recognize' })
+                          }
+                          disabled={busy}
+                          className="self-start rounded-lg bg-brand-500/15 px-2 py-1 text-xs text-brand-600 active:scale-95 disabled:opacity-50 dark:text-brand-400"
+                        >
+                          {t('pnl.reRecognize')}
+                        </button>
+                      )}
                       {/* 删除此单(二次确认)*/}
                       <div className="flex items-center justify-end border-t border-gray-100 pt-2 dark:border-white/5">
                         {delConfirmId === s.id ? (
