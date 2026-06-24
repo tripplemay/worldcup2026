@@ -511,6 +511,7 @@ export function usePnl(enabled = true) {
     bettors: Bettor[];
     slips: BetSlip[];
     perUser: BettorPnl[];
+    canEdit?: boolean;
   }>(enabled ? '/api/worldcup/pnl' : null, fetcher, {
     refreshInterval: 60_000, // 1min:赛后自动结算后尽快反映到盈亏页
     ...common,
@@ -519,6 +520,7 @@ export function usePnl(enabled = true) {
     bettors: data?.bettors ?? [],
     slips: data?.slips ?? [],
     perUser: data?.perUser ?? [],
+    canEdit: data?.canEdit ?? false, // 是否持管理(写)权限 → 决定是否显示编辑控件
     error,
     isLoading,
     mutate,
