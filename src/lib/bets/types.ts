@@ -11,6 +11,7 @@ export interface Bettor {
   id: string;
   name: string;
   active?: boolean; // 缺省视为 true
+  openingPnl?: number; // 期初净盈亏:用本系统前的累计输赢(正=赢/负=输),计入排行总额
 }
 
 /**

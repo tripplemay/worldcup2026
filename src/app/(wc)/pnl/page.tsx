@@ -21,6 +21,7 @@ import PageHeading from 'components/worldcup/PageHeading';
 import { usePnl } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import type { BetSlip, BetLeg, BetStatus, Bettor } from 'lib/bets/types';
+import type { BettorPnl } from 'lib/bets/bets';
 
 const money = (x: number) => Math.round(x).toLocaleString();
 const signMoney = (x: number) => `${x >= 0 ? '+' : '−'}${money(Math.abs(x))}`;
@@ -170,6 +171,7 @@ export default function PnlPage() {
   const [editId, setEditId] = useState<string | null>(null); // 展开编辑面板的注单
   const [editPnl, setEditPnl] = useState('');
   const [mgmtOpen, setMgmtOpen] = useState(false); // 顶部管理区折叠(默认收起)
+  const [openingDraft, setOpeningDraft] = useState<Record<string, string>>({}); // 期初盈亏编辑草稿
   const [clearConfirm, setClearConfirm] = useState(false); // 清空全部二次确认
   const [delConfirmId, setDelConfirmId] = useState<string | null>(null); // 单删二次确认
   const [viewPw, setViewPw] = useState('');
@@ -305,6 +307,45 @@ export default function PnlPage() {
     }
   }
 
+  // 设置某投注人的期初净盈亏(使用本系统前的累计输赢)
+  async function saveOpening(id: string) {
+    if (busy) return;
+    const raw = (openingDraft[id] ?? '').trim();
+    const val = raw === '' ? 0 : Number(raw);
+    if (!Number.isFinite(val)) {
+      setMsg(t('pnl.openingInvalid'));
+      return;
+    }
+    setBusy(true);
+    setMsg('');
+    try {
+      const res = await fetch('/api/worldcup/bettors', {
+        method: 'PATCH',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({ id, openingPnl: val }),
+      });
+      if (!res.ok) {
+        setMsg(
+          res.status === 401 || res.status === 403
+            ? t('pnl.viewWrong')
+            : t('common.loadFailed'),
+        );
+        return;
+      }
+      setOpeningDraft((d) => {
+        const next = { ...d };
+        delete next[id];
+        return next;
+      });
+      setMsg(t('pnl.saved'));
+      await mutate();
+    } catch {
+      setMsg(t('common.loadFailed'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   const setOutcome = (s: BetSlip, status: BetStatus) => {
     // 可盈 = 净盈利:赢 → +可盈;输 → −本金;走盘 → 0
     const pnl =
@@ -352,10 +393,12 @@ export default function PnlPage() {
     }
   }
 
-  // 排行榜:无下注者(bets=0)一律沉底;有注者按净盈亏降序,平手按注数/已结
+  // 排行榜:无成绩者(0 注且无期初盈亏)一律沉底;有成绩者按净盈亏降序,平手按注数/已结
+  const isEmptyUser = (u: BettorPnl) =>
+    u.bets === 0 && (u.openingPnl ?? 0) === 0;
   const sortedUsers = [...perUser].sort((a, b) => {
-    const aEmpty = a.bets === 0;
-    const bEmpty = b.bets === 0;
+    const aEmpty = isEmptyUser(a);
+    const bEmpty = isEmptyUser(b);
     if (aEmpty !== bEmpty) return aEmpty ? 1 : -1;
     return b.pnl - a.pnl || b.bets - a.bets || b.settled - a.settled;
   });
@@ -498,10 +541,10 @@ export default function PnlPage() {
             {/* 排行(全员,含 0 注)*/}
             {sortedUsers.map((u, i) => {
               const rank = i + 1;
+              const opening = u.openingPnl ?? 0;
+              const hasResult = u.settled > 0 || opening !== 0;
               const medal =
-                u.settled > 0 && rank <= 3
-                  ? ['🥇', '🥈', '🥉'][rank - 1]
-                  : null;
+                hasResult && rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : null;
               return (
                 <button
                   key={u.bettorId}
@@ -526,12 +569,17 @@ export default function PnlPage() {
                         </div>
                         <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
                           {u.bets === 0
-                            ? t('pnl.noBets')
+                            ? opening !== 0
+                              ? `${t('pnl.opening')} ${signMoney(opening)}`
+                              : t('pnl.noBets')
                             : `${t('pnl.record')} ${u.won}-${u.lost}` +
                               (u.pending
                                 ? ` · ${t('pnl.pending')} ${u.pending}`
                                 : '') +
-                              ` · ${t('pnl.staked')} ${money(u.staked)}`}
+                              ` · ${t('pnl.staked')} ${money(u.staked)}` +
+                              (opening !== 0
+                                ? ` · ${t('pnl.opening')} ${signMoney(opening)}`
+                                : '')}
                         </div>
                       </div>
                       <div className="shrink-0 text-right">
@@ -540,13 +588,15 @@ export default function PnlPage() {
                             u.pnl,
                           )}`}
                         >
-                          {u.settled > 0 ? signMoney(u.pnl) : '—'}
+                          {hasResult ? signMoney(u.pnl) : '—'}
                         </div>
                         <div className="text-[11px] text-gray-500 dark:text-gray-400">
-                          {u.settled > 0
-                            ? `${t('pnl.roi')} ${
-                                u.staked ? pct(u.pnl / u.staked) : '—'
-                              }`
+                          {u.staked > 0
+                            ? `${t('pnl.roi')} ${pct(
+                                (u.pnl - opening) / u.staked,
+                              )}`
+                            : hasResult
+                            ? ''
                             : `${t('pnl.winRate')} —`}
                         </div>
                       </div>
@@ -623,6 +673,49 @@ export default function PnlPage() {
                         </button>
                       </span>
                     ))}
+                  </div>
+                )}
+                {/* 期初净盈亏:使用本系统前的累计输赢(正=赢/负=输)*/}
+                {bettors.length > 0 && (
+                  <div className="border-t border-gray-100 pt-2 dark:border-white/5">
+                    <div className="mb-1 text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                      {t('pnl.openingTitle')}
+                    </div>
+                    <div className="flex flex-col gap-1.5">
+                      {bettors.map((b) => (
+                        <div key={b.id} className="flex items-center gap-2">
+                          <span className="w-16 shrink-0 truncate text-[12px] text-navy-700 dark:text-gray-200">
+                            {b.name}
+                          </span>
+                          <input
+                            type="number"
+                            inputMode="decimal"
+                            value={
+                              openingDraft[b.id] ??
+                              (b.openingPnl != null ? String(b.openingPnl) : '')
+                            }
+                            onChange={(e) =>
+                              setOpeningDraft((d) => ({
+                                ...d,
+                                [b.id]: e.target.value,
+                              }))
+                            }
+                            placeholder="0"
+                            className="w-28 rounded-lg border border-gray-200 bg-white px-2 py-1 text-[12px] text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                          />
+                          <button
+                            onClick={() => void saveOpening(b.id)}
+                            disabled={busy || openingDraft[b.id] === undefined}
+                            className="rounded-lg bg-brand-500 px-2.5 py-1 text-[12px] text-white active:scale-95 disabled:opacity-50"
+                          >
+                            {t('pnl.save')}
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-1 text-[10px] text-gray-400">
+                      {t('pnl.openingHint')}
+                    </p>
                   </div>
                 )}
                 {/* 危险操作:清空全部注单(二次确认)*/}

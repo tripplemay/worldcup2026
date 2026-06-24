@@ -1,8 +1,15 @@
 /**
- * GET  /api/worldcup/bettors — 投注人名册(盈亏页归属下拉用)。
- * POST /api/worldcup/bettors {name} — 新增投注人(需管理口令 x-admin-token)。
+ * GET   /api/worldcup/bettors — 投注人名册(盈亏页归属下拉用)。
+ * POST  /api/worldcup/bettors {name} — 新增投注人。
+ * PATCH /api/worldcup/bettors {id, openingPnl} — 设置期初净盈亏。
+ * DELETE /api/worldcup/bettors?id= — 移除。 (写操作需浏览密码 cookie 或管理口令)
  */
-import { listBettors, addBettor, removeBettor } from 'lib/bets/bettors';
+import {
+  listBettors,
+  addBettor,
+  removeBettor,
+  setBettorOpeningPnl,
+} from 'lib/bets/bettors';
 import { isViewAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
 
@@ -32,6 +39,24 @@ export async function POST(req: Request) {
     return b ? ok({ bettor: b }) : fail('添加失败', 400);
   } catch (e) {
     return fail(e instanceof Error ? e.message : '新增投注人失败');
+  }
+}
+
+export async function PATCH(req: Request) {
+  if (!authorized(req)) return fail('需要浏览密码或管理口令', 401);
+  try {
+    const { id, openingPnl } = (await req.json()) as {
+      id?: string;
+      openingPnl?: number;
+    };
+    if (!id) return fail('缺少 id', 400);
+    if (typeof openingPnl !== 'number' || !Number.isFinite(openingPnl))
+      return fail('期初盈亏需为数字', 400);
+    return setBettorOpeningPnl(id, openingPnl)
+      ? ok({ id, openingPnl })
+      : fail('投注人不存在', 404);
+  } catch (e) {
+    return fail(e instanceof Error ? e.message : '设置期初盈亏失败');
   }
 }
 

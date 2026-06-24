@@ -74,6 +74,10 @@ export const messages = {
       csFull: '波胆',
       cs1h: '上半场波胆',
       cs2h: '下半场波胆',
+      opening: '期初',
+      openingTitle: '期初净盈亏(入册前累计)',
+      openingHint: '正数=之前净赢、负数=之前净输;会计入排行总盈亏。留空记 0。',
+      openingInvalid: '期初盈亏需为数字',
     },
     signals: {
       title: '交易指令台',
@@ -610,6 +614,11 @@ export const messages = {
       csFull: 'Correct Score',
       cs1h: '1H Correct Score',
       cs2h: '2H Correct Score',
+      opening: 'Opening',
+      openingTitle: 'Opening net P&L (before joining)',
+      openingHint:
+        'Positive = prior net win, negative = prior net loss; counts toward the ranking total. Blank = 0.',
+      openingInvalid: 'Opening P&L must be a number',
     },
     signals: {
       title: 'Signal Desk',

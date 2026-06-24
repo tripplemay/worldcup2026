@@ -63,3 +63,14 @@ export function setBettorActive(id: string, active: boolean): boolean {
   saveBettors(list.map((b) => (b.id === id ? { ...b, active } : b)));
   return true;
 }
+
+/** 设置期初净盈亏(使用本系统前的累计输赢);非有限数视为 0,2 位小数收敛。 */
+export function setBettorOpeningPnl(id: string, openingPnl: number): boolean {
+  const list = loadBettors();
+  if (!list.some((b) => b.id === id)) return false;
+  const val = Number.isFinite(openingPnl)
+    ? Math.round(openingPnl * 100) / 100
+    : 0;
+  saveBettors(list.map((b) => (b.id === id ? { ...b, openingPnl: val } : b)));
+  return true;
+}

@@ -99,9 +99,10 @@ export interface BettorPnl {
   settled: number; // 已结算注数(won/lost/void)
   won: number;
   lost: number;
-  staked: number; // 已结算注本金合计
-  pnl: number; // 净盈亏合计
+  staked: number; // 已结算注本金合计(仅系统内)
+  pnl: number; // 净盈亏合计(= 系统内已结盈亏 + 期初净盈亏)
   pending: number; // 未结 / 待复核 / 未匹配 注数
+  openingPnl: number; // 期初净盈亏(已含在 pnl 中;用于展示/ROI 修正)
 }
 
 const UNASSIGNED = '__unassigned__';
@@ -119,7 +120,11 @@ function isSettled(s: BetSlip): boolean {
  * 「未归属」桶仅当有悬空注单时才出现。金额做 2 位小数收敛,去浮点噪声。
  */
 export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
-  const blank = (bettorId: string, name: string): BettorPnl => ({
+  const blank = (
+    bettorId: string,
+    name: string,
+    openingPnl = 0,
+  ): BettorPnl => ({
     bettorId,
     name,
     bets: 0,
@@ -129,9 +134,11 @@ export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
     staked: 0,
     pnl: 0,
     pending: 0,
+    openingPnl,
   });
   const byId = new Map<string, BettorPnl>();
-  for (const b of bettors) byId.set(b.id, blank(b.id, b.name));
+  for (const b of bettors)
+    byId.set(b.id, blank(b.id, b.name, b.openingPnl ?? 0));
   byId.set(UNASSIGNED, blank(UNASSIGNED, '(未归属)'));
 
   for (const s of slips) {
@@ -152,5 +159,11 @@ export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
   const round2 = (n: number) => Math.round(n * 100) / 100;
   return [...byId.values()]
     .filter((a) => a.bettorId !== UNASSIGNED || a.bets > 0) // 在册全保留;未归属仅在有注时出现
-    .map((a) => ({ ...a, pnl: round2(a.pnl), staked: round2(a.staked) }));
+    .map((a) => ({
+      ...a,
+      // 期初净盈亏并入总盈亏(排行/总额用),openingPnl 字段保留供展示与 ROI 修正
+      pnl: round2(a.pnl + a.openingPnl),
+      staked: round2(a.staked),
+      openingPnl: round2(a.openingPnl),
+    }));
 }
