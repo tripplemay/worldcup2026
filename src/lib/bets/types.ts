@@ -76,7 +76,8 @@ export interface BetSlip {
   source?: { chatId?: number; messageId?: number; fileId?: string };
   recognizedRaw?: unknown; // 识别原始 JSON(debug/复核)
   note?: string; // 人工备注 / 复核原因
-  createdAt: number;
+  placedAt?: number; // 下注时间:图片拍摄/创建(EXIF/PNG 元数据;无则展示回退 createdAt)
+  createdAt: number; // 入库(收到截图)时刻
   updatedAt: number;
   settledAt?: number;
 }

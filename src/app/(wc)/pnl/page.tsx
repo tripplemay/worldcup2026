@@ -918,6 +918,16 @@ export default function PnlPage() {
           ) : (
             visibleSlips.map((s) => {
               const sm = statusMeta(t, s.status);
+              // 下注时间:优先图片拍摄/创建时间(placedAt),无则回退入库时间(createdAt)并标注
+              const betTime = s.placedAt
+                ? {
+                    label: t('pnl.placed'),
+                    v: fmtKickoff(new Date(s.placedAt).toISOString()),
+                  }
+                : {
+                    label: t('pnl.received'),
+                    v: fmtKickoff(new Date(s.createdAt).toISOString()),
+                  };
               return (
                 <Card key={s.id} extra={`border-l-4 p-4 ${sm.bar}`}>
                   <div className="mb-2 flex items-center justify-between gap-2">
@@ -985,14 +995,21 @@ export default function PnlPage() {
 
                   <div className="mt-2 flex items-end justify-between border-t border-gray-100 pt-2 dark:border-white/5">
                     <div className="text-[11px] text-gray-500 dark:text-gray-400">
-                      {t('pnl.staked')} {s.currency ? `${s.currency} ` : ''}
-                      {money(s.stake)} · {t('pnl.payout')}{' '}
-                      {money(s.potentialReturn)}
-                      {s.status === 'needs_review' || s.confidence < 0.6
-                        ? ` · ${t('pnl.conf')} ${Math.round(
-                            s.confidence * 100,
-                          )}%`
-                        : ''}
+                      <div>
+                        {t('pnl.staked')} {s.currency ? `${s.currency} ` : ''}
+                        {money(s.stake)} · {t('pnl.payout')}{' '}
+                        {money(s.potentialReturn)}
+                        {s.status === 'needs_review' || s.confidence < 0.6
+                          ? ` · ${t('pnl.conf')} ${Math.round(
+                              s.confidence * 100,
+                            )}%`
+                          : ''}
+                      </div>
+                      {betTime.v && (
+                        <div className="mt-0.5 text-[10px] text-gray-400">
+                          🧾 {betTime.label} {betTime.v}
+                        </div>
+                      )}
                     </div>
                     <div
                       className={`font-mono text-xl font-extrabold ${posCls(

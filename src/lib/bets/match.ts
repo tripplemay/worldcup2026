@@ -20,7 +20,7 @@ import { regulationScore } from 'lib/trade/settle';
 import { toCanonicalName } from './cnTeams';
 import type { ResultMatch } from 'lib/predict/types';
 import type { MatchEvent } from 'lib/espn/types';
-import type { BetLeg, LegResolution } from './types';
+import type { BetLeg, BetSlip, LegResolution } from './types';
 
 /** 事件分钟(前导整数;"45'+2"→45,"90'+3"→90,缺失→NaN)。 */
 function evMinute(e: MatchEvent): number {
@@ -342,4 +342,21 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
 
   // 5) 全部落空:待人工绑定
   return { status: 'unmatched' };
+}
+
+/**
+ * 入库时回填各腿 matchId/kickoff(仅取开赛时间,不结算),
+ * 让注单上的「比赛时间(UTC+8)」立刻可显示(否则要等结算扫描才回填)。
+ * 单腿失败静默跳过,绝不阻断入库;只补 kickoff,不动比分/结果。
+ */
+export async function backfillLegKickoffs(slip: BetSlip): Promise<void> {
+  for (const leg of slip.legs) {
+    try {
+      const r = await resolveLeg(leg);
+      if (r.matchId && !leg.matchId) leg.matchId = r.matchId;
+      if (r.kickoff) leg.kickoff = r.kickoff;
+    } catch {
+      /* 单腿对齐失败 → 保留识别 matchDate,显示层自动回退 */
+    }
+  }
 }

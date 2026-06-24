@@ -8,6 +8,8 @@ import type { WxLinkClient, WeixinMessage } from 'wx-link';
 import { recognizeBetSlip } from 'lib/bets/recognize';
 import { createBetFromRecognized, addBet } from 'lib/bets/bets';
 import { saveBetImage } from 'lib/bets/images';
+import { extractCaptureTime } from 'lib/bets/captureTime';
+import { backfillLegKickoffs } from 'lib/bets/match';
 import type { BetSlip } from 'lib/bets/types';
 
 /** 识别摘要(回执给发送者核对)。 */
@@ -89,8 +91,13 @@ export async function handleWxMessage(
     return;
   }
   const slip = createBetFromRecognized(rec);
+  // 下注时间:取图片拍摄/创建时间(微信发原图可保留);取不到展示层回退入库时间
+  const placedAt = extractCaptureTime(media.buffer);
+  if (placedAt) slip.placedAt = placedAt;
   const imageRef = saveBetImage(randomBytes(16).toString('hex'), media.buffer);
   if (imageRef) slip.imageRef = imageRef;
+  // 回填各腿开赛时间(UTC+8 显示);失败静默
+  await backfillLegKickoffs(slip);
   await addBet(slip);
 
   await reply(client, msg, `${summarize(slip)}\n\n请到盈亏页指定归属。`);

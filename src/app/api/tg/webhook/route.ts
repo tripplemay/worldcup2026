@@ -9,6 +9,8 @@
 import { recognizeBetSlip } from 'lib/bets/recognize';
 import { createBetFromRecognized, addBet, assignBettor } from 'lib/bets/bets';
 import { saveBetImage } from 'lib/bets/images';
+import { extractCaptureTime } from 'lib/bets/captureTime';
+import { backfillLegKickoffs } from 'lib/bets/match';
 import { listBettors, getBettor } from 'lib/bets/bettors';
 import {
   largestPhoto,
@@ -92,9 +94,14 @@ async function handlePhoto(
     messageId,
     fileId: photoFileId,
   });
+  // 下注时间:取图片拍摄/创建时间(EXIF/元数据);取不到展示层回退到入库时间
+  const placedAt = extractCaptureTime(buf);
+  if (placedAt) slip.placedAt = placedAt;
   // 随机文件名(不可枚举),与注单 id 解耦
   const imageRef = saveBetImage(randomBytes(16).toString('hex'), buf);
   if (imageRef) slip.imageRef = imageRef;
+  // 回填各腿开赛时间(UTC+8 显示);失败静默
+  await backfillLegKickoffs(slip);
   await addBet(slip);
 
   const bettors = listBettors().filter((b) => b.active !== false);
