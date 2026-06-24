@@ -1,13 +1,13 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { MdAccountTree } from 'react-icons/md';
 import PageHeading from 'components/worldcup/PageHeading';
 import ScenarioFixtureCard from 'components/worldcup/ScenarioFixtureCard';
 import ScenarioTeamList from 'components/worldcup/ScenarioTeamList';
 import { useScenarios } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
-import type { TeamOutlook } from 'lib/scenario/types';
+import type { Stage, TeamOutlook } from 'lib/scenario/types';
 
 /**
  * 「沙盘」情景推演页:第三轮每队最期望的结果(整条晋级路径最易)+ 双方默契 + 全队前景。
@@ -17,6 +17,12 @@ export default function ScenariosPage() {
   const { t } = useLocale();
   const { scenario, error, isLoading, refresh } = useScenarios();
   const hasData = !!scenario && scenario.teams.length > 0;
+  // 期望度口径:打进8强(整条路径)/ 进下一轮(出线),供交叉比对
+  const [metric, setMetric] = useState<Stage>('QF');
+  const METRICS: { s: Stage; label: string }[] = [
+    { s: 'QF', label: t('scenarios.mQF') },
+    { s: 'R32', label: t('scenarios.mNext') },
+  ];
 
   const byNorm = useMemo(() => {
     const m: Record<string, TeamOutlook> = {};
@@ -91,6 +97,28 @@ export default function ScenariosPage() {
 
       {hasData && scenario && (
         <div className="space-y-5">
+          {/* 期望度口径切换(交叉比对:整条路径 8强 vs 进下一轮 出线)*/}
+          <div>
+            <div className="mb-1 text-[10px] text-gray-400">
+              {t('scenarios.lens')}
+            </div>
+            <div className="inline-flex rounded-full bg-gray-100 p-0.5 text-xs dark:bg-navy-800">
+              {METRICS.map((m) => (
+                <button
+                  key={m.s}
+                  onClick={() => setMetric(m.s)}
+                  className={`rounded-full px-3 py-1 transition-colors ${
+                    metric === m.s
+                      ? 'bg-white font-semibold text-brand-500 shadow-sm dark:bg-navy-600 dark:text-brand-400'
+                      : 'text-gray-500 dark:text-gray-400'
+                  }`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
           <section>
             <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
               {t('scenarios.fixturesTitle')}
@@ -102,7 +130,7 @@ export default function ScenariosPage() {
                   fixture={f}
                   home={byNorm[f.home]}
                   away={byNorm[f.away]}
-                  targetStage={scenario.targetStage}
+                  metricStage={metric}
                 />
               ))}
             </div>
@@ -112,10 +140,7 @@ export default function ScenariosPage() {
             <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
               {t('scenarios.teamsTitle')}
             </h2>
-            <ScenarioTeamList
-              teams={scenario.teams}
-              targetStage={scenario.targetStage}
-            />
+            <ScenarioTeamList teams={scenario.teams} metricStage={metric} />
           </section>
         </div>
       )}
