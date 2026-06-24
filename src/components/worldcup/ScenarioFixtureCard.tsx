@@ -89,7 +89,8 @@ function TeamSide({
               >
                 {oc(b.outcome)}
               </span>
-              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
+              {/* 固定宽度进度条:腾出空间让对手名在手机上也始终可见 */}
+              <div className="h-1.5 w-12 shrink-0 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
                 <span
                   className={`block h-full rounded-full ${
                     i === 0 ? 'bg-brand-500' : 'bg-gray-300 dark:bg-navy-500'
@@ -101,8 +102,8 @@ function TeamSide({
                 {pct(b.target)}
               </span>
               {b.topOpponent && (
-                <span className="hidden max-w-[5.5rem] truncate text-gray-400 sm:inline">
-                  {tn(b.topOpponent.norm)}
+                <span className="min-w-0 flex-1 truncate text-gray-400">
+                  vs {tn(b.topOpponent.norm)}
                 </span>
               )}
             </div>
