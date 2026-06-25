@@ -37,9 +37,12 @@ function authed(req: Request): boolean {
 }
 
 function isAdmin(chatId?: number): boolean {
-  const admin = process.env.TG_ADMIN_CHAT_ID;
-  if (!admin) return false;
-  return String(chatId) === admin.trim();
+  // TG_ADMIN_CHAT_ID 支持多个(逗号分隔);为空则一律拒绝(fail-closed)
+  const admins = (process.env.TG_ADMIN_CHAT_ID ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  return admins.includes(String(chatId));
 }
 
 function chunk<T>(arr: T[], n: number): T[][] {
