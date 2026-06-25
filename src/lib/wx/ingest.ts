@@ -68,6 +68,12 @@ export async function handleWxMessage(
       sender,
       '的消息(请配置后再用)',
     );
+    // 便于接入:直接把发送者 user_id 回给对方,免去翻服务器日志
+    await reply(
+      client,
+      msg,
+      `本机器人尚未配置管理员。\n你的微信 user_id:\n${sender}\n请把它设为 WX_ADMIN_USER(GitHub Secret)后重新部署即可使用。`,
+    );
     return;
   }
   if (sender !== admin) return; // 只信任配置的管理员
