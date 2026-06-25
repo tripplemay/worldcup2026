@@ -357,9 +357,35 @@ export function saveWxPending(s: WxPendingStore): void {
 }
 
 // ── 微信接入轮询游标(Phase 9b:wx-link 收单)──────────────
+// 主 bot(env WX_BOT_TOKEN 第一个)用此 legacy 文件,保留历史游标不丢。
 export function loadWxCursor(): string {
   return readJson<{ cursor: string }>('wx-cursor.json', { cursor: '' }).cursor;
 }
 export function saveWxCursor(cursor: string): void {
   writeJson('wx-cursor.json', { cursor, updatedAt: Date.now() });
+}
+
+// 附加 bot 各自独立游标(按 botKey 存于一个 map 文件)。
+export function loadWxCursorFor(key: string): string {
+  return readJson<Record<string, string>>('wx-cursors.json', {})[key] ?? '';
+}
+export function saveWxCursorFor(key: string, cursor: string): void {
+  const m = readJson<Record<string, string>>('wx-cursors.json', {});
+  m[key] = cursor;
+  writeJson('wx-cursors.json', m);
+}
+
+// ── 微信多 bot:运行时新增的 clawbot(每人扫码各得一个独立 bot/token)──────
+// 主 bot 仍走 env WX_BOT_TOKEN;此处存"额外"管理员扫码后拿到的 token,轮询器一并轮询。
+// 注:token 是 clawbot 会话凭证(非主密钥),为支持动态增删落在数据目录(部署不丢、不入库主密钥体系)。
+export interface WxBot {
+  token: string;
+  label?: string;
+  addedAt: number;
+}
+export function loadWxBots(): WxBot[] {
+  return readJson<WxBot[]>('wx-bots.json', []);
+}
+export function saveWxBots(list: WxBot[]): void {
+  writeJson('wx-bots.json', list);
 }
