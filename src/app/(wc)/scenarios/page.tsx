@@ -161,15 +161,13 @@ export default function ScenariosPage() {
             <ScenarioTeamList teams={scenario.teams} />
           </section>
 
-          {/* 最可能夺冠路径(扩后端解锁;老缓存无字段时隐藏) */}
-          {scenario.topPaths && scenario.topPaths.length > 0 && (
-            <section>
-              <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
-                {t('scenarios.championPathTitle')}
-              </h2>
-              <ScenarioChampionPaths paths={scenario.topPaths} />
-            </section>
-          )}
+          {/* 夺冠概率 + 逐轮最可能对手 */}
+          <section>
+            <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
+              {t('scenarios.championPathTitle')}
+            </h2>
+            <ScenarioChampionPaths teams={scenario.teams} />
+          </section>
 
           {/* 最佳第三名出线竞争(扩后端解锁) */}
           {scenario.thirdRace && scenario.thirdRace.length > 0 && (
