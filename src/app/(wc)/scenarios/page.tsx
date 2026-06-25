@@ -5,6 +5,8 @@ import { MdAccountTree } from 'react-icons/md';
 import PageHeading from 'components/worldcup/PageHeading';
 import ScenarioFixtureCard from 'components/worldcup/ScenarioFixtureCard';
 import ScenarioTeamList from 'components/worldcup/ScenarioTeamList';
+import ScenarioThirdRace from 'components/worldcup/ScenarioThirdRace';
+import ScenarioChampionPaths from 'components/worldcup/ScenarioChampionPaths';
 import { useScenarios } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import type { FixtureView, TeamOutlook } from 'lib/scenario/types';
@@ -158,6 +160,29 @@ export default function ScenariosPage() {
             </h2>
             <ScenarioTeamList teams={scenario.teams} />
           </section>
+
+          {/* 最可能夺冠路径(扩后端解锁;老缓存无字段时隐藏) */}
+          {scenario.topPaths && scenario.topPaths.length > 0 && (
+            <section>
+              <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
+                {t('scenarios.championPathTitle')}
+              </h2>
+              <ScenarioChampionPaths
+                paths={scenario.topPaths}
+                covered={scenario.topPathsCovered ?? 0}
+              />
+            </section>
+          )}
+
+          {/* 最佳第三名出线竞争(扩后端解锁) */}
+          {scenario.thirdRace && scenario.thirdRace.length > 0 && (
+            <section>
+              <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
+                {t('scenarios.thirdRaceTitle')}
+              </h2>
+              <ScenarioThirdRace rows={scenario.thirdRace} />
+            </section>
+          )}
 
           {/* 第三轮双方博弈(未踢) */}
           {upcoming.length > 0 && (

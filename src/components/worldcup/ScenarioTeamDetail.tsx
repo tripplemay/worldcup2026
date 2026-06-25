@@ -2,7 +2,12 @@
 
 import { useState } from 'react';
 import { useLocale, useTn } from 'lib/i18n/context';
-import { formatPct, pctWidth, DEPTH_STAGES } from 'lib/scenario/display';
+import {
+  formatPct,
+  pctWidth,
+  DEPTH_STAGES,
+  KO_ROUND_LABEL_KEY,
+} from 'lib/scenario/display';
 import type { Outcome, StageProbs, TeamOutlook } from 'lib/scenario/types';
 
 /** 名次分布四段(头名/次名/第三/第四)的取值与配色。 */
@@ -86,6 +91,28 @@ export default function ScenarioTeamDetail({
 
   // 上下文行:条件视角看「该结果出现概率 + 该结果下最可能对手」;总体看整体最可能对手
   const opp = activeBucket?.topOpponent ?? outlook.topOpponent;
+
+  // 最可能路线 chips:R32(topOpponent)→ R16 → QF;每步为该轮独立众数
+  const pathChips = (outlook.path ?? []).length
+    ? [
+        ...(outlook.topOpponent
+          ? [
+              {
+                key: 'R32',
+                round: t(KO_ROUND_LABEL_KEY.R32),
+                norm: outlook.topOpponent.norm,
+                prob: outlook.topOpponent.prob,
+              },
+            ]
+          : []),
+        ...(outlook.path ?? []).map((s) => ({
+          key: s.round,
+          round: t(KO_ROUND_LABEL_KEY[s.round]),
+          norm: s.opponentNorm,
+          prob: s.prob,
+        })),
+      ]
+    : [];
 
   return (
     <div className="mt-2 space-y-3 rounded-xl bg-gray-50 p-3 dark:bg-navy-900/60">
@@ -173,6 +200,47 @@ export default function ScenarioTeamDetail({
           </div>
         )}
       </div>
+
+      {/* 最可能路线(R32→R16→QF;逐轮独立众数,非真实单链) */}
+      {outlook.path && outlook.path.length > 0 && (
+        <div>
+          <div className="mb-1.5 flex items-center gap-1 text-[10px] font-medium text-gray-400">
+            <span>{t('scenarios.pathTitle')}</span>
+            <span
+              title={t('scenarios.pathIndepNote')}
+              className="cursor-help text-gray-300 dark:text-navy-500"
+            >
+              ⓘ
+            </span>
+          </div>
+          <div className="flex items-center gap-1 overflow-x-auto pb-1">
+            {pathChips.map((c, idx) => (
+              <div key={c.key} className="flex items-center gap-1">
+                {idx > 0 && (
+                  <span className="shrink-0 text-gray-300 dark:text-navy-500">
+                    ›
+                  </span>
+                )}
+                <div className="flex w-[3.6rem] shrink-0 flex-col items-center gap-0.5 rounded-lg bg-gray-50 px-1 py-1 dark:bg-navy-900/60">
+                  <span className="text-[8px] text-gray-400">{c.round}</span>
+                  <span
+                    className="w-full truncate text-center text-[10px] text-navy-700 dark:text-white"
+                    title={tn(c.norm)}
+                  >
+                    {tn(c.norm)}
+                  </span>
+                  <span className="text-[8px] tabular-nums text-gray-400">
+                    {formatPct(c.prob)}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-0.5 text-[9px] leading-snug text-gray-400">
+            {t('scenarios.pathIndepNote')}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

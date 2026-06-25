@@ -25,6 +25,7 @@ export interface BracketSeed {
   R: Record<string, string>; // 组字母 → 次名队
   T3bySlot: Partial<Record<WinnerSlot, string>>; // 头名槽位 → 迎战的第三名队
   qualifiedThirds: GroupLetter[]; // 出线的 8 个第三名所在组
+  groupToSlot: Partial<Record<GroupLetter, WinnerSlot>>; // 出线第三名所在组 → 迎战的头名槽位(=T3bySlot 的逆,直接透出免反查)
 }
 
 /** 单场判胜(返回胜者归一化名);平局点球由实现内部处理。 */
@@ -35,6 +36,8 @@ export interface KnockoutResult {
   stage: Record<string, Stage>; // 队 → 最远阶段(仅淘汰赛参与者)
   winnerOf: Record<number, string>;
   loserOf: Record<number, string>;
+  homeOf: Record<number, string>; // 场次号 → 主位实际球队(供整树/路径聚合)
+  awayOf: Record<number, string>; // 场次号 → 客位实际球队
   r32Opponent: Record<string, string>; // 队 → 其 R32 对手
 }
 
@@ -84,7 +87,13 @@ export function buildBracketSeed(
   for (const [g, row] of Object.entries(pos.winners)) W[g] = row.team;
   for (const [g, row] of Object.entries(pos.runners)) R[g] = row.team;
 
-  return { W, R, T3bySlot, qualifiedThirds: quals };
+  return {
+    W,
+    R,
+    T3bySlot,
+    qualifiedThirds: quals,
+    groupToSlot: assign as Partial<Record<GroupLetter, WinnerSlot>>,
+  };
 }
 
 /** 解析一个位置引用为具体球队(尚不可解析返回 undefined)。 */
@@ -116,6 +125,8 @@ export function simulateKnockout(
 ): KnockoutResult {
   const winnerOf: Record<number, string> = {};
   const loserOf: Record<number, string> = {};
+  const homeOf: Record<number, string> = {};
+  const awayOf: Record<number, string> = {};
   const stage: Record<string, Stage> = {};
   const r32Opponent: Record<string, string> = {};
 
@@ -132,6 +143,8 @@ export function simulateKnockout(
       // 理论上不应发生(种子完整 + 顺序处理);防御性跳过
       continue;
     }
+    homeOf[m.match] = home;
+    awayOf[m.match] = away;
     if (m.round === 'R32') {
       r32Opponent[home] = away;
       r32Opponent[away] = home;
@@ -151,5 +164,5 @@ export function simulateKnockout(
     }
   }
 
-  return { champion, stage, winnerOf, loserOf, r32Opponent };
+  return { champion, stage, winnerOf, loserOf, homeOf, awayOf, r32Opponent };
 }
