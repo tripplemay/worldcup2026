@@ -213,6 +213,15 @@ describe('runMonteCarlo', () => {
     const sum = out.topPaths.reduce((s, p) => s + p.prob, 0);
     expect(out.topPathsCovered).toBeCloseTo(sum, 6);
     expect(out.topPathsCovered).toBeLessThanOrEqual(1 + 1e-9);
+    // championProb(夺冠概率)≥ 单条路线 prob,且与该队 overall.champion 一致
+    const byNorm = Object.fromEntries(out.teams.map((t) => [t.norm, t]));
+    for (const p of out.topPaths) {
+      expect(p.championProb).toBeGreaterThanOrEqual(p.prob);
+      expect(p.championProb).toBeCloseTo(
+        byNorm[p.champion].overall.champion,
+        6,
+      );
+    }
   });
 
   it('topPaths:legs 自洽——按轮次升序、A1 路线对手为其实际对手', () => {

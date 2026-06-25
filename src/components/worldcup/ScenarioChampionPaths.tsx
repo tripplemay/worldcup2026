@@ -12,10 +12,8 @@ import type { ChampionPath } from 'lib/scenario/types';
  */
 export default function ScenarioChampionPaths({
   paths,
-  covered,
 }: {
   paths: ChampionPath[];
-  covered: number;
 }) {
   const { t } = useLocale();
   const tn = useTn();
@@ -24,7 +22,7 @@ export default function ScenarioChampionPaths({
   return (
     <div className="space-y-2.5">
       <p className="text-[10px] leading-relaxed text-gray-400">
-        {t('scenarios.pathCoveredPre')} {formatPct(covered)}
+        {t('scenarios.pathCoveredPre')}
       </p>
       {paths.map((p) => (
         <Card key={p.champion} extra="p-3">
@@ -34,14 +32,10 @@ export default function ScenarioChampionPaths({
               logo={p.logo}
               className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
             />
-            <div className="flex shrink-0 items-center gap-1.5">
-              <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-medium text-amber-700 dark:bg-amber-500/20 dark:text-amber-300">
-                {t('scenarios.pathReal')}
-              </span>
-              <span className="text-sm font-bold tabular-nums text-brand-500 dark:text-brand-400">
-                {formatPct(p.prob)}
-              </span>
-            </div>
+            {/* 大号数字 = 球队夺冠概率(有意义的标尺) */}
+            <span className="shrink-0 text-base font-bold tabular-nums text-brand-500 dark:text-brand-400">
+              {formatPct(p.championProb)}
+            </span>
           </div>
           <div className="flex items-center gap-1 overflow-x-auto pb-1">
             {p.legs.map((leg, idx) => (
@@ -64,6 +58,14 @@ export default function ScenarioChampionPaths({
                 </div>
               </div>
             ))}
+          </div>
+          <div className="mt-1 flex items-center gap-1.5 text-[9px] text-gray-400">
+            <span className="rounded-full bg-amber-100 px-1.5 py-0.5 font-medium text-amber-700 dark:bg-amber-500/20 dark:text-amber-300">
+              {t('scenarios.pathReal')}
+            </span>
+            <span className="tabular-nums">
+              {t('scenarios.pathThisRoute')} {formatPct(p.prob)}
+            </span>
           </div>
         </Card>
       ))}

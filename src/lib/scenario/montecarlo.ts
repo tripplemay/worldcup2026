@@ -540,6 +540,7 @@ export function runMonteCarlo(
       champion: t.norm,
       name: t.name,
       logo: t.logo,
+      championProb: t.overall.champion,
       prob: bestCount / denom,
       legs: bestLegs.map((l) => ({
         ...l,

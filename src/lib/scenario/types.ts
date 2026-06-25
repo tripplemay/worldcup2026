@@ -237,7 +237,8 @@ export interface ChampionPath {
   champion: string; // 归一化名
   name: string;
   logo?: string;
-  prob: number; // 这条完整路径的占比;分母=有效 sim(seededSims,生产环境≈全 sims)
+  championProb: number; // 该队夺冠概率(=overall.champion;卡片大号数字,有意义的标尺)
+  prob: number; // 这条具体路线的占比;分母=有效 sim(组合空间极大,单条天然很小)
   legs: PathLeg[]; // R32→决赛 实际对手序列
 }
 

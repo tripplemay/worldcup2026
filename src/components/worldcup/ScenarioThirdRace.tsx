@@ -34,7 +34,9 @@ export default function ScenarioThirdRace({ rows }: { rows: ThirdRaceRow[] }) {
       <ul className="divide-y divide-gray-100 dark:divide-white/5">
         {rows.map((r, i) => {
           const isOpen = open === r.group;
-          const hasSlots = !!r.slotProbs?.length;
+          // 展开只显有意义的槽位(过滤四舍五入≈0% 的噪声)
+          const slots = (r.slotProbs ?? []).filter((s) => s.prob >= 0.01);
+          const hasSlots = slots.length > 0;
           return (
             <li key={r.group}>
               {i === QUALIFY_LINE && rows.length > QUALIFY_LINE && (
@@ -81,7 +83,7 @@ export default function ScenarioThirdRace({ rows }: { rows: ThirdRaceRow[] }) {
                   <div className="text-[9px] text-gray-400">
                     {t('scenarios.slotDenom')}
                   </div>
-                  {r.slotProbs!.map((sp) => {
+                  {slots.map((sp) => {
                     const g = sp.slot.slice(1); // '1A' → 'A'
                     return (
                       <div
