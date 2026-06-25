@@ -6,10 +6,13 @@ import { randomBytes } from 'crypto';
 import { MessageType, MessageItemType } from 'wx-link';
 import type { WxLinkClient, WeixinMessage } from 'wx-link';
 import { recognizeBetSlip } from 'lib/bets/recognize';
-import { createBetFromRecognized, addBet } from 'lib/bets/bets';
+import { createBetFromRecognized, addBet, assignBettor } from 'lib/bets/bets';
+import { listBettors } from 'lib/bets/bettors';
 import { saveBetImage } from 'lib/bets/images';
 import { extractCaptureTime } from 'lib/bets/captureTime';
 import { backfillLegKickoffs } from 'lib/bets/match';
+import { loadWxPending, saveWxPending } from 'lib/db/store';
+import { resolveAssignChoice, assignPrompt } from './assign';
 import type { BetSlip } from 'lib/bets/types';
 
 /** 识别摘要(回执给发送者核对)。 */
@@ -85,7 +88,16 @@ export async function handleWxMessage(
   const imgItem = (msg.item_list ?? []).find(
     (it) => it.type === MessageItemType.IMAGE && it.image_item,
   );
-  if (!imgItem) return; // 非图片消息忽略
+  const textRaw = (msg.item_list ?? []).find(
+    (it) => it.type === MessageItemType.TEXT && it.text_item,
+  )?.text_item?.text;
+
+  // 纯文本 + 有待归属注单 → 当作归属选择(回复序号/姓名)
+  if (!imgItem && textRaw) {
+    await handleAssignReply(client, msg, sender, textRaw);
+    return;
+  }
+  if (!imgItem) return; // 既非图片、也无待归属文本 → 忽略
 
   const media = await client.downloadInboundMedia(imgItem);
   if (!media?.buffer) {
@@ -110,5 +122,48 @@ export async function handleWxMessage(
   await backfillLegKickoffs(slip);
   await addBet(slip);
 
-  await reply(client, msg, `${summarize(slip)}\n\n请到盈亏页指定归属。`);
+  // 回执识别摘要 + 询问归属(无内联按钮 → 让管理员回复序号/姓名)
+  const bettors = listBettors().filter((b) => b.active !== false);
+  if (!bettors.length) {
+    await reply(
+      client,
+      msg,
+      `${summarize(slip)}\n\n⚠️ 名册为空,请先在盈亏页添加投注人。`,
+    );
+    return;
+  }
+  const pending = loadWxPending();
+  pending[sender] = {
+    betId: slip.id,
+    bettorIds: bettors.map((b) => b.id),
+    at: Date.now(),
+  };
+  saveWxPending(pending);
+  await reply(client, msg, `${summarize(slip)}\n\n${assignPrompt(bettors)}`);
+}
+
+/** 管理员回复序号/姓名 → 归属待定注单;无待定则忽略,无法解析则提示重试。 */
+async function handleAssignReply(
+  client: WxLinkClient,
+  msg: WeixinMessage,
+  sender: string,
+  text: string,
+): Promise<void> {
+  const pending = loadWxPending();
+  const p = pending[sender];
+  if (!p) return; // 无待归属 → 忽略普通文本
+  const all = listBettors();
+  const ordered = p.bettorIds
+    .map((id) => all.find((b) => b.id === id))
+    .filter((b): b is NonNullable<typeof b> => !!b);
+  const choiceId = resolveAssignChoice(text, ordered);
+  if (!choiceId) {
+    await reply(client, msg, `没识别到选择。\n${assignPrompt(ordered)}`);
+    return;
+  }
+  await assignBettor(p.betId, choiceId);
+  delete pending[sender];
+  saveWxPending(pending);
+  const name = all.find((b) => b.id === choiceId)?.name ?? choiceId;
+  await reply(client, msg, `✅ 已归属:${name}`);
 }

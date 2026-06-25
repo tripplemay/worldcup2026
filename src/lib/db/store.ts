@@ -342,6 +342,20 @@ export function saveScenario(s: ScenarioResult): void {
   writeJson('scenarios.json', s);
 }
 
+// ── 微信「待归属」会话状态(收到截图后等管理员回复序号/姓名指定归属)──────
+export interface WxPendingAssign {
+  betId: string;
+  bettorIds: string[]; // 提示里编号对应的投注人顺序(回复序号据此映射)
+  at: number;
+}
+export type WxPendingStore = Record<string, WxPendingAssign>; // key = 微信 user_id
+export function loadWxPending(): WxPendingStore {
+  return readJson<WxPendingStore>('wx-pending.json', {});
+}
+export function saveWxPending(s: WxPendingStore): void {
+  writeJson('wx-pending.json', s);
+}
+
 // ── 微信接入轮询游标(Phase 9b:wx-link 收单)──────────────
 export function loadWxCursor(): string {
   return readJson<{ cursor: string }>('wx-cursor.json', { cursor: '' }).cursor;
