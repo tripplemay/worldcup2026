@@ -19,7 +19,7 @@ import { espnProvider } from 'lib/espn/espn';
 import { regulationScore } from 'lib/trade/settle';
 import { toCanonicalName } from './cnTeams';
 import type { ResultMatch } from 'lib/predict/types';
-import type { MatchEvent } from 'lib/espn/types';
+import type { MatchEvent, ScheduleMatch } from 'lib/espn/types';
 import type { BetLeg, BetSlip, LegResolution } from './types';
 
 /** 事件分钟(前导整数;"45'+2"→45,"90'+3"→90,缺失→NaN)。 */
@@ -281,25 +281,31 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
   //    确保「已完赛但尚未摄取进 results.json」或缺开赛日的腿也能从权威赛程解析)
   if (legHome && legAway) {
     try {
+      const season = process.env.WC_SEASON ?? '2026';
+      const findFixture = (board: ScheduleMatch[]) =>
+        board.find((m) => {
+          const h = normalizeTeam(m.homeTeam);
+          const a = normalizeTeam(m.awayTeam);
+          return (
+            (h === legHome && a === legAway) || (h === legAway && a === legHome)
+          );
+        });
+      // 有日期:先用 ±1 天窗口(可区分罕见的重复对阵);未命中再回退整届 WC 范围,
+      // 容忍识别把年份/日期读错(如把 2026 读成 2025)而错判 unmatched。
       const dayMs = 86_400_000;
       const t = leg.matchDate ? new Date(leg.matchDate).getTime() : NaN;
-      let dates: string;
+      let fixture: ScheduleMatch | undefined;
       if (!Number.isNaN(t)) {
         const from = compactDay(new Date(t - dayMs).toISOString());
         const to = compactDay(new Date(t + dayMs).toISOString());
-        dates = `${from}-${to}`;
-      } else {
-        const season = process.env.WC_SEASON ?? '2026';
-        dates = `${season}0611-${season}0719`; // 整届世界杯范围
-      }
-      const board = await espnProvider.getScoreboard(dates);
-      const fixture = board.find((m) => {
-        const h = normalizeTeam(m.homeTeam);
-        const a = normalizeTeam(m.awayTeam);
-        return (
-          (h === legHome && a === legAway) || (h === legAway && a === legHome)
+        fixture = findFixture(
+          await espnProvider.getScoreboard(`${from}-${to}`),
         );
-      });
+      }
+      if (!fixture)
+        fixture = findFixture(
+          await espnProvider.getScoreboard(`${season}0611-${season}0719`),
+        );
       if (fixture) {
         if (fixture.status === 'post') {
           const via = await resolveViaSummary(fixture.id);

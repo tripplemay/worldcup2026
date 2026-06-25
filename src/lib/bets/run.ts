@@ -34,7 +34,7 @@ interface SlipUpdate {
 /** needs_review 的人工原因(便于管理员判断如何改账)。 */
 function reviewNote(results: LegResult[]): string {
   if (results.some((r) => r === 'unsupported'))
-    return '含波胆/半场等不支持自动结算的盘口,请按实际结果手填盈亏';
+    return '含波胆/半场/组合等不支持自动结算的盘口,请按实际结果手填盈亏';
   if (results.some((r) => r === 'half_won' || r === 'half_lost'))
     return '四分盘半赢/半输,截图金额无法表达,请人工核对';
   if (results.some((r) => r === 'void'))
