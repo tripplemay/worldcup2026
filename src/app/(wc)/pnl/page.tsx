@@ -207,6 +207,17 @@ export default function PnlPage() {
   const [adminOpen, setAdminOpen] = useState(false); // 解锁编辑(管理密码)输入框
   const [adminPw, setAdminPw] = useState('');
   const [adminMsg, setAdminMsg] = useState('');
+  const [lightbox, setLightbox] = useState<string | null>(null); // 原图弹层(图片 URL)
+
+  // 原图弹层:按 Esc 关闭
+  useEffect(() => {
+    if (!lightbox) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setLightbox(null);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [lightbox]);
 
   useEffect(() => {
     // 记住过(localStorage)→ 直接进,避免每次重输;cookie 仍负责数据鉴权。
@@ -1040,14 +1051,17 @@ export default function PnlPage() {
                     </div>
                   )}
 
-                  {/* 原图(所有浏览用户可见;点击放大)*/}
+                  {/* 原图(所有浏览用户可见;点击弹层放大)*/}
                   {s.imageRef && (
-                    <a
-                      href={`/api/worldcup/bet-image?file=${encodeURIComponent(
-                        s.imageRef,
-                      )}`}
-                      target="_blank"
-                      rel="noreferrer"
+                    <button
+                      type="button"
+                      onClick={() =>
+                        setLightbox(
+                          `/api/worldcup/bet-image?file=${encodeURIComponent(
+                            s.imageRef as string,
+                          )}`,
+                        )
+                      }
                       className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-brand-500 active:opacity-70 dark:text-brand-400"
                     >
                       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -1060,7 +1074,7 @@ export default function PnlPage() {
                         loading="lazy"
                       />
                       🔍 {t('pnl.viewImage')}
-                    </a>
+                    </button>
                   )}
 
                   {/* 编辑开关:仅管理权限可见;只读用户不显示 */}
@@ -1206,6 +1220,30 @@ export default function PnlPage() {
               );
             })
           )}
+        </div>
+      )}
+
+      {/* 原图弹层(点击背景 / ✕ / Esc 关闭;不新开标签页)*/}
+      {lightbox && (
+        <div
+          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm"
+        >
+          <button
+            type="button"
+            onClick={() => setLightbox(null)}
+            aria-label={t('pnl.collapse')}
+            className="absolute right-4 top-[calc(env(safe-area-inset-top)+1rem)] flex h-9 w-9 items-center justify-center rounded-full bg-white/15 text-xl text-white active:scale-90"
+          >
+            ✕
+          </button>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={lightbox}
+            alt={t('pnl.viewImage')}
+            onClick={(e) => e.stopPropagation()}
+            className="max-h-[90vh] max-w-full rounded-lg object-contain"
+          />
         </div>
       )}
     </div>
