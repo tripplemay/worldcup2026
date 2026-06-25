@@ -61,8 +61,12 @@ export async function handleWxMessage(
   const sender = msg.from_user_id;
   if (!sender) return;
   // fail-closed:未配置 WX_ADMIN_USER 时不处理任何人(避免陌生人发图落库);向 TG 看齐
-  const admin = process.env.WX_ADMIN_USER;
-  if (!admin) {
+  // WX_ADMIN_USER 支持多个(逗号分隔);为空则不处理任何人(fail-closed)
+  const admins = (process.env.WX_ADMIN_USER ?? '')
+    .split(',')
+    .map((s) => s.trim())
+    .filter(Boolean);
+  if (!admins.length) {
     console.warn(
       '[wx] 未设 WX_ADMIN_USER,忽略来自',
       sender,
@@ -72,11 +76,11 @@ export async function handleWxMessage(
     await reply(
       client,
       msg,
-      `本机器人尚未配置管理员。\n你的微信 user_id:\n${sender}\n请把它设为 WX_ADMIN_USER(GitHub Secret)后重新部署即可使用。`,
+      `本机器人尚未配置管理员。\n你的微信 user_id:\n${sender}\n请把它设为 WX_ADMIN_USER(GitHub Secret,多个用逗号分隔)后重新部署即可使用。`,
     );
     return;
   }
-  if (sender !== admin) return; // 只信任配置的管理员
+  if (!admins.includes(sender)) return; // 只信任配置的管理员(可多个)
 
   const imgItem = (msg.item_list ?? []).find(
     (it) => it.type === MessageItemType.IMAGE && it.image_item,
