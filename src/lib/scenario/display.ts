@@ -9,7 +9,12 @@
  *   完整 6 阶段分布改由球队下钻面板呈现。
  */
 
-import { STAGE_ORDER, type Stage, type StageProbs } from './types';
+import {
+  STAGE_ORDER,
+  type KnockoutRound,
+  type Stage,
+  type StageProbs,
+} from './types';
 
 /**
  * 概率 → 百分比文案。
@@ -23,10 +28,10 @@ export function formatPct(p: number): string {
   return r === 0 ? '<1%' : `${r}%`;
 }
 
-/** 进度条宽度(CSS 百分比字符串),夹紧到 [0,1]。 */
+/** 进度条宽度(CSS 百分比字符串),夹紧到 [0,1];NaN/Infinity 兜底为 0。 */
 export function pctWidth(p: number): string {
-  const w = Math.max(0, Math.min(1, p)) * 100;
-  return `${w}%`;
+  const w = Number.isFinite(p) ? Math.max(0, Math.min(1, p)) : 0;
+  return `${w * 100}%`;
 }
 
 /**
@@ -44,6 +49,19 @@ export const STAGE_LABEL_KEY: Record<Stage, string> = {
   SF: 'scenarios.stSF',
   FINAL: 'scenarios.stFINAL',
   CHAMPION: 'scenarios.stCHAMPION',
+};
+
+/**
+ * 淘汰赛轮次 → i18n 文案 key(用于路径/对阵的「轮次」标签)。
+ * 注意:R32 用专门的「32 强」而非 stR32(=出线,那是 lens 口径);P3 两队均达 4 强。
+ */
+export const KO_ROUND_LABEL_KEY: Record<KnockoutRound, string> = {
+  R32: 'scenarios.r32Round',
+  R16: 'scenarios.stR16',
+  QF: 'scenarios.stQF',
+  SF: 'scenarios.stSF',
+  P3: 'scenarios.stSF',
+  F: 'scenarios.stFINAL',
 };
 
 /** 期望阶段索引(0..6 连续标量)→ 最近的离散阶段(用于「预期走多远」标尺标签)。 */

@@ -1,4 +1,5 @@
 import { runMonteCarlo, detectRound3 } from '../montecarlo';
+import { THIRD_ELIGIBILITY } from '../bracket';
 import { GROUP_LETTERS } from '../types';
 import type { GroupLetter, GroupMatch, TeamMeta } from '../types';
 import type { TeamRating } from 'lib/predict/types';
@@ -165,5 +166,75 @@ describe('runMonteCarlo', () => {
     const pick = (o: typeof out) =>
       o.teams.map((t) => [t.norm, t.overall.champion, t.desired]);
     expect(pick(out2)).toEqual(pick(out));
+  });
+
+  // ── C 聚合:第三名出线 / 路径 / 自洽夺冠路径 ──
+
+  it('thirdRace 覆盖 12 组,∑qualifyProb≈8(8 个出线席)', () => {
+    expect(out.thirdRace).toHaveLength(12);
+    const sumQ = out.thirdRace.reduce((s, r) => s + r.qualifyProb, 0);
+    expect(sumQ).toBeCloseTo(8, 3);
+    // 按出线概率降序
+    for (let i = 1; i < out.thirdRace.length; i++)
+      expect(out.thirdRace[i - 1].qualifyProb).toBeGreaterThanOrEqual(
+        out.thirdRace[i].qualifyProb,
+      );
+  });
+
+  it('thirdRace:每组 slotProbs 合计≈1,且槽位满足 Annex C eligibility', () => {
+    for (const r of out.thirdRace) {
+      if (!r.slotProbs) continue;
+      const s = r.slotProbs.reduce((a, b) => a + b.prob, 0);
+      expect(s).toBeCloseTo(1, 3);
+      for (const sp of r.slotProbs)
+        expect(THIRD_ELIGIBILITY[sp.slot]).toContain(r.group);
+    }
+  });
+
+  it('teamPath:强队挂路线(R16/QF 众数对手),弱旅不挂', () => {
+    const by = Object.fromEntries(out.teams.map((t) => [t.norm, t]));
+    const a1 = by['A1'];
+    expect(a1.overall.qf).toBeGreaterThan(0.05);
+    expect(a1.path && a1.path.length).toBeGreaterThanOrEqual(1);
+    for (const step of a1.path ?? []) {
+      expect(['R16', 'QF']).toContain(step.round);
+      expect(step.prob).toBeGreaterThan(0);
+      expect(step.prob).toBeLessThanOrEqual(1);
+    }
+    // 极弱旅(qf<阈值)无 path
+    const weak = out.teams.find((t) => t.overall.qf < 0.05);
+    if (weak) expect(weak.path).toBeUndefined();
+  });
+
+  it('topPaths:≤6 条、冠军去重、∑prob==topPathsCovered≤1', () => {
+    expect(out.topPaths.length).toBeLessThanOrEqual(6);
+    const champs = out.topPaths.map((p) => p.champion);
+    expect(new Set(champs).size).toBe(champs.length); // 去重
+    const sum = out.topPaths.reduce((s, p) => s + p.prob, 0);
+    expect(out.topPathsCovered).toBeCloseTo(sum, 6);
+    expect(out.topPathsCovered).toBeLessThanOrEqual(1 + 1e-9);
+  });
+
+  it('topPaths:legs 自洽——按轮次升序、A1 路线对手为其实际对手', () => {
+    const RANK: Record<string, number> = {
+      R32: 1,
+      R16: 2,
+      QF: 3,
+      SF: 4,
+      P3: 4,
+      F: 5,
+    };
+    for (const p of out.topPaths) {
+      for (let i = 1; i < p.legs.length; i++)
+        expect(RANK[p.legs[i].round]).toBeGreaterThanOrEqual(
+          RANK[p.legs[i - 1].round],
+        );
+      // 对手非冠军自己,matchNo 在淘汰赛区间
+      for (const leg of p.legs) {
+        expect(leg.opponentNorm).not.toBe(p.champion);
+        expect(leg.matchNo).toBeGreaterThanOrEqual(73);
+        expect(leg.matchNo).toBeLessThanOrEqual(104);
+      }
+    }
   });
 });

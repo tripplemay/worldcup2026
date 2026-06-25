@@ -162,6 +162,18 @@ export interface ResultBucket {
   topOpponent?: { norm: string; prob: number }; // 该结果下最可能的 R32 对手
 }
 
+/**
+ * 单队「最可能晋级路线」的一跳(R16/QF;R32 复用 topOpponent)。
+ * ⚠️ 逐轮独立众数:R32→R16→QF 三步各自取「到达该轮的 sim 子集」里的众数对手,
+ * 不保证同属一条真实模拟链(前端须诚实标注)。prob 分母=本队到达该轮的 sim 数。
+ */
+export interface PathStep {
+  round: 'R16' | 'QF';
+  opponentNorm: string;
+  opponentName?: string;
+  prob: number; // P(本轮对手=该队 | 本队到达本轮)
+}
+
 /** 单队前景(全部 48 队)。 */
 export interface TeamOutlook {
   norm: string;
@@ -174,6 +186,43 @@ export interface TeamOutlook {
   byResult: ResultBucket[]; // 按 desirability 降序(至多 3 项)
   desired?: Outcome; // 最期望结果(played3 时为空)
   topOpponent?: { norm: string; prob: number }; // 总体最可能 R32 对手
+  path?: PathStep[]; // 最可能晋级路线(R16/QF;仅深度够的队挂,见 PATH_GATE)
+}
+
+/** 某组第三名「出线后」被 Annex C 分到某头名槽位的概率(分母=本组第三名出线的 sim 数)。 */
+export interface ThirdSlotProb {
+  slot: WinnerSlot;
+  prob: number;
+}
+
+/** 一组第三名的出线竞争前景(48 队赛制:12 组第三名争 8 个出线名额)。 */
+export interface ThirdRaceRow {
+  group: GroupLetter;
+  team: string; // 归一化名:本组「最常成为第三名的队」(众数,非某 sim 末值)
+  name: string; // 展示名(英文,前端经 i18n 本地化)
+  logo?: string;
+  qualifyProb: number; // P(本组第三名出线进 R32),无条件;分母=有效 sim(seededSims,生产环境≈全 sims)
+  slotProbs?: ThirdSlotProb[]; // 出线后落到各头名槽位的分布(降序),分母=本组出线 sims
+}
+
+/** 一条「自洽」夺冠路径里的一场(冠军实际赢下的某场对阵)。 */
+export interface PathLeg {
+  round: KnockoutRound;
+  matchNo: number;
+  opponentNorm: string;
+  opponentName: string;
+}
+
+/**
+ * 最可能夺冠路径(整条 champion-path):同一次模拟里冠军从 R32 连胜到决赛的对手序列。
+ * 边与边天然自洽(是真实跑出过的一条 bracket),区别于 PathStep 的逐轮独立众数。
+ */
+export interface ChampionPath {
+  champion: string; // 归一化名
+  name: string;
+  logo?: string;
+  prob: number; // 这条完整路径的占比;分母=有效 sim(seededSims,生产环境≈全 sims)
+  legs: PathLeg[]; // R32→决赛 实际对手序列
 }
 
 /** 第三轮一场对阵(双方视角 + 默契检测)。 */
@@ -207,6 +256,10 @@ export interface ScenarioResult {
   fixtures: FixtureView[]; // 第三轮对阵(未踢在前)
   teams: TeamOutlook[]; // 全部 48 队前景
   notes?: string;
+  // ── C 阶段新增(全可选:老缓存无此字段时前端隐藏对应视图)──
+  thirdRace?: ThirdRaceRow[]; // 12 组第三名出线竞争 + Annex C 槽位
+  topPaths?: ChampionPath[]; // 按夺冠概率前 N 队各自最可能的自洽夺冠路径
+  topPathsCovered?: number; // 上述路径合计覆盖的有效 sim 占比(诚实标注用)
 }
 
 // ── 展示口径切换:同一份 byResult.probs 上按不同「目标轮」重排/取最期望(前端交叉比对)──

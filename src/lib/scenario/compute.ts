@@ -23,7 +23,7 @@ const WC_GROUP_WINDOW =
   (process.env.WC_GROUP_WINDOW || '').trim() || '20260611-20260628';
 
 const NOTES =
-  '模型口径:泊松+Elo 融合(市场无关、省配额)、中立场、公平竞赛分缺省;第三名分配=FIFA Annex C 官方表;同组两场视为同时开球,条件结果对同组另一场取平均。';
+  '模型口径:泊松+Elo 融合(市场无关、省配额)、中立场、公平竞赛分缺省;第三名分配=FIFA Annex C 官方表;同组两场视为同时开球,条件结果对同组另一场取平均。「最可能路线」R16/QF 为逐轮独立众数(非单条真实模拟链),「夺冠路径」为真实自洽路线。';
 
 export interface ComputeOptions {
   sims?: number;
@@ -166,6 +166,9 @@ async function runCompute(opts: ComputeOptions): Promise<ScenarioResult> {
     fixtures: sim.fixtures,
     teams: sim.teams,
     notes: NOTES + fallbackNote,
+    thirdRace: sim.thirdRace,
+    topPaths: sim.topPaths,
+    topPathsCovered: sim.topPathsCovered,
   };
   // 数据未就绪(积分榜/赛果空或全部对齐失败)→ 不落盘,避免用空结果覆盖既有推演
   if (result.teams.length > 0) saveScenario(result);

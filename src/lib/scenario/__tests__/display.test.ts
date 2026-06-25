@@ -40,6 +40,11 @@ describe('pctWidth', () => {
     expect(pctWidth(1.5)).toBe('100%');
     expect(pctWidth(-1)).toBe('0%');
   });
+
+  it('NaN/Infinity 兜底为 0%', () => {
+    expect(pctWidth(NaN)).toBe('0%');
+    expect(pctWidth(Infinity)).toBe('0%');
+  });
 });
 
 describe('expStageStage', () => {
