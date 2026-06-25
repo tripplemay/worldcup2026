@@ -1,8 +1,8 @@
 /**
  * 同场组合盘(COMBO)判定:各子盘 AND,全中才赢。覆盖 won/lost/unsupported/void。
  */
-import { judgeLeg } from '../settle';
-import type { ComboPart } from '../types';
+import { judgeLeg, settleSlip } from '../settle';
+import type { BetLeg, ComboPart } from '../types';
 
 const combo = (parts: ComboPart[], gf: number, ga: number) =>
   judgeLeg('COMBO', '', undefined, gf, ga, undefined, parts);
@@ -64,5 +64,47 @@ describe('judgeCombo — 同场组合盘 AND', () => {
   it('空 / 缺失子盘 → unsupported', () => {
     expect(combo([], 1, 1)).toBe('unsupported');
     expect(judgeLeg('COMBO', '', undefined, 1, 1)).toBe('unsupported');
+  });
+});
+
+describe('settleSlip — 组合盘单注走盘转人工(不误退本)', () => {
+  const comboLeg = (parts: ComboPart[]): BetLeg => ({
+    homeName: 'A',
+    awayName: 'B',
+    market: 'COMBO',
+    selection: '',
+    parts,
+  });
+  it('单注组合盘有走盘段 → needs_review(非退本)', () => {
+    const slip = {
+      stake: 100,
+      potentialReturn: 200,
+      legs: [
+        comboLeg([
+          { market: 'OU', selection: 'Under', line: 2.5 },
+          { market: 'AH', selection: 'home', line: 0 },
+        ]),
+      ],
+    };
+    expect(settleSlip(slip, ['void'])).toEqual({
+      status: 'needs_review',
+      pnl: null,
+    });
+  });
+  it('单一盘口走盘 → 退本(对照)', () => {
+    const slip = {
+      stake: 100,
+      potentialReturn: 200,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'AH',
+          selection: 'home',
+          line: 0,
+        } as BetLeg,
+      ],
+    };
+    expect(settleSlip(slip, ['void'])).toEqual({ status: 'void', pnl: 0 });
   });
 });

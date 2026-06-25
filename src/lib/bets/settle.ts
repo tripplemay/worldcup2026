@@ -157,7 +157,11 @@ export function settleSlip(
     const r = legResults[0];
     if (r === 'won') return { status: 'won', pnl: slip.potentialReturn };
     if (r === 'lost') return { status: 'lost', pnl: -slip.stake };
-    if (r === 'void') return { status: 'void', pnl: 0 };
+    if (r === 'void')
+      // 单一盘口走盘 → 退本;组合盘里某段走盘 → 应去该段重算赔率,我们不重算 → 转人工
+      return slip.legs[0]?.market === 'COMBO'
+        ? { status: 'needs_review', pnl: null }
+        : { status: 'void', pnl: 0 };
     return { status: 'needs_review', pnl: null }; // half_won / half_lost
   }
 
