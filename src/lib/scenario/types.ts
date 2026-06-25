@@ -174,6 +174,21 @@ export interface PathStep {
   prob: number; // P(本轮对手=该队 | 本队到达本轮)
 }
 
+/** 球队当前真实小组形势(取自实时积分榜 + 未赛对阵;现状,非 MC 预测)。 */
+export interface TeamStanding {
+  rank: number; // 当前小组排名(1-4)
+  played: number; // 已赛场次
+  win: number;
+  draw: number;
+  loss: number;
+  gf: number; // 进球
+  ga: number; // 失球
+  gd: number; // 净胜球
+  points: number; // 积分
+  remaining: number; // 剩余小组赛场次
+  remainingOpps?: { norm: string; name: string }[]; // 剩余对手(展示用)
+}
+
 /** 单队前景(全部 48 队)。 */
 export interface TeamOutlook {
   norm: string;
@@ -187,6 +202,7 @@ export interface TeamOutlook {
   desired?: Outcome; // 最期望结果(played3 时为空)
   topOpponent?: { norm: string; prob: number }; // 总体最可能 R32 对手
   path?: PathStep[]; // 最可能晋级路线(R16/QF;仅深度够的队挂,见 PATH_GATE)
+  standing?: TeamStanding; // 当前真实小组形势(现状)
 }
 
 /** 某组第三名「出线后」被 Annex C 分到某头名槽位的概率(分母=本组第三名出线的 sim 数)。 */

@@ -20,7 +20,10 @@ const awayOutcome = (o?: Outcome) =>
   o === 'W' ? 'away' : o === 'D' ? 'draw' : o === 'L' ? 'home' : undefined;
 
 /** 固定口径下某队的「最期望」(摆动够大才给,否则视为势均)。 */
-function desiredOf(outlook?: TeamOutlook, played?: boolean): Outcome | undefined {
+function desiredOf(
+  outlook?: TeamOutlook,
+  played?: boolean,
+): Outcome | undefined {
   if (!outlook || played || !isMeaningful(outlook.byResult, DISPLAY_LENS))
     return undefined;
   return desiredByMetric(outlook.byResult, DISPLAY_LENS);
@@ -47,36 +50,49 @@ function TeamSide({
   const oc = (o: Outcome) =>
     t(`scenarios.${o === 'W' ? 'win' : o === 'D' ? 'draw' : 'lose'}`);
 
+  const st = outlook?.standing;
   return (
-    <div className="flex items-center justify-between gap-2">
-      <TeamBadge
-        name={name}
-        logo={logo}
-        className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
-      />
-      <div className="flex shrink-0 items-center gap-2">
-        {outlook ? (
-          <span className="text-[10px] tabular-nums text-gray-400">
-            {t('scenarios.advance')} {formatPct(outlook.overall.advance)}
-          </span>
-        ) : (
-          <span className="text-[10px] text-gray-300 dark:text-navy-500">—</span>
-        )}
-        {!played &&
-          (desired ? (
-            <span
-              className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
-            >
-              {t('scenarios.desired')} {oc(desired)}
+    <div>
+      <div className="flex items-center justify-between gap-2">
+        <TeamBadge
+          name={name}
+          logo={logo}
+          className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
+        />
+        <div className="flex shrink-0 items-center gap-2">
+          {outlook ? (
+            <span className="text-[10px] tabular-nums text-gray-400">
+              {t('scenarios.advance')} {formatPct(outlook.overall.advance)}
             </span>
           ) : (
-            outlook && (
-              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500 dark:bg-white/10 dark:text-gray-400">
-                {t('scenarios.evenOdds')}
+            <span className="text-[10px] text-gray-300 dark:text-navy-500">
+              —
+            </span>
+          )}
+          {!played &&
+            (desired ? (
+              <span
+                className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
+              >
+                {t('scenarios.desired')} {oc(desired)}
               </span>
-            )
-          ))}
+            ) : (
+              outlook && (
+                <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500 dark:bg-white/10 dark:text-gray-400">
+                  {t('scenarios.evenOdds')}
+                </span>
+              )
+            ))}
+        </div>
       </div>
+      {st && (
+        <div className="mt-0.5 text-[9px] tabular-nums text-gray-400">
+          #{st.rank} · {st.points}
+          {t('scenarios.standPts')} · {t('scenarios.standLeftPre')}
+          {st.remaining}
+          {t('scenarios.standLeftPost')}
+        </div>
+      )}
     </div>
   );
 }
