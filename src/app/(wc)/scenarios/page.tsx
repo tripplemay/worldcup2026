@@ -167,10 +167,7 @@ export default function ScenariosPage() {
               <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
                 {t('scenarios.championPathTitle')}
               </h2>
-              <ScenarioChampionPaths
-                paths={scenario.topPaths}
-                covered={scenario.topPathsCovered ?? 0}
-              />
+              <ScenarioChampionPaths paths={scenario.topPaths} />
             </section>
           )}
 
