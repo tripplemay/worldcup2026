@@ -1040,6 +1040,29 @@ export default function PnlPage() {
                     </div>
                   )}
 
+                  {/* 原图(所有浏览用户可见;点击放大)*/}
+                  {s.imageRef && (
+                    <a
+                      href={`/api/worldcup/bet-image?file=${encodeURIComponent(
+                        s.imageRef,
+                      )}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="mt-2 inline-flex items-center gap-1.5 text-[11px] text-brand-500 active:opacity-70 dark:text-brand-400"
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={`/api/worldcup/bet-image?file=${encodeURIComponent(
+                          s.imageRef,
+                        )}`}
+                        alt={t('pnl.viewImage')}
+                        className="h-12 w-auto rounded-lg border border-gray-200 object-cover dark:border-white/10"
+                        loading="lazy"
+                      />
+                      🔍 {t('pnl.viewImage')}
+                    </a>
+                  )}
+
                   {/* 编辑开关:仅管理权限可见;只读用户不显示 */}
                   {canEdit && (
                     <div className="mt-2 flex justify-end">
@@ -1133,26 +1156,7 @@ export default function PnlPage() {
                           {t('pnl.pnlHint')}
                         </span>
                       </div>
-                      {/* 原图缩略图(点击放大)*/}
-                      {s.imageRef && (
-                        <a
-                          href={`/api/worldcup/bet-image?file=${encodeURIComponent(
-                            s.imageRef,
-                          )}`}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="inline-block"
-                        >
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={`/api/worldcup/bet-image?file=${encodeURIComponent(
-                              s.imageRef,
-                            )}`}
-                            alt={t('pnl.viewImage')}
-                            className="h-16 w-auto rounded-lg border border-gray-200 object-cover dark:border-white/10"
-                          />
-                        </a>
-                      )}
+                      {/* 原图已移到卡片常驻区(所有浏览用户可见),管理区不再重复 */}
                       {/* 重新识别(用原图重跑;升级模型/prompt 后修历史单)*/}
                       {s.imageRef && (
                         <button
