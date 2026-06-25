@@ -142,7 +142,7 @@ jobs:
             # 盈亏页管理密码(看/改分权:配置后浏览密码降为只读,改账需管理密码;未设则浏览密码仍可改)
             export PNL_ADMIN_PASSWORD="${PNL_ADMIN_PASSWORD}"
             # 微信接入(wx-link;未设 WX_BOT_TOKEN 则微信轮询不启动)。WX_BASE_URL 缺省 iLink 域;
-            # WX_ADMIN_USER 锁定只收某人(从日志拿 from_user_id 后回填)。
+            # WX_ADMIN_USER 可选:不设则收所有私聊发送者(接入靠 QR 管控),设了(逗号分隔)才只收名单内。
             export WX_BOT_TOKEN="${WX_BOT_TOKEN}"
             export WX_BASE_URL="${WX_BASE_URL}"
             export WX_ADMIN_USER="${WX_ADMIN_USER}"

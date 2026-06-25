@@ -54,7 +54,7 @@ async function reply(
   }
 }
 
-/** 处理单条消息:仅 1:1、仅(配置了的)管理员、仅图片;识别后落「未归属」注单。 */
+/** 处理单条消息:仅私聊;默认所有发送者皆管理员(或仅 WX_ADMIN_USER 名单);图片→识别入库,文本→归属选择。 */
 export async function handleWxMessage(
   client: WxLinkClient,
   msg: WeixinMessage,
@@ -63,27 +63,13 @@ export async function handleWxMessage(
   if (msg.group_id) return; // 暂只处理私聊(方案 A)
   const sender = msg.from_user_id;
   if (!sender) return;
-  // fail-closed:未配置 WX_ADMIN_USER 时不处理任何人(避免陌生人发图落库);向 TG 看齐
-  // WX_ADMIN_USER 支持多个(逗号分隔);为空则不处理任何人(fail-closed)
-  const admins = (process.env.WX_ADMIN_USER ?? '')
+  // 接入由「绑定 QR 只发给有资格的人」管控 → 默认放开:所有私聊发送者皆为管理员,无需配置。
+  // 可选收紧:设了 WX_ADMIN_USER(逗号分隔)则只收名单内的人;不设则收所有人。
+  const allow = (process.env.WX_ADMIN_USER ?? '')
     .split(',')
     .map((s) => s.trim())
     .filter(Boolean);
-  if (!admins.length) {
-    console.warn(
-      '[wx] 未设 WX_ADMIN_USER,忽略来自',
-      sender,
-      '的消息(请配置后再用)',
-    );
-    // 便于接入:直接把发送者 user_id 回给对方,免去翻服务器日志
-    await reply(
-      client,
-      msg,
-      `本机器人尚未配置管理员。\n你的微信 user_id:\n${sender}\n请把它设为 WX_ADMIN_USER(GitHub Secret,多个用逗号分隔)后重新部署即可使用。`,
-    );
-    return;
-  }
-  if (!admins.includes(sender)) return; // 只信任配置的管理员(可多个)
+  if (allow.length && !allow.includes(sender)) return;
 
   const imgItem = (msg.item_list ?? []).find(
     (it) => it.type === MessageItemType.IMAGE && it.image_item,
