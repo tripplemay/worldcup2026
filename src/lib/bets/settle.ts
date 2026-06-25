@@ -9,7 +9,7 @@
  */
 import { outcome } from 'lib/trade/settle';
 import type { Trade, MarketType } from 'lib/trade/types';
-import type { BetLeg, LegResult, BetStatus } from './types';
+import type { BetLeg, ComboPart, LegResult, BetStatus } from './types';
 
 /**
  * 自动结算支持的盘口码。CS=全场波胆,CS1H/CS2H=上/下半场波胆(需进球事件算半场比分)。
@@ -25,6 +25,7 @@ export const VALID_MARKETS: readonly string[] = [
   'CS',
   'CS1H',
   'CS2H',
+  'COMBO', // 同场组合盘(多段子盘 AND;由 judgeCombo 逐段判定)
 ];
 
 /** 解析比分选项 "2-0"/"2:0"/"2 - 0" → {h,a};无法解析返回 null。 */
@@ -77,9 +78,12 @@ export function judgeLeg(
   gf: number,
   ga: number,
   ht?: { h: number; a: number }, // 上半场比分(注单主客视角);CS1H/CS2H 需要
+  parts?: ComboPart[], // market==='COMBO' 时的各子盘
 ): LegResult {
   // 不支持的盘口(角球/罚牌/球员/特色等):不臆断 → 转人工
   if (!VALID_MARKETS.includes(market)) return 'unsupported';
+  // 同场组合盘:逐段判定再按 AND 合并
+  if (market === 'COMBO') return judgeCombo(parts, gf, ga, ht);
   // 波胆(正确比分):全场用 90' 比分;上/下半场需半场比分(事件齐全才有,否则转人工)
   if (market === 'CS')
     return judgeCorrectScore(selection, gf, ga) ?? 'unsupported';
@@ -104,6 +108,30 @@ export function judgeLeg(
     return 'half_lost';
   }
   return baseOutcome(market, selection, line, gf, ga);
+}
+
+/**
+ * 同场组合盘判定(AND 语义:各子盘全中才赢)。判定时比赛已完赛(有终分),故子盘不会 pending。
+ * 合并优先级(最阻断优先):任一确输→lost;否则任一不支持→unsupported(完赛后某段无法判,转人工);
+ * 否则任一走盘→void(金额失真,聚合层转人工);否则任一四分盘半赢/半输→对应 half(转人工);
+ * 全中→won。子盘为空/缺失→unsupported。
+ */
+function judgeCombo(
+  parts: ComboPart[] | undefined,
+  gf: number,
+  ga: number,
+  ht?: { h: number; a: number },
+): LegResult {
+  if (!parts || parts.length === 0) return 'unsupported';
+  const rs = parts.map((p) =>
+    judgeLeg(p.market, p.selection, p.line, gf, ga, ht),
+  );
+  if (rs.includes('lost')) return 'lost';
+  if (rs.includes('unsupported')) return 'unsupported';
+  if (rs.includes('void')) return 'void';
+  if (rs.includes('half_lost')) return 'half_lost';
+  if (rs.includes('half_won')) return 'half_won';
+  return 'won';
 }
 
 /**

@@ -6,7 +6,7 @@
  * 金额(本金/可赢)一律以截图为准,系统只做「结果匹配」,不重算赔率。
  * 未配置 AIGC_API_KEY 时返回 null(功能禁用);网络/LLM 失败一律 return null,绝不抛。
  */
-import type { BetLeg, RecognizedSlip } from './types';
+import type { BetLeg, ComboPart, RecognizedSlip } from './types';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
 // 视觉模型:默认 qwen3.5-plus(与原 flash 同厂同网关、接受图文格式,且更准;
@@ -28,13 +28,14 @@ const MARKETS: readonly string[] = [
 
 const SYSTEM = `你是顶级体育博彩单据识别员。识别一张投注单截图,抽取成严格 JSON。
 只输出 JSON,格式必须严格为:
-{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null}],"confidence":0到1的数}
+{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|COMBO|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null,"parts":[{"market":string,"selection":string,"line":number|null}]|null}],"confidence":0到1的数}
 规则:
 - potentialReturn = 注单「可赢/可盈金额」一栏的数字 = 净盈利(不含本金)。**务必逐位看准这一栏**,不要与赔率或本金混淆。
 - 赔率一律用小数赔率(decimal odds)。
 - 全场标准盘口映射:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
 - 波胆/正确比分 → market 用:全场=CS、上半场=CS1H、下半场=CS2H;**selection 填「主-客」比分**(按所列主客顺序,如 "2-0");rawText 填中文描述(如 "下半场波胆 1-1")。
-- **其它真不支持的盘口一律 market="OTHER"**(如:角球、罚牌、球员相关、特色组合、总进球单双 等);selection 填原文选项,rawText 填中文描述。
+- **其它真不支持的盘口一律 market="OTHER"**(如:角球、罚牌、球员相关、总进球单双 等);selection 填原文选项,rawText 填中文描述。
+- **同场组合盘**(一个选项里串了多个条件、需全部命中,如「和局 & 小2.5」「主胜 & 双方进球」「让球 & 大小」):market="COMBO",并在 parts 给各子盘 [{market,selection,line}](子 market 用上述标准码,selection/line 同上规则);例:「和局&小2.5」→ parts=[{"market":"1X2","selection":"draw","line":null},{"market":"OU","selection":"Under","line":2.5}];「主胜&双方进球」→ [{"market":"1X2","selection":"home"},{"market":"BTTS","selection":"Yes"}]。parts 至少 2 段;rawText 填中文描述。
 - 严禁把波胆/半场/其它盘口硬塞成 AH/OU/1X2 等并编造让分或盘线(line)。
 - selection 归一化(标准 6 码时):1X2/AH/DNB 用 home 或 away(平局用 draw;AH 的 home/away 取所列让球一方);OU 用 Over 或 Under;BTTS 用 Yes 或 No;DC 用 1X、12 或 X2。
 - 胜平负(1X2)三选务必分清:主胜=home、**和局/平局/平/和/Draw/X=draw**、客胜=away。「独赢」一般指 1X2 胜负;**严禁把「和局/平」误判成 home/away 独赢**——和局必须 selection=draw。
@@ -66,6 +67,25 @@ function toStr(v: unknown): string | undefined {
   return s.length > 0 ? s : undefined;
 }
 
+/** 解析同场组合盘各子盘;任一子盘 market 非标准码、或不足 2 段 → undefined(整组退 OTHER)。 */
+function parseComboParts(raw: unknown): ComboPart[] | undefined {
+  if (!Array.isArray(raw)) return undefined;
+  const out: ComboPart[] = [];
+  for (const it of raw) {
+    if (!it || typeof it !== 'object') return undefined;
+    const o = it as Record<string, unknown>;
+    const m = toStr(o.market)?.toUpperCase();
+    if (!m || !MARKETS.includes(m)) return undefined; // 子盘不支持 → 整组不可自动结算
+    const part: ComboPart = { market: m, selection: toStr(o.selection) ?? '' };
+    if (m === 'AH' || m === 'OU') {
+      const line = toNum(o.line);
+      if (line !== undefined) part.line = line;
+    }
+    out.push(part);
+  }
+  return out.length >= 2 ? out : undefined;
+}
+
 /** 清洗单腿:队名缺失则返回 null(丢弃该腿)。 */
 function cleanLeg(raw: unknown): BetLeg | null {
   if (!raw || typeof raw !== 'object') return null;
@@ -76,8 +96,15 @@ function cleanLeg(raw: unknown): BetLeg | null {
 
   // 市场码大小写归一后再匹配:模型偶尔输出小写/变体(cs/ou/1x2),不应因此误降为 OTHER
   const marketRaw = toStr(o.market)?.toUpperCase();
-  // 命中可结算码(6 类 + 波胆 CS/CS1H/CS2H)才保留;其余一律 'OTHER'(角球/特色等)→ 转人工
-  const market = marketRaw && MARKETS.includes(marketRaw) ? marketRaw : 'OTHER';
+  // 标准码保留;COMBO 解析各子盘(子盘须全部为标准码且≥2,否则退 OTHER);其余 'OTHER' 转人工
+  let market: string;
+  let parts: ComboPart[] | undefined;
+  if (marketRaw === 'COMBO') {
+    parts = parseComboParts(o.parts);
+    market = parts ? 'COMBO' : 'OTHER';
+  } else {
+    market = marketRaw && MARKETS.includes(marketRaw) ? marketRaw : 'OTHER';
+  }
 
   const leg: BetLeg = {
     homeName,
@@ -85,6 +112,7 @@ function cleanLeg(raw: unknown): BetLeg | null {
     market,
     selection: toStr(o.selection) ?? '',
   };
+  if (parts) leg.parts = parts;
 
   const league = toStr(o.league);
   if (league !== undefined) leg.league = league;

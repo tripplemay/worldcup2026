@@ -113,6 +113,20 @@ const SUPPORTED_MARKETS = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
 
 /** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。波胆/不支持盘口特殊展示。 */
 function legLabel(t: T, leg: BetLeg): string {
+  // 同场组合盘:各子盘标签用 & 连接(逐段复用本函数)
+  if (leg.market === 'COMBO')
+    return leg.parts && leg.parts.length
+      ? leg.parts
+          .map((p) =>
+            legLabel(t, {
+              ...leg,
+              market: p.market,
+              selection: p.selection,
+              line: p.line,
+            }),
+          )
+          .join(' & ')
+      : leg.rawText || leg.selection || 'COMBO';
   // 波胆(正确比分):全场 / 上半场 / 下半场
   if (leg.market === 'CS') return `${t('pnl.csFull')} ${leg.selection}`;
   if (leg.market === 'CS1H') return `${t('pnl.cs1h')} ${leg.selection}`;

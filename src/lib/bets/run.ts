@@ -79,6 +79,7 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
           res.homeGoals,
           res.awayGoals,
           ht,
+          leg.parts,
         );
         legResults.push(r);
         legPatches.push({
