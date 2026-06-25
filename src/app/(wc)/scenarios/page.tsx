@@ -7,22 +7,21 @@ import ScenarioFixtureCard from 'components/worldcup/ScenarioFixtureCard';
 import ScenarioTeamList from 'components/worldcup/ScenarioTeamList';
 import { useScenarios } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
-import type { Stage, TeamOutlook } from 'lib/scenario/types';
+import type { FixtureView, TeamOutlook } from 'lib/scenario/types';
+
+/** 数据超过该时长视为「可能过期」(沙盘随每场收官重算)。 */
+const STALE_HOURS = 6;
 
 /**
- * 「沙盘」情景推演页:第三轮每队最期望的结果(整条晋级路径最易)+ 双方默契 + 全队前景。
+ * 「沙盘」情景推演页:球队晋级前景(点击下钻)为主线 + 第三轮双方博弈。
  * 数据由后台 Monte-Carlo 预算(随每场收官重算),本页只读缓存。
  */
 export default function ScenariosPage() {
   const { t } = useLocale();
   const { scenario, error, isLoading, refresh } = useScenarios();
   const hasData = !!scenario && scenario.teams.length > 0;
-  // 期望度口径:打进8强(整条路径)/ 进下一轮(出线),供交叉比对
-  const [metric, setMetric] = useState<Stage>('QF');
-  const METRICS: { s: Stage; label: string }[] = [
-    { s: 'QF', label: t('scenarios.mQF') },
-    { s: 'R32', label: t('scenarios.mNext') },
-  ];
+  const [showNotes, setShowNotes] = useState(false);
+  const [showPlayed, setShowPlayed] = useState(false);
 
   const byNorm = useMemo(() => {
     const m: Record<string, TeamOutlook> = {};
@@ -30,30 +29,41 @@ export default function ScenariosPage() {
     return m;
   }, [scenario]);
 
-  // 防御:按比赛(开赛)顺序展示对阵(同组同时开球→相邻;缺时间排最后)
-  const fixtures = useMemo(
-    () =>
-      [...(scenario?.fixtures ?? [])].sort(
-        (a, b) =>
-          (a.commenceTime || '9999').localeCompare(b.commenceTime || '9999') ||
-          a.group.localeCompare(b.group) ||
-          a.home.localeCompare(b.home),
-      ),
-    [scenario],
-  );
+  // 第三轮对阵:未踢在前(按开赛时间),已踢折叠下沉
+  const { upcoming, played } = useMemo(() => {
+    const sorted = [...(scenario?.fixtures ?? [])].sort(
+      (a, b) =>
+        (a.commenceTime || '9999').localeCompare(b.commenceTime || '9999') ||
+        a.group.localeCompare(b.group) ||
+        a.home.localeCompare(b.home),
+    );
+    return {
+      upcoming: sorted.filter((f) => !f.played),
+      played: sorted.filter((f) => f.played),
+    };
+  }, [scenario]);
 
-  const freshness = (() => {
-    if (!scenario) return '';
+  const fresh = useMemo(() => {
+    if (!scenario) return null;
     const d = new Date(scenario.computedAt);
-    const hm = `${String(d.getHours()).padStart(2, '0')}:${String(
-      d.getMinutes(),
-    ).padStart(2, '0')}`;
-    return `${t('scenarios.updatedAt')} ${hm} · ${
-      scenario.groupsLocked.length
-    } ${t('scenarios.locked')} · ${scenario.groupsPending.length} ${t(
-      'scenarios.pending',
-    )}`;
-  })();
+    const two = (n: number) => String(n).padStart(2, '0');
+    const dateStr = `${d.getMonth() + 1}/${d.getDate()} ${two(
+      d.getHours(),
+    )}:${two(d.getMinutes())}`;
+    const stale = (Date.now() - scenario.computedAt) / 3.6e6 > STALE_HOURS;
+    return { dateStr, stale };
+  }, [scenario]);
+
+  const notesWarn = !!scenario?.notes?.includes('⚠');
+
+  const renderFixture = (f: FixtureView) => (
+    <ScenarioFixtureCard
+      key={`${f.group}-${f.home}-${f.away}`}
+      fixture={f}
+      home={byNorm[f.home]}
+      away={byNorm[f.away]}
+    />
+  );
 
   return (
     <div>
@@ -62,10 +72,54 @@ export default function ScenariosPage() {
         <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
           {t('scenarios.subtitle')}
         </p>
-        {scenario && (
-          <p className="mt-0.5 text-[10px] tabular-nums text-gray-400">
-            {freshness}
-          </p>
+        {scenario && fresh && (
+          <div className="mt-0.5 flex flex-wrap items-center gap-x-2 text-[10px] tabular-nums text-gray-400">
+            <span
+              className={
+                fresh.stale
+                  ? 'font-medium text-amber-600 dark:text-amber-400'
+                  : ''
+              }
+            >
+              {t('scenarios.updatedAt')} {fresh.dateStr}
+              {fresh.stale ? ` · ${t('scenarios.stale')}` : ''}
+            </span>
+            <span>
+              · {scenario.groupsLocked.length} {t('scenarios.locked')} ·{' '}
+              {scenario.groupsPending.length} {t('scenarios.pending')}
+            </span>
+            <span>
+              · {scenario.sims.toLocaleString()}
+              {t('scenarios.simsUnit')}
+            </span>
+            <span>
+              ·{' '}
+              {scenario.thirdTableSource === 'official'
+                ? `${t('scenarios.thirdOfficial')} ✓`
+                : t('scenarios.thirdAlgo')}
+            </span>
+          </div>
+        )}
+        {scenario?.notes && (
+          <div className="mt-1">
+            <button
+              onClick={() => setShowNotes((v) => !v)}
+              aria-expanded={showNotes}
+              className={`text-[10px] ${
+                notesWarn
+                  ? 'font-medium text-amber-600 dark:text-amber-400'
+                  : 'text-gray-400'
+              }`}
+            >
+              {notesWarn ? '⚠️ ' : 'ℹ️ '}
+              {t('scenarios.notesTitle')} {showNotes ? '▴' : '▾'}
+            </button>
+            {showNotes && (
+              <p className="mt-1 text-[10px] leading-relaxed text-gray-500 dark:text-gray-400">
+                {scenario.notes}
+              </p>
+            )}
+          </div>
         )}
       </header>
 
@@ -97,51 +151,42 @@ export default function ScenariosPage() {
 
       {hasData && scenario && (
         <div className="space-y-5">
-          {/* 期望度口径切换(交叉比对:整条路径 8强 vs 进下一轮 出线)*/}
-          <div>
-            <div className="mb-1 text-[10px] text-gray-400">
-              {t('scenarios.lens')}
-            </div>
-            <div className="inline-flex rounded-full bg-gray-100 p-0.5 text-xs dark:bg-navy-800">
-              {METRICS.map((m) => (
-                <button
-                  key={m.s}
-                  onClick={() => setMetric(m.s)}
-                  className={`rounded-full px-3 py-1 transition-colors ${
-                    metric === m.s
-                      ? 'bg-white font-semibold text-brand-500 shadow-sm dark:bg-navy-600 dark:text-brand-400'
-                      : 'text-gray-500 dark:text-gray-400'
-                  }`}
-                >
-                  {m.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <section>
-            <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
-              {t('scenarios.fixturesTitle')}
-            </h2>
-            <div className="space-y-2.5">
-              {fixtures.map((f) => (
-                <ScenarioFixtureCard
-                  key={`${f.group}-${f.home}-${f.away}`}
-                  fixture={f}
-                  home={byNorm[f.home]}
-                  away={byNorm[f.away]}
-                  metricStage={metric}
-                />
-              ))}
-            </div>
-          </section>
-
+          {/* 主线:球队晋级前景(点击行下钻) */}
           <section>
             <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
               {t('scenarios.teamsTitle')}
             </h2>
-            <ScenarioTeamList teams={scenario.teams} metricStage={metric} />
+            <ScenarioTeamList teams={scenario.teams} />
           </section>
+
+          {/* 第三轮双方博弈(未踢) */}
+          {upcoming.length > 0 && (
+            <section>
+              <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
+                {t('scenarios.fixturesTitle')}
+              </h2>
+              <div className="space-y-2.5">{upcoming.map(renderFixture)}</div>
+            </section>
+          )}
+
+          {/* 已开赛场次:折叠下沉 */}
+          {played.length > 0 && (
+            <section>
+              <button
+                onClick={() => setShowPlayed((v) => !v)}
+                aria-expanded={showPlayed}
+                className="mb-2 flex w-full items-center justify-between text-sm font-bold text-gray-500 active:opacity-70 dark:text-gray-400"
+              >
+                <span>
+                  {t('scenarios.playedTitle')} ({played.length})
+                </span>
+                <span className="text-xs">{showPlayed ? '▴' : '▾'}</span>
+              </button>
+              {showPlayed && (
+                <div className="space-y-2.5">{played.map(renderFixture)}</div>
+              )}
+            </section>
+          )}
         </div>
       )}
     </div>

@@ -3,27 +3,10 @@
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
 import { useLocale, useTn } from 'lib/i18n/context';
-import {
-  reachProb,
-  sortBucketsByMetric,
-  desiredByMetric,
-  isMeaningful,
-} from 'lib/scenario/types';
-import type {
-  FixtureView,
-  Outcome,
-  Stage,
-  TeamOutlook,
-} from 'lib/scenario/types';
+import { formatPct, DISPLAY_LENS } from 'lib/scenario/display';
+import { desiredByMetric, isMeaningful } from 'lib/scenario/types';
+import type { FixtureView, Outcome, TeamOutlook } from 'lib/scenario/types';
 
-const pct = (p: number) => `${Math.round(p * 100)}%`;
-
-/** 自身视角胜平负 → 颜色(胜=翠绿、平=灰、负=玫红;「想输」用红色显眼)。 */
-const OUTCOME_COLOR: Record<Outcome, string> = {
-  W: 'text-emerald-600 dark:text-emerald-400',
-  D: 'text-gray-500 dark:text-gray-300',
-  L: 'text-rose-600 dark:text-rose-400',
-};
 const OUTCOME_BG: Record<Outcome, string> = {
   W: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-500/20 dark:text-emerald-300',
   D: 'bg-gray-100 text-gray-600 dark:bg-white/10 dark:text-gray-300',
@@ -36,123 +19,80 @@ const homeOutcome = (o?: Outcome) =>
 const awayOutcome = (o?: Outcome) =>
   o === 'W' ? 'away' : o === 'D' ? 'draw' : o === 'L' ? 'home' : undefined;
 
-/** 一支队的一侧视角(队徽 + 最期望 + 各结果在所选口径下的概率;已踢则只显总体前景)。 */
+/** 固定口径下某队的「最期望」(摆动够大才给,否则视为势均)。 */
+function desiredOf(outlook?: TeamOutlook, played?: boolean): Outcome | undefined {
+  if (!outlook || played || !isMeaningful(outlook.byResult, DISPLAY_LENS))
+    return undefined;
+  return desiredByMetric(outlook.byResult, DISPLAY_LENS);
+}
+
+/**
+ * 一侧视角(队徽 + 出线概率 + 最期望 chip)。
+ * 缺 outlook(跨源对齐失败)时仍用 fixture 自带的展示名/队徽兜底,避免卡片半空塌陷。
+ */
 function TeamSide({
   outlook,
+  name,
+  logo,
   played,
-  metricStage,
+  desired,
 }: {
   outlook?: TeamOutlook;
+  name: string;
+  logo?: string;
   played: boolean;
-  metricStage: Stage;
+  desired?: Outcome;
 }) {
   const { t } = useLocale();
-  const tn = useTn();
-  if (!outlook) return null;
   const oc = (o: Outcome) =>
     t(`scenarios.${o === 'W' ? 'win' : o === 'D' ? 'draw' : 'lose'}`);
-  // R32(出线)直接叫「出线」,其余叫「进8强」之类
-  const metricLabel =
-    metricStage === 'R32'
-      ? t('scenarios.advance')
-      : t('scenarios.reach') + t(`scenarios.st${metricStage}`);
-
-  const buckets = sortBucketsByMetric(outlook.byResult, metricStage);
-  // 摆动够大才显示「最期望」;否则视为「势均·影响不大」(避免噪声 argmax 误导)
-  const meaningful = !played && isMeaningful(outlook.byResult, metricStage);
-  const desired = meaningful ? buckets[0]?.outcome : undefined;
 
   return (
-    <div>
-      <div className="flex items-center justify-between gap-2">
-        <TeamBadge
-          name={outlook.name}
-          logo={outlook.logo}
-          className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
-        />
+    <div className="flex items-center justify-between gap-2">
+      <TeamBadge
+        name={name}
+        logo={logo}
+        className="min-w-0 text-sm font-semibold text-navy-700 dark:text-white"
+      />
+      <div className="flex shrink-0 items-center gap-2">
+        {outlook ? (
+          <span className="text-[10px] tabular-nums text-gray-400">
+            {t('scenarios.advance')} {formatPct(outlook.overall.advance)}
+          </span>
+        ) : (
+          <span className="text-[10px] text-gray-300 dark:text-navy-500">—</span>
+        )}
         {!played &&
           (desired ? (
             <span
-              className={`shrink-0 rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
+              className={`rounded-full px-2 py-0.5 text-[10px] font-semibold ${OUTCOME_BG[desired]}`}
             >
               {t('scenarios.desired')} {oc(desired)}
             </span>
           ) : (
-            <span className="shrink-0 rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500 dark:bg-white/10 dark:text-gray-400">
-              {t('scenarios.evenOdds')}
-            </span>
+            outlook && (
+              <span className="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-medium text-gray-500 dark:bg-white/10 dark:text-gray-400">
+                {t('scenarios.evenOdds')}
+              </span>
+            )
           ))}
       </div>
-
-      {/* 总体前景(固定三锚点,跨口径不变,做参照) */}
-      <div className="mt-1 flex gap-3 text-[11px] tabular-nums text-gray-500 dark:text-gray-400">
-        <span>
-          {t('scenarios.advance')} {pct(outlook.overall.advance)}
-        </span>
-        <span>
-          {t('scenarios.reach')}
-          {t('scenarios.stQF')} {pct(outlook.overall.qf)}
-        </span>
-        <span>
-          {t('scenarios.champion')} {pct(outlook.overall.champion)}
-        </span>
-      </div>
-
-      {/* 未踢:各结果(胜/平/负)在「所选口径」下的概率,最期望置顶 */}
-      {!played && buckets.length > 0 && (
-        <div className="mt-1.5 space-y-1">
-          <div className="text-[10px] text-gray-400">{metricLabel}</div>
-          {buckets.map((b, i) => {
-            const v = reachProb(b.probs, metricStage);
-            return (
-              <div
-                key={b.outcome}
-                className="flex items-center gap-2 text-[11px]"
-              >
-                <span
-                  className={`w-4 shrink-0 font-semibold ${
-                    OUTCOME_COLOR[b.outcome]
-                  }`}
-                >
-                  {oc(b.outcome)}
-                </span>
-                {/* 进度条占满主宽度;对手名缩成右侧小尾巴 */}
-                <div className="h-1.5 min-w-0 flex-1 overflow-hidden rounded-full bg-gray-100 dark:bg-navy-700">
-                  <span
-                    className={`block h-full rounded-full ${
-                      i === 0 ? 'bg-brand-500' : 'bg-gray-300 dark:bg-navy-500'
-                    }`}
-                    style={{ width: pct(v) }}
-                  />
-                </div>
-                <span className="w-9 shrink-0 text-right tabular-nums text-gray-500 dark:text-gray-400">
-                  {pct(v)}
-                </span>
-                {b.topOpponent && (
-                  <span className="max-w-[5.5rem] shrink-0 truncate text-gray-400">
-                    vs {tn(b.topOpponent.norm)}
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </div>
-      )}
     </div>
   );
 }
 
-/** 第三轮一场对阵的双视角卡(按所选口径计算最期望 + 默契)。 */
+/**
+ * 第三轮一场对阵卡(双视角)。口径固定为 DISPLAY_LENS,默契判定稳定不再随口径闪烁。
+ * 详细的条件晋级/对手分布下沉到「球队晋级前景」的下钻面板。
+ */
 export default function ScenarioFixtureCard({
   fixture,
   home,
   away,
-  metricStage,
 }: {
   fixture: FixtureView;
   home?: TeamOutlook;
   away?: TeamOutlook;
-  metricStage: Stage;
 }) {
   const { t } = useLocale();
   const tn = useTn();
@@ -164,15 +104,8 @@ export default function ScenarioFixtureCard({
     return `· ${d.getMonth() + 1}/${d.getDate()}`;
   })();
 
-  // 按所选口径重算双方最期望 → 默契(都「有取舍」且指向同一比赛结果才算)
-  const hDesired =
-    home && !fixture.played && isMeaningful(home.byResult, metricStage)
-      ? desiredByMetric(home.byResult, metricStage)
-      : undefined;
-  const aDesired =
-    away && !fixture.played && isMeaningful(away.byResult, metricStage)
-      ? desiredByMetric(away.byResult, metricStage)
-      : undefined;
+  const hDesired = desiredOf(home, fixture.played);
+  const aDesired = desiredOf(away, fixture.played);
   const hOut = homeOutcome(hDesired);
   const aOut = awayOutcome(aDesired);
   const mutual = !!hOut && !!aOut && hOut === aOut;
@@ -201,14 +134,18 @@ export default function ScenarioFixtureCard({
       </div>
       <TeamSide
         outlook={home}
+        name={fixture.homeName}
+        logo={fixture.homeLogo}
         played={fixture.played}
-        metricStage={metricStage}
+        desired={hDesired}
       />
       <div className="my-2 h-px bg-gray-100 dark:bg-white/5" />
       <TeamSide
         outlook={away}
+        name={fixture.awayName}
+        logo={fixture.awayLogo}
         played={fixture.played}
-        metricStage={metricStage}
+        desired={aDesired}
       />
     </Card>
   );
