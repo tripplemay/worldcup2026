@@ -14,6 +14,7 @@ import {
   type KnockoutRound,
   type Stage,
   type StageProbs,
+  type TeamOutlook,
 } from './types';
 
 /**
@@ -63,6 +64,30 @@ export const KO_ROUND_LABEL_KEY: Record<KnockoutRound, string> = {
   P3: 'scenarios.stSF',
   F: 'scenarios.stFINAL',
 };
+
+/** 一支队「最可能晋级路线」的一跳(给前端 chips 渲染)。 */
+export interface RoadStep {
+  round: KnockoutRound;
+  norm: string;
+  prob: number;
+}
+
+/**
+ * 组装一支队的逐轮最可能对手路线:R32(topOpponent)→ R16/QF/SF/F(path)。
+ * 每跳为该轮独立众数对手(分母=到达该轮),不保证同属一条真实模拟链。
+ */
+export function roadSteps(o: TeamOutlook): RoadStep[] {
+  const out: RoadStep[] = [];
+  if (o.topOpponent)
+    out.push({
+      round: 'R32',
+      norm: o.topOpponent.norm,
+      prob: o.topOpponent.prob,
+    });
+  for (const s of o.path ?? [])
+    out.push({ round: s.round, norm: s.opponentNorm, prob: s.prob });
+  return out;
+}
 
 /** 期望阶段索引(0..6 连续标量)→ 最近的离散阶段(用于「预期走多远」标尺标签)。 */
 export function expStageStage(expStage: number): Stage {

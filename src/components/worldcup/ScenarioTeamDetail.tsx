@@ -7,6 +7,7 @@ import {
   pctWidth,
   DEPTH_STAGES,
   KO_ROUND_LABEL_KEY,
+  roadSteps,
 } from 'lib/scenario/display';
 import type { Outcome, StageProbs, TeamOutlook } from 'lib/scenario/types';
 
@@ -92,26 +93,14 @@ export default function ScenarioTeamDetail({
   // 上下文行:条件视角看「该结果出现概率 + 该结果下最可能对手」;总体看整体最可能对手
   const opp = activeBucket?.topOpponent ?? outlook.topOpponent;
 
-  // 最可能路线 chips:R32(topOpponent)→ R16 → QF;每步为该轮独立众数
-  const pathChips = (outlook.path ?? []).length
-    ? [
-        ...(outlook.topOpponent
-          ? [
-              {
-                key: 'R32',
-                round: t(KO_ROUND_LABEL_KEY.R32),
-                norm: outlook.topOpponent.norm,
-                prob: outlook.topOpponent.prob,
-              },
-            ]
-          : []),
-        ...(outlook.path ?? []).map((s) => ({
-          key: s.round,
-          round: t(KO_ROUND_LABEL_KEY[s.round]),
-          norm: s.opponentNorm,
-          prob: s.prob,
-        })),
-      ]
+  // 最可能路线 chips:R32→R16→QF→SF→F 逐轮独立众数对手(仅在有 path 时显示)
+  const pathChips = outlook.path?.length
+    ? roadSteps(outlook).map((s) => ({
+        key: s.round,
+        round: t(KO_ROUND_LABEL_KEY[s.round]),
+        norm: s.norm,
+        prob: s.prob,
+      }))
     : [];
 
   const st = outlook.standing;

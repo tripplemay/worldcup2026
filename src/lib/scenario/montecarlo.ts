@@ -19,12 +19,10 @@ import { buildBracketSeed, simulateKnockout } from './knockout';
 import { BRACKET } from './bracket';
 import { STAGE_ORDER, stageIndex } from './types';
 import type {
-  ChampionPath,
   FixtureView,
   GroupLetter,
   GroupMatch,
   Outcome,
-  PathLeg,
   PathStep,
   ResultBucket,
   Stage,
@@ -40,12 +38,13 @@ import type { TeamRating } from 'lib/predict/types';
 const DEFAULT_SIMS = Number(process.env.SCENARIO_SIMS) || 20000;
 const DEFAULT_TARGET: Stage = 'QF'; // 「整条路径最易」默认目标轮:打进 8 强
 const SHOOTOUT_LEAN = 0.5; // 点球向强队倾斜程度(0=纯抛硬币,1=按常规胜率比)
-const PATH_GATE = 0.05; // 仅 overall.qf ≥ 此阈值的队挂「最可能路线」(控 payload + 抑噪)
-const TOP_PATH_TEAMS = 6; // 「最可能夺冠路径」取夺冠概率前 N 队各一条
+const PATH_GATE = 0.05; // 某轮达成率 ≥ 此阈值才在「最可能路线」里挂该轮对手(控 payload + 抑噪)
 
-// 淘汰赛各轮场次号(从固定 bracket 派生,聚合 R16/QF 对手用)
+// 淘汰赛各轮场次号(从固定 bracket 派生,聚合逐轮对手用)
 const R16_NUMS = BRACKET.filter((m) => m.round === 'R16').map((m) => m.match);
 const QF_NUMS = BRACKET.filter((m) => m.round === 'QF').map((m) => m.match);
+const SF_NUMS = BRACKET.filter((m) => m.round === 'SF').map((m) => m.match);
+const F_NUMS = BRACKET.filter((m) => m.round === 'F').map((m) => m.match);
 
 export interface SimConfig {
   sims?: number;
@@ -62,10 +61,6 @@ export interface SimOutput {
   fallbackTeams: string[];
   /** 12 组第三名出线竞争 + Annex C 槽位分配。 */
   thirdRace: ThirdRaceRow[];
-  /** 按夺冠概率前 N 队各自最可能的自洽夺冠路径。 */
-  topPaths: ChampionPath[];
-  /** topPaths 合计覆盖的全(有效)sims 占比。 */
-  topPathsCovered: number;
 }
 
 type StageTally = Record<Stage, number>;
@@ -91,6 +86,8 @@ interface TeamAcc {
   opp: Map<string, number>; // R32 对手
   r16Opp: Map<string, number>; // R16 对手(分母=到达 R16 的 sim 数)
   qfOpp: Map<string, number>; // QF 对手(分母=到达 QF 的 sim 数)
+  sfOpp: Map<string, number>; // SF 对手(分母=到达 SF 的 sim 数)
+  fOpp: Map<string, number>; // 决赛对手(分母=到达决赛的 sim 数)
   byRes: Record<Outcome, ResAcc>;
 }
 
@@ -106,6 +103,8 @@ const newTeamAcc = (): TeamAcc => ({
   opp: new Map(),
   r16Opp: new Map(),
   qfOpp: new Map(),
+  sfOpp: new Map(),
+  fOpp: new Map(),
   byRes: { W: newResAcc(), D: newResAcc(), L: newResAcc() },
 });
 
@@ -256,10 +255,6 @@ export function runMonteCarlo(
   const thirdAcc: Record<string, ThirdAcc> = {};
   for (const g of groups)
     thirdAcc[g] = { qualSims: 0, thirdNameCount: new Map(), slot: new Map() };
-  const pathAcc = new Map<
-    string,
-    Map<string, { count: number; legs: PathLeg[] }>
-  >();
   let seededSims = 0; // buildBracketSeed 成功(=有完整淘汰赛)的 sim 数
 
   for (let i = 0; i < sims; i++) {
@@ -335,49 +330,23 @@ export function runMonteCarlo(
       const slot = seedB.groupToSlot[g];
       if (slot) inc(ta.slot, slot);
     }
-    // R16/QF 对手:逐轮独立众数(分母=本队到达该轮的 sim 数)
-    for (const m of R16_NUMS) {
-      const h = ko.homeOf[m];
-      const a = ko.awayOf[m];
-      if (!h || !a) continue;
-      if (acc[h]) inc(acc[h].r16Opp, a);
-      if (acc[a]) inc(acc[a].r16Opp, h);
-    }
-    for (const m of QF_NUMS) {
-      const h = ko.homeOf[m];
-      const a = ko.awayOf[m];
-      if (!h || !a) continue;
-      if (acc[h]) inc(acc[h].qfOpp, a);
-      if (acc[a]) inc(acc[a].qfOpp, h);
-    }
-    // 冠军自洽路径(同一 sim 内连胜序列;BRACKET 顺序即轮次顺序)
-    const champ = ko.champion;
-    if (champ) {
-      const legs: PathLeg[] = [];
-      for (const bm of BRACKET) {
-        if (ko.winnerOf[bm.match] !== champ) continue;
-        const opp =
-          ko.homeOf[bm.match] === champ
-            ? ko.awayOf[bm.match]
-            : ko.homeOf[bm.match];
-        if (!opp) continue;
-        legs.push({
-          round: bm.round,
-          matchNo: bm.match,
-          opponentNorm: opp,
-          opponentName: opp, // 名字在组装时回填
-        });
+    // 逐轮对手:R16/QF/SF/F 各轮独立众数(分母=本队到达该轮的 sim 数)
+    const accOppRound = (
+      nums: number[],
+      pick: (a: TeamAcc) => Map<string, number>,
+    ) => {
+      for (const m of nums) {
+        const h = ko.homeOf[m];
+        const a = ko.awayOf[m];
+        if (!h || !a) continue;
+        if (acc[h]) inc(pick(acc[h]), a);
+        if (acc[a]) inc(pick(acc[a]), h);
       }
-      const key = champ + '|' + legs.map((l) => l.opponentNorm).join('>');
-      let byKey = pathAcc.get(champ);
-      if (!byKey) {
-        byKey = new Map();
-        pathAcc.set(champ, byKey);
-      }
-      const hit = byKey.get(key);
-      if (hit) hit.count += 1;
-      else byKey.set(key, { count: 1, legs });
-    }
+    };
+    accOppRound(R16_NUMS, (x) => x.r16Opp);
+    accOppRound(QF_NUMS, (x) => x.qfOpp);
+    accOppRound(SF_NUMS, (x) => x.sfOpp);
+    accOppRound(F_NUMS, (x) => x.fOpp);
   }
 
   // 组装每队前景
@@ -404,28 +373,30 @@ export function runMonteCarlo(
     );
     const played3 = teamPlayed3[norm] ?? false;
     const overall = stageProbsFrom(a.stage, a.sims);
-    // 最可能路线(R16/QF 逐轮独立众数);仅深度够的队挂,控 payload + 抑噪
-    let path: PathStep[] | undefined;
-    if (overall.qf >= PATH_GATE) {
-      const steps: PathStep[] = [];
-      const r16 = topOpp(a.r16Opp);
-      if (r16)
+    // 最可能路线:R16/QF/SF/F 各轮独立众数对手;某轮达成率≥PATH_GATE 才挂该轮(控 payload + 抑噪)
+    const roundSteps: {
+      round: PathStep['round'];
+      reach: number;
+      map: Map<string, number>;
+    }[] = [
+      { round: 'R16', reach: overall.r16, map: a.r16Opp },
+      { round: 'QF', reach: overall.qf, map: a.qfOpp },
+      { round: 'SF', reach: overall.sf, map: a.sfOpp },
+      { round: 'F', reach: overall.final, map: a.fOpp },
+    ];
+    const steps: PathStep[] = [];
+    for (const rs of roundSteps) {
+      if (rs.reach < PATH_GATE) continue;
+      const top = topOpp(rs.map);
+      if (top)
         steps.push({
-          round: 'R16',
-          opponentNorm: r16.norm,
-          opponentName: teamMeta[r16.norm]?.name ?? r16.norm,
-          prob: r16.prob,
+          round: rs.round,
+          opponentNorm: top.norm,
+          opponentName: teamMeta[top.norm]?.name ?? top.norm,
+          prob: top.prob,
         });
-      const qf = topOpp(a.qfOpp);
-      if (qf)
-        steps.push({
-          round: 'QF',
-          opponentNorm: qf.norm,
-          opponentName: teamMeta[qf.norm]?.name ?? qf.norm,
-          prob: qf.prob,
-        });
-      if (steps.length) path = steps;
     }
+    const path = steps.length ? steps : undefined;
     const ol: TeamOutlook = {
       norm,
       name: meta?.name ?? norm,
@@ -518,38 +489,6 @@ export function runMonteCarlo(
     (a, b) => b.qualifyProb - a.qualifyProb || a.group.localeCompare(b.group),
   );
 
-  // 最可能夺冠路径:按夺冠概率前 N 队,各取其 count 最大的自洽路径(分母=有效 sim)
-  const topPaths: ChampionPath[] = [];
-  const byChampion = [...teams].sort(
-    (a, b) => b.overall.champion - a.overall.champion,
-  );
-  for (const t of byChampion) {
-    if (topPaths.length >= TOP_PATH_TEAMS) break;
-    if (t.overall.champion <= 0) break;
-    const byKey = pathAcc.get(t.norm);
-    if (!byKey) continue;
-    let bestCount = 0;
-    let bestLegs: PathLeg[] = [];
-    for (const v of byKey.values())
-      if (v.count > bestCount) {
-        bestCount = v.count;
-        bestLegs = v.legs;
-      }
-    if (!bestCount) continue;
-    topPaths.push({
-      champion: t.norm,
-      name: t.name,
-      logo: t.logo,
-      championProb: t.overall.champion,
-      prob: bestCount / denom,
-      legs: bestLegs.map((l) => ({
-        ...l,
-        opponentName: teamMeta[l.opponentNorm]?.name ?? l.opponentNorm,
-      })),
-    });
-  }
-  const topPathsCovered = topPaths.reduce((s, p) => s + p.prob, 0);
-
   return {
     teams,
     fixtures,
@@ -557,7 +496,5 @@ export function runMonteCarlo(
     sims,
     fallbackTeams: [...fallbackTeams],
     thirdRace,
-    topPaths,
-    topPathsCovered,
   };
 }

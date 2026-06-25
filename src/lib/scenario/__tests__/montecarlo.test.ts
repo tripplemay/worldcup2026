@@ -191,59 +191,38 @@ describe('runMonteCarlo', () => {
     }
   });
 
-  it('teamPath:强队挂路线(R16/QF 众数对手),弱旅不挂', () => {
+  it('teamPath:强队挂逐轮对手(R16→决赛),按轮次顺序、prob∈(0,1],弱旅不挂', () => {
     const by = Object.fromEntries(out.teams.map((t) => [t.norm, t]));
-    const a1 = by['A1'];
+    const a1 = by['A1']; // 必夺冠级强队 → 应有完整 R16/QF/SF/F 四步
     expect(a1.overall.qf).toBeGreaterThan(0.05);
-    expect(a1.path && a1.path.length).toBeGreaterThanOrEqual(1);
-    for (const step of a1.path ?? []) {
-      expect(['R16', 'QF']).toContain(step.round);
+    const rounds = (a1.path ?? []).map((s) => s.round);
+    expect(rounds).toEqual(['R16', 'QF', 'SF', 'F']);
+    const ORDER = ['R16', 'QF', 'SF', 'F'];
+    for (let i = 0; i < (a1.path ?? []).length; i++) {
+      const step = a1.path![i];
+      expect(ORDER.indexOf(step.round)).toBe(i); // 严格按轮次顺序
+      expect(step.opponentNorm).not.toBe('A1'); // 对手不是自己
       expect(step.prob).toBeGreaterThan(0);
       expect(step.prob).toBeLessThanOrEqual(1);
     }
-    // 极弱旅(qf<阈值)无 path
-    const weak = out.teams.find((t) => t.overall.qf < 0.05);
+    // 极弱旅(各轮达成率<阈值)无 path
+    const weak = out.teams.find(
+      (t) =>
+        t.overall.r16 < 0.05 &&
+        t.overall.qf < 0.05 &&
+        t.overall.sf < 0.05 &&
+        t.overall.final < 0.05,
+    );
     if (weak) expect(weak.path).toBeUndefined();
   });
 
-  it('topPaths:≤6 条、冠军去重、∑prob==topPathsCovered≤1', () => {
-    expect(out.topPaths.length).toBeLessThanOrEqual(6);
-    const champs = out.topPaths.map((p) => p.champion);
-    expect(new Set(champs).size).toBe(champs.length); // 去重
-    const sum = out.topPaths.reduce((s, p) => s + p.prob, 0);
-    expect(out.topPathsCovered).toBeCloseTo(sum, 6);
-    expect(out.topPathsCovered).toBeLessThanOrEqual(1 + 1e-9);
-    // championProb(夺冠概率)≥ 单条路线 prob,且与该队 overall.champion 一致
-    const byNorm = Object.fromEntries(out.teams.map((t) => [t.norm, t]));
-    for (const p of out.topPaths) {
-      expect(p.championProb).toBeGreaterThanOrEqual(p.prob);
-      expect(p.championProb).toBeCloseTo(
-        byNorm[p.champion].overall.champion,
-        6,
-      );
-    }
-  });
-
-  it('topPaths:legs 自洽——按轮次升序、A1 路线对手为其实际对手', () => {
-    const RANK: Record<string, number> = {
-      R32: 1,
-      R16: 2,
-      QF: 3,
-      SF: 4,
-      P3: 4,
-      F: 5,
-    };
-    for (const p of out.topPaths) {
-      for (let i = 1; i < p.legs.length; i++)
-        expect(RANK[p.legs[i].round]).toBeGreaterThanOrEqual(
-          RANK[p.legs[i - 1].round],
-        );
-      // 对手非冠军自己,matchNo 在淘汰赛区间
-      for (const leg of p.legs) {
-        expect(leg.opponentNorm).not.toBe(p.champion);
-        expect(leg.matchNo).toBeGreaterThanOrEqual(73);
-        expect(leg.matchNo).toBeLessThanOrEqual(104);
-      }
+  it('teamPath:某轮达成率<阈值则不挂该轮(按 reach 门控)', () => {
+    for (const t of out.teams) {
+      const rounds = new Set((t.path ?? []).map((s) => s.round));
+      if (rounds.has('F')) expect(t.overall.final).toBeGreaterThanOrEqual(0.05);
+      if (rounds.has('SF')) expect(t.overall.sf).toBeGreaterThanOrEqual(0.05);
+      if (rounds.has('QF')) expect(t.overall.qf).toBeGreaterThanOrEqual(0.05);
+      if (rounds.has('R16')) expect(t.overall.r16).toBeGreaterThanOrEqual(0.05);
     }
   });
 });
