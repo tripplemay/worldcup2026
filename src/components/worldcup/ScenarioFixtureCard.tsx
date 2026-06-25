@@ -114,10 +114,15 @@ export default function ScenarioFixtureCard({
   const tn = useTn();
 
   const when = (() => {
-    if (fixture.played) return `· ${t('scenarios.played')}`;
-    if (!fixture.commenceTime) return '';
+    if (!fixture.commenceTime)
+      return fixture.played ? `· ${t('scenarios.played')}` : '';
     const d = new Date(fixture.commenceTime);
-    return `· ${d.getMonth() + 1}/${d.getDate()}`;
+    const two = (n: number) => String(n).padStart(2, '0');
+    // 日期 + 开赛时间(本地时区,与页头新鲜度口径一致)
+    const dt = `${d.getMonth() + 1}/${d.getDate()} ${two(d.getHours())}:${two(
+      d.getMinutes(),
+    )}`;
+    return fixture.played ? `· ${dt} ${t('scenarios.played')}` : `· ${dt}`;
   })();
 
   const hDesired = desiredOf(home, fixture.played);
