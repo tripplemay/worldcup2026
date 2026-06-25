@@ -114,8 +114,42 @@ export default function ScenarioTeamDetail({
       ]
     : [];
 
+  const st = outlook.standing;
+
   return (
     <div className="mt-2 space-y-3 rounded-xl bg-gray-50 p-3 dark:bg-navy-900/60">
+      {/* 当前真实形势(现状) */}
+      {st && (
+        <div className="rounded-lg bg-white/70 px-2 py-1.5 text-[10px] dark:bg-navy-800/60">
+          <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-gray-500 dark:text-gray-400">
+            <span className="font-semibold text-navy-700 dark:text-white">
+              {t('scenarios.grpPre')}
+              {outlook.group}
+              {t('scenarios.grpPost')} #{st.rank}
+            </span>
+            <span>
+              {st.win}
+              {t('scenarios.win')} {st.draw}
+              {t('scenarios.draw')} {st.loss}
+              {t('scenarios.lose')}
+            </span>
+            <span>
+              {t('scenarios.standGoals')} {st.gf}-{st.ga}
+            </span>
+            <span>
+              {st.points}
+              {t('scenarios.standPts')}
+            </span>
+          </div>
+          {st.remainingOpps && st.remainingOpps.length > 0 && (
+            <div className="mt-0.5 text-gray-400">
+              {t('scenarios.standRemain')}{' '}
+              {st.remainingOpps.map((o) => tn(o.norm)).join(' / ')}
+            </div>
+          )}
+        </div>
+      )}
+
       {/* 组内名次分布 */}
       <div>
         <div className="mb-1 text-[10px] font-medium text-gray-400">

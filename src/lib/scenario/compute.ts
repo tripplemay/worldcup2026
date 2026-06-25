@@ -9,6 +9,7 @@ import { loadRatings, loadElo, saveScenario } from 'lib/db/store';
 import { normalizeTeam } from 'lib/match/normalize';
 import { groupOf } from 'lib/data/groups2026';
 import { runMonteCarlo } from './montecarlo';
+import { rowToStanding, deriveRemaining } from './standings';
 import { GROUP_LETTERS } from './types';
 import type {
   GroupLetter,
@@ -16,6 +17,7 @@ import type {
   ScenarioResult,
   Stage,
   TeamMeta,
+  TeamStanding,
 } from './types';
 
 /** 小组赛日期窗口(美东日期范围;2026 小组赛 6/11–6/27)。 */
@@ -147,6 +149,27 @@ async function runCompute(opts: ComputeOptions): Promise<ScenarioResult> {
     (locked ? groupsLocked : groupsPending).push(letter);
   }
 
+  // 当前真实小组形势(现状):积分榜行 → standing,未赛场次 → 剩余对手
+  const standingByNorm: Record<string, TeamStanding> = {};
+  for (const g of groups) {
+    if (!groupLetter(g.group)) continue;
+    for (const row of g.rows)
+      standingByNorm[normalizeTeam(row.team)] = rowToStanding(row);
+  }
+  const remBy = deriveRemaining(
+    Object.values(byGroup).flat(),
+    (n) => teamMeta[n]?.name ?? n,
+  );
+  for (const [norm, st] of Object.entries(standingByNorm)) {
+    const rem = remBy[norm];
+    if (rem && rem.length)
+      standingByNorm[norm] = {
+        ...st,
+        remaining: rem.length,
+        remainingOpps: rem,
+      };
+  }
+
   const sim = runMonteCarlo(byGroup, teamMeta, ratings, eloMap, opts);
 
   // 失败可见:列出评分/Elo 缺失、退化为通用先验的队(正常 engine cron 后应为空)
@@ -164,7 +187,7 @@ async function runCompute(opts: ComputeOptions): Promise<ScenarioResult> {
     groupsLocked,
     groupsPending,
     fixtures: sim.fixtures,
-    teams: sim.teams,
+    teams: sim.teams.map((t) => ({ ...t, standing: standingByNorm[t.norm] })),
     notes: NOTES + fallbackNote,
     thirdRace: sim.thirdRace,
     topPaths: sim.topPaths,
