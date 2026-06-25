@@ -37,6 +37,13 @@ export type BetStatus =
   | 'unmatched' // 有腿对不上比赛
   | 'needs_review'; // 识别低置信 / 走盘致截图金额失真 / 半赢半输 → 人工
 
+/** 同场组合盘的一个子盘(market 用标准可结算码;全中才算赢)。 */
+export interface ComboPart {
+  market: string; // 1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H(不含 COMBO/OTHER)
+  selection: string;
+  line?: number; // 仅 AH/OU 有意义
+}
+
 /** 一腿(一场比赛上的一个选项)。识别字段 + 结算回填字段。 */
 export interface BetLeg {
   // —— 识别原文(供匹配 + 人工核对)——
@@ -49,6 +56,7 @@ export interface BetLeg {
   line?: number; // OU/AH 盘口线(含 ±.25/.75 四分盘)
   odds?: number; // 各腿赔率(展示用;不参与金额结算)
   rawText?: string; // 不支持盘口的中文描述(如「下半场波胆 1-1」),供人工核对/展示
+  parts?: ComboPart[]; // market==='COMBO' 时:同场多段子盘(全中才赢,AND 语义)
 
   // —— 结算回填 ——
   matchId?: string; // 解析到的 ESPN/联赛 eventId

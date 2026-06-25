@@ -267,6 +267,71 @@ describe('parseRecognizedSlip — 市场码大小写归一', () => {
   });
 });
 
+describe('parseRecognizedSlip — 同场组合盘 COMBO', () => {
+  it('解析 COMBO 子盘(子 market 大小写归一,line 保留)', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'Switzerland',
+          awayName: 'Canada',
+          market: 'combo',
+          selection: '和局 & 小2.5',
+          parts: [
+            { market: '1x2', selection: 'draw' },
+            { market: 'ou', selection: 'Under', line: 2.5 },
+          ],
+        },
+      ],
+    });
+    const leg = slip!.legs[0];
+    expect(leg.market).toBe('COMBO');
+    expect(leg.parts).toEqual([
+      { market: '1X2', selection: 'draw' },
+      { market: 'OU', selection: 'Under', line: 2.5 },
+    ]);
+  });
+
+  it('子盘含不支持盘口 → 整组降为 OTHER', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'COMBO',
+          selection: '主胜 & 角球大',
+          parts: [
+            { market: '1X2', selection: 'home' },
+            { market: 'corners', selection: 'over 9.5' },
+          ],
+        },
+      ],
+    });
+    expect(slip!.legs[0].market).toBe('OTHER');
+    expect(slip!.legs[0].parts).toBeUndefined();
+  });
+
+  it('不足两段 → 降为 OTHER', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'COMBO',
+          selection: 'x',
+          parts: [{ market: '1X2', selection: 'home' }],
+        },
+      ],
+    });
+    expect(slip!.legs[0].market).toBe('OTHER');
+  });
+});
+
 describe('hasVision — env 守卫', () => {
   const orig = process.env.AIGC_API_KEY;
   afterEach(() => {
