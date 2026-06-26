@@ -3,12 +3,19 @@ import {
   pctWidth,
   expStageStage,
   expStageProgress,
+  advanceSwing,
+  mindsetOf,
   DISPLAY_LENS,
   STAGE_LABEL_KEY,
   DEPTH_STAGES,
 } from 'lib/scenario/display';
 import { STAGE_ORDER } from 'lib/scenario/types';
-import type { StageProbs } from 'lib/scenario/types';
+import type {
+  Outcome,
+  StageProbs,
+  TeamOutlook,
+  TeamStanding,
+} from 'lib/scenario/types';
 
 describe('formatPct', () => {
   it('0 与负数显示 0%', () => {
@@ -77,6 +84,94 @@ describe('expStageProgress', () => {
 
   it('NaN 防御回退到 0', () => {
     expect(expStageProgress(NaN)).toBe(0);
+  });
+});
+
+// 构造最小 TeamOutlook:advances=各结果(W/D/L)的出线概率;standing 可覆盖
+const sp = (advance: number): StageProbs => ({
+  advance,
+  r16: 0,
+  qf: 0,
+  sf: 0,
+  final: 0,
+  champion: 0,
+  expStage: 1,
+});
+const mkOutlook = (
+  advances: number[],
+  over: Partial<TeamOutlook> = {},
+): TeamOutlook => ({
+  norm: 'x',
+  name: 'X',
+  group: 'A',
+  played3: false,
+  overall: sp(0.5),
+  rankProbs: { p1: 0, p2: 0, p3: 0, p4: 0 },
+  byResult: advances.map((a, i) => ({
+    outcome: (['W', 'D', 'L'] as Outcome[])[i],
+    prob: 1 / advances.length,
+    target: 0,
+    probs: sp(a),
+  })),
+  ...over,
+});
+const st = (o: Partial<TeamStanding>): TeamStanding => ({
+  rank: 2,
+  played: 2,
+  win: 1,
+  draw: 0,
+  loss: 1,
+  gf: 2,
+  ga: 2,
+  gd: 0,
+  points: 3,
+  remaining: 1,
+  ...o,
+});
+
+describe('advanceSwing', () => {
+  it('胜平负出线概率的极差(max−min)', () => {
+    expect(advanceSwing(mkOutlook([0.8, 0.5, 0.3]))).toBeCloseTo(0.5, 6);
+  });
+  it('已踢(played3)→ 0', () => {
+    expect(advanceSwing(mkOutlook([0.8, 0.3], { played3: true }))).toBe(0);
+  });
+  it('无条件桶 → 0', () => {
+    expect(advanceSwing(mkOutlook([]))).toBe(0);
+  });
+});
+
+describe('mindsetOf', () => {
+  it('确定性优先:已锁头名 / 已锁前二', () => {
+    expect(
+      mindsetOf(
+        mkOutlook([0.9, 0.9, 0.9], { standing: st({ clinchedTop1: true }) }),
+      ),
+    ).toBe('clinchedTop1');
+    expect(
+      mindsetOf(
+        mkOutlook([0.9, 0.9, 0.9], { standing: st({ clinchedTop2: true }) }),
+      ),
+    ).toBe('clinched');
+  });
+  it('必垫底(bestRank=4)→ 已出局;无缘前二→力争第三', () => {
+    expect(
+      mindsetOf(
+        mkOutlook([0, 0, 0], { standing: st({ bestRank: 4, worstRank: 4 }) }),
+      ),
+    ).toBe('eliminated');
+    expect(
+      mindsetOf(
+        mkOutlook([0.4, 0.3, 0.2], {
+          standing: st({ bestRank: 3, eliminatedTop2: true }),
+        }),
+      ),
+    ).toBe('thirdHunt');
+  });
+  it('无确定性标志时按出线摆动:大→生死战、小→安稳、中→争夺', () => {
+    expect(mindsetOf(mkOutlook([0.9, 0.5, 0.2]))).toBe('decisive'); // swing 0.7
+    expect(mindsetOf(mkOutlook([0.52, 0.5, 0.48]))).toBe('cushion'); // swing 0.04
+    expect(mindsetOf(mkOutlook([0.6, 0.5, 0.45]))).toBe('contending'); // swing 0.15
   });
 });
 

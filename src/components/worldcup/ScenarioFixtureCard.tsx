@@ -1,7 +1,9 @@
 'use client';
 
+import { useState } from 'react';
 import Card from 'components/card';
 import TeamBadge from 'components/worldcup/TeamBadge';
+import ScenarioFixtureDetail from 'components/worldcup/ScenarioFixtureDetail';
 import { useLocale, useTn } from 'lib/i18n/context';
 import { formatPct, DISPLAY_LENS } from 'lib/scenario/display';
 import { desiredByMetric, isMeaningful } from 'lib/scenario/types';
@@ -112,6 +114,9 @@ export default function ScenarioFixtureCard({
 }) {
   const { t } = useLocale();
   const tn = useTn();
+  const [open, setOpen] = useState(false);
+  // 有下钻可看:未踢有连带影响 / 任一方有前景数据
+  const canDrill = !!(fixture.resultImpact?.length || home || away);
 
   const when = (() => {
     if (!fixture.commenceTime)
@@ -168,6 +173,22 @@ export default function ScenarioFixtureCard({
         played={fixture.played}
         desired={aDesired}
       />
+
+      {canDrill && (
+        <>
+          <button
+            onClick={() => setOpen((v) => !v)}
+            aria-expanded={open}
+            className="mt-2 flex w-full items-center justify-center gap-1 text-[10px] font-medium text-brand-500 active:opacity-70 dark:text-brand-400"
+          >
+            {open ? t('scenarios.gameCollapse') : t('scenarios.gameDetail')}
+            <span>{open ? '▴' : '▾'}</span>
+          </button>
+          {open && (
+            <ScenarioFixtureDetail fixture={fixture} home={home} away={away} />
+          )}
+        </>
+      )}
     </Card>
   );
 }

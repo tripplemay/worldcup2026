@@ -187,6 +187,12 @@ export interface TeamStanding {
   points: number; // 积分
   remaining: number; // 剩余小组赛场次
   remainingOpps?: { norm: string; name: string }[]; // 剩余对手(展示用)
+  // ── T2:确定性可达名次(剩余小组赛胜平负枚举,净胜球临界情形为估算)──
+  bestRank?: number; // 全力争取可达的最好组内名次(1-4)
+  worstRank?: number; // 最差组内名次
+  clinchedTop1?: boolean; // 已锁头名(任何剩余结果都第一)
+  clinchedTop2?: boolean; // 已锁前二(直接出线)
+  eliminatedTop2?: boolean; // 已无缘前二(仍可能以第三名出线 → 看 thirdRace)
 }
 
 /** 单队前景(全部 48 队)。 */
@@ -221,6 +227,21 @@ export interface ThirdRaceRow {
   slotProbs?: ThirdSlotProb[]; // 出线后落到各头名槽位的分布(降序),分母=本组出线 sims
 }
 
+/** 某场第三轮结果下,同组一支队的出线前景(连带影响,T3)。 */
+export interface FixtureImpactTeam {
+  norm: string;
+  name: string;
+  advance: number; // P(出线 | 本场该结果)
+  advanceDelta: number; // 相对总体出线概率的变化(可正可负)
+}
+
+/** 一场第三轮某个结果(主胜/平/客胜)对同组各队的连带影响(T3)。 */
+export interface FixtureResultImpact {
+  result: 'home' | 'draw' | 'away'; // 本场比赛结果
+  prob: number; // 该结果边际概率
+  teams: FixtureImpactTeam[]; // 同组各队(含本场双方),按 |delta| 降序
+}
+
 /** 第三轮一场对阵(双方视角 + 默契检测)。 */
 export interface FixtureView {
   group: GroupLetter;
@@ -237,6 +258,8 @@ export interface FixtureView {
   /** 双方最期望是否指向同一比赛结果(默契动机)。 */
   mutualInterest: boolean;
   jointOutcome?: 'home' | 'draw' | 'away'; // 共同期望的那个结果
+  /** T3:三结果 × 同组各队连带影响(仅未踢场次;老缓存无则前端隐藏)。 */
+  resultImpact?: FixtureResultImpact[];
 }
 
 export type ThirdTableSource = 'official' | 'algorithm';

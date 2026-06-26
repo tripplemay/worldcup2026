@@ -19,6 +19,8 @@ import { buildBracketSeed, simulateKnockout } from './knockout';
 import { BRACKET } from './bracket';
 import { STAGE_ORDER, stageIndex } from './types';
 import type {
+  FixtureImpactTeam,
+  FixtureResultImpact,
   FixtureView,
   GroupLetter,
   GroupMatch,
@@ -246,6 +248,32 @@ export function runMonteCarlo(
   const acc: Record<string, TeamAcc> = {};
   for (const t of allTeams) acc[t] = newTeamAcc();
 
+  // T3:每组成员 + 每场「未踢」第三轮 × 结果(主/平/客)→ 同组各队出线累计
+  const groupTeams: Record<string, string[]> = {};
+  for (const g of groups) {
+    const s = new Set<string>();
+    for (const m of matchesByGroup[g]) {
+      s.add(m.home);
+      s.add(m.away);
+    }
+    groupTeams[g] = [...s];
+  }
+  interface FxResAcc {
+    sims: number;
+    adv: Map<string, number>;
+  }
+  type FxImpact = { home: FxResAcc; draw: FxResAcc; away: FxResAcc };
+  const newFxRes = (): FxResAcc => ({ sims: 0, adv: new Map() });
+  const fxImpact: Record<string, FxImpact> = {};
+  const fxMatch: Record<string, GroupMatch> = {};
+  for (const m of r3Matches) {
+    if (m.played) continue; // 已踢结果已定,无「若…」可言
+    const k = matchKeyOf(m);
+    fxImpact[k] = { home: newFxRes(), draw: newFxRes(), away: newFxRes() };
+    fxMatch[k] = m;
+  }
+  const fxKeys = Object.keys(fxImpact);
+
   // C: 第三名出线/槽位、冠军自洽路径、有效模拟计数
   interface ThirdAcc {
     qualSims: number;
@@ -312,6 +340,19 @@ export function runMonteCarlo(
         ra.sims += 1;
         ra.stage[st] += 1;
         if (opp) inc(ra.opp, opp);
+      }
+    }
+
+    // ── T3:每场未踢第三轮的结果 → 同组各队是否出线 ──
+    for (const k of fxKeys) {
+      const m = fxMatch[k];
+      const r = r3result[m.home]; // 主队视角:W=主胜 D=平 L=客胜
+      const fx = fxImpact[k];
+      const bucket = r === 'W' ? fx.home : r === 'D' ? fx.draw : fx.away;
+      bucket.sims += 1;
+      for (const tt of groupTeams[m.group]) {
+        if (stageIndex(ko.stage[tt] ?? 'OUT') >= stageIndex('R32'))
+          inc(bucket.adv, tt);
       }
     }
 
@@ -423,6 +464,35 @@ export function runMonteCarlo(
       b.overall.expStage - a.overall.expStage || a.norm.localeCompare(b.norm),
   );
 
+  // T3:某场未踢第三轮的「结果 → 同组各队连带影响」(基于本轮累计)
+  const round4 = (n: number) => Math.round(n * 1e4) / 1e4;
+  const buildImpact = (m: GroupMatch): FixtureResultImpact[] | undefined => {
+    const fx = fxImpact[matchKeyOf(m)];
+    if (!fx) return undefined;
+    const total = fx.home.sims + fx.draw.sims + fx.away.sims;
+    if (total === 0) return undefined;
+    const order = ['home', 'draw', 'away'] as const;
+    const out: FixtureResultImpact[] = [];
+    for (const res of order) {
+      const b = fx[res];
+      if (b.sims === 0) continue;
+      const teams: FixtureImpactTeam[] = groupTeams[m.group]
+        .map((tt) => {
+          const advance = (b.adv.get(tt) ?? 0) / b.sims;
+          const overall = outlookByNorm[tt]?.overall.advance ?? 0;
+          return {
+            norm: tt,
+            name: teamMeta[tt]?.name ?? tt,
+            advance: round4(advance),
+            advanceDelta: round4(advance - overall),
+          };
+        })
+        .sort((a, c) => Math.abs(c.advanceDelta) - Math.abs(a.advanceDelta));
+      out.push({ result: res, prob: round4(b.sims / total), teams });
+    }
+    return out.length ? out : undefined;
+  };
+
   // 组装第三轮对阵双视角
   const fixtures: FixtureView[] = r3Matches.map((m) => {
     const ho = outlookByNorm[m.home];
@@ -444,6 +514,7 @@ export function runMonteCarlo(
       awayDesired: m.played ? undefined : ao?.desired,
       mutualInterest: mutual,
       jointOutcome: mutual ? hOut : undefined,
+      resultImpact: m.played ? undefined : buildImpact(m),
     };
   });
   // 按比赛(开赛)顺序排:同组两场同时开球 → 相邻;缺时间的排最后

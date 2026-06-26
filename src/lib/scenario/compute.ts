@@ -9,7 +9,11 @@ import { loadRatings, loadElo, saveScenario } from 'lib/db/store';
 import { normalizeTeam } from 'lib/match/normalize';
 import { groupOf } from 'lib/data/groups2026';
 import { runMonteCarlo } from './montecarlo';
-import { rowToStanding, deriveRemaining } from './standings';
+import {
+  rowToStanding,
+  deriveRemaining,
+  reachableRankRange,
+} from './standings';
 import { GROUP_LETTERS } from './types';
 import type {
   GroupLetter,
@@ -168,6 +172,15 @@ async function runCompute(opts: ComputeOptions): Promise<ScenarioResult> {
         remaining: rem.length,
         remainingOpps: rem,
       };
+  }
+  // T2:可达名次区间 + 锁定/出局(按组枚举剩余小组赛胜平负)
+  for (const letter of Object.keys(byGroup)) {
+    const ranges = reachableRankRange(byGroup[letter]);
+    if (!ranges) continue;
+    for (const [norm, rr] of Object.entries(ranges)) {
+      const st = standingByNorm[norm];
+      if (st) standingByNorm[norm] = { ...st, ...rr };
+    }
   }
 
   const sim = runMonteCarlo(byGroup, teamMeta, ratings, eloMap, opts);

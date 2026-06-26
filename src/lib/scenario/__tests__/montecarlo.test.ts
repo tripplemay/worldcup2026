@@ -123,6 +123,37 @@ describe('runMonteCarlo', () => {
       );
   });
 
+  it('T3 resultImpact:每场未踢对阵带三结果连带,prob 合计≈1、覆盖同组 4 队、含本场双方', () => {
+    for (const f of out.fixtures) {
+      expect(f.resultImpact).toBeDefined();
+      const ri = f.resultImpact!;
+      expect(ri.reduce((s, r) => s + r.prob, 0)).toBeCloseTo(1, 3);
+      for (const r of ri) {
+        expect(['home', 'draw', 'away']).toContain(r.result);
+        expect(r.teams).toHaveLength(4); // 同组 4 队
+        const norms = r.teams.map((t) => t.norm);
+        expect(norms).toContain(f.home);
+        expect(norms).toContain(f.away);
+        for (const tm of r.teams) {
+          expect(tm.advance).toBeGreaterThanOrEqual(0);
+          expect(tm.advance).toBeLessThanOrEqual(1);
+        }
+      }
+    }
+  });
+
+  it('T3 单调性:球队赢球时自身出线概率 ≥ 输球时', () => {
+    const f = out.fixtures.find(
+      (x) => x.group === 'A' && x.home === 'A1' && x.away === 'A4',
+    )!;
+    const home = f.resultImpact!.find((r) => r.result === 'home')!; // A1 胜
+    const away = f.resultImpact!.find((r) => r.result === 'away')!; // A4 胜
+    const adv = (ri: typeof home, norm: string) =>
+      ri.teams.find((t) => t.norm === norm)!.advance;
+    expect(adv(home, 'A1')).toBeGreaterThanOrEqual(adv(away, 'A1')); // A1 赢≥输
+    expect(adv(away, 'A4')).toBeGreaterThanOrEqual(adv(home, 'A4')); // A4 赢≥输
+  });
+
   it('双视角默契:jointOutcome 仅在 mutualInterest 时出现', () => {
     for (const f of out.fixtures) {
       if (f.mutualInterest) expect(f.jointOutcome).toBeDefined();
