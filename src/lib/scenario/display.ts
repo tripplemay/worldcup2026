@@ -104,6 +104,45 @@ export function expStageProgress(expStage: number): number {
   return Math.max(0, Math.min(1, expStage / max));
 }
 
+/**
+ * 出线概率在「胜/平/负」三结果间的摆动幅度(max−min),作为「本场赌注大小」。
+ * 已踢(played3)或无条件桶 → 0(无可争)。
+ */
+export function advanceSwing(o: TeamOutlook): number {
+  if (o.played3 || !o.byResult?.length) return 0;
+  const vals = o.byResult.map((b) => b.probs.advance);
+  return Math.max(...vals) - Math.min(...vals);
+}
+
+/** 本轮「心态」分类。 */
+export type Mindset =
+  | 'clinchedTop1' // 已锁头名
+  | 'clinched' // 已锁出线(前二)
+  | 'eliminated' // 已出局(组内必垫底)
+  | 'thirdHunt' // 无缘前二,力争第三
+  | 'decisive' // 生死战(出线摆动大)
+  | 'contending' // 仍在争夺
+  | 'cushion'; // 形势安稳 / 影响不大
+
+export const MINDSET_SWING_DECISIVE = 0.25; // 出线摆动 ≥ 此 → 生死战
+export const MINDSET_SWING_LOW = 0.08; // 出线摆动 ≤ 此 → 影响不大
+
+/**
+ * 球队本轮心态:确定性(T2 可达名次区间)优先,退回出线概率摆动代理。
+ * clinch/eliminated 来自 standing 的枚举标志;否则按本场出线摆动幅度分「生死/争夺/安稳」。
+ */
+export function mindsetOf(o: TeamOutlook): Mindset {
+  const st = o.standing;
+  if (st?.clinchedTop1) return 'clinchedTop1';
+  if (st?.clinchedTop2) return 'clinched';
+  if (st?.bestRank === 4) return 'eliminated'; // 必垫底:连第三名都拿不到
+  if (st?.eliminatedTop2) return 'thirdHunt';
+  const swing = advanceSwing(o);
+  if (swing >= MINDSET_SWING_DECISIVE) return 'decisive';
+  if (swing <= MINDSET_SWING_LOW) return 'cushion';
+  return 'contending';
+}
+
 /** 晋级深度阶梯:6 档(出线→夺冠)的 i18n key + 取值函数(累积概率,单调递减成漏斗)。 */
 export const DEPTH_STAGES: { key: string; pick: (p: StageProbs) => number }[] =
   [

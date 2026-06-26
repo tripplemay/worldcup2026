@@ -1,4 +1,8 @@
-import { rowToStanding, deriveRemaining } from 'lib/scenario/standings';
+import {
+  rowToStanding,
+  deriveRemaining,
+  reachableRankRange,
+} from 'lib/scenario/standings';
 import type { GroupMatch } from 'lib/scenario/types';
 import type { GroupStandingRow } from 'lib/espn/types';
 
@@ -69,5 +73,89 @@ describe('deriveRemaining', () => {
     );
     expect(rem['a1']).toHaveLength(2);
     expect(rem['a1'].map((o) => o.norm).sort()).toEqual(['a2', 'a3']);
+  });
+});
+
+describe('reachableRankRange', () => {
+  // FIFA 排名 a<b<c<d(仅在相互交锋/总成绩都无法区分时兜底)
+  const fr = (t: string) => ({ a: 1, b: 2, c: 3, d: 4 }[t] ?? 9);
+  const M = (
+    home: string,
+    away: string,
+    hg?: number,
+    ag?: number,
+  ): GroupMatch => ({
+    group: 'A',
+    home,
+    away,
+    homeGoals: hg,
+    awayGoals: ag,
+    played: hg != null,
+  });
+
+  // 两轮已赛:a 6分、b/c 各 3分、d 0分;末轮 a-d、b-c 未赛
+  const base: GroupMatch[] = [
+    M('a', 'b', 1, 0), // a 胜
+    M('c', 'd', 1, 0), // c 胜
+    M('a', 'c', 1, 0), // a 胜
+    M('b', 'd', 1, 0), // b 胜
+    M('a', 'd'), // 未赛
+    M('b', 'c'), // 未赛
+  ];
+
+  it('a 任何结果都第一 → 已锁头名,区间 1–1', () => {
+    const r = reachableRankRange(base, fr)!;
+    expect(r['a'].clinchedTop1).toBe(true);
+    expect(r['a'].clinchedTop2).toBe(true);
+    expect(r['a'].bestRank).toBe(1);
+    expect(r['a'].worstRank).toBe(1);
+  });
+
+  it('d 任何结果都进不了前二 → 已无缘前二', () => {
+    const r = reachableRankRange(base, fr)!;
+    expect(r['d'].eliminatedTop2).toBe(true);
+    expect(r['d'].clinchedTop2).toBe(false);
+    expect(r['d'].bestRank).toBeGreaterThanOrEqual(3);
+  });
+
+  it('b 命运未定:可前二也可跌出 → 既非锁定也非出局', () => {
+    const r = reachableRankRange(base, fr)!;
+    expect(r['b'].clinchedTop2).toBe(false);
+    expect(r['b'].eliminatedTop2).toBe(false);
+    expect(r['b'].bestRank).toBeLessThanOrEqual(2);
+  });
+
+  it('全部已赛(锁定组)→ 区间塌缩为实际名次', () => {
+    const done: GroupMatch[] = [
+      M('a', 'b', 1, 0),
+      M('c', 'd', 1, 0),
+      M('a', 'c', 1, 0),
+      M('b', 'd', 1, 0),
+      M('a', 'd', 1, 0), // a 三战全胜=9分
+      M('b', 'c', 1, 0), // b 6分、c 3分、d 0分
+    ];
+    const r = reachableRankRange(done, fr)!;
+    expect(r['a']).toMatchObject({
+      bestRank: 1,
+      worstRank: 1,
+      clinchedTop1: true,
+    });
+    expect(r['d']).toMatchObject({
+      bestRank: 4,
+      worstRank: 4,
+      eliminatedTop2: true,
+    });
+  });
+
+  it('剩余场次过多(>5)返回 undefined(初期无信息量)', () => {
+    const allUnplayed: GroupMatch[] = [
+      M('a', 'b'),
+      M('c', 'd'),
+      M('a', 'c'),
+      M('b', 'd'),
+      M('a', 'd'),
+      M('b', 'c'),
+    ];
+    expect(reachableRankRange(allUnplayed, fr)).toBeUndefined();
   });
 });
