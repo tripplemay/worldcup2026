@@ -4,6 +4,7 @@
  */
 import { loadBets } from 'lib/db/store';
 import { listBettors } from 'lib/bets/bettors';
+import { listWithdrawals } from 'lib/bets/withdrawals';
 import { perUserPnl } from 'lib/bets/bets';
 import { isViewAuthed, isAdminAuthed } from 'lib/bets/viewAuth';
 import { okLive, fail } from 'lib/api/respond';
@@ -15,7 +16,8 @@ export async function GET(req: Request) {
   try {
     const slips = loadBets();
     const bettors = listBettors();
-    const perUser = perUserPnl(slips, bettors);
+    const withdrawals = listWithdrawals();
+    const perUser = perUserPnl(slips, bettors, withdrawals);
     // 去掉仅服务端需要的内部字段(Telegram chat/file id、原始 LLM 转储),减少无谓暴露
     const safe = slips.map(({ recognizedRaw, source, ...rest }) => rest);
     // canEdit:是否持有管理(写)权限,供前端决定是否显示编辑/管理控件
@@ -23,6 +25,7 @@ export async function GET(req: Request) {
       bettors,
       slips: safe,
       perUser,
+      withdrawals,
       canEdit: isAdminAuthed(req),
     });
   } catch (e) {

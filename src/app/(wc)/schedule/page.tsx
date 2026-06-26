@@ -9,6 +9,7 @@ import {
   useMatchOdds,
   useLiveOdds,
 } from 'lib/hooks/useWorldCup';
+import { useRefreshOnVisible } from 'lib/hooks/useRefreshOnVisible';
 import { matchKey } from 'lib/match/normalize';
 import { useLocale } from 'lib/i18n/context';
 import MatchCard from 'components/worldcup/MatchCard';
@@ -75,7 +76,14 @@ export default function SchedulePage() {
     nextOddsRefreshAt,
   } = useMatchOdds();
   // 实时赔率(odds-api.io,最近 10 场,~36s 刷新):优先回填到对应赛程行
-  const { matches: liveMatches, changes: liveChanges } = useLiveOdds();
+  const {
+    matches: liveMatches,
+    changes: liveChanges,
+    refresh: refreshLive,
+  } = useLiveOdds();
+  // 回前台立即刷新比分 + 实时赔率(补足移动端 SWR focus 刷新不稳定的缺口);
+  // 只刷免费/零上游端点(ESPN 比分 + odds-api.io 内存缓存),不动 The Odds API 低频赔率以省配额。
+  useRefreshOnVisible([refresh, refreshLive]);
   // 赔率按对阵键建索引,行内 O(1) 取(避免每行对整数组 find;引用稳定利于行 memo)
   const oddsMap = useMemo(() => {
     const map = new Map<string, (typeof oddsMatches)[number]>();

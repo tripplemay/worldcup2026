@@ -9,7 +9,7 @@ import { join } from 'path';
 import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
-import type { Bettor, BetSlip } from 'lib/bets/types';
+import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
 import type { ScenarioResult } from 'lib/scenario/types';
 
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
@@ -332,6 +332,14 @@ export function loadBets(): BetSlip[] {
 }
 export function saveBets(list: BetSlip[]): void {
   writeJson('bets.json', list);
+}
+
+// ── 提款流水(Phase 9:管理员逐笔记录投注人提款)──────────
+export function loadWithdrawals(): Withdrawal[] {
+  return readJson<Withdrawal[]>('withdrawals.json', []);
+}
+export function saveWithdrawals(list: Withdrawal[]): void {
+  writeJson('withdrawals.json', list);
 }
 
 // ── 沙盘情景推演(Phase 8d:第三轮期望结果 + 整树晋级路径 Monte-Carlo)──────
