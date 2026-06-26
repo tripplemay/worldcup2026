@@ -5,7 +5,8 @@
 import { loadBets, saveBets } from 'lib/db/store';
 import { withBetsLock } from './lock';
 import { genId } from './id';
-import type { BetSlip, RecognizedSlip, Bettor } from './types';
+import { withdrawnByBettor } from './withdrawals';
+import type { BetSlip, RecognizedSlip, Bettor, Withdrawal } from './types';
 
 /** 识别结果 → 新注单(pending,未归属)。 */
 export function createBetFromRecognized(
@@ -103,6 +104,8 @@ export interface BettorPnl {
   pnl: number; // 净盈亏合计(= 系统内已结盈亏 + 期初净盈亏)
   pending: number; // 未结 / 待复核 / 未匹配 注数
   openingPnl: number; // 期初净盈亏(已含在 pnl 中;用于展示/ROI 修正)
+  withdrawn: number; // 已提款合计(现金流出;不影响 pnl)
+  undrawn: number; // 未提款 = pnl − withdrawn(应得余额;亏损者为负)
 }
 
 const UNASSIGNED = '__unassigned__';
@@ -119,7 +122,11 @@ function isSettled(s: BetSlip): boolean {
  * 每名投注人的盈亏聚合。**保留所有在册投注人(含 0 注)**,便于排行榜全员显示;
  * 「未归属」桶仅当有悬空注单时才出现。金额做 2 位小数收敛,去浮点噪声。
  */
-export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
+export function perUserPnl(
+  slips: BetSlip[],
+  bettors: Bettor[],
+  withdrawals: Withdrawal[] = [],
+): BettorPnl[] {
   const blank = (
     bettorId: string,
     name: string,
@@ -135,6 +142,8 @@ export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
     pnl: 0,
     pending: 0,
     openingPnl,
+    withdrawn: 0,
+    undrawn: 0,
   });
   const byId = new Map<string, BettorPnl>();
   for (const b of bettors)
@@ -157,13 +166,20 @@ export function perUserPnl(slips: BetSlip[], bettors: Bettor[]): BettorPnl[] {
     byId.set(key, agg);
   }
   const round2 = (n: number) => Math.round(n * 100) / 100;
+  const withdrawnMap = withdrawnByBettor(withdrawals);
   return [...byId.values()]
     .filter((a) => a.bettorId !== UNASSIGNED || a.bets > 0) // 在册全保留;未归属仅在有注时出现
-    .map((a) => ({
-      ...a,
+    .map((a) => {
       // 期初净盈亏并入总盈亏(排行/总额用),openingPnl 字段保留供展示与 ROI 修正
-      pnl: round2(a.pnl + a.openingPnl),
-      staked: round2(a.staked),
-      openingPnl: round2(a.openingPnl),
-    }));
+      const pnl = round2(a.pnl + a.openingPnl);
+      const withdrawn = round2(withdrawnMap.get(a.bettorId) ?? 0);
+      return {
+        ...a,
+        pnl,
+        staked: round2(a.staked),
+        openingPnl: round2(a.openingPnl),
+        withdrawn,
+        undrawn: round2(pnl - withdrawn), // 未提款 = 净盈亏 − 已提款(亏损者为负)
+      };
+    });
 }

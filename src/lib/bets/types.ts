@@ -15,6 +15,18 @@ export interface Bettor {
 }
 
 /**
+ * 一笔提款记录(流水台账)。管理员在比赛过程中为投注人逐笔记录提款。
+ * 提款是现金流出事件,**不计入净盈亏、不影响排行**;仅用于「已提款/未提款」展示。
+ */
+export interface Withdrawal {
+  id: string;
+  bettorId: string;
+  amount: number; // 提款金额(正数)
+  at: number; // 提款时间 epoch ms
+  note?: string; // 可选备注
+}
+
+/**
  * 单腿判定结果。串关由各腿聚合;四分盘(±.25/.75)可能出现 half_*。
  * pending=已匹配比赛但未完赛;unmatched=对不上系统已覆盖的比赛(需人工绑定)。
  */

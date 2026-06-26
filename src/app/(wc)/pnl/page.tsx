@@ -37,6 +37,13 @@ const posCls = (x: number) =>
     : x < 0
     ? 'text-red-500 dark:text-red-400'
     : 'text-gray-400';
+// 未提款:正=品牌色(可提/应得,醒目)、负=红(仍在亏)、0=灰
+const undrawnCls = (x: number) =>
+  x > 0
+    ? 'text-brand-500 dark:text-brand-400'
+    : x < 0
+    ? 'text-red-500 dark:text-red-400'
+    : 'text-gray-400';
 
 /** 战绩点颜色:赢=绿、输=红、走盘=灰。 */
 const DOT_CLS: Partial<Record<BetStatus, string>> = {
@@ -187,9 +194,16 @@ function bettorName(t: T, bettors: Bettor[], id: string | null): string {
 export default function PnlPage() {
   const { t } = useLocale();
   const [authed, setAuthed] = useState<boolean | null>(null); // null=校验中
-  const { bettors, slips, perUser, canEdit, isLoading, error, mutate } = usePnl(
-    authed === true,
-  );
+  const {
+    bettors,
+    slips,
+    perUser,
+    withdrawals,
+    canEdit,
+    isLoading,
+    error,
+    mutate,
+  } = usePnl(authed === true);
   const [view, setView] = useState<'overview' | 'detail'>('overview');
   const [filter, setFilter] = useState<string>('all'); // bettorId | UNASSIGNED | 'all'
   const [newBettor, setNewBettor] = useState('');
@@ -208,6 +222,11 @@ export default function PnlPage() {
   const [adminPw, setAdminPw] = useState('');
   const [adminMsg, setAdminMsg] = useState('');
   const [lightbox, setLightbox] = useState<string | null>(null); // 原图弹层(图片 URL)
+  // 提款记录:加一笔表单 + 逐笔删除二次确认
+  const [wdBettor, setWdBettor] = useState('');
+  const [wdAmount, setWdAmount] = useState('');
+  const [wdNote, setWdNote] = useState('');
+  const [wdDelId, setWdDelId] = useState<string | null>(null);
 
   // 原图弹层:按 Esc 关闭
   useEffect(() => {
@@ -461,6 +480,77 @@ export default function PnlPage() {
     }
   }
 
+  /** 记一笔提款(管理权限)。 */
+  async function addWithdrawalSubmit() {
+    if (busy) return;
+    const amount = Number(wdAmount);
+    if (!wdBettor) {
+      setMsg(t('pnl.withdrawPickBettor'));
+      return;
+    }
+    if (wdAmount.trim() === '' || !Number.isFinite(amount) || amount <= 0) {
+      setMsg(t('pnl.withdrawAmountInvalid'));
+      return;
+    }
+    setBusy(true);
+    setMsg('');
+    try {
+      const res = await fetch('/api/worldcup/withdrawals', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify({
+          bettorId: wdBettor,
+          amount,
+          note: wdNote.trim() || undefined,
+        }),
+      });
+      if (!res.ok) {
+        setMsg(
+          res.status === 401 || res.status === 403
+            ? t('pnl.viewWrong')
+            : t('common.loadFailed'),
+        );
+        return;
+      }
+      setWdAmount('');
+      setWdNote('');
+      setMsg(t('pnl.saved'));
+      await mutate();
+    } catch {
+      setMsg(t('common.loadFailed'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  /** 删除一笔提款。 */
+  async function delWithdrawal(id: string) {
+    if (busy) return;
+    setBusy(true);
+    setMsg('');
+    try {
+      const res = await fetch(
+        `/api/worldcup/withdrawals?id=${encodeURIComponent(id)}`,
+        { method: 'DELETE' },
+      );
+      if (!res.ok) {
+        setMsg(
+          res.status === 401 || res.status === 403
+            ? t('pnl.viewWrong')
+            : t('common.loadFailed'),
+        );
+        return;
+      }
+      setWdDelId(null);
+      setMsg(t('pnl.saved'));
+      await mutate();
+    } catch {
+      setMsg(t('common.loadFailed'));
+    } finally {
+      setBusy(false);
+    }
+  }
+
   // 每名投注人的「战绩点」序列:已结(赢/输/走盘)注单按上传时间旧→新
   const streakByUser = useMemo(() => {
     const validIds = new Set(bettors.map((b) => b.id));
@@ -494,8 +584,10 @@ export default function PnlPage() {
       staked: acc.staked + u.staked,
       bets: acc.bets + u.bets,
       settled: acc.settled + u.settled,
+      withdrawn: acc.withdrawn + u.withdrawn,
+      undrawn: acc.undrawn + u.undrawn,
     }),
-    { net: 0, staked: 0, bets: 0, settled: 0 },
+    { net: 0, staked: 0, bets: 0, settled: 0, withdrawn: 0, undrawn: 0 },
   );
   const visibleSlips = slips
     .filter((s) => {
@@ -622,6 +714,20 @@ export default function PnlPage() {
                   </div>
                 </div>
               </div>
+              {/* 结算汇总:已提款 / 未提款 */}
+              <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-2 text-[11px] dark:border-white/5">
+                <span className="text-gray-500 dark:text-gray-400">
+                  {t('pnl.withdrawn')} {money(totals.withdrawn)}
+                </span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  {t('pnl.undrawn')}{' '}
+                  <span
+                    className={`font-semibold ${undrawnCls(totals.undrawn)}`}
+                  >
+                    {signMoney(totals.undrawn)}
+                  </span>
+                </span>
+              </div>
             </Card>
 
             {/* 排行(全员,含 0 注)*/}
@@ -630,6 +736,9 @@ export default function PnlPage() {
               const opening = u.openingPnl ?? 0;
               const systemPnl = u.pnl - opening; // 本系统内净盈亏(剔除期初),供回报率计算
               const hasResult = u.settled > 0 || opening !== 0;
+              // 账务区(期初/已提款/未提款)仅在有账务意义时渲染,空账号卡片自动变短
+              const hasAccount =
+                u.pnl !== 0 || u.withdrawn > 0 || opening !== 0;
               const medal =
                 hasResult && rank <= 3 ? ['🥇', '🥈', '🥉'][rank - 1] : null;
               const streakAll = streakByUser.get(u.bettorId) ?? [];
@@ -649,30 +758,42 @@ export default function PnlPage() {
                   className="block w-full text-left"
                 >
                   <Card extra="p-4">
-                    <div className="flex items-center gap-3">
-                      <div className="w-7 shrink-0 text-center text-lg font-bold text-gray-400">
+                    <div className="flex items-start gap-3">
+                      <div className="w-7 shrink-0 pt-0.5 text-center text-lg font-bold text-gray-400">
                         {medal ?? rank}
                       </div>
                       <div className="min-w-0 flex-1">
-                        <div className="truncate text-sm font-semibold text-navy-700 dark:text-white">
-                          {u.bettorId === UNASSIGNED
-                            ? t('pnl.unassigned')
-                            : u.name}
+                        {/* 第一行:姓名 + 净盈亏(主) */}
+                        <div className="flex items-baseline justify-between gap-2">
+                          <div className="truncate text-sm font-semibold text-navy-700 dark:text-white">
+                            {u.bettorId === UNASSIGNED
+                              ? t('pnl.unassigned')
+                              : u.name}
+                          </div>
+                          <div
+                            className={`shrink-0 font-mono text-xl font-extrabold ${posCls(
+                              u.pnl,
+                            )}`}
+                          >
+                            {hasResult ? signMoney(u.pnl) : '—'}
+                          </div>
                         </div>
+                        {/* 成绩区:战绩 / 待结 / 本金 / 回报 */}
                         <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
                           {u.bets === 0
-                            ? opening !== 0
-                              ? `${t('pnl.opening')} ${signMoney(opening)}`
-                              : t('pnl.noBets')
+                            ? t('pnl.noBets')
                             : `${t('pnl.record')} ${u.won}-${u.lost}` +
                               (u.pending
                                 ? ` · ${t('pnl.pending')} ${u.pending}`
                                 : '') +
                               ` · ${t('pnl.staked')} ${money(u.staked)}` +
-                              (opening !== 0
-                                ? ` · ${t('pnl.opening')} ${signMoney(opening)}`
+                              (u.staked > 0
+                                ? ` · ${t('pnl.roi')} ${pct(
+                                    systemPnl / u.staked,
+                                  )}`
                                 : '')}
                         </div>
+                        {/* 战绩点 */}
                         {streak.length > 0 && (
                           <div className="mt-1 flex flex-wrap items-center gap-1">
                             {streakHidden > 0 && (
@@ -691,22 +812,29 @@ export default function PnlPage() {
                             ))}
                           </div>
                         )}
-                      </div>
-                      <div className="shrink-0 text-right">
-                        <div
-                          className={`font-mono text-xl font-extrabold ${posCls(
-                            u.pnl,
-                          )}`}
-                        >
-                          {hasResult ? signMoney(u.pnl) : '—'}
-                        </div>
-                        <div className="text-[11px] text-gray-500 dark:text-gray-400">
-                          {u.staked > 0
-                            ? `${t('pnl.roi')} ${pct(systemPnl / u.staked)}`
-                            : hasResult
-                            ? ''
-                            : `${t('pnl.winRate')} —`}
-                        </div>
+                        {/* 账务区:期初 / 已提款 / 未提款 —— 有账务才显示 */}
+                        {hasAccount && (
+                          <div className="mt-1.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 border-t border-gray-100 pt-1.5 text-[11px] text-gray-500 dark:border-white/5 dark:text-gray-400">
+                            {opening !== 0 && (
+                              <span>
+                                {t('pnl.opening')} {signMoney(opening)}
+                              </span>
+                            )}
+                            <span>
+                              {t('pnl.withdrawn')} {money(u.withdrawn)}
+                            </span>
+                            <span>
+                              {t('pnl.undrawn')}{' '}
+                              <span
+                                className={`font-semibold ${undrawnCls(
+                                  u.undrawn,
+                                )}`}
+                              >
+                                {signMoney(u.undrawn)}
+                              </span>
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </Card>
@@ -863,6 +991,117 @@ export default function PnlPage() {
                     </div>
                     <p className="mt-1 text-[10px] text-gray-400">
                       {t('pnl.openingHint')}
+                    </p>
+                  </div>
+                )}
+                {/* 提款记录:流水台账(加一笔 + 逐笔删除)*/}
+                {bettors.length > 0 && (
+                  <div className="border-t border-gray-100 pt-2 dark:border-white/5">
+                    <div className="mb-1 text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                      {t('pnl.withdrawTitle')}
+                    </div>
+                    {/* 加一笔 */}
+                    <div className="flex flex-wrap items-center gap-1.5">
+                      <select
+                        value={wdBettor}
+                        onChange={(e) => setWdBettor(e.target.value)}
+                        className="rounded-lg border border-gray-200 bg-white px-2 py-1 text-[12px] text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                      >
+                        <option value="">{t('pnl.withdrawPickBettor')}</option>
+                        {bettors.map((b) => (
+                          <option key={b.id} value={b.id}>
+                            {b.name}
+                          </option>
+                        ))}
+                      </select>
+                      <input
+                        type="number"
+                        inputMode="decimal"
+                        value={wdAmount}
+                        onChange={(e) => setWdAmount(e.target.value)}
+                        placeholder={t('pnl.withdrawAmountPh')}
+                        className="w-24 rounded-lg border border-gray-200 bg-white px-2 py-1 text-[12px] text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                      />
+                      <input
+                        type="text"
+                        value={wdNote}
+                        onChange={(e) => setWdNote(e.target.value)}
+                        placeholder={t('pnl.withdrawNotePh')}
+                        className="min-w-0 flex-1 rounded-lg border border-gray-200 bg-white px-2 py-1 text-[12px] text-navy-700 outline-none focus:border-brand-500 dark:border-white/10 dark:bg-navy-900 dark:text-white"
+                      />
+                      <button
+                        onClick={() => void addWithdrawalSubmit()}
+                        disabled={busy || !wdBettor || wdAmount.trim() === ''}
+                        className="rounded-lg bg-brand-500 px-2.5 py-1 text-[12px] text-white active:scale-95 disabled:opacity-50"
+                      >
+                        {t('pnl.withdrawAdd')}
+                      </button>
+                    </div>
+                    {/* 流水列表(倒序由后端给出)*/}
+                    {withdrawals.length === 0 ? (
+                      <p className="mt-1.5 text-[10px] text-gray-400">
+                        {t('pnl.withdrawEmpty')}
+                      </p>
+                    ) : (
+                      <div className="mt-1.5 flex flex-col gap-1">
+                        {withdrawals.map((w) => {
+                          const nm =
+                            bettors.find((b) => b.id === w.bettorId)?.name ??
+                            t('pnl.unassigned');
+                          return (
+                            <div
+                              key={w.id}
+                              className="flex items-center gap-2 text-[11px]"
+                            >
+                              <span className="w-14 shrink-0 truncate text-navy-700 dark:text-gray-200">
+                                {nm}
+                              </span>
+                              <span className="w-24 shrink-0 text-gray-400">
+                                {fmtKickoff(new Date(w.at).toISOString())}
+                              </span>
+                              <span className="shrink-0 font-mono font-semibold text-navy-700 dark:text-white">
+                                {money(w.amount)}
+                              </span>
+                              {w.note && (
+                                <span className="min-w-0 flex-1 truncate text-gray-400">
+                                  {w.note}
+                                </span>
+                              )}
+                              <div className="ml-auto shrink-0">
+                                {wdDelId === w.id ? (
+                                  <span className="flex items-center gap-1">
+                                    <button
+                                      onClick={() => void delWithdrawal(w.id)}
+                                      disabled={busy}
+                                      className="rounded bg-red-500 px-1.5 py-0.5 text-white active:scale-95 disabled:opacity-50"
+                                    >
+                                      {t('pnl.confirm')}
+                                    </button>
+                                    <button
+                                      onClick={() => setWdDelId(null)}
+                                      className="rounded bg-gray-200 px-1.5 py-0.5 text-gray-600 dark:bg-navy-700 dark:text-gray-300"
+                                    >
+                                      {t('pnl.cancel')}
+                                    </button>
+                                  </span>
+                                ) : (
+                                  <button
+                                    onClick={() => setWdDelId(w.id)}
+                                    disabled={busy}
+                                    aria-label="remove"
+                                    className="text-gray-400 active:scale-90 disabled:opacity-50"
+                                  >
+                                    ✕
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                    <p className="mt-1 text-[10px] text-gray-400">
+                      {t('pnl.withdrawHint')}
                     </p>
                   </div>
                 )}

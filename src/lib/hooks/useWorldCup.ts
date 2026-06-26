@@ -42,7 +42,7 @@ import type { LeagueBacktestResult } from 'lib/predict/leagueBacktest';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
-import type { Bettor, BetSlip } from 'lib/bets/types';
+import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
 import type { BettorPnl } from 'lib/bets/bets';
 
 interface TierStat {
@@ -528,6 +528,7 @@ export function usePnl(enabled = true) {
     bettors: Bettor[];
     slips: BetSlip[];
     perUser: BettorPnl[];
+    withdrawals: Withdrawal[];
     canEdit?: boolean;
   }>(enabled ? '/api/worldcup/pnl' : null, fetcher, {
     refreshInterval: 60_000, // 1min:赛后自动结算后尽快反映到盈亏页
@@ -537,6 +538,7 @@ export function usePnl(enabled = true) {
     bettors: data?.bettors ?? [],
     slips: data?.slips ?? [],
     perUser: data?.perUser ?? [],
+    withdrawals: data?.withdrawals ?? [],
     canEdit: data?.canEdit ?? false, // 是否持管理(写)权限 → 决定是否显示编辑控件
     error,
     isLoading,
