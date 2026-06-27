@@ -1231,6 +1231,20 @@ export default function PnlPage() {
                           <div className="min-w-0 flex-1">
                             <div className="truncate text-navy-700 dark:text-gray-200">
                               {leg.homeName} vs {leg.awayName}
+                              {leg.live && (
+                                <span className="ml-1 rounded bg-orange-500/15 px-1 text-[10px] font-medium text-orange-600 dark:text-orange-400">
+                                  {t('pnl.live')}
+                                  {/* 「起X-Y」(剩余赛程基线)仅 AH/OU 有意义;其余滚球盘按全场结算 */}
+                                  {(leg.market === 'AH' ||
+                                    leg.market === 'OU') &&
+                                  leg.baseHome != null &&
+                                  leg.baseAway != null
+                                    ? ` ${t('pnl.liveFrom')}${leg.baseHome}-${
+                                        leg.baseAway
+                                      }`
+                                    : ''}
+                                </span>
+                              )}
                               <span className="ml-1 text-gray-400">
                                 · {legLabel(t, leg)}
                                 {leg.odds != null ? ` @${leg.odds}` : ''}

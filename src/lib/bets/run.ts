@@ -32,7 +32,17 @@ interface SlipUpdate {
 }
 
 /** needs_review 的人工原因(便于管理员判断如何改账)。 */
-function reviewNote(results: LegResult[]): string {
+function reviewNote(results: LegResult[], legs: BetLeg[]): string {
+  // 滚球 AH/OU 单未识别到下注时比分 → 无法按剩余赛程结算(优先提示,指向重新识别)
+  const liveNoBase = legs.some(
+    (lg, i) =>
+      lg.live &&
+      (lg.market === 'AH' || lg.market === 'OU') &&
+      (lg.baseHome == null || lg.baseAway == null) &&
+      results[i] === 'unsupported',
+  );
+  if (liveNoBase)
+    return '滚球单未识别到下注时比分,无法按剩余赛程结算,请重新识别或人工手填盈亏';
   if (results.some((r) => r === 'unsupported'))
     return '含波胆/半场/组合等不支持自动结算的盘口,请按实际结果手填盈亏';
   if (results.some((r) => r === 'half_won' || r === 'half_lost'))
@@ -72,15 +82,28 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
           res.htHome != null && res.htAway != null
             ? { h: res.htHome, a: res.htAway }
             : undefined;
-        const r = judgeLeg(
-          leg.market,
-          leg.selection,
-          leg.line,
-          res.homeGoals,
-          res.awayGoals,
-          ht,
-          leg.parts,
-        );
+        // 滚球(剩余赛程口径):仅 AH/OU 用「下注后净增」结算,需下注时比分基线
+        const base =
+          leg.live && leg.baseHome != null && leg.baseAway != null
+            ? { h: leg.baseHome, a: leg.baseAway }
+            : undefined;
+        // 仅滚球 AH/OU 必须有基线;缺基线 → 转人工,绝不按全场静默错算(剩余口径)。
+        // 其余滚球盘(1X2/BTTS/DNB/波胆等)为全场口径,无需基线,judgeLeg 会忽略 base 按全场判。
+        const restNeedsBase =
+          leg.live && (leg.market === 'AH' || leg.market === 'OU');
+        const r: LegResult =
+          restNeedsBase && !base
+            ? 'unsupported'
+            : judgeLeg(
+                leg.market,
+                leg.selection,
+                leg.line,
+                res.homeGoals,
+                res.awayGoals,
+                ht,
+                leg.parts,
+                base,
+              );
         legResults.push(r);
         legPatches.push({
           matchId: res.matchId,
@@ -101,7 +124,7 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
     }
     const { status, pnl } = settleSlip(slip, legResults);
     const upd: SlipUpdate = { id: slip.id, legPatches, status, pnl };
-    if (status === 'needs_review') upd.note = reviewNote(legResults);
+    if (status === 'needs_review') upd.note = reviewNote(legResults, slip.legs);
     updates.push(upd);
   }
 

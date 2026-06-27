@@ -71,6 +71,15 @@ function isQuarterLine(line: number | undefined): boolean {
  * 四分盘拆两条相邻半盘(各以 .0/.5 结尾)分别判定再聚合;
  * 因两半相差 0.5,至多一条走盘,故只会出现 won/lost/half_won/half_lost。
  */
+/**
+ * 滚球「剩余赛程」口径**仅适用于**亚盘(AH)/亚洲大小(OU):它们的盘线随当前比分重锚
+ * (等价于把当前比分重置 0-0,只算下注后净增进球),故对下注后增量判定。
+ * 1X2(全场胜平负)/BTTS(全场双方进球)/DNB(全场去平)/波胆 等是**全场赛果型**盘——
+ * 即便滚球下单,主流平台(bet365 等)仍按**全场终分**结算,绝不可用增量重置,否则把领先方
+ * 「保持比分到终场」的赢单错判成平/输/退款。这些盘有 base 时一律忽略基线、走全场口径。
+ */
+const REST_OF_MATCH_MARKETS: readonly string[] = ['AH', 'OU'];
+
 export function judgeLeg(
   market: string,
   selection: string,
@@ -79,9 +88,18 @@ export function judgeLeg(
   ga: number,
   ht?: { h: number; a: number }, // 上半场比分(注单主客视角);CS1H/CS2H 需要
   parts?: ComboPart[], // market==='COMBO' 时的各子盘
+  base?: { h: number; a: number }, // 滚球剩余赛程口径:下注时比分(注单主客视角),仅 AH/OU 生效
 ): LegResult {
   // 不支持的盘口(角球/罚牌/球员/特色等):不臆断 → 转人工
   if (!VALID_MARKETS.includes(market)) return 'unsupported';
+  // 滚球剩余赛程口径:**仅** AH/OU 对「下注后净增比分」判定(必须先于 COMBO/CS 等分支);
+  // 其余盘口忽略基线,落到下方全场口径常规判定(全场赛果型盘滚球下单仍按全场结算)。
+  if (base && REST_OF_MATCH_MARKETS.includes(market)) {
+    const dh = gf - base.h;
+    const da = ga - base.a;
+    if (dh < 0 || da < 0) return 'unsupported'; // 终分 < 基线(改分/数据异常)→ 人工
+    return judgeLeg(market, selection, line, dh, da); // 递归走常规增量判定(复用半盘/四分盘)
+  }
   // 同场组合盘:逐段判定再按 AND 合并
   if (market === 'COMBO') return judgeCombo(parts, gf, ga, ht);
   // 波胆(正确比分):全场用 90' 比分;上/下半场需半场比分(事件齐全才有,否则转人工)
