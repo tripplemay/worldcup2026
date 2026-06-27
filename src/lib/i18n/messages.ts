@@ -192,6 +192,7 @@ export const messages = {
       withdrawAmountInvalid: '提款金额需为正数',
       live: '滚球',
       liveFrom: '起',
+      legMoot: '整单已输,本场不影响',
     },
     signals: {
       title: '交易指令台',
@@ -851,6 +852,7 @@ export const messages = {
       withdrawAmountInvalid: 'Withdrawal amount must be positive',
       live: 'Live',
       liveFrom: 'from ',
+      legMoot: 'Parlay already lost — this leg is moot',
     },
     signals: {
       title: 'Signal Desk',

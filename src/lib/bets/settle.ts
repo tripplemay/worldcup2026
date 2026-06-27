@@ -155,41 +155,45 @@ function judgeCombo(
 /**
  * 串关/单注聚合:legResults 与 slip.legs 1:1 对齐(已判定或 pending/unmatched)。
  *
- * 优先级:unsupported > unmatched > pending > (half_* | void → needs_review) > lost > won。
- * 单注(legs.length===1)直接映射:走盘退本(void→pnl 0)、半赢半输/不支持交人工。
+ * AND 语义 + **即时判输**:任一腿「确输」⇒ 整单立刻判输,不等其余腿(每场收官即时结算)。
+ * 优先级:lost > unmatched > pending > (单注特判 / half_* / void / unsupported → 人工或退本) > won。
+ * 即时判输置顶,使「一腿已输、其余腿还 pending/不支持」的串关也能即刻判输(−stake);
+ * 反之只要没有确输腿,就保持 pending/unmatched 直到能定论,避免过早转人工。
  */
 export function settleSlip(
   slip: { stake: number; potentialReturn: number; legs: BetLeg[] },
   legResults: LegResult[],
 ): { status: BetStatus; pnl: number | null } {
-  // 不支持的盘口永不自动判定 → 直接转人工(优先于其它,等比赛/匹配都没意义)
-  if (legResults.some((r) => r === 'unsupported'))
-    return { status: 'needs_review', pnl: null };
+  // 任一腿确输 ⇒ 整单即时判输(其余腿结果已无关,整单 = −stake)。置顶优先于一切。
+  if (legResults.some((r) => r === 'lost'))
+    return { status: 'lost', pnl: -slip.stake };
+
+  // 仍有腿未匹配/未结 → 尚不能定论(未来某腿可能再输 → 届时走上面的即时判输)。
   if (legResults.some((r) => r === 'unmatched'))
     return { status: 'unmatched', pnl: null };
   if (legResults.some((r) => r === 'pending'))
     return { status: 'pending', pnl: null };
 
+  // —— 至此所有腿都已终结(won / void / half_* / unsupported)且无一确输 ——
+
   // 单注特判:截图金额可直接表达走盘退本。
   if (slip.legs.length === 1) {
     const r = legResults[0];
     if (r === 'won') return { status: 'won', pnl: slip.potentialReturn };
-    if (r === 'lost') return { status: 'lost', pnl: -slip.stake };
     if (r === 'void')
       // 单一盘口走盘 → 退本;组合盘里某段走盘 → 应去该段重算赔率,我们不重算 → 转人工
       return slip.legs[0]?.market === 'COMBO'
         ? { status: 'needs_review', pnl: null }
         : { status: 'void', pnl: 0 };
-    return { status: 'needs_review', pnl: null }; // half_won / half_lost
+    return { status: 'needs_review', pnl: null }; // half_won / half_lost / unsupported
   }
 
-  // 串关:半赢半输无法在截图金额里表达 → 人工。
+  // 串关且无确输:半赢半输 / 走盘 / 不支持 都使截图金额无法表达或无法判定 → 人工。
   if (legResults.some((r) => r === 'half_won' || r === 'half_lost'))
     return { status: 'needs_review', pnl: null };
-  if (legResults.some((r) => r === 'lost'))
-    return { status: 'lost', pnl: -slip.stake };
-  // 走盘腿使截图 potentialReturn 失真(应重算赔率)→ 人工。
   if (legResults.some((r) => r === 'void'))
+    return { status: 'needs_review', pnl: null };
+  if (legResults.some((r) => r === 'unsupported'))
     return { status: 'needs_review', pnl: null };
   // 全赢。
   return { status: 'won', pnl: slip.potentialReturn };

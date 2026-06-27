@@ -31,9 +31,17 @@ interface SlipUpdate {
   note?: string;
 }
 
-/** needs_review 的人工原因(便于管理员判断如何改账)。 */
+/**
+ * needs_review 的人工原因(便于管理员判断如何改账)。
+ * 判断顺序与 settleSlip 的 needs_review 分支一致(half_* > void > unsupported),
+ * 使注记指向**实际触发转人工的那条腿**;滚球缺基线作为更具体的 unsupported 原因前置。
+ */
 function reviewNote(results: LegResult[], legs: BetLeg[]): string {
-  // 滚球 AH/OU 单未识别到下注时比分 → 无法按剩余赛程结算(优先提示,指向重新识别)
+  if (results.some((r) => r === 'half_won' || r === 'half_lost'))
+    return '四分盘半赢/半输,截图金额无法表达,请人工核对';
+  if (results.some((r) => r === 'void'))
+    return '含走盘腿,截图可赢金额已失真,请人工核对';
+  // 滚球 AH/OU 缺下注时比分 → 无法按剩余赛程结算(比泛化"不支持"更具体,前置)
   const liveNoBase = legs.some(
     (lg, i) =>
       lg.live &&
@@ -45,10 +53,6 @@ function reviewNote(results: LegResult[], legs: BetLeg[]): string {
     return '滚球单未识别到下注时比分,无法按剩余赛程结算,请重新识别或人工手填盈亏';
   if (results.some((r) => r === 'unsupported'))
     return '含波胆/半场/组合等不支持自动结算的盘口,请按实际结果手填盈亏';
-  if (results.some((r) => r === 'half_won' || r === 'half_lost'))
-    return '四分盘半赢/半输,截图金额无法表达,请人工核对';
-  if (results.some((r) => r === 'void'))
-    return '含走盘腿,截图可赢金额已失真,请人工核对';
   return '需人工核对';
 }
 

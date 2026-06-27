@@ -1216,6 +1216,14 @@ export default function PnlPage() {
                   <div className="space-y-1">
                     {s.legs.map((leg, i) => {
                       const mk = legResultMark(leg.result);
+                      // 串关即时判输后,未结腿(本场未踢/未匹配)已不影响结果 → 标「已无关」而非「待定」
+                      const decisive =
+                        leg.result === 'won' ||
+                        leg.result === 'lost' ||
+                        leg.result === 'void' ||
+                        leg.result === 'half_won' ||
+                        leg.result === 'half_lost';
+                      const moot = s.status === 'lost' && !decisive;
                       const when = fmtKickoff(leg.kickoff ?? leg.matchDate);
                       const tint =
                         leg.result === 'won' || leg.result === 'half_won'
@@ -1262,8 +1270,15 @@ export default function PnlPage() {
                                 {leg.homeGoals}-{leg.awayGoals}
                               </span>
                             )}
-                            <span className={`font-bold ${mk.cls}`}>
-                              {mk.ch}
+                            <span
+                              className={`font-bold ${
+                                moot
+                                  ? 'text-gray-300 dark:text-navy-500'
+                                  : mk.cls
+                              }`}
+                              title={moot ? t('pnl.legMoot') : undefined}
+                            >
+                              {moot ? '—' : mk.ch}
                             </span>
                           </div>
                         </div>

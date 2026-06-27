@@ -156,14 +156,62 @@ describe('settleSlip —— 串关聚合', () => {
     expect(settleSlip(slip, r)).toEqual({ status: 'needs_review', pnl: null });
   });
 
-  it('有 half_lost → needs_review(优先于 lost 判断)', () => {
+  it('确输优先于 half_lost:有确输腿 → 即时判输 lost', () => {
     const r: LegResult[] = ['lost', 'half_lost', 'won'];
-    expect(settleSlip(slip, r)).toEqual({ status: 'needs_review', pnl: null });
+    expect(settleSlip(slip, r)).toEqual({ status: 'lost', pnl: -100 });
   });
 
-  it('含不支持盘口 → needs_review(优先于一切)', () => {
+  it('确输优先于不支持盘口:含确输腿 → 即时判输 lost(不再 needs_review)', () => {
     const r: LegResult[] = ['won', 'unsupported', 'lost'];
+    expect(settleSlip(slip, r)).toEqual({ status: 'lost', pnl: -100 });
+  });
+
+  it('含不支持腿但无确输 → needs_review(无法定论)', () => {
+    const r: LegResult[] = ['won', 'unsupported', 'won'];
     expect(settleSlip(slip, r)).toEqual({ status: 'needs_review', pnl: null });
+  });
+});
+
+describe('settleSlip —— 串关即时判输(每场收官即时结算)', () => {
+  const slip = {
+    stake: 100,
+    potentialReturn: 350,
+    legs: [leg(), leg(), leg()],
+  };
+
+  it('一腿已输、其余腿还未结 → 立刻判输(不等其余腿)', () => {
+    expect(settleSlip(slip, ['lost', 'pending', 'pending'])).toEqual({
+      status: 'lost',
+      pnl: -100,
+    });
+  });
+
+  it('一腿已输、另一腿不支持 → 立刻判输(确输使不支持腿无关)', () => {
+    expect(settleSlip(slip, ['lost', 'unsupported', 'pending'])).toEqual({
+      status: 'lost',
+      pnl: -100,
+    });
+  });
+
+  it('一腿已输、另一腿未匹配 → 立刻判输', () => {
+    expect(settleSlip(slip, ['lost', 'unmatched', 'won'])).toEqual({
+      status: 'lost',
+      pnl: -100,
+    });
+  });
+
+  it('无确输腿、含不支持 + 未结 → 保持 pending(留待定论,避免过早转人工)', () => {
+    expect(settleSlip(slip, ['won', 'unsupported', 'pending'])).toEqual({
+      status: 'pending',
+      pnl: null,
+    });
+  });
+
+  it('无确输腿、仅未结 → pending(赢需全中,继续等)', () => {
+    expect(settleSlip(slip, ['won', 'won', 'pending'])).toEqual({
+      status: 'pending',
+      pnl: null,
+    });
   });
 });
 
