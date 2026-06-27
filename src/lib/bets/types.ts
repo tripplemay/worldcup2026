@@ -69,6 +69,10 @@ export interface BetLeg {
   odds?: number; // 各腿赔率(展示用;不参与金额结算)
   rawText?: string; // 不支持盘口的中文描述(如「下半场波胆 1-1」),供人工核对/展示
   parts?: ComboPart[]; // market==='COMBO' 时:同场多段子盘(全中才赢,AND 语义)
+  // —— 滚球(in-play)剩余赛程口径:从下注时比分起算的让球/大小 ——
+  live?: boolean; // 滚球/进行中下单 → 按「剩余赛程」口径结算(对下注后净增比分判定)
+  baseHome?: number; // 下注时比分(注单主客视角),剩余赛程结算基线;与 homeGoals 同视角
+  baseAway?: number;
 
   // —— 结算回填 ——
   matchId?: string; // 解析到的 ESPN/联赛 eventId

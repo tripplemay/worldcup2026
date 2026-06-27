@@ -332,6 +332,118 @@ describe('parseRecognizedSlip — 同场组合盘 COMBO', () => {
   });
 });
 
+describe('parseRecognizedSlip — 滚球 live / 下注时比分基线', () => {
+  it('live=true + baseHome/baseAway 整数保留', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'AH',
+          selection: 'home',
+          line: -0.5,
+          live: true,
+          baseHome: 1,
+          baseAway: 0,
+        },
+      ],
+    });
+    const leg = slip!.legs[0];
+    expect(leg.live).toBe(true);
+    expect(leg.baseHome).toBe(1);
+    expect(leg.baseAway).toBe(0);
+  });
+
+  it('"true" 字符串也识别为 live;字符串数字基线强转', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'OU',
+          selection: 'Over',
+          line: 2.5,
+          live: 'true',
+          baseHome: '2',
+          baseAway: '1',
+        },
+      ],
+    });
+    expect(slip!.legs[0].live).toBe(true);
+    expect(slip!.legs[0].baseHome).toBe(2);
+    expect(slip!.legs[0].baseAway).toBe(1);
+  });
+
+  it('赛前单:live 缺省/false 时不带 live,base 为空', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'AH',
+          selection: 'home',
+          line: -1,
+          live: false,
+          baseHome: null,
+          baseAway: null,
+        },
+      ],
+    });
+    expect(slip!.legs[0].live).toBeUndefined();
+    expect(slip!.legs[0].baseHome).toBeUndefined();
+    expect(slip!.legs[0].baseAway).toBeUndefined();
+  });
+
+  it('滚球但缺一侧比分 → base 不保留(结算层将转人工)', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'AH',
+          selection: 'home',
+          line: -0.5,
+          live: true,
+          baseHome: 1,
+          baseAway: null,
+        },
+      ],
+    });
+    expect(slip!.legs[0].live).toBe(true);
+    expect(slip!.legs[0].baseHome).toBeUndefined();
+    expect(slip!.legs[0].baseAway).toBeUndefined();
+  });
+
+  it('非整数 / 负数比分基线被丢弃', () => {
+    const slip = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 20,
+      legs: [
+        {
+          homeName: 'A',
+          awayName: 'B',
+          market: 'AH',
+          selection: 'home',
+          line: -0.5,
+          live: true,
+          baseHome: 1.5,
+          baseAway: -1,
+        },
+      ],
+    });
+    expect(slip!.legs[0].baseHome).toBeUndefined();
+    expect(slip!.legs[0].baseAway).toBeUndefined();
+  });
+});
+
 describe('hasVision — env 守卫', () => {
   const orig = process.env.AIGC_API_KEY;
   afterEach(() => {

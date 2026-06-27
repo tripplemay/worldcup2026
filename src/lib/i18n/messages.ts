@@ -190,6 +190,8 @@ export const messages = {
       withdrawEmpty: '暂无提款',
       withdrawHint: '提款=现金流出,不计入盈亏;未提款 = 净盈亏 − 已提款。',
       withdrawAmountInvalid: '提款金额需为正数',
+      live: '滚球',
+      liveFrom: '起',
     },
     signals: {
       title: '交易指令台',
@@ -847,6 +849,8 @@ export const messages = {
       withdrawHint:
         'A withdrawal is a cash-out, not P&L; Unwithdrawn = net P&L − Withdrawn.',
       withdrawAmountInvalid: 'Withdrawal amount must be positive',
+      live: 'Live',
+      liveFrom: 'from ',
     },
     signals: {
       title: 'Signal Desk',

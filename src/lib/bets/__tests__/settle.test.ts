@@ -205,6 +205,76 @@ describe('judgeLeg —— 波胆(正确比分)', () => {
   });
 });
 
+describe('judgeLeg —— 滚球剩余赛程口径(base)', () => {
+  // 第 7 个参数 parts 占位 undefined,第 8 个参数 base 为下注时比分(注单主客视角)
+  const J = (
+    market: string,
+    sel: string,
+    line: number | undefined,
+    gf: number,
+    ga: number,
+    base: { h: number; a: number },
+  ) => judgeLeg(market, sel, line, gf, ga, undefined, undefined, base);
+
+  it('剩余让球:对「下注后净增比分」判定(下注 1-0,终分 2-0 → 增量 1-0)', () => {
+    // 增量 1-0,AH home -0.5 → 净胜0.5 → won
+    expect(J('AH', 'home', -0.5, 2, 0, { h: 1, a: 0 })).toBe('won');
+  });
+
+  it('与全场口径背离:同样终分 2-0,基线 1-0 下 -1.5 应判输(全场会判赢)', () => {
+    // 剩余:增量 1-0,margin = 1 - 1.5 = -0.5 → lost
+    expect(J('AH', 'home', -1.5, 2, 0, { h: 1, a: 0 })).toBe('lost');
+    // 对照:全场口径 2-0 让 -1.5 → margin 0.5 → won
+    expect(judgeLeg('AH', 'home', -1.5, 2, 0)).toBe('won');
+  });
+
+  it('剩余大小:只算下注后进球(下注 1-1,终分 2-2 → 增量总分 2)', () => {
+    expect(J('OU', 'Over', 2.5, 2, 2, { h: 1, a: 1 })).toBe('lost'); // 增量总分 2 < 2.5
+    expect(J('OU', 'Under', 2.5, 2, 2, { h: 1, a: 1 })).toBe('won');
+    // 对照:全场总分 4 > 2.5 → Over won
+    expect(judgeLeg('OU', 'Over', 2.5, 2, 2)).toBe('won');
+  });
+
+  it('剩余四分盘:增量上套半盘/四分盘逻辑(基线 1-0,终分 2-0 → 增量 1-0,-0.75 半赢)', () => {
+    expect(J('AH', 'home', -0.75, 2, 0, { h: 1, a: 0 })).toBe('half_won');
+  });
+
+  it('全场赛果型盘(1X2/BTTS/DNB)即便带 base 也忽略基线、按全场终分结算', () => {
+    // 关键回归:领先方保持比分到终场不能被增量重置成平/输
+    // 1X2:下注 1-0 买 home、终分 1-0 → 全场主胜 → won(错按增量会判 lost)
+    expect(J('1X2', 'home', undefined, 1, 0, { h: 1, a: 0 })).toBe('won');
+    // 1X2:下注 0-1 买 home、终分 1-1 → 全场平 → home lost(错按增量 1-0 会判 won)
+    expect(J('1X2', 'home', undefined, 1, 1, { h: 0, a: 1 })).toBe('lost');
+    // BTTS:下注 1-0 买 Yes、终分 1-1 → 全场双方都进 → won(错按增量 0-1 会判 lost)
+    expect(J('BTTS', 'Yes', undefined, 1, 1, { h: 1, a: 0 })).toBe('won');
+    // DNB:下注 1-0 买 home、终分 1-1 → 全场平 → 退本 void(错按增量会判 lost)
+    expect(J('DNB', 'home', undefined, 1, 1, { h: 1, a: 0 })).toBe('void');
+  });
+
+  it('终分 < 基线(改分/数据异常)→ unsupported,绝不臆算(仅 AH/OU 走增量)', () => {
+    expect(J('AH', 'home', -0.5, 1, 0, { h: 2, a: 0 })).toBe('unsupported');
+    expect(J('OU', 'Over', 1.5, 1, 1, { h: 1, a: 2 })).toBe('unsupported');
+  });
+
+  it('波胆/半场带 base 也忽略基线、按全场判(非 AH/OU 无剩余口径)', () => {
+    // CS:base 1-0、终分 2-0 → 按全场 2-0(非增量 1-0)→ 选 1-0 lost、选 2-0 won
+    expect(J('CS', '1-0', undefined, 2, 0, { h: 1, a: 0 })).toBe('lost');
+    expect(J('CS', '2-0', undefined, 2, 0, { h: 1, a: 0 })).toBe('won');
+    // 上半场波胆:带 base 仍按上半场比分判(全场口径子周期),给 ht 才可判
+    expect(
+      judgeLeg('CS1H', '1-0', undefined, 2, 0, { h: 1, a: 0 }, undefined, {
+        h: 1,
+        a: 0,
+      }),
+    ).toBe('won');
+  });
+
+  it('无 base 时行为不变(全场口径回归)', () => {
+    expect(judgeLeg('AH', 'home', -1.5, 2, 0)).toBe('won');
+    expect(judgeLeg('OU', 'Over', 2.5, 2, 2)).toBe('won');
+  });
+});
+
 describe('settleSlip —— 单注', () => {
   const single = { stake: 50, potentialReturn: 130, legs: [leg()] };
 
