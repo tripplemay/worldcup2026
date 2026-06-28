@@ -1,3 +1,5 @@
+import type { MatchStatus } from 'lib/espn/types';
+
 /**
  * 「沙盘」情景推演 —— 领域类型。
  *
@@ -277,6 +279,49 @@ export interface ScenarioResult {
   notes?: string;
   // ── C 阶段新增(全可选:老缓存无此字段时前端隐藏对应视图)──
   thirdRace?: ThirdRaceRow[]; // 12 组第三名出线竞争 + Annex C 槽位
+}
+
+// ── 真实淘汰赛对阵树(Knockout Bracket)──────────────────────────
+// 模板拓扑(bracket.ts BRACKET)为骨架,ESPN 真实积分榜定身份、真实对阵填赛果。
+// 与 Monte-Carlo 概率层无关:这里只呈现「真实进展」,已踢钉死、未踢显占位。
+
+/** 某条对阵边「队伍来源」的占位(队尚未确定时)。 */
+export type BracketPlaceholder =
+  | { kind: 'W'; group: GroupLetter } // 某组头名
+  | { kind: 'R'; group: GroupLetter } // 某组次名
+  | { kind: 'T3'; slot: WinnerSlot } // 迎战某头名槽位的最佳第三名
+  | { kind: 'WM'; match: number } // 某场胜者
+  | { kind: 'LM'; match: number }; // 某场负者
+
+/** 对阵树一个节点的一侧(主/客)。队已定则带 team,未定则带 placeholder。 */
+export interface BracketSide {
+  norm?: string; // 已定队伍归一化名
+  name?: string; // 展示名(英文,前端经 i18n 本地化)
+  logo?: string;
+  score?: number; // 该侧比分(已踢)
+  winner?: boolean; // 是否从本场晋级
+  placeholder?: BracketPlaceholder; // 队未定时的来源占位
+}
+
+/** 对阵树一个节点(对应 bracket 模板 M73–104 的一场)。 */
+export interface BracketNode {
+  match: number; // 73..104
+  round: KnockoutRound;
+  home: BracketSide;
+  away: BracketSide;
+  status: MatchStatus; // 映射到 ESPN 真实场次则取其状态,否则 'pre'
+  commenceTime?: string; // ISO(已映射真实场次)
+  espnId?: string; // 映射到的 ESPN event id
+  decided: boolean; // 是否已分出晋级方(胜者已确定)
+}
+
+/** 真实淘汰赛对阵树(按需现算,不落盘)。 */
+export interface KnockoutBracket {
+  computedAt: number;
+  nodes: BracketNode[]; // M73–104,按 match 升序
+  champion?: { norm: string; name: string; logo?: string };
+  /** 未能映射到任何模板槽位的 ESPN 淘汰赛场次(观测用,不静默丢弃)。 */
+  unmapped: { id: string; homeTeam?: string; awayTeam?: string }[];
 }
 
 // ── 展示口径切换:同一份 byResult.probs 上按不同「目标轮」重排/取最期望(前端交叉比对)──

@@ -61,7 +61,7 @@ import type {
 import type { AfPrediction } from 'lib/predict/apifootball';
 import type { ModelStats } from 'lib/predict/predictionLog';
 import type { RadarAlert } from 'lib/odds/radar';
-import type { ScenarioResult } from 'lib/scenario/types';
+import type { ScenarioResult, KnockoutBracket } from 'lib/scenario/types';
 
 const ms = (v: string | undefined, d: number) => {
   const n = Number(v);
@@ -336,14 +336,21 @@ export function useMatchEvents(eventId?: string) {
   return { events: data?.events ?? [], error, isLoading };
 }
 
-/** 淘汰赛对阵树。 */
+/** 淘汰赛对阵树(扁平真实场次 matches + 缝合后的连通树 bracket)。 */
 export function useBracket() {
-  const { data, error, isLoading } = useSWR<{ matches: BracketMatch[] }>(
-    '/api/worldcup/bracket',
-    fetcher,
-    { refreshInterval: STANDINGS_MS, ...common },
-  );
-  return { matches: data?.matches ?? [], error, isLoading };
+  const { data, error, isLoading } = useSWR<{
+    matches: BracketMatch[];
+    bracket?: KnockoutBracket;
+  }>('/api/worldcup/bracket', fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
+  return {
+    matches: data?.matches ?? [],
+    bracket: data?.bracket,
+    error,
+    isLoading,
+  };
 }
 
 /** 单场比赛详情(比分/统计/阵容/事件,仅在传入 eventId 时请求)。 */

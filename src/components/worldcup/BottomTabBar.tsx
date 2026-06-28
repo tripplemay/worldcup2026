@@ -9,6 +9,7 @@ import {
   MdInsights,
   MdLeaderboard,
   MdAccountTree,
+  MdEmojiEvents,
   MdAccountBalanceWallet,
   MdSavings,
 } from 'react-icons/md';
@@ -58,6 +59,7 @@ export default function BottomTabBar() {
     { href: '/predict', label: t('nav.predict'), Icon: MdInsights },
     { href: '/standings', label: t('nav.standings'), Icon: MdLeaderboard },
     { href: '/scenarios', label: t('nav.sandbox'), Icon: MdAccountTree },
+    { href: '/bracket', label: t('nav.bracket'), Icon: MdEmojiEvents },
     { href: '/paper', label: t('nav.paper'), Icon: MdAccountBalanceWallet },
     { href: '/pnl', label: t('nav.pnl'), Icon: MdSavings },
   ];

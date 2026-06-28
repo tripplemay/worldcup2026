@@ -20,6 +20,9 @@ export interface ScheduleMatch {
   clock?: string;
   homeScore?: number;
   awayScore?: number;
+  /** 淘汰赛晋级方(ESPN competitor.winner;含点球/加时,常规赛通常无意义)。 */
+  homeWinner?: boolean;
+  awayWinner?: boolean;
   group?: string;
 }
 
@@ -74,6 +77,9 @@ export interface BracketMatch {
   commenceTime?: string;
   homeScore?: number;
   awayScore?: number;
+  /** 晋级方(ESPN competitor.winner;判断淘汰赛谁出线,含点球/加时)。 */
+  homeWinner?: boolean;
+  awayWinner?: boolean;
   status: MatchStatus;
 }
 
