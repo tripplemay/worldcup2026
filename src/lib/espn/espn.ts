@@ -67,6 +67,9 @@ function parseEvent(ev: Json): ScheduleMatch | null {
   const teamName = (c: Json) =>
     str(obj(c.team).displayName) ?? str(obj(c.team).name) ?? '';
   const score = (c: Json) => (state === 'pre' ? undefined : numOr(c.score, 0));
+  // 晋级方:仅已完赛(post)时有意义;ESPN 的 competitor.winner 含点球/加时结果。
+  const advanced = (c: Json) =>
+    state === 'post' && c.winner === true ? true : undefined;
 
   return {
     id: str(ev.id) ?? '',
@@ -83,6 +86,8 @@ function parseEvent(ev: Json): ScheduleMatch | null {
       str(obj(comp.status).displayClock) ?? str(obj(ev.status).displayClock),
     homeScore: score(homeC),
     awayScore: score(awayC),
+    homeWinner: advanced(homeC),
+    awayWinner: advanced(awayC),
   };
 }
 
@@ -299,6 +304,8 @@ export function createEspnProvider(
             commenceTime: m.commenceTime,
             homeScore: m.homeScore,
             awayScore: m.awayScore,
+            homeWinner: m.homeWinner,
+            awayWinner: m.awayWinner,
             status: m.status,
           }),
         );
