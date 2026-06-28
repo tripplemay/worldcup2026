@@ -12,7 +12,19 @@ import { loadBets, saveBets } from 'lib/db/store';
 import { withBetsLock } from './lock';
 import { resolveLeg } from './match';
 import { judgeLeg, settleSlip, VALID_MARKETS } from './settle';
-import type { BetLeg, LegResult } from './types';
+import type { BetLeg, BetStatus, LegResult } from './types';
+
+/** 已「终结」的腿(不再需要解析)。回填模式下跳过,避免重复网络判定 / 改动既定结果。 */
+const TERMINAL_LEG: readonly LegResult[] = [
+  'won',
+  'lost',
+  'void',
+  'half_won',
+  'half_lost',
+  'unsupported',
+];
+const isTerminalLeg = (r?: LegResult): boolean =>
+  r != null && TERMINAL_LEG.includes(r);
 
 interface LegPatch {
   matchId?: string;
@@ -26,9 +38,11 @@ interface LegPatch {
 interface SlipUpdate {
   id: string;
   legPatches: LegPatch[];
-  status: ReturnType<typeof settleSlip>['status'];
+  status: BetStatus;
   pnl: number | null;
   note?: string;
+  /** 仅回填剩余腿真实结果,不改整单已定的 lost 状态/盈亏(展示用)。 */
+  backfillOnly?: boolean;
 }
 
 /**
@@ -57,17 +71,38 @@ function reviewNote(results: LegResult[], legs: BetLeg[]): string {
 }
 
 export async function settlePendingBets(): Promise<{ settled: number }> {
-  // 1) 锁外:对快照里的未决注单做赛果解析(网络)
+  // 1) 锁外:对快照里的未决注单做赛果解析(网络)。
+  //    pending/unmatched 走完整结算;已即时判输(lost)但仍有腿未终结的,继续「回填」剩余腿
+  //    真实结果(展示用 —— 即便整单已输,用户也要看到其余各场的实际胜负),不改已定的 lost。
   const snapshot = loadBets().filter(
-    (b) => b.status === 'pending' || b.status === 'unmatched',
+    (b) =>
+      b.status === 'pending' ||
+      b.status === 'unmatched' ||
+      (b.status === 'lost' && b.legs.some((l) => !isTerminalLeg(l.result))),
   );
   if (!snapshot.length) return { settled: 0 };
 
   const updates: SlipUpdate[] = [];
   for (const slip of snapshot) {
+    // 整单已判输 → 仅回填剩余腿,不重算整单状态/盈亏。
+    const backfillOnly = slip.status === 'lost';
     const legResults: LegResult[] = [];
     const legPatches: LegPatch[] = [];
     for (const leg of slip.legs) {
+      // 回填模式下,已终结的腿保持原样(不重复网络解析,也不改动既定结果)。
+      if (backfillOnly && isTerminalLeg(leg.result)) {
+        legResults.push(leg.result as LegResult);
+        legPatches.push({
+          matchId: leg.matchId,
+          kickoff: leg.kickoff,
+          homeGoals: leg.homeGoals,
+          awayGoals: leg.awayGoals,
+          htHome: leg.htHome,
+          htAway: leg.htAway,
+          result: leg.result as LegResult,
+        });
+        continue;
+      }
       const res = await resolveLeg(leg);
       // 不支持的盘口(波胆/半场等):立即标 unsupported → 转人工,不臆造结果
       if (!VALID_MARKETS.includes(leg.market)) {
@@ -126,9 +161,19 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
         legPatches.push({ result: 'unmatched' });
       }
     }
-    const { status, pnl } = settleSlip(slip, legResults);
-    const upd: SlipUpdate = { id: slip.id, legPatches, status, pnl };
-    if (status === 'needs_review') upd.note = reviewNote(legResults, slip.legs);
+    // 回填模式保持整单已定的 lost / pnl;否则按各腿聚合定状态。
+    const { status, pnl } = backfillOnly
+      ? { status: slip.status, pnl: slip.pnl }
+      : settleSlip(slip, legResults);
+    const upd: SlipUpdate = {
+      id: slip.id,
+      legPatches,
+      status,
+      pnl,
+      backfillOnly,
+    };
+    if (!backfillOnly && status === 'needs_review')
+      upd.note = reviewNote(legResults, slip.legs);
     updates.push(upd);
   }
 
@@ -140,7 +185,11 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
     for (const u of updates) {
       const slip = list.find((b) => b.id === u.id);
       if (!slip) continue;
-      if (slip.status !== 'pending' && slip.status !== 'unmatched') continue;
+      if (u.backfillOnly) {
+        if (slip.status !== 'lost') continue; // 期间被人工改账 → 跳过回填
+      } else if (slip.status !== 'pending' && slip.status !== 'unmatched') {
+        continue;
+      }
 
       let changed = false;
       u.legPatches.forEach((lp, i) => {
@@ -163,7 +212,8 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
         }
       });
 
-      if (u.status !== slip.status || u.pnl !== slip.pnl) {
+      // 回填模式不动整单状态/盈亏/结算时间,只更新各腿结果(上面的 legPatches)。
+      if (!u.backfillOnly && (u.status !== slip.status || u.pnl !== slip.pnl)) {
         slip.status = u.status;
         slip.pnl = u.pnl;
         if (u.note) slip.note = u.note;
