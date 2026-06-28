@@ -1216,7 +1216,8 @@ export default function PnlPage() {
                   <div className="space-y-1">
                     {s.legs.map((leg, i) => {
                       const mk = legResultMark(leg.result);
-                      // 串关即时判输后,未结腿(本场未踢/未匹配)已不影响结果 → 标「已无关」而非「待定」
+                      // 串关即时判输后,其余腿仍会继续回填真实胜负并照常展示;
+                      // 只有「尚无结果」的腿(本场未踢/未匹配/不支持)对整单已无关 → 标记淡显 + 提示。
                       const decisive =
                         leg.result === 'won' ||
                         leg.result === 'lost' ||
@@ -1271,14 +1272,12 @@ export default function PnlPage() {
                               </span>
                             )}
                             <span
-                              className={`font-bold ${
-                                moot
-                                  ? 'text-gray-300 dark:text-navy-500'
-                                  : mk.cls
+                              className={`font-bold ${mk.cls} ${
+                                moot ? 'opacity-50' : ''
                               }`}
                               title={moot ? t('pnl.legMoot') : undefined}
                             >
-                              {moot ? '—' : mk.ch}
+                              {mk.ch}
                             </span>
                           </div>
                         </div>
