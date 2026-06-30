@@ -175,7 +175,11 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
         });
       } else if (res.status === 'pending') {
         legResults.push('pending');
-        legPatches.push({ kickoff: res.kickoff, result: 'pending' });
+        legPatches.push({
+          matchId: res.matchId,
+          kickoff: res.kickoff,
+          result: 'pending',
+        });
       } else {
         legResults.push('unmatched');
         legPatches.push({ result: 'unmatched' });

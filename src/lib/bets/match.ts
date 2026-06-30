@@ -5,6 +5,9 @@
  * → 遍历各联赛存档兜底。网络一律 try/catch,出错降级为 'pending'(下轮重试),
  * 绝不返回错值;对齐失败返回 'unmatched'(待人工绑定)。
  *
+ * 注意:本地赛果存档含多年历史,只有在注单提供了可解析日期时才允许用存档按队名命中;
+ * 缺日期/无效日期的 WC 注单先查本届 ESPN 赛程,避免同队历史交锋(如 2024 0:0)被误结算。
+ *
  * 【方向纠正】存档/ESPN 的比分是「赛事主客」视角,注单选项(home/away)是「注单主客」视角。
  * 两者可能相反(平台常把所跟的队列前)。resolveLeg **统一把比分转成注单视角**返回,
  * 否则 1X2/AH/DC/DNB 会判反(赢↔输)。orientScore 是这层纠正的纯函数,全量单测。
@@ -72,6 +75,12 @@ function periodScores(
 function utcDay(iso: string): string {
   const d = new Date(iso);
   return Number.isNaN(d.getTime()) ? '' : d.toISOString().slice(0, 10);
+}
+
+/** 注单日期是否足够可靠到可约束历史赛果表。 */
+function hasUsableMatchDate(approxDate?: string): approxDate is string {
+  if (!approxDate) return false;
+  return !Number.isNaN(new Date(approxDate).getTime());
 }
 
 /** 两个日期是否落在 ±tolDays 天窗口内(按绝对时差比较)。 */
@@ -205,6 +214,7 @@ async function resolveViaSummary(
 export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
   const legHome = normalizeTeam(toCanonicalName(leg.homeName));
   const legAway = normalizeTeam(toCanonicalName(leg.awayName));
+  const hasDate = hasUsableMatchDate(leg.matchDate);
 
   const matchedFrom = (
     matchId: string,
@@ -234,6 +244,8 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
   // 1) 已注册联赛:联赛存档即 90' 比分,无需 ESPN 校正
   const key = leagueKeyOf(leg.league);
   if (key) {
+    // 俱乐部联赛同队反复交手,缺日期时直接按历史存档命中风险过高。
+    if (!hasDate) return { status: 'unmatched' };
     const hit = findResultByName(
       loadLeagueResults(key),
       leg.homeName,
@@ -252,12 +264,9 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
   }
 
   // 2) WC(或未知):先查 WC 赛果存档 → ESPN 90' 校正
-  const wcHit = findResultByName(
-    loadResults(),
-    leg.homeName,
-    leg.awayName,
-    leg.matchDate,
-  );
+  const wcHit = hasDate
+    ? findResultByName(loadResults(), leg.homeName, leg.awayName, leg.matchDate)
+    : undefined;
   if (wcHit) {
     const via = await resolveViaSummary(wcHit.eventId);
     if (via?.status === 'matched')
@@ -271,7 +280,7 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
         via.htAway,
       );
     if (via?.status === 'pending')
-      return { status: 'pending', kickoff: wcHit.date };
+      return { status: 'pending', matchId: wcHit.eventId, kickoff: wcHit.date };
     // ESPN 失败:回退用存档比分(WC 存档为终分;作为兜底)
     return matchedFrom(
       wcHit.eventId,
@@ -298,7 +307,7 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
       // 有日期:先用 ±1 天窗口(可区分罕见的重复对阵);未命中再回退整届 WC 范围,
       // 容忍识别把年份/日期读错(如把 2026 读成 2025)而错判 unmatched。
       const dayMs = 86_400_000;
-      const t = leg.matchDate ? new Date(leg.matchDate).getTime() : NaN;
+      const t = hasDate ? new Date(leg.matchDate).getTime() : NaN;
       let fixture: ScheduleMatch | undefined;
       if (!Number.isNaN(t)) {
         const from = compactDay(new Date(t - dayMs).toISOString());
@@ -324,9 +333,17 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
               via.htHome,
               via.htAway,
             );
-          return { status: 'pending', kickoff: fixture.commenceTime };
+          return {
+            status: 'pending',
+            matchId: fixture.id,
+            kickoff: fixture.commenceTime,
+          };
         }
-        return { status: 'pending', kickoff: fixture.commenceTime }; // 尚未完赛
+        return {
+          status: 'pending',
+          matchId: fixture.id,
+          kickoff: fixture.commenceTime,
+        }; // 尚未完赛
       }
     } catch {
       return { status: 'pending' }; // 网络失败:下轮重试,不误判
@@ -334,21 +351,23 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
   }
 
   // 4) 未知联赛兜底:遍历各联赛赛果存档
-  for (const lg of listLeagues()) {
-    const hit = findResultByName(
-      loadLeagueResults(lg.key),
-      leg.homeName,
-      leg.awayName,
-      leg.matchDate,
-    );
-    if (hit)
-      return matchedFrom(
-        hit.eventId,
-        hit.homeNorm,
-        hit.homeGoals,
-        hit.awayGoals,
-        hit.date,
+  if (hasDate) {
+    for (const lg of listLeagues()) {
+      const hit = findResultByName(
+        loadLeagueResults(lg.key),
+        leg.homeName,
+        leg.awayName,
+        leg.matchDate,
       );
+      if (hit)
+        return matchedFrom(
+          hit.eventId,
+          hit.homeNorm,
+          hit.homeGoals,
+          hit.awayGoals,
+          hit.date,
+        );
+    }
   }
 
   // 5) 全部落空:待人工绑定
