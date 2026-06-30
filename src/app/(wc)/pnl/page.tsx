@@ -201,6 +201,51 @@ function bettorName(t: T, bettors: Bettor[], id: string | null): string {
   return bettors.find((b) => b.id === id)?.name ?? t('pnl.unassigned');
 }
 
+const isSlipUnsettled = (s: BetSlip): boolean =>
+  s.status !== 'won' && s.status !== 'lost' && s.status !== 'void';
+
+function legTimeMs(leg: BetLeg): number | null {
+  const raw = isOutrightLeg(leg) ? leg.settleAt : leg.kickoff ?? leg.matchDate;
+  if (!raw) return null;
+  const ms = new Date(raw).getTime();
+  return Number.isNaN(ms) ? null : ms;
+}
+
+function nextPendingTimeMs(s: BetSlip): number {
+  let best = Number.POSITIVE_INFINITY;
+  for (const leg of s.legs) {
+    if (leg.result && leg.result !== 'pending' && leg.result !== 'unmatched')
+      continue;
+    const ms = legTimeMs(leg);
+    if (ms != null && ms < best) best = ms;
+  }
+  return best;
+}
+
+function slipTypeRank(s: BetSlip): number {
+  if (s.legs.every(isOutrightLeg)) return 2; // 长期单
+  if (s.legs.length === 1) return 0; // 单注
+  return 1; // 串单
+}
+
+function compareSlips(a: BetSlip, b: BetSlip): number {
+  const au = isSlipUnsettled(a);
+  const bu = isSlipUnsettled(b);
+  if (au !== bu) return au ? -1 : 1;
+
+  if (au && bu) {
+    const at = nextPendingTimeMs(a);
+    const bt = nextPendingTimeMs(b);
+    if (at !== bt) return at - bt; // 待结算比赛时间近→远
+
+    const ar = slipTypeRank(a);
+    const br = slipTypeRank(b);
+    if (ar !== br) return ar - br; // 单注 > 串单 > 长期单
+  }
+
+  return b.createdAt - a.createdAt;
+}
+
 export default function PnlPage() {
   const { t } = useLocale();
   const [authed, setAuthed] = useState<boolean | null>(null); // null=校验中
@@ -605,7 +650,7 @@ export default function PnlPage() {
       if (filter === UNASSIGNED) return !s.bettorId;
       return s.bettorId === filter;
     })
-    .sort((a, b) => b.createdAt - a.createdAt);
+    .sort(compareSlips);
 
   const pillCls = (on: boolean) =>
     `rounded-full px-3 py-1 text-xs font-medium ${
