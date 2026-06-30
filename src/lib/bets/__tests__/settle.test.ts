@@ -3,10 +3,10 @@
  * 覆盖整数盘走盘、四分盘半赢半输,以及串关里走盘/半赢致 needs_review 的所有分支。
  */
 import { judgeLeg, settleSlip } from 'lib/bets/settle';
-import type { BetLeg, LegResult } from 'lib/bets/types';
+import type { BetLeg, LegResult, MatchBetLeg } from 'lib/bets/types';
 
 /** 构造一条最小可结算腿(只有 settleSlip 用到的字段无关紧要时占位)。 */
-function leg(over: Partial<BetLeg> = {}): BetLeg {
+function leg(over: Partial<MatchBetLeg> = {}): MatchBetLeg {
   return {
     homeName: 'H',
     awayName: 'A',

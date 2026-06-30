@@ -6,7 +6,13 @@
  * 金额(本金/可赢)一律以截图为准,系统只做「结果匹配」,不重算赔率。
  * 未配置 AIGC_API_KEY 时返回 null(功能禁用);网络/LLM 失败一律 return null,绝不抛。
  */
-import type { BetLeg, ComboPart, RecognizedSlip } from './types';
+import type {
+  BetLeg,
+  ComboPart,
+  MatchBetLeg,
+  OutrightBetLeg,
+  RecognizedSlip,
+} from './types';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
 // 视觉模型:默认 qwen3.5-plus(与原 flash 同厂同网关、接受图文格式,且更准;
@@ -28,10 +34,12 @@ const MARKETS: readonly string[] = [
 
 const SYSTEM = `你是顶级体育博彩单据识别员。识别一张投注单截图,抽取成严格 JSON。
 只输出 JSON,格式必须严格为:
-{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"homeName":string,"awayName":string,"league":string|null,"matchDate":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|COMBO|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null,"parts":[{"market":string,"selection":string,"line":number|null}]|null,"live":boolean,"baseHome":number|null,"baseAway":number|null}],"confidence":0到1的数}
+{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"kind":"match"|"outright","homeName":string|null,"awayName":string|null,"league":string|null,"matchDate":string|null,"competition":string|null,"settleAt":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|COMBO|OUTRIGHT_WINNER|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null,"parts":[{"market":string,"selection":string,"line":number|null}]|null,"live":boolean,"baseHome":number|null,"baseAway":number|null}],"confidence":0到1的数}
 规则:
 - potentialReturn = 注单「可赢/可盈金额」一栏的数字 = 净盈利(不含本金)。**务必逐位看准这一栏**,不要与赔率或本金混淆。
 - 赔率一律用小数赔率(decimal odds)。
+- **赛事冠军/夺冠长期盘**(如「世界杯2026 冠军 英格兰 @7.80」):kind="outright",market="OUTRIGHT_WINNER",competition 填赛事名,selection 填冠军球队,settleAt 填截图所示开赛/结算时间;homeName/awayName/matchDate 一律 null。不要虚构主客队。
+- 具体比赛盘口:kind="match",按下述规则填写 homeName/awayName;competition/settleAt 一律 null。
 - 全场标准盘口映射:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
 - 波胆/正确比分 → market 用:全场=CS、上半场=CS1H、下半场=CS2H;**selection 填「主-客」比分**(按所列主客顺序,如 "2-0");rawText 填中文描述(如 "下半场波胆 1-1")。
 - **其它真不支持的盘口一律 market="OTHER"**(如:角球、罚牌、球员相关、总进球单双 等);selection 填原文选项,rawText 填中文描述。
@@ -88,9 +96,7 @@ function parseComboParts(raw: unknown): ComboPart[] | undefined {
 }
 
 /** 清洗单腿:队名缺失则返回 null(丢弃该腿)。 */
-function cleanLeg(raw: unknown): BetLeg | null {
-  if (!raw || typeof raw !== 'object') return null;
-  const o = raw as Record<string, unknown>;
+function cleanMatchLeg(o: Record<string, unknown>): MatchBetLeg | null {
   const homeName = toStr(o.homeName);
   const awayName = toStr(o.awayName);
   if (!homeName || !awayName) return null;
@@ -107,7 +113,8 @@ function cleanLeg(raw: unknown): BetLeg | null {
     market = marketRaw && MARKETS.includes(marketRaw) ? marketRaw : 'OTHER';
   }
 
-  const leg: BetLeg = {
+  const leg: MatchBetLeg = {
+    kind: 'match',
     homeName,
     awayName,
     market,
@@ -146,6 +153,40 @@ function cleanLeg(raw: unknown): BetLeg | null {
   }
 
   return leg;
+}
+
+/** 清洗赛事冠军长期盘;不要求也不接受虚构主客队。 */
+function cleanOutrightLeg(o: Record<string, unknown>): OutrightBetLeg | null {
+  const competition = toStr(o.competition) ?? toStr(o.league);
+  const selection = toStr(o.selection);
+  if (!competition || !selection) return null;
+  const leg: OutrightBetLeg = {
+    kind: 'outright',
+    competition,
+    market: 'OUTRIGHT_WINNER',
+    selection,
+  };
+  const settleAt = toStr(o.settleAt) ?? toStr(o.matchDate);
+  if (settleAt !== undefined) leg.settleAt = settleAt;
+  const odds = toNum(o.odds);
+  if (odds !== undefined) leg.odds = odds;
+  const rawText = toStr(o.rawText);
+  if (rawText !== undefined) leg.rawText = rawText;
+  return leg;
+}
+
+/** 按 kind/冠军盘口分流清洗;旧模型未输出 kind 时仍按比赛腿兼容。 */
+function cleanLeg(raw: unknown): BetLeg | null {
+  if (!raw || typeof raw !== 'object') return null;
+  const o = raw as Record<string, unknown>;
+  const kind = toStr(o.kind)?.toLowerCase();
+  const market = toStr(o.market)?.toUpperCase();
+  if (
+    kind === 'outright' ||
+    ['OUTRIGHT_WINNER', 'OUTRIGHT', 'CHAMPION', 'WINNER'].includes(market ?? '')
+  )
+    return cleanOutrightLeg(o);
+  return cleanMatchLeg(o);
 }
 
 /**
@@ -198,8 +239,28 @@ export async function recognizeBetSlip(
   imageBase64: string,
   mime = 'image/jpeg',
 ): Promise<RecognizedSlip | null> {
+  const result = await recognizeBetSlipDetailed(imageBase64, mime);
+  return result.ok ? result.slip : null;
+}
+
+export type RecognitionFailureCode =
+  | 'not_configured'
+  | 'provider_error'
+  | 'timeout'
+  | 'invalid_response'
+  | 'invalid_slip';
+
+export type RecognitionResult =
+  | { ok: true; slip: RecognizedSlip }
+  | { ok: false; code: RecognitionFailureCode };
+
+/** 带失败分类的识别入口,供机器人返回准确提示。 */
+export async function recognizeBetSlipDetailed(
+  imageBase64: string,
+  mime = 'image/jpeg',
+): Promise<RecognitionResult> {
   const key = process.env.AIGC_API_KEY;
-  if (!key) return null;
+  if (!key) return { ok: false, code: 'not_configured' };
   try {
     const payload: Record<string, unknown> = {
       model: MODEL,
@@ -233,14 +294,49 @@ export async function recognizeBetSlip(
       signal: AbortSignal.timeout(40_000),
       body: JSON.stringify(payload),
     });
-    if (!res.ok) return null;
+    if (!res.ok) {
+      console.error('[bets/recognize] 模型请求失败', res.status);
+      return { ok: false, code: 'provider_error' };
+    }
     const data = (await res.json()) as {
       choices?: { message?: { content?: string } }[];
     };
     const content = data.choices?.[0]?.message?.content;
-    if (!content) return null;
-    return parseRecognizedSlip(JSON.parse(content));
-  } catch {
-    return null;
+    if (!content) return { ok: false, code: 'invalid_response' };
+    let raw: unknown;
+    try {
+      raw = JSON.parse(content);
+    } catch {
+      console.error('[bets/recognize] 模型返回非 JSON');
+      return { ok: false, code: 'invalid_response' };
+    }
+    const slip = parseRecognizedSlip(raw);
+    return slip ? { ok: true, slip } : { ok: false, code: 'invalid_slip' };
+  } catch (e) {
+    const timeout =
+      e instanceof Error &&
+      (e.name === 'TimeoutError' || e.name === 'AbortError');
+    console.error(
+      '[bets/recognize] 识别请求异常',
+      timeout ? 'timeout' : e instanceof Error ? e.name : 'unknown',
+    );
+    return { ok: false, code: timeout ? 'timeout' : 'provider_error' };
+  }
+}
+
+export function recognitionFailureMessage(
+  code: RecognitionFailureCode,
+): string {
+  switch (code) {
+    case 'not_configured':
+      return '⚠️ 视觉模型未配置,请联系管理员。';
+    case 'timeout':
+      return '⚠️ 视觉模型响应超时,请稍后重试。';
+    case 'invalid_slip':
+      return '⚠️ 已读取图片,但注单字段不完整或盘口暂不支持。';
+    case 'invalid_response':
+      return '⚠️ 视觉模型返回格式异常,请重试。';
+    default:
+      return '⚠️ 视觉模型服务暂时不可用,请稍后重试。';
   }
 }

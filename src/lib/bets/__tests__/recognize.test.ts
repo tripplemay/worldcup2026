@@ -4,6 +4,67 @@
  */
 import { hasVision, parseRecognizedSlip } from 'lib/bets/recognize';
 
+describe('parseRecognizedSlip — 赛事冠军长期盘', () => {
+  it('识别世界杯冠军盘且不要求主客队', () => {
+    const slip = parseRecognizedSlip({
+      stake: 200,
+      potentialReturn: 1360,
+      currency: 'CNY',
+      confidence: 0.98,
+      legs: [
+        {
+          kind: 'outright',
+          competition: '世界杯2026(在加拿大、墨西哥&美国)',
+          market: 'OUTRIGHT_WINNER',
+          selection: '英格兰',
+          odds: 7.8,
+          settleAt: '2026-07-20 03:00:00',
+          homeName: null,
+          awayName: null,
+        },
+      ],
+    });
+    expect(slip).not.toBeNull();
+    expect(slip!.legs[0]).toEqual(
+      expect.objectContaining({
+        kind: 'outright',
+        competition: '世界杯2026(在加拿大、墨西哥&美国)',
+        market: 'OUTRIGHT_WINNER',
+        selection: '英格兰',
+        odds: 7.8,
+        settleAt: '2026-07-20 03:00:00',
+      }),
+    );
+    expect(slip!.potentialReturn).toBe(1360);
+    expect(slip!.legs[0].homeName).toBeUndefined();
+    expect(slip!.legs[0].awayName).toBeUndefined();
+  });
+
+  it('兼容模型输出 champion 别名,但缺赛事或冠军选择时丢弃', () => {
+    const ok = parseRecognizedSlip({
+      stake: 10,
+      potentialReturn: 50,
+      legs: [
+        {
+          market: 'champion',
+          competition: 'FIFA World Cup 2026',
+          selection: 'England',
+        },
+      ],
+    });
+    expect(ok!.legs[0].market).toBe('OUTRIGHT_WINNER');
+    expect(
+      parseRecognizedSlip({
+        stake: 10,
+        potentialReturn: 50,
+        legs: [
+          { kind: 'outright', market: 'OUTRIGHT_WINNER', selection: 'England' },
+        ],
+      }),
+    ).toBeNull();
+  });
+});
+
 describe('parseRecognizedSlip — 完整有效对象', () => {
   it('应清洗数字、归一可选字段、保留多腿', () => {
     const slip = parseRecognizedSlip({

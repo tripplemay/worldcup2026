@@ -6,7 +6,10 @@
  *  · 图片消息 → 下载 → 视觉识别 → 落库(pending,未归属)→ 发「识别摘要 + 投注人按钮」。
  *  · 按钮回调 assign:<betId>:<bettorId> → 绑定归属 → 编辑原消息为「已归属」。
  */
-import { recognizeBetSlip } from 'lib/bets/recognize';
+import {
+  recognizeBetSlipDetailed,
+  recognitionFailureMessage,
+} from 'lib/bets/recognize';
 import { createBetFromRecognized, addBet, assignBettor } from 'lib/bets/bets';
 import { saveBetImage } from 'lib/bets/images';
 import { extractCaptureTime } from 'lib/bets/captureTime';
@@ -25,7 +28,7 @@ import {
 import { ok, fail } from 'lib/api/respond';
 import { randomBytes } from 'crypto';
 import type { TgUpdate, TgButton } from 'lib/tg/types';
-import type { BetSlip } from 'lib/bets/types';
+import { isOutrightLeg, type BetSlip } from 'lib/bets/types';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
@@ -57,6 +60,8 @@ function summarize(slip: BetSlip): string {
   const lines = slip.legs.map((l, i) => {
     const line = l.line != null ? ` ${l.line}` : '';
     const odds = l.odds != null ? ` @${l.odds}` : '';
+    if (isOutrightLeg(l))
+      return `${i + 1}. ${l.competition} — 冠军 ${l.selection}${odds}`;
     return `${i + 1}. ${l.homeName} vs ${l.awayName} — ${l.market} ${
       l.selection
     }${line}${odds}`;
@@ -84,14 +89,15 @@ async function handlePhoto(
     await sendMessage(chatId, '⚠️ 图片下载失败,请重试。');
     return;
   }
-  const rec = await recognizeBetSlip(bufferToBase64(buf), 'image/jpeg');
-  if (!rec) {
-    await sendMessage(
-      chatId,
-      '⚠️ 识别失败(未配置视觉模型或图片不清晰),请重试。',
-    );
+  const recognized = await recognizeBetSlipDetailed(
+    bufferToBase64(buf),
+    'image/jpeg',
+  );
+  if ('code' in recognized) {
+    await sendMessage(chatId, recognitionFailureMessage(recognized.code));
     return;
   }
+  const rec = recognized.slip;
   const slip = createBetFromRecognized(rec, {
     chatId,
     messageId,

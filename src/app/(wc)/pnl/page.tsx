@@ -20,7 +20,13 @@ import Card from 'components/card';
 import PageHeading from 'components/worldcup/PageHeading';
 import { usePnl } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
-import type { BetSlip, BetLeg, BetStatus, Bettor } from 'lib/bets/types';
+import {
+  isOutrightLeg,
+  type BetSlip,
+  type BetLeg,
+  type BetStatus,
+  type Bettor,
+} from 'lib/bets/types';
 import type { BettorPnl } from 'lib/bets/bets';
 
 // 货币金额一律保留 2 位小数 + 千分位(固定 en-US locale 避免 SSR/客户端水合不一致)
@@ -120,6 +126,7 @@ const SUPPORTED_MARKETS = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
 
 /** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。波胆/不支持盘口特殊展示。 */
 function legLabel(t: T, leg: BetLeg): string {
+  if (isOutrightLeg(leg)) return `${t('pnl.champion')} ${leg.selection}`;
   // 同场组合盘:各子盘标签用 & 连接(逐段复用本函数)
   if (leg.market === 'COMBO')
     return leg.parts && leg.parts.length
@@ -1225,7 +1232,11 @@ export default function PnlPage() {
                         leg.result === 'half_won' ||
                         leg.result === 'half_lost';
                       const moot = s.status === 'lost' && !decisive;
-                      const when = fmtKickoff(leg.kickoff ?? leg.matchDate);
+                      const when = fmtKickoff(
+                        isOutrightLeg(leg)
+                          ? leg.settleAt
+                          : leg.kickoff ?? leg.matchDate,
+                      );
                       const tint =
                         leg.result === 'won' || leg.result === 'half_won'
                           ? 'bg-green-500/5'
@@ -1239,8 +1250,10 @@ export default function PnlPage() {
                         >
                           <div className="min-w-0 flex-1">
                             <div className="truncate text-navy-700 dark:text-gray-200">
-                              {leg.homeName} vs {leg.awayName}
-                              {leg.live && (
+                              {isOutrightLeg(leg)
+                                ? `${leg.competition} · ${t('pnl.outright')}`
+                                : `${leg.homeName} vs ${leg.awayName}`}
+                              {!isOutrightLeg(leg) && leg.live && (
                                 <span className="ml-1 rounded bg-orange-500/15 px-1 text-[10px] font-medium text-orange-600 dark:text-orange-400">
                                   {t('pnl.live')}
                                   {/* 「起X-Y」(剩余赛程基线)仅 AH/OU 有意义;其余滚球盘按全场结算 */}
@@ -1266,11 +1279,13 @@ export default function PnlPage() {
                             )}
                           </div>
                           <div className="flex shrink-0 items-center gap-1">
-                            {leg.homeGoals != null && leg.awayGoals != null && (
-                              <span className="font-mono text-gray-500 dark:text-gray-400">
-                                {leg.homeGoals}-{leg.awayGoals}
-                              </span>
-                            )}
+                            {!isOutrightLeg(leg) &&
+                              leg.homeGoals != null &&
+                              leg.awayGoals != null && (
+                                <span className="font-mono text-gray-500 dark:text-gray-400">
+                                  {leg.homeGoals}-{leg.awayGoals}
+                                </span>
+                              )}
                             <span
                               className={`font-bold ${mk.cls} ${
                                 moot ? 'opacity-50' : ''

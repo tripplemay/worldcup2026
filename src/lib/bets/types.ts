@@ -56,8 +56,38 @@ export interface ComboPart {
   line?: number; // 仅 AH/OU 有意义
 }
 
-/** 一腿(一场比赛上的一个选项)。识别字段 + 结算回填字段。 */
-export interface BetLeg {
+/** 单腿公共字段。比赛盘与长期盘共享赔率、原文和结算结果。 */
+interface BetLegBase {
+  kind?: 'match' | 'outright'; // 旧数据无 kind,按 match 兼容
+  market: string;
+  selection: string;
+  odds?: number;
+  rawText?: string;
+  result?: LegResult;
+  // 以下比赛字段放在公共基类中保持旧调用方兼容;长期盘不填写。
+  homeName?: string;
+  awayName?: string;
+  league?: string;
+  matchDate?: string;
+  line?: number;
+  parts?: ComboPart[];
+  live?: boolean;
+  baseHome?: number;
+  baseAway?: number;
+  matchId?: string;
+  kickoff?: string;
+  homeGoals?: number;
+  awayGoals?: number;
+  htHome?: number;
+  htAway?: number;
+  // 以下长期盘字段只在 kind==='outright' 时填写。
+  competition?: string;
+  settleAt?: string;
+}
+
+/** 一场具体比赛上的一个选项。kind 缺省以兼容既有 JSON。 */
+export interface MatchBetLeg extends BetLegBase {
+  kind?: 'match';
   // —— 识别原文(供匹配 + 人工核对)——
   homeName: string;
   awayName: string;
@@ -82,6 +112,25 @@ export interface BetLeg {
   htHome?: number; // 上半场比分(≤45';仅进球事件齐全时给出,供波胆半场判定)
   htAway?: number;
   result?: LegResult; // 逐腿判定
+}
+
+/** 赛事长期盘。首期自动结算世界杯冠军,其他赛事转人工。 */
+export interface OutrightBetLeg extends BetLegBase {
+  kind: 'outright';
+  competition: string;
+  market: 'OUTRIGHT_WINNER';
+  selection: string; // 冠军球队
+  settleAt?: string; // 截图所示结算赛事时间(通常为决赛开赛时间)
+}
+
+export type BetLeg = MatchBetLeg | OutrightBetLeg;
+
+export function isOutrightLeg(leg: BetLeg): leg is OutrightBetLeg {
+  return leg.kind === 'outright';
+}
+
+export function isMatchLeg(leg: BetLeg): leg is MatchBetLeg {
+  return !isOutrightLeg(leg);
 }
 
 /** 一张注单(串关为主:legs.length≥1)。金额按截图。 */

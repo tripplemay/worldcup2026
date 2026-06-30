@@ -20,7 +20,12 @@ import { regulationScore } from 'lib/trade/settle';
 import { toCanonicalName } from './cnTeams';
 import type { ResultMatch } from 'lib/predict/types';
 import type { MatchEvent, ScheduleMatch } from 'lib/espn/types';
-import type { BetLeg, BetSlip, LegResolution } from './types';
+import {
+  isMatchLeg,
+  type MatchBetLeg,
+  type BetSlip,
+  type LegResolution,
+} from './types';
 
 /** 事件分钟(前导整数;"45'+2"→45,"90'+3"→90,缺失→NaN)。 */
 function evMinute(e: MatchEvent): number {
@@ -197,7 +202,7 @@ async function resolveViaSummary(
 /**
  * 单腿赛果解析。比分统一转成**注单主客视角**。网络失败一律降级 'pending'。
  */
-export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
+export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
   const legHome = normalizeTeam(toCanonicalName(leg.homeName));
   const legAway = normalizeTeam(toCanonicalName(leg.awayName));
 
@@ -357,6 +362,7 @@ export async function resolveLeg(leg: BetLeg): Promise<LegResolution> {
  */
 export async function backfillLegKickoffs(slip: BetSlip): Promise<void> {
   for (const leg of slip.legs) {
+    if (!isMatchLeg(leg)) continue;
     try {
       const r = await resolveLeg(leg);
       if (r.matchId && !leg.matchId) leg.matchId = r.matchId;

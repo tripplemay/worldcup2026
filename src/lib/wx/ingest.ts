@@ -5,7 +5,10 @@
 import { randomBytes } from 'crypto';
 import { MessageType, MessageItemType } from 'wx-link';
 import type { WxLinkClient, WeixinMessage } from 'wx-link';
-import { recognizeBetSlip } from 'lib/bets/recognize';
+import {
+  recognizeBetSlipDetailed,
+  recognitionFailureMessage,
+} from 'lib/bets/recognize';
 import { createBetFromRecognized, addBet, assignBettor } from 'lib/bets/bets';
 import { listBettors } from 'lib/bets/bettors';
 import { saveBetImage } from 'lib/bets/images';
@@ -13,7 +16,7 @@ import { extractCaptureTime } from 'lib/bets/captureTime';
 import { backfillLegKickoffs } from 'lib/bets/match';
 import { loadWxPending, saveWxPending } from 'lib/db/store';
 import { resolveAssignChoice, assignPrompt } from './assign';
-import type { BetSlip } from 'lib/bets/types';
+import { isOutrightLeg, type BetSlip } from 'lib/bets/types';
 
 /** 识别摘要(回执给发送者核对)。 */
 function summarize(slip: BetSlip): string {
@@ -21,6 +24,8 @@ function summarize(slip: BetSlip): string {
   const lines = slip.legs.map((l, i) => {
     const line = l.line != null ? ` ${l.line}` : '';
     const odds = l.odds != null ? ` @${l.odds}` : '';
+    if (isOutrightLeg(l))
+      return `${i + 1}. ${l.competition} — 冠军 ${l.selection}${odds}`;
     return `${i + 1}. ${l.homeName} vs ${l.awayName} — ${l.market} ${
       l.selection
     }${line}${odds}`;
@@ -90,14 +95,15 @@ export async function handleWxMessage(
     await reply(client, msg, '⚠️ 图片下载失败,请重发');
     return;
   }
-  const rec = await recognizeBetSlip(
+  const recognized = await recognizeBetSlipDetailed(
     media.buffer.toString('base64'),
     media.contentType || 'image/jpeg',
   );
-  if (!rec) {
-    await reply(client, msg, '⚠️ 识别失败(未配置视觉模型或图片不清晰),请重发');
+  if ('code' in recognized) {
+    await reply(client, msg, recognitionFailureMessage(recognized.code));
     return;
   }
+  const rec = recognized.slip;
   const slip = createBetFromRecognized(rec);
   // 下注时间:取图片拍摄/创建时间(微信发原图可保留);取不到展示层回退入库时间
   const placedAt = extractCaptureTime(media.buffer);

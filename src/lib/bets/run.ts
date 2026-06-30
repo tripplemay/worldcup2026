@@ -11,8 +11,15 @@
 import { loadBets, saveBets } from 'lib/db/store';
 import { withBetsLock } from './lock';
 import { resolveLeg } from './match';
+import { resolveOutrightLeg } from './outright';
 import { judgeLeg, settleSlip, VALID_MARKETS } from './settle';
-import type { BetLeg, BetStatus, LegResult } from './types';
+import {
+  isMatchLeg,
+  isOutrightLeg,
+  type BetLeg,
+  type BetStatus,
+  type LegResult,
+} from './types';
 
 /** 已「终结」的腿(不再需要解析)。回填模式下跳过,避免重复网络判定 / 改动既定结果。 */
 const TERMINAL_LEG: readonly LegResult[] = [
@@ -65,6 +72,8 @@ function reviewNote(results: LegResult[], legs: BetLeg[]): string {
   );
   if (liveNoBase)
     return '滚球单未识别到下注时比分,无法按剩余赛程结算,请重新识别或人工手填盈亏';
+  if (legs.some((lg, i) => isOutrightLeg(lg) && results[i] === 'unsupported'))
+    return '该赛事长期盘暂不支持自动结算,请按实际冠军手填盈亏';
   if (results.some((r) => r === 'unsupported'))
     return '含波胆/半场/组合等不支持自动结算的盘口,请按实际结果手填盈亏';
   return '需人工核对';
@@ -101,6 +110,17 @@ export async function settlePendingBets(): Promise<{ settled: number }> {
           htAway: leg.htAway,
           result: leg.result as LegResult,
         });
+        continue;
+      }
+      if (isOutrightLeg(leg)) {
+        const r = await resolveOutrightLeg(leg);
+        legResults.push(r.result);
+        legPatches.push({ result: r.result });
+        continue;
+      }
+      if (!isMatchLeg(leg)) {
+        legResults.push('unsupported');
+        legPatches.push({ result: 'unsupported' });
         continue;
       }
       const res = await resolveLeg(leg);

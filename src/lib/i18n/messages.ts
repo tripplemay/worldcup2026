@@ -171,6 +171,8 @@ export const messages = {
       csFull: '波胆',
       cs1h: '上半场波胆',
       cs2h: '下半场波胆',
+      outright: '长期盘',
+      champion: '冠军',
       opening: '期初',
       openingTitle: '期初净盈亏(入册前累计)',
       openingHint: '正数=之前净赢、负数=之前净输;会计入排行总盈亏。留空记 0。',
@@ -847,6 +849,8 @@ export const messages = {
       csFull: 'Correct Score',
       cs1h: '1H Correct Score',
       cs2h: '2H Correct Score',
+      outright: 'Outright',
+      champion: 'Champion',
       opening: 'Opening',
       openingTitle: 'Opening net P&L (before joining)',
       openingHint:

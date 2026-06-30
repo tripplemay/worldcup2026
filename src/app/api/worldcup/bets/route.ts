@@ -12,7 +12,10 @@ import {
 } from 'lib/bets/bets';
 import { settlePendingBets } from 'lib/bets/run';
 import { readBetImage } from 'lib/bets/images';
-import { recognizeBetSlip } from 'lib/bets/recognize';
+import {
+  recognizeBetSlipDetailed,
+  recognitionFailureMessage,
+} from 'lib/bets/recognize';
 import { backfillLegKickoffs } from 'lib/bets/match';
 import { isAdminAuthed } from 'lib/bets/viewAuth';
 import { ok, fail } from 'lib/api/respond';
@@ -72,8 +75,13 @@ export async function POST(req: Request) {
       if (!buf) return fail('原图读取失败', 400);
       const mime =
         buf[0] === 0x89 && buf[1] === 0x50 ? 'image/png' : 'image/jpeg';
-      const rec = await recognizeBetSlip(buf.toString('base64'), mime);
-      if (!rec) return fail('重新识别失败(未配置视觉模型或图片不清晰)', 422);
+      const recognized = await recognizeBetSlipDetailed(
+        buf.toString('base64'),
+        mime,
+      );
+      if ('code' in recognized)
+        return fail(recognitionFailureMessage(recognized.code), 422);
+      const rec = recognized.slip;
       // 回填新腿开赛时间(原地写 kickoff/matchId)
       await backfillLegKickoffs({ ...slip, legs: rec.legs } as BetSlip);
       const patch: Partial<BetSlip> = {
