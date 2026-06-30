@@ -73,7 +73,7 @@ function reviewNote(results: LegResult[], legs: BetLeg[]): string {
   if (liveNoBase)
     return '滚球单未识别到下注时比分,无法按剩余赛程结算,请重新识别或人工手填盈亏';
   if (legs.some((lg, i) => isOutrightLeg(lg) && results[i] === 'unsupported'))
-    return '该赛事长期盘暂不支持自动结算,请按实际冠军手填盈亏';
+    return '该赛事长期盘暂不支持自动结算,请按实际结果手填盈亏';
   if (results.some((r) => r === 'unsupported'))
     return '含波胆/半场/组合等不支持自动结算的盘口,请按实际结果手填盈亏';
   return '需人工核对';

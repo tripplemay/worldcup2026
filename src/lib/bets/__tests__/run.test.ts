@@ -93,6 +93,35 @@ describe('settlePendingBets — 世界杯冠军长期盘', () => {
     expect(mockResolve).not.toHaveBeenCalled();
   });
 
+  it('冠亚军顺序盘也走长期盘分支并按截图可赢额结算', async () => {
+    mockResolveOutright.mockResolvedValue({
+      result: 'won',
+      winner: 'France',
+      runnerUp: 'Brazil',
+    });
+    setDb([
+      slip({
+        id: 'exacta',
+        stake: 500,
+        potentialReturn: 12500,
+        legs: [
+          {
+            kind: 'outright',
+            competition: '世界杯2026',
+            market: 'OUTRIGHT_EXACTA',
+            selection: '法国 / 巴西',
+            odds: 26,
+          },
+        ],
+      }),
+    ]);
+    await expect(settlePendingBets()).resolves.toEqual({ settled: 1 });
+    expect(getDb()[0]).toEqual(
+      expect.objectContaining({ status: 'won', pnl: 12500 }),
+    );
+    expect(mockResolve).not.toHaveBeenCalled();
+  });
+
   it('未夺冠按负本金结算,其他赛事转人工', async () => {
     mockResolveOutright
       .mockResolvedValueOnce({ result: 'lost', winner: 'France' })

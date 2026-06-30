@@ -40,6 +40,59 @@ describe('parseRecognizedSlip — 赛事冠军长期盘', () => {
     expect(slip!.legs[0].awayName).toBeUndefined();
   });
 
+  it('识别冠亚军顺序盘并保留顺序', () => {
+    const slip = parseRecognizedSlip({
+      stake: 500,
+      potentialReturn: 12500,
+      confidence: 0.93,
+      legs: [
+        {
+          kind: 'outright',
+          competition: '世界杯2026(在加拿大、墨西哥&美国)',
+          market: 'OUTRIGHT_EXACTA',
+          selection: '法国 / 巴西',
+          odds: 26,
+          rawText: '最终正确排名第一 / 第二',
+        },
+      ],
+    });
+    expect(slip).not.toBeNull();
+    expect(slip!.legs[0]).toEqual(
+      expect.objectContaining({
+        kind: 'outright',
+        market: 'OUTRIGHT_EXACTA',
+        selection: '法国 / 巴西',
+      }),
+    );
+  });
+
+  it('兼容历史 OTHER + 最终正确排名第一/第二,从 home/away 拼成冠亚军顺序盘', () => {
+    const slip = parseRecognizedSlip({
+      stake: 500,
+      potentialReturn: 12500,
+      legs: [
+        {
+          homeName: '法国',
+          awayName: '巴西',
+          league: '世界杯 2026(在加拿大、墨西哥&美国)',
+          market: 'OTHER',
+          selection: '法国 / 巴西',
+          odds: 26,
+          rawText: '欧洲盘 最终正确排名第一 / 第二',
+        },
+      ],
+    });
+    expect(slip).not.toBeNull();
+    expect(slip!.legs[0]).toEqual(
+      expect.objectContaining({
+        kind: 'outright',
+        competition: '世界杯 2026(在加拿大、墨西哥&美国)',
+        market: 'OUTRIGHT_EXACTA',
+        selection: '法国 / 巴西',
+      }),
+    );
+  });
+
   it('兼容模型输出 champion 别名,但缺赛事或冠军选择时丢弃', () => {
     const ok = parseRecognizedSlip({
       stake: 10,

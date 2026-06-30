@@ -34,11 +34,12 @@ const MARKETS: readonly string[] = [
 
 const SYSTEM = `你是顶级体育博彩单据识别员。识别一张投注单截图,抽取成严格 JSON。
 只输出 JSON,格式必须严格为:
-{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"kind":"match"|"outright","homeName":string|null,"awayName":string|null,"league":string|null,"matchDate":string|null,"competition":string|null,"settleAt":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|COMBO|OUTRIGHT_WINNER|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null,"parts":[{"market":string,"selection":string,"line":number|null}]|null,"live":boolean,"baseHome":number|null,"baseAway":number|null}],"confidence":0到1的数}
+{"stake":number,"potentialReturn":number,"currency":string|null,"platform":string|null,"legs":[{"kind":"match"|"outright","homeName":string|null,"awayName":string|null,"league":string|null,"matchDate":string|null,"competition":string|null,"settleAt":string|null,"market":"1X2|OU|AH|BTTS|DC|DNB|CS|CS1H|CS2H|COMBO|OUTRIGHT_WINNER|OUTRIGHT_EXACTA|OTHER","selection":string,"line":number|null,"odds":number|null,"rawText":string|null,"parts":[{"market":string,"selection":string,"line":number|null}]|null,"live":boolean,"baseHome":number|null,"baseAway":number|null}],"confidence":0到1的数}
 规则:
 - potentialReturn = 注单「可赢/可盈金额」一栏的数字 = 净盈利(不含本金)。**务必逐位看准这一栏**,不要与赔率或本金混淆。
 - 赔率一律用小数赔率(decimal odds)。
 - **赛事冠军/夺冠长期盘**(如「世界杯2026 冠军 英格兰 @7.80」):kind="outright",market="OUTRIGHT_WINNER",competition 填赛事名,selection 填冠军球队,settleAt 填截图所示开赛/结算时间;homeName/awayName/matchDate 一律 null。不要虚构主客队。
+- **冠亚军顺序盘 / forecast / exacta**(如「最终正确排名第一/第二 法国/巴西 @26」,表示冠军=法国、亚军=巴西):kind="outright",market="OUTRIGHT_EXACTA",competition 填赛事名,selection 填 "冠军队 / 亚军队" 且必须保留顺序,settleAt 填截图所示结算时间;homeName/awayName/matchDate 一律 null。不要把它当成具体比赛,也不要输出 OTHER。
 - 具体比赛盘口:kind="match",按下述规则填写 homeName/awayName;competition/settleAt 一律 null。
 - 全场标准盘口映射:1X2(胜平负)、OU(大小球)、AH(让球/亚盘)、BTTS(双方进球)、DC(双重机会)、DNB(胜平负去平)。
 - 波胆/正确比分 → market 用:全场=CS、上半场=CS1H、下半场=CS2H;**selection 填「主-客」比分**(按所列主客顺序,如 "2-0");rawText 填中文描述(如 "下半场波胆 1-1")。
@@ -155,15 +156,42 @@ function cleanMatchLeg(o: Record<string, unknown>): MatchBetLeg | null {
   return leg;
 }
 
-/** 清洗赛事冠军长期盘;不要求也不接受虚构主客队。 */
+function isExactaLike(raw: Record<string, unknown>, market?: string): boolean {
+  const blob = [
+    market,
+    toStr(raw.rawText),
+    toStr(raw.selection),
+    toStr(raw.market),
+  ]
+    .filter(Boolean)
+    .join(' ')
+    .toLowerCase();
+  return (
+    market === 'OUTRIGHT_EXACTA' ||
+    market === 'EXACTA' ||
+    market === 'FORECAST' ||
+    /冠亚|冠亚军|correct\s*forecast|straight\s*forecast|exacta/.test(blob) ||
+    /最终正确排名/.test(blob) ||
+    /排名第一\s*\/\s*第二/.test(blob) ||
+    /第一\s*\/\s*第二/.test(blob)
+  );
+}
+
+/** 清洗赛事长期盘;不要求也不接受虚构主客队。 */
 function cleanOutrightLeg(o: Record<string, unknown>): OutrightBetLeg | null {
   const competition = toStr(o.competition) ?? toStr(o.league);
-  const selection = toStr(o.selection);
+  const marketRaw = toStr(o.market)?.toUpperCase();
+  const exacta = isExactaLike(o, marketRaw);
+  const selection =
+    toStr(o.selection) ??
+    (exacta && toStr(o.homeName) && toStr(o.awayName)
+      ? `${toStr(o.homeName)} / ${toStr(o.awayName)}`
+      : undefined);
   if (!competition || !selection) return null;
   const leg: OutrightBetLeg = {
     kind: 'outright',
     competition,
-    market: 'OUTRIGHT_WINNER',
+    market: exacta ? 'OUTRIGHT_EXACTA' : 'OUTRIGHT_WINNER',
     selection,
   };
   const settleAt = toStr(o.settleAt) ?? toStr(o.matchDate);
@@ -183,7 +211,16 @@ function cleanLeg(raw: unknown): BetLeg | null {
   const market = toStr(o.market)?.toUpperCase();
   if (
     kind === 'outright' ||
-    ['OUTRIGHT_WINNER', 'OUTRIGHT', 'CHAMPION', 'WINNER'].includes(market ?? '')
+    [
+      'OUTRIGHT_WINNER',
+      'OUTRIGHT_EXACTA',
+      'OUTRIGHT',
+      'CHAMPION',
+      'WINNER',
+      'EXACTA',
+      'FORECAST',
+    ].includes(market ?? '') ||
+    isExactaLike(o, market)
   )
     return cleanOutrightLeg(o);
   return cleanMatchLeg(o);

@@ -1,5 +1,7 @@
 import {
+  isSameExacta,
   isSameChampion,
+  parseExactaSelection,
   isWorldCup2026Competition,
   resolveOutrightLeg,
 } from 'lib/bets/outright';
@@ -46,12 +48,68 @@ describe('世界杯冠军长期盘结算', () => {
   it('中英文队名按别名归一比较', () => {
     expect(isSameChampion('英格兰', 'England')).toBe(true);
     expect(isSameChampion('英格兰', 'France')).toBe(false);
+    expect(parseExactaSelection('法国 / 巴西')).toEqual({
+      winner: '法国',
+      runnerUp: '巴西',
+    });
+    expect(isSameExacta('法国 / 巴西', 'France', 'Brazil')).toBe(true);
+    expect(isSameExacta('巴西 / 法国', 'France', 'Brazil')).toBe(false);
   });
 
   it('决赛未产生冠军时保持 pending', async () => {
     buildBracket.mockReturnValue({});
     await expect(resolveOutrightLeg(leg())).resolves.toEqual({
       result: 'pending',
+    });
+  });
+
+  it('冠亚军顺序盘:冠军和决赛负方均按顺序命中才赢', async () => {
+    buildBracket.mockReturnValue({
+      champion: { norm: 'france', name: 'France' },
+      nodes: [
+        {
+          match: 104,
+          decided: true,
+          home: { norm: 'france', name: 'France' },
+          away: { norm: 'brazil', name: 'Brazil' },
+        },
+      ],
+    });
+    await expect(
+      resolveOutrightLeg({
+        ...leg('法国 / 巴西'),
+        market: 'OUTRIGHT_EXACTA',
+      }),
+    ).resolves.toEqual({
+      result: 'won',
+      winner: 'France',
+      runnerUp: 'Brazil',
+    });
+    await expect(
+      resolveOutrightLeg({
+        ...leg('巴西 / 法国'),
+        market: 'OUTRIGHT_EXACTA',
+      }),
+    ).resolves.toEqual({
+      result: 'lost',
+      winner: 'France',
+      runnerUp: 'Brazil',
+    });
+  });
+
+  it('冠亚军顺序盘:未能确定决赛负方时保持 pending', async () => {
+    buildBracket.mockReturnValue({
+      champion: { norm: 'france', name: 'France' },
+      nodes: [{ match: 104, decided: false, home: {}, away: {} }],
+    });
+    await expect(
+      resolveOutrightLeg({
+        ...leg('法国 / 巴西'),
+        market: 'OUTRIGHT_EXACTA',
+      }),
+    ).resolves.toEqual({
+      result: 'pending',
+      winner: 'France',
     });
   });
 

@@ -114,12 +114,14 @@ export interface MatchBetLeg extends BetLegBase {
   result?: LegResult; // 逐腿判定
 }
 
-/** 赛事长期盘。首期自动结算世界杯冠军,其他赛事转人工。 */
+export type OutrightMarket = 'OUTRIGHT_WINNER' | 'OUTRIGHT_EXACTA';
+
+/** 赛事长期盘。支持世界杯冠军盘、冠亚军顺序盘。 */
 export interface OutrightBetLeg extends BetLegBase {
   kind: 'outright';
   competition: string;
-  market: 'OUTRIGHT_WINNER';
-  selection: string; // 冠军球队
+  market: OutrightMarket;
+  selection: string; // 冠军球队;或 "冠军 / 亚军" 顺序组合
   settleAt?: string; // 截图所示结算赛事时间(通常为决赛开赛时间)
 }
 

@@ -126,7 +126,10 @@ const SUPPORTED_MARKETS = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
 
 /** 单腿盘口/选项标签(复用 trade.* / odds.* 文案)。波胆/不支持盘口特殊展示。 */
 function legLabel(t: T, leg: BetLeg): string {
-  if (isOutrightLeg(leg)) return `${t('pnl.champion')} ${leg.selection}`;
+  if (isOutrightLeg(leg))
+    return leg.market === 'OUTRIGHT_EXACTA'
+      ? `冠亚军 ${leg.selection}`
+      : `${t('pnl.champion')} ${leg.selection}`;
   // 同场组合盘:各子盘标签用 & 连接(逐段复用本函数)
   if (leg.market === 'COMBO')
     return leg.parts && leg.parts.length

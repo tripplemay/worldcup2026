@@ -18,6 +18,13 @@ import { loadWxPending, saveWxPending } from 'lib/db/store';
 import { resolveAssignChoice, assignPrompt } from './assign';
 import { isOutrightLeg, type BetSlip } from 'lib/bets/types';
 
+function outrightLabel(l: BetSlip['legs'][number]): string {
+  if (!isOutrightLeg(l)) return '';
+  return l.market === 'OUTRIGHT_EXACTA'
+    ? `冠亚军 ${l.selection}`
+    : `冠军 ${l.selection}`;
+}
+
 /** 识别摘要(回执给发送者核对)。 */
 function summarize(slip: BetSlip): string {
   const cur = slip.currency ? `${slip.currency} ` : '';
@@ -25,7 +32,7 @@ function summarize(slip: BetSlip): string {
     const line = l.line != null ? ` ${l.line}` : '';
     const odds = l.odds != null ? ` @${l.odds}` : '';
     if (isOutrightLeg(l))
-      return `${i + 1}. ${l.competition} — 冠军 ${l.selection}${odds}`;
+      return `${i + 1}. ${l.competition} — ${outrightLabel(l)}${odds}`;
     return `${i + 1}. ${l.homeName} vs ${l.awayName} — ${l.market} ${
       l.selection
     }${line}${odds}`;
