@@ -204,8 +204,27 @@ function bettorName(t: T, bettors: Bettor[], id: string | null): string {
 const isSlipUnsettled = (s: BetSlip): boolean =>
   s.status !== 'won' && s.status !== 'lost' && s.status !== 'void';
 
+const WC_2026_FINAL_SETTLE_AT = '2026-07-20T03:00:00+08:00';
+
+function isWorldCup2026Outright(leg: BetLeg): boolean {
+  return (
+    isOutrightLeg(leg) &&
+    (/世界杯/.test(leg.competition) || /world\s*cup/i.test(leg.competition)) &&
+    /2026/.test(leg.competition)
+  );
+}
+
+function legDisplayTime(leg: BetLeg): string | undefined {
+  if (isOutrightLeg(leg))
+    return (
+      leg.settleAt ??
+      (isWorldCup2026Outright(leg) ? WC_2026_FINAL_SETTLE_AT : undefined)
+    );
+  return leg.kickoff ?? leg.matchDate;
+}
+
 function legTimeMs(leg: BetLeg): number | null {
-  const raw = isOutrightLeg(leg) ? leg.settleAt : leg.kickoff ?? leg.matchDate;
+  const raw = legDisplayTime(leg);
   if (!raw) return null;
   const ms = new Date(raw).getTime();
   return Number.isNaN(ms) ? null : ms;
@@ -1280,11 +1299,7 @@ export default function PnlPage() {
                         leg.result === 'half_won' ||
                         leg.result === 'half_lost';
                       const moot = s.status === 'lost' && !decisive;
-                      const when = fmtKickoff(
-                        isOutrightLeg(leg)
-                          ? leg.settleAt
-                          : leg.kickoff ?? leg.matchDate,
-                      );
+                      const when = fmtKickoff(legDisplayTime(leg));
                       const tint =
                         leg.result === 'won' || leg.result === 'half_won'
                           ? 'bg-green-500/5'
