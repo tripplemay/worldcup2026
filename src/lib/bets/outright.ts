@@ -6,6 +6,7 @@ import { espnProvider } from 'lib/espn/espn';
 import { normalizeTeam } from 'lib/match/normalize';
 import { buildKnockoutBracket } from 'lib/scenario/knockoutBracket';
 import { toCanonicalName } from './cnTeams';
+import type { GroupStanding } from 'lib/espn/types';
 import type { LegResult, OutrightBetLeg } from './types';
 
 export interface OutrightResolution {
@@ -71,6 +72,56 @@ function finalRunnerUp(
   return undefined;
 }
 
+function normPick(raw: string): string {
+  return normalizeTeam(toCanonicalName(raw));
+}
+
+function bracketHasTeam(
+  bracket: ReturnType<typeof buildKnockoutBracket>,
+  norm: string,
+): boolean {
+  return bracket.nodes.some(
+    (n) => n.home.norm === norm || n.away.norm === norm,
+  );
+}
+
+function allGroupsComplete(standings: GroupStanding[]): boolean {
+  return (
+    standings.length > 0 &&
+    standings.every(
+      (g) => g.rows.length >= 4 && g.rows.every((r) => r.played >= 3),
+    )
+  );
+}
+
+/** 球队已确定无缘冠军:淘汰赛败方,或小组赛结束但未进入淘汰赛树。 */
+function cannotBeChampion(
+  bracket: ReturnType<typeof buildKnockoutBracket>,
+  standings: GroupStanding[],
+  norm: string,
+): boolean {
+  for (const n of bracket.nodes) {
+    if (!n.decided) continue;
+    if (n.home.norm === norm && !n.home.winner) return true;
+    if (n.away.norm === norm && !n.away.winner) return true;
+  }
+  return allGroupsComplete(standings) && !bracketHasTeam(bracket, norm);
+}
+
+/** 球队已确定无缘亚军:决赛前出局,或小组赛结束但未进入淘汰赛树。 */
+function cannotBeRunnerUp(
+  bracket: ReturnType<typeof buildKnockoutBracket>,
+  standings: GroupStanding[],
+  norm: string,
+): boolean {
+  for (const n of bracket.nodes) {
+    if (!n.decided || n.match === 104) continue; // 决赛负方正是亚军,不能按"败方"提前判输
+    if (n.home.norm === norm && !n.home.winner) return true;
+    if (n.away.norm === norm && !n.away.winner) return true;
+  }
+  return allGroupsComplete(standings) && !bracketHasTeam(bracket, norm);
+}
+
 export async function resolveOutrightLeg(
   leg: OutrightBetLeg,
 ): Promise<OutrightResolution> {
@@ -87,20 +138,35 @@ export async function resolveOutrightLeg(
     ]);
     const bracket = buildKnockoutBracket({ standings, matches });
     const winner = bracket.champion?.name;
-    if (!winner) return { result: 'pending' };
     if (leg.market === 'OUTRIGHT_EXACTA') {
-      const runnerUp = finalRunnerUp(bracket);
-      if (!runnerUp) return { result: 'pending', winner };
-      return {
-        result: isSameExacta(leg.selection, winner, runnerUp) ? 'won' : 'lost',
-        winner,
-        runnerUp,
-      };
+      const pick = parseExactaSelection(leg.selection);
+      if (!pick) return { result: 'unsupported' };
+      const runnerUp = winner ? finalRunnerUp(bracket) : undefined;
+      if (winner && runnerUp) {
+        return {
+          result: isSameExacta(leg.selection, winner, runnerUp)
+            ? 'won'
+            : 'lost',
+          winner,
+          runnerUp,
+        };
+      }
+      if (
+        cannotBeChampion(bracket, standings, normPick(pick.winner)) ||
+        cannotBeRunnerUp(bracket, standings, normPick(pick.runnerUp))
+      )
+        return { result: 'lost' };
+      if (!winner) return { result: 'pending' };
+      return { result: 'pending', winner };
     }
-    return {
-      result: isSameChampion(leg.selection, winner) ? 'won' : 'lost',
-      winner,
-    };
+    if (winner)
+      return {
+        result: isSameChampion(leg.selection, winner) ? 'won' : 'lost',
+        winner,
+      };
+    if (cannotBeChampion(bracket, standings, normPick(leg.selection)))
+      return { result: 'lost' };
+    return { result: 'pending' };
   } catch {
     // 外部数据暂时失败时保持 pending,下轮重试,绝不误结。
     return { result: 'pending' };

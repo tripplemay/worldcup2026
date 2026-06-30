@@ -57,7 +57,7 @@ describe('世界杯冠军长期盘结算', () => {
   });
 
   it('决赛未产生冠军时保持 pending', async () => {
-    buildBracket.mockReturnValue({});
+    buildBracket.mockReturnValue({ nodes: [] });
     await expect(resolveOutrightLeg(leg())).resolves.toEqual({
       result: 'pending',
     });
@@ -113,6 +113,66 @@ describe('世界杯冠军长期盘结算', () => {
     });
   });
 
+  it('冠亚军顺序盘:冠军候选已被淘汰时即时判输', async () => {
+    getStandings.mockResolvedValue([
+      {
+        group: 'Group A',
+        rows: [
+          { team: 'Germany', played: 3, rank: 1 },
+          { team: 'Paraguay', played: 3, rank: 2 },
+          { team: 'Brazil', played: 3, rank: 3 },
+          { team: 'France', played: 3, rank: 4 },
+        ],
+      },
+    ]);
+    buildBracket.mockReturnValue({
+      nodes: [
+        {
+          match: 74,
+          decided: true,
+          home: { norm: 'germany', name: 'Germany', score: 1 },
+          away: { norm: 'paraguay', name: 'Paraguay', score: 1, winner: true },
+        },
+      ],
+    });
+    await expect(
+      resolveOutrightLeg({
+        ...leg('德国 / 巴西'),
+        market: 'OUTRIGHT_EXACTA',
+      }),
+    ).resolves.toEqual({ result: 'lost' });
+  });
+
+  it('冠亚军顺序盘:亚军候选决赛前出局时即时判输', async () => {
+    getStandings.mockResolvedValue([
+      {
+        group: 'Group A',
+        rows: [
+          { team: 'Brazil', played: 3, rank: 1 },
+          { team: 'Japan', played: 3, rank: 2 },
+          { team: 'France', played: 3, rank: 3 },
+          { team: 'Germany', played: 3, rank: 4 },
+        ],
+      },
+    ]);
+    buildBracket.mockReturnValue({
+      nodes: [
+        {
+          match: 76,
+          decided: true,
+          home: { norm: 'brazil', name: 'Brazil', score: 2, winner: true },
+          away: { norm: 'japan', name: 'Japan', score: 1 },
+        },
+      ],
+    });
+    await expect(
+      resolveOutrightLeg({
+        ...leg('法国 / 日本'),
+        market: 'OUTRIGHT_EXACTA',
+      }),
+    ).resolves.toEqual({ result: 'lost' });
+  });
+
   it('所选球队夺冠判赢,其他球队夺冠判输', async () => {
     buildBracket.mockReturnValue({ champion: { name: 'England' } });
     await expect(resolveOutrightLeg(leg())).resolves.toEqual({
@@ -122,6 +182,33 @@ describe('世界杯冠军长期盘结算', () => {
     await expect(resolveOutrightLeg(leg('法国'))).resolves.toEqual({
       result: 'lost',
       winner: 'England',
+    });
+  });
+
+  it('冠军盘:候选冠军已被淘汰时即时判输', async () => {
+    getStandings.mockResolvedValue([
+      {
+        group: 'Group A',
+        rows: [
+          { team: 'Germany', played: 3, rank: 1 },
+          { team: 'Paraguay', played: 3, rank: 2 },
+          { team: 'Brazil', played: 3, rank: 3 },
+          { team: 'France', played: 3, rank: 4 },
+        ],
+      },
+    ]);
+    buildBracket.mockReturnValue({
+      nodes: [
+        {
+          match: 74,
+          decided: true,
+          home: { norm: 'germany', name: 'Germany', score: 1 },
+          away: { norm: 'paraguay', name: 'Paraguay', score: 1, winner: true },
+        },
+      ],
+    });
+    await expect(resolveOutrightLeg(leg('德国'))).resolves.toEqual({
+      result: 'lost',
     });
   });
 
