@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'fs';
 import { join } from 'path';
 import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
+import type { LeagueMatchOdds } from 'lib/predict/oddsTypes';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -80,6 +81,19 @@ export function saveLeagueOdds(
   map: Record<string, LeagueClosing>,
 ): void {
   writeJson(`league-${key}-odds.json`, map);
+}
+// 多市场历史赔率(Phase 10:开盘+闭盘 1X2/亚盘/大小球;league-<key>-oddsx.json)
+export function loadLeagueOddsX(key: string): Record<string, LeagueMatchOdds> {
+  return readJson<Record<string, LeagueMatchOdds>>(
+    `league-${key}-oddsx.json`,
+    {},
+  );
+}
+export function saveLeagueOddsX(
+  key: string,
+  map: Record<string, LeagueMatchOdds>,
+): void {
+  writeJson(`league-${key}-oddsx.json`, map);
 }
 
 // ── 球队评分(按归一化队名)──────────────────────────────
