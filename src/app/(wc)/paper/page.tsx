@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import {
   MdAccountBalanceWallet,
@@ -11,8 +11,10 @@ import {
 } from 'react-icons/md';
 import Card from 'components/card';
 import PageHeading from 'components/worldcup/PageHeading';
+import PaperDryRunGenerator from 'components/worldcup/PaperDryRunGenerator';
 import { useTrade } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
+import type { DryRunResponse } from 'lib/trade/dryRun';
 import type { Trade, MarketType } from 'lib/trade/types';
 
 const money = (x: number) => Math.round(x).toLocaleString();
@@ -148,7 +150,7 @@ const STATUS: Record<
   },
 };
 
-function TradeCard({ tr }: { tr: Trade }) {
+function TradeCard({ tr, dryRun = false }: { tr: Trade; dryRun?: boolean }) {
   const { t, tn } = useLocale();
   const s = STATUS[tr.status];
   const label =
@@ -171,7 +173,7 @@ function TradeCard({ tr }: { tr: Trade }) {
             className={`flex shrink-0 items-center gap-0.5 rounded-full px-2 py-0.5 text-[10px] font-medium ${s.badge}`}
           >
             <s.Icon className="text-xs" />
-            {label}
+            {dryRun ? t('trade.dryRunBadge') : label}
           </span>
         </div>
         <div className="flex items-center justify-between gap-2">
@@ -185,6 +187,11 @@ function TradeCard({ tr }: { tr: Trade }) {
             <div className="mt-0.5 font-mono text-[10px] text-gray-400">
               {t('trade.model')} {pct(tr.modelProb)} · EV{' '}
               {(tr.ev * 100).toFixed(1)}% · {t('trade.stake')} {money(tr.stake)}
+              {dryRun && (
+                <span className="ml-1 rounded-full bg-amber-100 px-1.5 py-0.5 font-sans text-[9px] text-amber-700 dark:bg-amber-500/20 dark:text-amber-300">
+                  {t('trade.dryRunNotPersisted')}
+                </span>
+              )}
             </div>
           </div>
           <div className="shrink-0 text-right">
@@ -228,11 +235,93 @@ function Stat({
 }
 
 type Filter = 'all' | 'pending' | 'won' | 'lost';
+const DRY_RUN_KEY = 'wc:dryRunSlips:v1';
+const TRADE_STATUSES: Trade['status'][] = ['pending', 'won', 'lost', 'void'];
+const TRADE_MARKETS: MarketType[] = ['1X2', 'OU', 'AH', 'BTTS', 'DC', 'DNB'];
+const isObj = (x: unknown): x is Record<string, unknown> =>
+  !!x && typeof x === 'object';
+const isNum = (x: unknown): x is number =>
+  typeof x === 'number' && Number.isFinite(x);
+const isStr = (x: unknown): x is string => typeof x === 'string';
+function isStoredDryRun(x: unknown): x is DryRunResponse {
+  if (!isObj(x) || !Array.isArray(x.slips) || !Array.isArray(x.skipped))
+    return false;
+  if (!isObj(x.summary) || !isObj(x.balance) || !isNum(x.generatedAt))
+    return false;
+  return (
+    x.slips.every((s) => {
+      if (!isObj(s)) return false;
+      return (
+        s.dryRun === true &&
+        isStr(s.tradeId) &&
+        isStr(s.matchId) &&
+        isStr(s.homeTeam) &&
+        isStr(s.awayTeam) &&
+        isStr(s.date) &&
+        TRADE_STATUSES.includes(s.status as Trade['status']) &&
+        TRADE_MARKETS.includes(s.market as MarketType) &&
+        isStr(s.selection) &&
+        isNum(s.odds) &&
+        isNum(s.modelProb) &&
+        isNum(s.ev) &&
+        isNum(s.stake) &&
+        isNum(s.placedAt)
+      );
+    }) &&
+    x.skipped.every(
+      (s) => isObj(s) && isStr(s.matchId) && isStr(s.reason) && isStr(s.label),
+    )
+  );
+}
 
 export default function PaperPage() {
   const { t } = useLocale();
   const { wallet, stats, trades, isLoading } = useTrade();
   const [filter, setFilter] = useState<Filter>('all');
+  const [dryRunResult, setDryRunResult] = useState<DryRunResponse | null>(null);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(DRY_RUN_KEY);
+      if (!raw) return;
+      const parsed = JSON.parse(raw);
+      if (isStoredDryRun(parsed)) {
+        setDryRunResult(parsed);
+      } else {
+        try {
+          localStorage.removeItem(DRY_RUN_KEY);
+        } catch {
+          /* ignore */
+        }
+      }
+    } catch {
+      try {
+        localStorage.removeItem(DRY_RUN_KEY);
+      } catch {
+        /* ignore */
+      }
+    }
+  }, []);
+
+  const saveDryRun = (result: DryRunResponse) => {
+    setDryRunResult(result);
+    try {
+      localStorage.setItem(DRY_RUN_KEY, JSON.stringify(result));
+    } catch {
+      /* localStorage 不可用时仅当前页可见 */
+    }
+  };
+
+  const clearDryRun = () => {
+    setDryRunResult(null);
+    try {
+      localStorage.removeItem(DRY_RUN_KEY);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  const dryRunSlips = dryRunResult?.slips ?? [];
 
   const decided = trades.filter(
     (x) => x.status === 'won' || x.status === 'lost',
@@ -316,6 +405,8 @@ export default function PaperPage() {
           ⓘ {t('trade.honesty')}
         </p>
       </Card>
+
+      <PaperDryRunGenerator onGenerated={saveDryRun} />
 
       {wallet && (
         <Card extra="mb-3 p-4">
@@ -476,6 +567,48 @@ export default function PaperPage() {
               ))}
             </div>
           )}
+        </Card>
+      )}
+
+      {dryRunResult && (
+        <Card extra="mb-3 p-4">
+          <div className="mb-3 flex items-start justify-between gap-2">
+            <div>
+              <div className="font-bold text-navy-700 dark:text-white">
+                {t('trade.dryRunDrafts')}
+              </div>
+              <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+                {t('trade.dryRunLocalOnly')} · {dryRunSlips.length}{' '}
+                {t('trade.stake')}
+              </div>
+            </div>
+            <button
+              onClick={clearDryRun}
+              className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-500 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
+            >
+              {t('trade.dryRunClear')}
+            </button>
+          </div>
+          {dryRunResult?.skipped.length ? (
+            <div className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
+              {t('trade.dryRunSkipped')} {dryRunResult.skipped.length}:{' '}
+              {dryRunResult.skipped
+                .slice(0, 3)
+                .map((x) => x.label)
+                .join(' / ')}
+            </div>
+          ) : null}
+          <div className="space-y-3">
+            {dryRunSlips.length > 0 ? (
+              dryRunSlips.map((tr) => (
+                <TradeCard key={tr.tradeId} tr={tr} dryRun />
+              ))
+            ) : (
+              <div className="rounded-xl bg-lightPrimary px-3 py-4 text-center text-xs text-gray-400 dark:bg-navy-900">
+                {t('trade.dryRunEmptyResult')}
+              </div>
+            )}
+          </div>
         </Card>
       )}
 

@@ -42,6 +42,7 @@ import type { LeagueBacktestResult } from 'lib/predict/leagueBacktest';
 import type { TmiSnapshot } from 'lib/tmi/types';
 import type { TeamProfile } from 'lib/team/types';
 import type { Wallet, Trade } from 'lib/trade/types';
+import type { DryRunRequest, DryRunResponse } from 'lib/trade/dryRun';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
 import type { BettorPnl } from 'lib/bets/bets';
 
@@ -527,6 +528,36 @@ export function useTrade() {
     error,
     isLoading,
   };
+}
+
+/** 用户触发的模拟盘预生成:POST 只读 dry-run,不走 SWR 自动刷新。 */
+export async function generateDryRunSlips(
+  input: DryRunRequest,
+  token: string,
+): Promise<DryRunResponse> {
+  const ctrl = new AbortController();
+  const id = setTimeout(() => ctrl.abort(), 60_000);
+  try {
+    const res = await fetch('/api/worldcup/trade/dry-run', {
+      method: 'POST',
+      signal: ctrl.signal,
+      cache: 'no-store',
+      headers: {
+        'content-type': 'application/json',
+        'x-admin-token': token,
+      },
+      body: JSON.stringify(input),
+    });
+    const json = (await res.json()) as {
+      success: boolean;
+      data: DryRunResponse | null;
+      error?: string;
+    };
+    if (!json.success || !json.data) throw new Error(json.error || '生成失败');
+    return json.data;
+  } finally {
+    clearTimeout(id);
+  }
 }
 
 /** Phase 9 盈亏台:各投注人盈亏总览 + 注单明细 + 名册。enabled=false(未过浏览密码)时不请求。 */
