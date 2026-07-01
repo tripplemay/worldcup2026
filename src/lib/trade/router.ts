@@ -33,10 +33,23 @@ export function scoreCandidate(
   };
 }
 
-/** 从候选集挑出单场最优 +EV 注;无合格项返回 null。 */
-export function selectBest(candidates: BetCandidate[]): BetCandidate | null {
+/** 选注阈值(缺省回退 config 常量);研究引擎 sweep 时注入覆盖。 */
+export interface SelectOpts {
+  minProb?: number;
+  minEv?: number;
+  maxEv?: number;
+}
+
+/** 从候选集挑出单场最优 +EV 注;无合格项返回 null。阈值默认取 config,可经 opts 覆盖。 */
+export function selectBest(
+  candidates: BetCandidate[],
+  opts?: SelectOpts,
+): BetCandidate | null {
+  const minProb = opts?.minProb ?? MIN_PROB;
+  const minEv = opts?.minEv ?? MIN_EV;
+  const maxEv = opts?.maxEv ?? MAX_EV;
   const qualified = candidates
-    .filter((c) => c.pWin >= MIN_PROB && c.ev > MIN_EV && c.ev <= MAX_EV)
+    .filter((c) => c.pWin >= minProb && c.ev > minEv && c.ev <= maxEv)
     .sort((a, b) => b.kelly - a.kelly);
   return qualified[0] ?? null;
 }

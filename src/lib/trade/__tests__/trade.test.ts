@@ -120,6 +120,17 @@ describe('智能路由', () => {
     expect(selectBest([mk('c', 0.5, 2.0)])).toBeNull();
   });
 
+  it('可注入阈值覆盖默认(研究引擎 sweep 用)', () => {
+    // 收紧 minEv 到 0.25 → ev0.2 的正常项被剔除
+    expect(selectBest([mk('a', 0.6, 2.0)], { minEv: 0.25 })).toBeNull();
+    // 放宽 maxEv → 原本被上限剔除的离谱项通过
+    expect(selectBest([mk('x', 0.96, 28)], { maxEv: 30 })?.selection).toBe('x');
+    // 放宽 minProb → 低胜率项通过(ev=0.25 在 (0.03,0.30] 内)
+    expect(selectBest([mk('b', 0.25, 5.0)], { minProb: 0.2 })?.selection).toBe(
+      'b',
+    );
+  });
+
   it('EV 高得离谱(赔率/口径错配)被上限剔除', () => {
     // pWin 0.96 @ 28.0 → EV≈25.9,真实市场不可能,应弃用
     const absurd = mk('x', 0.96, 28);
