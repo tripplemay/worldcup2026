@@ -8,13 +8,17 @@
  *   · 内存不可变 bankroll(不复用 ledger 的全局 promise chain / 单调 seq);
  *   · 入口硬守卫 PREDICT_WEIGHTS —— 研究进程绝不允许 env 静态权重逃生舱污染每次实验。
  *
- * 当前仅 1X2 闭盘口径(与 leaguePaper 同,对手=闭盘价 → 结果是下界);
- * 多市场 / 开盘吃 CLV 待 P2 的 LeagueOddsX 数据模型接入后开启。
+ * P2b:赔率改用开盘+闭盘(LeagueMatchOdds 的 x2)——**在开盘价下注、拿闭盘价量 CLV**
+ * (CLV = 成交赔率 / 闭盘赔率 − 1;仅在开盘下注且有闭盘时有意义)。无开盘则回退闭盘下注
+ * (此时无 CLV)。仍仅 1X2;多市场(亚盘/大小球)待数据填充 ah/totals 后接入。
  */
 import { predictPointInTime } from 'lib/predict/backtest';
 import { buildMatrix } from 'lib/predict/models/poissonCore';
 import { ensemble } from 'lib/predict/ensemble';
-import { modelsFromPredictions, classifyDivergence } from 'lib/predict/divergence';
+import {
+  modelsFromPredictions,
+  classifyDivergence,
+} from 'lib/predict/divergence';
 import { matchKey } from 'lib/match/normalize';
 import { projectMatchWinner } from 'lib/trade/projection';
 import { candidatesFromSnapshot } from 'lib/trade/odds';
@@ -23,16 +27,19 @@ import { stakeFor } from 'lib/trade/ev';
 import { settleOutcome, pnlFor } from 'lib/trade/settle';
 import type { HistMatch, ResultMatch } from 'lib/predict/types';
 import type { Tuning } from 'lib/predict/tuning';
-import type { LeagueClosing } from 'lib/db/store';
+import type { X2Odds, OpenClose } from 'lib/predict/oddsTypes';
 import type { MarketSnapshot, BetCandidate, Trade } from 'lib/trade/types';
 
 const dateKey = (iso: string) => iso.slice(0, 10);
+
+/** 引擎只依赖每场的 x2 开/闭盘切片(LeagueMatchOdds 结构上满足)。 */
+export type MatchOddsView = { x2?: OpenClose<X2Odds> };
 
 /** 注入的历史数据集(某联赛某段);均为该联赛内已归一化的记录。 */
 export interface EngineDataset {
   allHist: HistMatch[];
   allRes: ResultMatch[];
-  oddsMap: Record<string, LeagueClosing>; // matchKey → 闭盘 1X2
+  odds: Record<string, MatchOddsView>; // matchKey → 开盘+闭盘 1X2
   sosEloOf?: (norm: string) => number | undefined; // 可选权威 Elo(SoS 对手强度)
 }
 
@@ -54,6 +61,24 @@ export interface StrategyParams {
   };
   from?: string; // 评估窗起(含);walk-forward 切片
   to?: string; // 评估窗止(含)
+}
+
+/** CLV(成交赔率 vs 同选项闭盘赔率):>0 = 买在比闭盘更好的价。无有效闭盘返回 null。 */
+export function clvFor(
+  selection: string,
+  betOdds: number,
+  close: X2Odds,
+): number | null {
+  const co =
+    selection === 'home'
+      ? close.h
+      : selection === 'away'
+      ? close.a
+      : selection === 'draw'
+      ? close.d
+      : undefined;
+  if (co == null || co <= 1) return null;
+  return +(betOdds / co - 1).toFixed(4);
 }
 
 interface Tier {
@@ -87,6 +112,7 @@ export interface BetRecord {
   home: string;
   away: string;
   tier: 'value' | 'coverage';
+  betPhase: 'open' | 'close'; // 在开盘还是闭盘价下注(无开盘时回退闭盘)
   market: string;
   selection: string;
   line?: number;
@@ -94,15 +120,25 @@ export interface BetRecord {
   stake: number;
   pnl: number;
   result: string;
+  clv: number | null; // 仅 value 注 + 开盘下注 + 有闭盘时非空
+}
+
+/** CLV 汇总(仅 value 注)。 */
+export interface ClvSummary {
+  n: number;
+  avgClv: number;
+  posRate: number;
+  tStat: number;
 }
 
 export interface StrategyResult {
-  matches: number; // 有预测 + 闭盘的已评估场次
+  matches: number; // 有预测 + 赔率的已评估场次
   bankrollStart: number;
   bankrollEnd: number;
   roiCompound: number;
   value: ReturnType<typeof tierOut>;
   coverage: ReturnType<typeof tierOut>;
+  clv: ClvSummary; // value 注 CLV(先行护栏)
   g1Vetoed: number;
   pickDist: { home: number; draw: number; away: number };
   bets: BetRecord[];
@@ -110,7 +146,7 @@ export interface StrategyResult {
 
 /**
  * 跑一次策略实验:对注入数据集在 [from,to] 窗内做无泄漏 walk-forward,
- * 逐场 predict → 候选 → 选注 → 内存结算,返回 P&L / 分层 / pickDist / 每注记录。
+ * 逐场 predict → 候选 → 选注 → 内存结算,返回 P&L / CLV / 分层 / 每注记录。
  * 确定性:同 (dataset, params) 恒返回同结果。
  */
 export function runStrategy(
@@ -123,7 +159,7 @@ export function runStrategy(
       '[research] PREDICT_WEIGHTS 必须 unset —— 静态权重逃生舱会毒化 sweep(见 ensemble.ts)',
     );
 
-  const { allHist, allRes, oddsMap, sosEloOf } = dataset;
+  const { allHist, allRes, odds, sosEloOf } = dataset;
   const { tuning, home, marketWeight, bet } = params;
   const g1On = bet.g1Veto ?? true;
 
@@ -133,7 +169,10 @@ export function runStrategy(
         (!params.from || dateKey(r.date) >= params.from) &&
         (!params.to || dateKey(r.date) <= params.to),
     )
-    .sort((a, b) => a.date.localeCompare(b.date) || a.eventId.localeCompare(b.eventId));
+    .sort(
+      (a, b) =>
+        a.date.localeCompare(b.date) || a.eventId.localeCompare(b.eventId),
+    );
 
   let balance = bet.initialBalance;
   const value = newTier();
@@ -142,6 +181,11 @@ export function runStrategy(
   let evaluated = 0;
   let g1Vetoed = 0;
   const pickDist = { home: 0, draw: 0, away: 0 };
+  // CLV 累加(仅 value)
+  let clvN = 0,
+    clvSum = 0,
+    clvSum2 = 0,
+    clvPos = 0;
 
   const settle = (
     m: ResultMatch,
@@ -149,6 +193,8 @@ export function runStrategy(
     stake: number,
     t: Tier,
     tier: 'value' | 'coverage',
+    betPhase: 'open' | 'close',
+    close?: X2Odds,
   ): void => {
     const trade = {
       market: cand.market,
@@ -166,11 +212,23 @@ export function runStrategy(
     if (res === 'won' || res === 'half_won') t.wins += 1;
     else if (res === 'lost' || res === 'half_lost') t.losses += 1;
     else t.voids += 1;
+    // CLV:仅 value 注 + 开盘下注 + 有闭盘,才是真 CLV(闭盘下注 CLV 恒 0、无意义)
+    const clv =
+      tier === 'value' && betPhase === 'open' && close
+        ? clvFor(cand.selection, cand.odds, close)
+        : null;
+    if (tier === 'value' && clv != null) {
+      clvN += 1;
+      clvSum += clv;
+      clvSum2 += clv * clv;
+      if (clv > 0) clvPos += 1;
+    }
     records.push({
       date: m.date,
       home: m.homeNorm,
       away: m.awayNorm,
       tier,
+      betPhase,
       market: cand.market,
       selection: cand.selection,
       line: cand.line,
@@ -178,12 +236,18 @@ export function runStrategy(
       stake: +stake.toFixed(2),
       pnl: +pnl.toFixed(2),
       result: res,
+      clv,
     });
   };
 
   for (const m of matches) {
-    const o = oddsMap[matchKey(m.homeNorm, m.awayNorm, m.date)];
-    if (!o) continue; // 需闭盘价做对手
+    const x2 = odds[matchKey(m.homeNorm, m.awayNorm, m.date)]?.x2;
+    // 在开盘价下注(拿闭盘量 CLV);无开盘则回退闭盘下注(无 CLV)
+    const betX2 = x2?.open ?? x2?.close;
+    if (!betX2) continue; // 无任何 1X2 赔率
+    const closeX2 = x2?.close;
+    const betPhase: 'open' | 'close' = x2?.open ? 'open' : 'close';
+
     const pp = predictPointInTime(
       allHist,
       allRes,
@@ -193,7 +257,7 @@ export function runStrategy(
       tuning,
       sosEloOf,
       home,
-      { home: o.h, draw: o.d, away: o.a },
+      { home: betX2.h, draw: betX2.d, away: betX2.a }, // 下注时点可得的市场(开盘)
       marketWeight,
     );
     if (!pp || !pp.preds) continue;
@@ -214,9 +278,9 @@ export function runStrategy(
 
     const snap: MarketSnapshot = {
       h2h: {
-        home: { price: o.h, book: 'close' },
-        draw: { price: o.d, book: 'close' },
-        away: { price: o.a, book: 'close' },
+        home: { price: betX2.h, book: betPhase },
+        draw: { price: betX2.d, book: betPhase },
+        away: { price: betX2.a, book: betPhase },
       },
       totals: [],
       spreads: [],
@@ -260,7 +324,7 @@ export function runStrategy(
         minStake: bet.minStake,
       });
       if (stake > 0) {
-        settle(m, best, stake, value, 'value');
+        settle(m, best, stake, value, 'value', betPhase, closeX2);
         placedValue = true;
         if (
           best.selection === 'home' ||
@@ -282,17 +346,34 @@ export function runStrategy(
         (c) => c.market === '1X2' && c.selection === fav,
       );
       const cstake = +(balance * bet.coverageStakePct).toFixed(2);
-      if (cov && cstake > 0) settle(m, cov, cstake, coverage, 'coverage');
+      if (cov && cstake > 0)
+        settle(m, cov, cstake, coverage, 'coverage', betPhase, closeX2);
     }
   }
+
+  const clvMean = clvN ? clvSum / clvN : 0;
+  const clvVar =
+    clvN > 1
+      ? Math.max(0, (clvSum2 - clvN * clvMean * clvMean) / (clvN - 1))
+      : 0;
+  const clvSd = Math.sqrt(clvVar);
+  const clvT = clvN > 1 && clvSd > 0 ? clvMean / (clvSd / Math.sqrt(clvN)) : 0;
 
   return {
     matches: evaluated,
     bankrollStart: bet.initialBalance,
     bankrollEnd: +balance.toFixed(2),
-    roiCompound: +((balance - bet.initialBalance) / bet.initialBalance).toFixed(4),
+    roiCompound: +((balance - bet.initialBalance) / bet.initialBalance).toFixed(
+      4,
+    ),
     value: tierOut(value),
     coverage: tierOut(coverage),
+    clv: {
+      n: clvN,
+      avgClv: +clvMean.toFixed(4),
+      posRate: clvN ? +(clvPos / clvN).toFixed(3) : 0,
+      tStat: +clvT.toFixed(2),
+    },
     g1Vetoed,
     pickDist,
     bets: records,
