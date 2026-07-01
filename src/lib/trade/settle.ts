@@ -8,8 +8,9 @@
 import { espnProvider } from 'lib/espn/espn';
 import { loadTrades } from 'lib/db/store';
 import { normalizeTeam } from 'lib/match/normalize';
+import { isQuarterLine } from './projection';
 import { settleTrade } from './ledger';
-import type { Trade } from './types';
+import type { Trade, SettleResult } from './types';
 import type { MatchEvent } from 'lib/espn/types';
 
 /** 事件分钟(取前导整数;"90'+4'"→90,"105'"→105,缺失→NaN)。 */
@@ -92,11 +93,39 @@ export function outcome(
   return margin > 0 ? 'won' : 'lost';
 }
 
-/** 结果 → 盈亏(赢=stake·(odds−1),走盘=0,输=−stake)。 */
-export function pnlFor(t: Trade, result: 'won' | 'lost' | 'void'): number {
-  if (result === 'won') return t.stake * (t.odds - 1);
-  if (result === 'void') return 0;
-  return -t.stake;
+/**
+ * 结算细分:亚盘四分盘(±.25/.75)拆 line±0.25 两条相邻半盘(一条整数可走盘、一条 .5 永不走盘)
+ * 各判再聚合;因两半相差 0.5,至多一条走盘 → 只会出现 won/lost/half_won/half_lost。
+ * 其余市场 / 整数盘 / 半盘直接委托 outcome(won/lost/void)。
+ */
+export function settleOutcome(t: Trade, gf: number, ga: number): SettleResult {
+  if (t.market === 'AH' && isQuarterLine(t.line)) {
+    const line = t.line as number;
+    const a = outcome({ ...t, line: line - 0.25 }, gf, ga);
+    const b = outcome({ ...t, line: line + 0.25 }, gf, ga);
+    if (a === 'won' && b === 'won') return 'won';
+    if (a === 'lost' && b === 'lost') return 'lost';
+    if (a === 'won' || b === 'won') return 'half_won'; // 赢 + 走盘
+    return 'half_lost'; // 输 + 走盘
+  }
+  return outcome(t, gf, ga);
+}
+
+/** 结果 → 盈亏(全赢=stake·b,半赢=stake·b/2,走盘=0,半输=−stake/2,全输=−stake;b=odds−1)。 */
+export function pnlFor(t: Trade, result: SettleResult): number {
+  const b = t.odds - 1;
+  switch (result) {
+    case 'won':
+      return t.stake * b;
+    case 'half_won':
+      return (t.stake * b) / 2;
+    case 'half_lost':
+      return -t.stake / 2;
+    case 'lost':
+      return -t.stake;
+    default:
+      return 0; // void
+  }
 }
 
 export async function runSettlement(): Promise<{ settled: number }> {
@@ -115,7 +144,7 @@ export async function runSettlement(): Promise<{ settled: number }> {
       s.homeScore,
       s.awayScore,
     );
-    const result = outcome(t, home, away);
+    const result = settleOutcome(t, home, away);
     await settleTrade(t.tradeId, result, pnlFor(t, result));
     settled += 1;
   }

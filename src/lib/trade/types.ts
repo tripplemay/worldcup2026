@@ -5,6 +5,8 @@
 
 export type MarketType = '1X2' | 'OU' | 'AH' | 'BTTS' | 'DC' | 'DNB';
 export type TradeStatus = 'pending' | 'won' | 'lost' | 'void';
+/** 结算细分(含亚盘四分盘半赢/半输);持久化时 half_won→won、half_lost→lost。 */
+export type SettleResult = 'won' | 'half_won' | 'void' | 'half_lost' | 'lost';
 export type TradeTier = 'value' | 'coverage'; // value=+EV 精选;coverage=每场覆盖小注
 
 /** 归一化盘口快照(各家取最优价);AF 与 The Odds API 两源统一成此形,再投影成候选。 */
@@ -28,9 +30,16 @@ export interface BetCandidate {
   line?: number; // O/U 或 AH 盘口线(1X2 无)
   odds: number; // 小数赔率(市场)
   book: string; // 博彩商
-  pWin: number; // 模型胜率(市场无关)
-  pPush: number; // 走盘概率(整数盘;半盘为 0)
-  ev: number; // 期望值 = pWin·(odds-1) − (1−pWin−pPush)
+  pWin: number; // 模型胜率(市场无关;四分盘=全赢+半赢,供 MIN_PROB 门槛)
+  pPush: number; // 走盘概率(整数盘;半盘/四分盘为 0)
+  // 亚盘四分盘专用四类概率(在场则 EV/Kelly 走四分盘口径,见 router.scoreCandidate)
+  quarter?: {
+    pFullWin: number;
+    pHalfWin: number;
+    pHalfLoss: number;
+    pFullLoss: number;
+  };
+  ev: number; // 期望值(四分盘用 expectedValueQuarter)
   kelly: number; // 凯利比例 = ev/(odds-1)
 }
 

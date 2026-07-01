@@ -8,6 +8,7 @@
  * 任何使截图金额失真的情形(走盘、半赢半输混入串关)一律 needs_review,交人工。
  */
 import { outcome } from 'lib/trade/settle';
+import { isQuarterLine } from 'lib/trade/projection';
 import type { Trade, MarketType } from 'lib/trade/types';
 import type { BetLeg, ComboPart, LegResult, BetStatus } from './types';
 
@@ -58,12 +59,6 @@ function baseOutcome(
     gf,
     ga,
   );
-}
-
-/** 四分盘判定:盘口线小数位为 .25 或 .75(含负)。 */
-function isQuarterLine(line: number | undefined): boolean {
-  if (line == null || !Number.isFinite(line)) return false;
-  return Math.abs((line * 4) % 2) === 1;
 }
 
 /**

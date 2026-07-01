@@ -4,7 +4,13 @@
  */
 import { loadWallet, saveWallet, loadTrades, saveTrades } from 'lib/db/store';
 import { INITIAL_BALANCE } from './config';
-import type { Wallet, Trade, BetCandidate, TradeTier } from './types';
+import type {
+  Wallet,
+  Trade,
+  BetCandidate,
+  TradeTier,
+  SettleResult,
+} from './types';
 
 // ── 进程内互斥(单实例 PM2)──────────────────────────────
 let chain: Promise<unknown> = Promise.resolve();
@@ -96,10 +102,14 @@ export function placeBet(input: PlaceInput): Promise<Trade | null> {
   });
 }
 
-/** 结算一笔:解冻锁定金,赢则回本+利,走盘退本,输则不回(加锁)。 */
+/**
+ * 结算一笔:解冻锁定金,按 pnl 统一回款(加锁)。
+ * payout = stake + pnl 对全赢/半赢/走盘/半输/全输皆成立
+ *   (全赢 stake·odds、半赢 stake·(odds+1)/2、走盘 stake、半输 stake/2、全输 0)。
+ */
 export function settleTrade(
   tradeId: string,
-  result: 'won' | 'lost' | 'void',
+  result: SettleResult,
   pnl: number,
 ): Promise<void> {
   return withLock(() => {
@@ -108,14 +118,16 @@ export function settleTrade(
     if (!t || t.status !== 'pending') return;
     const w = getWallet();
     w.lockedBalance = +Math.max(0, w.lockedBalance - t.stake).toFixed(2);
-    const payout =
-      result === 'won' ? t.stake + pnl : result === 'void' ? t.stake : 0;
+    const payout = +(t.stake + pnl).toFixed(2);
     w.currentBalance = +(w.currentBalance + payout).toFixed(2);
-    if (result === 'won') w.wins += 1;
-    else if (result === 'lost') w.losses += 1;
+    if (result === 'won' || result === 'half_won') w.wins += 1;
+    else if (result === 'lost' || result === 'half_lost') w.losses += 1;
     w.updatedAt = Date.now();
-    t.status = result;
-    t.result = result;
+    // 持久化 status/result 仍用三值(半赢→won、半输→lost);精确金额由 pnl 承载
+    const persisted =
+      result === 'half_won' ? 'won' : result === 'half_lost' ? 'lost' : result;
+    t.status = persisted;
+    t.result = persisted;
     t.pnl = +pnl.toFixed(2);
     t.settledAt = Date.now();
     saveTrades(trades);

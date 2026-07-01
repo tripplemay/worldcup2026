@@ -4,14 +4,28 @@
  *  2. EV 区间:仅保留 MIN_EV < EV ≤ MAX_EV(超上限视为赔率/口径错配,弃用)
  *  3. 按凯利比例降序,取第一名(同场互斥)
  */
-import { expectedValue, kelly } from './ev';
+import { expectedValue, kelly, expectedValueQuarter, kellyQuarter } from './ev';
 import { MIN_EV, MAX_EV, MIN_PROB } from './config';
 import type { BetCandidate } from './types';
 
-/** 给候选补齐 ev/kelly(从 pWin/pPush/odds 计算)。 */
+/** 给候选补齐 ev/kelly(四分盘走四类概率口径,其余走 pWin/pPush/odds)。 */
 export function scoreCandidate(
   c: Omit<BetCandidate, 'ev' | 'kelly'>,
 ): BetCandidate {
+  if (c.quarter) {
+    const { pFullWin, pHalfWin, pHalfLoss, pFullLoss } = c.quarter;
+    return {
+      ...c,
+      ev: expectedValueQuarter(
+        pFullWin,
+        pHalfWin,
+        pHalfLoss,
+        pFullLoss,
+        c.odds,
+      ),
+      kelly: kellyQuarter(pFullWin, pHalfWin, pHalfLoss, pFullLoss, c.odds),
+    };
+  }
   return {
     ...c,
     ev: expectedValue(c.pWin, c.odds, c.pPush),

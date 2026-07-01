@@ -94,3 +94,46 @@ export function projectAsianHandicap(
     }
   return { homeCover, push, awayCover };
 }
+
+/** 四分盘判定:盘口线小数位为 .25 或 .75(含负)。纯谓词,供投影/结算共用。 */
+export function isQuarterLine(line: number | undefined): boolean {
+  if (line == null || !Number.isFinite(line)) return false;
+  return Math.abs((line * 4) % 2) === 1;
+}
+
+/**
+ * 亚洲让分盘·四分盘(±.25/.75)投影:拆两条相邻半盘(line±0.25,一条整数可走盘、
+ * 一条 .5 永不走盘),逐格分桶成四类结果概率(和恒为 1)。
+ * side='home' 让分施于主队(base=主−客净胜);side='away' 施于客队(base=客−主)。
+ */
+export function projectAsianHandicapQuarter(
+  m: number[][],
+  line: number,
+  side: 'home' | 'away',
+): {
+  pFullWin: number;
+  pHalfWin: number;
+  pHalfLoss: number;
+  pFullLoss: number;
+} {
+  const low = line - 0.25;
+  const high = line + 0.25;
+  const evalHalf = (x: number): 'win' | 'loss' | 'push' =>
+    x > 1e-9 ? 'win' : x < -1e-9 ? 'loss' : 'push';
+  let pFullWin = 0,
+    pHalfWin = 0,
+    pHalfLoss = 0,
+    pFullLoss = 0;
+  for (let i = 0; i < m.length; i++)
+    for (let j = 0; j < m[i].length; j++) {
+      const p = m[i][j];
+      const base = side === 'home' ? i - j : j - i; // 所选队净胜
+      const a = evalHalf(base + low);
+      const b = evalHalf(base + high);
+      if (a === 'win' && b === 'win') pFullWin += p;
+      else if (a === 'loss' && b === 'loss') pFullLoss += p;
+      else if (a === 'win' || b === 'win') pHalfWin += p; // 赢 + 走盘
+      else pHalfLoss += p; // 输 + 走盘(两半相差 0.5,至多一条走盘,不会赢+输)
+    }
+  return { pFullWin, pHalfWin, pHalfLoss, pFullLoss };
+}

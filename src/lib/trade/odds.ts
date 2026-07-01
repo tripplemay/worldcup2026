@@ -9,9 +9,11 @@ import { theOddsApiProvider } from 'lib/odds/theoddsapi';
 import {
   projectOverUnder,
   projectAsianHandicap,
+  projectAsianHandicapQuarter,
   projectBtts,
   projectDoubleChance,
   projectDrawNoBet,
+  isQuarterLine,
 } from './projection';
 import { scoreCandidate } from './router';
 import { afMarketSnapshot } from './afOdds';
@@ -81,19 +83,34 @@ export function candidatesFromSnapshot(
   }
 
   for (const sp of snap.spreads) {
-    const pr =
-      sp.side === 'home'
-        ? projectAsianHandicap(matrix, sp.point)
-        : projectAsianHandicap(matrix, -sp.point);
-    out.push({
-      market: 'AH',
-      selection: sp.side,
-      line: sp.point,
-      odds: sp.pick.price,
-      book: sp.pick.book,
-      pWin: sp.side === 'home' ? pr.homeCover : pr.awayCover,
-      pPush: pr.push,
-    });
+    if (isQuarterLine(sp.point)) {
+      // 四分盘:拆两条相邻半盘,四类概率驱动 EV(见 router.scoreCandidate)
+      const q = projectAsianHandicapQuarter(matrix, sp.point, sp.side);
+      out.push({
+        market: 'AH',
+        selection: sp.side,
+        line: sp.point,
+        odds: sp.pick.price,
+        book: sp.pick.book,
+        pWin: q.pFullWin + q.pHalfWin, // MIN_PROB 门槛:任何正回报的概率
+        pPush: 0,
+        quarter: q,
+      });
+    } else {
+      const pr =
+        sp.side === 'home'
+          ? projectAsianHandicap(matrix, sp.point)
+          : projectAsianHandicap(matrix, -sp.point);
+      out.push({
+        market: 'AH',
+        selection: sp.side,
+        line: sp.point,
+        odds: sp.pick.price,
+        book: sp.pick.book,
+        pWin: sp.side === 'home' ? pr.homeCover : pr.awayCover,
+        pPush: pr.push,
+      });
+    }
   }
 
   // BTTS 双方进球(Direction 2)

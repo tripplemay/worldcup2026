@@ -7,7 +7,7 @@ import {
 import { expectedValue, kelly, stakeFor } from '../ev';
 import { scoreCandidate, selectBest } from '../router';
 import { candidatesFromSnapshot } from '../odds';
-import { outcome, pnlFor, regulationScore } from '../settle';
+import { outcome, pnlFor, regulationScore, settleOutcome } from '../settle';
 import type { BetCandidate, Trade, MarketSnapshot } from '../types';
 import type { MatchEvent } from 'lib/espn/types';
 
@@ -175,6 +175,33 @@ describe('结算判定', () => {
     expect(pnlFor(t, 'won')).toBeCloseTo(100); // 100*(2-1)
     expect(pnlFor(t, 'lost')).toBeCloseTo(-100);
     expect(pnlFor(t, 'void')).toBe(0);
+  });
+
+  // ── 亚盘四分盘(.25/.75):settleOutcome 拆 line±0.25 两条相邻半盘再聚合 ──
+  it('四分盘结算:主 -0.75(赢1=半赢 / 赢2=全赢 / 平=全输)', () => {
+    expect(settleOutcome(T('AH', 'home', -0.75), 1, 0)).toBe('half_won');
+    expect(settleOutcome(T('AH', 'home', -0.75), 2, 0)).toBe('won');
+    expect(settleOutcome(T('AH', 'home', -0.75), 1, 1)).toBe('lost');
+  });
+  it('四分盘结算:主 -0.25 平=半输;主 +0.25 平=半赢、输1=全输', () => {
+    expect(settleOutcome(T('AH', 'home', -0.25), 1, 1)).toBe('half_lost');
+    expect(settleOutcome(T('AH', 'home', 0.25), 1, 1)).toBe('half_won');
+    expect(settleOutcome(T('AH', 'home', 0.25), 0, 1)).toBe('lost');
+  });
+  it('四分盘结算:客 +1.25 输1球=半赢(拆 +1 走盘 / +1.5 赢)', () => {
+    expect(settleOutcome(T('AH', 'away', 1.25), 2, 1)).toBe('half_won');
+  });
+  it('整数/半盘经 settleOutcome 回归 outcome', () => {
+    expect(settleOutcome(T('AH', 'home', -1), 1, 0)).toBe('void');
+    expect(settleOutcome(T('AH', 'home', -0.5), 0, 0)).toBe('lost');
+    expect(settleOutcome(T('1X2', 'home'), 2, 1)).toBe('won');
+  });
+  it('四分盘盈亏映射(odds2/stake100:半赢 +50、半输 −50)', () => {
+    const t = T('AH', 'home', -0.75);
+    expect(pnlFor(t, 'half_won')).toBeCloseTo(50);
+    expect(pnlFor(t, 'half_lost')).toBeCloseTo(-50);
+    expect(pnlFor(t, 'won')).toBeCloseTo(100);
+    expect(pnlFor(t, 'lost')).toBeCloseTo(-100);
   });
 });
 

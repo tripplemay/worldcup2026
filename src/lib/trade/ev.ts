@@ -29,3 +29,39 @@ export function stakeFor(
   if (stake < opts.minStake) return 0;
   return +stake.toFixed(2);
 }
+
+/**
+ * 亚盘四分盘 EV:四类结果(全赢/半赢/半输/全输)加权。
+ *   EV = pFullWin·b + pHalfWin·(b/2) − pHalfLoss·0.5 − pFullLoss   (b = odds − 1)
+ * 半赢只赢半注净赔(b/2),半输只输半注(0.5)。
+ */
+export function expectedValueQuarter(
+  pFullWin: number,
+  pHalfWin: number,
+  pHalfLoss: number,
+  pFullLoss: number,
+  odds: number,
+): number {
+  const b = odds - 1;
+  return +(
+    pFullWin * b +
+    pHalfWin * (b / 2) -
+    pHalfLoss * 0.5 -
+    pFullLoss
+  ).toFixed(4);
+}
+
+/** 四分盘 Kelly(沿用 EV/b 口径;半赢半输彩票的严格 Kelly 需数值解,此处用同一近似)。 */
+export function kellyQuarter(
+  pFullWin: number,
+  pHalfWin: number,
+  pHalfLoss: number,
+  pFullLoss: number,
+  odds: number,
+): number {
+  const b = odds - 1;
+  if (b <= 0) return 0;
+  return +(
+    expectedValueQuarter(pFullWin, pHalfWin, pHalfLoss, pFullLoss, odds) / b
+  ).toFixed(4);
+}
