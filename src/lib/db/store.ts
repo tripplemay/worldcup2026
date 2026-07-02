@@ -8,6 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync, renameSync } from 'fs';
 import { join } from 'path';
 import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { LeagueMatchOdds } from 'lib/predict/oddsTypes';
+import type { EpochResult } from 'research/search';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -94,6 +95,13 @@ export function saveLeagueOddsX(
   map: Record<string, LeagueMatchOdds>,
 ): void {
   writeJson(`league-${key}-oddsx.json`, map);
+}
+// Phase 10 研究调参时间线(搜索环每轮 epoch 结果;供客户端 /research 面板读)
+export function loadResearchTimeline(): EpochResult[] {
+  return readJson<EpochResult[]>('research-timeline.json', []);
+}
+export function saveResearchTimeline(list: EpochResult[]): void {
+  writeJson('research-timeline.json', list);
 }
 
 // ── 球队评分(按归一化队名)──────────────────────────────

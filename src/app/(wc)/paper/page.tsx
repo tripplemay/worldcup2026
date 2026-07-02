@@ -278,6 +278,7 @@ export default function PaperPage() {
   const { t } = useLocale();
   const { wallet, stats, trades, isLoading } = useTrade();
   const [filter, setFilter] = useState<Filter>('all');
+  const [tab, setTab] = useState<'book' | 'dryrun'>('book');
   const [dryRunResult, setDryRunResult] = useState<DryRunResponse | null>(null);
 
   useEffect(() => {
@@ -406,245 +407,277 @@ export default function PaperPage() {
         </p>
       </Card>
 
-      <PaperDryRunGenerator onGenerated={saveDryRun} />
-
-      {wallet && (
-        <Card extra="mb-3 p-4">
-          <div className="flex items-end justify-between">
-            <div>
-              <div className="text-[11px] text-gray-400">
-                {t('trade.balance')}
-              </div>
-              <div className="font-mono text-3xl font-extrabold text-navy-700 dark:text-white">
-                {money(stats?.equity ?? wallet.currentBalance)}
-              </div>
-            </div>
-            <div className={`text-right font-mono ${posCls(profit)}`}>
-              <div className="text-base font-bold">{signMoney(profit)}</div>
-              <div className="text-[11px]">
-                {(stats?.roi ?? 0) >= 0 ? '+' : ''}
-                {pct(stats?.roi ?? 0)}
-              </div>
-            </div>
-          </div>
-
-          <EquityCurve points={eqPoints} initial={wallet.initialBalance} />
-
-          <div className="mt-2 grid grid-cols-4 gap-2 border-t border-gray-100 pt-2 text-center dark:border-white/5">
-            <Stat
-              label={t('trade.available')}
-              value={money(wallet.currentBalance)}
-            />
-            <Stat
-              label={t('trade.locked')}
-              value={money(wallet.lockedBalance)}
-            />
-            <Stat
-              label={t('trade.winRate')}
-              value={`${(
-                (wallet.wins + wallet.losses
-                  ? wallet.wins / (wallet.wins + wallet.losses)
-                  : 0) * 100
-              ).toFixed(0)}%`}
-            />
-            <Stat label="W-L" value={`${wallet.wins}-${wallet.losses}`} />
-          </div>
-
-          {/* CLV 读盘准度(真·记分牌:下注后线是否朝我们走)— 头条提升 */}
-          {stats?.clv && stats.clv.n > 0 && (
-            <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-2 dark:border-white/5">
-              <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
-                {t('trade.clvScore')}
-              </span>
-              <span className="flex items-baseline gap-2">
-                <span
-                  className={`font-mono text-lg font-extrabold ${posCls(
-                    stats.clv.avgClv,
-                  )}`}
-                >
-                  {stats.clv.avgClv >= 0 ? '+' : ''}
-                  {(stats.clv.avgClv * 100).toFixed(1)}%
-                </span>
-                <span className="text-[10px] text-gray-400">
-                  {t('trade.posClv')} {pct(stats.clv.posRate)} ({stats.clv.n})
-                </span>
-              </span>
-            </div>
-          )}
-        </Card>
-      )}
-
-      {decided.length > 0 && (
-        <Card extra="mb-3 p-4">
-          <div className="grid grid-cols-3 gap-2 text-center">
-            <Stat
-              label={t('trade.profitFactor')}
-              value={pf === Infinity ? '∞' : pf.toFixed(2)}
-              cls={posCls(pf - 1)}
-            />
-            <Stat label={t('trade.avgOdds')} value={avgOdds.toFixed(2)} />
-            <Stat
-              label={t('trade.avgEv')}
-              value={`${(avgEv * 100).toFixed(0)}%`}
-            />
-          </div>
-          {stats?.clv && stats.clv.n > 0 && (
-            <div className="mt-2 flex items-center justify-center gap-3 border-t border-gray-100 pt-2 text-xs dark:border-white/5">
-              <span className="text-gray-400">{t('trade.clv')}</span>
-              <span
-                className={`font-mono font-bold ${posCls(stats.clv.avgClv)}`}
-              >
-                {stats.clv.avgClv >= 0 ? '+' : ''}
-                {(stats.clv.avgClv * 100).toFixed(1)}%
-              </span>
-              <span className="text-gray-400">
-                {t('trade.posClv')} {pct(stats.clv.posRate)} ({stats.clv.n})
-              </span>
-            </div>
-          )}
-          {stats?.tiers &&
-            (stats.tiers.value.n > 0 || stats.tiers.coverage.n > 0) && (
-              <div className="mt-2 flex items-center justify-center gap-4 border-t border-gray-100 pt-2 text-xs dark:border-white/5">
-                {(['value', 'coverage'] as const).map((k) => {
-                  const ti = stats.tiers![k];
-                  return (
-                    <span key={k} className="flex items-center gap-1">
-                      <span className="text-gray-400">
-                        {t(
-                          k === 'value'
-                            ? 'trade.tierValue'
-                            : 'trade.tierCoverage',
-                        )}
-                      </span>
-                      <span className="text-gray-500 dark:text-gray-400">
-                        {ti.wins}-{ti.losses}
-                      </span>
-                      <span className={`font-mono font-bold ${posCls(ti.pnl)}`}>
-                        {signMoney(ti.pnl)}
-                      </span>
-                    </span>
-                  );
-                })}
-              </div>
-            )}
-          {recent.length > 0 && (
-            <div className="mt-2 flex items-center gap-1 border-t border-gray-100 pt-2 dark:border-white/5">
-              <span className="mr-1 text-[10px] text-gray-400">
-                {t('trade.streak')}
-              </span>
-              {recent.map((x) => (
-                <span
-                  key={x.tradeId}
-                  className={`h-2.5 w-2.5 rounded-full ${
-                    x.status === 'won' ? 'bg-green-500' : 'bg-red-400'
-                  }`}
-                />
-              ))}
-            </div>
-          )}
-          {markets.length > 0 && (
-            <div className="mt-2 space-y-1 border-t border-gray-100 pt-2 dark:border-white/5">
-              <div className="text-[11px] font-semibold text-navy-700 dark:text-white">
-                {t('trade.byMarket')}
-              </div>
-              {markets.map((mk) => (
-                <div key={mk.m} className="flex items-center gap-2 text-xs">
-                  <span className="w-12 shrink-0 text-gray-500 dark:text-gray-400">
-                    {mktLabel[mk.m]}
-                  </span>
-                  <span className="flex-1 text-gray-400">
-                    {mk.bets} {t('trade.stake')} ·{' '}
-                    {mk.settled
-                      ? `${((mk.wins / mk.settled) * 100).toFixed(0)}%`
-                      : '—'}
-                  </span>
-                  <span
-                    className={`shrink-0 font-mono font-bold ${posCls(mk.pnl)}`}
-                  >
-                    {signMoney(mk.pnl)}
-                  </span>
-                </div>
-              ))}
-            </div>
-          )}
-        </Card>
-      )}
-
-      {dryRunResult && (
-        <Card extra="mb-3 p-4">
-          <div className="mb-3 flex items-start justify-between gap-2">
-            <div>
-              <div className="font-bold text-navy-700 dark:text-white">
-                {t('trade.dryRunDrafts')}
-              </div>
-              <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
-                {t('trade.dryRunLocalOnly')} · {dryRunSlips.length}{' '}
-                {t('trade.stake')}
-              </div>
-            </div>
-            <button
-              onClick={clearDryRun}
-              className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-500 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
-            >
-              {t('trade.dryRunClear')}
-            </button>
-          </div>
-          {dryRunResult?.skipped.length ? (
-            <div className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
-              {t('trade.dryRunSkipped')} {dryRunResult.skipped.length}:{' '}
-              {dryRunResult.skipped
-                .slice(0, 3)
-                .map((x) => x.label)
-                .join(' / ')}
-            </div>
-          ) : null}
-          <div className="space-y-3">
-            {dryRunSlips.length > 0 ? (
-              dryRunSlips.map((tr) => (
-                <TradeCard key={tr.tradeId} tr={tr} dryRun />
-              ))
-            ) : (
-              <div className="rounded-xl bg-lightPrimary px-3 py-4 text-center text-xs text-gray-400 dark:bg-navy-900">
-                {t('trade.dryRunEmptyResult')}
-              </div>
-            )}
-          </div>
-        </Card>
-      )}
-
-      {isLoading && trades.length === 0 && (
-        <div className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
-      )}
-
-      {!isLoading && trades.length === 0 && (
-        <div className="py-16 text-center text-gray-400">
-          {t('trade.empty')}
-        </div>
-      )}
-
-      {trades.length > 0 && (
-        <div className="mb-3 flex gap-1.5">
-          {(['all', 'pending', 'won', 'lost'] as Filter[]).map((f) => (
-            <button
-              key={f}
-              onClick={() => setFilter(f)}
-              className={`rounded-full px-3 py-1 text-xs font-medium ${
-                filter === f
-                  ? 'bg-brand-500 text-white'
-                  : 'bg-white text-gray-500 dark:bg-navy-800 dark:text-gray-400'
-              }`}
-            >
-              {f === 'all' ? t('trade.all') : t(`trade.${f}`)}
-            </button>
-          ))}
-        </div>
-      )}
-
-      <div className="space-y-3">
-        {shown.map((tr) => (
-          <TradeCard key={tr.tradeId} tr={tr} />
+      {/* Tab 切换:模拟盘(原内容)/ 赛前预生成 */}
+      <div className="mb-3 flex gap-1.5">
+        {(['book', 'dryrun'] as const).map((x) => (
+          <button
+            key={x}
+            onClick={() => setTab(x)}
+            className={`rounded-full px-3 py-1 text-xs font-medium ${
+              tab === x
+                ? 'bg-brand-500 text-white'
+                : 'bg-white text-gray-500 dark:bg-navy-800 dark:text-gray-400'
+            }`}
+          >
+            {x === 'book' ? t('nav.paper') : t('trade.dryRunTitle')}
+          </button>
         ))}
       </div>
+
+      {tab === 'book' && (
+        <>
+          {wallet && (
+            <Card extra="mb-3 p-4">
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-[11px] text-gray-400">
+                    {t('trade.balance')}
+                  </div>
+                  <div className="font-mono text-3xl font-extrabold text-navy-700 dark:text-white">
+                    {money(stats?.equity ?? wallet.currentBalance)}
+                  </div>
+                </div>
+                <div className={`text-right font-mono ${posCls(profit)}`}>
+                  <div className="text-base font-bold">{signMoney(profit)}</div>
+                  <div className="text-[11px]">
+                    {(stats?.roi ?? 0) >= 0 ? '+' : ''}
+                    {pct(stats?.roi ?? 0)}
+                  </div>
+                </div>
+              </div>
+
+              <EquityCurve points={eqPoints} initial={wallet.initialBalance} />
+
+              <div className="mt-2 grid grid-cols-4 gap-2 border-t border-gray-100 pt-2 text-center dark:border-white/5">
+                <Stat
+                  label={t('trade.available')}
+                  value={money(wallet.currentBalance)}
+                />
+                <Stat
+                  label={t('trade.locked')}
+                  value={money(wallet.lockedBalance)}
+                />
+                <Stat
+                  label={t('trade.winRate')}
+                  value={`${(
+                    (wallet.wins + wallet.losses
+                      ? wallet.wins / (wallet.wins + wallet.losses)
+                      : 0) * 100
+                  ).toFixed(0)}%`}
+                />
+                <Stat label="W-L" value={`${wallet.wins}-${wallet.losses}`} />
+              </div>
+
+              {/* CLV 读盘准度(真·记分牌:下注后线是否朝我们走)— 头条提升 */}
+              {stats?.clv && stats.clv.n > 0 && (
+                <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-2 dark:border-white/5">
+                  <span className="text-[11px] font-medium text-gray-500 dark:text-gray-400">
+                    {t('trade.clvScore')}
+                  </span>
+                  <span className="flex items-baseline gap-2">
+                    <span
+                      className={`font-mono text-lg font-extrabold ${posCls(
+                        stats.clv.avgClv,
+                      )}`}
+                    >
+                      {stats.clv.avgClv >= 0 ? '+' : ''}
+                      {(stats.clv.avgClv * 100).toFixed(1)}%
+                    </span>
+                    <span className="text-[10px] text-gray-400">
+                      {t('trade.posClv')} {pct(stats.clv.posRate)} (
+                      {stats.clv.n})
+                    </span>
+                  </span>
+                </div>
+              )}
+            </Card>
+          )}
+
+          {decided.length > 0 && (
+            <Card extra="mb-3 p-4">
+              <div className="grid grid-cols-3 gap-2 text-center">
+                <Stat
+                  label={t('trade.profitFactor')}
+                  value={pf === Infinity ? '∞' : pf.toFixed(2)}
+                  cls={posCls(pf - 1)}
+                />
+                <Stat label={t('trade.avgOdds')} value={avgOdds.toFixed(2)} />
+                <Stat
+                  label={t('trade.avgEv')}
+                  value={`${(avgEv * 100).toFixed(0)}%`}
+                />
+              </div>
+              {stats?.clv && stats.clv.n > 0 && (
+                <div className="mt-2 flex items-center justify-center gap-3 border-t border-gray-100 pt-2 text-xs dark:border-white/5">
+                  <span className="text-gray-400">{t('trade.clv')}</span>
+                  <span
+                    className={`font-mono font-bold ${posCls(
+                      stats.clv.avgClv,
+                    )}`}
+                  >
+                    {stats.clv.avgClv >= 0 ? '+' : ''}
+                    {(stats.clv.avgClv * 100).toFixed(1)}%
+                  </span>
+                  <span className="text-gray-400">
+                    {t('trade.posClv')} {pct(stats.clv.posRate)} ({stats.clv.n})
+                  </span>
+                </div>
+              )}
+              {stats?.tiers &&
+                (stats.tiers.value.n > 0 || stats.tiers.coverage.n > 0) && (
+                  <div className="mt-2 flex items-center justify-center gap-4 border-t border-gray-100 pt-2 text-xs dark:border-white/5">
+                    {(['value', 'coverage'] as const).map((k) => {
+                      const ti = stats.tiers![k];
+                      return (
+                        <span key={k} className="flex items-center gap-1">
+                          <span className="text-gray-400">
+                            {t(
+                              k === 'value'
+                                ? 'trade.tierValue'
+                                : 'trade.tierCoverage',
+                            )}
+                          </span>
+                          <span className="text-gray-500 dark:text-gray-400">
+                            {ti.wins}-{ti.losses}
+                          </span>
+                          <span
+                            className={`font-mono font-bold ${posCls(ti.pnl)}`}
+                          >
+                            {signMoney(ti.pnl)}
+                          </span>
+                        </span>
+                      );
+                    })}
+                  </div>
+                )}
+              {recent.length > 0 && (
+                <div className="mt-2 flex items-center gap-1 border-t border-gray-100 pt-2 dark:border-white/5">
+                  <span className="mr-1 text-[10px] text-gray-400">
+                    {t('trade.streak')}
+                  </span>
+                  {recent.map((x) => (
+                    <span
+                      key={x.tradeId}
+                      className={`h-2.5 w-2.5 rounded-full ${
+                        x.status === 'won' ? 'bg-green-500' : 'bg-red-400'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
+              {markets.length > 0 && (
+                <div className="mt-2 space-y-1 border-t border-gray-100 pt-2 dark:border-white/5">
+                  <div className="text-[11px] font-semibold text-navy-700 dark:text-white">
+                    {t('trade.byMarket')}
+                  </div>
+                  {markets.map((mk) => (
+                    <div key={mk.m} className="flex items-center gap-2 text-xs">
+                      <span className="w-12 shrink-0 text-gray-500 dark:text-gray-400">
+                        {mktLabel[mk.m]}
+                      </span>
+                      <span className="flex-1 text-gray-400">
+                        {mk.bets} {t('trade.stake')} ·{' '}
+                        {mk.settled
+                          ? `${((mk.wins / mk.settled) * 100).toFixed(0)}%`
+                          : '—'}
+                      </span>
+                      <span
+                        className={`shrink-0 font-mono font-bold ${posCls(
+                          mk.pnl,
+                        )}`}
+                      >
+                        {signMoney(mk.pnl)}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          )}
+
+          {isLoading && trades.length === 0 && (
+            <div className="h-24 animate-pulse rounded-[20px] bg-white dark:bg-navy-800" />
+          )}
+
+          {!isLoading && trades.length === 0 && (
+            <div className="py-16 text-center text-gray-400">
+              {t('trade.empty')}
+            </div>
+          )}
+
+          {trades.length > 0 && (
+            <div className="mb-3 flex gap-1.5">
+              {(['all', 'pending', 'won', 'lost'] as Filter[]).map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setFilter(f)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium ${
+                    filter === f
+                      ? 'bg-brand-500 text-white'
+                      : 'bg-white text-gray-500 dark:bg-navy-800 dark:text-gray-400'
+                  }`}
+                >
+                  {f === 'all' ? t('trade.all') : t(`trade.${f}`)}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="space-y-3">
+            {shown.map((tr) => (
+              <TradeCard key={tr.tradeId} tr={tr} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {tab === 'dryrun' && (
+        <>
+          <PaperDryRunGenerator onGenerated={saveDryRun} />
+
+          {dryRunResult && (
+            <Card extra="mt-3 p-4">
+              <div className="mb-3 flex items-start justify-between gap-2">
+                <div>
+                  <div className="font-bold text-navy-700 dark:text-white">
+                    {t('trade.dryRunDrafts')}
+                  </div>
+                  <div className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
+                    {t('trade.dryRunLocalOnly')} · {dryRunSlips.length}{' '}
+                    {t('trade.stake')}
+                  </div>
+                </div>
+                <button
+                  onClick={clearDryRun}
+                  className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-500 active:scale-95 dark:bg-navy-700 dark:text-gray-300"
+                >
+                  {t('trade.dryRunClear')}
+                </button>
+              </div>
+              {dryRunResult?.skipped.length ? (
+                <div className="mb-3 rounded-xl bg-amber-50 px-3 py-2 text-[11px] text-amber-700 dark:bg-amber-500/10 dark:text-amber-300">
+                  {t('trade.dryRunSkipped')} {dryRunResult.skipped.length}:{' '}
+                  {dryRunResult.skipped
+                    .slice(0, 3)
+                    .map((x) => x.label)
+                    .join(' / ')}
+                </div>
+              ) : null}
+              <div className="space-y-3">
+                {dryRunSlips.length > 0 ? (
+                  dryRunSlips.map((tr) => (
+                    <TradeCard key={tr.tradeId} tr={tr} dryRun />
+                  ))
+                ) : (
+                  <div className="rounded-xl bg-lightPrimary px-3 py-4 text-center text-xs text-gray-400 dark:bg-navy-900">
+                    {t('trade.dryRunEmptyResult')}
+                  </div>
+                )}
+              </div>
+            </Card>
+          )}
+        </>
+      )}
     </div>
   );
 }

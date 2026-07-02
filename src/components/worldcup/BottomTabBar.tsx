@@ -7,9 +7,8 @@ import {
   MdCalendarMonth,
   MdShowChart,
   MdInsights,
-  MdLeaderboard,
-  MdAccountTree,
   MdEmojiEvents,
+  MdScience,
   MdAccountBalanceWallet,
   MdSavings,
 } from 'react-icons/md';
@@ -57,9 +56,8 @@ export default function BottomTabBar() {
     { href: '/schedule', label: t('nav.schedule'), Icon: MdCalendarMonth },
     { href: '/odds', label: t('nav.odds'), Icon: MdShowChart, live: true },
     { href: '/predict', label: t('nav.predict'), Icon: MdInsights },
-    { href: '/standings', label: t('nav.standings'), Icon: MdLeaderboard },
-    { href: '/scenarios', label: t('nav.sandbox'), Icon: MdAccountTree },
     { href: '/bracket', label: t('nav.bracket'), Icon: MdEmojiEvents },
+    { href: '/research', label: t('nav.research'), Icon: MdScience },
     { href: '/paper', label: t('nav.paper'), Icon: MdAccountBalanceWallet },
     { href: '/pnl', label: t('nav.pnl'), Icon: MdSavings },
   ];
