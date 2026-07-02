@@ -49,6 +49,7 @@ export interface EpochResult {
   partition: Partition;
   configs: ConfigMetrics[];
   winner: ConfigMetrics;
+  winnerParams: StrategyParams; // 冠军参数(供面板算参数增量)
   pbo: number; // 全网格 value-ROI 的 CSCV 过拟合概率
   dsr: DsrResult; // 冠军 OOS 收益去膨胀夏普(nTrials=累计 N)
   screen: {
@@ -92,7 +93,8 @@ export function runSearch(
   const S = opts?.blocksForPbo ?? 10;
   const dates = safe.allRes.map((r) => r.date.slice(0, 10)).sort();
   const bnd: string[] = [];
-  for (let i = 1; i < S; i++) bnd.push(dates[Math.floor((i * dates.length) / S)]);
+  for (let i = 1; i < S; i++)
+    bnd.push(dates[Math.floor((i * dates.length) / S)]);
   const blockOf = (d: string) => {
     let b = 0;
     for (const x of bnd) if (d >= x) b++;
@@ -101,7 +103,11 @@ export function runSearch(
 
   // 3) 逐配置:IS gap / OOS 指标 / OOS 收益 / 全样本按块收益
   const rows = grid.map((g) => {
-    const acc = { tuning: g.params.tuning, home: g.params.home, marketWeight: g.params.marketWeight };
+    const acc = {
+      tuning: g.params.tuning,
+      home: g.params.home,
+      marketWeight: g.params.marketWeight,
+    };
     const isGap = runAccuracy(safe, { ...acc, to: partition.trainTo }).gapBrier;
     const sOos = runStrategy(safe, {
       ...g.params,
@@ -155,8 +161,7 @@ export function runSearch(
 
   // 7) 三筛(能逐 epoch 完整计算的:CLV/PBO/DSR)
   const T = DEFAULT_THRESHOLDS;
-  const clvPass =
-    winner.oosClvN >= T.clvMinN && winner.oosClvT > T.clvMinT;
+  const clvPass = winner.oosClvN >= T.clvMinN && winner.oosClvT > T.clvMinT;
   const pboPass = PBO < T.pboMax;
   const dsrPass = DSR.dsr > T.roiDsrMin;
 
@@ -178,6 +183,7 @@ export function runSearch(
     partition,
     configs: rows.map(strip),
     winner: strip(winner),
+    winnerParams: grid.find((g) => g.label === winner.label)!.params,
     pbo: PBO,
     dsr: DSR,
     screen: {
