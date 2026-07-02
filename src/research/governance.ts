@@ -21,7 +21,9 @@ function canonical(o: unknown): string {
         .sort()
         .map(
           (k) =>
-            JSON.stringify(k) + ':' + canonical((o as Record<string, unknown>)[k]),
+            JSON.stringify(k) +
+            ':' +
+            canonical((o as Record<string, unknown>)[k]),
         )
         .join(',') +
       '}'
@@ -96,7 +98,10 @@ export function excludeHoldout(
   m: HoldoutManifest,
 ): EngineDataset {
   const set = new Set(m.holdoutEventIds);
-  return { ...dataset, allRes: dataset.allRes.filter((r) => !set.has(r.eventId)) };
+  return {
+    ...dataset,
+    allRes: dataset.allRes.filter((r) => !set.has(r.eventId)),
+  };
 }
 /** 返回**仅 L3** 的数据集(G6 一次性验收用;用完即"烧毁")。 */
 export function holdoutSlice(
@@ -104,7 +109,10 @@ export function holdoutSlice(
   m: HoldoutManifest,
 ): EngineDataset {
   const set = new Set(m.holdoutEventIds);
-  return { ...dataset, allRes: dataset.allRes.filter((r) => set.has(r.eventId)) };
+  return {
+    ...dataset,
+    allRes: dataset.allRes.filter((r) => set.has(r.eventId)),
+  };
 }
 
 // ── G0–G7 晋级闸门 ───────────────────────────────────────
@@ -120,7 +128,11 @@ export interface GateEvidence {
     rollingPositive: boolean;
   }; // G4
   drawdown: { historicalMaxDD: number; mc95DD: number; ruinPath: boolean }; // G5(一票否决)
-  holdout?: { clvPositive: boolean; roiNotSigNeg: boolean; noNewCollapse: boolean }; // G6
+  holdout?: {
+    clvPositive: boolean;
+    roiNotSigNeg: boolean;
+    noNewCollapse: boolean;
+  }; // G6
   forward?: { liveBets: number; liveClvT: number }; // G7
 }
 
@@ -167,6 +179,16 @@ export interface PromotionVerdict {
   passedAll: boolean;
   blockedAt: string | null; // 卡在哪道闸(null=全过)
   gates: GateResult[];
+}
+
+/** 晋级台账一条(落 promotionLedger.json;每候选各闸结论 + 证据快照)。 */
+export interface PromotionEntry {
+  at?: number;
+  epoch: number;
+  configHash: string;
+  label: string;
+  evidence: GateEvidence;
+  verdict: PromotionVerdict;
 }
 
 /**
@@ -256,7 +278,9 @@ export function evaluateGates(
       !!ev.forward &&
       ev.forward.liveBets >= T.fwdMinBets &&
       ev.forward.liveClvT > T.fwdMinClvT,
-    ev.forward ? `liveBets=${ev.forward.liveBets} t=${ev.forward.liveClvT}` : '无前向',
+    ev.forward
+      ? `liveBets=${ev.forward.liveBets} t=${ev.forward.liveClvT}`
+      : '无前向',
   );
 
   return { passedAll: !blocked, blockedAt: blocked, gates };

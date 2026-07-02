@@ -1,8 +1,9 @@
 /**
- * POST /api/worldcup/research/run —— 重算研究调参时间线并落盘(管理员;x-admin-token)。
- * 数据优先经 store 读(部署时 seed/leagues 已播种到 WC_DATA_DIR/predict);数据目录为空(本地未播种)
- * 时回退读 seed/ via fs。→ runSearch 两轮(goalShrink 网格 → dcRho 网格,累积注册表)→ saveResearchTimeline。
- * 后续接常驻 daemon / cron 后可自动刷新;此接口为手动/兜底触发。
+ * POST /api/worldcup/research/run —— 跑一轮多 epoch 研究搜索并落盘全部治理产物(管理员;x-admin-token)。
+ * 编排:载入历史注册表(钉死累计 N,跨 run 持续增长)→ runSearchLoop(defaultGrids)→
+ * 最优候选跑全 gauntlet promoteCandidate → saveResearchTimeline(追加,留最近 20 轮)+
+ * saveTrialRegistry + savePromotionLedger + saveHoldoutManifest。
+ * 数据优先经 store(部署已播种)读,空则回退 seed/ fs。cron 定时 hit 本接口即"持续运行"。
  */
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -11,16 +12,27 @@ import {
   loadLeagueHistorical,
   loadLeagueResults,
   loadLeagueOddsX,
+  loadResearchTimeline,
   saveResearchTimeline,
+  loadTrialRegistry,
+  saveTrialRegistry,
+  loadHoldoutManifest,
+  saveHoldoutManifest,
+  loadPromotionLedger,
+  savePromotionLedger,
 } from 'lib/db/store';
-import { runSearch } from 'research/search';
-import type { SweepConfig } from 'research/search';
-import type { EngineDataset, StrategyParams, MatchOddsView } from 'research/engine';
+import { runSearchLoop, defaultGrids } from 'research/loop';
+import { promoteCandidate } from 'research/promote';
+import { sliceDates } from 'research/walkforward';
+import { buildHoldoutManifest, configHash } from 'research/governance';
+import type { EngineDataset, MatchOddsView } from 'research/engine';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300;
 
 const LEAGUE_KEY = 'epl-2025';
+const MAX_TIMELINE = 20;
+const MAX_LEDGER = 50;
 
 function checkAuth(req: Request): boolean | null {
   const token = process.env.ADMIN_TOKEN;
@@ -41,28 +53,11 @@ function loadDataset(): EngineDataset {
       allRes = Object.values(seed(`league-${LEAGUE_KEY}-results.json`));
       odds = seed(`league-${LEAGUE_KEY}-oddsx.json`);
     } catch {
-      /* seed 也不可读 → 保持 store 结果(可能为空,下方会返回提示) */
+      /* seed 不可读 → 保持 store 结果 */
     }
   }
   return { allHist, allRes, odds };
 }
-
-const bet = {
-  minProb: 0.3,
-  minEv: 0.03,
-  maxEv: 0.3,
-  kellyFraction: 0.25,
-  maxStakePct: 0.05,
-  minStake: 10,
-  coverageStakePct: 0.005,
-  initialBalance: 10000,
-};
-const cfg = (goalShrink: number, dcRho: number): StrategyParams => ({
-  tuning: { goalShrink, dcRho, shrinkEloScale: 100 },
-  home: { eloBonus: 65, goalMult: 1.12 },
-  marketWeight: 0.4,
-  bet,
-});
 
 export async function POST(req: Request) {
   const a = checkAuth(req);
@@ -72,19 +67,57 @@ export async function POST(req: Request) {
     const dataset = loadDataset();
     if (!dataset.allRes.length || !Object.keys(dataset.odds).length)
       return fail('联赛数据缺失(数据目录未播种且无 seed)', 500);
-    const gridA: SweepConfig[] = [0.4, 0.6, 0.8].map((gs) => ({
-      label: `gs${gs}`,
-      params: cfg(gs, -0.14),
-    }));
-    const gridB: SweepConfig[] = [-0.2, -0.14, -0.08].map((rho) => ({
-      label: `rho${rho}`,
-      params: cfg(0.6, rho),
-    }));
-    const e1 = runSearch(dataset, gridA, { epoch: 1 });
-    const e2 = runSearch(dataset, gridB, { epoch: 2, registry: e1.registry });
-    const epochs = [e1.epoch, e2.epoch];
-    saveResearchTimeline(epochs);
-    return okLive({ epochs: epochs.length, latestWinner: e2.epoch.winner.label });
+
+    const now = Date.now();
+    const prior = loadResearchTimeline();
+    const startEpoch = (prior[prior.length - 1]?.epoch ?? 0) + 1;
+
+    // 多 epoch 循环:注册表跨 run 累积(钉死分母)
+    const loop = runSearchLoop(dataset, defaultGrids(), {
+      registry: loadTrialRegistry(),
+      startEpoch,
+      at: now,
+    });
+
+    // 时间线追加(留最近 MAX_TIMELINE 轮)+ 注册表落盘
+    const timeline = [...prior, ...loop.epochs].slice(-MAX_TIMELINE);
+    saveResearchTimeline(timeline);
+    saveTrialRegistry(loop.registry);
+
+    // holdout manifest(首次锁定,之后复用记录)
+    const manifest =
+      loadHoldoutManifest() ??
+      buildHoldoutManifest(dataset, sliceDates(dataset).holdoutFrom, now);
+    saveHoldoutManifest(manifest);
+
+    // 最优候选跑全 gauntlet → 追加晋级台账
+    let promoted: { label: string; blockedAt: string | null } | null = null;
+    if (loop.best) {
+      const pr = promoteCandidate(
+        dataset,
+        loop.best.params,
+        { epoch: loop.best.epoch, dsr: loop.best.dsr, pbo: loop.best.pbo },
+        { holdoutFrom: manifest.holdoutFrom },
+      );
+      const ledger = loadPromotionLedger();
+      ledger.push({
+        at: now,
+        epoch: loop.best.epoch,
+        configHash: configHash(loop.best.params),
+        label: loop.best.label,
+        evidence: pr.evidence,
+        verdict: pr.verdict,
+      });
+      savePromotionLedger(ledger.slice(-MAX_LEDGER));
+      promoted = { label: loop.best.label, blockedAt: pr.verdict.blockedAt };
+    }
+
+    return okLive({
+      newEpochs: loop.epochs.length,
+      totalEpochs: timeline.length,
+      cumulativeTrials: loop.registry.trials.length,
+      best: promoted,
+    });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '研究重算失败');
   }

@@ -9,6 +9,11 @@ import { join } from 'path';
 import type { HistMatch, TeamRating, ResultMatch } from 'lib/predict/types';
 import type { LeagueMatchOdds } from 'lib/predict/oddsTypes';
 import type { EpochResult } from 'research/search';
+import type {
+  TrialRegistry,
+  HoldoutManifest,
+  PromotionEntry,
+} from 'research/governance';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -102,6 +107,28 @@ export function loadResearchTimeline(): EpochResult[] {
 }
 export function saveResearchTimeline(list: EpochResult[]): void {
   writeJson('research-timeline.json', list);
+}
+// 治理三件套(跨 run 累积:注册表钉死分母、holdout 锁定、晋级台账)
+export function loadTrialRegistry(): TrialRegistry {
+  return readJson<TrialRegistry>('trial-registry.json', {
+    trials: [],
+    seen: {},
+  });
+}
+export function saveTrialRegistry(r: TrialRegistry): void {
+  writeJson('trial-registry.json', r);
+}
+export function loadHoldoutManifest(): HoldoutManifest | null {
+  return readJson<HoldoutManifest | null>('holdout-manifest.json', null);
+}
+export function saveHoldoutManifest(m: HoldoutManifest): void {
+  writeJson('holdout-manifest.json', m);
+}
+export function loadPromotionLedger(): PromotionEntry[] {
+  return readJson<PromotionEntry[]>('promotion-ledger.json', []);
+}
+export function savePromotionLedger(list: PromotionEntry[]): void {
+  writeJson('promotion-ledger.json', list);
 }
 
 // ── 球队评分(按归一化队名)──────────────────────────────
