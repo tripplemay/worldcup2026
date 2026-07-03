@@ -223,6 +223,7 @@ function LeaderboardPanel({
 export default function ResearchPage() {
   const { t } = useLocale();
   const {
+    scoreboard: sb,
     epochs,
     analysis,
     evolution,
@@ -280,6 +281,128 @@ export default function ResearchPage() {
 
       {epochs.length > 0 && last && (
         <div className="space-y-3">
+          {sb && (
+            <Card
+              extra={`border-l-4 p-4 ${
+                sb.passedAll
+                  ? 'border-l-green-500 bg-green-50/60 dark:bg-green-500/10'
+                  : 'border-l-amber-400 bg-amber-50/40 dark:bg-amber-500/10'
+              }`}
+            >
+              {/* 人话结论:现在能不能下注 */}
+              <div className="text-sm font-bold text-navy-700 dark:text-white">
+                {sb.passedAll
+                  ? t('research.sbBetVerdictPass')
+                  : sb.incumbentLabel
+                  ? `${t('research.sbBetVerdictBlocked')} —— ${t('research.sbBlockedAtPre')} ${
+                      sb.blockedAt ?? '—'
+                    }·${t(`research.gateNames.${sb.blockedAt}`)}`
+                  : t('research.sbBetVerdictNone')}
+              </div>
+              {/* 关卡进度点 */}
+              {sb.gates.length > 0 && (
+                <div className="mt-2 flex flex-wrap items-center gap-2">
+                  {sb.gates.map((g) => (
+                    <span key={g.id} className="flex items-center gap-0.5 text-[10px]">
+                      <span
+                        className={`inline-block h-2 w-2 rounded-full ${
+                          g.status === 'pass'
+                            ? 'bg-green-500'
+                            : g.status === 'fail'
+                            ? 'bg-red-400'
+                            : 'bg-gray-300 dark:bg-navy-600'
+                        }`}
+                      />
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {t(`research.gateNames.${g.id}`)}
+                      </span>
+                    </span>
+                  ))}
+                </div>
+              )}
+              {/* 三块人话数字:预测 / 下注 / 收益 */}
+              <div className="mt-3 grid grid-cols-3 gap-2 border-t border-gray-100 pt-2 text-center dark:border-white/5">
+                <div>
+                  <div className="text-[10px] text-gray-400">{t('research.sbPredict')}</div>
+                  {sb.accuracy ? (
+                    <>
+                      <div className="font-mono text-lg font-extrabold text-navy-700 dark:text-white">
+                        {(sb.accuracy.oursHit * 100).toFixed(1)}%
+                      </div>
+                      <div className="text-[10px] text-gray-400">
+                        {t('research.sbVsMarket')} {(sb.accuracy.marketHit * 100).toFixed(1)}%
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-lg text-gray-400">—</div>
+                  )}
+                </div>
+                <div>
+                  <div className="text-[10px] text-gray-400">{t('research.sbBets')}</div>
+                  {sb.betting ? (
+                    <>
+                      <div className="font-mono text-lg font-extrabold text-navy-700 dark:text-white">
+                        {sb.betting.n}
+                        <span className="ml-0.5 text-[10px] font-normal text-gray-400">
+                          {t('research.sbBetsUnit')}
+                        </span>
+                      </div>
+                      <div className="text-[10px] text-gray-400">
+                        {t('research.sbWinRate')} {(sb.betting.winRate * 100).toFixed(0)}% ·{' '}
+                        <span
+                          className={
+                            sb.betting.roi > 0
+                              ? 'text-green-600 dark:text-green-400'
+                              : 'text-red-500 dark:text-red-400'
+                          }
+                        >
+                          ROI {signed(sb.betting.roi * 100, 1)}%
+                        </span>
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-lg text-gray-400">—</div>
+                  )}
+                </div>
+                <div>
+                  <div className="text-[10px] text-gray-400">{t('research.sbMoney')}</div>
+                  {sb.money ? (
+                    <>
+                      <div
+                        className={`font-mono text-lg font-extrabold ${
+                          sb.money.end >= sb.money.start
+                            ? 'text-green-600 dark:text-green-400'
+                            : 'text-red-500 dark:text-red-400'
+                        }`}
+                      >
+                        {Math.round(sb.money.end).toLocaleString()}
+                      </div>
+                      <div className="text-[10px] text-gray-400">
+                        {t('research.sbMoneyStart')} {Math.round(sb.money.start).toLocaleString()}{' '}
+                        {t('research.sbMoneyArrow')}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="text-lg text-gray-400">—</div>
+                  )}
+                </div>
+              </div>
+              {/* 前向 + 统计窗脚注 */}
+              <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-1.5 text-[10px] text-gray-400 dark:border-white/5">
+                <span>
+                  {t('research.sbForward')}:{' '}
+                  {sb.forward && sb.forward.n > 0
+                    ? `${sb.forward.n} ${t('research.sbBetsUnit')} · ${signed(sb.forward.pnl, 0)}`
+                    : t('research.sbForwardWait')}
+                </span>
+                {sb.window && (
+                  <span>
+                    {t('research.sbWindow')} {sb.window.from}~{sb.window.to}
+                  </span>
+                )}
+              </div>
+            </Card>
+          )}
           {analysis && (
             <Card extra="border-l-4 border-l-brand-400 p-4">
               <div className="mb-1 flex items-center gap-1.5 text-sm font-bold text-navy-700 dark:text-white">

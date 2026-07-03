@@ -22,6 +22,7 @@ import type { OddsChangeMap } from 'lib/odds/changes';
 import type { EpochResult } from 'research/search';
 import type { AnalystReport } from 'research/analyst';
 import type { ForwardSummaryRow } from 'research/forward';
+import type { Scoreboard } from 'research/scoreboard';
 
 // 赔率变动类型在 lib/odds/changes 定义;此处转出,组件统一从 hooks 取。
 export type {
@@ -173,6 +174,7 @@ export interface GauntletRow {
 /** 研究调参时间线 + LLM 分析报告 + 进化状态 + 深察(边际/日志/台账);读后台落盘。 */
 export function useResearch() {
   const { data, error, isLoading, mutate } = useSWR<{
+    scoreboard: Scoreboard | null;
     epochs: EpochResult[];
     analysis: AnalystReport | null;
     evolution: EvolutionSummary | null;
@@ -185,6 +187,7 @@ export function useResearch() {
     ...common,
   });
   return {
+    scoreboard: data?.scoreboard ?? null,
     epochs: data?.epochs ?? [],
     analysis: data?.analysis ?? null,
     evolution: data?.evolution ?? null,

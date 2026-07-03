@@ -17,6 +17,7 @@ import type {
 import type { AnalystReport } from 'research/analyst';
 import type { EvolutionState, EvolutionLogEntry } from 'research/evolve';
 import type { ForwardStore } from 'research/forward';
+import type { Scoreboard } from 'research/scoreboard';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -158,6 +159,14 @@ export function loadEvolutionState(): EvolutionState | null {
 export function saveEvolutionState(s: EvolutionState): void {
   writeJsonWithBak('evolution-state.json', s);
 }
+// 人话成绩单(观测台顶部直观区;每轮 run 实算落盘)
+export function loadResearchScoreboard(): Scoreboard | null {
+  return readJson<Scoreboard | null>('research-scoreboard.json', null);
+}
+export function saveResearchScoreboard(s: Scoreboard): void {
+  writeJson('research-scoreboard.json', s);
+}
+
 // G7 前向纸面(watermark 之后新到完赛的虚拟注;research-forward.json)
 export function loadForwardStore(): ForwardStore | null {
   return readJson<ForwardStore | null>('research-forward.json', null);

@@ -26,8 +26,10 @@ import {
   appendEvolutionLog,
   loadForwardStore,
   saveForwardStore,
+  saveResearchScoreboard,
 } from 'lib/db/store';
 import { runEvolutionCycle } from 'research/evolve';
+import { buildScoreboard } from 'research/scoreboard';
 import {
   buildAnalystBrief,
   analyzeResearch,
@@ -119,6 +121,20 @@ export async function POST(req: Request) {
     appendEvolutionLog(result.logs);
     saveHoldoutManifest(result.manifest);
     saveEvolutionState({ ...result.state, lastRunDay: today });
+
+    // 人话成绩单(观测台顶部;失败不阻断)
+    try {
+      const sb = await buildScoreboard(
+        dataset,
+        result.state,
+        result.manifest,
+        result.forward,
+        ledger[ledger.length - 1] ?? null,
+      );
+      saveResearchScoreboard(sb);
+    } catch {
+      /* ignore */
+    }
 
     // 分析员(面向人;失败不阻断)
     let analyzed = false;

@@ -11,6 +11,7 @@ import {
   loadEvolutionLog,
   loadPromotionLedger,
   loadForwardStore,
+  loadResearchScoreboard,
 } from 'lib/db/store';
 import { PARAM_KEYS, extractEvo } from 'research/evolve';
 import { forwardSummary } from 'research/forward';
@@ -62,6 +63,7 @@ export async function GET() {
   try {
     const st = loadEvolutionState();
     return okLive({
+      scoreboard: loadResearchScoreboard(),
       epochs: loadResearchTimeline(),
       analysis: loadResearchAnalysis(),
       // 进化状态摘要(面板徽章;holdout 数值证据不出面板,只给 pass/fail 级信息)
