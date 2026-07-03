@@ -21,6 +21,7 @@ import type {
 import type { OddsChangeMap } from 'lib/odds/changes';
 import type { EpochResult } from 'research/search';
 import type { AnalystReport } from 'research/analyst';
+import type { ForwardSummaryRow } from 'research/forward';
 
 // 赔率变动类型在 lib/odds/changes 定义;此处转出,组件统一从 hooks 取。
 export type {
@@ -178,6 +179,7 @@ export function useResearch() {
     marginals: MarginalRow[];
     recentLog: EvoLogRow[];
     gauntlet: GauntletRow[];
+    forward: ForwardSummaryRow[];
   }>('/api/worldcup/research', fetcher, {
     refreshInterval: STANDINGS_MS,
     ...common,
@@ -189,6 +191,7 @@ export function useResearch() {
     marginals: data?.marginals ?? [],
     recentLog: data?.recentLog ?? [],
     gauntlet: data?.gauntlet ?? [],
+    forward: data?.forward ?? [],
     error,
     isLoading,
     refresh: mutate,

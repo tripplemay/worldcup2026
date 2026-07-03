@@ -22,6 +22,7 @@ export interface ForwardBet {
   selection: string;
   line?: number;
   odds: number;
+  stake: number;
   clv: number | null;
   pnl: number;
 }
@@ -51,22 +52,23 @@ export function updateForwardLog(
 ): ForwardStore {
   const dates = dataset.allRes.map((r) => dateKey(r.date)).sort();
   const latest = dates[dates.length - 1] ?? '1970-01-01';
-  if (!store) return newForwardStore(latest); // 首次:立 watermark,不回填
-  const byConfig: Record<string, ForwardConfigTrack> = { ...store.byConfig };
+  // 首次:立 watermark(=最新完赛日)→ 下方追踪注册后因 latest==watermark 不会回填任何历史注
+  const base = store ?? newForwardStore(latest);
+  const byConfig: Record<string, ForwardConfigTrack> = { ...base.byConfig };
   for (const t of tracked) {
     if (!byConfig[t.configHash])
       byConfig[t.configHash] = {
         label: t.label,
         evo: t.evo,
-        since: store.watermark,
+        since: base.watermark,
         bets: [],
       };
   }
-  if (latest > store.watermark) {
+  if (latest > base.watermark) {
     for (const [, track] of Object.entries(byConfig)) {
       const r = runStrategy(dataset, {
         ...toStrategyParams(track.evo),
-        from: shiftDay(store.watermark, 1),
+        from: shiftDay(base.watermark, 1),
         to: latest,
       });
       const add: ForwardBet[] = r.bets
@@ -79,6 +81,7 @@ export function updateForwardLog(
           selection: b.selection,
           line: b.line,
           odds: b.odds,
+          stake: b.stake,
           clv: b.clv,
           pnl: b.pnl,
         }));
@@ -92,6 +95,50 @@ function shiftDay(day: string, days: number): string {
   const d = new Date(`${day}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + days);
   return d.toISOString().slice(0, 10);
+}
+
+/** 观测台行:每条被追踪策略的前向自动下注实测(注数/P&L/ROI/CLV/G7 进度)。 */
+export interface ForwardSummaryRow {
+  configHash: string;
+  label: string;
+  since: string;
+  n: number;
+  staked: number;
+  pnl: number;
+  roi: number;
+  clvN: number;
+  clvAvg: number;
+  clvT: number;
+  lastDate: string | null;
+}
+export function forwardSummary(store: ForwardStore | null): ForwardSummaryRow[] {
+  if (!store) return [];
+  return Object.entries(store.byConfig)
+    .map(([configHash, tr]) => {
+      const staked = tr.bets.reduce((s, b) => s + (b.stake ?? 0), 0);
+      const pnl = tr.bets.reduce((s, b) => s + b.pnl, 0);
+      const cs = tr.bets.filter((b) => b.clv != null).map((b) => b.clv!);
+      const cn = cs.length;
+      const cAvg = cn ? cs.reduce((s, x) => s + x, 0) / cn : 0;
+      const cSd =
+        cn > 1
+          ? Math.sqrt(cs.reduce((s, x) => s + (x - cAvg) ** 2, 0) / (cn - 1))
+          : 0;
+      return {
+        configHash,
+        label: tr.label,
+        since: tr.since,
+        n: tr.bets.length,
+        staked: +staked.toFixed(2),
+        pnl: +pnl.toFixed(2),
+        roi: staked > 0 ? +(pnl / staked).toFixed(4) : 0,
+        clvN: cn,
+        clvAvg: +cAvg.toFixed(4),
+        clvT: cn > 1 && cSd > 0 ? +(cAvg / (cSd / Math.sqrt(cn))).toFixed(2) : 0,
+        lastDate: tr.bets.length ? tr.bets[tr.bets.length - 1].date.slice(0, 10) : null,
+      };
+    })
+    .sort((a, b) => b.since.localeCompare(a.since));
 }
 
 /** G7 证据:某配置的前向注数 + CLV t(喂 evaluateGates 的 evidence.forward)。 */

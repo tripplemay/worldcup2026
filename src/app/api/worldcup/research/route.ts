@@ -10,8 +10,10 @@ import {
   loadTrialRegistry,
   loadEvolutionLog,
   loadPromotionLedger,
+  loadForwardStore,
 } from 'lib/db/store';
 import { PARAM_KEYS, extractEvo } from 'research/evolve';
+import { forwardSummary } from 'research/forward';
 import type { StrategyParams } from 'research/engine';
 
 export const dynamic = 'force-dynamic';
@@ -84,6 +86,7 @@ export async function GET() {
           llmAccepted: l.accepted.filter((a) => a.provenance === 'llm').length,
           statusAfter: l.statusAfter,
         })),
+      forward: forwardSummary(loadForwardStore()),
       gauntlet: loadPromotionLedger()
         .slice(-3)
         .map((g) => ({
