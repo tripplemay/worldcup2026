@@ -7,6 +7,7 @@
  */
 import { okLive, fail } from 'lib/api/respond';
 import { loadEvolutionLog } from 'lib/db/store';
+import { safeLeagueKey } from 'research/leagues';
 import { validateProposals, deriveLabel } from 'research/evolve';
 import { newRegistry, configHash } from 'research/governance';
 import type { StrategyParams } from 'research/engine';
@@ -28,7 +29,8 @@ export async function POST(req: Request) {
       20,
       Number(new URL(req.url).searchParams.get('n') ?? 5) || 5,
     );
-    const entries = loadEvolutionLog().slice(-n);
+    const league = safeLeagueKey(new URL(req.url).searchParams.get('league'));
+    const entries = loadEvolutionLog(league).slice(-n);
     const report = entries.map((e) => {
       // ① label 派生一致性
       const labelMismatches = e.accepted.filter((acc) => {

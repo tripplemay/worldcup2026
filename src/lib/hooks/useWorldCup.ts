@@ -171,9 +171,19 @@ export interface GauntletRow {
   passedAll: boolean;
 }
 
+/** 联赛切换列表一行(GET research 附带)。 */
+export interface ResearchLeagueRow {
+  key: string;
+  nameZh: string;
+  status: string | null;
+  generation: number;
+}
+
 /** 研究调参时间线 + LLM 分析报告 + 进化状态 + 深察(边际/日志/台账);读后台落盘。 */
-export function useResearch() {
+export function useResearch(league?: string) {
   const { data, error, isLoading, mutate } = useSWR<{
+    league: string;
+    leagues: ResearchLeagueRow[];
     scoreboard: Scoreboard | null;
     epochs: EpochResult[];
     analysis: AnalystReport | null;
@@ -182,11 +192,17 @@ export function useResearch() {
     recentLog: EvoLogRow[];
     gauntlet: GauntletRow[];
     forward: ForwardSummaryRow[];
-  }>('/api/worldcup/research', fetcher, {
-    refreshInterval: STANDINGS_MS,
-    ...common,
-  });
+  }>(
+    `/api/worldcup/research${league ? `?league=${league}` : ''}`,
+    fetcher,
+    {
+      refreshInterval: STANDINGS_MS,
+      ...common,
+    },
+  );
   return {
+    league: data?.league ?? league ?? 'epl-2025',
+    leagues: data?.leagues ?? [],
     scoreboard: data?.scoreboard ?? null,
     epochs: data?.epochs ?? [],
     analysis: data?.analysis ?? null,

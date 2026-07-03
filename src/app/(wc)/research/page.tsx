@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { MdScience, MdCheckCircle, MdCancel } from 'react-icons/md';
 import Card from 'components/card';
 import PageHeading from 'components/worldcup/PageHeading';
@@ -222,7 +223,10 @@ function LeaderboardPanel({
 
 export default function ResearchPage() {
   const { t } = useLocale();
+  const [selLeague, setSelLeague] = useState<string | undefined>(undefined);
   const {
+    league,
+    leagues,
     scoreboard: sb,
     epochs,
     analysis,
@@ -232,7 +236,7 @@ export default function ResearchPage() {
     gauntlet,
     forward,
     isLoading,
-  } = useResearch();
+  } = useResearch(selLeague);
   const last = epochs.length ? epochs[epochs.length - 1] : null;
 
   return (
@@ -279,6 +283,31 @@ export default function ResearchPage() {
         </div>
       )}
 
+      {leagues.length > 1 && (
+        <div className="mb-3 flex flex-wrap gap-1.5">
+          {leagues.map((l) => {
+            const active = l.key === league;
+            return (
+              <button
+                key={l.key}
+                onClick={() => setSelLeague(l.key)}
+                className={`rounded-full px-2.5 py-1 text-[11px] font-medium transition ${
+                  active
+                    ? 'bg-brand-500 text-white dark:bg-brand-400 dark:text-navy-900'
+                    : 'bg-white text-gray-600 shadow-sm dark:bg-navy-800 dark:text-gray-300'
+                }`}
+              >
+                {l.nameZh}
+                {l.generation > 0 && (
+                  <span className={`ml-1 ${active ? 'opacity-80' : 'text-gray-400'}`}>
+                    {l.generation}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
       {epochs.length > 0 && last && (
         <div className="space-y-3">
           {sb && (

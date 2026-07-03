@@ -28,6 +28,7 @@ const f = (n: number | undefined, d = 4) =>
 export function buildAnalystBrief(
   timeline: EpochResult[],
   ledger: PromotionEntry[],
+  leagueName = 'EPL',
 ): AnalystBrief {
   const last = timeline[timeline.length - 1];
   const epoch = last?.epoch ?? 0;
@@ -73,12 +74,12 @@ export function buildAnalystBrief(
       ),
     ),
   ).join('、');
-  const text = `联赛策略研究现状(联赛 EPL,市场 1X2 主盘,均样本外):
+  const text = `联赛策略研究现状(联赛 ${leagueName},市场 1X2/亚盘/大小球主盘,均样本外):
 最近若干轮:
 ${epochLines}
 ${gauntlet}
 已探索的参数维度前缀:${explored || '—'}
-背景已知:EPL 1X2 主盘对锐利闭盘线大概率无 edge(gap-to-market ~0.02 压不动);marketWeight/shrinkEloScale/kellyFraction 对 CLV/精度惰性。引擎已留亚盘/大小球口但尚未喂候选。`;
+背景已知:英超主盘已跨市场证否(CLV 显著负);marketWeight/shrinkEloScale/kellyFraction 对 CLV/精度惰性。软联赛(英冠/苏超/土超等)是当前假设主战场。`;
   return { epoch, text };
 }
 

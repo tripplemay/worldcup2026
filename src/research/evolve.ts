@@ -337,6 +337,7 @@ export function buildProposerBrief(
     improved: boolean;
   }[],
   triedCount: number,
+  leagueName = 'EPL',
 ): string {
   // Thresholdout-lite:L2 读数经种子 Laplace 噪声(b=0.25)再分桶,限制提议通道对固定 OOS 的自适应剥削
   const rng = mulberry32(hashToSeed(`brief|${triedCount}`));
@@ -362,7 +363,7 @@ export function buildProposerBrief(
   const space = PARAM_KEYS.map(
     (k) => `${k}∈[${PARAM_SPACE[k].lo},${PARAM_SPACE[k].hi}]`,
   ).join(', ');
-  return `联赛策略参数搜索(EPL,样本外验证)。参数空间:${space}。
+  return `联赛策略参数搜索(${leagueName},样本外验证)。参数空间:${space}。
 ${inc}
 已试配置数:${triedCount}
 最近各代:
@@ -495,8 +496,9 @@ export interface EvolveDeps {
   now: number; // 注入时间戳(落盘/审计)
   llmPropose?: (brief: string) => Promise<string | null>; // LLM 调用(注入;重放时喂日志)
   clock?: () => number; // 墙钟(缺省 Date.now;测试注入)
-  wallClockBudgetMs?: number; // 单次 run 墙钟护栏(默认 200s)
-  maxGenerations?: number; // 测试用上限
+  wallClockBudgetMs?: number; // 单次 run 墙钟护栏(默认 200s;后台 Runner 传大值)
+  maxGenerations?: number; // 每次 run 代数上限(后台 Runner 的每日预算主控)
+  leagueName?: string; // 提议者简报里的联赛名(默认 EPL)
 }
 export interface EvolveResult {
   state: EvolutionState;
@@ -643,6 +645,7 @@ export async function runEvolutionCycle(
         improved: l.improved,
       })),
       eraTrialCount(registry, dataHash),
+      deps.leagueName,
     );
     let llmRaw: string | null = null;
     if (deps.llmPropose) {
