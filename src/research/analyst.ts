@@ -9,7 +9,8 @@ import type { EpochResult } from './search';
 import type { PromotionEntry } from './governance';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
-const MODEL = process.env.RESEARCH_LLM_MODEL ?? 'qwen3.5-flash';
+// 推理主力 gpt-5.5(网关实测支持 json_object;当前未定价=零成本;env 可覆盖回退)
+const MODEL = process.env.RESEARCH_LLM_MODEL ?? 'gpt-5.5';
 
 export function hasAnalyst(): boolean {
   return !!process.env.AIGC_API_KEY;
