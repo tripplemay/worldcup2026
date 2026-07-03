@@ -45,11 +45,11 @@ export function newForwardStore(latestDate: string): ForwardStore {
  * 前向更新:对每个被追踪配置,补记 (watermark, latest] 窗内的虚拟注;推进 watermark。
  * tracked 中的新 configHash 自动开始追踪(since=当前 watermark,不回填)。不可变返回新 store。
  */
-export function updateForwardLog(
+export async function updateForwardLog(
   dataset: EngineDataset,
   store: ForwardStore | null,
   tracked: { configHash: string; label: string; evo: EvoParams }[],
-): ForwardStore {
+): Promise<ForwardStore> {
   const dates = dataset.allRes.map((r) => dateKey(r.date)).sort();
   const latest = dates[dates.length - 1] ?? '1970-01-01';
   // 首次:立 watermark(=最新完赛日)→ 下方追踪注册后因 latest==watermark 不会回填任何历史注
@@ -66,7 +66,7 @@ export function updateForwardLog(
   }
   if (latest > base.watermark) {
     for (const [, track] of Object.entries(byConfig)) {
-      const r = runStrategy(dataset, {
+      const r = await runStrategy(dataset, {
         ...toStrategyParams(track.evo),
         from: shiftDay(base.watermark, 1),
         to: latest,

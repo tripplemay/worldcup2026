@@ -186,15 +186,20 @@ export interface StrategyResult {
   bets: BetRecord[];
 }
 
+// 事件循环让出(生产事故教训:配置间让出不够,单趟引擎数秒同步 CPU 会冻结全站请求;
+// 必须下沉到逐场循环,单次阻塞 ≤~50ms)
+const YIELD_EVERY = 32;
+const breathe = () => new Promise<void>((r) => setTimeout(r, 0));
+
 /**
  * 跑一次策略实验:对注入数据集在 [from,to] 窗内做无泄漏 walk-forward,
  * 逐场 predict → 候选 → 选注 → 内存结算,返回 P&L / CLV / 分层 / 每注记录。
- * 确定性:同 (dataset, params) 恒返回同结果。
+ * 确定性:同 (dataset, params) 恒返回同结果。async:每 32 场让出事件循环。
  */
-export function runStrategy(
+export async function runStrategy(
   dataset: EngineDataset,
   params: StrategyParams,
-): StrategyResult {
+): Promise<StrategyResult> {
   // 硬守卫:研究进程绝不允许 PREDICT_WEIGHTS 静态逃生舱(会静默覆盖动态权重,毒化每次实验)
   if (process.env.PREDICT_WEIGHTS)
     throw new Error(
@@ -288,7 +293,9 @@ export function runStrategy(
     });
   };
 
+  let yieldCounter = 0;
   for (const m of matches) {
+    if (++yieldCounter % YIELD_EVERY === 0) await breathe();
     const mv = odds[matchKey(m.homeNorm, m.awayNorm, m.date)];
     const x2 = mv?.x2;
     // 在开盘价下注(拿闭盘量 CLV);无开盘则回退闭盘下注(无 CLV)

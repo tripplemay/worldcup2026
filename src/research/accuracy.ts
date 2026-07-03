@@ -78,11 +78,14 @@ function accum(
   a.n += 1;
 }
 
-/** 跑一次精度测量:同 (dataset, params) 恒返回同结果。 */
-export function runAccuracy(
+const YIELD_EVERY = 32;
+const breathe = () => new Promise<void>((r) => setTimeout(r, 0));
+
+/** 跑一次精度测量:同 (dataset, params) 恒返回同结果。async:每 32 场让出事件循环。 */
+export async function runAccuracy(
   dataset: EngineDataset,
   params: AccuracyParams,
-): AccuracyResult {
+): Promise<AccuracyResult> {
   if (process.env.PREDICT_WEIGHTS)
     throw new Error('[research] PREDICT_WEIGHTS 必须 unset(见 ensemble.ts)');
 
@@ -116,7 +119,9 @@ export function runAccuracy(
     bA = 1 - bH - bD;
   }
 
+  let yieldCounter = 0;
   for (const m of matches) {
+    if (++yieldCounter % YIELD_EVERY === 0) await breathe();
     const close = odds[matchKey(m.homeNorm, m.awayNorm, m.date)]?.x2?.close;
     if (!close) continue;
     const mkt =

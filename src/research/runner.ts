@@ -113,6 +113,8 @@ async function drain(): Promise<void> {
     }
     r.running = null;
     r.startedAt = null;
+    // 联赛间喘息:给站点请求/其它后台任务留窗口
+    await new Promise((res) => setTimeout(res, 3000));
     item = r.queue.shift();
   }
 }

@@ -78,12 +78,12 @@ export async function buildScoreboard(
   const partition = partitionWithLockedHoldout(dataset, manifest.holdoutFrom);
   const sp = toStrategyParams(state.incumbent.evo);
   // 样本外窗(val 段;止于锁定 holdout 之前)—— runStrategy 的 from/to 已保证不触 L3
-  const s = runStrategy(dataset, {
+  const s = await runStrategy(dataset, {
     ...sp,
     from: partition.valFrom,
     to: partition.valTo,
   });
-  const a = runAccuracy(dataset, {
+  const a = await runAccuracy(dataset, {
     tuning: sp.tuning,
     home: sp.home,
     marketWeight: sp.marketWeight,

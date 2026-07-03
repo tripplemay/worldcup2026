@@ -132,30 +132,33 @@ export async function runSearch(
     perBlock: number[];
   }[];
   for (const g of grid) {
-    rows.push(evalConfig(g));
+    rows.push(await evalConfig(g));
     await yieldLoop();
   }
-  function evalConfig(g: SweepConfig) {
+  async function evalConfig(g: SweepConfig) {
     const acc = {
       tuning: g.params.tuning,
       home: g.params.home,
       marketWeight: g.params.marketWeight,
     };
-    const isGap = runAccuracy(safe, { ...acc, to: partition.trainTo }).gapBrier;
-    const sOos = runStrategy(safe, {
+    const isGap = (await runAccuracy(safe, { ...acc, to: partition.trainTo }))
+      .gapBrier;
+    const sOos = await runStrategy(safe, {
       ...g.params,
       from: partition.valFrom,
       to: partition.valTo,
     });
-    const oosGap = runAccuracy(safe, {
-      ...acc,
-      from: partition.valFrom,
-      to: partition.valTo,
-    }).gapBrier;
+    const oosGap = (
+      await runAccuracy(safe, {
+        ...acc,
+        from: partition.valFrom,
+        to: partition.valTo,
+      })
+    ).gapBrier;
     const oosRet = sOos.bets
       .filter((b) => b.tier === 'value')
       .map((b) => b.pnl / b.stake);
-    const sFull = runStrategy(safe, g.params);
+    const sFull = await runStrategy(safe, g.params);
     const blk = Array.from({ length: S }, () => ({ s: 0, n: 0 }));
     for (const b of sFull.bets) {
       if (b.tier !== 'value') continue;

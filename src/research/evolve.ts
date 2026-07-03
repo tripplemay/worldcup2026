@@ -579,7 +579,7 @@ export async function runEvolutionCycle(
         ledgerAppend,
         logs,
         manifest,
-        forward: updateForwardLog(dataset, input.forward ?? null, []),
+        forward: await updateForwardLog(dataset, input.forward ?? null, []),
         note: 'frozen(N_max 已耗尽):数据变化不解除,需显式 newCampaign',
       };
     }
@@ -595,7 +595,7 @@ export async function runEvolutionCycle(
       if (state.incumbent) {
         const sp = toStrategyParams(state.incumbent.evo);
         registry = registerTrial(registry, sp, deps.now, dataHash);
-        const r = runStrategy(dataset, {
+        const r = await runStrategy(dataset, {
           ...sp,
           from: partition.valFrom,
           to: partition.valTo,
@@ -727,7 +727,7 @@ export async function runEvolutionCycle(
 
     // ⑤ 配对显著性障碍:代冠军 vs incumbent 同 L2 窗
     const winnerCfg = genConfigs.find((g) => g.label === epoch.winner.label)!;
-    const winRun = runStrategy(dataset, {
+    const winRun = await runStrategy(dataset, {
       ...winnerCfg.params,
       from: partition.valFrom,
       to: partition.valTo,
@@ -738,7 +738,7 @@ export async function runEvolutionCycle(
     if (!state.incumbent) {
       improved = true; // 首代 bootstrap
     } else if (configHash(winnerCfg.params) !== state.incumbent.configHash) {
-      const incRun = runStrategy(dataset, {
+      const incRun = await runStrategy(dataset, {
         ...toStrategyParams(state.incumbent.evo),
         from: partition.valFrom,
         to: partition.valTo,
@@ -799,6 +799,8 @@ export async function runEvolutionCycle(
       )})`;
     }
 
+    // 代间喘息(1s):进一步摊平后台 CPU 占比
+    await new Promise((res) => setTimeout(res, 1000));
     logs.push({
       generation,
       at: deps.now,
@@ -822,7 +824,7 @@ export async function runEvolutionCycle(
   }
 
   // ── G7 前向管道:incumbent 加入追踪,补记 watermark 之后新到完赛的虚拟注 ──
-  const forward = updateForwardLog(
+  const forward = await updateForwardLog(
     dataset,
     input.forward ?? null,
     state.incumbent

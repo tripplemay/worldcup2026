@@ -115,7 +115,7 @@ export async function promoteCandidate(
 
   // 非 holdout 全窗跑一次 → CLV / 收益序列 / 权益 / 分赛季
   const yieldLoop = () => new Promise<void>((r) => setTimeout(r, 0));
-  const s = runStrategy(safe, params);
+  const s = await runStrategy(safe, params);
   await yieldLoop();
   const vbets = s.bets.filter((b) => b.tier === 'value');
   const pnls = vbets.map((b) => b.pnl);
@@ -145,7 +145,7 @@ export async function promoteCandidate(
   const overallRoi = s.value.roi;
 
   // G4 滑点压力:1% 执行摩擦重跑,value ROI 不崩(≥原值−5pp)才算稳健
-  const sStress = runStrategy(safe, {
+  const sStress = await runStrategy(safe, {
     ...params,
     bet: { ...params.bet, slippagePct: 0.01 },
   });
@@ -161,7 +161,7 @@ export async function promoteCandidate(
   // G6:holdout 一次性(skipHoldout=true 时不触碰 L3,证据缺省 → 闸门卡 G6)
   let holdout: GateEvidence['holdout'];
   if (!opts?.skipHoldout) {
-    const h = runStrategy(hold, params);
+    const h = await runStrategy(hold, params);
     await yieldLoop();
     holdout = {
       clvPositive: h.clv.avgClv > 0,

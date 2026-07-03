@@ -64,14 +64,14 @@ export interface WindowMetrics {
 }
 
 /** 在 [from,to] 窗内评一个配置:跑引擎(ROI/CLV)+ 精度(gap-to-market)。 */
-export function evalWindow(
+export async function evalWindow(
   dataset: EngineDataset,
   params: StrategyParams,
   from?: string,
   to?: string,
-): WindowMetrics {
-  const s = runStrategy(dataset, { ...params, from, to });
-  const a = runAccuracy(dataset, {
+): Promise<WindowMetrics> {
+  const s = await runStrategy(dataset, { ...params, from, to });
+  const a = await runAccuracy(dataset, {
     tuning: params.tuning,
     home: params.home,
     marketWeight: params.marketWeight,
@@ -104,18 +104,20 @@ export interface NestedSelectResult {
  * 嵌套选择:在训练段(IS)按 selectBy 低方差指标选最优配置,再在**没碰过的**验证段(OOS)评它。
  * 这是"选择无偏"的核心结构——选参与验收物理分离。
  */
-export function nestedSelect(
+export async function nestedSelect(
   dataset: EngineDataset,
   grid: { label: string; params: StrategyParams }[],
   partition: Partition,
   selectBy: SelectBy = 'gapBrier',
-): NestedSelectResult {
+): Promise<NestedSelectResult> {
   if (!grid.length) throw new Error('[research] 空网格');
-  const all = grid.map((g) => ({
-    label: g.label,
-    params: g.params,
-    is: evalWindow(dataset, g.params, undefined, partition.trainTo),
-  }));
+  const all = [] as { label: string; params: StrategyParams; is: WindowMetrics }[];
+  for (const g of grid)
+    all.push({
+      label: g.label,
+      params: g.params,
+      is: await evalWindow(dataset, g.params, undefined, partition.trainTo),
+    });
   // IS 选优:gapBrier 越小越好 / clvAvg 越大越好
   const pick = all.reduce((best, cur) =>
     selectBy === 'gapBrier'
@@ -126,7 +128,7 @@ export function nestedSelect(
       ? cur
       : best,
   );
-  const oos = evalWindow(
+  const oos = await evalWindow(
     dataset,
     pick.params,
     partition.valFrom,

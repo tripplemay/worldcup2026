@@ -34,17 +34,17 @@ const HASH = configHash(toStrategyParams(DEFAULT_EVO));
 const tracked = [{ configHash: HASH, label: 'inc', evo: DEFAULT_EVO }];
 
 describe('G7 前向管道', () => {
-  it('首跑:只立 watermark,不回填历史(回填=冒充前向,禁止)', () => {
-    const st = updateForwardLog(ds, null, tracked);
+  it('首跑:只立 watermark,不回填历史(回填=冒充前向,禁止)', async () => {
+    const st = await updateForwardLog(ds, null, tracked);
     expect(st.watermark).toBe('2026-05-24'); // 数据最新完赛日
     expect(st.byConfig[HASH]).toBeDefined(); // 首跑即注册追踪
     expect(st.byConfig[HASH].bets).toHaveLength(0); // 但零回填(不冒充前向)
   });
 
-  it('watermark 之后新完赛 → 自动补记虚拟注;summary/evidence 口径一致', () => {
+  it('watermark 之后新完赛 → 自动补记虚拟注;summary/evidence 口径一致', async () => {
     // 人工把 watermark 拨回赛季末前:模拟"5 月比赛在追踪后才到达"
     const prior: ForwardStore = { watermark: '2026-04-30', byConfig: {} };
-    const st = updateForwardLog(ds, prior, tracked);
+    const st = await updateForwardLog(ds, prior, tracked);
     expect(st.watermark).toBe('2026-05-24');
     const tr = st.byConfig[HASH];
     expect(tr).toBeDefined();
@@ -58,7 +58,7 @@ describe('G7 前向管道', () => {
     const ev = forwardEvidence(st, HASH);
     expect(ev?.liveBets).toBe(tr.bets.length);
     // 幂等:同数据重跑不重复记
-    const again = updateForwardLog(ds, st, tracked);
+    const again = await updateForwardLog(ds, st, tracked);
     expect(again.byConfig[HASH].bets.length).toBe(tr.bets.length);
   });
 

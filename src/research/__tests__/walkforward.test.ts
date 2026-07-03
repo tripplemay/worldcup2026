@@ -51,13 +51,13 @@ describe('P3a walk-forward + 嵌套选择', () => {
     expect(p.holdoutFrom <= p.holdoutTo).toBe(true);
   });
 
-  it('nestedSelect:IS 选优 + OOS 评,结构完整', () => {
+  it('nestedSelect:IS 选优 + OOS 评,结构完整', async () => {
     const part = sliceDates(dataset);
     const grid = [
       { label: 'shrink100/mw0.4', params: cfg(100, 0.4) },
       { label: 'shrink150/mw0.5', params: cfg(150, 0.5) },
     ];
-    const r = nestedSelect(dataset, grid, part, 'gapBrier');
+    const r = await nestedSelect(dataset, grid, part, 'gapBrier');
     expect(r.all).toHaveLength(2);
     expect(['shrink100/mw0.4', 'shrink150/mw0.5']).toContain(r.best.label);
     // 选出的是 IS gapBrier 最小者
@@ -67,11 +67,11 @@ describe('P3a walk-forward + 嵌套选择', () => {
     expect(r.best.oos.matches).toBeGreaterThan(0);
   }, 60000);
 
-  it('确定性:同输入两次相等', () => {
+  it('确定性:同输入两次相等', async () => {
     const part = sliceDates(dataset);
     const grid = [{ label: 'a', params: cfg(100, 0.4) }];
-    expect(nestedSelect(dataset, grid, part)).toEqual(
-      nestedSelect(dataset, grid, part),
+    expect(await nestedSelect(dataset, grid, part)).toEqual(
+      await nestedSelect(dataset, grid, part),
     );
   }, 60000);
 });

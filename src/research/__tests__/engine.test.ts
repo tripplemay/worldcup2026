@@ -66,8 +66,8 @@ const dataset = (odds: Record<string, MatchOddsView>): EngineDataset => ({
 describe('研究引擎(注入式 / headless / 确定性)', () => {
   const params: StrategyParams = { ...baseParams, from: '2026-05-01' };
 
-  it('注入 seed 数据即可跑,产出已评估场次与有限 P&L', () => {
-    const r = runStrategy(dataset(oddsCloseOnly), params);
+  it('注入 seed 数据即可跑,产出已评估场次与有限 P&L', async () => {
+    const r = await runStrategy(dataset(oddsCloseOnly), params);
     expect(r.matches).toBeGreaterThan(0);
     expect(Number.isFinite(r.bankrollEnd)).toBe(true);
     expect(r.value.bets + r.coverage.bets).toBeGreaterThan(0);
@@ -75,25 +75,25 @@ describe('研究引擎(注入式 / headless / 确定性)', () => {
     expect(r.bankrollEnd).toBeCloseTo(r.bankrollStart + totalPnl, 1);
   });
 
-  it('同输入两次 → 结果逐字节相等(确定性)', () => {
-    expect(runStrategy(dataset(oddsCloseOnly), params)).toEqual(
-      runStrategy(dataset(oddsCloseOnly), params),
+  it('同输入两次 → 结果逐字节相等(确定性)', async () => {
+    expect(await runStrategy(dataset(oddsCloseOnly), params)).toEqual(
+      await runStrategy(dataset(oddsCloseOnly), params),
     );
   });
 
-  it('仅闭盘视图 → 闭盘下注、无 CLV(clv.n=0)', () => {
-    const r = runStrategy(dataset(oddsCloseOnly), params);
+  it('仅闭盘视图 → 闭盘下注、无 CLV(clv.n=0)', async () => {
+    const r = await runStrategy(dataset(oddsCloseOnly), params);
     expect(r.clv.n).toBe(0);
     expect(r.bets.every((b) => b.betPhase === 'close')).toBe(true);
   });
 
-  it('PREDICT_WEIGHTS 已设 → 入口硬守卫抛错', () => {
+  it('PREDICT_WEIGHTS 已设 → 入口硬守卫抛错', async () => {
     const prev = process.env.PREDICT_WEIGHTS;
     process.env.PREDICT_WEIGHTS = 'elo:1';
     try {
-      expect(() => runStrategy(dataset(oddsCloseOnly), params)).toThrow(
-        /PREDICT_WEIGHTS/,
-      );
+      await expect(
+        runStrategy(dataset(oddsCloseOnly), params),
+      ).rejects.toThrow(/PREDICT_WEIGHTS/);
     } finally {
       if (prev == null) delete process.env.PREDICT_WEIGHTS;
       else process.env.PREDICT_WEIGHTS = prev;
@@ -112,16 +112,13 @@ describe('clvFor(成交价 vs 闭盘价)', () => {
 
 describe('开盘下注 + 闭盘量 CLV(开盘=闭盘×1.05 → 每注 CLV=+0.05)', () => {
   const params: StrategyParams = { ...baseParams, from: '2025-08-01' }; // 整季确保有 value 注
-  const r = runStrategy(dataset(oddsOpenClose), params);
 
-  it('value 注均在开盘下注、CLV 恒 +0.05', () => {
+  it('value 注均在开盘下注、CLV 恒 +0.05;汇总口径一致', async () => {
+    const r = await runStrategy(dataset(oddsOpenClose), params);
     const vs = r.bets.filter((b) => b.tier === 'value');
     expect(vs.length).toBeGreaterThan(0);
     expect(vs.every((b) => b.betPhase === 'open')).toBe(true);
     expect(vs.every((b) => Math.abs((b.clv ?? 0) - 0.05) < 1e-6)).toBe(true);
-  });
-
-  it('CLV 汇总:n=value 注数、avgClv≈+0.05、posRate=1', () => {
     expect(r.clv.n).toBe(r.value.bets);
     expect(r.clv.avgClv).toBeCloseTo(0.05);
     expect(r.clv.posRate).toBe(1);

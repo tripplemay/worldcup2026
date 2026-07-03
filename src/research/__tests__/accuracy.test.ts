@@ -34,8 +34,8 @@ const params: AccuracyParams = {
 };
 
 describe('runAccuracy(gap-to-market)', () => {
-  it('产出双方 Brier + gap,数值合理', () => {
-    const r = runAccuracy(dataset, params);
+  it('产出双方 Brier + gap,数值合理', async () => {
+    const r = await runAccuracy(dataset, params);
     expect(r.n).toBeGreaterThan(0);
     expect(r.ours.brier).toBeGreaterThan(0);
     expect(r.ours.brier).toBeLessThan(1);
@@ -46,7 +46,7 @@ describe('runAccuracy(gap-to-market)', () => {
     expect(r.perModel['poisson-xg']).toBeDefined();
   });
 
-  it('确定性:同输入两次相等', () => {
+  it('确定性:同输入两次相等', async () => {
     expect(runAccuracy(dataset, params)).toEqual(runAccuracy(dataset, params));
   });
 });
