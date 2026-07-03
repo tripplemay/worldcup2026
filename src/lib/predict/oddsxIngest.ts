@@ -9,7 +9,13 @@
  */
 import { normalizeTeam, matchKey } from 'lib/match/normalize';
 import { loadLeagueOddsX, saveLeagueOddsX } from 'lib/db/store';
-import type { LeagueMatchOdds, X2Odds, OpenClose } from './oddsTypes';
+import type {
+  LeagueMatchOdds,
+  X2Odds,
+  AhOdds,
+  TotalOdds,
+  OpenClose,
+} from './oddsTypes';
 
 /** DD/MM/YYYY 或 DD/MM/YY → 当日正午 UTC 的 ISO(供 matchKey 取 UTC 日;避日界)。 */
 function fdDateToISO(d: string): string | null {
@@ -31,16 +37,64 @@ const CLOSE_SETS = [
 ];
 
 /** 从一行字段按优先级取首个三腿均 >1 的 1X2 报价;无则 undefined。 */
-function pick1x2(
-  f: string[],
-  sets: number[][],
-): X2Odds | undefined {
+function pick1x2(f: string[], sets: number[][]): X2Odds | undefined {
   for (const [ih, id, ia] of sets) {
     if (ih < 0 || id < 0 || ia < 0) continue;
     const h = parseFloat(f[ih]);
     const d = parseFloat(f[id]);
     const a = parseFloat(f[ia]);
     if (h > 1 && d > 1 && a > 1) return { h, d, a };
+  }
+  return undefined;
+}
+
+// 大小球 2.5 开/闭盘(over,under)。开:Pinnacle→Bet365→平均;闭:PC→AvgC→B365C。
+const OU_OPEN = [
+  ['P>2.5', 'P<2.5'],
+  ['B365>2.5', 'B365<2.5'],
+  ['Avg>2.5', 'Avg<2.5'],
+];
+const OU_CLOSE = [
+  ['PC>2.5', 'PC<2.5'],
+  ['AvgC>2.5', 'AvgC<2.5'],
+  ['B365C>2.5', 'B365C<2.5'],
+];
+// 亚盘 home/away 赔率优先级(线用 AHh 开 / AHCh 闭)。开:Pinnacle→Bet365→平均;闭:PC→AvgC→B365C。
+const AH_OPEN_ODDS = [
+  ['PAHH', 'PAHA'],
+  ['B365AHH', 'B365AHA'],
+  ['AvgAHH', 'AvgAHA'],
+];
+const AH_CLOSE_ODDS = [
+  ['PCAHH', 'PCAHA'],
+  ['AvgCAHH', 'AvgCAHA'],
+  ['B365CAHH', 'B365CAHA'],
+];
+
+/** 大小球 2.5:取首个 over/under 均 >1 的一档。 */
+function pickOU(f: string[], sets: number[][]): TotalOdds | undefined {
+  for (const [io, iu] of sets) {
+    if (io < 0 || iu < 0) continue;
+    const over = parseFloat(f[io]);
+    const under = parseFloat(f[iu]);
+    if (over > 1 && under > 1) return { line: 2.5, over, under };
+  }
+  return undefined;
+}
+/** 亚盘主线:线(iLine)+ home/away 赔率优先级,取首个均有效。 */
+function pickAH(
+  f: string[],
+  iLine: number,
+  sets: number[][],
+): AhOdds | undefined {
+  if (iLine < 0) return undefined;
+  const line = parseFloat(f[iLine]);
+  if (!Number.isFinite(line)) return undefined;
+  for (const [ih, ia] of sets) {
+    if (ih < 0 || ia < 0) continue;
+    const home = parseFloat(f[ih]);
+    const away = parseFloat(f[ia]);
+    if (home > 1 && away > 1) return { line, home, away };
   }
   return undefined;
 }
@@ -65,6 +119,12 @@ export function parseFootballDataOddsX(
   if (iDate < 0 || iH < 0 || iA < 0) return {};
   const openSets = OPEN_SETS.map((s) => s.map(col));
   const closeSets = CLOSE_SETS.map((s) => s.map(col));
+  const ouOpenSets = OU_OPEN.map((s) => s.map(col));
+  const ouCloseSets = OU_CLOSE.map((s) => s.map(col));
+  const iAHh = col('AHh');
+  const iAHCh = col('AHCh');
+  const ahOpenSets = AH_OPEN_ODDS.map((s) => s.map(col));
+  const ahCloseSets = AH_CLOSE_ODDS.map((s) => s.map(col));
   const norm = (n: string) => normalizeTeam(alias[n] ?? n);
   const out: Record<string, LeagueMatchOdds> = {};
   for (const line of lines.slice(1)) {
@@ -81,7 +141,7 @@ export function parseFootballDataOddsX(
     if (close) x2.close = close;
     const hn = norm(home),
       an = norm(away);
-    out[matchKey(hn, an, iso)] = {
+    const rec: LeagueMatchOdds = {
       homeNorm: hn,
       awayNorm: an,
       kickoff: iso,
@@ -89,6 +149,25 @@ export function parseFootballDataOddsX(
       ingestedAt,
       x2,
     };
+    // 大小球 2.5(开+闭)
+    const tOpen = pickOU(f, ouOpenSets);
+    const tClose = pickOU(f, ouCloseSets);
+    if (tOpen || tClose) {
+      const t: OpenClose<TotalOdds> = {};
+      if (tOpen) t.open = tOpen;
+      if (tClose) t.close = tClose;
+      rec.totals = [t];
+    }
+    // 亚盘主线(开线 AHh + 闭线 AHCh,开/闭各自的线)
+    const aOpen = pickAH(f, iAHh, ahOpenSets);
+    const aClose = pickAH(f, iAHCh, ahCloseSets);
+    if (aOpen || aClose) {
+      const a: OpenClose<AhOdds> = {};
+      if (aOpen) a.open = aOpen;
+      if (aClose) a.close = aClose;
+      rec.ah = [a];
+    }
+    out[matchKey(hn, an, iso)] = rec;
   }
   return out;
 }

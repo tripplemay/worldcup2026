@@ -26,11 +26,17 @@ const key = (h: string, a: string, iso: string) =>
   matchKey(normalizeTeam(h), normalizeTeam(a), iso);
 
 describe('parseFootballDataOddsX(开盘+闭盘 1X2)', () => {
-  const parsed = parseFootballDataOddsX(CSV, { 'Man City': 'Manchester City' }, 111);
+  const parsed = parseFootballDataOddsX(
+    CSV,
+    { 'Man City': 'Manchester City' },
+    111,
+  );
 
   it('全空行跳过,其余 3 场入库', () => {
     expect(Object.keys(parsed)).toHaveLength(3);
-    expect(parsed[key('Brighton', 'Fulham', '2025-08-12T12:00:00Z')]).toBeUndefined();
+    expect(
+      parsed[key('Brighton', 'Fulham', '2025-08-12T12:00:00Z')],
+    ).toBeUndefined();
   });
 
   it('开取 Pinnacle、闭取 Pinnacle(优于 Bet365/平均)', () => {
@@ -50,7 +56,8 @@ describe('parseFootballDataOddsX(开盘+闭盘 1X2)', () => {
   });
 
   it('alias 归一化后入键(Man City→Manchester City)', () => {
-    const m = parsed[key('Manchester City', 'Tottenham', '2025-08-11T12:00:00Z')];
+    const m =
+      parsed[key('Manchester City', 'Tottenham', '2025-08-11T12:00:00Z')];
     expect(m).toBeDefined();
     expect(m.homeNorm).toBe('manchester city');
     expect(m.x2?.open).toEqual({ h: 1.28, d: 5.6, a: 9.5 });
@@ -59,5 +66,26 @@ describe('parseFootballDataOddsX(开盘+闭盘 1X2)', () => {
   it('toLeagueClosing 向后兼容投影 = 闭盘 1X2', () => {
     const m = parsed[key('Arsenal', 'Chelsea', '2025-08-09T12:00:00Z')];
     expect(toLeagueClosing(m)).toEqual({ h: 1.85, d: 3.7, a: 4.4 });
+  });
+});
+
+describe('parseFootballDataOddsX 亚盘 + 大小球', () => {
+  const HEAD =
+    'Date,HomeTeam,AwayTeam,PSH,PSD,PSA,PSCH,PSCD,PSCA,P>2.5,P<2.5,PC>2.5,PC<2.5,AHh,PAHH,PAHA,AHCh,PCAHH,PCAHA';
+  const CSV = [
+    HEAD,
+    // 亚盘线开 -0.5 → 闭 -0.75(线动);大小球 2.5 开/闭
+    '09/08/2025,Arsenal,Chelsea,1.90,3.60,4.20,1.85,3.70,4.40,1.80,2.05,1.75,2.10,-0.5,1.95,1.90,-0.75,2.00,1.85',
+  ].join('\n');
+  const parsed = parseFootballDataOddsX(CSV, {}, 0);
+  const m = parsed[key('Arsenal', 'Chelsea', '2025-08-09T12:00:00Z')];
+
+  it('大小球 2.5 开+闭(Pinnacle)', () => {
+    expect(m.totals?.[0].open).toEqual({ line: 2.5, over: 1.8, under: 2.05 });
+    expect(m.totals?.[0].close).toEqual({ line: 2.5, over: 1.75, under: 2.1 });
+  });
+  it('亚盘主线开/闭各自的线(捕捉线动)', () => {
+    expect(m.ah?.[0].open).toEqual({ line: -0.5, home: 1.95, away: 1.9 });
+    expect(m.ah?.[0].close).toEqual({ line: -0.75, home: 2.0, away: 1.85 });
   });
 });

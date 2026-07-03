@@ -27,13 +27,22 @@ import { stakeFor } from 'lib/trade/ev';
 import { settleOutcome, pnlFor } from 'lib/trade/settle';
 import type { HistMatch, ResultMatch } from 'lib/predict/types';
 import type { Tuning } from 'lib/predict/tuning';
-import type { X2Odds, OpenClose } from 'lib/predict/oddsTypes';
+import type {
+  X2Odds,
+  AhOdds,
+  TotalOdds,
+  OpenClose,
+} from 'lib/predict/oddsTypes';
 import type { MarketSnapshot, BetCandidate, Trade } from 'lib/trade/types';
 
 const dateKey = (iso: string) => iso.slice(0, 10);
 
-/** 引擎只依赖每场的 x2 开/闭盘切片(LeagueMatchOdds 结构上满足)。 */
-export type MatchOddsView = { x2?: OpenClose<X2Odds> };
+/** 引擎依赖每场的开/闭盘切片(LeagueMatchOdds 结构上满足):1X2 + 亚盘 + 大小球。 */
+export type MatchOddsView = {
+  x2?: OpenClose<X2Odds>;
+  ah?: OpenClose<AhOdds>[];
+  totals?: OpenClose<TotalOdds>[];
+};
 
 /** 注入的历史数据集(某联赛某段);均为该联赛内已归一化的记录。 */
 export interface EngineDataset {
@@ -79,6 +88,36 @@ export function clvFor(
       : undefined;
   if (co == null || co <= 1) return null;
   return +(betOdds / co - 1).toFixed(4);
+}
+
+/** 泛化 CLV:1X2/OU/AH 的成交价 vs 同市场/选项/线的闭盘价;无可比闭盘返回 null。 */
+export function clvForBet(
+  cand: BetCandidate,
+  mv: MatchOddsView,
+): number | null {
+  if (cand.market === '1X2')
+    return mv.x2?.close ? clvFor(cand.selection, cand.odds, mv.x2.close) : null;
+  if (cand.market === 'OU') {
+    const c = mv.totals?.[0]?.close;
+    if (!c || c.line !== cand.line) return null;
+    const co = cand.selection === 'Under' ? c.under : c.over;
+    return co > 1 ? +(cand.odds / co - 1).toFixed(4) : null;
+  }
+  if (cand.market === 'AH') {
+    const c = mv.ah?.[0]?.close;
+    if (!c) return null;
+    // home 注 line=开盘 home 让球;away 注 line=-开盘 home 让球。闭盘 home 让球=c.line。仅同线可比。
+    const co =
+      cand.selection === 'home'
+        ? cand.line === c.line
+          ? c.home
+          : undefined
+        : cand.line === -c.line
+        ? c.away
+        : undefined;
+    return co != null && co > 1 ? +(cand.odds / co - 1).toFixed(4) : null;
+  }
+  return null;
 }
 
 interface Tier {
@@ -193,8 +232,7 @@ export function runStrategy(
     stake: number,
     t: Tier,
     tier: 'value' | 'coverage',
-    betPhase: 'open' | 'close',
-    close?: X2Odds,
+    mv: MatchOddsView,
   ): void => {
     const trade = {
       market: cand.market,
@@ -212,11 +250,10 @@ export function runStrategy(
     if (res === 'won' || res === 'half_won') t.wins += 1;
     else if (res === 'lost' || res === 'half_lost') t.losses += 1;
     else t.voids += 1;
-    // CLV:仅 value 注 + 开盘下注 + 有闭盘,才是真 CLV(闭盘下注 CLV 恒 0、无意义)
+    // 相位由该注赔率来源(cand.book)精确判定;仅开盘下注的 value 注量 CLV(闭盘下注 CLV 无意义)
+    const phase: 'open' | 'close' = cand.book === 'open' ? 'open' : 'close';
     const clv =
-      tier === 'value' && betPhase === 'open' && close
-        ? clvFor(cand.selection, cand.odds, close)
-        : null;
+      tier === 'value' && phase === 'open' ? clvForBet(cand, mv) : null;
     if (tier === 'value' && clv != null) {
       clvN += 1;
       clvSum += clv;
@@ -228,7 +265,7 @@ export function runStrategy(
       home: m.homeNorm,
       away: m.awayNorm,
       tier,
-      betPhase,
+      betPhase: phase,
       market: cand.market,
       selection: cand.selection,
       line: cand.line,
@@ -241,11 +278,11 @@ export function runStrategy(
   };
 
   for (const m of matches) {
-    const x2 = odds[matchKey(m.homeNorm, m.awayNorm, m.date)]?.x2;
+    const mv = odds[matchKey(m.homeNorm, m.awayNorm, m.date)];
+    const x2 = mv?.x2;
     // 在开盘价下注(拿闭盘量 CLV);无开盘则回退闭盘下注(无 CLV)
     const betX2 = x2?.open ?? x2?.close;
-    if (!betX2) continue; // 无任何 1X2 赔率
-    const closeX2 = x2?.close;
+    if (!mv || !betX2) continue; // 无任何 1X2 赔率
     const betPhase: 'open' | 'close' = x2?.open ? 'open' : 'close';
 
     const pp = predictPointInTime(
@@ -285,6 +322,34 @@ export function runStrategy(
       totals: [],
       spreads: [],
     };
+    // 大小球 2.5(开盘优先;book 记相位供 CLV 门控)
+    for (const tv of mv.totals ?? []) {
+      const t = tv.open ?? tv.close;
+      const ph = tv.open ? 'open' : 'close';
+      if (t)
+        snap.totals.push({
+          point: t.line,
+          over: { price: t.over, book: ph },
+          under: { price: t.under, book: ph },
+        });
+    }
+    // 亚盘主线:home(让球 line)+ away(-line)两向
+    for (const av of mv.ah ?? []) {
+      const a = av.open ?? av.close;
+      const ph = av.open ? 'open' : 'close';
+      if (a) {
+        snap.spreads.push({
+          side: 'home',
+          point: a.line,
+          pick: { price: a.home, book: ph },
+        });
+        snap.spreads.push({
+          side: 'away',
+          point: -a.line,
+          pick: { price: a.away, book: ph },
+        });
+      }
+    }
     const candidates = candidatesFromSnapshot(matrix, mw, snap);
     const best = selectBest(candidates, {
       minProb: bet.minProb,
@@ -324,7 +389,7 @@ export function runStrategy(
         minStake: bet.minStake,
       });
       if (stake > 0) {
-        settle(m, best, stake, value, 'value', betPhase, closeX2);
+        settle(m, best, stake, value, 'value', mv);
         placedValue = true;
         if (
           best.selection === 'home' ||
@@ -346,8 +411,7 @@ export function runStrategy(
         (c) => c.market === '1X2' && c.selection === fav,
       );
       const cstake = +(balance * bet.coverageStakePct).toFixed(2);
-      if (cov && cstake > 0)
-        settle(m, cov, cstake, coverage, 'coverage', betPhase, closeX2);
+      if (cov && cstake > 0) settle(m, cov, cstake, coverage, 'coverage', mv);
     }
   }
 

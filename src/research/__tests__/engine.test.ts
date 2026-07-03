@@ -5,9 +5,10 @@
  */
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { runStrategy, clvFor } from '../engine';
+import { runStrategy, clvFor, clvForBet } from '../engine';
 import type { EngineDataset, StrategyParams, MatchOddsView } from '../engine';
 import type { HistMatch, ResultMatch } from 'lib/predict/types';
+import type { BetCandidate } from 'lib/trade/types';
 
 const seed = (name: string) =>
   JSON.parse(readFileSync(join(process.cwd(), 'seed/leagues', name), 'utf8'));
@@ -25,7 +26,8 @@ const closing = seed('league-epl-2025-odds.json') as Record<
 
 // 仅闭盘视图(P1 口径:在闭盘价下注,无 CLV)
 const oddsCloseOnly: Record<string, MatchOddsView> = {};
-for (const [k, c] of Object.entries(closing)) oddsCloseOnly[k] = { x2: { close: c } };
+for (const [k, c] of Object.entries(closing))
+  oddsCloseOnly[k] = { x2: { close: c } };
 
 // 开盘=闭盘×1.05 的合成视图(在开盘下注 → 每注 CLV 恒为 +0.05)
 const oddsOpenClose: Record<string, MatchOddsView> = {};
@@ -118,5 +120,57 @@ describe('开盘下注 + 闭盘量 CLV(开盘=闭盘×1.05 → 每注 CLV=+0.05)
     expect(r.clv.n).toBe(r.value.bets);
     expect(r.clv.avgClv).toBeCloseTo(0.05);
     expect(r.clv.posRate).toBe(1);
+  });
+});
+
+describe('clvForBet(泛化到 OU/AH,含线不匹配→null)', () => {
+  const cand = (
+    market: string,
+    selection: string,
+    line: number,
+    odds: number,
+  ): BetCandidate =>
+    ({
+      market,
+      selection,
+      line,
+      odds,
+      book: 'open',
+      pWin: 0.5,
+      pPush: 0,
+      ev: 0,
+      kelly: 0,
+    } as unknown as BetCandidate);
+
+  it('OU Under@2.5 vs 闭盘 under', () => {
+    const mv: MatchOddsView = {
+      totals: [{ close: { line: 2.5, over: 1.9, under: 1.9 } }],
+    };
+    expect(clvForBet(cand('OU', 'Under', 2.5, 2.0), mv)).toBeCloseTo(0.0526);
+    // 线不匹配 → null
+    const mv2: MatchOddsView = {
+      totals: [{ close: { line: 3.0, over: 1.9, under: 1.9 } }],
+    };
+    expect(clvForBet(cand('OU', 'Under', 2.5, 2.0), mv2)).toBeNull();
+  });
+
+  it('AH home/away 同线可比;线动→null', () => {
+    const mv: MatchOddsView = {
+      ah: [{ close: { line: -0.5, home: 1.95, away: 1.9 } }],
+    };
+    expect(clvForBet(cand('AH', 'home', -0.5, 2.0), mv)).toBeCloseTo(0.0256); // 2/1.95-1
+    expect(clvForBet(cand('AH', 'away', 0.5, 2.0), mv)).toBeCloseTo(0.0526); // 2/1.90-1
+    // 闭盘线动到 -0.75 → 与开盘 -0.5 不可比 → null
+    const mv2: MatchOddsView = {
+      ah: [{ close: { line: -0.75, home: 1.95, away: 1.9 } }],
+    };
+    expect(clvForBet(cand('AH', 'home', -0.5, 2.0), mv2)).toBeNull();
+  });
+
+  it('1X2 委托 clvFor', () => {
+    const mv: MatchOddsView = { x2: { close: { h: 2.0, d: 3.4, a: 3.6 } } };
+    expect(clvForBet(cand('1X2', 'home', 0, 2.1), mv)).toBeCloseTo(
+      clvFor('home', 2.1, { h: 2.0, d: 3.4, a: 3.6 })!,
+    );
   });
 });
