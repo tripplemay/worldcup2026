@@ -20,6 +20,11 @@ const dataset: EngineDataset = {
   odds: seed('league-epl-2025-oddsx.json') as Record<string, MatchOddsView>,
 };
 
+// 7 季 seed 后为控测试时长:截到近 3 季(既有断言行为不变)
+const SINCE = '2023-08-01';
+dataset.allRes = dataset.allRes.filter((r) => r.date >= SINCE);
+dataset.allHist = dataset.allHist.filter((h) => h.date >= SINCE);
+
 const bet = {
   minProb: 0.3,
   minEv: 0.03,

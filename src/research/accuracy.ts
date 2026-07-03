@@ -9,6 +9,7 @@
  */
 import { predictPointInTime } from 'lib/predict/backtest';
 import { trueIP3 } from 'lib/odds/trueIP';
+import { powerDevig } from './devig';
 import { matchKey } from 'lib/match/normalize';
 import type { Tuning } from 'lib/predict/tuning';
 import type { EngineDataset } from './engine';
@@ -28,6 +29,7 @@ export interface AccuracyParams {
   marketWeight: number;
   from?: string;
   to?: string;
+  devig?: 'proportional' | 'power'; // 去水法(敏感性验证;默认比例法)
 }
 
 export interface AccuracyResult {
@@ -37,6 +39,7 @@ export interface AccuracyResult {
   gapBrier: number; // ours.brier − market.brier(>0 = 我们更差)
   gapLogLoss: number;
   perModel: Record<string, CalibStat>; // poisson-xg / poisson-goals / elo(市场无关)
+  baselines: { baseRateBrier: number }; // 朴素基准:评估窗前的 H/D/A 基率恒定预报(轴 C 下界锚)
 }
 
 interface Acc {
@@ -98,13 +101,28 @@ export function runAccuracy(
 
   const oursAcc = newAcc();
   const mktAcc = newAcc();
+  const baseAcc = newAcc();
   const perModel: Record<string, Acc> = {};
   let n = 0;
+
+  // 朴素基准:评估窗【之前】的 H/D/A 基率(无 prior 则联赛长期典型 45/27/28)
+  const prior = allRes.filter((r) => params.from && dateKey(r.date) < params.from);
+  let bH = 0.45, bD = 0.27, bA = 0.28;
+  if (prior.length >= 100) {
+    const nH = prior.filter((r) => r.homeGoals > r.awayGoals).length;
+    const nD = prior.filter((r) => r.homeGoals === r.awayGoals).length;
+    bH = nH / prior.length;
+    bD = nD / prior.length;
+    bA = 1 - bH - bD;
+  }
 
   for (const m of matches) {
     const close = odds[matchKey(m.homeNorm, m.awayNorm, m.date)]?.x2?.close;
     if (!close) continue;
-    const mkt = trueIP3(close.h, close.d, close.a);
+    const mkt =
+      params.devig === 'power'
+        ? powerDevig(close.h, close.d, close.a)
+        : trueIP3(close.h, close.d, close.a);
     if (!mkt) continue;
     // 市场无关:不传 marketOdds → 融合仅 poisson+elo(= 引擎下注用的 mw 口径)
     const pp = predictPointInTime(
@@ -124,6 +142,7 @@ export function runAccuracy(
       m.homeGoals > m.awayGoals ? 'H' : m.homeGoals < m.awayGoals ? 'A' : 'D';
     accum(oursAcc, { home: pp.pHome, draw: pp.pDraw, away: pp.pAway }, result);
     accum(mktAcc, { home: mkt.home, draw: mkt.draw, away: mkt.away }, result);
+    accum(baseAcc, { home: bH, draw: bD, away: bA }, result);
     for (const md of pp.models) {
       const a = (perModel[md.id] ??= newAcc());
       accum(a, { home: md.home, draw: md.draw, away: md.away }, result);
@@ -142,5 +161,6 @@ export function runAccuracy(
     perModel: Object.fromEntries(
       Object.entries(perModel).map(([k, a]) => [k, finalize(a)]),
     ),
+    baselines: { baseRateBrier: finalize(baseAcc).brier },
   };
 }

@@ -182,6 +182,7 @@ export interface GateEvidence {
     segmentsNoCollapse: boolean;
     anchoredPositive: boolean;
     rollingPositive: boolean;
+    slippageOk?: boolean; // 滑点压力(1% 价差重跑不崩);旧证据缺省=过
   }; // G4
   drawdown: { historicalMaxDD: number; mc95DD: number; ruinPath: boolean }; // G5(一票否决)
   holdout?: {
@@ -304,7 +305,8 @@ export function evaluateGates(
       ev.robust.subperiodsPositiveFrac >= T.robustSubperiodFrac &&
       ev.robust.segmentsNoCollapse &&
       ev.robust.anchoredPositive &&
-      ev.robust.rollingPositive,
+      ev.robust.rollingPositive &&
+      (ev.robust.slippageOk ?? true),
     `subFrac=${ev.robust.subperiodsPositiveFrac}`,
   );
   check(

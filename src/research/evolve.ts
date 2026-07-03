@@ -34,6 +34,8 @@ import type {
   PromotionEntry,
 } from './governance';
 import { mulberry32 } from './stats';
+import { updateForwardLog, forwardEvidence } from './forward';
+import type { ForwardStore } from './forward';
 import type { Partition } from './walkforward';
 import type { EngineDataset, StrategyParams, BetRecord } from './engine';
 
@@ -46,6 +48,10 @@ export interface EvoParams {
   minEv: number;
   minProb: number;
   maxEv: number;
+  // 市场白名单开关(0/1;"押哪些市场"本身进搜索空间)
+  useAH: number;
+  useOU: number;
+  allowOver: number;
 }
 export const PARAM_SPACE: Record<
   keyof EvoParams,
@@ -56,15 +62,31 @@ export const PARAM_SPACE: Record<
   minEv: { lo: 0.01, hi: 0.1, step: 0.001 },
   minProb: { lo: 0.2, hi: 0.5, step: 0.005 },
   maxEv: { lo: 0.15, hi: 0.5, step: 0.005 },
+  useAH: { lo: 0, hi: 1, step: 1 },
+  useOU: { lo: 0, hi: 1, step: 1 },
+  allowOver: { lo: 0, hi: 1, step: 1 },
+};
+/** 原始默认(旧持久化 incumbent 缺新字段时的回填源;quantizeEvo 兜底用)。 */
+const DEFAULT_RAW: EvoParams = {
+  goalShrink: 0.6,
+  dcRho: -0.14,
+  minEv: 0.03,
+  minProb: 0.3,
+  maxEv: 0.3,
+  useAH: 1,
+  useOU: 1,
+  allowOver: 0,
 };
 export const PARAM_KEYS = Object.keys(PARAM_SPACE) as (keyof EvoParams)[];
 
-/** 夹紧 + 按步进网格量化(消浮点噪声/ε-变体;所有发生器与验证器统一过此)。 */
-export function quantizeEvo(p: EvoParams): EvoParams {
+/** 夹紧 + 按步进网格量化(消浮点噪声/ε-变体;缺字段回填默认——兼容旧持久化 shape)。 */
+export function quantizeEvo(p: Partial<EvoParams>): EvoParams {
   const out = {} as EvoParams;
   for (const k of PARAM_KEYS) {
     const { lo, hi, step } = PARAM_SPACE[k];
-    const clamped = Math.min(hi, Math.max(lo, p[k]));
+    const v = p[k];
+    const raw = v != null && Number.isFinite(v) ? v : DEFAULT_RAW[k]; // 旧 shape 缺字段 → 默认回填
+    const clamped = Math.min(hi, Math.max(lo, raw));
     out[k] = +(Math.round(clamped / step) * step).toFixed(6);
   }
   return out;
@@ -85,16 +107,11 @@ export function toStrategyParams(e: EvoParams): StrategyParams {
       minStake: 10,
       coverageStakePct: 0.005,
       initialBalance: 10000,
+      markets: { ah: e.useAH === 1, ou: e.useOU === 1, over: e.allowOver === 1 },
     },
   };
 }
-export const DEFAULT_EVO: EvoParams = quantizeEvo({
-  goalShrink: 0.6,
-  dcRho: -0.14,
-  minEv: 0.03,
-  minProb: 0.3,
-  maxEv: 0.3,
-});
+export const DEFAULT_EVO: EvoParams = quantizeEvo(DEFAULT_RAW);
 
 /** label 服务端派生(LLM 的 label 一律丢弃;hash 前 8 位防 join 撞车)。 */
 export function deriveLabel(
@@ -268,7 +285,8 @@ export function validateProposals(
     const e = {} as EvoParams;
     let bad: string | null = null;
     for (const k of PARAM_KEYS) {
-      const v = Number(rec[k]);
+      // 缺省字段回填默认(LLM 可只提 5 个核心参;市场开关等缺省沿用 DEFAULT_RAW)
+      const v = rec[k] == null ? DEFAULT_RAW[k] : Number(rec[k]);
       if (!Number.isFinite(v)) {
         bad = `non-finite:${k}`;
         break;
@@ -320,10 +338,17 @@ export function buildProposerBrief(
   }[],
   triedCount: number,
 ): string {
+  // Thresholdout-lite:L2 读数经种子 Laplace 噪声(b=0.25)再分桶,限制提议通道对固定 OOS 的自适应剥削
+  const rng = mulberry32(hashToSeed(`brief|${triedCount}`));
+  const lap = () => {
+    const u = rng() - 0.5;
+    return -0.25 * Math.sign(u) * Math.log(1 - 2 * Math.abs(u));
+  };
+  const noisy = (t: number) => t + lap();
   const inc = incumbent
     ? `当前最优:${JSON.stringify(incumbent.params)},OOS CLV-t 桶 ${bucketClvT(
-        incumbent.clvT,
-      )},gap ${incumbent.gap.toFixed(3)}`
+        noisy(incumbent.clvT),
+      )},gap ${incumbent.gap.toFixed(2)}`
     : '尚无最优(首代)';
   const hist = recent
     .slice(-8)
@@ -412,6 +437,7 @@ export interface EvolutionState {
   incumbent: Incumbent | null;
   noImproveCount: number;
   refineRadius: number; // 全距比例;证据驱动收缩/扩张
+  lcbHistory?: number[]; // 每代最优 CLV LCB(exhausted 的停滞判据)
   holdoutTouches: HoldoutTouch[];
   insufficientPower: boolean;
   lastRunDay?: string; // UTC 日,幂等守卫
@@ -479,6 +505,7 @@ export interface EvolveResult {
   ledgerAppend: PromotionEntry[];
   logs: EvolutionLogEntry[];
   manifest: HoldoutManifest;
+  forward: ForwardStore;
   note: string;
 }
 
@@ -489,6 +516,7 @@ export async function runEvolutionCycle(
     registry: TrialRegistry;
     timeline: EpochResult[];
     manifest: HoldoutManifest | null;
+    forward?: ForwardStore | null;
   },
   deps: EvolveDeps,
 ): Promise<EvolveResult> {
@@ -521,7 +549,8 @@ export async function runEvolutionCycle(
     );
   const partition = partitionWithLockedHoldout(dataset, manifest.holdoutFrom);
 
-  const insufficientPower = matchCount < 2500; // value 注 ≤ 场次 → G2 的 n≥2500 物理不可达
+  // value 注经验占比 ~0.8×场次(7 季 EPL 实测 1976/2660≈0.74)→ 达不到 G2 的 n≥2500 即标记功效不足
+  const insufficientPower = matchCount * 0.8 < 2500;
   let state =
     input.state && input.state.schemaVersion === 1
       ? { ...input.state, runId: deps.now }
@@ -540,7 +569,7 @@ export async function runEvolutionCycle(
       grew >= REVIVE_MIN_MATCHES ||
       grew / Math.max(1, state.matchCount) >= 0.03;
     if (state.status === 'frozen') {
-      // frozen 是硬停:数据变化不解除(仅显式新 campaign)
+      // frozen 是硬停:数据变化不解除(仅显式新 campaign);前向照常推进(不烧搜索预算)
       return {
         state: { ...state, runId: deps.now },
         registry,
@@ -548,6 +577,7 @@ export async function runEvolutionCycle(
         ledgerAppend,
         logs,
         manifest,
+        forward: updateForwardLog(dataset, input.forward ?? null, []),
         note: 'frozen(N_max 已耗尽):数据变化不解除,需显式 newCampaign',
       };
     }
@@ -682,7 +712,7 @@ export async function runEvolutionCycle(
     }
 
     // ④ 评估一代(runSearch:锁定切分 + 注册 + 三筛;registry 经其累积)
-    const { epoch, registry: reg2 } = runSearch(dataset, genConfigs, {
+    const { epoch, registry: reg2 } = await runSearch(dataset, genConfigs, {
       registry,
       epoch: generation,
       partition,
@@ -715,6 +745,7 @@ export async function runEvolutionCycle(
       pairedT = pr.t;
     }
 
+    const lcbHistory = [...(state.lcbHistory ?? []), winLcb.lcb];
     if (improved) {
       const evo = extractEvo(winnerCfg.params);
       state = {
@@ -731,6 +762,7 @@ export async function runEvolutionCycle(
           dataHash,
         },
         noImproveCount: 0,
+        lcbHistory,
         // 证据驱动收缩(有显著改进才收);首代 bootstrap 不收
         refineRadius: state.incumbent
           ? Math.max(0.02, state.refineRadius * 0.5)
@@ -740,14 +772,22 @@ export async function runEvolutionCycle(
       state = {
         ...state,
         generation,
+        lcbHistory,
         noImproveCount: state.noImproveCount + 1,
         refineRadius: Math.min(0.5, state.refineRadius * 1.5), // 连败扩半径让位探索
       };
     }
-    // exhausted 判据:覆盖下限 + 连续无改进 同时满足(防早退)
+    // exhausted 判据(复合,防运行最大值早退):连续无改进 + 覆盖下限 + LCB 停滞(近3代最优无实质抬升)
+    const hist = state.lcbHistory ?? [];
+    const lcbStagnant =
+      hist.length >= 4 &&
+      Math.max(...hist.slice(-3)) -
+        Math.max(...hist.slice(0, hist.length - 3)) <
+        0.002;
     if (
       state.noImproveCount >= K_NO_IMPROVE &&
-      eraTrialCount(registry, dataHash) >= COVERAGE_FLOOR
+      eraTrialCount(registry, dataHash) >= COVERAGE_FLOOR &&
+      lcbStagnant
     ) {
       state = { ...state, status: 'exhausted' };
       note = `exhausted:连续 ${K_NO_IMPROVE} 代无配对显著改进(era 试验 ${eraTrialCount(
@@ -778,6 +818,21 @@ export async function runEvolutionCycle(
     });
   }
 
+  // ── G7 前向管道:incumbent 加入追踪,补记 watermark 之后新到完赛的虚拟注 ──
+  const forward = updateForwardLog(
+    dataset,
+    input.forward ?? null,
+    state.incumbent
+      ? [
+          {
+            configHash: state.incumbent.configHash,
+            label: state.incumbent.label,
+            evo: state.incumbent.evo,
+          },
+        ]
+      : [],
+  );
+
   // ── G6 预算化 gauntlet:仅 incumbent 变更 + 首过 G0–G5 + 预算未耗尽 ──
   if (
     state.incumbent &&
@@ -794,9 +849,11 @@ export async function runEvolutionCycle(
       pbo: lastEpoch?.pbo ?? 1,
     };
     // 先跑 G0–G5(skipHoldout):卡在 G6 = 通过了 G0–G5
-    const pre = promoteCandidate(dataset, sp, ctx, {
+    const fwd = forwardEvidence(forward, state.incumbent.configHash);
+    const pre = await promoteCandidate(dataset, sp, ctx, {
       holdoutFrom: manifest.holdoutFrom,
       skipHoldout: true,
+      forward: fwd,
     });
     let final = pre;
     const touched = state.holdoutTouches.some(
@@ -807,8 +864,9 @@ export async function runEvolutionCycle(
       !touched &&
       state.holdoutTouches.length < G6_BUDGET
     ) {
-      final = promoteCandidate(dataset, sp, ctx, {
+      final = await promoteCandidate(dataset, sp, ctx, {
         holdoutFrom: manifest.holdoutFrom,
+        forward: fwd,
       });
       state = {
         ...state,
@@ -840,6 +898,7 @@ export async function runEvolutionCycle(
     ledgerAppend,
     logs,
     manifest,
+    forward,
     note:
       note ||
       (state.status === 'exploring'
@@ -848,7 +907,7 @@ export async function runEvolutionCycle(
   };
 }
 
-/** 从 StrategyParams 提取 5 个进化参数。 */
+/** 从 StrategyParams 提取进化参数(含市场开关)。 */
 export function extractEvo(p: StrategyParams): EvoParams {
   return quantizeEvo({
     goalShrink: p.tuning.goalShrink ?? 0.6,
@@ -856,5 +915,8 @@ export function extractEvo(p: StrategyParams): EvoParams {
     minEv: p.bet.minEv,
     minProb: p.bet.minProb,
     maxEv: p.bet.maxEv,
+    useAH: p.bet.markets?.ah === false ? 0 : 1,
+    useOU: p.bet.markets?.ou === false ? 0 : 1,
+    allowOver: p.bet.markets?.over === true ? 1 : 0,
   });
 }

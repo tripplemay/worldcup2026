@@ -40,6 +40,11 @@ const ds: EngineDataset = {
   ),
   odds: seed('league-epl-2025-oddsx.json') as Record<string, MatchOddsView>,
 };
+
+// 7 季 seed 后为控测试时长:截到近 3 季(既有断言行为不变)
+const SINCE = '2023-08-01';
+ds.allRes = ds.allRes.filter((r) => r.date >= SINCE);
+ds.allHist = ds.allHist.filter((h) => h.date >= SINCE);
 const DH = datasetHash(ds);
 
 describe('量化 + label 派生', () => {

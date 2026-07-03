@@ -185,6 +185,7 @@ jobs:
                   echo "*/15 * * * * curl -s --max-time 110 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/trade/run' >/dev/null 2>&1 # worldcup-trade"; \
                   echo "10 4 * * * curl -s --max-time 120 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/odds/capture-openings' >/dev/null 2>&1 # worldcup-openings"; \
                   echo "*/20 * * * * curl -s --max-time 290 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/scenarios/run' >/dev/null 2>&1 # worldcup-scenarios"; \
+                  echo "35 4 * * * curl -s --max-time 110 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/research/ingest' >/dev/null 2>&1 # worldcup-research-ingest"; \
                   echo "45 4 * * * curl -s --max-time 290 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/research/run' >/dev/null 2>&1 # worldcup-research" \
                 ) | crontab -
               fi

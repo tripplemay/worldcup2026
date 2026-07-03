@@ -20,6 +20,11 @@ const dataset: EngineDataset = {
   ),
   odds: seed('league-epl-2025-oddsx.json') as Record<string, MatchOddsView>,
 };
+
+// 7 季 seed 后为控测试时长:截到近 3 季(既有断言行为不变)
+const SINCE = '2023-08-01';
+dataset.allRes = dataset.allRes.filter((r) => r.date >= SINCE);
+dataset.allHist = dataset.allHist.filter((h) => h.date >= SINCE);
 const bet = {
   minProb: 0.3,
   minEv: 0.03,
@@ -43,8 +48,8 @@ const grid: SweepConfig[] = [
 ];
 
 describe('P4 runSearch', () => {
-  it('结构完整 + 冠军来自网格 + 三筛为布尔', () => {
-    const { epoch } = runSearch(dataset, grid, { epoch: 1 });
+  it('结构完整 + 冠军来自网格 + 三筛为布尔', async () => {
+    const { epoch } = await runSearch(dataset, grid, { epoch: 1 });
     expect(epoch.gridSize).toBe(3);
     expect(epoch.cumulativeTrials).toBe(3);
     expect(epoch.configs).toHaveLength(3);
@@ -54,23 +59,23 @@ describe('P4 runSearch', () => {
     expect(typeof epoch.screen.overall).toBe('boolean');
   }, 120000);
 
-  it('注册表累计(含传入的历史试验)', () => {
+  it('注册表累计(含传入的历史试验)', async () => {
     let reg = newRegistry();
     reg = registerTrial(reg, { prior: 1 });
     reg = registerTrial(reg, { prior: 2 }); // 已有 2 个历史试验
-    const { epoch, registry } = runSearch(dataset, grid, { registry: reg });
+    const { epoch, registry } = await runSearch(dataset, grid, { registry: reg });
     expect(epoch.cumulativeTrials).toBe(5); // 2 历史 + 3 本轮
     expect(registry.trials).toHaveLength(5);
   }, 120000);
 
-  it('确定性:同输入两次相等', () => {
-    const a = runSearch(dataset, grid, { epoch: 1 }).epoch;
-    const b = runSearch(dataset, grid, { epoch: 1 }).epoch;
+  it('确定性:同输入两次相等', async () => {
+    const a = (await runSearch(dataset, grid, { epoch: 1 })).epoch;
+    const b = (await runSearch(dataset, grid, { epoch: 1 })).epoch;
     expect(a).toEqual(b);
   }, 120000);
 
-  it('EPL 1X2 null:冠军三筛不通过(已证无 edge)', () => {
-    const { epoch } = runSearch(dataset, grid);
+  it('EPL 1X2 null:冠军三筛不通过(已证无 edge)', async () => {
+    const { epoch } = await runSearch(dataset, grid);
     expect(epoch.screen.overall).toBe(false); // CLV/PBO/DSR 至少一项不过
   }, 120000);
 });

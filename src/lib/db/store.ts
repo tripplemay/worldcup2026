@@ -16,6 +16,7 @@ import type {
 } from 'research/governance';
 import type { AnalystReport } from 'research/analyst';
 import type { EvolutionState, EvolutionLogEntry } from 'research/evolve';
+import type { ForwardStore } from 'research/forward';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -110,6 +111,17 @@ export function loadResearchTimeline(): EpochResult[] {
 export function saveResearchTimeline(list: EpochResult[]): void {
   writeJson('research-timeline.json', list);
 }
+/** 覆写前留一代备份(<file>.bak):统计生命线文件(注册表/状态/台账)防单点损坏。 */
+function writeJsonWithBak(file: string, data: unknown): void {
+  try {
+    const cur = readFileSync(join(PREDICT_DIR, file), 'utf8');
+    writeFileSync(join(PREDICT_DIR, `${file}.bak`), cur);
+  } catch {
+    /* 首写无备份 */
+  }
+  writeJson(file, data);
+}
+
 // 治理三件套(跨 run 累积:注册表钉死分母、holdout 锁定、晋级台账)
 export function loadTrialRegistry(): TrialRegistry {
   return readJson<TrialRegistry>('trial-registry.json', {
@@ -118,7 +130,7 @@ export function loadTrialRegistry(): TrialRegistry {
   });
 }
 export function saveTrialRegistry(r: TrialRegistry): void {
-  writeJson('trial-registry.json', r);
+  writeJsonWithBak('trial-registry.json', r);
 }
 export function loadHoldoutManifest(): HoldoutManifest | null {
   return readJson<HoldoutManifest | null>('holdout-manifest.json', null);
@@ -130,7 +142,7 @@ export function loadPromotionLedger(): PromotionEntry[] {
   return readJson<PromotionEntry[]>('promotion-ledger.json', []);
 }
 export function savePromotionLedger(list: PromotionEntry[]): void {
-  writeJson('promotion-ledger.json', list);
+  writeJsonWithBak('promotion-ledger.json', list);
 }
 // LLM 研究分析报告(分析员产出;供 /research 面板显示)
 export function loadResearchAnalysis(): AnalystReport | null {
@@ -144,8 +156,16 @@ export function loadEvolutionState(): EvolutionState | null {
   return readJson<EvolutionState | null>('evolution-state.json', null);
 }
 export function saveEvolutionState(s: EvolutionState): void {
-  writeJson('evolution-state.json', s);
+  writeJsonWithBak('evolution-state.json', s);
 }
+// G7 前向纸面(watermark 之后新到完赛的虚拟注;research-forward.json)
+export function loadForwardStore(): ForwardStore | null {
+  return readJson<ForwardStore | null>('research-forward.json', null);
+}
+export function saveForwardStore(s: ForwardStore): void {
+  writeJson('research-forward.json', s);
+}
+
 // 进化日志(append-only,永不截断;含 LLM 原始响应 + 验证器裁决 → 注入式重放)
 export function loadEvolutionLog(): EvolutionLogEntry[] {
   return readJson<EvolutionLogEntry[]>('evolution-log.json', []);

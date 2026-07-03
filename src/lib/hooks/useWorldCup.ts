@@ -145,12 +145,39 @@ export interface EvolutionSummary {
   incumbentLabel: string | null;
 }
 
-/** 研究调参时间线 + LLM 分析报告 + 进化状态;读后台落盘。 */
+/** 参数边际响应一行(GET research 附带)。 */
+export interface MarginalRow {
+  param: string;
+  distinct: number;
+  bestValue: number | null;
+  bestSharpe: number | null;
+}
+/** 进化日志摘要一行。 */
+export interface EvoLogRow {
+  generation: number;
+  winnerLabel: string;
+  improved: boolean;
+  pairedT: number;
+  llmAccepted: number;
+  statusAfter: string;
+}
+/** gauntlet 台账摘要一行(只给闸门级信息,不含 holdout 数值)。 */
+export interface GauntletRow {
+  label: string;
+  epoch: number;
+  blockedAt: string | null;
+  passedAll: boolean;
+}
+
+/** 研究调参时间线 + LLM 分析报告 + 进化状态 + 深察(边际/日志/台账);读后台落盘。 */
 export function useResearch() {
   const { data, error, isLoading, mutate } = useSWR<{
     epochs: EpochResult[];
     analysis: AnalystReport | null;
     evolution: EvolutionSummary | null;
+    marginals: MarginalRow[];
+    recentLog: EvoLogRow[];
+    gauntlet: GauntletRow[];
   }>('/api/worldcup/research', fetcher, {
     refreshInterval: STANDINGS_MS,
     ...common,
@@ -159,6 +186,9 @@ export function useResearch() {
     epochs: data?.epochs ?? [],
     analysis: data?.analysis ?? null,
     evolution: data?.evolution ?? null,
+    marginals: data?.marginals ?? [],
+    recentLog: data?.recentLog ?? [],
+    gauntlet: data?.gauntlet ?? [],
     error,
     isLoading,
     refresh: mutate,

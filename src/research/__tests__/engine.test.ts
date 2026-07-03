@@ -19,6 +19,11 @@ const allHist = Object.values(
 const allRes = Object.values(
   seed('league-epl-2025-results.json') as Record<string, ResultMatch>,
 );
+
+// 7 季 seed 后为控测试时长:截到近 3 季
+const SINCE = '2023-08-01';
+const allResF = allRes.filter((r) => r.date >= SINCE);
+const allHistF = allHist.filter((h) => h.date >= SINCE);
 const closing = seed('league-epl-2025-odds.json') as Record<
   string,
   { h: number; d: number; a: number }
@@ -53,8 +58,8 @@ const baseParams: StrategyParams = {
 };
 
 const dataset = (odds: Record<string, MatchOddsView>): EngineDataset => ({
-  allHist,
-  allRes,
+  allHist: allHistF,
+  allRes: allResF,
   odds,
 });
 

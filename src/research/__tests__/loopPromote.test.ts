@@ -20,6 +20,11 @@ const ds: EngineDataset = {
   ),
   odds: seed('league-epl-2025-oddsx.json') as Record<string, MatchOddsView>,
 };
+
+// 7 季 seed 后为控测试时长:截到近 3 季(既有断言行为不变)
+const SINCE = '2023-08-01';
+ds.allRes = ds.allRes.filter((r) => r.date >= SINCE);
+ds.allHist = ds.allHist.filter((h) => h.date >= SINCE);
 const bet = {
   minProb: 0.3,
   minEv: 0.03,
@@ -55,8 +60,8 @@ describe('P4 runSearchLoop', () => {
     expect(g[2][0].label).toMatch(/^minEv/);
   });
 
-  it('多轮累积注册表 + 追踪最优', () => {
-    const r = runSearchLoop(ds, grids, { at: 0 });
+  it('多轮累积注册表 + 追踪最优', async () => {
+    const r = await runSearchLoop(ds, grids, { at: 0 });
     expect(r.epochs).toHaveLength(2);
     expect(r.epochs[0].epoch).toBe(1);
     expect(r.epochs[1].epoch).toBe(2);
@@ -68,17 +73,17 @@ describe('P4 runSearchLoop', () => {
     ).toBe(true);
   }, 120000);
 
-  it('确定性:同输入两次相等', () => {
-    const a = runSearchLoop(ds, grids, { at: 0 });
-    const b = runSearchLoop(ds, grids, { at: 0 });
+  it('确定性:同输入两次相等', async () => {
+    const a = await runSearchLoop(ds, grids, { at: 0 });
+    const b = await runSearchLoop(ds, grids, { at: 0 });
     expect(a.epochs).toEqual(b.epochs);
     expect(a.best).toEqual(b.best);
   }, 120000);
 });
 
 describe('P4 promoteCandidate 全 gauntlet', () => {
-  it('产出完整 G0–G6 证据 + 闸门判定(EPL null → 被拦)', () => {
-    const r = promoteCandidate(ds, cfg(0.6), { epoch: 1, dsr: 0.22, pbo: 0.52 }, {
+  it('产出完整 G0–G6 证据 + 闸门判定(EPL null → 被拦)', async () => {
+    const r = await promoteCandidate(ds, cfg(0.6), { epoch: 1, dsr: 0.22, pbo: 0.52 }, {
       mcRuns: 200,
       seed: 1,
     });
@@ -94,10 +99,10 @@ describe('P4 promoteCandidate 全 gauntlet', () => {
     expect(typeof r.verdict.blockedAt).toBe('string');
   }, 120000);
 
-  it('确定性:同输入两次相等', () => {
+  it('确定性:同输入两次相等', async () => {
     const opts = { mcRuns: 100, seed: 3 };
-    const a = promoteCandidate(ds, cfg(0.6), { epoch: 1, dsr: 0.2, pbo: 0.5 }, opts);
-    const b = promoteCandidate(ds, cfg(0.6), { epoch: 1, dsr: 0.2, pbo: 0.5 }, opts);
+    const a = await promoteCandidate(ds, cfg(0.6), { epoch: 1, dsr: 0.2, pbo: 0.5 }, opts);
+    const b = await promoteCandidate(ds, cfg(0.6), { epoch: 1, dsr: 0.2, pbo: 0.5 }, opts);
     expect(a).toEqual(b);
   }, 120000);
 });

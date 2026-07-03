@@ -67,6 +67,8 @@ export interface StrategyParams {
     coverageStakePct: number;
     initialBalance: number;
     g1Veto?: boolean; // R1 错配场押市场非热门方否决(默认 true,与生产一致)
+    slippagePct?: number; // 执行摩擦敏感性:成交赔率按 (odds-1)×(1-x) 折减(默认 0)
+    markets?: { ah?: boolean; ou?: boolean; over?: boolean }; // 市场白名单(可进化;缺省 AH/OU 开、Over 关)
   };
   from?: string; // 评估窗起(含);walk-forward 切片
   to?: string; // 评估窗止(含)
@@ -168,6 +170,7 @@ export interface ClvSummary {
   avgClv: number;
   posRate: number;
   tStat: number;
+  dropped: number; // 开盘 value 注中因线动(AH/OU 闭盘不同线)无法量 CLV 而丢弃的笔数(选择偏差可见化)
 }
 
 export interface StrategyResult {
@@ -224,7 +227,8 @@ export function runStrategy(
   let clvN = 0,
     clvSum = 0,
     clvSum2 = 0,
-    clvPos = 0;
+    clvPos = 0,
+    clvDropped = 0;
 
   const settle = (
     m: ResultMatch,
@@ -254,6 +258,13 @@ export function runStrategy(
     const phase: 'open' | 'close' = cand.book === 'open' ? 'open' : 'close';
     const clv =
       tier === 'value' && phase === 'open' ? clvForBet(cand, mv) : null;
+    if (
+      tier === 'value' &&
+      phase === 'open' &&
+      clv == null &&
+      (cand.market === 'AH' || cand.market === 'OU')
+    )
+      clvDropped += 1; // 线动 → 同线不可比 → 丢样本(诚实计数,防静默选择偏差)
     if (tier === 'value' && clv != null) {
       clvN += 1;
       clvSum += clv;
@@ -313,11 +324,13 @@ export function runStrategy(
       ? { home: mf.homeWin, draw: mf.draw, away: mf.awayWin }
       : projectMatchWinner(matrix);
 
+    // 执行摩擦:成交赔率折减(滑点敏感性;CLV 用折减后成交价 → 压力方向正确)
+    const slip = (o: number) => 1 + (o - 1) * (1 - (bet.slippagePct ?? 0));
     const snap: MarketSnapshot = {
       h2h: {
-        home: { price: betX2.h, book: betPhase },
-        draw: { price: betX2.d, book: betPhase },
-        away: { price: betX2.a, book: betPhase },
+        home: { price: slip(betX2.h), book: betPhase },
+        draw: { price: slip(betX2.d), book: betPhase },
+        away: { price: slip(betX2.a), book: betPhase },
       },
       totals: [],
       spreads: [],
@@ -329,8 +342,8 @@ export function runStrategy(
       if (t)
         snap.totals.push({
           point: t.line,
-          over: { price: t.over, book: ph },
-          under: { price: t.under, book: ph },
+          over: { price: slip(t.over), book: ph },
+          under: { price: slip(t.under), book: ph },
         });
     }
     // 亚盘主线:home(让球 line)+ away(-line)两向
@@ -341,16 +354,25 @@ export function runStrategy(
         snap.spreads.push({
           side: 'home',
           point: a.line,
-          pick: { price: a.home, book: ph },
+          pick: { price: slip(a.home), book: ph },
         });
         snap.spreads.push({
           side: 'away',
           point: -a.line,
-          pick: { price: a.away, book: ph },
+          pick: { price: slip(a.away), book: ph },
         });
       }
     }
-    const candidates = candidatesFromSnapshot(matrix, mw, snap);
+    const mkts = bet.markets;
+    const candidates = candidatesFromSnapshot(matrix, mw, snap, {
+      includeOver: mkts?.over === true,
+    }).filter((c) =>
+      c.market === 'AH'
+        ? mkts?.ah ?? true
+        : c.market === 'OU'
+        ? mkts?.ou ?? true
+        : true,
+    );
     const best = selectBest(candidates, {
       minProb: bet.minProb,
       minEv: bet.minEv,
@@ -437,6 +459,7 @@ export function runStrategy(
       avgClv: +clvMean.toFixed(4),
       posRate: clvN ? +(clvPos / clvN).toFixed(3) : 0,
       tStat: +clvT.toFixed(2),
+      dropped: clvDropped,
     },
     g1Vetoed,
     pickDist,

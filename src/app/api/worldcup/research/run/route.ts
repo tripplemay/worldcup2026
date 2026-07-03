@@ -24,6 +24,8 @@ import {
   loadEvolutionState,
   saveEvolutionState,
   appendEvolutionLog,
+  loadForwardStore,
+  saveForwardStore,
 } from 'lib/db/store';
 import { runEvolutionCycle } from 'research/evolve';
 import {
@@ -100,6 +102,7 @@ export async function POST(req: Request) {
         registry: loadTrialRegistry(),
         timeline,
         manifest: loadHoldoutManifest(),
+        forward: loadForwardStore(),
       },
       { now, llmPropose: proposeConfigs },
     );
@@ -112,6 +115,7 @@ export async function POST(req: Request) {
     if (result.ledgerAppend.length)
       ledger = [...ledger, ...result.ledgerAppend].slice(-50);
     savePromotionLedger(ledger);
+    saveForwardStore(result.forward);
     appendEvolutionLog(result.logs);
     saveHoldoutManifest(result.manifest);
     saveEvolutionState({ ...result.state, lastRunDay: today });

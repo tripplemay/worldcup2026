@@ -7,9 +7,54 @@ import {
   loadResearchTimeline,
   loadResearchAnalysis,
   loadEvolutionState,
+  loadTrialRegistry,
+  loadEvolutionLog,
+  loadPromotionLedger,
 } from 'lib/db/store';
+import { PARAM_KEYS, extractEvo } from 'research/evolve';
+import type { StrategyParams } from 'research/engine';
 
 export const dynamic = 'force-dynamic';
+
+/** 参数边际响应:每参 已试档数 + oosSharpe 最优档(取当前 era 有指标的去重试验)。 */
+function marginals(dataHash?: string) {
+  const reg = loadTrialRegistry();
+  const byHash = new Map<string, { evo: ReturnType<typeof extractEvo>; sharpe: number }>();
+  for (const t of reg.trials) {
+    if (dataHash && t.dataHash !== dataHash) continue;
+    if (t.oosSharpe == null) continue;
+    try {
+      byHash.set(t.configHash, {
+        evo: extractEvo(t.params as StrategyParams),
+        sharpe: t.oosSharpe,
+      });
+    } catch {
+      /* 旧 shape 忽略 */
+    }
+  }
+  const rows = [...byHash.values()];
+  return PARAM_KEYS.map((k) => {
+    const vals = new Map<number, { n: number; best: number }>();
+    for (const r of rows) {
+      const v = r.evo[k];
+      const cur = vals.get(v) ?? { n: 0, best: -Infinity };
+      vals.set(v, { n: cur.n + 1, best: Math.max(cur.best, r.sharpe) });
+    }
+    let bestV: number | null = null;
+    let bestS = -Infinity;
+    for (const [v, x] of vals)
+      if (x.best > bestS) {
+        bestS = x.best;
+        bestV = v;
+      }
+    return {
+      param: k,
+      distinct: vals.size,
+      bestValue: bestV,
+      bestSharpe: Number.isFinite(bestS) ? +bestS.toFixed(4) : null,
+    };
+  });
+}
 
 export async function GET() {
   try {
@@ -28,6 +73,25 @@ export async function GET() {
             incumbentLabel: st.incumbent?.label ?? null,
           }
         : null,
+      marginals: st ? marginals(st.dataHash) : [],
+      recentLog: loadEvolutionLog()
+        .slice(-3)
+        .map((l) => ({
+          generation: l.generation,
+          winnerLabel: l.winnerLabel,
+          improved: l.improved,
+          pairedT: l.pairedT,
+          llmAccepted: l.accepted.filter((a) => a.provenance === 'llm').length,
+          statusAfter: l.statusAfter,
+        })),
+      gauntlet: loadPromotionLedger()
+        .slice(-3)
+        .map((g) => ({
+          label: g.label,
+          epoch: g.epoch,
+          blockedAt: g.verdict.blockedAt,
+          passedAll: g.verdict.passedAll,
+        })),
     });
   } catch (e) {
     return fail(e instanceof Error ? e.message : '研究时间线读取失败');

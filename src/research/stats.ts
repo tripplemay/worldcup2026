@@ -233,6 +233,33 @@ export function stationaryBootstrapIndices(
   return idx;
 }
 
+/**
+ * 有效独立试验数 N_eff(相关配置聚类,协议 §2.4):行=配置的按块收益向量,
+ * N_eff = N² / Σ|corr_ij|²(相关矩阵 Frobenius 范数比;克隆配置不重复计)。仅诊断/报告,DSR 分母仍用原始 N。
+ */
+export function nEff(perBlockRows: number[][]): number {
+  const N = perBlockRows.length;
+  if (N < 2) return N;
+  const corr = (a: number[], b: number[]): number => {
+    const n = Math.min(a.length, b.length);
+    if (!n) return 0;
+    const ma = a.reduce((s, x) => s + x, 0) / n;
+    const mb = b.reduce((s, x) => s + x, 0) / n;
+    let sa = 0, sb = 0, sab = 0;
+    for (let i = 0; i < n; i++) {
+      sa += (a[i] - ma) ** 2; sb += (b[i] - mb) ** 2; sab += (a[i] - ma) * (b[i] - mb);
+    }
+    return sa > 0 && sb > 0 ? sab / Math.sqrt(sa * sb) : a === b ? 1 : 0;
+  };
+  let frob = 0;
+  for (let i = 0; i < N; i++)
+    for (let j = 0; j < N; j++) {
+      const c = i === j ? 1 : corr(perBlockRows[i], perBlockRows[j]);
+      frob += c * c;
+    }
+  return +(N * N / Math.max(1, frob)).toFixed(2);
+}
+
 export interface SpaResult {
   stat: number; // 检验统计量 V = max_k √T·f̄_k(可 studentize)
   p: number; // 平稳自助 p 值;<0.05 = 最佳策略确优于基准
@@ -251,6 +278,7 @@ export function spaTest(
     meanBlockLen?: number;
     seed?: number;
     studentize?: boolean;
+    variant?: 'u' | 'c'; // 'c'=Hansen SPA_c:太差策略(studentized 均值 < -2)不进零分布最大值,防垃圾稀释
   },
 ): SpaResult {
   const N = F.length;
@@ -278,10 +306,15 @@ export function spaTest(
   });
   const denom = (k: number) => (studentize ? omega[k] : 1);
   const V = Math.max(...fbar.map((fb, k) => (Math.sqrt(T) * fb) / denom(k)));
+  // SPA_c:剔除明显劣于基准的策略(studentized 均值 < -2)不进零分布
+  const inNull = fbar.map((fb, k) =>
+    opts?.variant === 'c' ? (Math.sqrt(T) * fb) / denom(k) >= -2 : true,
+  );
   let ge = 0;
   for (let b = 0; b < B; b++) {
     let vstar = -Infinity;
     for (let k = 0; k < N; k++) {
+      if (!inNull[k]) continue;
       const z = zStar[k][b] / denom(k);
       if (z > vstar) vstar = z;
     }

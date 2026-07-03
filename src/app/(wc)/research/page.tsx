@@ -222,7 +222,8 @@ function LeaderboardPanel({
 
 export default function ResearchPage() {
   const { t } = useLocale();
-  const { epochs, analysis, evolution, isLoading } = useResearch();
+  const { epochs, analysis, evolution, marginals, recentLog, gauntlet, isLoading } =
+    useResearch();
   const last = epochs.length ? epochs[epochs.length - 1] : null;
 
   return (
@@ -296,6 +297,68 @@ export default function ResearchPage() {
             </Card>
           )}
           <LeaderboardPanel e={last} t={t} />
+          {(marginals.length > 0 || recentLog.length > 0 || gauntlet.length > 0) && (
+            <Card extra="p-4">
+              <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
+                {t('research.deep')}
+              </h2>
+              {marginals.length > 0 && (
+                <div className="mb-2">
+                  <div className="mb-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+                    {t('research.marginals')}
+                  </div>
+                  {marginals.map((m) => (
+                    <div key={m.param} className="flex items-center justify-between text-xs">
+                      <span className="text-gray-500 dark:text-gray-400">{m.param}</span>
+                      <span className="font-mono tabular-nums text-navy-700 dark:text-white">
+                        {m.distinct} 档 · {m.bestValue ?? '—'}
+                        {m.bestSharpe != null ? ` (${m.bestSharpe})` : ''}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {recentLog.length > 0 && (
+                <div className="mb-2 border-t border-gray-100 pt-2 dark:border-white/5">
+                  <div className="mb-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+                    {t('research.logRecent')}
+                  </div>
+                  {recentLog.map((l) => (
+                    <div key={l.generation} className="flex items-center justify-between text-xs">
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {t('research.gen')}
+                        {l.generation} · {l.winnerLabel} · LLM×{l.llmAccepted}
+                      </span>
+                      <span className={l.improved ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}>
+                        {l.improved ? `↑ t=${l.pairedT}` : '—'}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {gauntlet.length > 0 && (
+                <div className="border-t border-gray-100 pt-2 dark:border-white/5">
+                  <div className="mb-1 text-[11px] font-semibold text-gray-500 dark:text-gray-400">
+                    {t('research.gauntletT')}
+                  </div>
+                  {gauntlet.map((g, i) => (
+                    <div key={i} className="flex items-center justify-between text-xs">
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {g.label}
+                      </span>
+                      <span className="font-mono">
+                        {g.passedAll ? (
+                          <Screen ok={true} />
+                        ) : (
+                          <span className="text-gray-400">→{g.blockedAt}</span>
+                        )}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </Card>
+          )}
           <p className="px-1 text-[11px] leading-snug text-gray-400">
             {t('research.note')}
           </p>

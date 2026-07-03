@@ -82,7 +82,7 @@ function betterThan(a: LoopBest, b: LoopBest): boolean {
  * 跑多 epoch 循环。grids 每项一轮;注册表跨轮累积(可传入历史注册表续接)。
  * opts.stopAfterNoImprove:连续多少轮全局最优无改善即提前停(缺省=跑完全部 grid)。
  */
-export function runSearchLoop(
+export async function runSearchLoop(
   dataset: EngineDataset,
   grids: SweepConfig[][],
   opts?: {
@@ -91,7 +91,7 @@ export function runSearchLoop(
     stopAfterNoImprove?: number;
     at?: number;
   },
-): LoopResult {
+): Promise<LoopResult> {
   let registry = opts?.registry ?? newRegistry();
   const epochs: EpochResult[] = [];
   let best: LoopBest | null = null;
@@ -100,7 +100,7 @@ export function runSearchLoop(
 
   for (const grid of grids) {
     if (!grid.length) continue;
-    const { epoch, registry: reg } = runSearch(dataset, grid, {
+    const { epoch, registry: reg } = await runSearch(dataset, grid, {
       registry,
       epoch: ep,
       at: opts?.at,

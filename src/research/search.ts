@@ -74,12 +74,15 @@ export interface RunSearchOpts {
   dataHash?: string; // 数据 era(进化模式传;DSR/PBO 换全 era 口径 + 去重键维度)
 }
 
-/** 跑一轮搜索。返回 epoch 结果 + 更新后的注册表(供多 epoch 累积)。 */
-export function runSearch(
+/** 事件循环让出(评审 should-fix:同步 CPU 会冻结同进程 livePoller/用户请求)。 */
+const yieldLoop = () => new Promise<void>((r) => setTimeout(r, 0));
+
+/** 跑一轮搜索(async:逐配置间让出事件循环)。返回 epoch 结果 + 更新后的注册表。 */
+export async function runSearch(
   dataset: EngineDataset,
   grid: SweepConfig[],
   opts?: RunSearchOpts,
-): { epoch: EpochResult; registry: TrialRegistry } {
+): Promise<{ epoch: EpochResult; registry: TrialRegistry }> {
   if (!grid.length) throw new Error('[research] 空网格');
   // label 与 configHash 双重唯一性断言(label 曾是晋级 join key,撞车会配错参数)
   const hashes = grid.map((g) => configHash(g.params));
@@ -113,8 +116,26 @@ export function runSearch(
     return b;
   };
 
-  // 3) 逐配置:IS gap / OOS 指标 / OOS 收益 / 全样本按块收益
-  const rows = grid.map((g) => {
+  // 3) 逐配置:IS gap / OOS 指标 / OOS 收益 / 全样本按块收益(每配置后让出事件循环)
+  const rows = [] as {
+    label: string;
+    params: StrategyParams;
+    hash: string;
+    provenance?: SweepConfig['provenance'];
+    isGap: number;
+    oosGap: number;
+    oosValueRoi: number;
+    oosClvN: number;
+    oosClvT: number;
+    oosSharpe: number;
+    oosRet: number[];
+    perBlock: number[];
+  }[];
+  for (const g of grid) {
+    rows.push(evalConfig(g));
+    await yieldLoop();
+  }
+  function evalConfig(g: SweepConfig) {
     const acc = {
       tuning: g.params.tuning,
       home: g.params.home,
@@ -156,7 +177,7 @@ export function runSearch(
       oosRet,
       perBlock: blk.map((x) => (x.n ? x.s / x.n : 0)),
     };
-  });
+  }
   // 评估后回填指标到注册表(DSR/PBO 全 era 口径的数据源)
   for (const r of rows)
     registry = attachTrialMetrics(registry, r.hash, opts?.dataHash, {

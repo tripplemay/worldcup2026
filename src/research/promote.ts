@@ -94,7 +94,7 @@ export interface PromoteResult {
  * opts.skipHoldout:不触碰 L3(G6 证据缺省 → 闸门卡 G6)——进化循环用它先验 G0–G5,
  * 只有首过 G0–G5 且 holdout 预算未耗尽时才真跑 G6(评审 must-fix:G6 预算化)。
  */
-export function promoteCandidate(
+export async function promoteCandidate(
   dataset: EngineDataset,
   params: StrategyParams,
   ctx: PromoteCtx,
@@ -103,8 +103,9 @@ export function promoteCandidate(
     mcRuns?: number;
     seed?: number;
     skipHoldout?: boolean;
+    forward?: { liveBets: number; liveClvT: number }; // G7 前向证据(forward 管道给)
   },
-): PromoteResult {
+): Promise<PromoteResult> {
   const holdoutFrom = opts?.holdoutFrom ?? sliceDates(dataset).holdoutFrom;
   const mcRuns = opts?.mcRuns ?? 500;
   const seed = opts?.seed ?? 12345;
@@ -113,13 +114,16 @@ export function promoteCandidate(
   const hold = holdoutSlice(dataset, manifest);
 
   // 非 holdout 全窗跑一次 → CLV / 收益序列 / 权益 / 分赛季
+  const yieldLoop = () => new Promise<void>((r) => setTimeout(r, 0));
   const s = runStrategy(safe, params);
+  await yieldLoop();
   const vbets = s.bets.filter((b) => b.tier === 'value');
   const pnls = vbets.map((b) => b.pnl);
   const rets = vbets.map((b) => b.pnl / b.stake);
 
   // G2:SPA(单策略自助 vs 零)+ ROI CI 下界 + DSR(用 nTrials 分母)
   const spa = rets.length ? spaTest([rets], { seed }).p : 1;
+  await yieldLoop();
   const ciLo = ciLower95(rets, mcRuns, seed);
   const dsr = ctx.dsr; // 搜索轮已算(与冠军一致)
 
@@ -140,6 +144,14 @@ export function promoteCandidate(
   const noCollapse = seasonRois.every((r) => r > -0.3);
   const overallRoi = s.value.roi;
 
+  // G4 滑点压力:1% 执行摩擦重跑,value ROI 不崩(≥原值−5pp)才算稳健
+  const sStress = runStrategy(safe, {
+    ...params,
+    bet: { ...params.bet, slippagePct: 0.01 },
+  });
+  await yieldLoop();
+  const slippageOk = sStress.value.roi >= overallRoi - 0.05;
+
   // G5:历史回撤 + MC + 破产
   const equity: number[] = [params.bet.initialBalance];
   for (const p of pnls) equity.push(equity[equity.length - 1] + p);
@@ -150,6 +162,7 @@ export function promoteCandidate(
   let holdout: GateEvidence['holdout'];
   if (!opts?.skipHoldout) {
     const h = runStrategy(hold, params);
+    await yieldLoop();
     holdout = {
       clvPositive: h.clv.avgClv > 0,
       roiNotSigNeg: h.value.roi >= -0.05,
@@ -172,10 +185,11 @@ export function promoteCandidate(
       segmentsNoCollapse: noCollapse,
       anchoredPositive: overallRoi > 0,
       rollingPositive: posFrac >= 0.5,
+      slippageOk,
     },
     drawdown: { historicalMaxDD: histMdd, mc95DD: mc.p95, ruinPath: mc.ruin },
     holdout,
-    // G7 前向 live 非此处职责(留 predictionLog);缺省 → 卡在 G7(达标才是"可接真钱")
+    forward: opts?.forward, // G7:前向纸面管道给;缺省 → 卡 G7(达标才是"可接真钱")
   };
   const verdict = evaluateGates(evidence);
   return { evidence, verdict };
