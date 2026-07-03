@@ -135,11 +135,22 @@ export function useScenarios() {
   };
 }
 
-/** 研究调参时间线 + LLM 分析报告;读后台落盘。 */
+/** 进化状态摘要(GET research 附带;面板徽章用)。 */
+export interface EvolutionSummary {
+  status: 'exploring' | 'exhausted' | 'frozen';
+  generation: number;
+  noImproveCount: number;
+  insufficientPower: boolean;
+  holdoutTouches: number;
+  incumbentLabel: string | null;
+}
+
+/** 研究调参时间线 + LLM 分析报告 + 进化状态;读后台落盘。 */
 export function useResearch() {
   const { data, error, isLoading, mutate } = useSWR<{
     epochs: EpochResult[];
     analysis: AnalystReport | null;
+    evolution: EvolutionSummary | null;
   }>('/api/worldcup/research', fetcher, {
     refreshInterval: STANDINGS_MS,
     ...common,
@@ -147,6 +158,7 @@ export function useResearch() {
   return {
     epochs: data?.epochs ?? [],
     analysis: data?.analysis ?? null,
+    evolution: data?.evolution ?? null,
     error,
     isLoading,
     refresh: mutate,

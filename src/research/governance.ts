@@ -44,25 +44,56 @@ export interface TrialRecord {
   configHash: string;
   params: unknown;
   at?: number;
+  dataHash?: string; // 数据 era(缺省=era0 旧记录);去重键含此维,跨 era 重评是真实新试验
+  oosSharpe?: number; // 评估后回填:OOS 每注夏普(DSR 全体横截面方差用)
+  perBlock?: number[]; // 评估后回填:全窗按块单位收益(PBO 全体矩阵用)
 }
 export interface TrialRegistry {
   trials: TrialRecord[];
-  seen: Record<string, number>; // hash → 次数
+  seen: Record<string, number>; // `${configHash}|${dataHash}`(旧格式纯 hash 视为 era0)→ 次数
 }
 export function newRegistry(): TrialRegistry {
   return { trials: [], seen: {} };
 }
+const seenKey = (h: string, dataHash?: string) =>
+  dataHash ? `${h}|${dataHash}` : h;
 /** 登记一个试验(不可变返回新表)。**必须在看到 OOS 结果之前调用**。 */
 export function registerTrial(
   reg: TrialRegistry,
   params: unknown,
   at?: number,
+  dataHash?: string,
 ): TrialRegistry {
   const h = configHash(params);
+  const k = seenKey(h, dataHash);
   return {
-    trials: [...reg.trials, { configHash: h, params, at }],
-    seen: { ...reg.seen, [h]: (reg.seen[h] ?? 0) + 1 },
+    trials: [...reg.trials, { configHash: h, params, at, dataHash }],
+    seen: { ...reg.seen, [k]: (reg.seen[k] ?? 0) + 1 },
   };
+}
+/** 同配置+同数据 era 是否已试过(精确缓存命中 → 跳过不计 N;跨 era 不算已试)。 */
+export function hasTried(
+  reg: TrialRegistry,
+  params: unknown,
+  dataHash?: string,
+): boolean {
+  return (reg.seen[seenKey(configHash(params), dataHash)] ?? 0) > 0;
+}
+/** 评估后回填指标到该 (configHash,dataHash) 最新一条 trial(不可变)。 */
+export function attachTrialMetrics(
+  reg: TrialRegistry,
+  h: string,
+  dataHash: string | undefined,
+  metrics: { oosSharpe: number; perBlock: number[] },
+): TrialRegistry {
+  const trials = [...reg.trials];
+  for (let i = trials.length - 1; i >= 0; i--) {
+    if (trials[i].configHash === h && trials[i].dataHash === dataHash) {
+      trials[i] = { ...trials[i], ...metrics };
+      break;
+    }
+  }
+  return { ...reg, trials };
 }
 /** 累计试验数 N(含重复 / 丢弃)—— DSR/PBO 多重检验分母用此,不得用"报上来的赢家数"。 */
 export function trialCount(reg: TrialRegistry): number {
@@ -71,6 +102,31 @@ export function trialCount(reg: TrialRegistry): number {
 /** 去重后的独立配置数(仅诊断,不用作分母)。 */
 export function distinctTrialCount(reg: TrialRegistry): number {
   return Object.keys(reg.seen).length;
+}
+/** 某数据 era 的试验数(campaign 预算 N_max 按 era 计)。 */
+export function eraTrialCount(reg: TrialRegistry, dataHash: string): number {
+  return reg.trials.filter((t) => t.dataHash === dataHash).length;
+}
+/**
+ * 注册表完整性校验(防损坏静默归零 → DSR 分母崩塌):
+ * seen 计数总和必须等于 trials 长度;时间线非空而注册表为空 → 判损坏。
+ */
+export function registryIntact(
+  reg: TrialRegistry,
+  timelineNonEmpty: boolean,
+): boolean {
+  const sum = Object.values(reg.seen).reduce((s, x) => s + x, 0);
+  if (sum !== reg.trials.length) return false;
+  if (timelineNonEmpty && reg.trials.length === 0) return false;
+  return true;
+}
+/** 数据集内容哈希(排序键消除键序差;赛果+比分+赔率键集)。era 变更/复活判定用。 */
+export function datasetHash(dataset: EngineDataset): string {
+  const ids = dataset.allRes
+    .map((r) => `${r.eventId}:${r.homeGoals}-${r.awayGoals}`)
+    .sort();
+  const oddsKeys = Object.keys(dataset.odds).sort();
+  return configHash({ n: ids.length, ids, oddsKeys });
 }
 
 // ── holdout manifest(L3 物理隔离)─────────────────────────

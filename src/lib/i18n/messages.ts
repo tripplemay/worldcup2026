@@ -41,6 +41,11 @@ export const messages = {
       needTwo: '需 ≥2 轮才有对比',
       note: 'gap=离市场差距(越小越好);CLV/PBO/DSR 三筛全过才值得进全 gauntlet',
       analyst: '分析员诊断',
+      gen: '代',
+      exploring: '进化中',
+      exhausted: '已搜尽(待新数据)',
+      frozen: '已冻结(预算耗尽)',
+      lowPower: '样本功效不足',
     },
     scenarios: {
       title: '沙盘推演',
@@ -762,6 +767,11 @@ export const messages = {
       needTwo: 'Need ≥2 rounds to compare',
       note: 'gap = distance to market (lower better); a config must pass CLV/PBO/DSR to enter the full gauntlet',
       analyst: 'Analyst',
+      gen: 'Gen',
+      exploring: 'Evolving',
+      exhausted: 'Exhausted (awaiting data)',
+      frozen: 'Frozen (budget spent)',
+      lowPower: 'Low power',
     },
     scenarios: {
       title: 'Sandbox',

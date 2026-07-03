@@ -222,7 +222,7 @@ function LeaderboardPanel({
 
 export default function ResearchPage() {
   const { t } = useLocale();
-  const { epochs, analysis, isLoading } = useResearch();
+  const { epochs, analysis, evolution, isLoading } = useResearch();
   const last = epochs.length ? epochs[epochs.length - 1] : null;
 
   return (
@@ -239,6 +239,23 @@ export default function ResearchPage() {
         </div>
         <p className="mt-0.5 text-[11px] text-gray-500 dark:text-gray-400">
           {t('research.subtitle')}
+          {evolution && (
+            <span
+              className={`ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-medium ${
+                evolution.status === 'exploring'
+                  ? 'bg-brand-50 text-brand-600 dark:bg-brand-500/15 dark:text-brand-400'
+                  : evolution.status === 'exhausted'
+                  ? 'bg-amber-100 text-amber-700 dark:bg-amber-500/20 dark:text-amber-300'
+                  : 'bg-gray-200 text-gray-600 dark:bg-navy-700 dark:text-gray-300'
+              }`}
+            >
+              {t('research.gen')}
+              {evolution.generation} · {t(`research.${evolution.status}`)}
+              {evolution.insufficientPower
+                ? ` · ${t('research.lowPower')}`
+                : ''}
+            </span>
+          )}
         </p>
       </header>
 

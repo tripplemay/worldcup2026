@@ -16,7 +16,9 @@ import type { DsrResult } from './stats';
 import {
   newRegistry,
   registerTrial,
+  attachTrialMetrics,
   trialCount,
+  configHash,
   buildHoldoutManifest,
   excludeHoldout,
   DEFAULT_THRESHOLDS,
@@ -27,6 +29,7 @@ import type { EngineDataset, StrategyParams } from './engine';
 export interface SweepConfig {
   label: string;
   params: StrategyParams;
+  provenance?: 'refine' | 'llm' | 'random' | 'seed' | 'grid'; // 发生器来源(旧网格缺省 grid)
 }
 
 export type SelectBy = 'gapBrier' | 'clvT';
@@ -39,6 +42,7 @@ export interface ConfigMetrics {
   oosClvN: number;
   oosClvT: number;
   oosSharpe: number;
+  provenance?: string; // 可选;旧 timeline 条目无此字段,读取端需带缺省
 }
 
 export interface EpochResult {
@@ -67,6 +71,7 @@ export interface RunSearchOpts {
   partition?: Partition;
   blocksForPbo?: number;
   at?: number; // 注册时间戳(注入以保确定性)
+  dataHash?: string; // 数据 era(进化模式传;DSR/PBO 换全 era 口径 + 去重键维度)
 }
 
 /** 跑一轮搜索。返回 epoch 结果 + 更新后的注册表(供多 epoch 累积)。 */
@@ -76,9 +81,16 @@ export function runSearch(
   opts?: RunSearchOpts,
 ): { epoch: EpochResult; registry: TrialRegistry } {
   if (!grid.length) throw new Error('[research] 空网格');
+  // label 与 configHash 双重唯一性断言(label 曾是晋级 join key,撞车会配错参数)
+  const hashes = grid.map((g) => configHash(g.params));
+  if (new Set(grid.map((g) => g.label)).size !== grid.length)
+    throw new Error('[research] 网格 label 撞车');
+  if (new Set(hashes).size !== grid.length)
+    throw new Error('[research] 网格 configHash 撞车(重复配置)');
   // 1) 登记全部配置(看 OOS 前登记;累计 N 含重复/丢弃)
   let registry = opts?.registry ?? newRegistry();
-  for (const g of grid) registry = registerTrial(registry, g.params, opts?.at);
+  for (const g of grid)
+    registry = registerTrial(registry, g.params, opts?.at, opts?.dataHash);
 
   // 2) 切分 + 物理剔除 holdout(sweep 拿不到 L3)
   const partition = opts?.partition ?? sliceDates(dataset);
@@ -132,6 +144,9 @@ export function runSearch(
     }
     return {
       label: g.label,
+      params: g.params,
+      hash: configHash(g.params),
+      provenance: g.provenance,
       isGap,
       oosGap,
       oosValueRoi: sOos.value.roi,
@@ -142,19 +157,39 @@ export function runSearch(
       perBlock: blk.map((x) => (x.n ? x.s / x.n : 0)),
     };
   });
+  // 评估后回填指标到注册表(DSR/PBO 全 era 口径的数据源)
+  for (const r of rows)
+    registry = attachTrialMetrics(registry, r.hash, opts?.dataHash, {
+      oosSharpe: +r.oosSharpe.toFixed(6),
+      perBlock: r.perBlock.map((x) => +x.toFixed(6)),
+    });
 
-  // 4) 嵌套选优(IS 低方差指标)
+  // 4) 嵌套选优(IS 低方差指标;平手按 configHash 字典序,结果与网格拼接顺序无关)
   const selectBy = opts?.selectBy ?? 'gapBrier';
-  const winner = [...rows].sort((a, b) =>
-    selectBy === 'gapBrier' ? a.isGap - b.isGap : b.oosClvT - a.oosClvT,
+  const winner = [...rows].sort(
+    (a, b) =>
+      (selectBy === 'gapBrier' ? a.isGap - b.isGap : b.oosClvT - a.oosClvT) ||
+      a.hash.localeCompare(b.hash),
   )[0];
 
-  // 5) PBO(全网格 × 时间块 value-ROI)
-  const M = Array.from({ length: S }, (_, t) => rows.map((r) => r.perBlock[t]));
+  // 5)+6) PBO 与 DSR 的横截面:进化模式(有 dataHash)用【全 era 去重配置】——
+  //    评审 must-fix:精炼后期近邻克隆网格会使当代方差趋零、去膨胀失效;全 era 口径免疫此
+  let crossRows: { oosSharpe: number; perBlock: number[] }[] = rows;
+  if (opts?.dataHash) {
+    const byHash = new Map<string, { oosSharpe: number; perBlock: number[] }>();
+    for (const t of registry.trials)
+      if (t.dataHash === opts.dataHash && t.oosSharpe != null && t.perBlock)
+        byHash.set(t.configHash, {
+          oosSharpe: t.oosSharpe,
+          perBlock: t.perBlock,
+        });
+    if (byHash.size >= rows.length) crossRows = [...byHash.values()];
+  }
+  const M = Array.from({ length: S }, (_, t) =>
+    crossRows.map((r) => r.perBlock[t] ?? 0),
+  );
   const PBO = pbo(M, S);
-
-  // 6) DSR(冠军 OOS 收益;nTrials=累计 N;sharpeVar=各配置 OOS 夏普方差)
-  const sharpes = rows.map((r) => r.oosSharpe);
+  const sharpes = crossRows.map((r) => r.oosSharpe);
   const sMean = mean(sharpes);
   const sharpeVar = mean(sharpes.map((s) => (s - sMean) * (s - sMean)));
   const DSR = deflatedSharpe(winner.oosRet, trialCount(registry), sharpeVar);
@@ -173,6 +208,7 @@ export function runSearch(
     oosClvN: r.oosClvN,
     oosClvT: r.oosClvT,
     oosSharpe: +r.oosSharpe.toFixed(4),
+    ...(r.provenance ? { provenance: r.provenance } : {}),
   });
 
   const epoch: EpochResult = {
@@ -183,7 +219,7 @@ export function runSearch(
     partition,
     configs: rows.map(strip),
     winner: strip(winner),
-    winnerParams: grid.find((g) => g.label === winner.label)!.params,
+    winnerParams: winner.params, // 行内引用直取(不再按 label find —— label 撞车曾可劫持晋级参数)
     pbo: PBO,
     dsr: DSR,
     screen: {

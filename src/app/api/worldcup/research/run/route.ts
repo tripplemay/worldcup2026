@@ -1,9 +1,9 @@
 /**
- * POST /api/worldcup/research/run —— 跑一轮多 epoch 研究搜索并落盘全部治理产物(管理员;x-admin-token)。
- * 编排:载入历史注册表(钉死累计 N,跨 run 持续增长)→ runSearchLoop(defaultGrids)→
- * 最优候选跑全 gauntlet promoteCandidate → saveResearchTimeline(追加,留最近 20 轮)+
- * saveTrialRegistry + savePromotionLedger + saveHoldoutManifest。
- * 数据优先经 store(部署已播种)读,空则回退 seed/ fs。cron 定时 hit 本接口即"持续运行"。
+ * POST /api/worldcup/research/run —— 进化循环一次 run(管理员;x-admin-token)。
+ * v2(经对抗评审):runEvolutionCycle 编排(三发生器/配对障碍/状态机/G6 预算),本路由只做
+ * 鉴权、互斥、幂等、数据装载与【固定写序】持久化:registry(宁多计 N)→ timeline → ledger
+ * → evolution-log → state(最后写)。cron 每日触发;exhausted/frozen 时近乎 no-op。
+ * ?force=1 绕过同日幂等(手动补跑)。
  */
 import { readFileSync } from 'fs';
 import { join } from 'path';
@@ -21,20 +21,23 @@ import {
   loadPromotionLedger,
   savePromotionLedger,
   saveResearchAnalysis,
+  loadEvolutionState,
+  saveEvolutionState,
+  appendEvolutionLog,
 } from 'lib/db/store';
-import { runSearchLoop, defaultGrids } from 'research/loop';
-import { promoteCandidate } from 'research/promote';
-import { buildAnalystBrief, analyzeResearch } from 'research/analyst';
-import { sliceDates } from 'research/walkforward';
-import { buildHoldoutManifest, configHash } from 'research/governance';
+import { runEvolutionCycle } from 'research/evolve';
+import {
+  buildAnalystBrief,
+  analyzeResearch,
+  proposeConfigs,
+} from 'research/analyst';
 import type { EngineDataset, MatchOddsView } from 'research/engine';
 
 export const dynamic = 'force-dynamic';
-export const maxDuration = 300;
+export const maxDuration = 300; // Vercel-only;自托管下真实预算由编排器墙钟护栏(200s)管理
 
 const LEAGUE_KEY = 'epl-2025';
-const MAX_TIMELINE = 20;
-const MAX_LEDGER = 50;
+const MAX_TIMELINE = 40; // 烧完式 run 单次可产多代,放宽保留窗
 
 function checkAuth(req: Request): boolean | null {
   const token = process.env.ADMIN_TOKEN;
@@ -63,80 +66,88 @@ function loadDataset(): EngineDataset {
   return { allHist, allRes, odds };
 }
 
+// 进程内互斥(钉在 globalThis 防 dev 热重载双链):正在跑 → 409;单 PM2 实例足够
+const G = globalThis as { __wcResearchRunning?: boolean };
+
 export async function POST(req: Request) {
   const a = checkAuth(req);
   if (a === null) return fail('研究重算未启用(缺 ADMIN_TOKEN)', 403);
   if (!a) return fail('管理口令错误', 401);
+  if (G.__wcResearchRunning) return fail('研究循环运行中,拒绝并发', 409);
+  G.__wcResearchRunning = true;
   try {
     const dataset = loadDataset();
     if (!dataset.allRes.length || !Object.keys(dataset.odds).length)
       return fail('联赛数据缺失(数据目录未播种且无 seed)', 500);
 
     const now = Date.now();
-    const prior = loadResearchTimeline();
-    const startEpoch = (prior[prior.length - 1]?.epoch ?? 0) + 1;
-
-    // 多 epoch 循环:注册表跨 run 累积(钉死分母)
-    const loop = runSearchLoop(dataset, defaultGrids(), {
-      registry: loadTrialRegistry(),
-      startEpoch,
-      at: now,
-    });
-
-    // 时间线追加(留最近 MAX_TIMELINE 轮)+ 注册表落盘
-    const timeline = [...prior, ...loop.epochs].slice(-MAX_TIMELINE);
-    saveResearchTimeline(timeline);
-    saveTrialRegistry(loop.registry);
-
-    // holdout manifest(首次锁定,之后复用记录)
-    const manifest =
-      loadHoldoutManifest() ??
-      buildHoldoutManifest(dataset, sliceDates(dataset).holdoutFrom, now);
-    saveHoldoutManifest(manifest);
-
-    // 最优候选跑全 gauntlet → 追加晋级台账
-    let promoted: { label: string; blockedAt: string | null } | null = null;
-    if (loop.best) {
-      const pr = promoteCandidate(
-        dataset,
-        loop.best.params,
-        { epoch: loop.best.epoch, dsr: loop.best.dsr, pbo: loop.best.pbo },
-        { holdoutFrom: manifest.holdoutFrom },
-      );
-      const ledger = loadPromotionLedger();
-      ledger.push({
-        at: now,
-        epoch: loop.best.epoch,
-        configHash: configHash(loop.best.params),
-        label: loop.best.label,
-        evidence: pr.evidence,
-        verdict: pr.verdict,
+    const today = new Date(now).toISOString().slice(0, 10);
+    const force = new URL(req.url).searchParams.get('force') === '1';
+    const prevState = loadEvolutionState();
+    // 同日幂等(cron 与部署预热是两个独立触发源;重复触发返回上次摘要)
+    if (!force && prevState?.lastRunDay === today)
+      return okLive({
+        skipped: 'already-ran-today',
+        status: prevState.status,
+        generation: prevState.generation,
       });
-      savePromotionLedger(ledger.slice(-MAX_LEDGER));
-      promoted = { label: loop.best.label, blockedAt: pr.verdict.blockedAt };
-    }
 
-    // LLM 分析员(可选;读结果写诊断提假设;失败/未配 key 不影响搜索产物)
+    const timeline = loadResearchTimeline();
+    const result = await runEvolutionCycle(
+      {
+        dataset,
+        state: prevState,
+        registry: loadTrialRegistry(),
+        timeline,
+        manifest: loadHoldoutManifest(),
+      },
+      { now, llmPropose: proposeConfigs },
+    );
+
+    // 固定写序:registry(最保守,宁可 N 多计)→ timeline → ledger → log → state(最后)
+    saveTrialRegistry(result.registry);
+    const newTimeline = [...timeline, ...result.newEpochs].slice(-MAX_TIMELINE);
+    saveResearchTimeline(newTimeline);
+    let ledger = loadPromotionLedger();
+    if (result.ledgerAppend.length)
+      ledger = [...ledger, ...result.ledgerAppend].slice(-50);
+    savePromotionLedger(ledger);
+    appendEvolutionLog(result.logs);
+    saveHoldoutManifest(result.manifest);
+    saveEvolutionState({ ...result.state, lastRunDay: today });
+
+    // 分析员(面向人;失败不阻断)
     let analyzed = false;
     try {
-      const brief = buildAnalystBrief(timeline, loadPromotionLedger());
+      const brief = buildAnalystBrief(newTimeline, ledger);
       const report = await analyzeResearch(brief);
       if (report) {
         saveResearchAnalysis(report);
         analyzed = true;
       }
     } catch {
-      /* LLM 失败忽略 */
+      /* ignore */
     }
 
     return okLive({
+      status: result.state.status,
+      generation: result.state.generation,
+      newEpochs: result.newEpochs.length,
+      budgetUsedEra: result.logs[result.logs.length - 1]?.budgetUsedEra ?? null,
+      incumbent: result.state.incumbent
+        ? {
+            label: result.state.incumbent.label,
+            clvT: result.state.incumbent.clvT,
+            clvLcb: result.state.incumbent.clvLcb,
+          }
+        : null,
+      holdoutTouches: result.state.holdoutTouches.length,
+      note: result.note,
       analyzed,
-      newEpochs: loop.epochs.length,
-      totalEpochs: timeline.length,
-      cumulativeTrials: loop.registry.trials.length,
-      best: promoted,
     });
   } catch (e) {
-    return fail(e instanceof Error ? e.message : '研究重算失败');
+    return fail(e instanceof Error ? e.message : '研究进化循环失败');
+  } finally {
+    G.__wcResearchRunning = false;
   }
 }

@@ -15,6 +15,7 @@ import type {
   PromotionEntry,
 } from 'research/governance';
 import type { AnalystReport } from 'research/analyst';
+import type { EvolutionState, EvolutionLogEntry } from 'research/evolve';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -137,6 +138,21 @@ export function loadResearchAnalysis(): AnalystReport | null {
 }
 export function saveResearchAnalysis(r: AnalystReport): void {
   writeJson('research-analysis.json', r);
+}
+// 进化状态机(evolution-state.json;runId/schemaVersion 供一致性校验与重建)
+export function loadEvolutionState(): EvolutionState | null {
+  return readJson<EvolutionState | null>('evolution-state.json', null);
+}
+export function saveEvolutionState(s: EvolutionState): void {
+  writeJson('evolution-state.json', s);
+}
+// 进化日志(append-only,永不截断;含 LLM 原始响应 + 验证器裁决 → 注入式重放)
+export function loadEvolutionLog(): EvolutionLogEntry[] {
+  return readJson<EvolutionLogEntry[]>('evolution-log.json', []);
+}
+export function appendEvolutionLog(entries: EvolutionLogEntry[]): void {
+  if (!entries.length) return;
+  writeJson('evolution-log.json', [...loadEvolutionLog(), ...entries]);
 }
 
 // ── 球队评分(按归一化队名)──────────────────────────────

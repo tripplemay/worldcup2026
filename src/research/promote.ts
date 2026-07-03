@@ -89,12 +89,21 @@ export interface PromoteResult {
   verdict: PromotionVerdict;
 }
 
-/** 对候选跑全 gauntlet。opts.holdoutFrom 缺省由 sliceDates 推。 */
+/**
+ * 对候选跑全 gauntlet。opts.holdoutFrom 缺省由 sliceDates 推。
+ * opts.skipHoldout:不触碰 L3(G6 证据缺省 → 闸门卡 G6)——进化循环用它先验 G0–G5,
+ * 只有首过 G0–G5 且 holdout 预算未耗尽时才真跑 G6(评审 must-fix:G6 预算化)。
+ */
 export function promoteCandidate(
   dataset: EngineDataset,
   params: StrategyParams,
   ctx: PromoteCtx,
-  opts?: { holdoutFrom?: string; mcRuns?: number; seed?: number },
+  opts?: {
+    holdoutFrom?: string;
+    mcRuns?: number;
+    seed?: number;
+    skipHoldout?: boolean;
+  },
 ): PromoteResult {
   const holdoutFrom = opts?.holdoutFrom ?? sliceDates(dataset).holdoutFrom;
   const mcRuns = opts?.mcRuns ?? 500;
@@ -137,13 +146,16 @@ export function promoteCandidate(
   const histMdd = maxDrawdown(equity);
   const mc = mcDrawdown(pnls, params.bet.initialBalance, mcRuns, seed + 1);
 
-  // G6:holdout 一次性
-  const h = runStrategy(hold, params);
-  const holdout = {
-    clvPositive: h.clv.avgClv > 0,
-    roiNotSigNeg: h.value.roi >= -0.05,
-    noNewCollapse: h.value.roi > -0.3,
-  };
+  // G6:holdout 一次性(skipHoldout=true 时不触碰 L3,证据缺省 → 闸门卡 G6)
+  let holdout: GateEvidence['holdout'];
+  if (!opts?.skipHoldout) {
+    const h = runStrategy(hold, params);
+    holdout = {
+      clvPositive: h.clv.avgClv > 0,
+      roiNotSigNeg: h.value.roi >= -0.05,
+      noNewCollapse: h.value.roi > -0.3,
+    };
+  }
 
   const evidence: GateEvidence = {
     noLeak: true,
