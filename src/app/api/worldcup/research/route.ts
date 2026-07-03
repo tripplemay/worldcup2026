@@ -12,7 +12,12 @@ import {
   loadPromotionLedger,
   loadForwardStore,
   loadResearchScoreboard,
+  saveResearchScoreboard,
+  loadHoldoutManifest,
+  loadEvolutionState as loadEvoState2,
 } from 'lib/db/store';
+import { buildScoreboard } from 'research/scoreboard';
+import { loadLeagueDataset } from 'research/dataset';
 import { PARAM_KEYS, extractEvo } from 'research/evolve';
 import { forwardSummary } from 'research/forward';
 import type { StrategyParams } from 'research/engine';
@@ -59,11 +64,38 @@ function marginals(dataHash?: string) {
   });
 }
 
+// 惰性自愈:成绩单缺失但进化状态已在(如刚升级部署)→ 只读端补算一次(~2s,globalThis 防并发)
+const G = globalThis as { __wcSbBuilding?: boolean };
+async function scoreboardSelfHeal() {
+  let sb = loadResearchScoreboard();
+  if (sb) return sb;
+  const st = loadEvoState2();
+  const mf = loadHoldoutManifest();
+  if (!st || !mf || G.__wcSbBuilding) return null;
+  G.__wcSbBuilding = true;
+  try {
+    const ledger = loadPromotionLedger();
+    sb = await buildScoreboard(
+      loadLeagueDataset('epl-2025'),
+      st,
+      mf,
+      loadForwardStore(),
+      ledger[ledger.length - 1] ?? null,
+    );
+    saveResearchScoreboard(sb);
+    return sb;
+  } catch {
+    return null;
+  } finally {
+    G.__wcSbBuilding = false;
+  }
+}
+
 export async function GET() {
   try {
     const st = loadEvolutionState();
     return okLive({
-      scoreboard: loadResearchScoreboard(),
+      scoreboard: await scoreboardSelfHeal(),
       epochs: loadResearchTimeline(),
       analysis: loadResearchAnalysis(),
       // 进化状态摘要(面板徽章;holdout 数值证据不出面板,只给 pass/fail 级信息)

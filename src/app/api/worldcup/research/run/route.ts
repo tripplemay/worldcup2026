@@ -5,13 +5,8 @@
  * → evolution-log → state(最后写)。cron 每日触发;exhausted/frozen 时近乎 no-op。
  * ?force=1 绕过同日幂等(手动补跑)。
  */
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import { okLive, fail } from 'lib/api/respond';
 import {
-  loadLeagueHistorical,
-  loadLeagueResults,
-  loadLeagueOddsX,
   loadResearchTimeline,
   saveResearchTimeline,
   loadTrialRegistry,
@@ -30,12 +25,12 @@ import {
 } from 'lib/db/store';
 import { runEvolutionCycle } from 'research/evolve';
 import { buildScoreboard } from 'research/scoreboard';
+import { loadLeagueDataset } from 'research/dataset';
 import {
   buildAnalystBrief,
   analyzeResearch,
   proposeConfigs,
 } from 'research/analyst';
-import type { EngineDataset, MatchOddsView } from 'research/engine';
 
 export const dynamic = 'force-dynamic';
 export const maxDuration = 300; // Vercel-only;自托管下真实预算由编排器墙钟护栏(200s)管理
@@ -49,27 +44,6 @@ function checkAuth(req: Request): boolean | null {
   return req.headers.get('x-admin-token') === token;
 }
 
-/** 优先 store(已播种数据目录);为空则回退 seed/ via fs。 */
-function loadDataset(): EngineDataset {
-  let allHist = Object.values(loadLeagueHistorical(LEAGUE_KEY));
-  let allRes = Object.values(loadLeagueResults(LEAGUE_KEY));
-  let odds = loadLeagueOddsX(LEAGUE_KEY) as Record<string, MatchOddsView>;
-  if (!allRes.length || !Object.keys(odds).length) {
-    try {
-      const seed = (n: string) =>
-        JSON.parse(
-          readFileSync(join(process.cwd(), 'seed/leagues', n), 'utf8'),
-        );
-      allHist = Object.values(seed(`league-${LEAGUE_KEY}-historical.json`));
-      allRes = Object.values(seed(`league-${LEAGUE_KEY}-results.json`));
-      odds = seed(`league-${LEAGUE_KEY}-oddsx.json`);
-    } catch {
-      /* seed 不可读 → 保持 store 结果 */
-    }
-  }
-  return { allHist, allRes, odds };
-}
-
 // 进程内互斥(钉在 globalThis 防 dev 热重载双链):正在跑 → 409;单 PM2 实例足够
 const G = globalThis as { __wcResearchRunning?: boolean };
 
@@ -80,7 +54,7 @@ export async function POST(req: Request) {
   if (G.__wcResearchRunning) return fail('研究循环运行中,拒绝并发', 409);
   G.__wcResearchRunning = true;
   try {
-    const dataset = loadDataset();
+    const dataset = loadLeagueDataset(LEAGUE_KEY);
     if (!dataset.allRes.length || !Object.keys(dataset.odds).length)
       return fail('联赛数据缺失(数据目录未播种且无 seed)', 500);
 

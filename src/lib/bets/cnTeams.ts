@@ -126,8 +126,28 @@ export const CN_TEAM_MAP: Record<string, string> = {
   巴黎: 'Paris Saint Germain',
 };
 
-/** 中文/简称队名 → 规范英文(未登记原样透传,trim 两侧空白)。 */
+// 识别常见冗余后缀(截图识别常带,如「佛得角共和国」「巴西队」);剥后缀重查,未命中不吐半剥名
+const CN_SUFFIXES = ['共和国', '共和國', '国家队', '代表队', '足球队', '队'];
+
+/**
+ * 中文/简称队名 → 规范英文。精确命中优先;失败则剥常见后缀(至多两层,如「共和国队」)
+ * 重查映射;仍未命中原样透传(交人工,绝不返回剥了一半的名字)。
+ */
 export function toCanonicalName(raw: string): string {
   const s = (raw ?? '').trim();
-  return CN_TEAM_MAP[s] ?? s;
+  if (CN_TEAM_MAP[s]) return CN_TEAM_MAP[s];
+  let candidates = [s];
+  for (let pass = 0; pass < 2; pass++) {
+    const next: string[] = [];
+    for (const c of candidates)
+      for (const suf of CN_SUFFIXES)
+        if (c.endsWith(suf) && c.length > suf.length) {
+          const base = c.slice(0, -suf.length).trim();
+          if (CN_TEAM_MAP[base]) return CN_TEAM_MAP[base];
+          next.push(base);
+        }
+    candidates = next;
+    if (!candidates.length) break;
+  }
+  return s;
 }
