@@ -15,9 +15,9 @@ import type {
 } from './types';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
-// 视觉模型:默认 qwen3.5-plus(与原 flash 同厂同网关、接受图文格式,且更准;
+// 视觉模型:默认 gpt-5.5(网关 vision ✓、当前未定价=零成本;
 // doubao-pro 在网关上不接受多模态消息,勿用)。BETS_VISION_MODEL 可覆盖。
-const MODEL = process.env.BETS_VISION_MODEL ?? 'qwen3.5-plus';
+const MODEL = process.env.BETS_VISION_MODEL ?? 'gpt-5.5';
 
 /** 可结算盘口码(全场 6 类 + 波胆 全场/上半场/下半场);其余 → OTHER 转人工。 */
 const MARKETS: readonly string[] = [

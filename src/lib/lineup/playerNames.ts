@@ -1,6 +1,6 @@
 /**
  * 球员中文名:LLM 翻译 + 缓存(原名 → 中文)。
- * 复用 AIGC 网关(qwen3.5-flash);缓存落 WC_DATA_DIR/player-names.json(部署不丢)+ 进程内。
+ * 复用 AIGC 网关(默认 gpt-5.5,INTEL_LLM_MODEL 可覆盖);缓存落 WC_DATA_DIR/player-names.json(部署不丢)+ 进程内。
  * 未配置 AIGC_API_KEY 时跳过(回退原名);空名单不调用(赛前无阵容时零成本)。
  * 知名球员=媒体通用译名,冷门球员=音译。LLM 未返回的名字记原名,避免反复调用。
  */
@@ -8,7 +8,7 @@ import { readFileSync, writeFileSync, mkdirSync } from 'fs';
 import { join } from 'path';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
-const MODEL = process.env.INTEL_LLM_MODEL ?? 'qwen3.5-flash';
+const MODEL = process.env.INTEL_LLM_MODEL ?? 'gpt-5.5';
 const DATA_DIR = process.env.WC_DATA_DIR ?? '.data';
 const FILE = join(DATA_DIR, 'player-names.json');
 

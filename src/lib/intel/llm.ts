@@ -6,8 +6,8 @@
 import type { NewsItem, Sentiment } from './types';
 
 const BASE = process.env.AIGC_BASE ?? 'https://aigc.guangai.ai/v1';
-// 默认 qwen3.5-flash + 关思考,最便宜(~$0.00002/条);可用 env 覆盖
-const MODEL = process.env.INTEL_LLM_MODEL ?? 'qwen3.5-flash';
+// 默认 gpt-5.5(网关当前未定价=零成本);env 可覆盖回退
+const MODEL = process.env.INTEL_LLM_MODEL ?? 'gpt-5.5';
 
 const SYSTEM = `你是顶级量化体育分析师。阅读关于足球比赛的新闻,量化它对"指定球队"赛前胜率的影响。
 只输出 JSON,格式:{"event_type":"injury|morale|weather|tactics|other","sentiment_score":-1到1的数,"confidence":0到1的数,"reasoning":"一句话中文理由"}
