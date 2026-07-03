@@ -20,6 +20,7 @@ import type {
 } from 'lib/odds/types';
 import type { OddsChangeMap } from 'lib/odds/changes';
 import type { EpochResult } from 'research/search';
+import type { AnalystReport } from 'research/analyst';
 
 // 赔率变动类型在 lib/odds/changes 定义;此处转出,组件统一从 hooks 取。
 export type {
@@ -134,15 +135,18 @@ export function useScenarios() {
   };
 }
 
-/** 研究调参时间线(每轮 epoch 结果);读后台落盘。 */
+/** 研究调参时间线 + LLM 分析报告;读后台落盘。 */
 export function useResearch() {
-  const { data, error, isLoading, mutate } = useSWR<{ epochs: EpochResult[] }>(
-    '/api/worldcup/research',
-    fetcher,
-    { refreshInterval: STANDINGS_MS, ...common },
-  );
+  const { data, error, isLoading, mutate } = useSWR<{
+    epochs: EpochResult[];
+    analysis: AnalystReport | null;
+  }>('/api/worldcup/research', fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
   return {
     epochs: data?.epochs ?? [],
+    analysis: data?.analysis ?? null,
     error,
     isLoading,
     refresh: mutate,

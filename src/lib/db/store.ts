@@ -14,6 +14,7 @@ import type {
   HoldoutManifest,
   PromotionEntry,
 } from 'research/governance';
+import type { AnalystReport } from 'research/analyst';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -129,6 +130,13 @@ export function loadPromotionLedger(): PromotionEntry[] {
 }
 export function savePromotionLedger(list: PromotionEntry[]): void {
   writeJson('promotion-ledger.json', list);
+}
+// LLM 研究分析报告(分析员产出;供 /research 面板显示)
+export function loadResearchAnalysis(): AnalystReport | null {
+  return readJson<AnalystReport | null>('research-analysis.json', null);
+}
+export function saveResearchAnalysis(r: AnalystReport): void {
+  writeJson('research-analysis.json', r);
 }
 
 // ── 球队评分(按归一化队名)──────────────────────────────

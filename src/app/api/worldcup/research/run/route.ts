@@ -20,9 +20,11 @@ import {
   saveHoldoutManifest,
   loadPromotionLedger,
   savePromotionLedger,
+  saveResearchAnalysis,
 } from 'lib/db/store';
 import { runSearchLoop, defaultGrids } from 'research/loop';
 import { promoteCandidate } from 'research/promote';
+import { buildAnalystBrief, analyzeResearch } from 'research/analyst';
 import { sliceDates } from 'research/walkforward';
 import { buildHoldoutManifest, configHash } from 'research/governance';
 import type { EngineDataset, MatchOddsView } from 'research/engine';
@@ -48,7 +50,9 @@ function loadDataset(): EngineDataset {
   if (!allRes.length || !Object.keys(odds).length) {
     try {
       const seed = (n: string) =>
-        JSON.parse(readFileSync(join(process.cwd(), 'seed/leagues', n), 'utf8'));
+        JSON.parse(
+          readFileSync(join(process.cwd(), 'seed/leagues', n), 'utf8'),
+        );
       allHist = Object.values(seed(`league-${LEAGUE_KEY}-historical.json`));
       allRes = Object.values(seed(`league-${LEAGUE_KEY}-results.json`));
       odds = seed(`league-${LEAGUE_KEY}-oddsx.json`);
@@ -112,7 +116,21 @@ export async function POST(req: Request) {
       promoted = { label: loop.best.label, blockedAt: pr.verdict.blockedAt };
     }
 
+    // LLM 分析员(可选;读结果写诊断提假设;失败/未配 key 不影响搜索产物)
+    let analyzed = false;
+    try {
+      const brief = buildAnalystBrief(timeline, loadPromotionLedger());
+      const report = await analyzeResearch(brief);
+      if (report) {
+        saveResearchAnalysis(report);
+        analyzed = true;
+      }
+    } catch {
+      /* LLM 失败忽略 */
+    }
+
     return okLive({
+      analyzed,
       newEpochs: loop.epochs.length,
       totalEpochs: timeline.length,
       cumulativeTrials: loop.registry.trials.length,

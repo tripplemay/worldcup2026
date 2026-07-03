@@ -179,12 +179,13 @@ jobs:
               curl -s --max-time 280 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
               if command -v crontab >/dev/null 2>&1; then
-                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel' | grep -v 'worldcup/trade' | grep -v 'worldcup/odds' | grep -v 'worldcup/scenarios'; \
+                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel' | grep -v 'worldcup/trade' | grep -v 'worldcup/odds' | grep -v 'worldcup/scenarios' | grep -v 'worldcup/research'; \
                   echo "30 4 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=14' >/dev/null 2>&1 # worldcup-predict"; \
                   echo "0 */2 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/intel?hours=36' >/dev/null 2>&1 # worldcup-intel"; \
                   echo "*/15 * * * * curl -s --max-time 110 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/trade/run' >/dev/null 2>&1 # worldcup-trade"; \
                   echo "10 4 * * * curl -s --max-time 120 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/odds/capture-openings' >/dev/null 2>&1 # worldcup-openings"; \
-                  echo "*/20 * * * * curl -s --max-time 290 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/scenarios/run' >/dev/null 2>&1 # worldcup-scenarios" \
+                  echo "*/20 * * * * curl -s --max-time 290 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/scenarios/run' >/dev/null 2>&1 # worldcup-scenarios"; \
+                  echo "45 4 * * * curl -s --max-time 290 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/research/run' >/dev/null 2>&1 # worldcup-research" \
                 ) | crontab -
               fi
               # 首次播种情报
@@ -193,6 +194,9 @@ jobs:
               # 沙盘情景推演:部署后立即算一份(engine 已先播种评分/Elo)
               curl -s --max-time 290 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/scenarios/run" >/dev/null 2>&1 || true
+              # 研究调参:部署后立即跑一轮(seed 联赛数据已播种到数据目录)
+              curl -s --max-time 290 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
+                "http://127.0.0.1:${PORT}/api/worldcup/research/run" >/dev/null 2>&1 || true
             fi
 
             echo ">>> 部署完成 — https://${DOMAIN}"

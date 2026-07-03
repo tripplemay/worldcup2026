@@ -40,6 +40,7 @@ export const messages = {
       colRoi: 'OOS ROI',
       needTwo: '需 ≥2 轮才有对比',
       note: 'gap=离市场差距(越小越好);CLV/PBO/DSR 三筛全过才值得进全 gauntlet',
+      analyst: '分析员诊断',
     },
     scenarios: {
       title: '沙盘推演',
@@ -760,6 +761,7 @@ export const messages = {
       colRoi: 'OOS ROI',
       needTwo: 'Need ≥2 rounds to compare',
       note: 'gap = distance to market (lower better); a config must pass CLV/PBO/DSR to enter the full gauntlet',
+      analyst: 'Analyst',
     },
     scenarios: {
       title: 'Sandbox',

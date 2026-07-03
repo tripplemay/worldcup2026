@@ -24,7 +24,13 @@ function Screen({ ok }: { ok: boolean }) {
 const TH = 'font-normal text-[11px] text-gray-400';
 const numTd = 'text-right tabular-nums font-mono';
 
-function TimelinePanel({ epochs, t }: { epochs: EpochResult[]; t: (k: string) => string }) {
+function TimelinePanel({
+  epochs,
+  t,
+}: {
+  epochs: EpochResult[];
+  t: (k: string) => string;
+}) {
   return (
     <Card extra="p-4">
       <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
@@ -105,7 +111,9 @@ function DiffPanel({
                 key={p.name}
                 className="flex items-center justify-between gap-2 rounded bg-amber-50/60 px-1.5 py-0.5 text-xs dark:bg-amber-500/10"
               >
-                <span className="text-gray-500 dark:text-gray-400">{p.name}</span>
+                <span className="text-gray-500 dark:text-gray-400">
+                  {p.name}
+                </span>
                 <span className="font-mono tabular-nums text-navy-700 dark:text-white">
                   {fmt(p.prev)} → {fmt(p.cur)}
                 </span>
@@ -158,7 +166,13 @@ function DiffPanel({
   );
 }
 
-function LeaderboardPanel({ e, t }: { e: EpochResult; t: (k: string) => string }) {
+function LeaderboardPanel({
+  e,
+  t,
+}: {
+  e: EpochResult;
+  t: (k: string) => string;
+}) {
   const rows = [...e.configs].sort((a, b) => a.isGap - b.isGap);
   return (
     <Card extra="p-4">
@@ -208,7 +222,7 @@ function LeaderboardPanel({ e, t }: { e: EpochResult; t: (k: string) => string }
 
 export default function ResearchPage() {
   const { t } = useLocale();
-  const { epochs, isLoading } = useResearch();
+  const { epochs, analysis, isLoading } = useResearch();
   const last = epochs.length ? epochs[epochs.length - 1] : null;
 
   return (
@@ -218,7 +232,8 @@ export default function ResearchPage() {
           <PageHeading Icon={MdScience}>{t('research.title')}</PageHeading>
           {last && (
             <span className="flex shrink-0 items-center gap-1 rounded-full bg-gray-200/70 px-2 py-0.5 text-[10px] font-medium text-gray-600 dark:bg-navy-700 dark:text-gray-300">
-              {t('research.latest')} {last.winner.label} <Screen ok={last.screen.overall} />
+              {t('research.latest')} {last.winner.label}{' '}
+              <Screen ok={last.screen.overall} />
             </span>
           )}
         </div>
@@ -239,12 +254,28 @@ export default function ResearchPage() {
 
       {epochs.length > 0 && last && (
         <div className="space-y-3">
+          {analysis && (
+            <Card extra="border-l-4 border-l-brand-400 p-4">
+              <div className="mb-1 flex items-center gap-1.5 text-sm font-bold text-navy-700 dark:text-white">
+                <MdScience className="text-brand-500 dark:text-brand-400" />
+                {t('research.analyst')}
+              </div>
+              <div className="whitespace-pre-wrap text-xs leading-relaxed text-gray-600 dark:text-gray-300">
+                {analysis.text}
+              </div>
+              <div className="mt-1 text-right text-[10px] text-gray-400">
+                {analysis.model}
+              </div>
+            </Card>
+          )}
           <TimelinePanel epochs={epochs} t={t} />
           {epochs.length >= 2 ? (
             <DiffPanel prev={epochs[epochs.length - 2]} cur={last} t={t} />
           ) : (
             <Card extra="p-4">
-              <div className="text-xs text-gray-400">{t('research.needTwo')}</div>
+              <div className="text-xs text-gray-400">
+                {t('research.needTwo')}
+              </div>
             </Card>
           )}
           <LeaderboardPanel e={last} t={t} />
