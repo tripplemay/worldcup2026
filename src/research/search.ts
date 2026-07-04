@@ -82,6 +82,14 @@ const yieldLoop = () => new Promise<void>((r) => setTimeout(r, 0));
 /** IS 段 CLV 参与选优的最小样本数(不足则该配置在第二键沉底,不可凭少注高 t 胜出)。 */
 export const IS_CLV_SELECT_MIN_N = 30;
 
+/**
+ * isGap 选优容差带:与最优差距 ≤ 此值视为「统计不可区分」,带内交给 IS 段 CLV 决胜。
+ * 若用精确相等,发生器产出的配置各有不同 tuning → isGap 几乎全场唯一 → CLV 第二键
+ * 永不生效,过滤参数照旧选不上(合成注入实验实测抓出的残余缺陷)。
+ * 量级依据:goalShrink/dcRho 整个杠杆范围对 IS gap 的影响实测仅 ~0.002(EPL 16 配置网格)。
+ */
+export const GAP_SELECT_TOL = 0.002;
+
 /** 两段式选参的排序行(最小字段;runSearch 的 rows 超集兼容)。 */
 export interface RankRow {
   isGap: number;
@@ -95,8 +103,9 @@ export interface RankRow {
  * 影响,六个下注过滤参数(minEv/minProb/maxEv/useAH/useOU/allowOver)对选优零参与,
  * 平手按 hash 字典序 —— 8 维进化实为 2 维选优 + 6 维随机游走)。
  * 修复后:
- *  · 'gapBrier':①isGap 升序(tuning 形状,低方差)②同组内 IS 段 CLV t 降序(过滤参数,
- *    n≥IS_CLV_SELECT_MIN_N 才可信,不足沉底)③hash 字典序(确定性兜底)。
+ *  · 'gapBrier':①isGap 容差带优先(与最优差 ≤GAP_SELECT_TOL 视为统计不可区分;精确
+ *    相等会让第二键几乎永不生效 —— 合成注入实验实测抓出)②IS 段 CLV t 降序(过滤参数,
+ *    n≥IS_CLV_SELECT_MIN_N 才可信,不足沉底)③isGap 升序 ④hash 字典序(确定性兜底)。
  *  · 'clvT':①IS 段 CLV t(守卫同上)②isGap ③hash。旧实现用 oosClvT 是选参泄漏,已废。
  * 纪律不变:选参只用 IS 段指标(gap/CLV),绝不用 ROI,绝不看 OOS。
  */
@@ -105,10 +114,19 @@ export function selectWinner<T extends RankRow>(
   selectBy: SelectBy,
 ): T {
   const g = (r: RankRow) => (r.isClvN >= IS_CLV_SELECT_MIN_N ? r.isClvT : -1e9);
-  return [...rows].sort((a, b) =>
-    selectBy === 'gapBrier'
-      ? a.isGap - b.isGap || g(b) - g(a) || a.hash.localeCompare(b.hash)
-      : g(b) - g(a) || a.isGap - b.isGap || a.hash.localeCompare(b.hash),
+  if (selectBy === 'clvT')
+    return [...rows].sort(
+      (a, b) =>
+        g(b) - g(a) || a.isGap - b.isGap || a.hash.localeCompare(b.hash),
+    )[0];
+  const bestGap = Math.min(...rows.map((r) => r.isGap));
+  const inBand = (r: RankRow) => r.isGap <= bestGap + GAP_SELECT_TOL;
+  return [...rows].sort(
+    (a, b) =>
+      Number(inBand(b)) - Number(inBand(a)) || // 带内优先
+      g(b) - g(a) || // 带内(及带外同层)按 IS CLV t
+      a.isGap - b.isGap || // 同 CLV 档按 gap
+      a.hash.localeCompare(b.hash),
   )[0];
 }
 

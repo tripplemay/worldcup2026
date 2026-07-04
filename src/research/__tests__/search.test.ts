@@ -106,9 +106,18 @@ describe('两段式选参 selectWinner(仪器修复:过滤参数进入选优)', 
     const rows = [
       row(0.02, 60, 0.5, 'aaa'), // hash 最小但 CLV 弱
       row(0.02, 60, 2.5, 'zzz'), // CLV 强 → 应胜出
-      row(0.03, 200, 9.9, 'bbb'), // isGap 更差 → 首键淘汰
+      row(0.03, 200, 9.9, 'bbb'), // isGap 出容差带 → 淘汰
     ];
     expect(selectWinner(rows, 'gapBrier').hash).toBe('zzz');
+  });
+  it('容差带:isGap 差 ≤0.002 视为不可区分,CLV 决胜;差 >0.002 出带淘汰', () => {
+    // 精确相等分组会让 CLV 键永不生效(发生器配置各有不同 tuning → isGap 全场唯一)
+    const rows = [
+      row(0.02, 60, 0.3, 'aaa'), // 带内最优 gap 但 CLV 弱
+      row(0.0215, 60, 2.8, 'mmm'), // 带内(差 0.0015)CLV 强 → 应胜出
+      row(0.023, 60, 9.9, 'zzz'), // 出带(差 0.003)→ CLV 再高也淘汰
+    ];
+    expect(selectWinner(rows, 'gapBrier').hash).toBe('mmm');
   });
   it(`IS 注数不足(<${IS_CLV_SELECT_MIN_N})沉底:t 再高也不可信`, () => {
     const rows = [row(0.02, 5, 99, 'aaa'), row(0.02, 60, 0.2, 'zzz')];
