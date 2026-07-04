@@ -3,7 +3,7 @@
  */
 import { readFileSync } from 'fs';
 import { join } from 'path';
-import { runSearch } from '../search';
+import { runSearch, selectWinner, IS_CLV_SELECT_MIN_N } from '../search';
 import type { SweepConfig } from '../search';
 import { newRegistry, registerTrial } from '../governance';
 import type { EngineDataset, StrategyParams, MatchOddsView } from '../engine';
@@ -63,7 +63,9 @@ describe('P4 runSearch', () => {
     let reg = newRegistry();
     reg = registerTrial(reg, { prior: 1 });
     reg = registerTrial(reg, { prior: 2 }); // 已有 2 个历史试验
-    const { epoch, registry } = await runSearch(dataset, grid, { registry: reg });
+    const { epoch, registry } = await runSearch(dataset, grid, {
+      registry: reg,
+    });
     expect(epoch.cumulativeTrials).toBe(5); // 2 历史 + 3 本轮
     expect(registry.trials).toHaveLength(5);
   }, 120000);
@@ -78,4 +80,49 @@ describe('P4 runSearch', () => {
     const { epoch } = await runSearch(dataset, grid);
     expect(epoch.screen.overall).toBe(false); // CLV/PBO/DSR 至少一项不过
   }, 120000);
+
+  it('configs 带 IS 段 CLV 字段(两段式选参数据源)', async () => {
+    const { epoch } = await runSearch(dataset, grid, { epoch: 1 });
+    for (const c of epoch.configs) {
+      expect(typeof c.isClvN).toBe('number');
+      expect(typeof c.isClvT).toBe('number');
+    }
+  }, 120000);
+});
+
+describe('两段式选参 selectWinner(仪器修复:过滤参数进入选优)', () => {
+  const row = (
+    isGap: number,
+    isClvN: number,
+    isClvT: number,
+    hash: string,
+  ) => ({
+    isGap,
+    isClvN,
+    isClvT,
+    hash,
+  });
+  it('isGap 同组内按 IS 段 CLV t 选,不再按 hash 字典序', () => {
+    const rows = [
+      row(0.02, 60, 0.5, 'aaa'), // hash 最小但 CLV 弱
+      row(0.02, 60, 2.5, 'zzz'), // CLV 强 → 应胜出
+      row(0.03, 200, 9.9, 'bbb'), // isGap 更差 → 首键淘汰
+    ];
+    expect(selectWinner(rows, 'gapBrier').hash).toBe('zzz');
+  });
+  it(`IS 注数不足(<${IS_CLV_SELECT_MIN_N})沉底:t 再高也不可信`, () => {
+    const rows = [row(0.02, 5, 99, 'aaa'), row(0.02, 60, 0.2, 'zzz')];
+    expect(selectWinner(rows, 'gapBrier').hash).toBe('zzz');
+  });
+  it('全组注数不足 → 退回 isGap+hash 字典序(诚实缺省)', () => {
+    const rows = [row(0.02, 5, 9, 'zzz'), row(0.02, 4, 1, 'aaa')];
+    expect(selectWinner(rows, 'gapBrier').hash).toBe('aaa');
+  });
+  it("selectBy='clvT' 用 IS 段 CLV 而非 OOS(修选参泄漏)", () => {
+    const rows = [
+      { ...row(0.9, 60, 3.0, 'aaa'), oosClvT: -5 },
+      { ...row(0.01, 60, 0.1, 'zzz'), oosClvT: 9 },
+    ];
+    expect(selectWinner(rows, 'clvT').hash).toBe('aaa');
+  });
 });

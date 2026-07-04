@@ -78,6 +78,42 @@ describe('快照 → 候选(投影映射)', () => {
     expect(get('OU', 'Under')?.pWin).toBeCloseTo(0.4); // 总进球≤1
     expect(get('AH', 'home')?.pWin).toBeCloseTo(0.3); // 净胜≥2
   });
+
+  it('includeOver 开关:研究引擎可纳入 Over 候选(生产缺省仍剔除)', () => {
+    // 防同类静默回归:engine.ts 曾传第 4 参而签名缺失,allowOver 维度在生产静默失效
+    const snap: MarketSnapshot = {
+      h2h: { home: { price: 2, book: 'x' } },
+      totals: [
+        {
+          point: 1.5,
+          over: { price: 1.9, book: 'x' },
+          under: { price: 1.9, book: 'x' },
+        },
+      ],
+      spreads: [],
+    };
+    const withOver = candidatesFromSnapshot(
+      M,
+      { home: 0.5, draw: 0.4, away: 0.1 },
+      snap,
+      { includeOver: true },
+    );
+    const over = withOver.find(
+      (c) => c.market === 'OU' && c.selection === 'Over',
+    );
+    expect(over).toBeDefined();
+    expect(over?.pWin).toBeCloseTo(0.6); // 总进球≥2 = 1 − P(≤1)
+    expect(over?.line).toBe(1.5);
+    // 不传 opts(生产全部调用点)→ Over 仍剔除
+    const without = candidatesFromSnapshot(
+      M,
+      { home: 0.5, draw: 0.4, away: 0.1 },
+      snap,
+    );
+    expect(
+      without.find((c) => c.market === 'OU' && c.selection === 'Over'),
+    ).toBeUndefined();
+  });
 });
 
 describe('EV / Kelly / 注金', () => {

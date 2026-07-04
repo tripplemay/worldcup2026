@@ -37,6 +37,8 @@ export type SelectBy = 'gapBrier' | 'clvT';
 export interface ConfigMetrics {
   label: string;
   isGap: number; // 训练段 gap-to-market(选参用,低方差)
+  isClvN?: number; // 训练段 value 注 CLV 样本数(两段式选参第二键;旧条目无)
+  isClvT?: number; // 训练段 value 注 CLV t 统计量(两段式选参第二键;旧条目无)
   oosGap: number;
   oosValueRoi: number;
   oosClvN: number;
@@ -76,6 +78,39 @@ export interface RunSearchOpts {
 
 /** 事件循环让出(评审 should-fix:同步 CPU 会冻结同进程 livePoller/用户请求)。 */
 const yieldLoop = () => new Promise<void>((r) => setTimeout(r, 0));
+
+/** IS 段 CLV 参与选优的最小样本数(不足则该配置在第二键沉底,不可凭少注高 t 胜出)。 */
+export const IS_CLV_SELECT_MIN_N = 30;
+
+/** 两段式选参的排序行(最小字段;runSearch 的 rows 超集兼容)。 */
+export interface RankRow {
+  isGap: number;
+  isClvN: number;
+  isClvT: number;
+  hash: string;
+}
+
+/**
+ * 两段式嵌套选优(仪器修复:旧实现只按 isGap 排序,而 isGap 仅受 tuning/home/marketWeight
+ * 影响,六个下注过滤参数(minEv/minProb/maxEv/useAH/useOU/allowOver)对选优零参与,
+ * 平手按 hash 字典序 —— 8 维进化实为 2 维选优 + 6 维随机游走)。
+ * 修复后:
+ *  · 'gapBrier':①isGap 升序(tuning 形状,低方差)②同组内 IS 段 CLV t 降序(过滤参数,
+ *    n≥IS_CLV_SELECT_MIN_N 才可信,不足沉底)③hash 字典序(确定性兜底)。
+ *  · 'clvT':①IS 段 CLV t(守卫同上)②isGap ③hash。旧实现用 oosClvT 是选参泄漏,已废。
+ * 纪律不变:选参只用 IS 段指标(gap/CLV),绝不用 ROI,绝不看 OOS。
+ */
+export function selectWinner<T extends RankRow>(
+  rows: T[],
+  selectBy: SelectBy,
+): T {
+  const g = (r: RankRow) => (r.isClvN >= IS_CLV_SELECT_MIN_N ? r.isClvT : -1e9);
+  return [...rows].sort((a, b) =>
+    selectBy === 'gapBrier'
+      ? a.isGap - b.isGap || g(b) - g(a) || a.hash.localeCompare(b.hash)
+      : g(b) - g(a) || a.isGap - b.isGap || a.hash.localeCompare(b.hash),
+  )[0];
+}
 
 /** 跑一轮搜索(async:逐配置间让出事件循环)。返回 epoch 结果 + 更新后的注册表。 */
 export async function runSearch(
@@ -123,6 +158,8 @@ export async function runSearch(
     hash: string;
     provenance?: SweepConfig['provenance'];
     isGap: number;
+    isClvN: number;
+    isClvT: number;
     oosGap: number;
     oosValueRoi: number;
     oosClvN: number;
@@ -166,12 +203,34 @@ export async function runSearch(
       blk[i].s += b.pnl / b.stake;
       blk[i].n++;
     }
+    // IS 段 value 注 CLV(两段式选参第二键)—— 从全窗跑按日期过滤免费得到。
+    // 等价性:全窗跑与单独跑 train 窗共享同一初始资金、同一日期排序且确定性,
+    // train 前缀逐注完全一致(资金轨迹只在 val 段才分叉);to 闭区间与 runAccuracy 一致
+    const isCs = sFull.bets
+      .filter(
+        (b) =>
+          b.tier === 'value' &&
+          b.clv != null &&
+          b.date.slice(0, 10) <= partition.trainTo,
+      )
+      .map((b) => b.clv!);
+    const isClvN = isCs.length;
+    let isClvT = 0;
+    if (isClvN >= 2) {
+      const m = isCs.reduce((s, x) => s + x, 0) / isClvN;
+      const sd = Math.sqrt(
+        isCs.reduce((s, x) => s + (x - m) ** 2, 0) / (isClvN - 1) || 0,
+      );
+      isClvT = sd > 0 ? m / (sd / Math.sqrt(isClvN)) : m > 0 ? 99 : 0;
+    }
     return {
       label: g.label,
       params: g.params,
       hash: configHash(g.params),
       provenance: g.provenance,
       isGap,
+      isClvN,
+      isClvT: +isClvT.toFixed(4),
       oosGap,
       oosValueRoi: sOos.value.roi,
       oosClvN: sOos.clv.n,
@@ -188,13 +247,10 @@ export async function runSearch(
       perBlock: r.perBlock.map((x) => +x.toFixed(6)),
     });
 
-  // 4) 嵌套选优(IS 低方差指标;平手按 configHash 字典序,结果与网格拼接顺序无关)
+  // 4) 两段式嵌套选优(IS 低方差指标:isGap 选 tuning 形状 + IS 段 CLV 选过滤参数;
+  //    平手按 configHash 字典序,结果与网格拼接顺序无关;详见 selectWinner)
   const selectBy = opts?.selectBy ?? 'gapBrier';
-  const winner = [...rows].sort(
-    (a, b) =>
-      (selectBy === 'gapBrier' ? a.isGap - b.isGap : b.oosClvT - a.oosClvT) ||
-      a.hash.localeCompare(b.hash),
-  )[0];
+  const winner = selectWinner(rows, selectBy);
 
   // 5)+6) PBO 与 DSR 的横截面:进化模式(有 dataHash)用【全 era 去重配置】——
   //    评审 must-fix:精炼后期近邻克隆网格会使当代方差趋零、去膨胀失效;全 era 口径免疫此
@@ -227,6 +283,8 @@ export async function runSearch(
   const strip = (r: (typeof rows)[number]): ConfigMetrics => ({
     label: r.label,
     isGap: r.isGap,
+    isClvN: r.isClvN,
+    isClvT: r.isClvT,
     oosGap: r.oosGap,
     oosValueRoi: r.oosValueRoi,
     oosClvN: r.oosClvN,

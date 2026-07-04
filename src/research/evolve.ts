@@ -107,7 +107,11 @@ export function toStrategyParams(e: EvoParams): StrategyParams {
       minStake: 10,
       coverageStakePct: 0.005,
       initialBalance: 10000,
-      markets: { ah: e.useAH === 1, ou: e.useOU === 1, over: e.allowOver === 1 },
+      markets: {
+        ah: e.useAH === 1,
+        ou: e.useOU === 1,
+        over: e.allowOver === 1,
+      },
     },
   };
 }
@@ -384,31 +388,37 @@ export function clvLcb(bets: BetRecord[]): { lcb: number; n: number } {
   );
   return { lcb: +(mean - (1.64 * sd) / Math.sqrt(n)).toFixed(5), n };
 }
-/** 同窗配对 ΔCLV:挑战者 vs 在位者按比赛配对,配对 t>1.28(单侧 p<0.1)且 n≥30 才算改进。 */
-export function pairedClvImprovement(
+/**
+ * 同窗 CLV 改进检验(仪器修复,取代旧「交集配对 ΔCLV」):
+ * 挑战者 vs 在位者各自 value 注 CLV 全样本的 Welch 单侧 t,t>1.28(单侧 p<0.1)
+ * 且两侧 n≥minN 才算改进。
+ * 为何弃配对:旧实现只在双方都下注的交集比赛上配对 —— 选注集合差异(过滤参数
+ * minEv/minProb/maxEv/useAH/useOU/allowOver 的全部效应)对检验完全不可见,同选项
+ * 注 Δ=0 又稀释均值与功效,实测 9 联赛 ~60 次挑战仅 1 次显著(名义 α=10% 期望 ~6 次)。
+ * Welch 对选注差集敏感;重叠注在两样本中同值 → 均值差方差被高估 → 检验偏保守(可接受方向)。
+ * 单场单一最优注(selectBest)保证每场 ≤1 注,无聚类问题。
+ */
+export function clvImprovement(
   challenger: BetRecord[],
   incumbent: BetRecord[],
-  minPairs = 30,
+  minN = 30,
   tThreshold = 1.28,
-): { improved: boolean; nPairs: number; t: number } {
-  const key = (b: BetRecord) => `${dateKey(b.date)}|${b.home}|${b.away}`;
-  const incMap = new Map<string, number>();
-  for (const b of incumbent)
-    if (b.tier === 'value' && b.clv != null) incMap.set(key(b), b.clv);
-  const deltas: number[] = [];
-  for (const b of challenger) {
-    if (b.tier !== 'value' || b.clv == null) continue;
-    const ic = incMap.get(key(b));
-    if (ic != null) deltas.push(b.clv - ic);
-  }
-  const n = deltas.length;
-  if (n < minPairs) return { improved: false, nPairs: n, t: 0 };
-  const mean = deltas.reduce((s, x) => s + x, 0) / n;
-  const sd = Math.sqrt(
-    deltas.reduce((s, x) => s + (x - mean) ** 2, 0) / (n - 1) || 0,
-  );
-  const t = sd > 0 ? mean / (sd / Math.sqrt(n)) : mean > 0 ? 99 : 0;
-  return { improved: t > tThreshold, nPairs: n, t: +t.toFixed(2) };
+): { improved: boolean; n: number; t: number } {
+  const clvs = (bets: BetRecord[]) =>
+    bets.filter((b) => b.tier === 'value' && b.clv != null).map((b) => b.clv!);
+  const cs = clvs(challenger);
+  const is = clvs(incumbent);
+  const nC = cs.length;
+  const nI = is.length;
+  const n = Math.min(nC, nI);
+  if (nC < minN || nI < minN) return { improved: false, n, t: 0 };
+  const mC = cs.reduce((s, x) => s + x, 0) / nC;
+  const mI = is.reduce((s, x) => s + x, 0) / nI;
+  const vC = cs.reduce((s, x) => s + (x - mC) ** 2, 0) / (nC - 1);
+  const vI = is.reduce((s, x) => s + (x - mI) ** 2, 0) / (nI - 1);
+  const se = Math.sqrt(vC / nC + vI / nI);
+  const t = se > 0 ? (mC - mI) / se : mC > mI ? 99 : 0;
+  return { improved: t > tThreshold, n, t: +t.toFixed(2) };
 }
 
 // ── 进化状态(evolution-state.json)──────────────────────────
@@ -743,7 +753,7 @@ export async function runEvolutionCycle(
         from: partition.valFrom,
         to: partition.valTo,
       });
-      const pr = pairedClvImprovement(winRun.bets, incRun.bets);
+      const pr = clvImprovement(winRun.bets, incRun.bets);
       improved = pr.improved;
       pairedT = pr.t;
     }

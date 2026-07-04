@@ -29,11 +29,12 @@ interface BuildParams {
   mw: { home: number; draw: number; away: number }; // 市场无关 1X2
 }
 
-/** 快照 + 矩阵 → 候选(纯投影 + 评分)。 */
+/** 快照 + 矩阵 → 候选(纯投影 + 评分)。opts.includeOver:纳入 Over(默认剔除,G2 规则;研究引擎可开)。 */
 export function candidatesFromSnapshot(
   matrix: number[][],
   mw: { home: number; draw: number; away: number },
   snap: MarketSnapshot,
+  opts?: { includeOver?: boolean },
 ): BetCandidate[] {
   const out: Omit<BetCandidate, 'ev' | 'kelly'>[] = [];
 
@@ -78,6 +79,16 @@ export function candidatesFromSnapshot(
         odds: tl.under.price,
         book: tl.under.book,
         pWin: pr.under,
+        pPush: pr.push,
+      });
+    if (opts?.includeOver && tl.over)
+      out.push({
+        market: 'OU',
+        selection: 'Over',
+        line: tl.point,
+        odds: tl.over.price,
+        book: tl.over.book,
+        pWin: pr.over,
         pPush: pr.push,
       });
   }
