@@ -25,6 +25,7 @@ import {
   saveResearchAnalysis,
 } from 'lib/db/store';
 import { runEvolutionCycle } from './evolve';
+import { datasetHash } from './governance';
 import { buildScoreboard } from './scoreboard';
 import { buildAnalystBrief, analyzeResearch, proposeConfigs } from './analyst';
 import { loadLeagueDataset } from './dataset';
@@ -76,7 +77,9 @@ export function runnerStatus() {
 }
 
 /** 入队(去重:已在跑/已排队的联赛跳过);空闲则立即开始后台消费。 */
-export function enqueueResearch(items: QueueItem[]): ReturnType<typeof runnerStatus> {
+export function enqueueResearch(
+  items: QueueItem[],
+): ReturnType<typeof runnerStatus> {
   const r = st();
   for (const it of items) {
     if (r.running === it.league) continue;
@@ -151,6 +154,25 @@ export async function runLeagueOnce(
   const dataset = (deps?.loadDataset ?? loadLeagueDataset)(league);
   if (!dataset.allRes.length || !Object.keys(dataset.odds).length)
     throw new Error(`联赛 ${league} 数据缺失(未播种/未摄取)`);
+
+  // P0 止血:软/硬停联赛在数据 era 未变时整体跳过 —— 进化(evolve 自身会短路)之外,
+  // 成绩单重建(全量引擎跑)与 LLM 分析员在同一数据上只会产出逐字节相同的结果,纯烧配额。
+  // 数据实质到达 → dataHash 必变 → 正常进入 evolve 复活协议,前向积累不受影响;force 仍可绕过。
+  if (
+    !force &&
+    prevState &&
+    (prevState.status === 'exhausted' || prevState.status === 'frozen') &&
+    prevState.dataHash === datasetHash(dataset)
+  )
+    return {
+      league,
+      at: now,
+      status: prevState.status,
+      generation: prevState.generation,
+      newEpochs: 0,
+      note: '',
+      skipped: 'exhausted-era-unchanged',
+    };
 
   const timeline = loadResearchTimeline(league);
   const result = await runEvolutionCycle(
