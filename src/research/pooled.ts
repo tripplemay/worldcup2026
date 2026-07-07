@@ -6,9 +6,14 @@
  * 选后 incumbent);CLV 汇总 + t + 种子自助 95% CI。
  */
 import { runStrategy } from './engine';
-import { toStrategyParams, DEFAULT_EVO } from './evolve';
+import {
+  toStrategyParams,
+  DEFAULT_EVO,
+  partitionWithLockedHoldout,
+} from './evolve';
 import { sliceDates } from './walkforward';
 import { buildHoldoutManifest, excludeHoldout } from './governance';
+import type { HoldoutManifest } from './governance';
 import { mulberry32 } from './stats';
 import type { EngineDataset, StrategyParams } from './engine';
 
@@ -54,9 +59,7 @@ export function poolClvStats(
     return { n: 0, avgClv: 0, tStat: 0, posRate: 0, ci95: [0, 0], perLeague };
   const m = all.reduce((a, x) => a + x, 0) / n;
   const sd =
-    n >= 2
-      ? Math.sqrt(all.reduce((a, x) => a + (x - m) ** 2, 0) / (n - 1))
-      : 0;
+    n >= 2 ? Math.sqrt(all.reduce((a, x) => a + (x - m) ** 2, 0) / (n - 1)) : 0;
   const rng = mulberry32(seed);
   const boots: number[] = [];
   for (let b = 0; b < bootN; b++) {
@@ -78,15 +81,18 @@ export function poolClvStats(
   };
 }
 
-/** 单联赛 val 窗 value 注 CLV 样本(holdout 物理剔除;与 runSearch 同切分纪律)。 */
+/** 单联赛 val 窗 value 注 CLV 样本(锁定 holdout 物理剔除;manifest 缺失才自派生首建)。 */
 export async function leagueValClvs(
   dataset: EngineDataset,
   params?: StrategyParams,
+  manifest?: HoldoutManifest | null,
 ): Promise<number[]> {
   const p = params ?? toStrategyParams(DEFAULT_EVO);
-  const partition = sliceDates(dataset);
-  const manifest = buildHoldoutManifest(dataset, partition.holdoutFrom, 0);
-  const safe = excludeHoldout(dataset, manifest);
+  const mf =
+    manifest ??
+    buildHoldoutManifest(dataset, sliceDates(dataset).holdoutFrom, 0);
+  const partition = partitionWithLockedHoldout(dataset, mf.holdoutFrom);
+  const safe = excludeHoldout(dataset, mf);
   const r = await runStrategy(safe, {
     ...p,
     from: partition.valFrom,

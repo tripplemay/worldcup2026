@@ -1,7 +1,11 @@
 /**
  * 内核重校准单测:注入合成碗面验证坐标下降收敛/纪律(val 只评两点)/确定性。
  */
-import { recalibrateKernel, KERNEL_BASELINE, KERNEL_GRID } from '../recalibrate';
+import {
+  recalibrateKernel,
+  KERNEL_BASELINE,
+  KERNEL_GRID,
+} from '../recalibrate';
 import type { KernelPoint } from '../recalibrate';
 import type { EngineDataset } from '../engine';
 
@@ -30,7 +34,10 @@ describe('recalibrateKernel(注入碗面)', () => {
 
   it('坐标下降收敛到网格最优;val 仅评两点;确定性', async () => {
     let valEvals = 0;
-    const evalGap = async (p: KernelPoint, win: { from?: string; to?: string }) => {
+    const evalGap = async (
+      p: KernelPoint,
+      win: { from?: string; to?: string },
+    ) => {
       if (win.from) valEvals += 1; // val 窗带 from;IS 窗只有 to
       return bowl(p);
     };
@@ -43,6 +50,53 @@ describe('recalibrateKernel(注入碗面)', () => {
     expect(r2.tuned).toEqual(r.tuned); // 确定性
   });
 
+  it('墙钟截断:预算耗尽 → truncated=true 且返回当前局部最优;val 仍只评两点', async () => {
+    let t = 0;
+    let valEvals = 0;
+    const evalGap = async (p: KernelPoint, win: { from?: string }) => {
+      if (win.from) valEvals += 1;
+      return bowl(p);
+    };
+    const r = await recalibrateKernel(mkDs(), {
+      evalGap,
+      wallClockMs: 5,
+      clock: () => (t += 3), // 第 2 次检查即超预算
+    });
+    expect(r.truncated).toBe(true);
+    expect(r.evals).toBeLessThan(5); // 远未跑满
+    expect(valEvals).toBe(2); // 截断不影响 val 两点纪律
+    expect(r.tuned).toBeDefined();
+  });
+
+  it('锁定 holdout:传入 manifest 时切分以 manifest.holdoutFrom 为界(L3 不随数据漂移)', async () => {
+    // 两个不同 holdoutFrom 的 manifest → IS 窗(to=trainTo)不同 → 注入的 evalGap 能观测到
+    const seen: string[] = [];
+    const evalGap = async (
+      _p: KernelPoint,
+      win: { from?: string; to?: string },
+    ) => {
+      if (!win.from && win.to) seen.push(win.to);
+      return 0.5;
+    };
+    const ds = mkDs();
+    const mkManifest = (holdoutFrom: string) => ({
+      holdoutFrom,
+      holdoutEventIds: [],
+      lockedAt: 0,
+    });
+    await recalibrateKernel(ds, {
+      evalGap,
+      manifest: mkManifest('2025-03-01') as never,
+    });
+    const a = seen[seen.length - 1];
+    await recalibrateKernel(ds, {
+      evalGap,
+      manifest: mkManifest('2025-02-01') as never,
+    });
+    const b = seen[seen.length - 1];
+    expect(a).not.toBe(b); // holdout 边界前移 → train 窗跟着变(锁定生效)
+  });
+
   it('基线已是最优 → 原地不动且提前停', async () => {
     const flat = async () => 0.5;
     const r = await recalibrateKernel(mkDs(), { evalGap: flat });
@@ -50,7 +104,8 @@ describe('recalibrateKernel(注入碗面)', () => {
     // 1 轮全维无改进即停:1(基线) + 全档位数(减去与基线相等的档)
     const gridEvals = Object.entries(KERNEL_GRID).reduce(
       (s, [k, vs]) =>
-        s + vs.filter((v) => v !== KERNEL_BASELINE[k as keyof KernelPoint]).length,
+        s +
+        vs.filter((v) => v !== KERNEL_BASELINE[k as keyof KernelPoint]).length,
       0,
     );
     expect(r.evals).toBe(1 + gridEvals);

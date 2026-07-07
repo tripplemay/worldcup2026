@@ -14,6 +14,7 @@ import { forwardSummary } from './forward';
 import type { ForwardStore } from './forward';
 import type { HoldoutManifest, PromotionEntry } from './governance';
 import type { EngineDataset } from './engine';
+import type { KernelStore } from './recalibrate';
 
 export interface Scoreboard {
   at: number;
@@ -32,6 +33,17 @@ export interface Scoreboard {
     gapBrier: number;
     n: number;
   } | null;
+  // ①b 轴C 预测精度(双场景,tuned 内核在样本外 val 窗实算;kernel 未刷新时 null)
+  axisC: {
+    blendHit: number; // 有赔率场景:开盘锚融合命中率
+    closeHit: number; // 闭盘去水命中率(天花板,同子集)
+    gapBlendClose: number; // ≤0 = 融合追平/超越闭盘
+    gapBlendOpen: number; // <0 = 模型携带开盘之外的正交信息
+    eceBlend: number | null; // 融合校准(ECE,越小越好)
+    blendN: number;
+    marketWeight: number; // tuned 融合权重(<0.9 = 模型有非零最优权重)
+    oursGapTuned: number; // 无赔率场景:tuned 市场无关内核 vs 闭盘 gap(val)
+  } | null;
   // ② 下注(样本外模拟)
   betting: {
     n: number;
@@ -47,13 +59,14 @@ export interface Scoreboard {
   window: { from: string; to: string } | null; // 样本外窗(诚实标注口径)
 }
 
-/** 由当前 incumbent 在【样本外 val 窗】实算成绩单(约 2-3s;每轮 run 一次)。 */
+/** 由当前 incumbent 在【样本外 val 窗】实算成绩单(约 2-5s;每轮 run 一次)。 */
 export async function buildScoreboard(
   dataset: EngineDataset,
   state: EvolutionState,
   manifest: HoldoutManifest,
   forward: ForwardStore | null,
   latestLedger: PromotionEntry | null,
+  kernel?: KernelStore | null,
 ): Promise<Scoreboard> {
   const base: Scoreboard = {
     at: state.runId,
@@ -68,14 +81,45 @@ export async function buildScoreboard(
       status: g.status,
     })),
     accuracy: null,
+    axisC: null,
     betting: null,
     money: null,
     forward: null,
     window: null,
   };
+
+  // 轴C 精度块(不依赖 incumbent:tuned 内核在 val 窗实算;kernel 缺失则留 null)
+  const partition = partitionWithLockedHoldout(dataset, manifest.holdoutFrom);
+  if (kernel) {
+    try {
+      const t = kernel.blend.tuned;
+      const ab = await runAccuracy(dataset, {
+        tuning: {
+          goalShrink: t.goalShrink,
+          dcRho: t.dcRho,
+          shrinkEloScale: t.shrinkEloScale,
+        },
+        home: { eloBonus: t.eloBonus, goalMult: t.goalMult },
+        marketWeight: t.marketWeight,
+        from: partition.valFrom,
+        to: partition.valTo,
+      });
+      base.axisC = {
+        blendHit: ab.blend.hitRate,
+        closeHit: ab.closeSub.hitRate, // 与 blend 严格同子集(全样本闭盘不可比)
+        gapBlendClose: ab.gapBlendClose,
+        gapBlendOpen: ab.gapBlendOpen,
+        eceBlend: ab.calibration.blend,
+        blendN: ab.blend.n,
+        marketWeight: t.marketWeight,
+        oursGapTuned: kernel.ours.valGapTuned,
+      };
+    } catch {
+      /* 轴C 失败不阻断成绩单其余部分 */
+    }
+  }
   if (!state.incumbent) return base;
 
-  const partition = partitionWithLockedHoldout(dataset, manifest.holdoutFrom);
   const sp = toStrategyParams(state.incumbent.evo);
   // 样本外窗(val 段;止于锁定 holdout 之前)—— runStrategy 的 from/to 已保证不触 L3
   const s = await runStrategy(dataset, {

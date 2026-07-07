@@ -54,10 +54,11 @@ describe('runAccuracy(gap-to-market)', () => {
 describe('轴C 双场景:blend(开盘锚融合)+ 开盘基准 + ECE 校准', () => {
   it('blend/marketOpen 结构 + 同子集可比 + 融合确实靠近市场', async () => {
     const r = await runAccuracy(dataset, params);
-    // blend 只在有开盘价的场次上计(与 marketOpen 同子集,严格可比)
+    // blend 只在有开盘价的场次上计(与 marketOpen/closeSub 同子集,严格可比)
     expect(r.blend.n).toBeGreaterThan(0);
     expect(r.blend.n).toBeLessThanOrEqual(r.ours.n);
     expect(r.blend.n).toBe(r.marketOpen.n);
+    expect(r.closeSub.n).toBe(r.blend.n); // 展示对比用的闭盘命中率必须同子集
     expect(r.blend.brier).toBeGreaterThan(0);
     expect(r.blend.brier).toBeLessThan(1);
     expect(Number.isFinite(r.gapBlendClose)).toBe(true);

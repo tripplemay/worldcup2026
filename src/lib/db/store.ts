@@ -18,6 +18,7 @@ import type { AnalystReport } from 'research/analyst';
 import type { EvolutionState, EvolutionLogEntry } from 'research/evolve';
 import type { ForwardStore } from 'research/forward';
 import type { Scoreboard } from 'research/scoreboard';
+import type { KernelStore } from 'research/recalibrate';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -108,14 +109,24 @@ export function saveLeagueOddsX(
 // Phase 10 研究产物(全部按联赛 key 命名空间:research-<key>-*.json)。
 // 兼容:epl-2025 的历史单例文件(research-timeline.json 等)读时回退,写一律走带 key 新名。
 const LEGACY_KEY = 'epl-2025';
-function researchRead<T>(key: string, name: string, legacy: string, fallback: T): T {
+function researchRead<T>(
+  key: string,
+  name: string,
+  legacy: string,
+  fallback: T,
+): T {
   const v = readJson<T | null>(`research-${key}-${name}`, null);
   if (v != null) return v;
   if (key === LEGACY_KEY) return readJson<T>(legacy, fallback);
   return fallback;
 }
 export function loadResearchTimeline(key: string): EpochResult[] {
-  return researchRead<EpochResult[]>(key, 'timeline.json', 'research-timeline.json', []);
+  return researchRead<EpochResult[]>(
+    key,
+    'timeline.json',
+    'research-timeline.json',
+    [],
+  );
 }
 export function saveResearchTimeline(key: string, list: EpochResult[]): void {
   writeJson(`research-${key}-timeline.json`, list);
@@ -133,50 +144,97 @@ function writeJsonWithBak(file: string, data: unknown): void {
 
 // 治理三件套(跨 run 累积:注册表钉死分母、holdout 锁定、晋级台账)
 export function loadTrialRegistry(key: string): TrialRegistry {
-  return researchRead<TrialRegistry>(key, 'trial-registry.json', 'trial-registry.json', {
-    trials: [],
-    seen: {},
-  });
+  return researchRead<TrialRegistry>(
+    key,
+    'trial-registry.json',
+    'trial-registry.json',
+    {
+      trials: [],
+      seen: {},
+    },
+  );
 }
 export function saveTrialRegistry(key: string, r: TrialRegistry): void {
   writeJsonWithBak(`research-${key}-trial-registry.json`, r);
 }
 export function loadHoldoutManifest(key: string): HoldoutManifest | null {
-  return researchRead<HoldoutManifest | null>(key, 'holdout-manifest.json', 'holdout-manifest.json', null);
+  return researchRead<HoldoutManifest | null>(
+    key,
+    'holdout-manifest.json',
+    'holdout-manifest.json',
+    null,
+  );
 }
 export function saveHoldoutManifest(key: string, m: HoldoutManifest): void {
   writeJson(`research-${key}-holdout-manifest.json`, m);
 }
 export function loadPromotionLedger(key: string): PromotionEntry[] {
-  return researchRead<PromotionEntry[]>(key, 'promotion-ledger.json', 'promotion-ledger.json', []);
+  return researchRead<PromotionEntry[]>(
+    key,
+    'promotion-ledger.json',
+    'promotion-ledger.json',
+    [],
+  );
 }
 export function savePromotionLedger(key: string, list: PromotionEntry[]): void {
   writeJsonWithBak(`research-${key}-promotion-ledger.json`, list);
 }
 // LLM 研究分析报告(分析员产出;供 /research 面板显示)
 export function loadResearchAnalysis(key: string): AnalystReport | null {
-  return researchRead<AnalystReport | null>(key, 'analysis.json', 'research-analysis.json', null);
+  return researchRead<AnalystReport | null>(
+    key,
+    'analysis.json',
+    'research-analysis.json',
+    null,
+  );
 }
 export function saveResearchAnalysis(key: string, r: AnalystReport): void {
   writeJson(`research-${key}-analysis.json`, r);
 }
 // 进化状态机(runId/schemaVersion 供一致性校验与重建)
 export function loadEvolutionState(key: string): EvolutionState | null {
-  return researchRead<EvolutionState | null>(key, 'evolution-state.json', 'evolution-state.json', null);
+  return researchRead<EvolutionState | null>(
+    key,
+    'evolution-state.json',
+    'evolution-state.json',
+    null,
+  );
 }
 export function saveEvolutionState(key: string, s: EvolutionState): void {
   writeJsonWithBak(`research-${key}-evolution-state.json`, s);
 }
 // 人话成绩单(观测台顶部直观区;每轮 run 实算落盘)
 export function loadResearchScoreboard(key: string): Scoreboard | null {
-  return researchRead<Scoreboard | null>(key, 'scoreboard.json', 'research-scoreboard.json', null);
+  return researchRead<Scoreboard | null>(
+    key,
+    'scoreboard.json',
+    'research-scoreboard.json',
+    null,
+  );
 }
 export function saveResearchScoreboard(key: string, s: Scoreboard): void {
   writeJson(`research-${key}-scoreboard.json`, s);
 }
+// 轴C:逐联赛内核重校准(双场景 tuned 内核;era 实质变化时 runner 刷新)
+export function loadLeagueKernel(key: string): KernelStore | null {
+  return researchRead<KernelStore | null>(
+    key,
+    'kernel.json',
+    'research-kernel.json',
+    null,
+  );
+}
+export function saveLeagueKernel(key: string, k: KernelStore): void {
+  writeJson(`research-${key}-kernel.json`, k);
+}
 // G7 前向纸面(watermark 之后新到完赛的虚拟注)
 export function loadForwardStore(key: string): ForwardStore | null {
-  return researchRead<ForwardStore | null>(key, 'forward.json', 'research-forward.json', null);
+  return researchRead<ForwardStore | null>(
+    key,
+    'forward.json',
+    'research-forward.json',
+    null,
+  );
 }
 export function saveForwardStore(key: string, s: ForwardStore): void {
   writeJson(`research-${key}-forward.json`, s);
@@ -184,9 +242,17 @@ export function saveForwardStore(key: string, s: ForwardStore): void {
 
 // 进化日志(append-only,永不截断;含 LLM 原始响应 + 验证器裁决 → 注入式重放)
 export function loadEvolutionLog(key: string): EvolutionLogEntry[] {
-  return researchRead<EvolutionLogEntry[]>(key, 'evolution-log.json', 'evolution-log.json', []);
+  return researchRead<EvolutionLogEntry[]>(
+    key,
+    'evolution-log.json',
+    'evolution-log.json',
+    [],
+  );
 }
-export function appendEvolutionLog(key: string, entries: EvolutionLogEntry[]): void {
+export function appendEvolutionLog(
+  key: string,
+  entries: EvolutionLogEntry[],
+): void {
   if (!entries.length) return;
   writeJson(`research-${key}-evolution-log.json`, [
     ...loadEvolutionLog(key),

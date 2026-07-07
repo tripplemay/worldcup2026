@@ -299,7 +299,11 @@ export default function ResearchPage() {
               >
                 {l.nameZh}
                 {l.generation > 0 && (
-                  <span className={`ml-1 ${active ? 'opacity-80' : 'text-gray-400'}`}>
+                  <span
+                    className={`ml-1 ${
+                      active ? 'opacity-80' : 'text-gray-400'
+                    }`}
+                  >
                     {l.generation}
                   </span>
                 )}
@@ -323,16 +327,21 @@ export default function ResearchPage() {
                 {sb.passedAll
                   ? t('research.sbBetVerdictPass')
                   : sb.incumbentLabel
-                  ? `${t('research.sbBetVerdictBlocked')} —— ${t('research.sbBlockedAtPre')} ${
-                      sb.blockedAt ?? '—'
-                    }·${t(`research.gateNames.${sb.blockedAt}`)}`
+                  ? `${t('research.sbBetVerdictBlocked')} —— ${t(
+                      'research.sbBlockedAtPre',
+                    )} ${sb.blockedAt ?? '—'}·${t(
+                      `research.gateNames.${sb.blockedAt}`,
+                    )}`
                   : t('research.sbBetVerdictNone')}
               </div>
               {/* 关卡进度点 */}
               {sb.gates.length > 0 && (
                 <div className="mt-2 flex flex-wrap items-center gap-2">
                   {sb.gates.map((g) => (
-                    <span key={g.id} className="flex items-center gap-0.5 text-[10px]">
+                    <span
+                      key={g.id}
+                      className="flex items-center gap-0.5 text-[10px]"
+                    >
                       <span
                         className={`inline-block h-2 w-2 rounded-full ${
                           g.status === 'pass'
@@ -352,14 +361,17 @@ export default function ResearchPage() {
               {/* 三块人话数字:预测 / 下注 / 收益 */}
               <div className="mt-3 grid grid-cols-3 gap-2 border-t border-gray-100 pt-2 text-center dark:border-white/5">
                 <div>
-                  <div className="text-[10px] text-gray-400">{t('research.sbPredict')}</div>
+                  <div className="text-[10px] text-gray-400">
+                    {t('research.sbPredict')}
+                  </div>
                   {sb.accuracy ? (
                     <>
                       <div className="font-mono text-lg font-extrabold text-navy-700 dark:text-white">
                         {(sb.accuracy.oursHit * 100).toFixed(1)}%
                       </div>
                       <div className="text-[10px] text-gray-400">
-                        {t('research.sbVsMarket')} {(sb.accuracy.marketHit * 100).toFixed(1)}%
+                        {t('research.sbVsMarket')}{' '}
+                        {(sb.accuracy.marketHit * 100).toFixed(1)}%
                       </div>
                     </>
                   ) : (
@@ -367,7 +379,9 @@ export default function ResearchPage() {
                   )}
                 </div>
                 <div>
-                  <div className="text-[10px] text-gray-400">{t('research.sbBets')}</div>
+                  <div className="text-[10px] text-gray-400">
+                    {t('research.sbBets')}
+                  </div>
                   {sb.betting ? (
                     <>
                       <div className="font-mono text-lg font-extrabold text-navy-700 dark:text-white">
@@ -377,7 +391,8 @@ export default function ResearchPage() {
                         </span>
                       </div>
                       <div className="text-[10px] text-gray-400">
-                        {t('research.sbWinRate')} {(sb.betting.winRate * 100).toFixed(0)}% ·{' '}
+                        {t('research.sbWinRate')}{' '}
+                        {(sb.betting.winRate * 100).toFixed(0)}% ·{' '}
                         <span
                           className={
                             sb.betting.roi > 0
@@ -394,7 +409,9 @@ export default function ResearchPage() {
                   )}
                 </div>
                 <div>
-                  <div className="text-[10px] text-gray-400">{t('research.sbMoney')}</div>
+                  <div className="text-[10px] text-gray-400">
+                    {t('research.sbMoney')}
+                  </div>
                   {sb.money ? (
                     <>
                       <div
@@ -407,7 +424,8 @@ export default function ResearchPage() {
                         {Math.round(sb.money.end).toLocaleString()}
                       </div>
                       <div className="text-[10px] text-gray-400">
-                        {t('research.sbMoneyStart')} {Math.round(sb.money.start).toLocaleString()}{' '}
+                        {t('research.sbMoneyStart')}{' '}
+                        {Math.round(sb.money.start).toLocaleString()}{' '}
                         {t('research.sbMoneyArrow')}
                       </div>
                     </>
@@ -416,12 +434,37 @@ export default function ResearchPage() {
                   )}
                 </div>
               </div>
+              {/* 轴C:双场景预测精度(诚实标注:有盘以市场为准) */}
+              {sb.axisC && (
+                <div className="mt-2 border-t border-gray-100 pt-1.5 text-[10px] text-gray-500 dark:border-white/5 dark:text-gray-400">
+                  <span className="font-bold text-navy-700 dark:text-white">
+                    {t('research.sbAxisC')}
+                  </span>{' '}
+                  {t('research.sbAxisCBlend')}{' '}
+                  {(sb.axisC.blendHit * 100).toFixed(1)}% ·{' '}
+                  {t('research.sbAxisCClose')}{' '}
+                  {(sb.axisC.closeHit * 100).toFixed(1)}%
+                  {sb.axisC.eceBlend != null && (
+                    <>
+                      {' '}
+                      · {t('research.sbAxisCEce')}{' '}
+                      {sb.axisC.eceBlend.toFixed(3)}
+                    </>
+                  )}
+                  <div className="mt-0.5 text-gray-400">
+                    {t('research.sbAxisCHonest')}
+                  </div>
+                </div>
+              )}
               {/* 前向 + 统计窗脚注 */}
               <div className="mt-2 flex items-center justify-between border-t border-gray-100 pt-1.5 text-[10px] text-gray-400 dark:border-white/5">
                 <span>
                   {t('research.sbForward')}:{' '}
                   {sb.forward && sb.forward.n > 0
-                    ? `${sb.forward.n} ${t('research.sbBetsUnit')} · ${signed(sb.forward.pnl, 0)}`
+                    ? `${sb.forward.n} ${t('research.sbBetsUnit')} · ${signed(
+                        sb.forward.pnl,
+                        0,
+                      )}`
                     : t('research.sbForwardWait')}
                 </span>
                 {sb.window && (
@@ -499,8 +542,12 @@ export default function ResearchPage() {
                         >
                           {f.n ? signed(f.roi) : '—'}
                         </td>
-                        <td className={numTd}>{f.n ? signed(f.pnl, 0) : '—'}</td>
-                        <td className={numTd}>{f.clvN > 1 ? fmt(f.clvT, 2) : '—'}</td>
+                        <td className={numTd}>
+                          {f.n ? signed(f.pnl, 0) : '—'}
+                        </td>
+                        <td className={numTd}>
+                          {f.clvN > 1 ? fmt(f.clvT, 2) : '—'}
+                        </td>
                         <td className="text-center">
                           {g7ok ? (
                             <Screen ok={true} />
@@ -522,7 +569,9 @@ export default function ResearchPage() {
               )}
             </Card>
           )}
-          {(marginals.length > 0 || recentLog.length > 0 || gauntlet.length > 0) && (
+          {(marginals.length > 0 ||
+            recentLog.length > 0 ||
+            gauntlet.length > 0) && (
             <Card extra="p-4">
               <h2 className="mb-2 text-sm font-bold text-navy-700 dark:text-white">
                 {t('research.deep')}
@@ -533,8 +582,13 @@ export default function ResearchPage() {
                     {t('research.marginals')}
                   </div>
                   {marginals.map((m) => (
-                    <div key={m.param} className="flex items-center justify-between text-xs">
-                      <span className="text-gray-500 dark:text-gray-400">{m.param}</span>
+                    <div
+                      key={m.param}
+                      className="flex items-center justify-between text-xs"
+                    >
+                      <span className="text-gray-500 dark:text-gray-400">
+                        {m.param}
+                      </span>
                       <span className="font-mono tabular-nums text-navy-700 dark:text-white">
                         {m.distinct} 档 · {m.bestValue ?? '—'}
                         {m.bestSharpe != null ? ` (${m.bestSharpe})` : ''}
@@ -549,12 +603,21 @@ export default function ResearchPage() {
                     {t('research.logRecent')}
                   </div>
                   {recentLog.map((l) => (
-                    <div key={l.generation} className="flex items-center justify-between text-xs">
+                    <div
+                      key={l.generation}
+                      className="flex items-center justify-between text-xs"
+                    >
                       <span className="text-gray-500 dark:text-gray-400">
                         {t('research.gen')}
                         {l.generation} · {l.winnerLabel} · LLM×{l.llmAccepted}
                       </span>
-                      <span className={l.improved ? 'text-green-600 dark:text-green-400' : 'text-gray-400'}>
+                      <span
+                        className={
+                          l.improved
+                            ? 'text-green-600 dark:text-green-400'
+                            : 'text-gray-400'
+                        }
+                      >
                         {l.improved ? `↑ t=${l.pairedT}` : '—'}
                       </span>
                     </div>
@@ -567,7 +630,10 @@ export default function ResearchPage() {
                     {t('research.gauntletT')}
                   </div>
                   {gauntlet.map((g, i) => (
-                    <div key={i} className="flex items-center justify-between text-xs">
+                    <div
+                      key={i}
+                      className="flex items-center justify-between text-xs"
+                    >
                       <span className="text-gray-500 dark:text-gray-400">
                         {g.label}
                       </span>

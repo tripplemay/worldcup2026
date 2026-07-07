@@ -42,6 +42,7 @@ export interface AccuracyResult {
   blend: CalibStat; // 开盘锚融合(有赔率场景;仅有开盘价场次)
   market: CalibStat; // 闭盘去水(基准/天花板,全样本)
   marketOpen: CalibStat; // 开盘去水(blend 的公平对照,与 blend 同子集)
+  closeSub: CalibStat; // 闭盘去水限定「有开盘」子集(与 blend 严格同子集,展示对比用)
   gapBrier: number; // ours.brier − market.brier(>0 = 我们更差;旧口径,选参用)
   gapLogLoss: number;
   gapBlendClose: number; // blend − 同子集闭盘去水(≤0 = 融合追平/超越闭盘)
@@ -252,6 +253,7 @@ export async function runAccuracy(
     blend,
     market,
     marketOpen,
+    closeSub,
     gapBrier: +(ours.brier - market.brier).toFixed(4),
     gapLogLoss: +(ours.logLoss - market.logLoss).toFixed(4),
     gapBlendClose: blend.n ? +(blend.brier - closeSub.brier).toFixed(4) : 0,

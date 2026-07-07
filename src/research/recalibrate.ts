@@ -10,6 +10,8 @@
 import { runAccuracy } from './accuracy';
 import { sliceDates } from './walkforward';
 import { buildHoldoutManifest, excludeHoldout } from './governance';
+import type { HoldoutManifest } from './governance';
+import { partitionWithLockedHoldout } from './evolve';
 import type { EngineDataset } from './engine';
 
 /** 内核点:预测概率质量的全部自由度(下注过滤参数与此无关,不在本实验内)。 */
@@ -39,49 +41,82 @@ export const KERNEL_GRID: Record<keyof KernelPoint, number[]> = {
   shrinkEloScale: [60, 80, 100, 150, 250, 400],
   eloBonus: [0, 25, 50, 65, 80, 110],
   goalMult: [1.0, 1.06, 1.12, 1.18, 1.25],
-  marketWeight: [0.2, 0.3, 0.4, 0.5, 0.6],
+  // 0.75/0.9 供 blend 目标(开盘锚融合)探高锚区;'ours' 目标下该维惰性,多两档无害
+  marketWeight: [0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 0.9],
 };
 const KERNEL_KEYS = Object.keys(KERNEL_GRID) as (keyof KernelPoint)[];
 
 export interface RecalResult {
+  objective: 'ours' | 'blend';
   baseline: KernelPoint;
   tuned: KernelPoint;
   isGapBaseline: number;
   isGapTuned: number;
   valGapBaseline: number;
-  valGapTuned: number; // 判决数:≤0 = 追平/超越市场
+  valGapTuned: number; // 判决数:≤0 = 追平/超越市场(口径随 objective)
   evals: number; // IS 评估次数(审计)
+  truncated: boolean; // 墙钟预算截断(截断点仍是合法的 IS 局部最优,只是没跑满)
 }
 
-type GapEval = (p: KernelPoint, win: { from?: string; to?: string }) => Promise<number>;
+/** 轴C:逐联赛内核重校准结果落盘形态(era 实质变化时由 runner 刷新;确定性同 era 免重跑)。 */
+export interface KernelStore {
+  at: number;
+  dataHash: string;
+  matchCount: number;
+  ours: RecalResult; // 无赔率场景(市场无关)tuned 内核
+  blend: RecalResult; // 有赔率场景(开盘锚融合)tuned 内核
+}
+
+type GapEval = (
+  p: KernelPoint,
+  win: { from?: string; to?: string },
+) => Promise<number>;
 
 /**
  * 坐标下降重校准。deps.evalGap 可注入(单测用合成碗面;缺省真引擎 runAccuracy)。
+ * objective:'ours'(市场无关,旧口径)| 'blend'(开盘锚融合 vs 同子集闭盘 —— 轴C
+ * 有赔率场景;基准在同窗内是常数,最小化 gapBlendClose ≡ 最小化 blend Brier)。
  * 确定性:遍历顺序固定、无随机;改进阈值 1e-6 防浮点抖动死循环。
  */
 export async function recalibrateKernel(
   dataset: EngineDataset,
-  opts?: { rounds?: number; start?: KernelPoint; evalGap?: GapEval },
+  opts?: {
+    rounds?: number;
+    start?: KernelPoint;
+    evalGap?: GapEval;
+    objective?: 'ours' | 'blend';
+    manifest?: HoldoutManifest | null; // 锁定 holdout(生产必传;缺失才自派生首建)
+    wallClockMs?: number; // 墙钟预算(缺省不设限保实验确定性;runner 显式传)
+    clock?: () => number; // 测试注入
+  },
 ): Promise<RecalResult> {
   const rounds = opts?.rounds ?? 2;
-  const partition = sliceDates(dataset);
-  const manifest = buildHoldoutManifest(dataset, partition.holdoutFrom, 0);
+  const objective = opts?.objective ?? 'ours';
+  // 锁定 holdout 派生切分(评审 must-fix:自算比例切分会让 L3 随数据增长漂进 train/val,
+  // 重蹈 evolve 修过的同类 bug;有持久化 manifest 一律复用,缺失才首建 —— 同 evolve 语义)
+  const manifest =
+    opts?.manifest ??
+    buildHoldoutManifest(dataset, sliceDates(dataset).holdoutFrom, 0);
+  const partition = partitionWithLockedHoldout(dataset, manifest.holdoutFrom);
   const safe = excludeHoldout(dataset, manifest);
+  const clock = opts?.clock ?? Date.now;
+  const wallClockMs = opts?.wallClockMs ?? Infinity;
+  const started = clock();
   const evalGap: GapEval =
     opts?.evalGap ??
-    (async (p, win) =>
-      (
-        await runAccuracy(safe, {
-          tuning: {
-            goalShrink: p.goalShrink,
-            dcRho: p.dcRho,
-            shrinkEloScale: p.shrinkEloScale,
-          },
-          home: { eloBonus: p.eloBonus, goalMult: p.goalMult },
-          marketWeight: p.marketWeight,
-          ...win,
-        })
-      ).gapBrier);
+    (async (p, win) => {
+      const r = await runAccuracy(safe, {
+        tuning: {
+          goalShrink: p.goalShrink,
+          dcRho: p.dcRho,
+          shrinkEloScale: p.shrinkEloScale,
+        },
+        home: { eloBonus: p.eloBonus, goalMult: p.goalMult },
+        marketWeight: p.marketWeight,
+        ...win,
+      });
+      return objective === 'blend' ? r.gapBlendClose : r.gapBrier;
+    });
 
   const IS = { to: partition.trainTo };
   const VAL = { from: partition.valFrom, to: partition.valTo };
@@ -96,10 +131,15 @@ export async function recalibrateKernel(
   let cur = baseline;
   const isGapBaseline = await isGapOf(cur);
   let curGap = isGapBaseline;
-  for (let round = 0; round < rounds; round++) {
+  let truncated = false;
+  outer: for (let round = 0; round < rounds; round++) {
     let roundImproved = false;
     for (const k of KERNEL_KEYS) {
       for (const v of KERNEL_GRID[k]) {
+        if (clock() - started > wallClockMs) {
+          truncated = true; // 截断点仍是合法 IS 局部最优(只是没跑满)
+          break outer;
+        }
         if (v === cur[k]) continue;
         const cand = { ...cur, [k]: v };
         const g = await isGapOf(cand);
@@ -117,6 +157,7 @@ export async function recalibrateKernel(
   const valGapBaseline = await evalGap(baseline, VAL);
   const valGapTuned = await evalGap(cur, VAL);
   return {
+    objective,
     baseline,
     tuned: cur,
     isGapBaseline: +isGapBaseline.toFixed(5),
@@ -124,5 +165,6 @@ export async function recalibrateKernel(
     valGapBaseline: +valGapBaseline.toFixed(5),
     valGapTuned: +valGapTuned.toFixed(5),
     evals,
+    truncated,
   };
 }

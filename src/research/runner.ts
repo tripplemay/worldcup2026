@@ -26,6 +26,9 @@ import {
 } from 'lib/db/store';
 import { runEvolutionCycle } from './evolve';
 import { datasetHash } from './governance';
+import { recalibrateKernel } from './recalibrate';
+import type { KernelStore } from './recalibrate';
+import { loadLeagueKernel, saveLeagueKernel } from 'lib/db/store';
 import { buildScoreboard } from './scoreboard';
 import { buildAnalystBrief, analyzeResearch, proposeConfigs } from './analyst';
 import { loadLeagueDataset } from './dataset';
@@ -128,7 +131,13 @@ export interface RunDeps {
   now?: number;
   llmPropose?: (brief: string) => Promise<string | null>;
   maxGenerations?: number;
+  recalibrate?: typeof recalibrateKernel; // 轴C 内核重校准(测试注入)
 }
+
+/** 轴C 内核刷新阈值(与 evolve 复活协议同一"实质变化"口径)。 */
+const KERNEL_REFRESH_MIN_MATCHES = 30;
+/** 轴C 内核重校准每目标墙钟(与 LEAGUE_WALL_MS 同为护栏;截断点仍是合法 IS 局部最优)。 */
+const KERNEL_WALL_MS = 8 * 60_000;
 
 /** 跑一个联赛的一次完整 run(进化 → 固定写序持久化 → 成绩单 → 分析员)。 */
 export async function runLeagueOnce(
@@ -155,6 +164,47 @@ export async function runLeagueOnce(
   if (!dataset.allRes.length || !Object.keys(dataset.odds).length)
     throw new Error(`联赛 ${league} 数据缺失(未播种/未摄取)`);
 
+  // 轴C:内核重校准 —— kernel 缺失或数据 era 实质变化才跑(确定性,同 era 重跑零信息)。
+  // 必须在 P0 跳过守卫之前:exhausted 联赛首次部署也要补齐 kernel。失败不阻断。
+  let kernel = loadLeagueKernel(league);
+  let kernelRefreshed = false;
+  try {
+    const kHash = datasetHash(dataset);
+    const grew = dataset.allRes.length - (kernel?.matchCount ?? 0);
+    const substantial =
+      !kernel ||
+      (kernel.dataHash !== kHash &&
+        (grew >= KERNEL_REFRESH_MIN_MATCHES ||
+          grew / Math.max(1, kernel.matchCount) >= 0.03));
+    if (substantial) {
+      const recal = deps?.recalibrate ?? recalibrateKernel;
+      // 锁定 holdout 必传(防 L3 漂移);首个 run 无 manifest 时自派生,evolve 随即首建持久化
+      const mf = loadHoldoutManifest(league);
+      const ours = await recal(dataset, {
+        objective: 'ours',
+        manifest: mf,
+        wallClockMs: KERNEL_WALL_MS,
+      });
+      const blend = await recal(dataset, {
+        objective: 'blend',
+        manifest: mf,
+        wallClockMs: KERNEL_WALL_MS,
+      });
+      const next: KernelStore = {
+        at: now,
+        dataHash: kHash,
+        matchCount: dataset.allRes.length,
+        ours,
+        blend,
+      };
+      saveLeagueKernel(league, next);
+      kernel = next;
+      kernelRefreshed = true;
+    }
+  } catch (e) {
+    console.error('[research-runner] 轴C 内核重校准失败(不阻断)', league, e);
+  }
+
   // P0 止血:软/硬停联赛在数据 era 未变时整体跳过 —— 进化(evolve 自身会短路)之外,
   // 成绩单重建(全量引擎跑)与 LLM 分析员在同一数据上只会产出逐字节相同的结果,纯烧配额。
   // 数据实质到达 → dataHash 必变 → 正常进入 evolve 复活协议,前向积累不受影响;force 仍可绕过。
@@ -163,7 +213,27 @@ export async function runLeagueOnce(
     prevState &&
     (prevState.status === 'exhausted' || prevState.status === 'frozen') &&
     prevState.dataHash === datasetHash(dataset)
-  )
+  ) {
+    // 本次刚补齐 kernel → 顺手重建一次成绩单(带轴C 块),否则面板见不到轴C
+    if (kernelRefreshed) {
+      try {
+        const mf = loadHoldoutManifest(league);
+        if (mf) {
+          const ledger = loadPromotionLedger(league);
+          const sb = await buildScoreboard(
+            dataset,
+            prevState,
+            mf,
+            loadForwardStore(league),
+            ledger[ledger.length - 1] ?? null,
+            kernel,
+          );
+          saveResearchScoreboard(league, sb);
+        }
+      } catch {
+        /* ignore */
+      }
+    }
     return {
       league,
       at: now,
@@ -171,8 +241,11 @@ export async function runLeagueOnce(
       generation: prevState.generation,
       newEpochs: 0,
       note: '',
-      skipped: 'exhausted-era-unchanged',
+      skipped: kernelRefreshed
+        ? 'exhausted-era-unchanged+kernel-refreshed'
+        : 'exhausted-era-unchanged',
     };
+  }
 
   const timeline = loadResearchTimeline(league);
   const result = await runEvolutionCycle(
@@ -214,6 +287,7 @@ export async function runLeagueOnce(
       result.manifest,
       result.forward,
       ledger[ledger.length - 1] ?? null,
+      kernel,
     );
     saveResearchScoreboard(league, sb);
   } catch {

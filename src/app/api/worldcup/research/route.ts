@@ -14,6 +14,7 @@ import {
   loadResearchScoreboard,
   saveResearchScoreboard,
   loadHoldoutManifest,
+  loadLeagueKernel,
   loadEvolutionState as loadEvoState2,
 } from 'lib/db/store';
 import { buildScoreboard } from 'research/scoreboard';
@@ -29,7 +30,10 @@ export const dynamic = 'force-dynamic';
 /** 参数边际响应:每参 已试档数 + oosSharpe 最优档(取当前 era 有指标的去重试验)。 */
 function marginals(league: string, dataHash?: string) {
   const reg = loadTrialRegistry(league);
-  const byHash = new Map<string, { evo: ReturnType<typeof extractEvo>; sharpe: number }>();
+  const byHash = new Map<
+    string,
+    { evo: ReturnType<typeof extractEvo>; sharpe: number }
+  >();
   for (const t of reg.trials) {
     if (dataHash && t.dataHash !== dataHash) continue;
     if (t.oosSharpe == null) continue;
@@ -83,6 +87,7 @@ async function scoreboardSelfHeal(league: string) {
       mf,
       loadForwardStore(league),
       ledger[ledger.length - 1] ?? null,
+      loadLeagueKernel(league),
     );
     saveResearchScoreboard(league, sb);
     return sb;
