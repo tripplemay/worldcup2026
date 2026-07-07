@@ -34,6 +34,35 @@ export interface AccuracyParams {
   from?: string;
   to?: string;
   devig?: 'proportional' | 'power'; // 去水法(敏感性验证;默认比例法)
+  matchLog?: boolean; // 逐场对照日志(轴C 可视化用;搜索环别开,省内存)
+}
+
+/** 三向概率 + argmax 首选(与 accum 的 pick 规则一致:H≥D≥A 平手偏 H/A)。 */
+export interface Probs3 {
+  home: number;
+  draw: number;
+  away: number;
+}
+export const pickOf = (p: Probs3): R =>
+  p.home >= p.draw && p.home >= p.away
+    ? 'H'
+    : p.away >= p.draw && p.away >= p.home
+    ? 'A'
+    : 'D';
+
+/** 逐场对照行(轴C:blend=产品输出,market=闭盘去水;仅有开盘价场次)。 */
+export interface MatchLogRow {
+  date: string; // YYYY-MM-DD
+  home: string;
+  away: string;
+  score: string; // "2-1"
+  actual: R;
+  blend: Probs3; // 开盘锚融合(产品有盘输出)
+  market: Probs3; // 闭盘去水(基准)
+  blendPick: R;
+  marketPick: R;
+  blendHit: boolean;
+  marketHit: boolean;
 }
 
 export interface AccuracyResult {
@@ -50,6 +79,7 @@ export interface AccuracyResult {
   calibration: { ours: number; blend: number | null }; // ECE(10-bin;blend 无样本为 null)
   perModel: Record<string, CalibStat>; // poisson-xg / poisson-goals / elo(市场无关)
   baselines: { baseRateBrier: number }; // 朴素基准:评估窗前的 H/D/A 基率恒定预报(轴 C 下界锚)
+  matchLog?: MatchLogRow[]; // 逐场对照(仅 params.matchLog=true;按日期升序)
 }
 
 interface Acc {
@@ -139,6 +169,7 @@ export async function runAccuracy(
   const perModel: Record<string, Acc> = {};
   const oursCalib: { p: number; hit: boolean }[] = [];
   const blendCalib: { p: number; hit: boolean }[] = [];
+  const matchLogRows: MatchLogRow[] = [];
   let n = 0;
 
   // 朴素基准:评估窗【之前】的 H/D/A 基率(无 prior 则联赛长期典型 45/27/28)
@@ -236,6 +267,33 @@ export async function runAccuracy(
             { p: pb.pDraw, hit: result === 'D' },
             { p: pb.pAway, hit: result === 'A' },
           );
+          if (params.matchLog) {
+            const bp: Probs3 = {
+              home: +pb.pHome.toFixed(4),
+              draw: +pb.pDraw.toFixed(4),
+              away: +pb.pAway.toFixed(4),
+            };
+            const mp: Probs3 = {
+              home: +mkt.home.toFixed(4),
+              draw: +mkt.draw.toFixed(4),
+              away: +mkt.away.toFixed(4),
+            };
+            const blendPick = pickOf(bp);
+            const marketPick = pickOf(mp);
+            matchLogRows.push({
+              date: dateKey(m.date),
+              home: m.homeNorm,
+              away: m.awayNorm,
+              score: `${m.homeGoals}-${m.awayGoals}`,
+              actual: result,
+              blend: bp,
+              market: mp,
+              blendPick,
+              marketPick,
+              blendHit: blendPick === result,
+              marketHit: marketPick === result,
+            });
+          }
         }
       }
     }
@@ -263,5 +321,6 @@ export async function runAccuracy(
       Object.entries(perModel).map(([k, a]) => [k, finalize(a)]),
     ),
     baselines: { baseRateBrier: finalize(baseAcc).brier },
+    ...(params.matchLog ? { matchLog: matchLogRows } : {}),
   };
 }

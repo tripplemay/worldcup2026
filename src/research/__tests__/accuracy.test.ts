@@ -80,4 +80,28 @@ describe('轴C 双场景:blend(开盘锚融合)+ 开盘基准 + ECE 校准', () 
     const r = await runAccuracy(dataset, params);
     expect(r.gapBrier).toBeCloseTo(r.ours.brier - r.market.brier, 4);
   });
+
+  it('matchLog:逐场行数=blend 样本数,pick/hit 自洽,默认不收集', async () => {
+    const off = await runAccuracy(dataset, params);
+    expect(off.matchLog).toBeUndefined(); // 搜索环默认关,省内存
+    const r = await runAccuracy(dataset, { ...params, matchLog: true });
+    expect(r.matchLog!.length).toBe(r.blend.n);
+    for (const row of r.matchLog!.slice(0, 20)) {
+      const probs = [row.blend.home, row.blend.draw, row.blend.away];
+      expect(Math.max(...probs)).toBeCloseTo(
+        row.blendPick === 'H'
+          ? probs[0]
+          : row.blendPick === 'A'
+          ? probs[2]
+          : probs[1],
+        6,
+      );
+      expect(row.blendHit).toBe(row.blendPick === row.actual);
+      expect(row.marketHit).toBe(row.marketPick === row.actual);
+      expect(row.score).toMatch(/^\d+-\d+$/);
+    }
+    // 命中率与聚合读数一致(逐场即聚合的展开)
+    const hitN = r.matchLog!.filter((x) => x.blendHit).length;
+    expect(hitN / r.matchLog!.length).toBeCloseTo(r.blend.hitRate, 3);
+  });
 });

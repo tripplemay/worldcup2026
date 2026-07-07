@@ -15,6 +15,7 @@ import type { ForwardStore } from './forward';
 import type { HoldoutManifest, PromotionEntry } from './governance';
 import type { EngineDataset } from './engine';
 import type { KernelStore } from './recalibrate';
+import type { MatchLogRow } from './accuracy';
 
 export interface Scoreboard {
   at: number;
@@ -44,6 +45,8 @@ export interface Scoreboard {
     marketWeight: number; // tuned 融合权重(<0.9 = 模型有非零最优权重)
     oursGapTuned: number; // 无赔率场景:tuned 市场无关内核 vs 闭盘 gap(val)
   } | null;
+  // ①c 逐场对照(val 窗最近 80 场,新→旧;直观看逐场预测 vs 赛果)
+  axisCLog: MatchLogRow[] | null;
   // ② 下注(样本外模拟)
   betting: {
     n: number;
@@ -82,6 +85,7 @@ export async function buildScoreboard(
     })),
     accuracy: null,
     axisC: null,
+    axisCLog: null,
     betting: null,
     money: null,
     forward: null,
@@ -103,7 +107,9 @@ export async function buildScoreboard(
         marketWeight: t.marketWeight,
         from: partition.valFrom,
         to: partition.valTo,
+        matchLog: true,
       });
+      base.axisCLog = (ab.matchLog ?? []).slice(-80).reverse(); // 最近 80 场,新→旧
       base.axisC = {
         blendHit: ab.blend.hitRate,
         closeHit: ab.closeSub.hitRate, // 与 blend 严格同子集(全样本闭盘不可比)

@@ -50,7 +50,46 @@ describe('buildScoreboard', () => {
     expect(sb.accuracy).toBeNull();
     expect(sb.betting).toBeNull();
     expect(sb.gates).toEqual([]);
+    expect(sb.axisC).toBeNull(); // 无 kernel → 轴C 块与逐场对照均为 null
+    expect(sb.axisCLog).toBeNull();
   });
+
+  it('传 kernel → axisC 块 + 逐场对照(≤80 场,新→旧)', async () => {
+    const st = newEvolutionState(0, 'dh', 1000, true);
+    const point = {
+      goalShrink: 0.6,
+      dcRho: -0.14,
+      shrinkEloScale: 100,
+      eloBonus: 65,
+      goalMult: 1.12,
+      marketWeight: 0.9,
+    };
+    const recal = {
+      objective: 'blend' as const,
+      baseline: point,
+      tuned: point,
+      isGapBaseline: 0.01,
+      isGapTuned: 0.008,
+      valGapBaseline: 0.01,
+      valGapTuned: 0.009,
+      evals: 1,
+      truncated: false,
+    };
+    const sb = await buildScoreboard(ds, st, manifest, null, null, {
+      at: 0,
+      dataHash: 'dh',
+      matchCount: ds.allRes.length,
+      ours: { ...recal, objective: 'ours' as const },
+      blend: recal,
+    });
+    expect(sb.axisC).toBeTruthy();
+    expect(sb.axisC!.marketWeight).toBe(0.9);
+    expect(sb.axisCLog!.length).toBeGreaterThan(0);
+    expect(sb.axisCLog!.length).toBeLessThanOrEqual(80);
+    // 新→旧排序
+    const dates = sb.axisCLog!.map((r) => r.date);
+    expect([...dates].sort().reverse()).toEqual(dates);
+  }, 120000);
 
   it('有 incumbent → 三块齐全,口径=样本外 val 窗,gates 透传', async () => {
     const st = newEvolutionState(0, 'dh', 1000, true);

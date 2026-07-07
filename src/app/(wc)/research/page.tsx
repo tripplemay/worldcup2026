@@ -475,6 +475,110 @@ export default function ResearchPage() {
               </div>
             </Card>
           )}
+          {/* 逐场对照(样本外):我们(融合) vs 市场 vs 实际赛果;分歧场高亮 */}
+          {sb?.axisC && (
+            <Card extra="p-4">
+              <div className="mb-0.5 text-sm font-bold text-navy-700 dark:text-white">
+                {t('research.mlTitle')}
+              </div>
+              <div className="mb-2 text-[10px] text-gray-400">
+                {t('research.mlSub')}
+                {sb.axisCLog && sb.axisCLog.length > 0 && (
+                  <>
+                    {' '}
+                    ·{' '}
+                    {t('research.mlMore').replace(
+                      '{n}',
+                      String(sb.axisCLog.length),
+                    )}
+                  </>
+                )}
+              </div>
+              {sb.axisCLog && sb.axisCLog.length > 0 ? (
+                <div className="max-h-96 overflow-y-auto">
+                  <table className="w-full text-[11px]">
+                    <thead className="sticky top-0 bg-white text-left text-[10px] text-gray-400 dark:bg-navy-800">
+                      <tr>
+                        <th className="py-1 pr-2 font-normal">{t('research.mlDate')}</th>
+                        <th className="py-1 pr-2 font-normal">
+                          {t('research.mlMatch')}
+                        </th>
+                        <th className="py-1 pr-2 font-normal">
+                          {t('research.mlOurs')}
+                        </th>
+                        <th className="py-1 font-normal">
+                          {t('research.mlMarket')}
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sb.axisCLog.map((r, i) => {
+                        const pickTxt = (
+                          pick: 'H' | 'D' | 'A',
+                          p: { home: number; draw: number; away: number },
+                        ) =>
+                          `${
+                            pick === 'H' ? '主' : pick === 'A' ? '客' : '平'
+                          } ${(
+                            (pick === 'H'
+                              ? p.home
+                              : pick === 'A'
+                              ? p.away
+                              : p.draw) * 100
+                          ).toFixed(0)}%`;
+                        const disagree = r.blendPick !== r.marketPick;
+                        return (
+                          <tr
+                            key={`${r.date}-${r.home}-${i}`}
+                            className={`border-t border-gray-50 dark:border-white/5 ${
+                              disagree
+                                ? 'bg-amber-50/60 dark:bg-amber-500/10'
+                                : ''
+                            }`}
+                          >
+                            <td className="py-1 pr-2 font-mono text-[10px] text-gray-400">
+                              {r.date.slice(5)}
+                            </td>
+                            <td className="py-1 pr-2 text-gray-600 dark:text-gray-300">
+                              <span className="capitalize">{r.home}</span>
+                              <span className="mx-0.5 font-mono font-bold text-navy-700 dark:text-white">
+                                {r.score}
+                              </span>
+                              <span className="capitalize">{r.away}</span>
+                            </td>
+                            <td
+                              className={`py-1 pr-2 font-mono ${
+                                r.blendHit
+                                  ? 'text-green-600 dark:text-green-400'
+                                  : 'text-red-500 dark:text-red-400'
+                              }`}
+                            >
+                              {pickTxt(r.blendPick, r.blend)}{' '}
+                              {r.blendHit ? '✓' : '✗'}
+                            </td>
+                            <td
+                              className={`py-1 font-mono ${
+                                r.marketHit
+                                  ? 'text-green-600 dark:text-green-400'
+                                  : 'text-red-500 dark:text-red-400'
+                              }`}
+                            >
+                              {pickTxt(r.marketPick, r.market)}{' '}
+                              {r.marketHit ? '✓' : '✗'}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              ) : (
+                <div className="py-4 text-center text-xs text-gray-400">
+                  {t('research.mlEmpty')}
+                </div>
+              )}
+            </Card>
+          )}
           {analysis && (
             <Card extra="border-l-4 border-l-brand-400 p-4">
               <div className="mb-1 flex items-center gap-1.5 text-sm font-bold text-navy-700 dark:text-white">

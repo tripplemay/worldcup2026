@@ -70,18 +70,20 @@ function marginals(league: string, dataHash?: string) {
   });
 }
 
-// 惰性自愈:成绩单缺失但进化状态已在(如刚升级部署)→ 只读端补算一次(~2s,globalThis 防并发)
+// 惰性自愈:成绩单缺失、或 schema 落后(有 axisC 但缺逐场对照 —— kernel 在而日志
+// 是后加字段,era 门控不会主动重建)→ 只读端补算一次(~2-4s,globalThis 防并发)
 const G = globalThis as { __wcSbBuilding?: boolean };
 async function scoreboardSelfHeal(league: string) {
-  let sb = loadResearchScoreboard(league);
-  if (sb) return sb;
+  const sb = loadResearchScoreboard(league);
+  const outdated = !!sb && !!sb.axisC && sb.axisCLog == null;
+  if (sb && !outdated) return sb;
   const st = loadEvoState2(league);
   const mf = loadHoldoutManifest(league);
-  if (!st || !mf || G.__wcSbBuilding) return null;
+  if (!st || !mf || G.__wcSbBuilding) return sb ?? null;
   G.__wcSbBuilding = true;
   try {
     const ledger = loadPromotionLedger(league);
-    sb = await buildScoreboard(
+    const fresh = await buildScoreboard(
       loadLeagueDataset(league),
       st,
       mf,
@@ -89,10 +91,10 @@ async function scoreboardSelfHeal(league: string) {
       ledger[ledger.length - 1] ?? null,
       loadLeagueKernel(league),
     );
-    saveResearchScoreboard(league, sb);
-    return sb;
+    saveResearchScoreboard(league, fresh);
+    return fresh;
   } catch {
-    return null;
+    return sb ?? null;
   } finally {
     G.__wcSbBuilding = false;
   }
