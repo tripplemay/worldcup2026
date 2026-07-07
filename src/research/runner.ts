@@ -171,31 +171,43 @@ export async function runLeagueOnce(
   try {
     const kHash = datasetHash(dataset);
     const grew = dataset.allRes.length - (kernel?.matchCount ?? 0);
-    const substantial =
+    const eraChanged =
       !kernel ||
       (kernel.dataHash !== kHash &&
         (grew >= KERNEL_REFRESH_MIN_MATCHES ||
           grew / Math.max(1, kernel.matchCount) >= 0.03));
-    if (substantial) {
+    // schema 升级:score 为后加字段;同 era 只补 score,复用已存 ours/blend(同 era 重算逐字节相同)
+    const scoreOnly = !eraChanged && !!kernel && !kernel.score;
+    if (eraChanged || scoreOnly) {
       const recal = deps?.recalibrate ?? recalibrateKernel;
       // 锁定 holdout 必传(防 L3 漂移);首个 run 无 manifest 时自派生,evolve 随即首建持久化
       const mf = loadHoldoutManifest(league);
-      const ours = await recal(dataset, {
-        objective: 'ours',
-        manifest: mf,
-        wallClockMs: KERNEL_WALL_MS,
-      });
-      const blend = await recal(dataset, {
-        objective: 'blend',
+      const ours = scoreOnly
+        ? kernel!.ours
+        : await recal(dataset, {
+            objective: 'ours',
+            manifest: mf,
+            wallClockMs: KERNEL_WALL_MS,
+          });
+      const blend = scoreOnly
+        ? kernel!.blend
+        : await recal(dataset, {
+            objective: 'blend',
+            manifest: mf,
+            wallClockMs: KERNEL_WALL_MS,
+          });
+      const score = await recal(dataset, {
+        objective: 'score',
         manifest: mf,
         wallClockMs: KERNEL_WALL_MS,
       });
       const next: KernelStore = {
         at: now,
-        dataHash: kHash,
-        matchCount: dataset.allRes.length,
+        dataHash: scoreOnly ? kernel!.dataHash : kHash,
+        matchCount: scoreOnly ? kernel!.matchCount : dataset.allRes.length,
         ours,
         blend,
+        score,
       };
       saveLeagueKernel(league, next);
       kernel = next;

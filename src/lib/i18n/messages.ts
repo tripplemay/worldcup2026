@@ -60,9 +60,13 @@ export const messages = {
       mlMarket: '市场',
       mlDate: '日期',
       mlMatch: '对阵 · 比分',
+      mlPredScore: '预测比分',
       mlEmpty: '逐场数据生成中(首次查看约几秒,刷新即见)',
       mlMore: '最近 {n} 场',
       sbAxisCEce: '校准',
+      sbAxisCScore: '比分',
+      sbAxisCScoreLL: '似然',
+      sbAxisCMls: '最可能比分命中',
       sbBets: '模拟下注(样本外)',
       sbBetsUnit: '注',
       sbWinRate: '胜率',
@@ -837,6 +841,9 @@ export const messages = {
       sbAxisCHonest:
         'With odds available, trust market probabilities; model value lies in no-odds scenarios and extra dimensions',
       sbAxisCEce: 'ECE',
+      sbAxisCScore: 'Score',
+      sbAxisCScoreLL: 'LL',
+      sbAxisCMls: 'top-score hit',
       mlTitle: 'Match-by-match (OOS)',
       mlSub:
         'Per match: our (blend) pick vs market pick vs actual; highlighted = disagreement',
@@ -844,6 +851,7 @@ export const messages = {
       mlMarket: 'Market',
       mlDate: 'Date',
       mlMatch: 'Match · score',
+      mlPredScore: 'Pred. score',
       mlEmpty:
         'Generating per-match log (first view takes a few seconds; refresh to see)',
       mlMore: 'Last {n} matches',

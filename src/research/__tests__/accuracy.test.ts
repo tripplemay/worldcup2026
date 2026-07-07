@@ -81,6 +81,22 @@ describe('轴C 双场景:blend(开盘锚融合)+ 开盘基准 + ECE 校准', () 
     expect(r.gapBrier).toBeCloseTo(r.ours.brier - r.market.brier, 4);
   });
 
+  it('比分级 score 块:LL/最可能比分命中/净胜球体检数值合理', async () => {
+    const r = await runAccuracy(dataset, params);
+    expect(r.score).toBeTruthy();
+    expect(r.score!.n).toBeGreaterThan(0);
+    expect(r.score!.n).toBeLessThanOrEqual(r.n);
+    // 比分 LL:9×9 均匀分布 = ln81 ≈ 4.39;像样的模型应显著低于均匀、高于 1
+    expect(r.score!.logLoss).toBeGreaterThan(1);
+    expect(r.score!.logLoss).toBeLessThan(4.39);
+    // 最可能比分命中:足球典型 ~8-12%,必须优于纯随机(1/81)
+    expect(r.score!.mlsHit).toBeGreaterThan(1 / 81);
+    expect(r.score!.mlsHit).toBeLessThan(0.3);
+    expect(Number.isFinite(r.score!.marginBias)).toBe(true);
+    expect(r.score!.dispersionRatio).toBeGreaterThan(0.3);
+    expect(r.score!.dispersionRatio).toBeLessThan(3);
+  });
+
   it('matchLog:逐场行数=blend 样本数,pick/hit 自洽,默认不收集', async () => {
     const off = await runAccuracy(dataset, params);
     expect(off.matchLog).toBeUndefined(); // 搜索环默认关,省内存

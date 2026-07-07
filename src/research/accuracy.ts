@@ -12,6 +12,7 @@
  * 全样本闭盘),下游 search/evolve 选参语义不受本次扩展影响。
  */
 import { predictPointInTime } from 'lib/predict/backtest';
+import { buildMatrix } from 'lib/predict/models/poissonCore';
 import { trueIP3 } from 'lib/odds/trueIP';
 import { powerDevig } from './devig';
 import { matchKey } from 'lib/match/normalize';
@@ -63,6 +64,17 @@ export interface MatchLogRow {
   marketPick: R;
   blendHit: boolean;
   marketHit: boolean;
+  mls?: string; // 预测最可能比分(泊松矩阵 argmax;矩阵与市场无关)
+  mlsP?: number; // 该比分概率
+}
+
+/** 比分级精度(泊松矩阵 vs 真实比分;矩阵纯模型,市场帮不上 —— 模型独立价值域)。 */
+export interface ScoreStat {
+  n: number;
+  logLoss: number; // −mean ln P(实际比分)(联合分布严格评分规则,越小越好)
+  mlsHit: number; // 最可能比分命中率
+  marginBias: number; // mean[(实际净胜球)−(λ−μ)](>0 = 低估主队净胜)
+  dispersionRatio: number; // Var(净胜球残差)/mean(λ+μ)(>1 = 真实比泊松更散,病在方差)
 }
 
 export interface AccuracyResult {
@@ -77,6 +89,7 @@ export interface AccuracyResult {
   gapBlendClose: number; // blend − 同子集闭盘去水(≤0 = 融合追平/超越闭盘)
   gapBlendOpen: number; // blend − 开盘去水(<0 = 模型携带开盘之外的正交信息)
   calibration: { ours: number; blend: number | null }; // ECE(10-bin;blend 无样本为 null)
+  score: ScoreStat | null; // 比分级精度(泊松预测可用的场次;无则 null)
   perModel: Record<string, CalibStat>; // poisson-xg / poisson-goals / elo(市场无关)
   baselines: { baseRateBrier: number }; // 朴素基准:评估窗前的 H/D/A 基率恒定预报(轴 C 下界锚)
   matchLog?: MatchLogRow[]; // 逐场对照(仅 params.matchLog=true;按日期升序)
@@ -171,6 +184,13 @@ export async function runAccuracy(
   const blendCalib: { p: number; hit: boolean }[] = [];
   const matchLogRows: MatchLogRow[] = [];
   let n = 0;
+  // 比分级累加(泊松矩阵;λ+μ 为 Skellam 方差基准)
+  let sN = 0,
+    sLL = 0,
+    sMlsHits = 0,
+    sResid = 0,
+    sResid2 = 0,
+    sLamMu = 0;
 
   // 朴素基准:评估窗【之前】的 H/D/A 基率(无 prior 则联赛长期典型 45/27/28)
   const prior = allRes.filter(
@@ -221,6 +241,42 @@ export async function runAccuracy(
       { p: pp.pDraw, hit: result === 'D' },
       { p: pp.pAway, hit: result === 'A' },
     );
+    // 比分级:实际比分对数似然 + 最可能比分 + 净胜球残差(矩阵纯泊松,与市场/融合无关)
+    let mlsStr: string | undefined;
+    let mlsP: number | undefined;
+    const px = pp.preds?.find((p) => p.modelId === 'poisson-xg');
+    // 超出矩阵上限(单边 >8 球,如 9-0)的比赛整场跳过比分块:边界格概率冒充尾部
+    // 概率会人为压低 LL、污染 score 目标的选参(7 季数据实存 2 场 9-0)
+    const cap0 = 8;
+    if (
+      px &&
+      px.xgHome != null &&
+      px.xgAway != null &&
+      m.homeGoals <= cap0 &&
+      m.awayGoals <= cap0
+    ) {
+      const mtx = buildMatrix(px.xgHome, px.xgAway, tuning.dcRho);
+      const pAct = mtx[m.homeGoals][m.awayGoals];
+      sLL += -Math.log(Math.max(1e-9, pAct));
+      let mi = 0,
+        mj = 0,
+        mp = -1;
+      for (let i = 0; i < mtx.length; i++)
+        for (let j = 0; j < mtx[i].length; j++)
+          if (mtx[i][j] > mp) {
+            mp = mtx[i][j];
+            mi = i;
+            mj = j;
+          }
+      if (mi === m.homeGoals && mj === m.awayGoals) sMlsHits += 1;
+      mlsStr = `${mi}-${mj}`;
+      mlsP = +mp.toFixed(4);
+      const resid = m.homeGoals - m.awayGoals - (px.xgHome - px.xgAway);
+      sResid += resid;
+      sResid2 += resid * resid;
+      sLamMu += px.xgHome + px.xgAway;
+      sN += 1;
+    }
     for (const md of pp.models) {
       const a = (perModel[md.id] ??= newAcc());
       accum(a, { home: md.home, draw: md.draw, away: md.away }, result);
@@ -292,6 +348,7 @@ export async function runAccuracy(
               marketPick,
               blendHit: blendPick === result,
               marketHit: marketPick === result,
+              ...(mlsStr ? { mls: mlsStr, mlsP } : {}),
             });
           }
         }
@@ -317,6 +374,18 @@ export async function runAccuracy(
     gapBlendClose: blend.n ? +(blend.brier - closeSub.brier).toFixed(4) : 0,
     gapBlendOpen: blend.n ? +(blend.brier - marketOpen.brier).toFixed(4) : 0,
     calibration: { ours: eceOf(oursCalib) ?? 0, blend: eceOf(blendCalib) },
+    score: sN
+      ? {
+          n: sN,
+          logLoss: +(sLL / sN).toFixed(4),
+          mlsHit: +(sMlsHits / sN).toFixed(4),
+          marginBias: +(sResid / sN).toFixed(4),
+          dispersionRatio: +(
+            (sResid2 / sN - (sResid / sN) ** 2) /
+            Math.max(1e-9, sLamMu / sN)
+          ).toFixed(3),
+        }
+      : null,
     perModel: Object.fromEntries(
       Object.entries(perModel).map(([k, a]) => [k, finalize(a)]),
     ),

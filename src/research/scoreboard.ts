@@ -44,6 +44,15 @@ export interface Scoreboard {
     blendN: number;
     marketWeight: number; // tuned 融合权重(<0.9 = 模型有非零最优权重)
     oursGapTuned: number; // 无赔率场景:tuned 市场无关内核 vs 闭盘 gap(val)
+    // 比分级(泊松矩阵 vs 真实比分;score-tuned 内核在 val 窗实算)
+    score?: {
+      logLossBaseline: number; // 基线内核 val 比分 LL
+      logLossTuned: number; // 重校准后 val 比分 LL(越小越好)
+      mlsHit: number; // 最可能比分命中率
+      marginBias: number; // 净胜球偏差(>0 = 低估主队)
+      dispersionRatio: number; // 方差比(>1 = 真实比泊松更散)
+      n: number;
+    };
   } | null;
   // ①c 逐场对照(val 窗最近 80 场,新→旧;直观看逐场预测 vs 赛果)
   axisCLog: MatchLogRow[] | null;
@@ -120,6 +129,45 @@ export async function buildScoreboard(
         marketWeight: t.marketWeight,
         oursGapTuned: kernel.ours.valGapTuned,
       };
+      // 比分级读数:score-tuned 内核单独在 val 窗实算(矩阵与市场无关,是模型独立价值域)
+      if (kernel.score) {
+        const ts = kernel.score.tuned;
+        const asr = await runAccuracy(dataset, {
+          tuning: {
+            goalShrink: ts.goalShrink,
+            dcRho: ts.dcRho,
+            shrinkEloScale: ts.shrinkEloScale,
+          },
+          home: { eloBonus: ts.eloBonus, goalMult: ts.goalMult },
+          marketWeight: ts.marketWeight,
+          from: partition.valFrom,
+          to: partition.valTo,
+          matchLog: true,
+        });
+        if (asr.score)
+          base.axisC = {
+            ...base.axisC,
+            score: {
+              logLossBaseline: kernel.score.valGapBaseline,
+              logLossTuned: kernel.score.valGapTuned,
+              mlsHit: asr.score.mlsHit,
+              marginBias: asr.score.marginBias,
+              dispersionRatio: asr.score.dispersionRatio,
+              n: asr.score.n,
+            },
+          };
+        // 逐场表的「预测比分」与比分面板必须同内核(否则表内绿勾占比与 mlsHit 对不上):
+        // 1X2 概率保持 blend-tuned 通道,仅 mls/mlsP 用 score-tuned 通道按场覆写
+        if (asr.matchLog && base.axisCLog) {
+          const byKey = new Map(
+            asr.matchLog.map((r) => [`${r.date}|${r.home}|${r.away}`, r]),
+          );
+          base.axisCLog = base.axisCLog.map((r) => {
+            const s = byKey.get(`${r.date}|${r.home}|${r.away}`);
+            return s?.mls ? { ...r, mls: s.mls, mlsP: s.mlsP } : r;
+          });
+        }
+      }
     } catch {
       /* 轴C 失败不阻断成绩单其余部分 */
     }

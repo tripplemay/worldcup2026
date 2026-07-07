@@ -47,13 +47,13 @@ export const KERNEL_GRID: Record<keyof KernelPoint, number[]> = {
 const KERNEL_KEYS = Object.keys(KERNEL_GRID) as (keyof KernelPoint)[];
 
 export interface RecalResult {
-  objective: 'ours' | 'blend';
+  objective: 'ours' | 'blend' | 'score';
   baseline: KernelPoint;
   tuned: KernelPoint;
   isGapBaseline: number;
   isGapTuned: number;
   valGapBaseline: number;
-  valGapTuned: number; // 判决数:≤0 = 追平/超越市场(口径随 objective)
+  valGapTuned: number; // 判决数(口径随 objective:ours/blend=gap,≤0 即追平市场;score=比分 LL,越小越好)
   evals: number; // IS 评估次数(审计)
   truncated: boolean; // 墙钟预算截断(截断点仍是合法的 IS 局部最优,只是没跑满)
 }
@@ -65,6 +65,7 @@ export interface KernelStore {
   matchCount: number;
   ours: RecalResult; // 无赔率场景(市场无关)tuned 内核
   blend: RecalResult; // 有赔率场景(开盘锚融合)tuned 内核
+  score?: RecalResult; // 比分级(对数似然)tuned 内核(后加字段;缺失 → runner 补齐一次)
 }
 
 type GapEval = (
@@ -74,7 +75,9 @@ type GapEval = (
 
 /**
  * 坐标下降重校准。deps.evalGap 可注入(单测用合成碗面;缺省真引擎 runAccuracy)。
- * objective:'ours'(市场无关,旧口径)| 'blend'(开盘锚融合 vs 同子集闭盘 —— 轴C
+ * objective:'ours'(市场无关 1X2 gap)| 'blend'(开盘锚融合 vs 同子集闭盘 —— 轴C
+ * 有赔率场景)| 'score'(比分对数似然 —— 联合分布严格评分规则,直接校准 λ/μ/ρ,
+ * 矩阵与市场无关,是模型独立价值域的目标函数)。'blend' 说明:(轴C
  * 有赔率场景;基准在同窗内是常数,最小化 gapBlendClose ≡ 最小化 blend Brier)。
  * 确定性:遍历顺序固定、无随机;改进阈值 1e-6 防浮点抖动死循环。
  */
@@ -84,7 +87,7 @@ export async function recalibrateKernel(
     rounds?: number;
     start?: KernelPoint;
     evalGap?: GapEval;
-    objective?: 'ours' | 'blend';
+    objective?: 'ours' | 'blend' | 'score';
     manifest?: HoldoutManifest | null; // 锁定 holdout(生产必传;缺失才自派生首建)
     wallClockMs?: number; // 墙钟预算(缺省不设限保实验确定性;runner 显式传)
     clock?: () => number; // 测试注入
@@ -115,7 +118,11 @@ export async function recalibrateKernel(
         marketWeight: p.marketWeight,
         ...win,
       });
-      return objective === 'blend' ? r.gapBlendClose : r.gapBrier;
+      return objective === 'blend'
+        ? r.gapBlendClose
+        : objective === 'score'
+        ? r.score?.logLoss ?? 99 // 无泊松样本 → 大值(该点不可选)
+        : r.gapBrier;
     });
 
   const IS = { to: partition.trainTo };

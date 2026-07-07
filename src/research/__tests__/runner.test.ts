@@ -17,7 +17,9 @@ import { KERNEL_BASELINE } from '../recalibrate';
 import type { RecalResult } from '../recalibrate';
 
 // 全套件共用:内核重校准 stub(防任何用例意外触发真实坐标下降 —— 分钟级)
-const stubRecalResult = (objective: 'ours' | 'blend'): RecalResult => ({
+const stubRecalResult = (
+  objective: 'ours' | 'blend' | 'score',
+): RecalResult => ({
   objective,
   baseline: KERNEL_BASELINE,
   tuned: KERNEL_BASELINE,
@@ -30,7 +32,7 @@ const stubRecalResult = (objective: 'ours' | 'blend'): RecalResult => ({
 });
 const stubRecal = async (
   _ds: unknown,
-  opts?: { objective?: 'ours' | 'blend' },
+  opts?: { objective?: 'ours' | 'blend' | 'score' },
 ): Promise<RecalResult> => stubRecalResult(opts?.objective ?? 'ours');
 /** 与当前数据集同 era 的新鲜 kernel(令刷新守卫不触发)。 */
 const freshKernel = (key: string) => {
@@ -41,6 +43,7 @@ const freshKernel = (key: string) => {
     matchCount: ds.allRes.length,
     ours: stubRecalResult('ours'),
     blend: stubRecalResult('blend'),
+    score: stubRecalResult('score'),
   };
 };
 
@@ -158,7 +161,7 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
     (calls: { n: number }) =>
     async (
       _ds: unknown,
-      opts?: { objective?: 'ours' | 'blend' },
+      opts?: { objective?: 'ours' | 'blend' | 'score' },
     ): Promise<RecalResult> => {
       calls.n += 1;
       return {
@@ -199,7 +202,7 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
       maxGenerations: 1,
       recalibrate: countingRecal(calls) as never,
     });
-    expect(calls.n).toBe(2); // ours + blend 各一次
+    expect(calls.n).toBe(3); // ours + blend + score 各一次
     expect(r.skipped).toBe('exhausted-era-unchanged+kernel-refreshed');
     const k = loadLeagueKernel(KEY);
     expect(k?.dataHash).toBe(datasetHash(dataset));
@@ -207,6 +210,32 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
     // 成绩单在跳过路径下也带上了轴C 块
     const sb = loadResearchScoreboard(KEY);
     expect(sb?.axisC).toBeTruthy();
+  }, 300000);
+
+  it('schema 升级:同 era 仅缺 score → 只补 score(1 次调用),复用已存 ours/blend', async () => {
+    const dataset = loadLeagueDataset(KEY);
+    const st = loadEvolutionState(KEY)!;
+    saveEvolutionState(KEY, {
+      ...st,
+      status: 'exhausted',
+      dataHash: datasetHash(dataset),
+      matchCount: dataset.allRes.length,
+    });
+    const { score: _drop, ...noScore } = freshKernel(KEY);
+    saveLeagueKernel(KEY, noScore as never);
+    const calls = { n: 0 };
+    const r = await runLeagueOnce(KEY, false, {
+      now: Date.parse('2026-08-12T00:00:00Z'),
+      llmPropose: async () => null,
+      maxGenerations: 1,
+      recalibrate: countingRecal(calls) as never,
+    });
+    expect(calls.n).toBe(1); // 仅 score
+    expect(r.skipped).toBe('exhausted-era-unchanged+kernel-refreshed');
+    const k = loadLeagueKernel(KEY);
+    expect(k?.score?.objective).toBe('score');
+    expect(k?.ours).toEqual(noScore.ours); // 复用未重算
+    expect(k?.dataHash).toBe(noScore.dataHash);
   }, 300000);
 
   it('kernel 同 era → 不刷新(零调用),跳过原因不带 kernel-refreshed', async () => {

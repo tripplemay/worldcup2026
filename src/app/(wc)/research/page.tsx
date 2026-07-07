@@ -451,6 +451,19 @@ export default function ResearchPage() {
                       {sb.axisC.eceBlend.toFixed(3)}
                     </>
                   )}
+                  {sb.axisC.score && (
+                    <div className="mt-0.5">
+                      {t('research.sbAxisCScore')}:{' '}
+                      {t('research.sbAxisCScoreLL')}{' '}
+                      {sb.axisC.score.logLossTuned.toFixed(3)}
+                      {sb.axisC.score.logLossTuned <
+                      sb.axisC.score.logLossBaseline
+                        ? '↓'
+                        : ''}{' '}
+                      · {t('research.sbAxisCMls')}{' '}
+                      {(sb.axisC.score.mlsHit * 100).toFixed(1)}%
+                    </div>
+                  )}
                   <div className="mt-0.5 text-gray-400">
                     {t('research.sbAxisCHonest')}
                   </div>
@@ -499,9 +512,14 @@ export default function ResearchPage() {
                   <table className="w-full text-[11px]">
                     <thead className="sticky top-0 bg-white text-left text-[10px] text-gray-400 dark:bg-navy-800">
                       <tr>
-                        <th className="py-1 pr-2 font-normal">{t('research.mlDate')}</th>
+                        <th className="py-1 pr-2 font-normal">
+                          {t('research.mlDate')}
+                        </th>
                         <th className="py-1 pr-2 font-normal">
                           {t('research.mlMatch')}
+                        </th>
+                        <th className="py-1 pr-2 font-normal">
+                          {t('research.mlPredScore')}
                         </th>
                         <th className="py-1 pr-2 font-normal">
                           {t('research.mlOurs')}
@@ -545,6 +563,15 @@ export default function ResearchPage() {
                                 {r.score}
                               </span>
                               <span className="capitalize">{r.away}</span>
+                            </td>
+                            <td
+                              className={`py-1 pr-2 font-mono text-[10px] ${
+                                r.mls === r.score
+                                  ? 'font-bold text-green-600 dark:text-green-400'
+                                  : 'text-gray-500 dark:text-gray-400'
+                              }`}
+                            >
+                              {r.mls ?? '—'}
                             </td>
                             <td
                               className={`py-1 pr-2 font-mono ${
