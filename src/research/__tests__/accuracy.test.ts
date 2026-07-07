@@ -50,3 +50,33 @@ describe('runAccuracy(gap-to-market)', () => {
     expect(runAccuracy(dataset, params)).toEqual(runAccuracy(dataset, params));
   });
 });
+
+describe('轴C 双场景:blend(开盘锚融合)+ 开盘基准 + ECE 校准', () => {
+  it('blend/marketOpen 结构 + 同子集可比 + 融合确实靠近市场', async () => {
+    const r = await runAccuracy(dataset, params);
+    // blend 只在有开盘价的场次上计(与 marketOpen 同子集,严格可比)
+    expect(r.blend.n).toBeGreaterThan(0);
+    expect(r.blend.n).toBeLessThanOrEqual(r.ours.n);
+    expect(r.blend.n).toBe(r.marketOpen.n);
+    expect(r.blend.brier).toBeGreaterThan(0);
+    expect(r.blend.brier).toBeLessThan(1);
+    expect(Number.isFinite(r.gapBlendClose)).toBe(true);
+    expect(Number.isFinite(r.gapBlendOpen)).toBe(true);
+    // 语义:开盘锚必须真的把融合拉向市场 —— blend 对闭盘的差距应显著小于市场无关 ours
+    expect(r.gapBlendClose).toBeLessThan(r.gapBrier);
+  });
+
+  it('ECE 校准指标:双场景均有,取值在 [0,0.5]', async () => {
+    const r = await runAccuracy(dataset, params);
+    expect(r.calibration.ours).toBeGreaterThanOrEqual(0);
+    expect(r.calibration.ours).toBeLessThanOrEqual(0.5);
+    expect(r.calibration.blend).not.toBeNull();
+    expect(r.calibration.blend!).toBeGreaterThanOrEqual(0);
+    expect(r.calibration.blend!).toBeLessThanOrEqual(0.5);
+  });
+
+  it('gapBrier(旧口径:市场无关 ours vs 全样本闭盘)语义不变 —— 下游 search/evolve 不受影响', async () => {
+    const r = await runAccuracy(dataset, params);
+    expect(r.gapBrier).toBeCloseTo(r.ours.brier - r.market.brier, 4);
+  });
+});
