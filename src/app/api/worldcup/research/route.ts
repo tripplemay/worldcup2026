@@ -15,6 +15,7 @@ import {
   saveResearchScoreboard,
   loadHoldoutManifest,
   loadLeagueKernel,
+  loadResearchPooled,
   loadEvolutionState as loadEvoState2,
 } from 'lib/db/store';
 import { buildScoreboard } from 'research/scoreboard';
@@ -143,6 +144,8 @@ export async function GET(req: Request) {
           llmAccepted: l.accepted.filter((a) => a.provenance === 'llm').length,
           statusAfter: l.statusAfter,
         })),
+      // 跨联赛池化功效检验(家族级;全局单份,与联赛无关)
+      pooled: loadResearchPooled(),
       forward: forwardSummary(loadForwardStore(league)),
       gauntlet: loadPromotionLedger(league)
         .slice(-3)

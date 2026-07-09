@@ -104,8 +104,8 @@ describe('两段式选参 selectWinner(仪器修复:过滤参数进入选优)', 
   });
   it('isGap 同组内按 IS 段 CLV t 选,不再按 hash 字典序', () => {
     const rows = [
-      row(0.02, 60, 0.5, 'aaa'), // hash 最小但 CLV 弱
-      row(0.02, 60, 2.5, 'zzz'), // CLV 强 → 应胜出
+      row(0.02, 150, 0.5, 'aaa'), // hash 最小但 CLV 弱
+      row(0.02, 150, 2.5, 'zzz'), // CLV 强 → 应胜出
       row(0.03, 200, 9.9, 'bbb'), // isGap 出容差带 → 淘汰
     ];
     expect(selectWinner(rows, 'gapBrier').hash).toBe('zzz');
@@ -113,14 +113,14 @@ describe('两段式选参 selectWinner(仪器修复:过滤参数进入选优)', 
   it('容差带:isGap 差 ≤0.002 视为不可区分,CLV 决胜;差 >0.002 出带淘汰', () => {
     // 精确相等分组会让 CLV 键永不生效(发生器配置各有不同 tuning → isGap 全场唯一)
     const rows = [
-      row(0.02, 60, 0.3, 'aaa'), // 带内最优 gap 但 CLV 弱
-      row(0.0215, 60, 2.8, 'mmm'), // 带内(差 0.0015)CLV 强 → 应胜出
+      row(0.02, 150, 0.3, 'aaa'), // 带内最优 gap 但 CLV 弱
+      row(0.0215, 150, 2.8, 'mmm'), // 带内(差 0.0015)CLV 强 → 应胜出
       row(0.023, 60, 9.9, 'zzz'), // 出带(差 0.003)→ CLV 再高也淘汰
     ];
     expect(selectWinner(rows, 'gapBrier').hash).toBe('mmm');
   });
   it(`IS 注数不足(<${IS_CLV_SELECT_MIN_N})沉底:t 再高也不可信`, () => {
-    const rows = [row(0.02, 5, 99, 'aaa'), row(0.02, 60, 0.2, 'zzz')];
+    const rows = [row(0.02, 5, 99, 'aaa'), row(0.02, 150, 0.2, 'zzz')];
     expect(selectWinner(rows, 'gapBrier').hash).toBe('zzz');
   });
   it('全组注数不足 → 退回 isGap+hash 字典序(诚实缺省)', () => {
@@ -129,8 +129,8 @@ describe('两段式选参 selectWinner(仪器修复:过滤参数进入选优)', 
   });
   it("selectBy='clvT' 用 IS 段 CLV 而非 OOS(修选参泄漏)", () => {
     const rows = [
-      { ...row(0.9, 60, 3.0, 'aaa'), oosClvT: -5 },
-      { ...row(0.01, 60, 0.1, 'zzz'), oosClvT: 9 },
+      { ...row(0.9, 150, 3.0, 'aaa'), oosClvT: -5 },
+      { ...row(0.01, 150, 0.1, 'zzz'), oosClvT: 9 },
     ];
     expect(selectWinner(rows, 'clvT').hash).toBe('aaa');
   });

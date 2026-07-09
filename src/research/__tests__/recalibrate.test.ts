@@ -97,6 +97,10 @@ describe('recalibrateKernel(注入碗面)', () => {
     expect(a).not.toBe(b); // holdout 边界前移 → train 窗跟着变(锁定生效)
   });
 
+  it('网格护栏:marketWeight 严禁含 1.0(ensemble 奇异点:非市场权重全 0,ours 通道 wsum=0 → 全预测 null → n=0 → 目标兜底 0 被当最优)', () => {
+    expect(Math.max(...KERNEL_GRID.marketWeight)).toBeLessThan(1);
+  });
+
   it('基线已是最优 → 原地不动且提前停', async () => {
     const flat = async () => 0.5;
     const r = await recalibrateKernel(mkDs(), { evalGap: flat });

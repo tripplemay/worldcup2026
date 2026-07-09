@@ -215,8 +215,8 @@ describe('配对显著性障碍 + CLV LCB', () => {
     result: 'won',
     clv,
   });
-  it('系统性 ΔCLV=+2% × 40 注 → 判改进;纯噪声 → 平局', () => {
-    const inc = Array.from({ length: 40 }, (_, i) => mk(i, 0.01));
+  it('系统性 ΔCLV=+2% × 120 注 → 判改进;纯噪声 → 平局;40 注不够格(minN=100,07-09 收紧)', () => {
+    const inc = Array.from({ length: 120 }, (_, i) => mk(i, 0.01));
     const chBetter = inc.map((b) => ({
       ...b,
       clv: (b.clv ?? 0) + 0.02 + Math.sin(b.home.length) * 0.001,
@@ -228,34 +228,39 @@ describe('配对显著性障碍 + CLV LCB', () => {
       clv: (b.clv ?? 0) + (i % 2 === 0 ? 0.01 : -0.01),
     }));
     expect(clvImprovement(chNoise, inc).improved).toBe(false);
+    // 小样本高方差是唯一被证实的噪声通道(sc0 曾 72 注当选)→ 40 注即便系统性更好也不算
+    const small = inc.slice(0, 40);
+    const smallBetter = small.map((b) => ({ ...b, clv: (b.clv ?? 0) + 0.02 }));
+    expect(clvImprovement(smallBetter, small).improved).toBe(false);
+    expect(clvImprovement(smallBetter, small, 30).improved).toBe(true); // 显式放宽才认
   });
   it('选注差集敏感(仪器修复):完全不重叠的两组注,挑战者买价系统性更好 → 判改进(旧交集配对的盲区)', () => {
     // 旧实现只在交集比赛上配对:不重叠 → 0 对 → 永远 t=0,过滤参数的全部效应不可见
-    const inc = Array.from({ length: 40 }, (_, i) =>
+    const inc = Array.from({ length: 120 }, (_, i) =>
       mk(i, 0.0 + (i % 5) * 0.002),
     );
-    const ch = Array.from({ length: 40 }, (_, i) =>
-      mk(i + 100, 0.025 + (i % 5) * 0.002),
+    const ch = Array.from({ length: 120 }, (_, i) =>
+      mk(i + 200, 0.025 + (i % 5) * 0.002),
     );
     const r = clvImprovement(ch, inc);
     expect(r.improved).toBe(true);
     expect(r.t).toBeGreaterThan(1.28);
   });
   it('挑战者买价更差(均值更低)→ 不改进(单侧)', () => {
-    const inc = Array.from({ length: 40 }, (_, i) =>
+    const inc = Array.from({ length: 120 }, (_, i) =>
       mk(i, 0.02 + (i % 5) * 0.002),
     );
-    const ch = Array.from({ length: 40 }, (_, i) =>
-      mk(i + 100, (i % 5) * 0.002),
+    const ch = Array.from({ length: 120 }, (_, i) =>
+      mk(i + 200, (i % 5) * 0.002),
     );
     expect(clvImprovement(ch, inc).improved).toBe(false);
   });
-  it('任一侧样本 <30 → 一律平局(样本不足不算赢)', () => {
+  it('任一侧样本 <100(minN 默认)→ 一律平局(样本不足不算赢)', () => {
     const inc = Array.from({ length: 10 }, (_, i) => mk(i, 0.01));
     const ch = inc.map((b) => ({ ...b, clv: 0.5 }));
     expect(clvImprovement(ch, inc).improved).toBe(false);
-    const incBig = Array.from({ length: 40 }, (_, i) => mk(i, 0.01));
-    const chTiny = Array.from({ length: 5 }, (_, i) => mk(i + 100, 0.5));
+    const incBig = Array.from({ length: 120 }, (_, i) => mk(i, 0.01));
+    const chTiny = Array.from({ length: 60 }, (_, i) => mk(i + 200, 0.5));
     expect(clvImprovement(chTiny, incBig).improved).toBe(false);
   });
   it('clvLcb:n<10 → 极负;正 CLV 大样本 → LCB 合理', () => {

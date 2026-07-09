@@ -32,8 +32,13 @@ export const poissonXgModel: PredictionModel = {
       ctx.tuning?.shrinkEloScale ?? SHRINK_ELO_SCALE,
     );
     const hfa = ctx.homeGoalMult ?? 1; // 主场优势:主 λ×hfa、客 μ÷hfa(中立=1)
-    const lambda = damp(((h.xgFor * a.xgAgainst) / L) * hfa, L, shrink);
-    const mu = damp((a.xgFor * h.xgAgainst) / L / hfa, L, shrink);
+    // 总进球水平缩放(λ、μ 同乘,净胜结构不变):非英超联赛代理 xG 水平系统性
+    // 高于真实进球,damp 锚 L=xgFor 均值修不到总水平 —— 研究内核逐联赛校准此参
+    const ts = ctx.tuning?.totalScale ?? 1;
+    const lambda = clamp(
+      damp(((h.xgFor * a.xgAgainst) / L) * hfa, L, shrink) * ts,
+    );
+    const mu = clamp(damp((a.xgFor * h.xgAgainst) / L / hfa, L, shrink) * ts);
     if (!Number.isFinite(lambda) || !Number.isFinite(mu)) return null;
     return dcPoisson({
       modelId: this.id,

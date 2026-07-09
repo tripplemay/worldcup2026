@@ -23,6 +23,7 @@ import type { EpochResult } from 'research/search';
 import type { AnalystReport } from 'research/analyst';
 import type { ForwardSummaryRow } from 'research/forward';
 import type { Scoreboard } from 'research/scoreboard';
+import type { PooledStore } from 'research/pooled';
 
 // 赔率变动类型在 lib/odds/changes 定义;此处转出,组件统一从 hooks 取。
 export type {
@@ -192,14 +193,11 @@ export function useResearch(league?: string) {
     recentLog: EvoLogRow[];
     gauntlet: GauntletRow[];
     forward: ForwardSummaryRow[];
-  }>(
-    `/api/worldcup/research${league ? `?league=${league}` : ''}`,
-    fetcher,
-    {
-      refreshInterval: STANDINGS_MS,
-      ...common,
-    },
-  );
+    pooled: PooledStore | null;
+  }>(`/api/worldcup/research${league ? `?league=${league}` : ''}`, fetcher, {
+    refreshInterval: STANDINGS_MS,
+    ...common,
+  });
   return {
     league: data?.league ?? league ?? 'epl-2025',
     leagues: data?.leagues ?? [],
@@ -211,6 +209,7 @@ export function useResearch(league?: string) {
     recentLog: data?.recentLog ?? [],
     gauntlet: data?.gauntlet ?? [],
     forward: data?.forward ?? [],
+    pooled: data?.pooled ?? null,
     error,
     isLoading,
     refresh: mutate,

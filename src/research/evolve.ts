@@ -392,6 +392,9 @@ export function clvLcb(bets: BetRecord[]): { lcb: number; n: number } {
  * 同窗 CLV 改进检验(仪器修复,取代旧「交集配对 ΔCLV」):
  * 挑战者 vs 在位者各自 value 注 CLV 全样本的 Welch 单侧 t,t>1.28(单侧 p<0.1)
  * 且两侧 n≥minN 才算改进。
+ * minN=100(2026-07-09 复盘收紧,原 30):对抗校验证实 t>1.28 探索门本身通过率
+ * (4/52=7.7%)不高于名义 α=10%、无超额噪声放行 —— 唯一合理担忧是小样本高方差
+ * (sc0 挑战者曾以 72 注当选),收紧样本下限而非提高 t 门槛。
  * 为何弃配对:旧实现只在双方都下注的交集比赛上配对 —— 选注集合差异(过滤参数
  * minEv/minProb/maxEv/useAH/useOU/allowOver 的全部效应)对检验完全不可见,同选项
  * 注 Δ=0 又稀释均值与功效,实测 9 联赛 ~60 次挑战仅 1 次显著(名义 α=10% 期望 ~6 次)。
@@ -401,7 +404,7 @@ export function clvLcb(bets: BetRecord[]): { lcb: number; n: number } {
 export function clvImprovement(
   challenger: BetRecord[],
   incumbent: BetRecord[],
-  minN = 30,
+  minN = 100,
   tThreshold = 1.28,
 ): { improved: boolean; n: number; t: number } {
   const clvs = (bets: BetRecord[]) =>

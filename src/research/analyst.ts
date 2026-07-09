@@ -90,6 +90,40 @@ export interface AnalystReport {
   model: string;
 }
 
+/** 平台公开常数(闸门/检验阈值):分析员合法输出会引用但简报不含,一律入白名单。 */
+const PLATFORM_CONSTANTS = [
+  1.28, 0.53, 0.005, 0.95, 0.05, 0.1, 0.002, 0.25, 2500, 100, 150,
+];
+
+/**
+ * 报告数字审计(仪器债修复,2026-07-09):t1 曾出现分析员幻觉 CLV-t=2.31(台账实为
+ * 0.33)。核对报告中「像指标的数值」(≥2 位小数)是否能在简报里找到对应(含 ×100
+ * 百分比换算,及 0.1% 相对容差)。返回核对不到的数值列表 —— 仅作警示追加,不拦截报告。
+ * 细节(评审校验实测定形):
+ *  · 只查 ≥2 位小数:整数与一位小数(「2-3 个假设」「G0–G7」)误伤率太高,不核对;
+ *  · 负号前瞻:紧跟数字/点后的 '-' 是区间连字符(「0.33-0.55」),不是负号 —— 否则
+ *    忠实引用的区间右端会被切成伪负数误标;
+ *  · 不做 ÷100 反向换算:报告两位小数 ×100 撞简报任意小整数(epoch 号/代数)的
+ *    概率太高,会把真幻觉白名单化(0.07 撞「G7」的 7)。
+ */
+export function auditReportNumbers(brief: string, report: string): string[] {
+  const briefNums = (brief.match(/-?\d+(?:\.\d+)?/g) ?? [])
+    .map(Number)
+    .concat(PLATFORM_CONSTANTS);
+  const suspects = report.match(/(?<![\d.])-?\d+\.\d{2,}/g) ?? [];
+  const bad: string[] = [];
+  for (const s of Array.from(new Set(suspects))) {
+    const r = Number(s);
+    const ok = briefNums.some(
+      (b) =>
+        Math.abs(r - b) <= Math.max(5e-3, Math.abs(b) * 1e-3) ||
+        Math.abs(r - b * 100) <= 0.05, // 简报 0.551 → 报告 55.10(%)
+    );
+    if (!ok) bad.push(s);
+  }
+  return bad.slice(0, 5);
+}
+
 const SYSTEM = `你是足球策略研究平台的分析员。只做三件事:①读结果 ②写简短诊断 ③提 2-3 个具体、可执行的下一步搜索假设(测哪个市场/分段/时机/参数)。
 铁律:你不下注、不决定晋级、绝不声称已找到 edge(晋级由确定性 G0–G7 闸门判);不建议在 holdout 上调参。
 诚实:若现状是"无 edge 的干净证否",直说,并把假设指向更可能有 edge 的方向(如亚盘/大小球市场、更软联赛、特定分段)。
@@ -170,7 +204,14 @@ export async function analyzeResearch(
     };
     const content = data.choices?.[0]?.message?.content?.trim();
     if (!content) return null;
-    return { at: Date.now(), epoch: brief.epoch, text: content, model: MODEL };
+    // 数字审计:核对不到的指标数值追加警示(不拦截 —— 分析员只写诊断,决策仍看台账)
+    const bad = auditReportNumbers(brief.text, content);
+    const text = bad.length
+      ? `${content}\n\n> ⚠️ 数字核对:${bad.join(
+          '、',
+        )} 未能在数据简报中核对到,可能为模型幻觉,请以台账数字为准。`
+      : content;
+    return { at: Date.now(), epoch: brief.epoch, text, model: MODEL };
   } catch {
     return null;
   }

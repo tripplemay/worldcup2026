@@ -59,6 +59,7 @@ describe('buildScoreboard', () => {
     const point = {
       goalShrink: 0.6,
       dcRho: -0.14,
+      totalScale: 1.0,
       shrinkEloScale: 100,
       eloBonus: 65,
       goalMult: 1.12,
@@ -110,6 +111,12 @@ describe('buildScoreboard', () => {
     expect(sb.accuracy!.oursHit).toBeGreaterThan(0.3);
     expect(sb.betting!.n).toBeGreaterThan(0);
     expect(Number.isFinite(sb.money!.end)).toBe(true);
+    // 台账双口径显式化(仪器债修复):end−start = value 注 + coverage 试探注,代数闭合
+    expect(sb.money!.valuePnl).toBeCloseTo(sb.betting!.pnl, 2);
+    expect(sb.money!.valuePnl! + sb.money!.coveragePnl!).toBeCloseTo(
+      sb.money!.end - sb.money!.start,
+      1,
+    );
     expect(sb.window!.to < '2025-12-20').toBe(true); // 样本外窗不触 holdout
     // 确定性
     const sb2 = await buildScoreboard(ds, st, manifest, null, ledger);

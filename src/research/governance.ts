@@ -224,6 +224,19 @@ export const DEFAULT_THRESHOLDS: GateThresholds = {
   fwdMinClvT: 2,
 };
 
+/**
+ * G1 的 CLV 质量三条件(t / 均值 / 阳性率;不含样本量 —— 各闸按各自功效线另判 n)。
+ * 供 evaluateGates(G1)与 pooled.screenPooled 共用:判定逻辑单点维护,防口径漂移。
+ */
+export function clvQualityOk(
+  c: { t: number; avgClv: number; posRate: number },
+  T: GateThresholds = DEFAULT_THRESHOLDS,
+): boolean {
+  return (
+    c.t > T.clvMinT && c.avgClv >= T.clvMinAvg && c.posRate >= T.clvMinPosRate
+  );
+}
+
 export type GateStatus = 'pass' | 'fail' | 'skip';
 export interface GateResult {
   id: string;
@@ -281,9 +294,10 @@ export function evaluateGates(
     'CLV先行',
     () =>
       ev.clv.n >= T.clvMinN &&
-      ev.clv.t > T.clvMinT &&
-      ev.clv.avgClv >= T.clvMinAvg &&
-      ev.clv.posRate >= T.clvMinPosRate,
+      clvQualityOk(
+        { t: ev.clv.t, avgClv: ev.clv.avgClv, posRate: ev.clv.posRate },
+        T,
+      ),
     `n=${ev.clv.n} t=${ev.clv.t} avg=${ev.clv.avgClv} pos=${ev.clv.posRate}`,
     true,
   );

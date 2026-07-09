@@ -195,7 +195,9 @@ jobs:
               # 沙盘情景推演:部署后立即算一份(engine 已先播种评分/Elo)
               curl -s --max-time 290 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/scenarios/run" >/dev/null 2>&1 || true
-              # 研究调参:部署后立即跑一轮(seed 联赛数据已播种到数据目录)
+              # 研究调参:部署后立即跑一轮(seed 联赛数据已播种到数据目录)。
+              # 不带 force:内核网格版本过期时 runner 自会绕过同日幂等立即强刷;
+              # 数据/网格都没变的日常部署则整体幂等跳过(不做无谓的全量重跑)。
               curl -s --max-time 290 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/research/run" >/dev/null 2>&1 || true
             fi

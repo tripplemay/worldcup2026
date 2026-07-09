@@ -18,16 +18,23 @@ import type { EngineDataset } from './engine';
 export interface KernelPoint {
   goalShrink: number;
   dcRho: number;
+  /** 总进球水平缩放(λ、μ 同乘;1=不变)。2026-07-09 对抗校验定位:冻结 EPL 内核在
+   * 8 个非英超联赛把 λ+μ 系统性高估 +24%~+39%(病灶=poisson-xg damp 锚 leagueAvg
+   * =球队 xgFor 均值,高于真实进球水平),旧 6 参网格无任何总水平维、结构性修不到。 */
+  totalScale: number;
   shrinkEloScale: number;
   eloBonus: number;
   goalMult: number;
   marketWeight: number;
 }
 
+// (KERNEL_GRID_VERSION 从网格+基线内容派生,定义在 KERNEL_GRID 之后 —— 见下)
+
 /** 生产冻结值(EPL 校准;toStrategyParams 硬编码的同一组)= 实验基线。 */
 export const KERNEL_BASELINE: KernelPoint = {
   goalShrink: 0.6,
   dcRho: -0.14,
+  totalScale: 1.0, // 基线=不缩放(EPL 实测 λ+μ 偏差仅 +0.5%,行为中性)
   shrinkEloScale: 100,
   eloBonus: 65,
   goalMult: 1.12,
@@ -38,13 +45,57 @@ export const KERNEL_BASELINE: KernelPoint = {
 export const KERNEL_GRID: Record<keyof KernelPoint, number[]> = {
   goalShrink: [0.2, 0.31, 0.4, 0.6, 0.8, 1.0],
   dcRho: [-0.25, -0.2, -0.14, -0.08, -0.04, 0, 0.05],
+  // 高估 +24%~39% 对应校正 ≈1/1.39~1/1.24 = 0.72~0.81;两端各留余量
+  totalScale: [0.7, 0.78, 0.85, 0.93, 1.0, 1.06],
   shrinkEloScale: [60, 80, 100, 150, 250, 400],
-  eloBonus: [0, 25, 50, 65, 80, 110],
+  // 负值域:n1(荷甲)marginBias −0.130 在旧下界 0 仍调不平 → 允许"负主场加成"
+  eloBonus: [-50, -25, 0, 25, 50, 65, 80, 110],
   goalMult: [1.0, 1.06, 1.12, 1.18, 1.25],
-  // 0.75/0.9 供 blend 目标(开盘锚融合)探高锚区;'ours' 目标下该维惰性,多两档无害
-  marketWeight: [0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 0.9],
+  // 0.9 曾是上界:6/9 联赛贴界(右删失)→ 扩 0.95/0.98。
+  // 不放 1.0:那是 ensemble 奇异点(非市场权重全 0,ours 通道无市场模型 → wsum=0 →
+  // 全部预测 null → 各通道 n=0 → 目标兜底 0 被优化器当最优;07-09 本地实验实测踩中)。
+  // 「模型 blend 价值是否为零」由 0.98 档 + gapBlendOpen≈0 联合判定,不需要字面 1.0。
+  marketWeight: [0.2, 0.3, 0.4, 0.5, 0.6, 0.75, 0.9, 0.95, 0.98],
 };
 const KERNEL_KEYS = Object.keys(KERNEL_GRID) as (keyof KernelPoint)[];
+
+const djb2 = (s: string): string => {
+  let h = 5381;
+  for (let i = 0; i < s.length; i++) h = ((h << 5) + h + s.charCodeAt(i)) | 0;
+  return (h >>> 0).toString(16);
+};
+/**
+ * 网格版本 = 网格+基线内容哈希:runner 据此判定存量 kernel 过期强制全量重校准
+ * (era 门控只看数据变化,不看网格变化)。内容派生而非人肉 +1 —— 改档忘 bump
+ * 会让扩档在生产永远不生效,该失败模式在 2026-07-09 复盘中被点名,从机制上消除。
+ */
+export const KERNEL_GRID_VERSION = `g-${djb2(
+  JSON.stringify({ grid: KERNEL_GRID, base: KERNEL_BASELINE }),
+)}`;
+
+/** KernelPoint → runAccuracy 参数(单点维护:此映射曾在 3 处复制粘贴,加维漏改会静默错)。 */
+export function kernelToAccuracyParams(p: KernelPoint): {
+  tuning: {
+    goalShrink: number;
+    dcRho: number;
+    totalScale?: number;
+    shrinkEloScale: number;
+  };
+  home: { eloBonus: number; goalMult: number };
+  marketWeight: number;
+} {
+  return {
+    tuning: {
+      goalShrink: p.goalShrink,
+      dcRho: p.dcRho,
+      // v1 存量 kernel 缺此字段 → undefined = 1(行为不变)
+      totalScale: p.totalScale,
+      shrinkEloScale: p.shrinkEloScale,
+    },
+    home: { eloBonus: p.eloBonus, goalMult: p.goalMult },
+    marketWeight: p.marketWeight,
+  };
+}
 
 export interface RecalResult {
   objective: 'ours' | 'blend' | 'score';
@@ -63,6 +114,7 @@ export interface KernelStore {
   at: number;
   dataHash: string;
   matchCount: number;
+  gridVersion?: number | string; // 产出时的 KERNEL_GRID_VERSION(内容哈希;缺失=旧版;runner 据此判过期强刷)
   ours: RecalResult; // 无赔率场景(市场无关)tuned 内核
   blend: RecalResult; // 有赔率场景(开盘锚融合)tuned 内核
   score?: RecalResult; // 比分级(对数似然)tuned 内核(后加字段;缺失 → runner 补齐一次)
@@ -109,26 +161,28 @@ export async function recalibrateKernel(
     opts?.evalGap ??
     (async (p, win) => {
       const r = await runAccuracy(safe, {
-        tuning: {
-          goalShrink: p.goalShrink,
-          dcRho: p.dcRho,
-          shrinkEloScale: p.shrinkEloScale,
-        },
-        home: { eloBonus: p.eloBonus, goalMult: p.goalMult },
-        marketWeight: p.marketWeight,
+        ...kernelToAccuracyParams(p),
         ...win,
       });
+      // 退化守卫:样本数为 0 的评估一律返回大值(不可选)。gapBlendClose/gapBrier 在
+      // n=0 时兜底为 0,若不拦截,优化器会把"预测管线崩溃"当成"完美追平市场"选中
+      // (mw=1.0 奇异点实验实测教训;守卫按通道各自的 n 判,防未来任何参数组合再触发)
       return objective === 'blend'
-        ? r.gapBlendClose
+        ? r.blend.n
+          ? r.gapBlendClose
+          : 99
         : objective === 'score'
         ? r.score?.logLoss ?? 99 // 无泊松样本 → 大值(该点不可选)
-        : r.gapBrier;
+        : r.n
+        ? r.gapBrier
+        : 99;
     });
 
   const IS = { to: partition.trainTo };
   const VAL = { from: partition.valFrom, to: partition.valTo };
 
-  const baseline = opts?.start ?? KERNEL_BASELINE;
+  // 旧持久化点缺新维(totalScale 为 v2 后加)→ 用基线回填,保证坐标下降各维都有起点
+  const baseline: KernelPoint = { ...KERNEL_BASELINE, ...(opts?.start ?? {}) };
   let evals = 0;
   const isGapOf = async (p: KernelPoint) => {
     evals += 1;

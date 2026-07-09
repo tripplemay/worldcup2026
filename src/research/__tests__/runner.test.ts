@@ -10,10 +10,11 @@ import {
   loadLeagueKernel,
   saveLeagueKernel,
   loadResearchScoreboard,
+  saveResearchScoreboard,
 } from 'lib/db/store';
 import { datasetHash } from '../governance';
 import { loadLeagueDataset } from '../dataset';
-import { KERNEL_BASELINE } from '../recalibrate';
+import { KERNEL_BASELINE, KERNEL_GRID_VERSION } from '../recalibrate';
 import type { RecalResult } from '../recalibrate';
 
 // 全套件共用:内核重校准 stub(防任何用例意外触发真实坐标下降 —— 分钟级)
@@ -34,13 +35,26 @@ const stubRecal = async (
   _ds: unknown,
   opts?: { objective?: 'ours' | 'blend' | 'score' },
 ): Promise<RecalResult> => stubRecalResult(opts?.objective ?? 'ours');
-/** 与当前数据集同 era 的新鲜 kernel(令刷新守卫不触发)。 */
+/** 测试后清理:store 无删除 API —— savedKernel 为空时写「毒 era」内核,令下次
+ * 真实 run 判过期强刷,stub 假数不会滞留本地 .data(评审 CONFIRMED 的测试污染)。 */
+const restoreKernel = (key: string, saved: ReturnType<typeof loadLeagueKernel>) => {
+  if (saved) saveLeagueKernel(key, saved);
+  else
+    saveLeagueKernel(key, {
+      ...freshKernel(key),
+      dataHash: 'era-test-cleanup',
+      gridVersion: 'stale-test-cleanup',
+    });
+};
+
+/** 与当前数据集同 era、同网格版本的新鲜 kernel(令刷新守卫不触发)。 */
 const freshKernel = (key: string) => {
   const ds = loadLeagueDataset(key);
   return {
     at: 0,
     dataHash: datasetHash(ds),
     matchCount: ds.allRes.length,
+    gridVersion: KERNEL_GRID_VERSION,
     ours: stubRecalResult('ours'),
     blend: stubRecalResult('blend'),
     score: stubRecalResult('score'),
@@ -62,13 +76,20 @@ describe('runLeagueOnce', () => {
     }
     const day = loadEvolutionState('sc0')!.lastRunDay!;
     const now = Date.parse(`${day}T10:00:00Z`);
-    const r = await runLeagueOnce('sc0', false, {
-      now,
-      llmPropose: async () => null,
-      maxGenerations: 1,
-    });
-    expect(r.skipped).toBe('already-ran-today');
-    expect(r.newEpochs).toBe(0);
+    // 内核过期会合法绕过同日幂等(gridVersion 强刷路径)→ 先钉住同 era 同网格 kernel
+    const savedK = loadLeagueKernel('sc0');
+    saveLeagueKernel('sc0', freshKernel('sc0'));
+    try {
+      const r = await runLeagueOnce('sc0', false, {
+        now,
+        llmPropose: async () => null,
+        maxGenerations: 1,
+      });
+      expect(r.skipped).toBe('already-ran-today');
+      expect(r.newEpochs).toBe(0);
+    } finally {
+      restoreKernel('sc0', savedK);
+    }
   }, 300000);
 
   it('未知联赛 → 抛错', async () => {
@@ -80,13 +101,15 @@ describe('P0 止血:exhausted/frozen 联赛 era 未变整体跳过', () => {
   const KEY = 'sc0';
   const saved = loadEvolutionState(KEY);
   const savedKernel = loadLeagueKernel(KEY);
+  const savedSb = loadResearchScoreboard(KEY);
   beforeAll(() => {
     // 预置同 era 新鲜 kernel:令轴C 刷新守卫不触发,本块专测 P0 跳过语义
     saveLeagueKernel(KEY, freshKernel(KEY));
   });
   afterAll(() => {
     if (saved) saveEvolutionState(KEY, saved);
-    if (savedKernel) saveLeagueKernel(KEY, savedKernel);
+    restoreKernel(KEY, savedKernel);
+    if (savedSb) saveResearchScoreboard(KEY, savedSb);
   });
 
   it('exhausted + dataHash 未变 → skipped:exhausted-era-unchanged(不重建成绩单/不调分析员)', async () => {
@@ -152,9 +175,11 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
   const KEY = 'sc0';
   const savedState = loadEvolutionState(KEY);
   const savedKernel = loadLeagueKernel(KEY);
+  const savedSb = loadResearchScoreboard(KEY);
   afterAll(() => {
     if (savedState) saveEvolutionState(KEY, savedState);
-    if (savedKernel) saveLeagueKernel(KEY, savedKernel);
+    restoreKernel(KEY, savedKernel);
+    if (savedSb) saveResearchScoreboard(KEY, savedSb);
   });
 
   const countingRecal =
@@ -212,7 +237,7 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
     expect(sb?.axisC).toBeTruthy();
   }, 300000);
 
-  it('schema 升级:同 era 仅缺 score → 只补 score(1 次调用),复用已存 ours/blend', async () => {
+  it('scoreOnly 补齐分支已删(被内容哈希版本机制取代):缺 score 的存量 kernel 必然版本过期 → 全量重刷 3 次', async () => {
     const dataset = loadLeagueDataset(KEY);
     const st = loadEvolutionState(KEY)!;
     saveEvolutionState(KEY, {
@@ -221,8 +246,9 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
       dataHash: datasetHash(dataset),
       matchCount: dataset.allRes.length,
     });
+    // 真实世界里缺 score 的 kernel 只可能产自 v2 之前 → 必缺/错 gridVersion
     const { score: _drop, ...noScore } = freshKernel(KEY);
-    saveLeagueKernel(KEY, noScore as never);
+    saveLeagueKernel(KEY, { ...noScore, gridVersion: 1 } as never);
     const calls = { n: 0 };
     const r = await runLeagueOnce(KEY, false, {
       now: Date.parse('2026-08-12T00:00:00Z'),
@@ -230,12 +256,9 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
       maxGenerations: 1,
       recalibrate: countingRecal(calls) as never,
     });
-    expect(calls.n).toBe(1); // 仅 score
+    expect(calls.n).toBe(3); // 全量:ours + blend + score
     expect(r.skipped).toBe('exhausted-era-unchanged+kernel-refreshed');
-    const k = loadLeagueKernel(KEY);
-    expect(k?.score?.objective).toBe('score');
-    expect(k?.ours).toEqual(noScore.ours); // 复用未重算
-    expect(k?.dataHash).toBe(noScore.dataHash);
+    expect(loadLeagueKernel(KEY)?.score?.objective).toBe('score');
   }, 300000);
 
   it('kernel 同 era → 不刷新(零调用),跳过原因不带 kernel-refreshed', async () => {
@@ -250,6 +273,93 @@ describe('轴C:内核重校准的 era 门控刷新', () => {
     expect(calls.n).toBe(0);
     expect(r.skipped).toBe('exhausted-era-unchanged');
     expect(loadLeagueKernel(KEY)?.dataHash).toBe(datasetHash(dataset));
+  }, 300000);
+});
+
+describe('P0b 进化暂停 + 网格版本强刷(2026-07-09 复盘)', () => {
+  const KEY = 'sc0';
+  const savedState = loadEvolutionState(KEY);
+  const savedKernel = loadLeagueKernel(KEY);
+  const savedSb = loadResearchScoreboard(KEY);
+  afterAll(() => {
+    if (savedState) saveEvolutionState(KEY, savedState);
+    restoreKernel(KEY, savedKernel);
+    if (savedSb) saveResearchScoreboard(KEY, savedSb);
+  });
+
+  it('evolvePaused + era 未变 + 非 exhausted 状态 → 整体跳过(evolve-paused 标记)', async () => {
+    const dataset = loadLeagueDataset(KEY);
+    const st = loadEvolutionState(KEY)!;
+    saveEvolutionState(KEY, {
+      ...st,
+      status: 'exploring',
+      dataHash: datasetHash(dataset),
+      matchCount: dataset.allRes.length,
+      lastRunDay: '2020-01-01', // 避开同日幂等
+    });
+    saveLeagueKernel(KEY, freshKernel(KEY));
+    const r = await runLeagueOnce(KEY, false, {
+      now: Date.parse('2026-08-20T00:00:00Z'),
+      llmPropose: async () => null,
+      recalibrate: stubRecal as never,
+      evolvePaused: true,
+    });
+    expect(r.skipped).toBe('evolve-paused-era-unchanged');
+    expect(r.newEpochs).toBe(0);
+  }, 120000);
+
+  it('gridVersion 过期(同 era)→ 全量重校准 + 落盘带新版本', async () => {
+    const dataset = loadLeagueDataset(KEY);
+    const st = loadEvolutionState(KEY)!;
+    saveEvolutionState(KEY, {
+      ...st,
+      status: 'exhausted',
+      dataHash: datasetHash(dataset),
+      matchCount: dataset.allRes.length,
+      lastRunDay: '2020-01-01',
+    });
+    const stale = { ...freshKernel(KEY), gridVersion: 1 }; // 同 era,旧网格
+    saveLeagueKernel(KEY, stale);
+    const calls = { n: 0 };
+    const countingRecal = async (
+      _ds: unknown,
+      opts?: { objective?: 'ours' | 'blend' | 'score' },
+    ): Promise<RecalResult> => {
+      calls.n += 1;
+      return stubRecalResult(opts?.objective ?? 'ours');
+    };
+    const r = await runLeagueOnce(KEY, false, {
+      now: Date.parse('2026-08-21T00:00:00Z'),
+      llmPropose: async () => null,
+      recalibrate: countingRecal as never,
+      evolvePaused: true,
+    });
+    expect(calls.n).toBe(3); // 网格升级 → ours/blend/score 全量重跑
+    expect(r.skipped).toBe('exhausted-era-unchanged+kernel-refreshed');
+    expect(loadLeagueKernel(KEY)?.gridVersion).toBe(KERNEL_GRID_VERSION);
+  }, 120000);
+
+  it('evolvePaused=false + era 未变 + exploring → 不跳过(走进化编排)', async () => {
+    const dataset = loadLeagueDataset(KEY);
+    const st = loadEvolutionState(KEY)!;
+    saveEvolutionState(KEY, {
+      ...st,
+      status: 'exploring',
+      dataHash: datasetHash(dataset),
+      matchCount: dataset.allRes.length,
+      lastRunDay: '2020-01-01',
+      // 防触发重 gauntlet(promoteCandidate 全量跑)拖慢单测
+      lastGauntletHash: st.incumbent?.configHash,
+    });
+    saveLeagueKernel(KEY, freshKernel(KEY));
+    const r = await runLeagueOnce(KEY, false, {
+      now: Date.parse('2026-08-22T00:00:00Z'),
+      llmPropose: async () => null,
+      recalibrate: stubRecal as never,
+      evolvePaused: false,
+      maxGenerations: 0, // 只验守卫放行,不真跑代
+    });
+    expect(r.skipped).toBeUndefined();
   }, 300000);
 });
 

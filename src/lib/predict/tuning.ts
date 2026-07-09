@@ -46,4 +46,10 @@ export interface Tuning {
   kSos?: number;
   sosEloScale?: number;
   shrinkEloScale?: number;
+  /**
+   * 总进球水平缩放(poisson-xg 的 λ、μ 同乘;缺省/1=不变)。
+   * 研究平台逐联赛校准用:非英超联赛 xG(代理)水平系统性高于真实进球
+   * (λ+μ 高估 +24%~39%),damp 锚在 xgFor 均值修不到 —— 此参直接调总水平。
+   */
+  totalScale?: number;
 }

@@ -121,3 +121,27 @@ describe('轴C 双场景:blend(开盘锚融合)+ 开盘基准 + ECE 校准', () 
     expect(hitN / r.matchLog!.length).toBeCloseTo(r.blend.hitRate, 3);
   });
 });
+
+describe('比分级 totalBias(总进球水平体检,2026-07-09)', () => {
+  it('totalBias 有限;totalScale 调低预测总球 → totalBias 单调上移', async () => {
+    const r1 = await runAccuracy(dataset, params);
+    expect(r1.score).toBeTruthy();
+    expect(Number.isFinite(r1.score!.totalBias)).toBe(true);
+    const r08 = await runAccuracy(dataset, {
+      ...params,
+      tuning: { ...params.tuning, totalScale: 0.8 },
+    });
+    expect(r08.score!.n).toBe(r1.score!.n); // 同批比赛
+    // 预测 λ+μ 变小 → 实际−预测 变大(方向性,不依赖具体联赛数值)
+    expect(r08.score!.totalBias).toBeGreaterThan(r1.score!.totalBias);
+    // 量级自洽:Δ ≈ 0.2×(λ+μ)均值 > 0.3 球
+    expect(r08.score!.totalBias - r1.score!.totalBias).toBeGreaterThan(0.3);
+  });
+});
+
+describe('marketWeight=1.0 奇异点(记录语义,防误用)', () => {
+  it('mw=1.0 → 非市场权重全 0,ours 通道无市场模型 wsum=0 → 全部预测 null → n=0', async () => {
+    const r = await runAccuracy(dataset, { ...params, marketWeight: 1.0 });
+    expect(r.n).toBe(0); // 调参网格严禁 1.0;recalibrate evalGap 已加 n=0 → 99 退化守卫
+  });
+});

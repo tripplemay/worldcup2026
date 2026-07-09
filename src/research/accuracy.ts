@@ -74,7 +74,14 @@ export interface ScoreStat {
   logLoss: number; // −mean ln P(实际比分)(联合分布严格评分规则,越小越好)
   mlsHit: number; // 最可能比分命中率
   marginBias: number; // mean[(实际净胜球)−(λ−μ)](>0 = 低估主队净胜)
-  dispersionRatio: number; // Var(净胜球残差)/mean(λ+μ)(>1 = 真实比泊松更散,病在方差)
+  /**
+   * mean[(实际总进球)−(λ+μ)]:总进球水平偏差(<0 = 模型高估总进球)。
+   * marginBias 检不出此病:λ、μ 同比例膨胀在净胜差里相互抵消(2026-07-09 对抗
+   * 校验发现非英超 λ+μ 高估 +24%~39% 正是被它漏检);dispersionRatio 的分母
+   * 也因此虚大 —— totalBias 是该病灶的直接体检位。
+   */
+  totalBias: number;
+  dispersionRatio: number; // Var(净胜球残差)/mean(λ+μ)(>1 = 真实比泊松更散,病在方差;注意分母是模型量,总水平错配会污染此值)
 }
 
 export interface AccuracyResult {
@@ -190,6 +197,7 @@ export async function runAccuracy(
     sMlsHits = 0,
     sResid = 0,
     sResid2 = 0,
+    sTotResid = 0,
     sLamMu = 0;
 
   // 朴素基准:评估窗【之前】的 H/D/A 基率(无 prior 则联赛长期典型 45/27/28)
@@ -274,6 +282,7 @@ export async function runAccuracy(
       const resid = m.homeGoals - m.awayGoals - (px.xgHome - px.xgAway);
       sResid += resid;
       sResid2 += resid * resid;
+      sTotResid += m.homeGoals + m.awayGoals - (px.xgHome + px.xgAway);
       sLamMu += px.xgHome + px.xgAway;
       sN += 1;
     }
@@ -380,6 +389,7 @@ export async function runAccuracy(
           logLoss: +(sLL / sN).toFixed(4),
           mlsHit: +(sMlsHits / sN).toFixed(4),
           marginBias: +(sResid / sN).toFixed(4),
+          totalBias: +(sTotResid / sN).toFixed(4),
           dispersionRatio: +(
             (sResid2 / sN - (sResid / sN) ** 2) /
             Math.max(1e-9, sLamMu / sN)

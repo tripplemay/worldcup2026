@@ -14,6 +14,7 @@ import { forwardSummary } from './forward';
 import type { ForwardStore } from './forward';
 import type { HoldoutManifest, PromotionEntry } from './governance';
 import type { EngineDataset } from './engine';
+import { kernelToAccuracyParams } from './recalibrate';
 import type { KernelStore } from './recalibrate';
 import type { MatchLogRow } from './accuracy';
 
@@ -50,6 +51,7 @@ export interface Scoreboard {
       logLossTuned: number; // 重校准后 val 比分 LL(越小越好)
       mlsHit: number; // 最可能比分命中率
       marginBias: number; // 净胜球偏差(>0 = 低估主队)
+      totalBias?: number; // 总进球水平偏差(<0 = 高估总进球;marginBias 检不出此病)
       dispersionRatio: number; // 方差比(>1 = 真实比泊松更散)
       n: number;
     };
@@ -65,8 +67,14 @@ export interface Scoreboard {
     pnl: number;
     clvAvg: number;
   } | null;
-  // ③ 收益(虚拟本金复利 + 前向实测)
-  money: { start: number; end: number } | null;
+  // ③ 收益(虚拟本金复利 + 前向实测)。start/end 含全部注(value+coverage 试探注),
+  // 而 betting.pnl 只含 value 注 —— 两口径差额 = coveragePnl(显式标注,防误读为对不上账)
+  money: {
+    start: number;
+    end: number;
+    valuePnl?: number; // value 注 PnL(与 betting.pnl 同口径)
+    coveragePnl?: number; // coverage 试探注 PnL(end−start−valuePnl)
+  } | null;
   forward: { n: number; pnl: number; roi: number; clvT: number } | null;
   window: { from: string; to: string } | null; // 样本外窗(诚实标注口径)
 }
@@ -107,13 +115,7 @@ export async function buildScoreboard(
     try {
       const t = kernel.blend.tuned;
       const ab = await runAccuracy(dataset, {
-        tuning: {
-          goalShrink: t.goalShrink,
-          dcRho: t.dcRho,
-          shrinkEloScale: t.shrinkEloScale,
-        },
-        home: { eloBonus: t.eloBonus, goalMult: t.goalMult },
-        marketWeight: t.marketWeight,
+        ...kernelToAccuracyParams(t),
         from: partition.valFrom,
         to: partition.valTo,
         matchLog: true,
@@ -133,13 +135,7 @@ export async function buildScoreboard(
       if (kernel.score) {
         const ts = kernel.score.tuned;
         const asr = await runAccuracy(dataset, {
-          tuning: {
-            goalShrink: ts.goalShrink,
-            dcRho: ts.dcRho,
-            shrinkEloScale: ts.shrinkEloScale,
-          },
-          home: { eloBonus: ts.eloBonus, goalMult: ts.goalMult },
-          marketWeight: ts.marketWeight,
+          ...kernelToAccuracyParams(ts),
           from: partition.valFrom,
           to: partition.valTo,
           matchLog: true,
@@ -152,6 +148,7 @@ export async function buildScoreboard(
               logLossTuned: kernel.score.valGapTuned,
               mlsHit: asr.score.mlsHit,
               marginBias: asr.score.marginBias,
+              totalBias: asr.score.totalBias,
               dispersionRatio: asr.score.dispersionRatio,
               n: asr.score.n,
             },
@@ -207,7 +204,14 @@ export async function buildScoreboard(
       pnl: s.value.pnl,
       clvAvg: s.clv.avgClv,
     },
-    money: { start: s.bankrollStart, end: s.bankrollEnd },
+    money: {
+      start: s.bankrollStart,
+      end: s.bankrollEnd,
+      // 台账双口径显式化:betting.pnl 只含 value 注,end−start 还含 coverage 试探注。
+      // 直接用 engine 逐注累计的 tier 口径(减法反推会叠加三次独立舍入的分级漂移)
+      valuePnl: +s.value.pnl.toFixed(2),
+      coveragePnl: +s.coverage.pnl.toFixed(2),
+    },
     forward: fwd
       ? { n: fwd.n, pnl: fwd.pnl, roi: fwd.roi, clvT: fwd.clvT }
       : null,

@@ -19,6 +19,7 @@ import type { EvolutionState, EvolutionLogEntry } from 'research/evolve';
 import type { ForwardStore } from 'research/forward';
 import type { Scoreboard } from 'research/scoreboard';
 import type { KernelStore } from 'research/recalibrate';
+import type { PooledStore } from 'research/pooled';
 import type { TeamIntel } from 'lib/intel/types';
 import type { Wallet, Trade } from 'lib/trade/types';
 import type { Bettor, BetSlip, Withdrawal } from 'lib/bets/types';
@@ -226,6 +227,13 @@ export function loadLeagueKernel(key: string): KernelStore | null {
 }
 export function saveLeagueKernel(key: string, k: KernelStore): void {
   writeJson(`research-${key}-kernel.json`, k);
+}
+// 跨联赛池化功效检验(家族级 G2;全局单文件,runner 队列排空后刷新)
+export function loadResearchPooled(): PooledStore | null {
+  return readJson<PooledStore | null>('research-pooled.json', null);
+}
+export function saveResearchPooled(p: PooledStore): void {
+  writeJson('research-pooled.json', p);
 }
 // G7 前向纸面(watermark 之后新到完赛的虚拟注)
 export function loadForwardStore(key: string): ForwardStore | null {

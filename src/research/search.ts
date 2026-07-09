@@ -79,8 +79,9 @@ export interface RunSearchOpts {
 /** 事件循环让出(评审 should-fix:同步 CPU 会冻结同进程 livePoller/用户请求)。 */
 const yieldLoop = () => new Promise<void>((r) => setTimeout(r, 0));
 
-/** IS 段 CLV 参与选优的最小样本数(不足则该配置在第二键沉底,不可凭少注高 t 胜出)。 */
-export const IS_CLV_SELECT_MIN_N = 30;
+/** IS 段 CLV 参与选优的最小样本数(不足则该配置在第二键沉底,不可凭少注高 t 胜出)。
+ * 2026-07-09 复盘收紧 30→100:小样本高方差是唯一被证实的噪声通道(sc0 曾 72 注当选)。 */
+export const IS_CLV_SELECT_MIN_N = 100;
 
 /**
  * isGap 选优容差带:与最优差距 ≤ 此值视为「统计不可区分」,带内交给 IS 段 CLV 决胜。

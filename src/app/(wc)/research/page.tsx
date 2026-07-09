@@ -7,6 +7,7 @@ import PageHeading from 'components/worldcup/PageHeading';
 import { useResearch } from 'lib/hooks/useWorldCup';
 import { useLocale } from 'lib/i18n/context';
 import { epochDiff, flattenParams } from 'research/dashboard';
+import { PooledPanel, ForwardPanel } from './panels';
 import type { EpochResult } from 'research/search';
 
 const fmt = (n: number | undefined, d = 4) =>
@@ -235,6 +236,7 @@ export default function ResearchPage() {
     recentLog,
     gauntlet,
     forward,
+    pooled,
     isLoading,
   } = useResearch(selLeague);
   const last = epochs.length ? epochs[epochs.length - 1] : null;
@@ -428,6 +430,12 @@ export default function ResearchPage() {
                         {Math.round(sb.money.start).toLocaleString()}{' '}
                         {t('research.sbMoneyArrow')}
                       </div>
+                      {sb.money.coveragePnl != null && (
+                        <div className="text-[10px] text-gray-400">
+                          {t('research.sbMoneyCoverage')}{' '}
+                          {signed(sb.money.coveragePnl, 0)}
+                        </div>
+                      )}
                     </>
                   ) : (
                     <div className="text-lg text-gray-400">—</div>
@@ -462,6 +470,21 @@ export default function ResearchPage() {
                         : ''}{' '}
                       · {t('research.sbAxisCMls')}{' '}
                       {(sb.axisC.score.mlsHit * 100).toFixed(1)}%
+                      {sb.axisC.score.totalBias != null && (
+                        <>
+                          {' '}
+                          · {t('research.sbAxisCTotalBias')}{' '}
+                          <span
+                            className={
+                              Math.abs(sb.axisC.score.totalBias) > 0.3
+                                ? 'font-semibold text-amber-600 dark:text-amber-400'
+                                : ''
+                            }
+                          >
+                            {signed(sb.axisC.score.totalBias, 2)}
+                          </span>
+                        </>
+                      )}
                     </div>
                   )}
                   <div className="mt-0.5 text-gray-400">
@@ -620,6 +643,10 @@ export default function ResearchPage() {
               </div>
             </Card>
           )}
+          {/* ⑥ 跨联赛池化功效检验(家族级 G2;组件见 ./panels) */}
+          {pooled && pooled.configs.length > 0 && (
+            <PooledPanel pooled={pooled} t={t} />
+          )}
           <TimelinePanel epochs={epochs} t={t} />
           {epochs.length >= 2 ? (
             <DiffPanel prev={epochs[epochs.length - 2]} cur={last} t={t} />
@@ -631,75 +658,7 @@ export default function ResearchPage() {
             </Card>
           )}
           <LeaderboardPanel e={last} t={t} />
-          {forward.length > 0 && (
-            <Card extra="p-4">
-              <h2 className="mb-1 text-sm font-bold text-navy-700 dark:text-white">
-                {t('research.forwardT')}
-              </h2>
-              <p className="mb-2 text-[10px] leading-snug text-gray-400">
-                {t('research.forwardHint')}
-              </p>
-              <table className="w-full text-xs">
-                <thead>
-                  <tr className={TH}>
-                    <th className="text-left">{t('research.colWinner')}</th>
-                    <th className={numTd}>{t('research.fwdSince')}</th>
-                    <th className={numTd}>{t('research.fwdBets')}</th>
-                    <th className={numTd}>{t('research.fwdRoi')}</th>
-                    <th className={numTd}>{t('research.fwdPnl')}</th>
-                    <th className={numTd}>{t('research.colClvT')}</th>
-                    <th className="text-center">{t('research.fwdG7')}</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {forward.map((f) => {
-                    const g7ok = f.n >= 150 && f.clvT > 2;
-                    return (
-                      <tr
-                        key={f.configHash}
-                        className="border-t border-gray-100 text-gray-600 dark:border-white/5 dark:text-gray-300"
-                      >
-                        <td className="py-1 text-left">{f.label}</td>
-                        <td className={numTd}>{f.since}</td>
-                        <td className={numTd}>{f.n}</td>
-                        <td
-                          className={`${numTd} font-semibold ${
-                            f.n === 0
-                              ? 'text-gray-400'
-                              : f.roi > 0
-                              ? 'text-green-600 dark:text-green-400'
-                              : 'text-red-500 dark:text-red-400'
-                          }`}
-                        >
-                          {f.n ? signed(f.roi) : '—'}
-                        </td>
-                        <td className={numTd}>
-                          {f.n ? signed(f.pnl, 0) : '—'}
-                        </td>
-                        <td className={numTd}>
-                          {f.clvN > 1 ? fmt(f.clvT, 2) : '—'}
-                        </td>
-                        <td className="text-center">
-                          {g7ok ? (
-                            <Screen ok={true} />
-                          ) : (
-                            <span className="font-mono text-[10px] text-gray-400">
-                              {f.n}/150
-                            </span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-              {forward.every((f) => f.n === 0) && (
-                <div className="mt-2 text-center text-[11px] text-gray-400">
-                  {t('research.fwdNoBets')}
-                </div>
-              )}
-            </Card>
-          )}
+          {forward.length > 0 && <ForwardPanel forward={forward} t={t} />}
           {(marginals.length > 0 ||
             recentLog.length > 0 ||
             gauntlet.length > 0) && (
