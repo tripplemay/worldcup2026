@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import Link from 'next/link';
 import { MdBolt, MdLocalFireDepartment } from 'react-icons/md';
 import Card from 'components/card';
@@ -55,6 +56,10 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
   const logos = useTeamLogos();
   const { raw, normalized: nz, total } = team;
   const hot = total > 0.5;
+  // 形态徽章(把「怎么读」的典型形态直接标在卡片上)
+  const grind = nz.mentalScore >= 0.3 && nz.tacticalScore < 0; // 赢球但内容差
+  const gem = nz.tacticalScore >= 0.3 && nz.mentalScore < 0; // 内容好于战绩
+  const tired = nz.fatiguePenalty <= -0.4; // 高负荷
   const totalColor = hot
     ? 'text-green-600 dark:text-green-400'
     : total < 0
@@ -73,6 +78,21 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
           className="min-w-0 flex-1 text-sm font-semibold text-navy-700 dark:text-white"
         />
         <div className="flex shrink-0 items-center gap-1">
+          {grind && (
+            <span className="rounded-full bg-amber-100 px-1.5 py-0.5 text-[9px] font-medium text-amber-700 dark:bg-amber-500/15 dark:text-amber-400">
+              {t('tmi.badgeGrind')}
+            </span>
+          )}
+          {gem && (
+            <span className="rounded-full bg-brand-50 px-1.5 py-0.5 text-[9px] font-medium text-brand-600 dark:bg-brand-500/15 dark:text-brand-400">
+              {t('tmi.badgeGem')}
+            </span>
+          )}
+          {tired && (
+            <span className="rounded-full bg-red-50 px-1.5 py-0.5 text-[9px] font-medium text-red-600 dark:bg-red-500/15 dark:text-red-400">
+              {t('tmi.badgeTired')}
+            </span>
+          )}
           {hot && <MdLocalFireDepartment className="text-green-500" />}
           <span
             className={`font-mono text-lg font-bold tabular-nums ${totalColor}`}
@@ -111,6 +131,25 @@ function TmiRow({ team, rank }: { team: TeamTmi; rank: number }) {
           {raw.xgMomentumPerMatch.toFixed(2)}
           {team.xgSource === 'season' ? ` (${t('tmi.sourceSeason')})` : ''}
         </span>
+        {raw.avgOppElo != null && (
+          <span>
+            {t('tmi.oppElo')} {raw.avgOppElo}
+            {raw.oppAdjPerMatch != null && raw.oppAdjPerMatch !== 0
+              ? `(${raw.oppAdjPerMatch > 0 ? '+' : ''}${raw.oppAdjPerMatch.toFixed(2)})`
+              : ''}
+          </span>
+        )}
+        {raw.travelKm != null && (
+          <span>
+            {t('tmi.travel')} {raw.travelKm}km
+            {raw.travelTz ? ` · ${raw.travelTz}${t('tmi.tzUnit')}` : ''}
+          </span>
+        )}
+        {raw.coreAvgAge != null && (
+          <span>
+            {t('tmi.coreAge')} {raw.coreAvgAge}
+          </span>
+        )}
         {raw.restDays != null && (
           <span>
             {t('tmi.restDays')} {raw.restDays}
@@ -130,6 +169,7 @@ export default function TmiPage() {
   const { t } = useLocale();
   const { teams, isLoading } = useTmi();
   const idMap = useTeamIdMap();
+  const [showHelp, setShowHelp] = useState(false);
 
   return (
     <div>
@@ -144,6 +184,42 @@ export default function TmiPage() {
           {t('tmi.subtitle')}
         </p>
       </header>
+
+      {/* 怎么读这个榜(可折叠帮助卡) */}
+      <Card extra="mb-3 p-3.5">
+        <button
+          onClick={() => setShowHelp((v) => !v)}
+          className="flex w-full items-center justify-between text-left"
+        >
+          <span className="text-xs font-bold text-navy-700 dark:text-white">
+            {t('tmi.helpTitle')}
+          </span>
+          <span className="text-[10px] text-gray-400">
+            {showHelp ? t('tmi.helpCollapse') : t('tmi.helpExpand')}
+          </span>
+        </button>
+        {showHelp && (
+          <div className="mt-2 space-y-1.5 text-[11px] leading-relaxed text-gray-600 dark:text-gray-300">
+            <p>{t('tmi.helpIntro')}</p>
+            <p>
+              <b>
+                {t('tmi.mental')}({Math.round(WEIGHT_ELO * 100)}%)
+              </b>
+              :{t('tmi.helpMental')}
+            </p>
+            <p>
+              <b>
+                {t('tmi.tactical')}({Math.round(WEIGHT_XG * 100)}%)
+              </b>
+              :{t('tmi.helpTactical')}
+            </p>
+            <p>
+              <b>{t('tmi.fatigue')}</b>:{t('tmi.helpFatigue')}
+            </p>
+            <p className="text-gray-400">{t('tmi.helpBadges')}</p>
+          </div>
+        )}
+      </Card>
 
       {isLoading && teams.length === 0 && (
         <div className="space-y-3">

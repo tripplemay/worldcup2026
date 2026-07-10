@@ -31,6 +31,7 @@ export interface ResultMatch {
   awayNorm: string;
   homeGoals: number;
   awayGoals: number;
+  venueCity?: string; // 场馆城市(每日重摄自动回填;TMI 旅途因子按城市映射世界杯场馆坐标)
 }
 
 /** 球队动态评分(近期比赛 EWMA 结果);按归一化队名索引。 */

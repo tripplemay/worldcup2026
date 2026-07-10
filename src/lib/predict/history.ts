@@ -113,6 +113,7 @@ export async function ingestHistory(
         awayNorm: normalizeTeam(fx.awayName),
         homeGoals: fx.homeGoals,
         awayGoals: fx.awayGoals,
+        ...(fx.venueCity ? { venueCity: fx.venueCity } : {}),
       };
       if (i < RECENT_STATS) statsTargets.add(fx.id);
     });

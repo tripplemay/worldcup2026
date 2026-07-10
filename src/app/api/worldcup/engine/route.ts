@@ -8,7 +8,10 @@ import { recomputeRatings } from 'lib/predict/ratings';
 import { fetchEloRatings } from 'lib/predict/eloratings';
 import { prewarmUpcoming } from 'lib/lineup/playerForm';
 import { ingestTeamStats } from 'lib/espn/teamStats';
-import { ingestPlayerMinutes } from 'lib/predict/playerMinutes';
+import {
+  ingestPlayerMinutes,
+  ingestPlayerAges,
+} from 'lib/predict/playerMinutes';
 import { ingestLeaders } from 'lib/predict/leaders';
 import { ok, fail } from 'lib/api/respond';
 
@@ -41,6 +44,10 @@ export async function POST(req: Request) {
     // 后台增量摄取球员出场分钟(TMI 体能用;只抓新结束的场次)
     void ingestPlayerMinutes().catch((e) =>
       console.error('[engine] player-minutes 摄取失败', e),
+    );
+    // 后台刷新球员年龄表(TMI 体能年龄加权;14 天 TTL 幂等,赛期内近乎零调用)
+    void ingestPlayerAges().catch((e) =>
+      console.error('[engine] player-ages 摄取失败', e),
     );
     // 后台刷新射手榜
     void ingestLeaders().catch((e) =>

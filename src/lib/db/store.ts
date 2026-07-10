@@ -471,6 +471,8 @@ export interface PlayerMinutesStore {
     string, // 归一化队名
     { matches: { date: string; mins: Record<string, number> }[] } // 逐场 playerId→分钟
   >;
+  ages?: Record<string, number>; // playerId → 年龄(AF squads;体能因子年龄加权用)
+  agesAt?: number; // 年龄表刷新时间(低频:名单赛期内基本不变)
 }
 const EMPTY_PM: PlayerMinutesStore = { updatedAt: 0, events: {}, teams: {} };
 export function loadPlayerMinutes(): PlayerMinutesStore {

@@ -3,8 +3,12 @@
  *
  * 三因子(全部来自现有 JSON,零新增 API 调用):
  *  · 士气(Elo):影子 Elo 净变化 = 自算Elo(全部赛果) − 自算Elo(开赛日前赛果)。只看杯赛期间的涨跌。
- *  · 战术(xG):杯赛场均 xG 净胜;杯赛样本 < 2 时回退近期全局 EWMA(ratings.json)。
- *  · 体能(休息天数):距上一场比赛 ≤3 天触发惩罚(代理指标,免拉阵容 API)。
+ *  · 战术(xG):杯赛场均 xG 净胜 + 对手强度校正(对手基线 Elo 相对参赛队均值,
+ *    /XG_SOS_ELO_SCALE 折算 xG 当量 —— 对弱旅刷 xG 不再等价于对强队打出内容);
+ *    杯赛样本 < 2 时回退近期全局 EWMA(ratings.json,不做校正:赛季口径对手已平均化)。
+ *  · 体能:核心 13 人近 8 天累计分钟按【年龄加权】折算负荷(30+ 恢复更慢),缺分钟
+ *    数据回退休息天数;另加【旅途惩罚】(最近两场场馆大圆距离 + 跨时区数,2026 美加墨
+ *    特有的体能变量);合并封顶 −0.6。
  *
  * 该分数独立于胜率预测(ensemble),仅供观测/看盘参考。
  */
@@ -16,7 +20,8 @@ import {
   loadPlayerMinutes,
   type PlayerMinutesStore,
 } from 'lib/db/store';
-import { coreLoadPenalty } from 'lib/predict/playerMinutes';
+import { coreLoad } from 'lib/predict/playerMinutes';
+import { lookupWcVenue, haversineKm } from 'lib/data/venues2026';
 import type { HistMatch, ResultMatch, TeamRating } from 'lib/predict/types';
 import type { TeamTmi, TmiSnapshot } from './types';
 import {
@@ -26,8 +31,14 @@ import {
   XG_FULL_SCALE,
   REST_THRESHOLD,
   FATIGUE_STEP,
+  FATIGUE_FLOOR,
   ELO_START,
   DEFAULT_WC_START,
+  XG_SOS_ELO_SCALE,
+  TRAVEL_KM_STEP,
+  TRAVEL_TZ_STEP,
+  TRAVEL_MAX_PENALTY,
+  TRAVEL_RECENT_DAYS,
 } from './constants';
 
 const clamp1 = (x: number) => Math.max(-1, Math.min(1, x));
@@ -105,17 +116,38 @@ export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
     }
   }
 
-  // 杯赛 xG 净胜累计(开赛日后有射门数据的场次)
+  // 参赛队基线 Elo 均值(对手强度校正的零点:对手强于/弱于"平均参赛队"多少)
+  const baseEloOf = (t: string) => eloBase.get(t) ?? ELO_START;
+  let fieldEloSum = 0;
+  for (const t of participants) fieldEloSum += baseEloOf(t);
+  const fieldMeanElo = participants.size
+    ? fieldEloSum / participants.size
+    : ELO_START;
+
+  // 杯赛 xG 净胜累计(开赛日后有射门数据的场次)+ 对手基线 Elo 累计(强度校正用)
   const cupXgSum = new Map<string, number>();
   const cupXgN = new Map<string, number>();
-  const addXg = (team: string, diff: number) => {
+  const cupOppEloSum = new Map<string, number>();
+  const addXg = (team: string, diff: number, opp: string) => {
     cupXgSum.set(team, (cupXgSum.get(team) ?? 0) + diff);
     cupXgN.set(team, (cupXgN.get(team) ?? 0) + 1);
+    cupOppEloSum.set(team, (cupOppEloSum.get(team) ?? 0) + baseEloOf(opp));
   };
   for (const h of Object.values(historical)) {
     if (dateKey(h.date) < wcStart) continue;
-    addXg(h.homeNorm, h.homeXg - h.awayXg);
-    addXg(h.awayNorm, h.awayXg - h.homeXg);
+    addXg(h.homeNorm, h.homeXg - h.awayXg, h.awayNorm);
+    addXg(h.awayNorm, h.awayXg - h.homeXg, h.homeNorm);
+  }
+
+  // 每队杯赛比赛的场馆城市序列(按日期升序;旅途惩罚 = 最近两场场馆距离+跨时区)
+  const cupVenues = new Map<string, { date: string; city: string }[]>();
+  for (const g of Object.values(results)) {
+    if (dateKey(g.date) < wcStart || !g.venueCity) continue;
+    for (const t of [g.homeNorm, g.awayNorm]) {
+      const list = cupVenues.get(t) ?? [];
+      list.push({ date: g.date, city: g.venueCity });
+      cupVenues.set(t, list);
+    }
   }
 
   const teams: TeamTmi[] = [];
@@ -124,14 +156,21 @@ export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
       (eloAll.get(t) ?? ELO_START) - (eloBase.get(t) ?? ELO_START)
     ).toFixed(1);
 
-    // xG 动能:杯赛样本 ≥2 用杯赛口径,否则回退近期全局 EWMA
+    // xG 动能:杯赛样本 ≥2 用杯赛口径 + 对手强度校正,否则回退近期全局 EWMA(不校正)
     const n = cupXgN.get(t) ?? 0;
     const r = ratings[t];
     let xgMomentum: number;
     let xgSource: 'cup' | 'season';
+    let avgOppElo: number | undefined;
+    let oppAdjPerMatch: number | undefined;
     if (n >= 2) {
       xgMomentum = +((cupXgSum.get(t) ?? 0) / n).toFixed(3);
       xgSource = 'cup';
+      // 对手强度校正:对手基线 Elo 高于参赛队均值 → 正向补偿(对强队打出的内容更值钱)
+      avgOppElo = +((cupOppEloSum.get(t) ?? 0) / n).toFixed(0);
+      oppAdjPerMatch = +((avgOppElo - fieldMeanElo) / XG_SOS_ELO_SCALE).toFixed(
+        3,
+      );
     } else if (r) {
       xgMomentum = +(r.xgFor - r.xgAgainst).toFixed(3);
       xgSource = 'season';
@@ -145,14 +184,41 @@ export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
       ? Math.max(0, Math.floor((now - Date.parse(last)) / DAY))
       : null;
 
-    // 体能:优先真实「核心 13 人近期累计分钟」负荷,缺失回退休息天数
+    // 体能①负荷:优先真实「核心 13 人近期累计分钟」(年龄加权),缺失回退休息天数
     const pm = playerMinutes?.teams[t];
-    const minutesPenalty = pm ? coreLoadPenalty(pm.matches, now) : null;
-    const fatigue =
-      minutesPenalty != null ? minutesPenalty : restDaysFatigue(restDays);
+    const load = pm
+      ? coreLoad(pm.matches, now, playerMinutes?.ages)
+      : { penalty: null, coreAvgAge: null };
+    const basePenalty =
+      load.penalty != null ? load.penalty : restDaysFatigue(restDays);
+
+    // 体能②旅途:最近两场场馆的大圆距离 + 跨时区(城市可识别且距上一场 ≤7 天才计)
+    let travelKm: number | undefined;
+    let travelTz: number | undefined;
+    let travelPenalty = 0;
+    const venues = (cupVenues.get(t) ?? []).sort((a, b) =>
+      a.date.localeCompare(b.date),
+    );
+    if (
+      venues.length >= 2 &&
+      restDays != null &&
+      restDays <= TRAVEL_RECENT_DAYS
+    ) {
+      const from = lookupWcVenue(venues[venues.length - 2].city);
+      const to = lookupWcVenue(venues[venues.length - 1].city);
+      if (from && to && from.key !== to.key) {
+        travelKm = haversineKm(from, to);
+        travelTz = Math.abs(from.tz - to.tz);
+        travelPenalty = -Math.min(
+          TRAVEL_MAX_PENALTY,
+          (travelKm / 1000) * TRAVEL_KM_STEP + travelTz * TRAVEL_TZ_STEP,
+        );
+      }
+    }
+    const fatigue = Math.max(FATIGUE_FLOOR, basePenalty + travelPenalty);
 
     const { mentalScore, tacticalScore, fatiguePenalty, total } =
-      normalizeScores(shadowEloDiff, xgMomentum, fatigue);
+      normalizeScores(shadowEloDiff, xgMomentum + (oppAdjPerMatch ?? 0), fatigue);
 
     teams.push({
       teamId: t,
@@ -162,6 +228,10 @@ export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
         shadowEloDiff,
         xgMomentumPerMatch: xgMomentum,
         restDays,
+        ...(avgOppElo != null ? { avgOppElo } : {}),
+        ...(oppAdjPerMatch != null ? { oppAdjPerMatch } : {}),
+        ...(travelKm != null ? { travelKm, travelTz } : {}),
+        ...(load.coreAvgAge != null ? { coreAvgAge: load.coreAvgAge } : {}),
       },
       normalized: { mentalScore, tacticalScore, fatiguePenalty },
       total,

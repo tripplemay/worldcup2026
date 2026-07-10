@@ -67,6 +67,7 @@ export interface AfFixture {
   awayName: string;
   homeGoals: number;
   awayGoals: number;
+  venueCity?: string; // 场馆城市(TMI 旅途因子用;世界杯场馆按城市映射坐标最稳)
 }
 
 /** 某队最近 last 场(仅已结束 FT)。 */
@@ -81,6 +82,7 @@ export async function getRecentFixtures(
     if (obj(fx.status).short !== 'FT') continue; // 仅取已结束
     const teams = obj(f.teams);
     const goals = obj(f.goals);
+    const venueCity = obj(fx.venue).city;
     out.push({
       id: num(fx.id),
       date: typeof fx.date === 'string' ? fx.date : '',
@@ -90,6 +92,7 @@ export async function getRecentFixtures(
       awayName: String(obj(teams.away).name ?? ''),
       homeGoals: num(goals.home),
       awayGoals: num(goals.away),
+      ...(typeof venueCity === 'string' && venueCity ? { venueCity } : {}),
     });
   }
   return out;
@@ -382,18 +385,23 @@ export interface SquadPlayer {
   id: number;
   number: number;
   name: string;
+  age?: number; // 年龄(TMI 体能因子年龄加权用;接口缺失则 undefined)
 }
 
-/** 球队名单(player id + 号码 + 名);供按球衣号匹配 ESPN 名单解析球员 id。 */
+/** 球队名单(player id + 号码 + 名 + 年龄);供按球衣号匹配 ESPN 名单 / 年龄加权。 */
 export async function getSquad(teamId: number): Promise<SquadPlayer[]> {
   const list = (await af(`/players/squads?team=${teamId}`)).map(obj);
   const players = arr(list[0]?.players).map(obj);
   return players
-    .map((p) => ({
-      id: num(p.id),
-      number: num(p.number),
-      name: String(p.name ?? ''),
-    }))
+    .map((p) => {
+      const age = num(p.age);
+      return {
+        id: num(p.id),
+        number: num(p.number),
+        name: String(p.name ?? ''),
+        ...(Number.isFinite(age) && age > 0 ? { age } : {}),
+      };
+    })
     .filter((p) => p.id > 0);
 }
 

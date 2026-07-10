@@ -7,15 +7,21 @@
 export interface TmiRawStats {
   matchesPlayed: number; // 杯赛已踢场次(开赛日后)
   shadowEloDiff: number; // 影子 Elo 净变化 = 自算Elo(全部) − 自算Elo(开赛日前)
-  xgMomentumPerMatch: number; // 场均 xG 净胜(杯赛;样本不足回退近期 EWMA)
+  xgMomentumPerMatch: number; // 场均 xG 净胜【未校正】(杯赛;样本不足回退近期 EWMA)
   restDays: number | null; // 距上一场比赛天数(无记录为 null)
+  // ── v2:对手强度校正 + 旅途 + 年龄(缺数据的字段省略 = 该项未参与计算)──
+  avgOppElo?: number; // 杯赛对手【基线】Elo 均值(校正透明化;xgSource='cup' 才有)
+  oppAdjPerMatch?: number; // 场均对手强度校正量(已加进战术因子;>0 = 对手强于平均)
+  travelKm?: number; // 最近两场场馆大圆距离(km;场馆城市可识别时)
+  travelTz?: number; // 最近两场跨时区数(绝对值)
+  coreAvgAge?: number; // 核心 13 人平均年龄(年龄表就绪时;体能负荷按年龄加权)
 }
 
 /** 单队归一化得分(各因子 [-1,1],体能为 ≤0 的惩罚)。 */
 export interface TmiNormalized {
   mentalScore: number; // 士气分:shadowEloDiff 归一
-  tacticalScore: number; // 战术分:xg 动能归一
-  fatiguePenalty: number; // 体能惩罚:休息天数驱动
+  tacticalScore: number; // 战术分:(xg 动能 + 对手强度校正)归一
+  fatiguePenalty: number; // 体能惩罚:负荷(年龄加权)/休息 + 旅途,合并封顶 −0.6
 }
 
 /** 单队 TMI 完整记录。 */

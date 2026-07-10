@@ -639,6 +639,26 @@ export const messages = {
       restDays: '休息',
       played: '杯赛',
       daysUnit: '天',
+      oppElo: '对手均Elo',
+      travel: '旅途',
+      tzUnit: '时区',
+      coreAge: '核心年龄',
+      badgeGrind: '⚠️ 赢球但内容差',
+      badgeGem: '💎 内容好于战绩',
+      badgeTired: '🔋 高负荷',
+      helpTitle: '❓ 怎么读这个榜',
+      helpExpand: '展开',
+      helpCollapse: '收起',
+      helpIntro:
+        '动能分 = 0.4×士气 + 0.6×战术 − 体能惩罚,范围 −1~+1:量的是「开赛以来状态的变化」,不是实力排名,也不进胜率预测。',
+      helpMental:
+        '杯赛期间自算 Elo 的净涨跌(赢强队涨得多、爆冷输球掉得多);净涨 50 分记满分。',
+      helpTactical:
+        '杯赛场均 xG 净胜,并按对手强度校正(对手比参赛队平均强 300 Elo ≈ 补 1 个 xG 当量)——对弱旅刷数据不再等价于对强队打出内容;场均净胜 1.5 xG 记满分。小字「对手均Elo」括号内即校正量。',
+      helpFatigue:
+        '核心 13 人近 8 天累计分钟按年龄加权折算负荷(30+ 恢复更慢、U21 略减),缺数据回退休息天数;再叠加两场之间的飞行距离与跨时区(美加墨场馆横跨三个时区),合并封顶 −0.6。',
+      helpBadges:
+        '徽章:⚠️ 赢球但内容差 = 士气高但机会创造不占优,动能可能不可持续;💎 内容好于战绩 = 压着打没赢,潜在被低估;🔋 高负荷 = 体能扣分 ≥0.4。',
       matchesUnit: '场',
       hot: '火热',
       sourceSeason: '近期',
@@ -1450,6 +1470,26 @@ export const messages = {
       restDays: 'Rest',
       played: 'Cup',
       daysUnit: 'd',
+      oppElo: 'opp Elo',
+      travel: 'travel',
+      tzUnit: 'tz',
+      coreAge: 'core age',
+      badgeGrind: '⚠️ winning ugly',
+      badgeGem: '💎 better than results',
+      badgeTired: '🔋 heavy load',
+      helpTitle: '❓ How to read this board',
+      helpExpand: 'expand',
+      helpCollapse: 'collapse',
+      helpIntro:
+        'Momentum = 0.4×morale + 0.6×tactics − fatigue, range −1..+1: it measures CHANGE since the tournament started — not strength, and it never feeds win probabilities.',
+      helpMental:
+        'Net self-computed Elo change during the cup (beating strong teams earns more); +50 Elo = full marks.',
+      helpTactical:
+        'Cup xG differential per match, adjusted for opponent strength (opponent 300 Elo above field average ≈ +1.0 xG credit) — farming weak sides no longer equals performing vs strong ones; +1.5 xG/match = full marks.',
+      helpFatigue:
+        'Core-13 minutes over the last 8 days, age-weighted (30+ recover slower, U21 slightly less), falling back to rest days; plus travel distance & timezone shifts between venues; capped at −0.6.',
+      helpBadges:
+        'Badges: ⚠️ winning ugly = morale up but chances poor, momentum may not last; 💎 better than results = dominating without winning, potentially underrated; 🔋 heavy load = fatigue ≥0.4.',
       matchesUnit: '',
       hot: 'Hot',
       sourceSeason: 'recent',

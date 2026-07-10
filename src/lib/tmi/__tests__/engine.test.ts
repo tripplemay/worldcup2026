@@ -1,5 +1,5 @@
 import { computeTmi, normalizeScores, restDaysFatigue } from '../engine';
-import { coreLoadPenalty } from 'lib/predict/playerMinutes';
+import { coreLoadPenalty, coreLoad, ageFactor } from 'lib/predict/playerMinutes';
 import type { HistMatch, ResultMatch, TeamRating } from 'lib/predict/types';
 
 const result = (
@@ -191,5 +191,158 @@ describe('computeTmi', () => {
   it('快照含 wcStart 与 lastUpdated', () => {
     expect(snap.wcStart).toBe(WC);
     expect(snap.lastUpdated).toBe(new Date(now).toISOString());
+  });
+});
+
+// ── TMI v2(2026-07 用户反馈):对手强度校正 / 旅途 / 年龄 ──────────────
+
+describe('战术因子对手强度校正(v2)', () => {
+  const WC = '2026-06-11';
+  const at = Date.parse('2026-06-20T00:00:00Z');
+  // 赛前实力分层:strong 连胜 weak1/weak2 建立基线 Elo 差
+  const preResults: ResultMatch[] = [];
+  let id = 0;
+  for (let i = 0; i < 10; i++) {
+    preResults.push(result(`p${id++}`, `2026-0${1 + (i % 5)}-0${1 + (i % 9)}T12:00:00Z`, 'strong', 'weak1', 3, 0));
+    preResults.push(result(`p${id++}`, `2026-0${1 + (i % 5)}-1${(i % 9)}T12:00:00Z`, 'strong', 'weak2', 2, 0));
+    preResults.push(result(`p${id++}`, `2026-0${1 + (i % 5)}-2${(i % 8)}T12:00:00Z`, 'weak1', 'weak2', 1, 1));
+  }
+  // 杯赛:a 打 strong 两场、b 打 weak1/weak2 两场,xG 净胜完全相同
+  const cupResults = [
+    result('c1', '2026-06-13T12:00:00Z', 'a', 'strong', 1, 1),
+    result('c2', '2026-06-16T12:00:00Z', 'a', 'strong', 1, 1),
+    result('c3', '2026-06-13T12:00:00Z', 'b', 'weak1', 1, 1),
+    result('c4', '2026-06-16T12:00:00Z', 'b', 'weak2', 1, 1),
+  ];
+  const cupHist = [
+    hist('c1', '2026-06-13T12:00:00Z', 'a', 'strong', 1.5, 1.0),
+    hist('c2', '2026-06-16T12:00:00Z', 'a', 'strong', 1.5, 1.0),
+    hist('c3', '2026-06-13T12:00:00Z', 'b', 'weak1', 1.5, 1.0),
+    hist('c4', '2026-06-16T12:00:00Z', 'b', 'weak2', 1.5, 1.0),
+  ];
+  const input = {
+    results: Object.fromEntries(
+      [...preResults, ...cupResults].map((r) => [r.eventId, r]),
+    ),
+    historical: Object.fromEntries(cupHist.map((h) => [h.eventId, h])),
+    ratings: {} as Record<string, TeamRating>,
+  };
+
+  it('同样的 xG 净胜,打强队的校正后战术分更高;裸数据透出 avgOppElo 与校正量', () => {
+    const snap = computeTmi(input, { wcStart: WC, now: at });
+    const a = snap.teams.find((t) => t.teamId === 'a')!;
+    const b = snap.teams.find((t) => t.teamId === 'b')!;
+    // 未校正裸值相同
+    expect(a.raw.xgMomentumPerMatch).toBeCloseTo(b.raw.xgMomentumPerMatch, 6);
+    // a 的对手(strong)基线 Elo 高于 b 的对手(weak)→ 正向校正差
+    expect(a.raw.avgOppElo!).toBeGreaterThan(b.raw.avgOppElo!);
+    expect(a.raw.oppAdjPerMatch!).toBeGreaterThan(b.raw.oppAdjPerMatch!);
+    expect(a.normalized.tacticalScore).toBeGreaterThan(
+      b.normalized.tacticalScore,
+    );
+  });
+
+  it('赛季回退口径(样本<2)不做对手校正,不透出 avgOppElo', () => {
+    const one = {
+      ...input,
+      historical: { c1: cupHist[0] }, // a 只有 1 场 xG
+      ratings: {
+        a: {
+          norm: 'a', name: 'A', xgFor: 1.2, xgAgainst: 1.0,
+          goalsFor: 1, goalsAgainst: 1, elo: 1500, sample: 5, updatedAt: 0,
+        },
+      } as Record<string, TeamRating>,
+    };
+    const snap = computeTmi(one, { wcStart: WC, now: at });
+    const a = snap.teams.find((t) => t.teamId === 'a')!;
+    expect(a.xgSource).toBe('season');
+    expect(a.raw.avgOppElo).toBeUndefined();
+    expect(a.raw.oppAdjPerMatch).toBeUndefined();
+  });
+});
+
+describe('旅途惩罚(v2:场馆距离 + 跨时区)', () => {
+  const WC = '2026-06-11';
+  const at = Date.parse('2026-06-19T00:00:00Z');
+  const mk = (city1: string, city2: string) => ({
+    results: {
+      r1: {
+        ...result('r1', '2026-06-13T12:00:00Z', 'x', 'y', 1, 0),
+        venueCity: city1,
+      },
+      r2: {
+        ...result('r2', '2026-06-17T12:00:00Z', 'x', 'z', 1, 0),
+        venueCity: city2,
+      },
+    },
+    historical: {},
+    ratings: {} as Record<string, TeamRating>,
+  });
+
+  it('温哥华→迈阿密(跨洲+3 时区)→ 旅途惩罚封顶 0.2,且透出 travelKm/travelTz', () => {
+    const snap = computeTmi(mk('Vancouver', 'Miami'), { wcStart: WC, now: at });
+    const x = snap.teams.find((t) => t.teamId === 'x')!;
+    expect(x.raw.travelKm!).toBeGreaterThan(4000);
+    expect(x.raw.travelTz).toBe(3);
+    // 休息 2 天(回退口径 −0.4)+ 旅途封顶 −0.2 = −0.6(合并封顶内)
+    expect(x.normalized.fatiguePenalty).toBeCloseTo(-0.6);
+  });
+
+  it('同城连战 → 无旅途惩罚;未知城市 → 诚实降级不计', () => {
+    const same = computeTmi(mk('Houston', 'Houston'), { wcStart: WC, now: at });
+    expect(same.teams.find((t) => t.teamId === 'x')!.raw.travelKm)
+      .toBeUndefined();
+    const unknown = computeTmi(mk('Atlantis', 'Miami'), { wcStart: WC, now: at });
+    expect(unknown.teams.find((t) => t.teamId === 'x')!.raw.travelKm)
+      .toBeUndefined();
+  });
+});
+
+describe('年龄加权负荷(v2)', () => {
+  const at = Date.parse('2026-06-18T00:00:00Z');
+  const dd = (s: string) => `${s}T00:00:00.000Z`;
+  const fullXI = () => {
+    const m: Record<string, number> = {};
+    for (let i = 1; i <= 11; i++) m[String(i)] = 90;
+    return m;
+  };
+  // 近 8 天两个满场 = 超出 1 个满场 → 基础惩罚 −0.4(未加权时)
+  const twoFull = [
+    { date: dd('2026-06-13'), mins: fullXI() },
+    { date: dd('2026-06-16'), mins: fullXI() },
+  ];
+
+  it('ageFactor:≤29 不加权;每高 1 岁 +5%,35+ 封顶 1.3;U21 ×0.95;缺龄 = 1', () => {
+    expect(ageFactor(25)).toBe(1);
+    expect(ageFactor(29)).toBe(1);
+    expect(ageFactor(31)).toBeCloseTo(1.1);
+    expect(ageFactor(36)).toBeCloseTo(1.3);
+    expect(ageFactor(20)).toBeCloseTo(0.95);
+    expect(ageFactor(undefined)).toBe(1);
+  });
+
+  it('同样分钟,老龄核心(33 岁)比年轻核心(24 岁)惩罚更重;coreAvgAge 透出', () => {
+    const old: Record<string, number> = {};
+    const young: Record<string, number> = {};
+    for (let i = 1; i <= 11; i++) {
+      old[String(i)] = 33;
+      young[String(i)] = 24;
+    }
+    const o = coreLoad(twoFull, at, old);
+    const y = coreLoad(twoFull, at, young);
+    expect(o.coreAvgAge).toBe(33);
+    expect(y.coreAvgAge).toBe(24);
+    expect(o.penalty!).toBeLessThan(y.penalty!); // 更负 = 惩罚更重
+    // 33 岁 → ×1.2:2 满场×1.2=2.4 → 超 1.4 满场 → −0.56;年轻 → −0.4
+    expect(o.penalty!).toBeCloseTo(-0.56, 5);
+    expect(y.penalty!).toBeCloseTo(-0.4, 5);
+  });
+
+  it('无年龄表 → 与旧口径完全一致(行为中性回退)', () => {
+    expect(coreLoad(twoFull, at).penalty).toBeCloseTo(
+      coreLoadPenalty(twoFull, at)!,
+      10,
+    );
+    expect(coreLoad(twoFull, at).coreAvgAge).toBeNull();
   });
 });
