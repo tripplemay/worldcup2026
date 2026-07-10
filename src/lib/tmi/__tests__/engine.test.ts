@@ -1,4 +1,9 @@
-import { computeTmi, normalizeScores, restDaysFatigue } from '../engine';
+import {
+  computeTmi,
+  normalizeScores,
+  restDaysFatigue,
+  sliceTmiInput,
+} from '../engine';
 import { coreLoadPenalty, coreLoad, ageFactor } from 'lib/predict/playerMinutes';
 import type { HistMatch, ResultMatch, TeamRating } from 'lib/predict/types';
 
@@ -344,5 +349,42 @@ describe('年龄加权负荷(v2)', () => {
       10,
     );
     expect(coreLoad(twoFull, at).coreAvgAge).toBeNull();
+  });
+});
+
+describe('sliceTmiInput(asOf 点位回测截断)', () => {
+  it('严格 < asOf:当场比赛剔除;球员分钟同步截断;ages 保留', () => {
+    const asOf = Date.parse('2026-06-16T12:00:00Z');
+    const input = {
+      results: {
+        a: result('a', '2026-06-13T12:00:00Z', 'x', 'y', 1, 0),
+        b: result('b', '2026-06-16T12:00:00Z', 'x', 'z', 1, 0), // 恰在 asOf 开球 → 剔除
+      },
+      historical: {
+        a: hist('a', '2026-06-13T12:00:00Z', 'x', 'y', 1.2, 0.8),
+        b: hist('b', '2026-06-16T12:00:00Z', 'x', 'z', 1.2, 0.8),
+      },
+      ratings: {} as Record<string, TeamRating>,
+      playerMinutes: {
+        updatedAt: 0,
+        events: {},
+        teams: {
+          x: {
+            matches: [
+              { date: '2026-06-13T12:00:00.000Z', mins: { '1': 90 } },
+              { date: '2026-06-16T12:00:00.000Z', mins: { '1': 90 } },
+            ],
+          },
+        },
+        ages: { '1': 30 },
+      },
+    };
+    const cut = sliceTmiInput(input, asOf);
+    expect(Object.keys(cut.results)).toEqual(['a']);
+    expect(Object.keys(cut.historical)).toEqual(['a']);
+    expect(cut.playerMinutes!.teams.x.matches).toHaveLength(1);
+    expect(cut.playerMinutes!.ages).toEqual({ '1': 30 }); // 年龄表随切片保留
+    // 原输入未被改动(不可变)
+    expect(Object.keys(input.results)).toHaveLength(2);
   });
 });

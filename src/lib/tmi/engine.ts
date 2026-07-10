@@ -247,16 +247,50 @@ export function computeTmi(input: TmiInput, opts: TmiOpts): TmiSnapshot {
   };
 }
 
-/** 读取 JSON 存储并计算 TMI 快照(供 API 路由调用)。 */
-export function loadTmiSnapshot(): TmiSnapshot {
+/**
+ * 点位截断(回测用):把输入数据裁到 asOf 时刻之前(严格 <,当场比赛不入内),
+ * 与 now=asOf 搭配即可还原「那一刻的动能榜」。纯函数。
+ * 诚实注记:ratings(赛季回退口径,仅杯赛 xG 样本 <2 的队会用到)无点位历史,
+ * 仍用当前值 —— 杯赛中后期几乎不触发,触发时该队会标「(赛季)」提示口径。
+ */
+export function sliceTmiInput(input: TmiInput, asOfMs: number): TmiInput {
+  const before = (d: string) => Date.parse(d) < asOfMs;
+  const pm = input.playerMinutes;
+  return {
+    results: Object.fromEntries(
+      Object.entries(input.results).filter(([, r]) => before(r.date)),
+    ),
+    historical: Object.fromEntries(
+      Object.entries(input.historical).filter(([, h]) => before(h.date)),
+    ),
+    ratings: input.ratings,
+    ...(pm
+      ? {
+          playerMinutes: {
+            ...pm,
+            teams: Object.fromEntries(
+              Object.entries(pm.teams).map(([t, rec]) => [
+                t,
+                { matches: rec.matches.filter((m) => before(m.date)) },
+              ]),
+            ),
+          },
+        }
+      : {}),
+  };
+}
+
+/** 读取 JSON 存储并计算 TMI 快照(供 API 路由调用);asOf 传 ISO 时刻则做点位回测。 */
+export function loadTmiSnapshot(asOf?: string): TmiSnapshot {
   const wcStart = process.env.WC_START?.trim() || DEFAULT_WC_START;
-  return computeTmi(
-    {
-      results: loadResults(),
-      historical: loadHistorical(),
-      ratings: loadRatings(),
-      playerMinutes: loadPlayerMinutes(),
-    },
-    { wcStart, now: Date.now() },
-  );
+  const input: TmiInput = {
+    results: loadResults(),
+    historical: loadHistorical(),
+    ratings: loadRatings(),
+    playerMinutes: loadPlayerMinutes(),
+  };
+  const asOfMs = asOf ? Date.parse(asOf) : NaN;
+  if (Number.isFinite(asOfMs))
+    return computeTmi(sliceTmiInput(input, asOfMs), { wcStart, now: asOfMs });
+  return computeTmi(input, { wcStart, now: Date.now() });
 }
