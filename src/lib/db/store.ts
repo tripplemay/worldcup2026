@@ -373,6 +373,26 @@ export function savePredictionLog(log: PredictionLog): void {
   writeJson('predictions-log.json', log);
 }
 
+// ── 90 分钟(常规时间)比分快照(淘汰赛过 90' 即捕获,write-once;90' 口径盘即时结算用)──
+export interface RegulationScoreSnap {
+  capturedAt: number;
+  homeGoals: number; // ESPN 赛事视角(home=ESPN home);注单视角由 orientScore 转换
+  awayGoals: number;
+  homeTeamNorm: string;
+  awayTeamNorm: string;
+  htHome?: number; // 上半场比分(事件账齐才有;半场波胆用)
+  htAway?: number;
+  source: 'live' | 'post'; // live=过90'进行中捕获;post=终场后重建
+  complete: boolean; // 事件完整性守卫是否通过(post 源可为 false,留痕供观测)
+}
+export type RegulationScoreStore = Record<string, RegulationScoreSnap>; // key = ESPN eventId
+export function loadRegulationScores(): RegulationScoreStore {
+  return readJson<RegulationScoreStore>('regulation-scores.json', {});
+}
+export function saveRegulationScores(s: RegulationScoreStore): void {
+  writeJson('regulation-scores.json', s);
+}
+
 // ── 初盘(1X2 自捕获:轮询器首见某场赔率时写一次,永不覆盖)──────
 export interface OpeningOdds {
   capturedAt: number; // 首见时刻(ms)

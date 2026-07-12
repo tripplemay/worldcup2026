@@ -8,7 +8,9 @@
  * ESPN 探测免费;结算幂等+互斥;每日 engine cron + 15min cron 仍兜底。
  */
 import { espnProvider } from 'lib/espn/espn';
-import { loadTrades, loadBets } from 'lib/db/store';
+import { loadTrades, loadBets, loadRegulationScores } from 'lib/db/store';
+import { pastRegulation } from 'lib/match/regulation';
+import { resolveRegulationScore } from 'lib/match/regulationSnapshot';
 import { runSettlement } from './settle';
 import { settlePendingBets } from 'lib/bets/run';
 import { settlePredictionLog } from 'lib/predict/predictionLog';
@@ -76,6 +78,25 @@ async function tick(): Promise<number> {
   const statusOf = new Map(board.map((m) => [m.id, m.status]));
   const finishedIds = board.filter((m) => m.status === 'post').map((m) => m.id);
 
+  // ⓪ 90' 快照主动捕获:进行中且已过常规时间(加时/点球)、尚无快照的比赛,
+  //    立即拉 summary 重建 90' 比分并 write-once 落盘 —— 90' 口径盘无需等整场打完。
+  //    resolver 内部有事件完整性守卫:账不齐不落值,本 tick(45s)后自然重试;
+  //    比赛转 post 后结算路径仍会兜底捕获,故此处失败无害。
+  const past90Live = board.filter(
+    (m) => m.status === 'in' && pastRegulation(m),
+  );
+  if (past90Live.length) {
+    const snaps = loadRegulationScores();
+    for (const m of past90Live) {
+      if (snaps[m.id]) continue;
+      try {
+        await resolveRegulationScore(m.id);
+      } catch (e) {
+        console.error('[settleWatcher] 90分钟快照捕获失败', m.id, e);
+      }
+    }
+  }
+
   // ① 赛后即时重算(防抖)
   if (RECOMPUTE_ON_FINISH) {
     if (!seeded) {
@@ -90,14 +111,18 @@ async function tick(): Promise<number> {
     }
   }
 
-  // ② 结算:有未结算注的比赛已 FT
+  // ② 结算:有未结算注的比赛已 FT,或其 90' 快照已就绪(加时期间即可结 90' 口径盘)
   const pending = loadTrades().filter((t) => t.status === 'pending');
-  if (
-    pending.length &&
-    pending.some((p) => statusOf.get(p.matchId) === 'post')
-  ) {
-    await runSettlement();
-    await settlePredictionLog();
+  if (pending.length) {
+    const snaps = loadRegulationScores();
+    if (
+      pending.some(
+        (p) => statusOf.get(p.matchId) === 'post' || snaps[p.matchId],
+      )
+    ) {
+      await runSettlement();
+      await settlePredictionLog();
+    }
   }
 
   // ②b Phase 9:他平台注单结算(赛果跨 WC + 联赛;ESPN 探测免费,失败不阻塞守望者)

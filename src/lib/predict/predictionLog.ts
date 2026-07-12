@@ -9,6 +9,7 @@ import { predictUpcoming } from './predict';
 import { predictPointInTime } from './backtest';
 import { espnProvider } from 'lib/espn/espn';
 import { normalizeTeam } from 'lib/match/normalize';
+import { resolveRegulationScore } from 'lib/match/regulationSnapshot';
 import {
   loadPredictionLog,
   savePredictionLog,
@@ -71,10 +72,15 @@ export async function settlePredictionLog(): Promise<{ settled: number }> {
     const m = byId.get(s.matchId);
     if (!m || m.status !== 'post' || m.homeScore == null || m.awayScore == null)
       continue;
-    const result =
-      m.homeScore > m.awayScore ? 'H' : m.homeScore < m.awayScore ? 'A' : 'D';
-    s.homeGoals = m.homeScore;
-    s.awayGoals = m.awayScore;
+    // 用 90' 比分回填(模型输出的是常规时间概率;淘汰赛加时终分会污染准确率追踪)。
+    // 快照 resolver:同场若已被结算捕获则直接命中,否则拉一次 summary 重建。
+    const reg = await resolveRegulationScore(s.matchId);
+    if (reg.status !== 'matched') continue; // 90' 未就绪(如账不齐)→ 下轮重试
+    const gh = reg.homeGoals as number;
+    const ga = reg.awayGoals as number;
+    const result = gh > ga ? 'H' : gh < ga ? 'A' : 'D';
+    s.homeGoals = gh;
+    s.awayGoals = ga;
     s.result = result;
     s.hit = s.pick === result;
     s.settled = true;
@@ -105,8 +111,11 @@ export async function backfillReconstructed(): Promise<{ added: number }> {
       m.commenceTime,
     );
     if (!pp) continue;
-    const gh = m.homeScore as number;
-    const ga = m.awayScore as number;
+    // 90' 比分回填(同 settle:淘汰赛加时终分不计入准确率);未就绪则本轮先跳过
+    const reg = await resolveRegulationScore(m.id);
+    if (reg.status !== 'matched') continue;
+    const gh = reg.homeGoals as number;
+    const ga = reg.awayGoals as number;
     const result = gh > ga ? 'H' : gh < ga ? 'A' : 'D';
     const pick = pickOf(pp.pHome, pp.pDraw, pp.pAway);
     log[m.id] = {

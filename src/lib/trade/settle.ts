@@ -1,52 +1,19 @@
 /**
- * 赛后结算管线:pending 交易对应比赛已 FT → 按盘口判 won/lost/void → 解冻回款。
+ * 赛后结算管线:pending 交易对应比赛过 90' → 按盘口判 won/lost/void → 解冻回款。
  *
  * 结算口径:**博彩通用 90 分钟(常规时间)**,无论小组赛或淘汰赛——加时进球不计、点球大战不计。
- * 实现:仅当检测到加时进球(分钟>90)时,用进球事件重建 90' 比分(只数 ≤90' 的进球);
- * 未进加时的常见情形直接用 ESPN 终分(此时终分即 90' 比分),避免依赖事件完整性。
+ * 取分统一走 90' 快照 resolver(lib/match/regulationSnapshot):淘汰赛进入加时即
+ * write-once 捕获 90' 比分,90' 口径盘**不再等加时/点球打完**即可结算;小组赛
+ * 行为不变(终场即 90')。纯口径函数收敛在 lib/match/regulation(单点维护)。
  */
-import { espnProvider } from 'lib/espn/espn';
 import { loadTrades } from 'lib/db/store';
-import { normalizeTeam } from 'lib/match/normalize';
+import { resolveRegulationScore } from 'lib/match/regulationSnapshot';
 import { isQuarterLine } from './projection';
 import { settleTrade } from './ledger';
 import type { Trade, SettleResult } from './types';
-import type { MatchEvent } from 'lib/espn/types';
 
-/** 事件分钟(取前导整数;"90'+4'"→90,"105'"→105,缺失→NaN)。 */
-function minuteOf(e: MatchEvent): number {
-  const n = parseInt(String(e.minute ?? '').trim(), 10);
-  return Number.isFinite(n) ? n : NaN;
-}
-const isGoal = (e: MatchEvent): boolean =>
-  e.scoringPlay === true || /goal/i.test(e.type);
-
-/**
- * 90 分钟比分:无加时进球则取终分;有加时进球则只数分钟 ≤90 的进球(剔除加时/点球)。
- */
-export function regulationScore(
-  events: MatchEvent[],
-  homeTeam: string,
-  awayTeam: string,
-  finalHome: number,
-  finalAway: number,
-): { home: number; away: number } {
-  const goals = events.filter(isGoal);
-  const hasExtraTime = goals.some((g) => minuteOf(g) > 90);
-  if (!hasExtraTime) return { home: finalHome, away: finalAway };
-
-  const hN = normalizeTeam(homeTeam);
-  const aN = normalizeTeam(awayTeam);
-  let home = 0;
-  let away = 0;
-  for (const g of goals) {
-    if (!(minuteOf(g) <= 90)) continue; // NaN(点球大战)或 >90(加时)排除
-    const t = normalizeTeam(g.team ?? '');
-    if (t === hN) home += 1;
-    else if (t === aN) away += 1;
-  }
-  return { home, away };
-}
+// 兼容 re-export(既有测试/调用方从本模块导入)
+export { regulationScore, regulationScoreChecked } from 'lib/match/regulation';
 
 /** 纯判定:给定 90' 比分,返回该笔交易结果(含走盘 void)。 */
 export function outcome(
@@ -132,19 +99,30 @@ export async function runSettlement(): Promise<{ settled: number }> {
   const pending = loadTrades().filter((t) => t.status === 'pending');
   if (!pending.length) return { settled: 0 };
 
+  // 每个比赛只解析一次 90' 比分(同场多注共用;快照命中即免拉 summary)
+  const byMatch = new Map<
+    string,
+    Awaited<ReturnType<typeof resolveRegulationScore>>
+  >();
+  const resolveOnce = async (matchId: string) => {
+    const cached = byMatch.get(matchId);
+    if (cached) return cached;
+    // 90' 快照 resolver:淘汰赛过 90' 即可结(纸上市场全部为 90' 口径);
+    // 未过 90' / 事件账不齐 → pending,由守望者与 cron 重试
+    const r = await resolveRegulationScore(matchId);
+    byMatch.set(matchId, r);
+    return r;
+  };
+
   let settled = 0;
   for (const t of pending) {
-    const s = await espnProvider.getMatchSummary(t.matchId);
-    if (!s || s.status !== 'post' || s.homeScore == null || s.awayScore == null)
-      continue;
-    const { home, away } = regulationScore(
-      s.events,
-      s.homeTeam,
-      s.awayTeam,
-      s.homeScore,
-      s.awayScore,
+    const r = await resolveOnce(t.matchId);
+    if (r.status !== 'matched') continue;
+    const result = settleOutcome(
+      t,
+      r.homeGoals as number,
+      r.awayGoals as number,
     );
-    const result = settleOutcome(t, home, away);
     await settleTrade(t.tradeId, result, pnlFor(t, result));
     settled += 1;
   }

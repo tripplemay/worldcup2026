@@ -19,57 +19,17 @@ import { normalizeTeam } from 'lib/match/normalize';
 import { loadResults, loadLeagueResults } from 'lib/db/store';
 import { getLeague, listLeagues } from 'lib/predict/leagues';
 import { espnProvider } from 'lib/espn/espn';
-import { regulationScore } from 'lib/trade/settle';
+import { resolveRegulationScore } from 'lib/match/regulationSnapshot';
+import { pastRegulation } from 'lib/match/regulation';
 import { toCanonicalName } from './cnTeams';
 import type { ResultMatch } from 'lib/predict/types';
-import type { MatchEvent, ScheduleMatch } from 'lib/espn/types';
+import type { ScheduleMatch } from 'lib/espn/types';
 import {
   isMatchLeg,
   type MatchBetLeg,
   type BetSlip,
   type LegResolution,
 } from './types';
-
-/** 事件分钟(前导整数;"45'+2"→45,"90'+3"→90,缺失→NaN)。 */
-function evMinute(e: MatchEvent): number {
-  const n = parseInt(String(e.minute ?? '').trim(), 10);
-  return Number.isFinite(n) ? n : NaN;
-}
-const isGoalEv = (e: MatchEvent): boolean =>
-  e.scoringPlay === true || /goal/i.test(e.type);
-
-/**
- * 由进球事件按分钟分段计分(供波胆半场判定)。
- * ht = ≤45'(含上半补时);ev90 = ≤90'(用于校验事件是否齐全)。依赖事件完整性。
- */
-function periodScores(
-  events: MatchEvent[],
-  homeTeam: string,
-  awayTeam: string,
-): { ht: { h: number; a: number }; ev90: { h: number; a: number } } {
-  const hN = normalizeTeam(homeTeam);
-  const aN = normalizeTeam(awayTeam);
-  let htH = 0;
-  let htA = 0;
-  let h90 = 0;
-  let a90 = 0;
-  for (const e of events) {
-    if (!isGoalEv(e)) continue;
-    const m = evMinute(e);
-    if (!(m <= 90)) continue; // 加时/点球/NaN 不计
-    const t = normalizeTeam(e.team ?? '');
-    const isH = t === hN;
-    const isA = t === aN;
-    if (!isH && !isA) continue;
-    if (m <= 45) {
-      if (isH) htH += 1;
-      else htA += 1;
-    }
-    if (isH) h90 += 1;
-    else a90 += 1;
-  }
-  return { ht: { h: htH, a: htA }, ev90: { h: h90, a: a90 } };
-}
 
 /** ISO 转 UTC 日(YYYY-MM-DD);非法日期返回空串。 */
 function utcDay(iso: string): string {
@@ -163,7 +123,7 @@ function compactDay(iso: string): string {
   return utcDay(iso).replace(/-/g, '');
 }
 
-/** ESPN summary → 90' 比分(赛事视角)+ 主队归一名;未完赛 'pending';出错→null。 */
+/** ESPN → 90' 比分(赛事视角)+ 主队归一名;未过 90'(或事件账不齐)'pending'。 */
 interface SummaryScore {
   status: 'matched' | 'pending';
   matchId?: string;
@@ -173,39 +133,22 @@ interface SummaryScore {
   htHome?: number; // 上半场比分(赛事视角;仅事件齐全时)
   htAway?: number;
 }
-async function resolveViaSummary(
-  eventId: string,
-): Promise<SummaryScore | null> {
-  try {
-    const s = await espnProvider.getMatchSummary(eventId);
-    if (!s) return null;
-    if (s.status !== 'post' || s.homeScore == null || s.awayScore == null) {
-      return { status: 'pending' };
-    }
-    const { home, away } = regulationScore(
-      s.events,
-      s.homeTeam,
-      s.awayTeam,
-      s.homeScore,
-      s.awayScore,
-    );
-    const out: SummaryScore = {
-      status: 'matched',
-      matchId: eventId,
-      homeGoals: home,
-      awayGoals: away,
-      homeNorm: normalizeTeam(s.homeTeam),
-    };
-    // 半场比分:仅当进球事件能完整还原 90' 总分(账齐了)才给出,否则留空 → 半场波胆转人工
-    const ps = periodScores(s.events, s.homeTeam, s.awayTeam);
-    if (ps.ev90.h === home && ps.ev90.a === away) {
-      out.htHome = ps.ht.h;
-      out.htAway = ps.ht.a;
-    }
-    return out;
-  } catch {
-    return null; // 网络/解析失败:交给调用方降级
-  }
+/**
+ * 统一走 90' 快照 resolver:淘汰赛过 90'(进入加时/点球)即可 matched,
+ * 90' 口径盘不再等整场打完;网络失败/账不齐 → pending(cron/守望者重试)。
+ */
+async function resolveViaSummary(eventId: string): Promise<SummaryScore> {
+  const r = await resolveRegulationScore(eventId);
+  if (r.status !== 'matched') return { status: 'pending' };
+  return {
+    status: 'matched',
+    matchId: eventId,
+    homeGoals: r.homeGoals,
+    awayGoals: r.awayGoals,
+    homeNorm: r.homeNorm,
+    htHome: r.htHome,
+    htAway: r.htAway,
+  };
 }
 
 /**
@@ -263,37 +206,16 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
       : { status: 'unmatched' };
   }
 
-  // 2) WC(或未知):先查 WC 赛果存档 → ESPN 90' 校正
+  // 2)+3) WC(或未知):经 ESPN 赛程按队名解析真实 90' 比分。
+  //   关键:results.json 的 eventId 是 API-Football id,ESPN summary 无法据以解析,
+  //   故存档(wcHit)只用来提供可靠日期,以及「非 WC 赛程比赛」的兜底终分 ——
+  //   必须走 ESPN scoreboard 按队名拿正确 ESPN id,才能真正做 90' 校正。
   const wcHit = hasDate
     ? findResultByName(loadResults(), leg.homeName, leg.awayName, leg.matchDate)
     : undefined;
-  if (wcHit) {
-    const via = await resolveViaSummary(wcHit.eventId);
-    if (via?.status === 'matched')
-      return matchedFrom(
-        via.matchId as string,
-        via.homeNorm as string,
-        via.homeGoals as number,
-        via.awayGoals as number,
-        wcHit.date,
-        via.htHome,
-        via.htAway,
-      );
-    if (via?.status === 'pending')
-      return { status: 'pending', matchId: wcHit.eventId, kickoff: wcHit.date };
-    // ESPN 失败:回退用存档比分(WC 存档为终分;作为兜底)
-    return matchedFrom(
-      wcHit.eventId,
-      wcHit.homeNorm,
-      wcHit.homeGoals,
-      wcHit.awayGoals,
-      wcHit.date,
-    );
-  }
-
-  // 3) WC 存档未命中:查 ESPN 赛程(有日期用 ±1 天窗口;无日期用整届 WC 范围,
-  //    确保「已完赛但尚未摄取进 results.json」或缺开赛日的腿也能从权威赛程解析)
   if (legHome && legAway) {
+    // wcHit 的日期最可靠(存档已对齐);否则用识别日期
+    const kickoffHint = wcHit?.date ?? (hasDate ? leg.matchDate : undefined);
     try {
       const season = process.env.WC_SEASON ?? '2026';
       const findFixture = (board: ScheduleMatch[]) =>
@@ -307,7 +229,7 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
       // 有日期:先用 ±1 天窗口(可区分罕见的重复对阵);未命中再回退整届 WC 范围,
       // 容忍识别把年份/日期读错(如把 2026 读成 2025)而错判 unmatched。
       const dayMs = 86_400_000;
-      const t = hasDate ? new Date(leg.matchDate).getTime() : NaN;
+      const t = kickoffHint ? new Date(kickoffHint).getTime() : NaN;
       let fixture: ScheduleMatch | undefined;
       if (!Number.isNaN(t)) {
         const from = compactDay(new Date(t - dayMs).toISOString());
@@ -321,9 +243,10 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
           await espnProvider.getScoreboard(`${season}0611-${season}0719`),
         );
       if (fixture) {
-        if (fixture.status === 'post') {
+        // 已过 90'(post 或加时/点球进行中)才拉 summary 解析 90' 比分;常规时间内不徒劳拉取
+        if (fixture.status === 'post' || pastRegulation(fixture)) {
           const via = await resolveViaSummary(fixture.id);
-          if (via?.status === 'matched')
+          if (via.status === 'matched')
             return matchedFrom(
               via.matchId as string,
               via.homeNorm as string,
@@ -333,20 +256,29 @@ export async function resolveLeg(leg: MatchBetLeg): Promise<LegResolution> {
               via.htHome,
               via.htAway,
             );
-          return {
-            status: 'pending',
-            matchId: fixture.id,
-            kickoff: fixture.commenceTime,
-          };
         }
+        // 未过 90'(进行中/未开)或 90' 快照未就绪 → pending 重试
         return {
           status: 'pending',
           matchId: fixture.id,
           kickoff: fixture.commenceTime,
-        }; // 尚未完赛
+        };
       }
+      // scoreboard 成功但 WC 赛程无此场 = 非 WC 比赛(WC 球队友谊赛/预选赛被 getRecentFixtures
+      // 摄进 results.json)→ 必非淘汰赛,存档终分即 90' 比分,用它兜底结算(恢复旧行为)。
+      if (wcHit)
+        return matchedFrom(
+          wcHit.eventId,
+          wcHit.homeNorm,
+          wcHit.homeGoals,
+          wcHit.awayGoals,
+          wcHit.date,
+        );
     } catch {
-      return { status: 'pending' }; // 网络失败:下轮重试,不误判
+      // 网络失败:无法确认是否淘汰赛(存档终分可能含加时)→ pending 重试,不冒错结风险
+      return wcHit
+        ? { status: 'pending', matchId: wcHit.eventId, kickoff: wcHit.date }
+        : { status: 'pending' };
     }
   }
 

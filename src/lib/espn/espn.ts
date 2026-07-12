@@ -82,6 +82,11 @@ function parseEvent(ev: Json): ScheduleMatch | null {
     venue: str(obj(comp.venue).fullName),
     status: state,
     statusDetail: str(status.detail) ?? str(status.shortDetail),
+    statusName: str(status.name),
+    period:
+      numOr(obj(comp.status).period, 0) ||
+      numOr(obj(ev.status).period, 0) ||
+      undefined,
     clock:
       str(obj(comp.status).displayClock) ?? str(obj(ev.status).displayClock),
     homeScore: score(homeC),
@@ -130,6 +135,7 @@ function parseEvents(data: Json): MatchEvent[] {
       const players = arr(e.athletesInvolved).map(obj);
       return {
         minute: str(obj(e.clock).displayValue),
+        period: numOr(obj(e.period).number, 0) || undefined,
         type: str(type.text) ?? 'Event',
         team: str(obj(e.team).displayName) ?? str(obj(e.team).abbreviation),
         player: str(players[0]?.displayName),
@@ -312,8 +318,10 @@ export function createEspnProvider(
     },
 
     async getMatchSummary(eventId: string) {
+      // 旋转 cache-buster:绕过 ESPN CDN 边缘缓存(进行中比赛滞后数分钟)——
+      // 90' 快照捕获依赖 keyEvents 及时更新,陈旧载荷会放大「比分含加时球/事件未含」窗口
       const data = await getJSON(
-        `${BASE}/site/v2/sports/${LEAGUE}/summary?event=${eventId}`,
+        `${BASE}/site/v2/sports/${LEAGUE}/summary?event=${eventId}&_=${Date.now()}`,
       );
       const recentForm = parseRecentForm(data);
       const giVenue = obj(obj(data.gameInfo).venue); // summary 的场馆在 gameInfo.venue
@@ -374,6 +382,9 @@ export function createEspnProvider(
         awayScore: score(awayC),
         status: state,
         statusDetail: str(statusType.detail) ?? str(statusType.shortDetail),
+        statusName: str(statusType.name),
+        period: numOr(obj(comp.status).period, 0) || undefined,
+        clock: str(obj(comp.status).displayClock),
         venue: str(giVenue.fullName) ?? str(obj(comp.venue).fullName),
         city: str(obj(giVenue.address).city),
         homeStats: statsForTeam(teamId(homeC)),

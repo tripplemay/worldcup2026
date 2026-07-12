@@ -17,6 +17,10 @@ export interface ScheduleMatch {
   venue?: string;
   status: MatchStatus;
   statusDetail?: string;
+  /** ESPN status.type.name 稳定枚举(如 STATUS_END_OF_REGULATION;90' 即时结算判定用)。 */
+  statusName?: string;
+  /** 当前节次(足球:1/2=上下半场,3/4=加时,5=点球;90' 即时结算判定用)。 */
+  period?: number;
   clock?: string;
   homeScore?: number;
   awayScore?: number;
@@ -29,6 +33,8 @@ export interface ScheduleMatch {
 /** 比赛内事件(进球 / 红黄牌)。 */
 export interface MatchEvent {
   minute?: string;
+  /** 事件所在节次(1/2=常规含补时,3/4=加时,5=点球)—— 90' 口径分类的主信号。 */
+  period?: number;
   type: string;
   team?: string;
   player?: string;
@@ -164,6 +170,9 @@ export interface MatchSummary {
   awayScore?: number;
   status: MatchStatus;
   statusDetail?: string;
+  statusName?: string; // ESPN status.type.name 稳定枚举
+  period?: number; // 当前节次(3/4=加时,5=点球)
+  clock?: string; // displayClock(如 "90'+3'"、"105'";90' 即时结算的过-90 佐证)
   venue?: string;
   city?: string; // ESPN venue.address.city(形如 "Atlanta, Georgia")
   homeStats?: TeamMatchStats;
