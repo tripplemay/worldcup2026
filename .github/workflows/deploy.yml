@@ -55,7 +55,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
           source: deploy.tar.gz
           target: /tmp/worldcup-deploy
       - name: VPS 部署(解包 + 首次配 nginx/证书 + pm2)
@@ -64,7 +64,7 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           port: ${{ secrets.SSH_PORT }}
-          password: ${{ secrets.SSH_PASSWORD }}
+          key: ${{ secrets.SSH_KEY }}
           command_timeout: 15m
           envs: DOMAIN,CERTBOT_EMAIL,ODDS_API_KEY,ODDS_API_KEYS,ODDS_API_IO_KEY,ADMIN_TOKEN,AIGC_API_KEY,API_FOOTBALL_KEY,TG_BOT_TOKEN,TG_ADMIN_CHAT_ID,TG_WEBHOOK_SECRET,PNL_VIEW_PASSWORD,PNL_ADMIN_PASSWORD,WX_BOT_TOKEN,WX_BASE_URL,WX_ADMIN_USER
           script: |
