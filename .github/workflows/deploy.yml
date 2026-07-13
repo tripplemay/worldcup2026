@@ -179,7 +179,9 @@ jobs:
               curl -s --max-time 280 -X POST -H "x-admin-token: ${ADMIN_TOKEN}" \
                 "http://127.0.0.1:${PORT}/api/worldcup/engine?days=14" >/dev/null 2>&1 || true
               if command -v crontab >/dev/null 2>&1; then
-                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel' | grep -v 'worldcup/trade' | grep -v 'worldcup/odds' | grep -v 'worldcup/scenarios' | grep -v 'worldcup/research'; \
+                # 注:grep -v 链末尾的 `|| true` 必不可少 —— crontab 为空或仅含 worldcup 行时,
+                # 最后一个 grep 无输出会返回 1,叠加脚本 set -e 会中止子壳、下面的 echo 全不执行(crons 被清空)。
+                ( crontab -l 2>/dev/null | grep -v 'worldcup/engine' | grep -v 'worldcup/intel' | grep -v 'worldcup/trade' | grep -v 'worldcup/odds' | grep -v 'worldcup/scenarios' | grep -v 'worldcup/research' || true; \
                   echo "30 4 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/engine?days=14' >/dev/null 2>&1 # worldcup-predict"; \
                   echo "0 */2 * * * curl -s --max-time 280 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/intel?hours=36' >/dev/null 2>&1 # worldcup-intel"; \
                   echo "*/15 * * * * curl -s --max-time 110 -X POST -H 'x-admin-token: ${ADMIN_TOKEN}' 'http://127.0.0.1:${PORT}/api/worldcup/trade/run' >/dev/null 2>&1 # worldcup-trade"; \

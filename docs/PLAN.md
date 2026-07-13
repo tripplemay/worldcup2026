@@ -1,7 +1,11 @@
 # 🏆 世界杯 2026 一站式 App — 项目计划
 
 > 移动优先 PWA,聚合 **The Odds API**(赔率)+ **ESPN**(赛程/比分/积分/对阵),
-> 同机贴合 `nextpanel` 的 Nginx + PM2 + Certbot 栈,部署到 **`2026.vpanel.cc`**。
+> 部署到 **`2026.vpanel.cc`**(Nginx + PM2 + Certbot 栈)。
+>
+> **⚠️ 部署宿主变更(2026-07):** 生产已从退役的 `nextpanel` VPS(`38.175.193.100`)整体迁至边缘机
+> **`dmitsvr`(`179.255.116.33`)**,域名不变。下文 Phase 6 中「nextpanel 同机/隔离对照」为历史语境;
+> 当前权威部署说明以 `docs/DEPLOY.md` 为准。
 
 最后更新:2026-06-14
 

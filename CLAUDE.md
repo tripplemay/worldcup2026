@@ -90,7 +90,7 @@ pnpm test -t "归一化"   # 按用例名过滤 (-t 透传给 jest)
 
 ## 部署
 
-同机复用 `nextpanel` 生产 VPS,**严格隔离**(端口 **3100** / 目录 `/opt/apps/worldcup` / 独立 nginx server block / pm2 名 `worldcup` / 独立证书)。push 到 `main` 触发 GitHub Actions:**CI 构建 standalone 产物,VPS 只跑不构建**(保护内存偏紧的生产机)。
+生产宿主 **`dmitsvr`(`179.255.116.33`,DMIT LAX,Ubuntu 26.04)**——一台 nginx 边缘机(同时反代 design/invoce/sync.imava.net),**严格隔离**(端口 **3100** 绑 `127.0.0.1` / 目录 `/opt/apps/worldcup` / 独立 nginx `2026.vpanel.cc.conf`(`listen <IP>:80/443`)/ pm2 名 `worldcup` / 独立证书)。push 到 `main` 触发 GitHub Actions:**CI 构建 standalone 产物,dmitsvr 只跑不构建**;SSH 用**密钥认证**(`SSH_KEY`)。首配已手工完成(Node22+pm2+cron、按边缘机 webroot 约定建 nginx/证书、置哨兵 `/opt/.worldcup_setup_done` 让 CI 跳过自带 `certbot --nginx` 段)。〔2026-07 前生产在退役的 `nextpanel` VPS `38.175.193.100`,已整体迁来,域名不变。〕
 
 - 运行时密钥**只经 `process.env` 注入**(部署脚本 export 后 `pm2 --update-env`),不写磁盘、不入库;standalone `server.js` 不读 `.env` 文件。所有 env 清单见 `deploy.yml` 的 `envs:` 与底部 `env:`。
 - 持久化数据在部署目录之外的 `/opt/apps/worldcup-data`,`rm -rf APP_DIR` 重部署不会丢。
